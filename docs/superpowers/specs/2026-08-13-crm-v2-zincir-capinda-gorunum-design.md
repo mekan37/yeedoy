@@ -31,32 +31,44 @@ Sadakat özelliği (`docs/superpowers/specs/2026-08-10-sadakat-faz1-db.md`) zate
 Yeni tablo yok. Tek yeni parça, `_resolve_loyalty_program_v1` ile aynı desende bir helper:
 
 ```sql
-CREATE FUNCTION public._resolve_chain_business_ids_v1(p_business_id uuid, p_include_siblings boolean)
+CREATE FUNCTION public._resolve_chain_business_ids_v1(p_business_id uuid)
 RETURNS uuid[]
-LANGUAGE sql
+LANGUAGE plpgsql
 STABLE
 SECURITY DEFINER
 SET search_path = public
 AS $$
-  SELECT CASE
-    WHEN NOT p_include_siblings THEN ARRAY[p_business_id]
-    ELSE COALESCE(
-      (SELECT array_agg(b2.id) FROM public.businesses b1
-         JOIN public.businesses b2 ON b2.chain_id = b1.chain_id
-         WHERE b1.id = p_business_id AND b1.chain_id IS NOT NULL),
-      ARRAY[p_business_id]
-    )
-  END;
+DECLARE
+  v_chain_id uuid;
+BEGIN
+  SELECT chain_id INTO v_chain_id FROM public.businesses WHERE id = p_business_id;
+
+  IF v_chain_id IS NULL THEN
+    RETURN ARRAY[p_business_id];
+  END IF;
+
+  -- Çağıran zincirdeki HER şubede menu_write'a sahip değilse (örn. "sadece
+  -- bu şube" kapsamlı manager), tek işletmeye düş — kardeş şubelere sızıntı olmaz.
+  IF EXISTS (
+    SELECT 1 FROM public.businesses sib
+    WHERE sib.chain_id = v_chain_id
+      AND NOT public.has_business_permission_v1(sib.id, 'menu_write')
+  ) THEN
+    RETURN ARRAY[p_business_id];
+  END IF;
+
+  RETURN (SELECT array_agg(id) FROM public.businesses WHERE chain_id = v_chain_id);
+END;
 $$;
 ```
 
-`p_include_siblings`, çağıran RPC'nin caller'ın zincirdeki **tüm şubelerde** yetkisi olup olmadığını önceden çözümleyip geçtiği bir parametre (aşağıdaki Güvenlik bölümüne bakınız) — helper'ın kendisi yetkilendirme yapmaz, sadece id çözümler.
+Helper, `SECURITY DEFINER` olduğu için `has_business_permission_v1` üzerinden `auth.uid()`'e zaten erişebiliyor — yetkilendirme kontrolünü kendi içinde yapıyor, çağıran RPC'lerin ayrıca bir "yetkili mi" parametresi hesaplamasına gerek yok.
 
 ## RPC Yüzeyi (mevcut `_v1`'ler genişliyor, imza/dönüş şekli aynı kalıyor)
 
 CLAUDE.md kuralı gereği: bir dönüş alanını **kaldırmak** breaking change sayılır, **eklemek** sayılmaz. Aşağıdaki değişikliklerin hiçbiri parametre/dönüş alanı kaldırmıyor — `_v2` açmaya gerek yok.
 
-- **`get_business_customers_v1(p_business_id)`** — iç sorgudaki `business_id = p_business_id` filtreleri `business_id = ANY(chain_ids)` olur (`chain_ids := _resolve_chain_business_ids_v1(p_business_id, v_is_owner)`). Yorum/rezervasyon sayaçları tüm şubelerden toplanır, `last_interaction_at` en son olan şubeden, etiketler (`tags`) tüm şubelerden birleşir. Sadakat ilerlemesi zaten `_resolve_loyalty_program_v1` ile chain-wide, dokunulmuyor.
+- **`get_business_customers_v1(p_business_id)`** — iç sorgudaki `business_id = p_business_id` filtreleri `business_id = ANY(chain_ids)` olur (`chain_ids := _resolve_chain_business_ids_v1(p_business_id)`). Yorum/rezervasyon sayaçları tüm şubelerden toplanır, `last_interaction_at` en son olan şubeden, etiketler (`tags`) tüm şubelerden birleşir. Sadakat ilerlemesi zaten `_resolve_loyalty_program_v1` ile chain-wide, dokunulmuyor.
 - **`get_customer_timeline_v1(p_business_id, p_user_id)`** — aynı `ANY(chain_ids)` genişlemesi. Her olay nesnesine **yeni bir alan** eklenir: `branch_label` (o olayın ait olduğu işletmenin adı/şube etiketi — `businesses.branch_label` doluysa o, yoksa `businesses.name`).
 
 ## Güvenlik
@@ -64,12 +76,11 @@ CLAUDE.md kuralı gereği: bir dönüş alanını **kaldırmak** breaking change
 Araştırma sırasında önemli bir bulgu: owner'lar ekip üyelerini `business_team_memberships` üzerinden ya **"sadece bu şube"** (`business_id` set) ya da **"tüm şubeler"** (`chain_id` set, `v_scope = 'all_branches'`) kapsamında davet edebiliyor — bu canlı, kullanılan bir özellik (`get_business_role_v1`, `business_team_memberships.chain_id` join'i). Dolayısıyla "sadece gerçek owner" gibi bir kural yanlış olurdu: owner'ın bilerek "tüm şubeler" yetkisi verdiği bir manager'ı da haksız yere kısıtlar. Doğru kural, çağıranın **zincirdeki her şubede ayrı ayrı yetkili olup olmadığını** kontrol etmek:
 
 1. Her iki RPC'de de mevcut `has_business_permission_v1(p_business_id, 'menu_write')` kontrolü **aynen kalır** (giriş kontrolü — owner veya herhangi bir kapsamda manager geçer, değişmiyor).
-2. Ardından işletmenin `chain_id`'si çözümlenir (`businesses.chain_id`). Doluysa, çağıranın zincirdeki **her bir kardeş şube için ayrı ayrı** `has_business_permission_v1(sibling_id, 'menu_write')` geçip geçmediği kontrol edilir (`v_all_branches_authorized := NOT EXISTS (sibling zincirde ama izin yok)`).
-3. `chain_ids := public._resolve_chain_business_ids_v1(p_business_id, v_all_branches_authorized)` çağrılır.
+2. Ardından `chain_ids := public._resolve_chain_business_ids_v1(p_business_id)` çağrılır. Helper kendi içinde: işletme zincirdeyse, çağıranın zincirdeki **her bir kardeş şube için ayrı ayrı** `menu_write`'a sahip olup olmadığını kontrol eder.
    - Çağıran zincirdeki **her** şubede yetkiliyse (gerçek owner — chain V1 kısıtı gereği zaten her zaman böyledir — veya "tüm şubeler" kapsamlı manager) → `chain_ids` zincirdeki tüm şubeleri içerir, birleşik görünüm devreye girer.
    - Çağıran zincirdeki **bazı** şubelerde yetkili değilse (örn. "sadece bu şube" kapsamlı manager) → `chain_ids = [p_business_id]`, mevcut tek-şube davranışı çalışır. Kardeş şubelere sızıntı olmaz.
-4. Personel (staff, rank 200) zaten `menu_write`'tan geçemiyor — değişmiyor.
-5. Üçlü REVOKE deseni (`REVOKE ALL ... FROM PUBLIC` + `REVOKE EXECUTE ... FROM anon` + `GRANT EXECUTE ... TO authenticated`) yeni `_resolve_chain_business_ids_v1` helper'ına da uygulanır, `has_function_privilege()` ile production'da doğrudan doğrulanır (advisor cache'ine güvenilmez — sadakat/CRM v1'deki kritik ders).
+3. Personel (staff, rank 200) zaten `menu_write`'tan geçemiyor — değişmiyor.
+4. Üçlü REVOKE deseni (`REVOKE ALL ... FROM PUBLIC` + `REVOKE EXECUTE ... FROM anon` + `GRANT EXECUTE ... TO authenticated`) yeni `_resolve_chain_business_ids_v1` helper'ına da uygulanır, `has_function_privilege()` ile production'da doğrudan doğrulanır (advisor cache'ine güvenilmez — sadakat/CRM v1'deki kritik ders).
 
 ## UI
 
@@ -85,6 +96,6 @@ Araştırma sırasında önemli bir bulgu: owner'lar ekip üyelerini `business_t
   - "Sadece bu şube" kapsamlı manager (`business_team_memberships.business_id`) → sadece o şubenin verisini görür (kardeş şubelere sızıntı yok) — bu turun en kritik güvenlik testi.
   - Zincirsiz owner → davranış bugünküyle birebir aynı (regresyon testi).
   - `get_customer_timeline_v1` → olaylar tüm şubelerden kronolojik birleşir, her olayda doğru `branch_label`.
-  - `_resolve_chain_business_ids_v1` için doğrudan birim testi (zincirli/zincirsiz/`p_include_siblings=false` senaryoları).
+  - `_resolve_chain_business_ids_v1` için doğrudan birim testi (zincirli/zincirsiz/"bazı şubelerde yetkisiz" senaryoları).
 - **Web:** `pnpm run typecheck && pnpm run lint`, `pnpm run test:ci`. Zincir açıklama metni / rozet gösterme koşulu gibi çıkarılabilir saf mantık varsa (`filtrelenmisMusteriler` deseninde) birim testi.
 - **Manuel doğrulama:** Yerelde onaylı bir zincirli owner test hesabı yoksa (arama/filtre turunda karşılaşılan kısıt), bu adım atlanır, otomatik testler + kod incelemesi yeterli kabul edilir.
