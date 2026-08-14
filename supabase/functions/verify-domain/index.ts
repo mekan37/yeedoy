@@ -32,18 +32,21 @@ serve(async (req) => {
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
   const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
+  const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
 
   const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     global: { headers: { Authorization: authHeader } },
     auth: { persistSession: false },
   });
 
-  // Rate limit: 10 verifications per hour per user
+  // Caller must be authenticated — also doubles as the rate-limit identity.
   const { data: { user: rlUser } } = await supabase.auth.getUser();
-  if (rlUser) {
-    try { await enforceRateLimit(rlUser.id, "verify-domain", 10); }
-    catch (r) { return r as Response; }
+  if (!rlUser) {
+    return json({ error: "unauthorized" }, 401);
   }
+
+  try { await enforceRateLimit(rlUser.id, "verify-domain", 10); }
+  catch (r) { return r as Response; }
 
   let body: { business_id?: string; domain?: string };
   try {
@@ -57,8 +60,28 @@ serve(async (req) => {
     return json({ error: "missing_fields" }, 400);
   }
 
+  // Ownership check — caller must actually manage this business.
+  const { data: canManage, error: permError } = await supabase.rpc(
+    "has_business_permission_v1",
+    { p_business_id: business_id, p_permission: "menu_write" },
+  );
+  if (permError || !canManage) {
+    return json({ error: "forbidden" }, 403);
+  }
+
+  if (!serviceRoleKey) {
+    return json({ error: "internal_error" }, 500);
+  }
+
+  // custom_domains has no direct client grants (anon/authenticated REVOKEd) —
+  // reads/writes here use the service role, only reachable after the
+  // ownership check above and, for the final write, a genuine DNS match.
+  const admin = createClient(supabaseUrl, serviceRoleKey, {
+    auth: { persistSession: false },
+  });
+
   // Fetch expected TXT token from the database
-  const { data: row, error: dbError } = await supabase
+  const { data: row, error: dbError } = await admin
     .from("custom_domains")
     .select("dns_txt_token, verified_at")
     .eq("business_id", business_id)
@@ -105,7 +128,7 @@ serve(async (req) => {
   }
 
   // Mark as verified
-  const { error: updateError } = await supabase
+  const { error: updateError } = await admin
     .from("custom_domains")
     .update({ verified_at: new Date().toISOString(), is_active: true })
     .eq("business_id", business_id)
