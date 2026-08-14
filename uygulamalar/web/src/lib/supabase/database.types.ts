@@ -9210,6 +9210,10 @@ export type Database = {
         Args: { ""?: string; att_name: string; tbl: unknown }
         Returns: string
       }
+      _resolve_chain_business_ids_v1: {
+        Args: { p_business_id: string }
+        Returns: string[]
+      }
       _resolve_loyalty_program_v1: {
         Args: { p_business_id: string }
         Returns: string
