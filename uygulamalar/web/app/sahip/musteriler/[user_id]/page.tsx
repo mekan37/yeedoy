@@ -29,7 +29,7 @@ export default async function MusteriDetaySayfasi({
   const businessId = businessIds[0];
   if (!businessId) redirect('/sahip');
 
-  const [{ data: musteriler }, { data: olaylar }] = await Promise.all([
+  const [{ data: musteriler }, { data: olaylar }, { data: businessChain }] = await Promise.all([
     (supabase as any).rpc('get_business_customers_v1', { p_business_id: businessId }) as Promise<{
       data: MusteriOzet[] | null;
     }>,
@@ -37,10 +37,17 @@ export default async function MusteriDetaySayfasi({
       p_business_id: businessId,
       p_user_id: musteriId,
     }) as Promise<{ data: ZamanCizelgesiOlayi[] | null }>,
+    (supabase as any)
+      .from('businesses')
+      .select('chain_id')
+      .eq('id', businessId)
+      .maybeSingle() as Promise<{ data: { chain_id: string | null } | null }>,
   ]);
 
   const musteri = (musteriler ?? []).find((m) => m.user_id === musteriId);
   if (!musteri) notFound();
+
+  const zincirli = Boolean(businessChain?.chain_id);
 
   return (
     <div className="flex flex-col">
@@ -67,7 +74,7 @@ export default async function MusteriDetaySayfasi({
             />
           </PanelBolumKarti>
           <PanelBolumKarti title="Zaman Çizelgesi">
-            <ZamanCizelgesi olaylar={olaylar ?? []} />
+            <ZamanCizelgesi olaylar={olaylar ?? []} subeEtiketiGoster={zincirli} />
           </PanelBolumKarti>
         </div>
       </PanelIcerikYuzeyi>
