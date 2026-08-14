@@ -63,6 +63,7 @@ $$;
 REVOKE ALL ON FUNCTION public._resolve_chain_business_ids_v1(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public._resolve_chain_business_ids_v1(uuid) TO authenticated;
 REVOKE EXECUTE ON FUNCTION public._resolve_chain_business_ids_v1(uuid) FROM authenticated;
+REVOKE EXECUTE ON FUNCTION public._resolve_chain_business_ids_v1(uuid) FROM anon;
 COMMENT ON FUNCTION public._resolve_chain_business_ids_v1 IS
   'Internal: p_business_id bir zincirdeyse ve çağıran zincirdeki HER şubede menu_write yetkisine sahipse zincirdeki tüm business id''lerini döner, aksi halde sadece [p_business_id]. Called by: get_business_customers_v1, get_customer_timeline_v1.';
 
@@ -236,7 +237,9 @@ END;
 $$;
 ```
 
-**Not:** Sadakat (`loyalty_events`) olaylarının şema seviyesinde `business_id` kolonu yok (program zaten zincir-çapında paylaşılan tek bir kayıt, hangi fiziksel şubede tarandığı izlenmiyor) — bu yüzden `branch_label` bu olay tipi için her zaman `NULL` döner. Bu bilinçli bir sınır, UI tarafında `NULL` durumunda rozet render edilmez.
+**Not 1:** Sadakat (`loyalty_events`) olaylarının şema seviyesinde `business_id` kolonu yok (program zaten zincir-çapında paylaşılan tek bir kayıt, hangi fiziksel şubede tarandığı izlenmiyor) — bu yüzden `branch_label` bu olay tipi için her zaman `NULL` döner. Bu bilinçli bir sınır, UI tarafında `NULL` durumunda rozet render edilmez.
+
+**Not 2:** `_resolve_chain_business_ids_v1` için `REVOKE EXECUTE ... FROM anon` satırı bilerek eklendi — Supabase yeni oluşturulan fonksiyonlara varsayılan olarak `anon`'a doğrudan EXECUTE veriyor, `REVOKE ALL ... FROM PUBLIC` bu ayrı doğrudan grant'ı kaldırmıyor (aynı boşluk `_resolve_loyalty_program_v1`'de de yaşanmış, `20260810000006_sadakat_v1_revoke_anon_execute.sql` ile ayrıca kapatılmıştı — bu sefer baştan doğru yazıldı).
 
 - [ ] **Step 2: Local doğrulama**
 
