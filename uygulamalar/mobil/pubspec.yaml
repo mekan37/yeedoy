@@ -9,6 +9,7 @@ environment:
   sdk: ^3.10.7
 
 dependencies:
+  sentry_flutter: ^9.26.0
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -59,6 +60,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   path_provider: ^2.1.5
 dev_dependencies:
+  sentry_dart_plugin: ^3.4.0
   flutter_test:
     sdk: flutter
   integration_test:
@@ -91,4 +93,8 @@ flutter:
     - assets/json/karaliste.txt
     - assets/json/yemek.v4.json
 
-
+sentry:
+  upload_debug_symbols: true
+  upload_source_maps: true
+  project: flutter
+  org: yeedoy

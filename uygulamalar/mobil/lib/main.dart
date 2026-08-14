@@ -18,6 +18,8 @@ import 'core/perf/perf_slo.dart';
 import 'core/security/secure_local_storage.dart';
 import 'core/security/safe_debug_print.dart';
 import 'firebase_options.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+
 
 final firebaseAnalytics = FirebaseAnalytics.instance;
 void _installFrameDropObserver(ProviderContainer container) {
@@ -149,10 +151,30 @@ Future<void> main() async {
     );
   });
 
-  runApp(
-    UncontrolledProviderScope(
-      container: rootContainer,
-      child: const MobileApp(),
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = 'https://be35cfefcc67396e205ecd35cded016f@o4511903059738624.ingest.de.sentry.io/4511903321096272';
+      // Adds request headers and IP for users, for more info visit:
+      // https://docs.sentry.io/platforms/dart/guides/flutter/data-management/data-collected/
+      options.sendDefaultPii = true;
+      options.enableLogs = true;
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+      // The sampling rate for profiling is relative to tracesSampleRate
+      // Setting to 1.0 will profile 100% of sampled transactions:
+      options.profilesSampleRate = 1.0;
+      // Configure Session Replay
+      options.replay.sessionSampleRate = 0.1;
+      options.replay.onErrorSampleRate = 1.0;
+    },
+    appRunner: () => runApp(
+      SentryWidget(
+        child: UncontrolledProviderScope(
+          container: rootContainer,
+          child: const MobileApp(),
+        ),
+      ),
     ),
   );
 }

@@ -18,9 +18,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Pre-download PaddleOCR models at build time so startup is fast
 RUN python -c "from paddleocr import PaddleOCR; PaddleOCR(use_angle_cls=True, lang='en', use_gpu=False, show_log=False)"
 
-COPY main.py .
+COPY main.py config.py .
 
 ENV PADDLE_OCR_SECRET=""
+ENV POSTHOG_PROJECT_TOKEN=""
+ENV POSTHOG_HOST=""
 ENV PORT=8000
 
 EXPOSE 8000

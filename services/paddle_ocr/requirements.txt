@@ -6,3 +6,5 @@ python-multipart==0.0.12
 httpx==0.27.2
 Pillow==10.4.0
 numpy==1.26.4
+posthog==3.25.0
+pydantic-settings==2.15.0
