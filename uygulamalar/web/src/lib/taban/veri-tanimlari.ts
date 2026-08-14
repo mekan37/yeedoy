@@ -2998,6 +2998,118 @@ export type Database = {
           },
         ]
       }
+      customer_notes: {
+        Row: {
+          business_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          note: string
+          user_id: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          note: string
+          user_id: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          note?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_notes_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_quality_score_v1"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "customer_notes_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_notes_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_notes_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats_mv"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customer_tags: {
+        Row: {
+          business_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          tag: string
+          user_id: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          tag: string
+          user_id: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          tag?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_tags_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_quality_score_v1"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "customer_tags_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_tags_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_tags_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats_mv"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       edge_ip_denylist: {
         Row: {
           created_at: string
@@ -9201,6 +9313,14 @@ export type Database = {
         }
         Returns: Json
       }
+      add_customer_note_v1: {
+        Args: { p_business_id: string; p_note: string; p_user_id: string }
+        Returns: string
+      }
+      add_customer_tag_v1: {
+        Args: { p_business_id: string; p_tag: string; p_user_id: string }
+        Returns: string
+      }
       add_menu_item_photo_v1: {
         Args: {
           p_menu_item_id: string
@@ -10637,6 +10757,10 @@ export type Database = {
         Args: { p_business_id: string }
         Returns: undefined
       }
+      delete_loyalty_program_v1: {
+        Args: { p_program_id: string }
+        Returns: undefined
+      }
       delete_owner_review_reply_v1: {
         Args: { p_review_id: string }
         Returns: Json
@@ -10924,6 +11048,10 @@ export type Database = {
         }[]
       }
       get_business_crowd_v1: { Args: { p_business_id: string }; Returns: Json }
+      get_business_customers_v1: {
+        Args: { p_business_id: string }
+        Returns: Json
+      }
       get_business_daily_stats_v1: {
         Args: { p_business_id: string; p_date?: string }
         Returns: Json
@@ -11317,6 +11445,10 @@ export type Database = {
         }[]
       }
       get_custom_domain_v1: { Args: { p_business_id: string }; Returns: Json }
+      get_customer_timeline_v1: {
+        Args: { p_business_id: string; p_user_id: string }
+        Returns: Json
+      }
       get_daily_picks: {
         Args: { p_limit?: number }
         Returns: {
@@ -13281,6 +13413,7 @@ export type Database = {
         Args: { p_claim_id: string; p_note?: string }
         Returns: undefined
       }
+      remove_customer_tag_v1: { Args: { p_tag_id: string }; Returns: undefined }
       remove_from_collection_v1: {
         Args: { p_business_id: string; p_collection_id: string }
         Returns: Json
@@ -13296,7 +13429,7 @@ export type Database = {
       sanitize_geo_jsonb_v1: { Args: { p_meta: Json }; Returns: Json }
       sanitize_plain_text_v1: { Args: { p_text: string }; Returns: string }
       scan_loyalty_qr_v1: {
-        Args: { p_business_id: string; p_user_id: string }
+        Args: { p_amount?: number; p_business_id: string; p_user_id: string }
         Returns: Json
       }
       scheduled_menu_activation: { Args: never; Returns: undefined }
@@ -14553,6 +14686,15 @@ export type Database = {
       }
       update_business_follow_email_subscription_v1: {
         Args: { p_business_id: string; p_subscribed: boolean }
+        Returns: undefined
+      }
+      update_loyalty_program_v1: {
+        Args: {
+          p_name: string
+          p_program_id: string
+          p_reward_desc: string
+          p_reward_threshold: number
+        }
         Returns: undefined
       }
       update_menu_item_availability_v1: {
