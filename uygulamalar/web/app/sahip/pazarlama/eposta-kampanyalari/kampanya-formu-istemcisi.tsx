@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 
 export function KampanyaFormuIstemcisi({ businessId, etiketler }: { businessId: string; etiketler: string[] }) {
@@ -11,18 +11,35 @@ export function KampanyaFormuIstemcisi({ businessId, etiketler }: { businessId: 
   const [result, setResult] = useState<{ sentCount: number; providerNotConfigured: boolean } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  // En son istenen segmenti tutar — yarışan (out-of-order) tahmin yanıtlarının
+  // ekranda o an seçili olmayan bir segmentin sayısını göstermesini engeller.
+  const istenenSegmentRef = useRef(segment);
 
-  const segmentDegisti = (value: string) => {
-    setSegment(value);
-    setResult(null);
+  const tahminiGetir = (value: string) => {
+    istenenSegmentRef.current = value;
     startTransition(async () => {
       const supabase = createSupabaseBrowserClient();
       const { data } = await (supabase as any).rpc('estimate_email_segment_v1', {
         p_business_id: businessId,
         p_segment: value,
       });
+      if (istenenSegmentRef.current !== value) return;
       setEstimate(typeof data === 'number' ? data : 0);
     });
+  };
+
+  // Sayfa ilk açıldığında varsayılan segment ("Tüm takipçiler") için de
+  // tahmini alıcı sayısını getir — aksi halde gönder butonunun "0 alıcı"
+  // koruması, owner dropdown'ı hiç değiştirmeden gönderirse devre dışı kalır.
+  useEffect(() => {
+    tahminiGetir(segment);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- yalnızca ilk yüklemede çalışmalı
+  }, []);
+
+  const segmentDegisti = (value: string) => {
+    setSegment(value);
+    setResult(null);
+    tahminiGetir(value);
   };
 
   const gonder = () => {
