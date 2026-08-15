@@ -70,16 +70,19 @@ list_customer_tags_v1(p_business_id uuid)
 
 ## Akışlar
 
-1. Owner `/sahip/pazarlama/kampanyalar` sayfasında yeni kampanya formunu açar.
-2. Segment dropdown'ında 3 sabit seçeneğin altında, o işletmenin mevcut `customer_tags` etiketleri listelenir ("Etiket: VIP" gibi).
+**Düzeltme (implementasyon planı öncesi doğrulandı):** `/sahip/pazarlama/kampanyalar` + `kampanya-formu.tsx`, `email_campaigns` ile **ilgisiz, tamamen ayrı bir özellik** — indirim/promosyon duyuruları (`campaigns` tablosu, `owner_upsert_campaign_v1` RPC'si, `title`/`type`/`discount_percent`/`starts_at`/`ends_at` alanları). E-posta kampanyası için bugün **hiçbir owner-facing UI yok** — `create_email_campaign_v1`/`list_email_campaigns_v1`/`estimate_email_segment_v1` RPC'lerini hiçbir frontend dosyası çağırmıyor (repo genelinde doğrulandı, yalnızca üretilen tip dosyalarında geçiyor). Aşağıdaki akış ve UI bölümü buna göre güncellendi.
+
+1. Owner, **yeni** `/sahip/pazarlama/eposta-kampanyalari` sayfasını açar (mevcut `/sahip/pazarlama/kampanyalar`'dan bağımsız, ayrı bir nav girişi).
+2. Segment dropdown'ında 3 sabit seçeneğin (`all_followers`/`new_30d`/`inactive_30d`) altında, `list_customer_tags_v1` ile o işletmenin mevcut `customer_tags` etiketleri listelenir ("Etiket: VIP" gibi).
 3. Segment seçilince `estimate_email_segment_v1` çağrılır, tahmini alıcı sayısı gösterilir; 0 ise gönder butonu pasif.
-4. Owner konu+içerik yazıp "Gönder"e basar → route handler auth+sahiplik+rate limit (3/saat) kontrolünden geçer → `get_email_campaign_recipients_v1` çağrılır → her alıcı için `generateUnsubscribeToken(userId, businessId, 'biz')` ile kişisel link üretilir → Resend'e batch'ler halinde (50'li) gönderilir → `email_campaigns.sent_count`/`sent_at` güncellenir.
-5. Alıcı e-postadaki "Abonelikten çık" linkine tıklarsa, zaten canlı olan `/abonelik-iptal` akışı `business_follows.is_subscribed_email = false` yapar (mevcut davranış, dokunulmuyor).
+4. Owner konu+içerik yazıp "Gönder"e basar → **yeniden etkinleştirilen** `/sunucu/sahip/eposta-kampanya` route handler'ı auth+sahiplik+rate limit (3/saat) kontrolünden geçer → `create_email_campaign_v1` ile kampanya kaydı oluşturulur → `get_email_campaign_recipients_v1` çağrılır → her alıcı için `generateUnsubscribeToken(userId, businessId, 'biz')` ile kişisel link üretilir → Resend'e batch'ler halinde (50'li) gönderilir → kampanya satırı `sent_count`/`sent_at` ile güncellenir.
+5. Sayfa, `list_email_campaigns_v1` ile geçmiş kampanyaları (konu, segment, gönderim tarihi, alıcı sayısı) listeler.
+6. Alıcı e-postadaki "Abonelikten çık" linkine tıklarsa, zaten canlı olan `/abonelik-iptal` akışı `business_follows.is_subscribed_email = false` yapar (mevcut davranış, dokunulmuyor).
 
 ## UI
 
-- **Kampanya formu** (`kampanya-formu.tsx`): segment `<select>`'ine, `list_customer_tags_v1` ile çekilen dinamik etiket seçenekleri eklenir. Geri kalan form (konu, içerik, tahmini sayı, gönder butonu) değişmez.
-- Yeni sayfa/route yok — mevcut `/sahip/pazarlama/kampanyalar` akışına ek.
+- **Yeni sayfa:** `/sahip/pazarlama/eposta-kampanyalari` — kampanya formu (konu, içerik, segment `<select>` + dinamik etiketler, tahmini alıcı sayısı, gönder butonu) + geçmiş kampanyalar listesi. Mevcut `/sahip/pazarlama/kampanyalar` (indirim duyuruları) sayfasına **dokunulmuyor** — ayrı, paralel bir özellik.
+- Owner panel navigasyonuna "E-posta Kampanyaları" girişi eklenir (Pazarlama bölümü altında, Sadakat/Kampanyalar'ın yanına).
 
 ## Hata Durumları
 
