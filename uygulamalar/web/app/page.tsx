@@ -109,7 +109,7 @@ function BusinessCard({ biz }: { biz: AcikIsletmeKarti }) {
     ?? categoryFallbackImage(biz.category);
   return (
     <Link
-      href={`/m/${slug}`}
+      href={`/isletme/${slug}`}
       className="group flex flex-col overflow-hidden rounded-[20px] border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2"
     >
       {/* Cover — 16:10 like mobile */}

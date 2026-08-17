@@ -658,7 +658,7 @@ function BusinessPreviewCard({
           </Link>
           {business.slug && (
             <a
-              href={`/m/${business.slug}`}
+              href={`/isletme/${business.slug}`}
               target="_blank"
               rel="noreferrer"
               className="btn-primary rounded-xl px-3 py-1.5 text-xs font-extrabold"

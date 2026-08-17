@@ -97,7 +97,7 @@ function IsletmeKarti({ biz, rank }: { biz: Isletme; rank: number }) {
           </svg>
         </Link>
       </div>
-      <Link href={`/m/${biz.slug}`} className="flex flex-1 flex-col gap-2 p-3">
+      <Link href={`/isletme/${biz.slug}`} className="flex flex-1 flex-col gap-2 p-3">
         <div>
           <div className="flex items-start gap-1.5">
             <p className="line-clamp-1 flex-1 text-sm font-black text-textStrong">{biz.name}</p>
