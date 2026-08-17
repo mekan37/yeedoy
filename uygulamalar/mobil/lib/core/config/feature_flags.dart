@@ -5,7 +5,6 @@ import '../storage/feature_flags_prefs.dart';
 class FeatureFlags {
   const FeatureFlags._();
 
-  static const bool enablePhotoFeed = false;
   static const bool enableLabs = false;
   static const bool enableQrAutoCheckin = false;
 }
@@ -25,12 +24,6 @@ class FeatureFlagDef {
 }
 
 const featureFlagDefs = <FeatureFlagDef>[
-  FeatureFlagDef(
-    flag: 'enablePhotoFeed',
-    label: 'Photo Feed',
-    description: 'Fotograf akisini ac/kapat.',
-    defaultValue: FeatureFlags.enablePhotoFeed,
-  ),
   FeatureFlagDef(
     flag: 'enableLabs',
     label: 'Labs',
@@ -57,10 +50,6 @@ class FeatureFlagsState {
     return localFlags[key] ?? fallback;
   }
 
-  bool get enablePhotoFeed {
-    return _value('enablePhotoFeed', FeatureFlags.enablePhotoFeed);
-  }
-
   bool get enableLabs {
     return _value('enableLabs', FeatureFlags.enableLabs);
   }
@@ -70,7 +59,7 @@ class FeatureFlagsState {
   }
 
   bool get hasExperimentalNavigation {
-    return enablePhotoFeed || enableLabs;
+    return enableLabs;
   }
 }
 

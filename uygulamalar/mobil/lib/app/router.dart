@@ -146,15 +146,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         return '/legal/acceptance?from=$from';
       }
 
-      final photoFeedRoute =
-          path == '/gourmets' ||
-          path.startsWith('/gourmets/') ||
-          path == '/following' ||
-          path.startsWith('/following/');
-      if (!flags.enablePhotoFeed && photoFeedRoute) {
-        return '/discover';
-      }
-
       final experimentalHubRoute = path == '/labs' || path.startsWith('/labs/');
       if (experimentalHubRoute && !flags.hasExperimentalNavigation) {
         return '/discover';
@@ -172,9 +163,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           path == '/compare' ||
           path.startsWith('/compare/') ||
           path == '/my-suspended' ||
-          path.startsWith('/my-suspended/') ||
-          path == '/chain' ||
-          path.startsWith('/chain/');
+          path.startsWith('/my-suspended/');
       if (!flags.enableLabs && labsRoute) {
         return '/discover';
       }

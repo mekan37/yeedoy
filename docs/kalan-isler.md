@@ -1,6 +1,6 @@
 # Yeedoy — Kalan İşler
 
-> **Son Güncelleme:** 2026-07-08 (kod audit — tamamlananlar işaretlendi, eskiler kaldırıldı)
+> **Son Güncelleme:** 2026-08-17 (kod audit — dosya 5+ hafta bayattı; her madde git/kod ile tek tek yeniden doğrulandı, çoğu "açık" madde aslında tamamlanmış ama nav/flag arkasında kilitliymiş)
 > **Kural:** Bu dosya tek kanonik açık iş listesidir. Yeni iş eklenince buraya yazılır. `docs/eksik-listesi.md` bu dosyaya birleştirilip silindi.
 > **Şablon:** Her madde `Durum / Kanıt / Etki / Bağımlılık / Önerilen branch / Önerilen agent / Kabul kriteri` alanlarını kullanır.
 
@@ -94,60 +94,31 @@
 
 ---
 
-## P3.5 — Güvenlik Restore İşleri
-
-### Reviews Edge Guard Restore
-
-**Öncelik:** Yüksek (edge functions deploy edilince yapılmalı)
-**Bağlam:** `20260630000001_disable_reviews_edge_guard_trigger.sql` ile `trg_reviews_edge_guard_v1` trigger'ının içi no-op yapıldı çünkü `consume_edge_guard_event_v1` edge function deploy edilmemişti ve her yorum INSERT'i blokluyordu. Şu an anti-spam trigger devre dışı — yorum spam riski aktif.
-
-**Yapılacaklar:**
-- [ ] `anti-spam-guard` ve `write-gatekeeper` edge functions'ı deploy et
-- [ ] `consume_edge_guard_event_v1` RPC'sinin çalıştığını doğrula
-- [ ] `20260708000002_restore_reviews_edge_guard.sql` migration'ı yaz ve uygula:
-  ```sql
-  CREATE OR REPLACE FUNCTION public.enforce_reviews_edge_guard_v1()
-  RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public
-  AS $$
-  BEGIN
-    PERFORM public.consume_edge_guard_event_v1(
-      p_user_id   => NEW.user_id,
-      p_action    => 'review_insert',
-      p_entity_id => NEW.business_id
-    );
-    RETURN NEW;
-  END;
-  $$;
-  COMMENT ON FUNCTION public.enforce_reviews_edge_guard_v1() IS
-    'Edge guard aktif (20260708000002). anti-spam-guard edge function gerektirir.';
-  ```
-- [ ] Trigger'ın `BEFORE INSERT ON reviews` üzerinde aktif olduğunu doğrula
-- [ ] Yorum gönderim akışını uçtan uca test et
-
-**Bağımlılık:** `anti-spam-guard` edge function kaynak kodu + deploy erişimi
-**Önerilen branch:** `fix/restore-reviews-edge-guard`
-**Önerilen agent:** postgres-pro + devops-engineer
-**Kabul kriteri:** Edge function deploy edildi · trigger no-op değil, gerçek guard çalışıyor · rate-limit aşıldığında yorum INSERT'i reddediliyor
-
----
-
 ## P4 — Web/Admin/Owner Geliştirme Backlog
 
-### Custom Domain Doğrulama (Owner)
-- **Durum:** Açık — backend hazır, UI bağlı değil
-- **Kanıt:** `verify-domain` edge function yazılmış (119 satır); `owner/settings/domain` UI↔backend bağlantısı yok
-- **Etki:** Orta — özel domain isteyen işletmeler için blocker
-- **Önerilen branch:** `feature/web-owner-domain-verification-ui`
-- **Önerilen agent:** nextjs-developer
-- **Kabul kriteri:** Owner panelinden domain ekleyip `verify-domain` fonksiyonu üzerinden doğrulama yapılabiliyor
+### AI Menü Analizi (Owner) — ⛔ insan kararı bekliyor
+- **Durum:** ⛔ Kod tamamen hazır ve daha önce bağlanmıştı (`a136f1b6`, 2026-06-04:
+  `yapay-zeka-analiz-islemi.ts` + `yapay-zeka-analiz-karti.tsx`, `ai-menu-analyze`
+  edge function'a bağlı), ama sonradan bilinçli olarak kilitlendi. Sayfa şu an
+  koşulsuz `redirect('/sahip/gosterge-panosu')` döndüren bir stub —
+  kaynak yorumu: *"AI menü analizi ürün kararı netleşmeden kapsam dışı
+  tutulmuştur (NEEDS_HUMAN_DECISION)"*.
+- **Kanıt:** `app/sahip/yapay-zeka-analizi/page.tsx`. Referans verdiği
+  `docs/engineering/2026-yeedoy-mvp-scope-prune-audit.md` artık repo'da yok.
+- **Etki:** Yok (kasıtlı) — açılırsa gerçek bir feature, teknik iş yok.
+- **Bağımlılık:** Ürün kararı — özellik açılsın mı, kapalı mı kalsın?
+- **Önerilen branch:** — (kod zaten var, sadece stub'ı kaldırıp gerçek page'i geri almak yeterli)
+- **Kabul kriteri:** Karar netleşince: ya stub kalıcı hale getirilip kod silinir, ya da redirect kaldırılıp `REPLICATE_API_TOKEN`/`OPENROUTER_API_KEY` secret'ları doğrulanarak açılır.
 
-### AI Menü Analizi (Owner)
-- **Durum:** Açık — backend hazır, panel entegrasyonu yok
-- **Kanıt:** `ai-menu-analyze` edge function yazılmış (345 satır); `owner/ai-analysis` route'unda entegrasyon yok
-- **Etki:** Orta — owner'lar için değer katacak özellik kullanılmıyor
-- **Önerilen branch:** `feature/web-owner-ai-menu-analysis-ui`
-- **Önerilen agent:** nextjs-developer
-- **Kabul kriteri:** Owner panelinde menü analizi tetiklenip sonuçlar gösterilebiliyor
+### Mobil — Grup Oy — ⛔ insan kararı bekliyor
+- **Durum:** ⛔ Kod tamamen hazır (data: `collab_list_repository.dart`
+  `fetchGroupVoteData`/`upsertVote`; UI: `oy_ver_sayfasi.dart`, tam işlevsel),
+  ama `/group-vote/:token` route'u router.dart'ta koşulsuz `redirect: (c,s) =>
+  '/discover'` ile kilitli. Kaynak yorumu: *"MVP scope dışı: grup oylama
+  (sosyal kapsam) MVP'de kapalı"*.
+- **Etki:** Yok (kasıtlı) — açılırsa gerçek bir feature, teknik iş yok.
+- **Bağımlılık:** Ürün kararı — özellik açılsın mı, kapalı mı kalsın?
+- **Kabul kriteri:** Karar netleşince: redirect kaldırılır ve nav'a bir giriş noktası eklenir (collab_lists ile birleştirme değerlendirilebilir).
 
 ### Admin Sponsorluk Modülü (3 Stub Sayfa) — ⛔ MVP-dışı / P2
 - **Durum:** ⛔ MVP-dışı (P2) — sponsorlu görünürlük final stratejik karar raporuna
@@ -158,32 +129,6 @@
 - **Etki:** Yok (MVP) — admin ops manuel kalmaya devam eder.
 - **Bağımlılık:** Ürün kararı (P2 sponsorluk stratejisi).
 
-### Mobil — Zincir İşletmeler
-- **Durum:** Açık — iskelet mevcut, tamamlanmamış
-- **Kanıt:** `features/chains/ui/chain_page.dart` mevcut (1 dosya); data layer `features/business/data/business_chain_repository.dart` altında; domain providers eksik. `get_business_chain_info_v1` migration'ı (`20260629000001`) uygulanmış. Router'da `/chain/:id` rotası var.
-- **Etki:** Düşük — ileri seviye özellik
-- **Bağımlılık:** —
-- **Önerilen branch:** `feature/mobile-business-chains`
-- **Önerilen agent:** mobile-developer
-- **Kabul kriteri:** Zincir işletme listesi + detay sayfası temel akışla çalışıyor; domain providers tamamlandı
-
-### Mobil — Grup Oy
-- **Durum:** Açık — iskelet mevcut, tamamlanmamış
-- **Kanıt:** `features/grup_oy/ui/oy_ver_sayfasi.dart` (1 dosya); data/domain layer yok
-- **Etki:** Düşük — P5 fikir havuzundaki "Collab lists v2" ile birleştirilebilir
-- **Bağımlılık:** Collab Lists altyapısı (`20260422000006_collab_lists.sql`) ile birleştirilebilir
-- **Önerilen branch:** `feature/mobile-group-vote`
-- **Önerilen agent:** mobile-developer
-- **Kabul kriteri:** Grup oylama akışı temel senaryoyla uçtan uca çalışıyor
-
-### Test Kapsamı Boşlukları
-- **Durum:** Açık
-- **Kanıt:** Web 8 unit test dosyası (`src/lib/*` çoğu testsiz), 7 E2E spec (owner flow/2FA/taste-twin/admin flow yok); Mobil sadece offline-queue smoke testi var. (Not: `uygulamalar/personel` 2026-06-24'te üründen kaldırıldı; o uygulamaya ait test kapsamı maddesi de bu nedenle düştü.)
-- **Etki:** Orta — regresyon riski yüksek
-- **Önerilen branch:** `test/web-owner-flow-e2e`
-- **Önerilen agent:** qa-expert
-- **Kabul kriteri:** Owner flow + 2FA + admin flow için en az birer E2E spec eklendi
-
 ### PMTiles — S7 Mobil Performans İzleme
 - **Durum:** Açık — production yayın sonrası izlenecek
 - **Kanıt:** `vector_map_tiles 8.0.0` + `vector_map_tiles_pmtiles 1.5.0` entegre edildi (`uygulamalar/mobil/pubspec.yaml`); S7 gibi düşük güçlü cihazlarda vektör tile rendering GPU/bellek baskısı yaratabilir
@@ -192,33 +137,6 @@
 - **Önerilen branch:** `fix/mobile-map-s7-perf` (gerekirse)
 - **Önerilen agent:** mobile-developer
 - **Kabul kriteri:** S7 benzeri düşük güçlü cihazda harita 60fps veya >40fps render ediyor; bellek artışı 50MB altında
-
-### PMTiles — Leaflet Bağımlılığı Temizliği (Web)
-- **Durum:** Açık — PMTiles/MapLibre GL entegrasyonu sonrası ertelenmiş teknik borç
-- **Kanıt:** `leaflet ^1.9.4`, `react-leaflet ^5.0.0`, `@types/leaflet ^1.9.21` `uygulamalar/web/package.json`'da mevcut; `src/components/maps/` altında 6 Leaflet bileşeni (KonumGoruntuleyici, LeafletMap, LocationPickerMap, LocationPickerMapClient, BusinessMap, OsmHarita) kullanımda. Keşif haritası MapLibre GL'e taşındı ama bu 6 bileşen hâlâ Leaflet kullanıyor.
-- **Etki:** Düşük — bundle boyutunu etkiler; işlevselliği bozmaz
-- **Bağımlılık:** 6 bileşenin MapLibre GL ile yeniden yazılması veya kaldırılması
-- **Önerilen branch:** `chore/web-leaflet-cleanup`
-- **Önerilen agent:** nextjs-developer
-- **Kabul kriteri:** `leaflet`, `react-leaflet`, `@types/leaflet` `package.json`'dan kaldırıldı; `npm run typecheck` + `npm run lint` temiz
-
-### Geocoding / Koordinat Backfill
-
-**Öncelik:** Orta
-**Bağlam:** Haritada sadece gerçek lat/lng olan işletmeler gösterilmektedir. Koordinatsız işletmelerin haritada görünebilmesi için geocoding backfill gereklidir.
-
-**Yapılacaklar:**
-- [ ] `businesses` tablosundaki `lat IS NULL OR lng IS NULL` kayıtlarını say
-- [ ] Google Geocoding API veya Nominatim ile adres → koordinat dönüşümü
-- [ ] Toplu backfill scripti yaz (ör. `tools/geocode-backfill.mjs`)
-- [ ] Backfill sonrası `lat/lng` ve `geog` kolonlarını güncelle (migration gerekmez, UPDATE yeterli)
-- [ ] Yeni işletme eklendiğinde otomatik geocoding için trigger veya edge function değerlendir
-
-- **Etki:** Orta — koordinatsız işletmeler haritada görünmüyor
-- **Bağımlılık:** Provider seçimi (Google Geocoding API veya Nominatim)
-- **Önerilen branch:** `chore/geocode-backfill`
-- **Önerilen agent:** postgres-pro + data-engineer
-- **Kabul kriteri:** `lat IS NULL OR lng IS NULL` olan işletme sayısı raporu çıktı; backfill scripti çalıştırıldı; harita sayfasında koordinatı doldurulan işletmeler marker olarak görünüyor
 
 ---
 
@@ -235,6 +153,24 @@
 ## Tamamlananlar
 
 > Bu bölüm, daha önce açık olan veya bu audit sırasında doğrulanan tamamlanmış maddeleri içerir.
+
+### Reviews Edge Guard Restore ✅
+- **Kanıt:** `trg_reviews_edge_guard_v1` trigger'ı `reviews` tablosunda `BEFORE INSERT` ile aktif; `enforce_reviews_edge_guard_v1()` gerçekten `consume_edge_guard_event_v1('review_submit', business_id, 900)` çağırıyor (no-op değil). `anti-spam-guard` ve `write-gatekeeper` edge function'ları production'da `ACTIVE`. Migration hangi dosyada yapıldığı bu audit'te bulunamadı ama DB'de doğrulandı (2026-08-17).
+
+### Custom Domain Doğrulama (Owner) ✅
+- **Kanıt:** `/sahip/ayarlar/alan-adi` sayfası, formu ve server action'ları (`alan-adi-formu.tsx`, `alan-adi-islemleri.ts`) tam ve `verify-domain` edge function + `upsert/get/delete_custom_domain_v1` RPC'lerine bağlıydı; tek eksik `app/sahip/ayarlar/page.tsx`'teki nav girişinin `disabled: true` bırakılmış olmasıydı. 2026-08-17'de `disabled: false` yapıldı.
+
+### Mobil — Zincir İşletmeler ✅
+- **Kanıt:** `business_chain_repository.dart`, `chain_info.dart`, `chain_page.dart` ve `business_page.dart`'taki zincir rozeti tam bağlıydı (`get_business_chain_info_v1`, `get_chain_overview_v1/v2`). Tek eksik router.dart'ta `/chain` rotasının unutulmuş bir `enableLabs` guard'ı arkasında kilitli olmasıydı. 2026-08-17'de guard kaldırıldı.
+
+### Test Kapsamı Boşlukları ✅ (madde bayatlamıştı)
+- **Kanıt:** Web'de 25 unit test dosyası + 8 E2E spec (owner flow dahil), mobilde 78 test dosyası mevcut (2026-08-17 itibarıyla).
+
+### PMTiles — Leaflet Bağımlılığı Temizliği (Web) ✅ (madde bayatlamıştı)
+- **Kanıt:** `leaflet`, `react-leaflet`, `@types/leaflet` artık `package.json`'da yok (2026-08-17 itibarıyla).
+
+### Geocoding / Koordinat Backfill ✅
+- **Kanıt:** `lat IS NULL OR lng IS NULL` olan aktif işletme sayısı 1'di (55K+ OSM/FSQ import'undan sonra); tek kayıt bir demo işletmeydi ("Örnek Yeedoy Şube 2"). Nominatim ile Çankaya/Ankara ilçe merkezi koordinatı (39.8853321, 32.8554966) bulunup `lat`/`lng`/`geog` dolduruldu. 2026-08-17 itibarıyla eksik koordinatlı aktif işletme sayısı 0.
 
 ### Firebase Init Crash Fix ✅
 - **Kanıt:** Dart guard `4f8772f` main'de; AndroidManifest `FirebaseInitProvider` kaldırması `517be7b` main'de; `try/catch` savunma katmanı `ebc6a98` eklendi.
@@ -295,14 +231,14 @@
 
 ### Deprecated RPC'ler (Hatırlatma: Deadline 2026-08-01 / 2026-09-01)
 
-| Fonksiyon | Yerine | Son Tarih |
-|---|---|---|
-| `approve_business_suggestion` | `admin_approve_business_suggestion_v1` | 2026-08-01 |
-| `approve_owner_claim` | `admin_decide_owner_claim_v1` | 2026-08-01 |
-| `reject_business_suggestion` | `admin_reject_business_suggestion_v1` | 2026-08-01 |
-| `create_owner_claim` | `submit_owner_claim_v1` | 2026-08-01 |
-| `get_top_businesses` | `get_top_businesses_period_v1` | 2026-08-01 |
-| `search_nearby_businesses_v1` | `search_nearby_businesses_v3` | 2026-09-01 |
-| `search_nearby_businesses_v2` | `search_nearby_businesses_v3` | 2026-09-01 |
-| `admin_list_business_suggestions_v1` | `admin_list_business_suggestions_v3` | 2026-09-01 |
-| `nearby_businesses_v2` | `search_nearby_businesses_v3` | 2026-09-01 |
+| Fonksiyon | Yerine | Son Tarih | Durum |
+|---|---|---|---|
+| `approve_business_suggestion` | `admin_approve_business_suggestion_v1` | 2026-08-01 | ✅ 2026-08-17'de DROP edildi (`20260817000001`) |
+| `approve_owner_claim` | `admin_decide_owner_claim_v1` | 2026-08-01 | ✅ 2026-08-17'de DROP edildi (`20260817000001`) |
+| `reject_business_suggestion` | `admin_reject_business_suggestion_v1` | 2026-08-01 | ✅ 2026-08-17'de DROP edildi (`20260817000001`) |
+| `create_owner_claim` | `submit_owner_claim_v1` | 2026-08-01 | ✅ 2026-08-17'de DROP edildi (`20260817000001`) |
+| `get_top_businesses` | `get_top_businesses_period_v1` | 2026-08-01 | ⛔ **KALDIRILMADI** — fonksiyon `DANGEROUS_TO_REMOVE: still referenced by app/runtime paths` yorumuyla işaretli, hâlâ aktif çağrı yolu var. Kaldırmadan önce gerçek caller'lar bulunup `_v1`'e taşınmalı. |
+| `search_nearby_businesses_v1` | `search_nearby_businesses_v3` | 2026-09-01 | Açık (deadline henüz gelmedi) |
+| `search_nearby_businesses_v2` | `search_nearby_businesses_v3` | 2026-09-01 | Açık (deadline henüz gelmedi) |
+| `admin_list_business_suggestions_v1` | `admin_list_business_suggestions_v3` | 2026-09-01 | Açık (deadline henüz gelmedi) |
+| `nearby_businesses_v2` | `search_nearby_businesses_v3` | 2026-09-01 | Açık (deadline henüz gelmedi) |

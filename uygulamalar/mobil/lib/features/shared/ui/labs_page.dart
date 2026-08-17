@@ -17,21 +17,6 @@ class LabsPage extends ConsumerWidget {
     final t = context.l10n;
 
     final entries = <_LabsEntry>[
-      if (flags.enablePhotoFeed)
-        _LabsEntry(
-          title: t.drawerGourmets,
-          subtitle: t.drawerExperimental,
-          route: '/gourmets',
-          icon: Icons.emoji_events_outlined,
-        ),
-      if (flags.enablePhotoFeed)
-        _LabsEntry(
-          title: t.drawerFollowing,
-          subtitle: t.drawerExperimental,
-          route: '/following',
-          icon: Icons.favorite_outline,
-          requiresAuth: true,
-        ),
       if (flags.enableLabs)
         _LabsEntry(
           title: t.smartRecoTitle,
@@ -91,7 +76,6 @@ class LabsPage extends ConsumerWidget {
               children: [
                 _StatusChip(label: t.discover),
                 _StatusChip(label: t.drawerExperimental),
-                if (flags.enablePhotoFeed) _StatusChip(label: t.drawerFeed),
                 if (flags.enableLabs) _StatusChip(label: t.drawerHeroes),
               ],
             ),

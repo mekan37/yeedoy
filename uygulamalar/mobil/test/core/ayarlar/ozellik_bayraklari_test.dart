@@ -5,7 +5,6 @@ void main() {
   group('FeatureFlagsState', () {
     test('uses static defaults when local override is missing', () {
       final state = FeatureFlagsState.empty();
-      expect(state.enablePhotoFeed, FeatureFlags.enablePhotoFeed);
       expect(state.enableLabs, FeatureFlags.enableLabs);
       expect(state.enableQrAutoCheckin, FeatureFlags.enableQrAutoCheckin);
       expect(state.enableQrAutoCheckin, isFalse);
@@ -15,13 +14,11 @@ void main() {
     test('prefers local override values', () {
       const state = FeatureFlagsState(
         localFlags: {
-          'enablePhotoFeed': true,
-          'enableLabs': false,
+          'enableLabs': true,
           'enableQrAutoCheckin': true,
         },
       );
-      expect(state.enablePhotoFeed, isTrue);
-      expect(state.enableLabs, isFalse);
+      expect(state.enableLabs, isTrue);
       expect(state.enableQrAutoCheckin, isTrue);
       expect(state.hasExperimentalNavigation, isTrue);
     });

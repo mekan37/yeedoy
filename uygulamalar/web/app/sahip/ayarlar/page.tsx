@@ -37,7 +37,7 @@ const SUPPLEMENTARY_ITEMS = [
     href: '/sahip/ayarlar/alan-adi',
     label: 'Özel Domain',
     description: 'İşletmenize özel alan adı bağlayın',
-    disabled: true,
+    disabled: false,
   },
 ];
 
