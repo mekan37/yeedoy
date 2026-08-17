@@ -11607,6 +11607,10 @@ export type Database = {
               views_count: number
             }[]
           }
+      get_email_campaign_recipients_v1: {
+        Args: { p_business_id: string; p_target_segment: string }
+        Returns: Json
+      }
       get_heroes_v1: {
         Args: { p_limit?: number }
         Returns: {
@@ -12474,6 +12478,10 @@ export type Database = {
           target_type: string
           user_agent: string
         }[]
+      }
+      list_customer_tags_v1: {
+        Args: { p_business_id: string }
+        Returns: string[]
       }
       list_email_campaigns_v1: {
         Args: { p_business_id: string; p_limit?: number; p_offset?: number }
