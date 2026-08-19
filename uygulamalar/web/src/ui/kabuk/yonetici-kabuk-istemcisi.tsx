@@ -1,12 +1,14 @@
 'use client';
 
 import { useEffect, useState, type ReactNode } from 'react';
+import Link from 'next/link';
 import { AppProviders } from '@/src/lib/uygulama-saglayicilari';
 import { PanelShell } from './panel-kabugu';
 import type { NavSection } from './panel-yan-menusu';
-import { KullaniciFoteri } from './kullanici-foteri';
 import { YoneticiUstArama } from './yonetici-ust-arama';
+import { UserDropdown } from '@/src/ui/bilesenler/kullanici-dropdown';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { usePanelStore } from '@/src/lib/panel-deposu';
 import { ADMIN_PERMISSIONS } from '@/src/lib/admin-izinler';
 
 const adminNavSections: NavSection[] = [
@@ -16,9 +18,7 @@ const adminNavSections: NavSection[] = [
       { href: '/yonetici/gosterge-panosu', label: 'Genel Bakış', icon: <HomeIcon />, exact: true },
       { href: '/yonetici/isletmeler', label: 'İşletmeler', icon: <BuildingIcon /> },
       { href: '/yonetici/zincirler', label: 'Zincirler', icon: <LayersIcon /> },
-      { href: '/yonetici/arama', label: 'Arama', icon: <SearchIcon /> },
-      { href: '/yonetici/kuyruk', label: 'İnceleme Kuyruğu', icon: <FlagIcon /> },
-      { href: '/yonetici/itirazlar/claims', label: 'Sahiplenme Kuyruğu', icon: <InboxIcon /> },
+      { href: '/yonetici/kuyruklar', label: 'Kuyruklar', icon: <FlagIcon /> },
       { href: '/yonetici/isletme-basvurulari', label: 'İşletme Talepleri', icon: <PlusIcon /> },
       { href: '/yonetici/raporlar', label: 'Raporlar', icon: <FileTextIcon /> },
       { href: '/yonetici/kullanicilar', label: 'Kullanıcılar', icon: <UsersIcon /> },
@@ -50,9 +50,7 @@ const adminNavSections: NavSection[] = [
       { href: '/yonetici/gozlemlenebilirlik', label: 'Gözlemlenebilirlik', icon: <ActivityIcon /> },
       { href: '/yonetici/gelistirme-araclari', label: 'Geliştirici Araçları', icon: <TerminalIcon /> },
       { href: '/yonetici/kvkk-gdpr', label: 'KVKK / GDPR', icon: <ShieldCheckIcon /> },
-      { href: '/yonetici/denetim-kaydi', label: 'Denetim Kaydı', icon: <ClipboardIcon /> },
       { href: '/yonetici/gecici-yuklemeler', label: 'Geçici Yüklemeler', icon: <UploadIcon /> },
-      { href: '/yonetici/toplu-islemler', label: 'Toplu İşlemler', icon: <ListChecksIcon /> },
     ],
   },
 ];
@@ -60,21 +58,45 @@ const adminNavSections: NavSection[] = [
 interface YoneticiKabukIstemcisiProps {
   children: ReactNode;
   bannerSlot?: ReactNode;
+  /** moderation_appeals'ta 'pending' durumundaki gerçek kayıt sayısı */
+  bekleyenItirazSayisi?: number;
+  /** business_submissions (status=new) + owner_claims (status=pending) toplamı */
+  bekleyenKuyrukSayisi?: number;
+  /** İtiraz + işletme başvurusu + sahiplenme talebi toplamı — topbar zil rozeti */
+  bekleyenBildirimSayisi?: number;
 }
 
-/** Çağıranın gerçek admin izin listesini döner. null: henüz yüklenmedi (admin değilse de boş dizi döner, null olmaz). */
-function useAdminPermissions(): string[] | null {
-  const [permissions, setPermissions] = useState<string[] | null>(null);
+function useCurrentAdmin() {
+  const [admin, setAdmin] = useState<{ email: string | null; displayName: string; roleLabel: string; permissions: string[] } | null>(null);
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
     void supabase.auth.getSession().then(async ({ data }) => {
-      if (!data.session?.user) { setPermissions([]); return; }
+      const user = data.session?.user;
+      if (!user) return;
+      const localPart = user.email?.split('@')[0] ?? 'Admin';
+      const displayName = localPart.charAt(0).toUpperCase() + localPart.slice(1);
       const { data: roleRows } = await (supabase as any).rpc('get_my_admin_role_v1');
       const roleRow = Array.isArray(roleRows) ? roleRows[0] : null;
-      setPermissions(roleRow?.permissions ?? []);
+      setAdmin({
+        email: user.email ?? null,
+        displayName,
+        roleLabel: roleRow?.role_name ?? 'Yönetici',
+        permissions: roleRow?.permissions ?? [],
+      });
     });
   }, []);
-  return permissions;
+  return admin;
+}
+
+function navSectionsWithBadges(sections: NavSection[], countsByHref: Record<string, number>): NavSection[] {
+  return sections.map((section) => ({
+    ...section,
+    items: section.items.map((item) => {
+      const count = countsByHref[item.href];
+      if (!count || count <= 0) return item;
+      return { ...item, badge: count > 99 ? '99+' : String(count), badgeTone: 'primary' as const };
+    }),
+  }));
 }
 
 /** permissions === null: henüz yüklenmedi, tüm sayfalar gösterilir (yanıp-sönmeyi önler). Plan A'da hiçbir route henüz gerçekten kısıtlı değil, bu filtre sadece kenar çubuğu görünürlüğü içindir. */
@@ -89,16 +111,54 @@ function navSectionsWithPermissions(sections: NavSection[], permissions: string[
     .filter((section) => section.items.length > 0);
 }
 
-export function YoneticiKabukIstemcisi({ children, bannerSlot }: YoneticiKabukIstemcisiProps) {
-  const permissions = useAdminPermissions();
+export function YoneticiKabukIstemcisi({
+  children,
+  bannerSlot,
+  bekleyenItirazSayisi = 0,
+  bekleyenKuyrukSayisi = 0,
+  bekleyenBildirimSayisi = 0,
+}: YoneticiKabukIstemcisiProps) {
+  const admin = useCurrentAdmin();
+
   return (
     <AppProviders>
       <PanelShell
-        navSections={navSectionsWithPermissions(adminNavSections, permissions)}
-        logoSlot={<AdminLogo />}
-        topbarTitle="Yönetici Paneli"
-        topbarCenter={<YoneticiUstArama />}
-        sidebarFooter={<KullaniciFoteri />}
+        navSections={navSectionsWithPermissions(
+          navSectionsWithBadges(adminNavSections, {
+            '/yonetici/itirazlar': bekleyenItirazSayisi,
+            '/yonetici/kuyruklar': bekleyenKuyrukSayisi,
+          }),
+          admin ? admin.permissions : null,
+        )}
+        logoSlot={<AdminKimlikKarti roleLabel={admin?.roleLabel} />}
+        showPanelBadge={false}
+        topbarCenter={<AdminTopbarOrta displayName={admin?.displayName} />}
+        topbarActions={
+          <>
+            <Link
+              href="/yonetici/kuyruklar"
+              aria-label="Bekleyen incelemeler"
+              className="relative flex h-9 w-9 items-center justify-center rounded-lg text-white/60 transition-colors hover:bg-white/5 hover:text-white"
+            >
+              <BellTopbarIcon />
+              {bekleyenBildirimSayisi > 0 && (
+                <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-(--yd-color-primary) px-1 text-[9px] font-black text-white">
+                  {bekleyenBildirimSayisi > 9 ? '9+' : bekleyenBildirimSayisi}
+                </span>
+              )}
+            </Link>
+            <UserDropdown
+              displayName={admin?.displayName}
+              email={admin?.email}
+              variant="topbar"
+              context="admin"
+              roleLabel={admin?.roleLabel}
+              dark
+            />
+          </>
+        }
+        sidebarDark
+        topbarDark
         bannerSlot={bannerSlot}
       >
         {children}
@@ -107,16 +167,45 @@ export function YoneticiKabukIstemcisi({ children, bannerSlot }: YoneticiKabukIs
   );
 }
 
-function AdminLogo() {
+/** Topbar orta alan — karşılama metni + gerçek admin araması yan yana */
+function AdminTopbarOrta({ displayName }: { displayName?: string }) {
   return (
-    <div className="flex items-center gap-2">
-      <div
-        className="flex h-8 w-8 items-center justify-center rounded-lg text-white text-sm font-black"
-        style={{ background: 'linear-gradient(135deg, #1e1b4b, #4f46e5)' }}
-      >
-        Y
+    <div className="flex w-full items-center justify-between gap-4">
+      <div className="hidden shrink-0 sm:block">
+        <p className="text-[15px] font-black text-white">
+          Hoş geldiniz, {displayName ?? 'Yönetici'} 👋
+        </p>
+        <p className="text-xs text-white/40">Yeedoy yönetim paneline genel bakış.</p>
       </div>
-      <span className="text-[15px] font-black text-textStrong">Yönetici</span>
+      <div className="ml-auto w-full max-w-sm">
+        <YoneticiUstArama dark />
+      </div>
+    </div>
+  );
+}
+
+/** Sidebar üstü — koyu temalı, kalkan ikonlu admin kimlik kartı */
+function AdminKimlikKarti({ roleLabel }: { roleLabel?: string }) {
+  const { sidebarCollapsed } = usePanelStore();
+
+  const shield = (
+    <span
+      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-white"
+      style={{ background: 'linear-gradient(135deg, #dc2626, #7f1d1d)' }}
+    >
+      <ShieldIcon />
+    </span>
+  );
+
+  if (sidebarCollapsed) return shield;
+
+  return (
+    <div className="flex w-full items-center gap-3">
+      {shield}
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-[13px] font-black text-white">Admin Panel</p>
+        <p className="truncate text-[11px] font-bold text-white/40">{roleLabel ?? 'Yönetici'}</p>
+      </div>
     </div>
   );
 }
@@ -139,15 +228,6 @@ function BuildingIcon() {
       <path d="M9 22V12h6v10" />
       <line x1="9" y1="6" x2="9.01" y2="6" />
       <line x1="15" y1="6" x2="15.01" y2="6" />
-    </svg>
-  );
-}
-
-function InboxIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="22 12 16 12 14 15 10 15 8 12 2 12" />
-      <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" />
     </svg>
   );
 }
@@ -209,6 +289,15 @@ function PlusIcon() {
   );
 }
 
+function BellTopbarIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    </svg>
+  );
+}
+
 function ShieldIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -230,15 +319,6 @@ function TerminalIcon() {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="4 17 10 11 4 5" />
       <line x1="12" y1="19" x2="20" y2="19" />
-    </svg>
-  );
-}
-
-function SearchIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" y1="21" x2="16.65" y2="16.65" />
     </svg>
   );
 }
@@ -336,15 +416,6 @@ function MapPinIcon() {
   );
 }
 
-function ClipboardIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
-      <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
-    </svg>
-  );
-}
-
 function UploadIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -398,19 +469,6 @@ function ShieldCheckIcon() {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
       <polyline points="9 12 11 14 15 10" />
-    </svg>
-  );
-}
-
-function ListChecksIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 6h11" />
-      <path d="M9 12h11" />
-      <path d="M9 18h11" />
-      <path d="m3 6 1 1 2-2" />
-      <path d="m3 12 1 1 2-2" />
-      <path d="m3 18 1 1 2-2" />
     </svg>
   );
 }
