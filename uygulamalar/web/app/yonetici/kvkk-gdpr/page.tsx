@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { hasPermission } from '@/src/lib/yetki-kontrol';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
+import { YetkisizErisim } from '@/src/ui/bilesenler/yetkisiz-erisim';
 import { DsarYonetimi } from './dsar-istemci';
 
 export const metadata: Metadata = {
@@ -19,6 +21,16 @@ const REQUEST_TYPE_LABELS: Record<string, string> = {
 };
 
 export default async function KvkkGdprPage() {
+  const yetkili = await hasPermission('page:kvkk-gdpr');
+  if (!yetkili) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Yönetici" title="KVKK / GDPR" description="Bu sayfayı görüntüleme yetkiniz yok." />
+        <PanelIcerikYuzeyi className="pt-6"><YetkisizErisim sayfaAdi="KVKK / GDPR" /></PanelIcerikYuzeyi>
+      </div>
+    );
+  }
+
   const supabase = await createSupabaseServerClient();
 
   // Fetch privacy requests (DSAR = Data Subject Access Requests)

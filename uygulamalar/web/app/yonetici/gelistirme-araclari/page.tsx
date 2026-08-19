@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { hasPermission } from '@/src/lib/yetki-kontrol';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
+import { YetkisizErisim } from '@/src/ui/bilesenler/yetkisiz-erisim';
 
 export const metadata: Metadata = {
   title: 'Geliştirici Araçları | Yonetici Paneli',
@@ -9,6 +11,16 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminDevToolsPage() {
+  const yetkili = await hasPermission('page:gelistirme-araclari');
+  if (!yetkili) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Yönetici" title="Geliştirici Araçları" description="Bu sayfayı görüntüleme yetkiniz yok." />
+        <PanelIcerikYuzeyi className="pt-6"><YetkisizErisim sayfaAdi="Geliştirici Araçları" /></PanelIcerikYuzeyi>
+      </div>
+    );
+  }
+
   const supabase = await createSupabaseServerClient();
 
   // Queue counts RPC
