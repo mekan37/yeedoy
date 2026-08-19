@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { hasPermission } from '@/src/lib/yetki-kontrol';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
 import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
+import { YetkisizErisim } from '@/src/ui/bilesenler/yetkisiz-erisim';
 import { BasvurularTablosu } from './basvurular-tablosu';
 import { DisaAktarButonu } from './disa-aktar-butonu';
 import { durumAnahtari, yuzdeDegisim, type BasvuruSatiri, type DurumAnahtari } from './basvurular-yardimcilari';
@@ -26,6 +28,16 @@ const STATUS_OPTIONS: Array<{ value: DurumAnahtari | ''; label: string }> = [
 const PAGE_SIZE = 10;
 
 export default async function AdminBusinessSubmissionsPage({ searchParams }: Props) {
+  const yetkili = await hasPermission('page:isletme-basvurulari');
+  if (!yetkili) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Yönetici" title="İşletme Talepleri" description="Bu sayfayı görüntüleme yetkiniz yok." />
+        <PanelIcerikYuzeyi className="pt-6"><YetkisizErisim sayfaAdi="İşletme Talepleri" /></PanelIcerikYuzeyi>
+      </div>
+    );
+  }
+
   const { q = '', status = '', date_from = '', date_to = '', page = '1' } = await searchParams;
   const statusKey = STATUS_OPTIONS.some((o) => o.value === status) ? (status as DurumAnahtari | '') : '';
   const pageNum = Math.max(1, parseInt(page, 10) || 1);

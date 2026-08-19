@@ -2,11 +2,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
+import { hasPermission } from '@/src/lib/yetki-kontrol';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
 import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
 import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
+import { YetkisizErisim } from '@/src/ui/bilesenler/yetkisiz-erisim';
 import { IsletmelerTablosu } from './isletmeler-tablosu';
 import { DisaAktarButonu } from './disa-aktar-butonu';
 import { SayfaBoyutuSecici } from './sayfa-boyutu-secici';
@@ -54,6 +56,16 @@ const VERIFIED_OPTIONS: Array<{ value: VerifiedKey; label: string }> = [
 const PAGE_SIZE_OPTIONS = [8, 20, 40, 100];
 
 export default async function AdminBusinessesPage({ searchParams }: Props) {
+  const yetkili = await hasPermission('page:isletmeler');
+  if (!yetkili) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Yönetici" title="İşletmeler" description="Bu sayfayı görüntüleme yetkiniz yok." />
+        <PanelIcerikYuzeyi className="pt-6"><YetkisizErisim sayfaAdi="İşletmeler" /></PanelIcerikYuzeyi>
+      </div>
+    );
+  }
+
   const {
     q = '',
     city = '',

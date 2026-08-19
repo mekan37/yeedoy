@@ -18,6 +18,9 @@ async function requireAdmin() {
   const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return { supabaseAny, user, response: NextResponse.json({ error: 'Forbidden' }, { status: 403 }) };
 
+  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:raporlar' });
+  if (!yetkili) return { supabaseAny, user, response: NextResponse.json({ error: 'forbidden' }, { status: 403 }) };
+
   return { supabaseAny, user, response: null };
 }
 

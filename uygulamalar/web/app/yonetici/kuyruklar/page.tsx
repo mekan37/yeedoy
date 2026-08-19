@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { hasPermission } from '@/src/lib/yetki-kontrol';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
+import { YetkisizErisim } from '@/src/ui/bilesenler/yetkisiz-erisim';
 import { attachEvidenceSignedUrls } from '@/src/lib/storage/claim-evidence-signed-urls';
 import { IncelemeSatiri, type IncelemeSatiriVerisi } from './inceleme-satiri';
 import { SahiplenmeSatiri, type SahiplenmeSatiriVerisi } from './sahiplenme-satiri';
@@ -19,6 +21,16 @@ type Props = { searchParams: Promise<{ tab?: string; q?: string; status?: string
 const PAGE_SIZE = 20;
 
 export default async function AdminKuyruklarPage({ searchParams }: Props) {
+  const yetkili = await hasPermission('page:kuyruklar');
+  if (!yetkili) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Yönetici" title="Kuyruklar" description="Bu sayfayı görüntüleme yetkiniz yok." />
+        <PanelIcerikYuzeyi className="pt-6"><YetkisizErisim sayfaAdi="Kuyruklar" /></PanelIcerikYuzeyi>
+      </div>
+    );
+  }
+
   const { tab: rawTab, q = '', status = '', sort = 'newest', page = '1', bugun } = await searchParams;
   const tab: Tab = rawTab === 'sahiplenme' ? 'sahiplenme' : 'inceleme';
   const pageNum = Math.max(1, parseInt(page, 10) || 1);
