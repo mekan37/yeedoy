@@ -1,11 +1,13 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { AppProviders } from '@/src/lib/uygulama-saglayicilari';
 import { PanelShell } from './panel-kabugu';
 import type { NavSection } from './panel-yan-menusu';
 import { KullaniciFoteri } from './kullanici-foteri';
 import { YoneticiUstArama } from './yonetici-ust-arama';
+import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { ADMIN_PERMISSIONS } from '@/src/lib/admin-izinler';
 
 const adminNavSections: NavSection[] = [
   {
@@ -60,11 +62,39 @@ interface YoneticiKabukIstemcisiProps {
   bannerSlot?: ReactNode;
 }
 
+/** Çağıranın gerçek admin izin listesini döner. null: henüz yüklenmedi (admin değilse de boş dizi döner, null olmaz). */
+function useAdminPermissions(): string[] | null {
+  const [permissions, setPermissions] = useState<string[] | null>(null);
+  useEffect(() => {
+    const supabase = createSupabaseBrowserClient();
+    void supabase.auth.getSession().then(async ({ data }) => {
+      if (!data.session?.user) { setPermissions([]); return; }
+      const { data: roleRows } = await (supabase as any).rpc('get_my_admin_role_v1');
+      const roleRow = Array.isArray(roleRows) ? roleRows[0] : null;
+      setPermissions(roleRow?.permissions ?? []);
+    });
+  }, []);
+  return permissions;
+}
+
+/** permissions === null: henüz yüklenmedi, tüm sayfalar gösterilir (yanıp-sönmeyi önler). Plan A'da hiçbir route henüz gerçekten kısıtlı değil, bu filtre sadece kenar çubuğu görünürlüğü içindir. */
+function navSectionsWithPermissions(sections: NavSection[], permissions: string[] | null): NavSection[] {
+  if (permissions === null) return sections;
+  const izinliHref = new Set(ADMIN_PERMISSIONS.filter((p) => permissions.includes(p.key)).map((p) => p.href));
+  return sections
+    .map((section) => ({
+      ...section,
+      items: section.items.filter((item) => item.href === '/yonetici/gosterge-panosu' || izinliHref.has(item.href)),
+    }))
+    .filter((section) => section.items.length > 0);
+}
+
 export function YoneticiKabukIstemcisi({ children, bannerSlot }: YoneticiKabukIstemcisiProps) {
+  const permissions = useAdminPermissions();
   return (
     <AppProviders>
       <PanelShell
-        navSections={adminNavSections}
+        navSections={navSectionsWithPermissions(adminNavSections, permissions)}
         logoSlot={<AdminLogo />}
         topbarTitle="Yönetici Paneli"
         topbarCenter={<YoneticiUstArama />}

@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Admin panelinde sayfa-bazlı gerçek izin kontrolü için veri modelini (admin_roles + admin_permission_key enum), RPC'leri ve Roller sayfasının tam CRUD UI'ını kurmak. Bu plan bittiğinde sistem eksiksiz çalışır ve test edilebilir; mevcut 25 admin sayfasına fiili `requirePermission` kısıtlaması eklemek ayrı bir Plan B'dir (kapsam dışı).
+**Goal:** Admin panelinde sayfa-bazlı gerçek izin kontrolü için veri modelini (admin_roles + admin_permission_key enum), RPC'leri ve Roller sayfasının tam CRUD UI'ını kurmak. Bu plan bittiğinde sistem eksiksiz çalışır ve test edilebilir; mevcut 29 admin sayfasına fiili `requirePermission` kısıtlaması eklemek ayrı bir Plan B'dir (kapsam dışı).
 
 **Architecture:** 2 yeni tablo yerine 1 tablo (`admin_roles`) + kapalı bir Postgres enum (`admin_permission_key`, admin_roles.permissions dizi kolonu) — ayrı bir "permissions" join tablosu yok (izin kataloğu sabit/kod tanımlı). `admin_users.role_id` ile bağlanır. Tüm yazma işlemleri SECURITY DEFINER RPC'ler üzerinden (`has_permission_v1('page:roller')` guard'lı); `admin_roles` tablosuna doğrudan yazma GRANT'ı verilmez (yalnızca SELECT). Next.js tarafında `hasPermission()` server helper'ı + kenar çubuğu client-side izin listesine göre filtrelenir.
 
@@ -314,7 +314,7 @@ select
   (select count(*) from unnest(enum_range(null::public.admin_permission_key))) as enum_sayisi
 from public.admin_roles where is_system = true;
 ```
-Beklenen: iki sayı eşit (25).
+Beklenen: iki sayı eşit (29, gerçek nav ile eşleştirildikten sonra).
 
 - [ ] **Step 4: `mcp__supabase__get_advisors(type="security")` çalıştır**
 
@@ -327,17 +327,20 @@ Yeni tablo/RPC'lerle ilgili beklenmeyen bulgu olmadığını doğrula.
 **Files:**
 - Create: `uygulamalar/web/src/lib/admin-izinler.ts`
 
+**Kapsam düzeltmesi (Task 13'te bulundu, geriye uygulandı):** İlk taslak 25 izinliydi ve gerçekte var olmayan (ana checkout'ta commitlenmemiş) bir nav yapısına göre yazılmıştı. Gerçek `adminNavSections` (`yonetici-kabuk-istemcisi.tsx`, committed) ile eşleştirilmiş, düzeltilmiş 29 izinlik hal aşağıda — `page:kuyruklar` yerine `page:kuyruk`, artı `page:arama`, `page:itirazlar-claims`, `page:denetim-kaydi`, `page:toplu-islemler`.
+
 - [ ] **Step 1: Dosyayı oluştur**
 
 ```ts
 export type AdminPermissionKey =
-  | 'page:isletmeler' | 'page:zincirler' | 'page:kuyruklar' | 'page:isletme-basvurulari'
-  | 'page:raporlar' | 'page:kullanicilar' | 'page:yorumlar' | 'page:itirazlar'
+  | 'page:isletmeler' | 'page:zincirler' | 'page:arama' | 'page:kuyruk' | 'page:itirazlar-claims'
+  | 'page:isletme-basvurulari' | 'page:raporlar' | 'page:kullanicilar' | 'page:yorumlar' | 'page:itirazlar'
   | 'page:fis-basvurulari' | 'page:cop-kutusu' | 'page:olaylar' | 'page:konumlar'
   | 'page:analitik' | 'page:musteri-destek' | 'page:oneriler' | 'page:fiyat-onerileri'
   | 'page:fraud-tespiti' | 'page:fotograf-moderasyon' | 'page:feature-flags'
   | 'page:api-anahtarlari' | 'page:roller' | 'page:gozlemlenebilirlik'
-  | 'page:gelistirme-araclari' | 'page:kvkk-gdpr' | 'page:gecici-yuklemeler';
+  | 'page:gelistirme-araclari' | 'page:kvkk-gdpr' | 'page:denetim-kaydi'
+  | 'page:gecici-yuklemeler' | 'page:toplu-islemler';
 
 export interface AdminPermissionInfo {
   key: AdminPermissionKey;
@@ -352,7 +355,9 @@ export interface AdminPermissionInfo {
 export const ADMIN_PERMISSIONS: AdminPermissionInfo[] = [
   { key: 'page:isletmeler', label: 'İşletmeler', group: 'Operasyon', href: '/yonetici/isletmeler' },
   { key: 'page:zincirler', label: 'Zincirler', group: 'Operasyon', href: '/yonetici/zincirler' },
-  { key: 'page:kuyruklar', label: 'Kuyruklar', group: 'Operasyon', href: '/yonetici/kuyruklar' },
+  { key: 'page:arama', label: 'Arama', group: 'Operasyon', href: '/yonetici/arama' },
+  { key: 'page:kuyruk', label: 'İnceleme Kuyruğu', group: 'Operasyon', href: '/yonetici/kuyruk' },
+  { key: 'page:itirazlar-claims', label: 'Sahiplenme Kuyruğu', group: 'Operasyon', href: '/yonetici/itirazlar/claims' },
   { key: 'page:isletme-basvurulari', label: 'İşletme Talepleri', group: 'Operasyon', href: '/yonetici/isletme-basvurulari' },
   { key: 'page:raporlar', label: 'Raporlar', group: 'Operasyon', href: '/yonetici/raporlar' },
   { key: 'page:kullanicilar', label: 'Kullanıcılar', group: 'Operasyon', href: '/yonetici/kullanicilar' },
@@ -374,7 +379,9 @@ export const ADMIN_PERMISSIONS: AdminPermissionInfo[] = [
   { key: 'page:gozlemlenebilirlik', label: 'Gözlemlenebilirlik', group: 'Güvenlik ve Sistem', href: '/yonetici/gozlemlenebilirlik' },
   { key: 'page:gelistirme-araclari', label: 'Geliştirici Araçları', group: 'Güvenlik ve Sistem', href: '/yonetici/gelistirme-araclari' },
   { key: 'page:kvkk-gdpr', label: 'KVKK / GDPR', group: 'Güvenlik ve Sistem', href: '/yonetici/kvkk-gdpr' },
+  { key: 'page:denetim-kaydi', label: 'Denetim Kaydı', group: 'Güvenlik ve Sistem', href: '/yonetici/denetim-kaydi' },
   { key: 'page:gecici-yuklemeler', label: 'Geçici Yüklemeler', group: 'Güvenlik ve Sistem', href: '/yonetici/gecici-yuklemeler' },
+  { key: 'page:toplu-islemler', label: 'Toplu İşlemler', group: 'Güvenlik ve Sistem', href: '/yonetici/toplu-islemler' },
 ];
 
 export const ADMIN_PERMISSION_GROUPS = Array.from(new Set(ADMIN_PERMISSIONS.map((p) => p.group)));
@@ -1295,95 +1302,88 @@ function ClockIcon() { return <svg width="20" height="20" viewBox="0 0 24 24" fi
 
 ---
 
-### Task 13: Kenar çubuğunu gerçek role bağla — `yonetici-kabuk-istemcisi.tsx`
+### Task 13: Kenar çubuğunu gerçek izinlerle filtrele — `yonetici-kabuk-istemcisi.tsx`
+
+**Kapsam düzeltmesi (uygulama sırasında bulundu):** Bu task'ın ilk taslağı, ana checkout'ta (worktree'siz `C:\yeedoy`) **commitlenmemiş** bir kenar çubuğu versiyonuna göre yazılmıştı — `ROL_ETIKETLERI`, `useCurrentAdmin`, `navSectionsWithBadges`, rol rozeti gösteren bir `AdminKimlikKarti` gibi öğeler içeriyordu. Gerçekte (`git log --all -S` ile doğrulandı) bu kod hiçbir zaman commit edilmemiş; `main`'deki gerçek dosyada rol etiketi/rozet gösteren hiçbir şey yok (kullanıcı alt bilgisi `KullaniciFoteri` bileşeninde, sadece e-posta + çıkış). Ayrıca gerçek `adminNavSections` ilk taslakta varsayılandan farklı: 29 gerçek sayfa var (25 değil) — `kuyruklar` yerine `kuyruk` (tekil), ve `arama`, `itirazlar/claims`, `denetim-kaydi`, `toplu-islemler` sayfaları da var. Bu fark **Task 3'te de düzeltildi** (`admin-izinler.ts` artık 29 gerçek izni içeriyor) ve DB enum'u iki ek migration'la (`20260819160000`, `20260819160100`) senkronlandı: `page:kuyruklar` → `page:kuyruk` yeniden adlandırıldı, 4 yeni değer eklendi, Süper Admin rolünün `permissions` dizisi yeniden hesaplandı.
+
+Aşağıdaki adımlar **gerçek dosyanın gerçek içeriğine göre** yazılmıştır (rol-etiketi işi yoktur, sadece izin bazlı nav filtrelemesi eklenir).
 
 **Files:**
-- Modify: `uygulamalar/web/src/ui/kabuk/yonetici-kabuk-istemcisi.tsx:1-108`
+- Modify: `uygulamalar/web/src/ui/kabuk/yonetici-kabuk-istemcisi.tsx`
 
 - [ ] **Step 1: Import ekle**
 
 `old_string`:
 ```tsx
-import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
-import { usePanelStore } from '@/src/lib/panel-deposu';
+'use client';
+
+import type { ReactNode } from 'react';
+import { AppProviders } from '@/src/lib/uygulama-saglayicilari';
+import { PanelShell } from './panel-kabugu';
+import type { NavSection } from './panel-yan-menusu';
+import { KullaniciFoteri } from './kullanici-foteri';
+import { YoneticiUstArama } from './yonetici-ust-arama';
 ```
 `new_string`:
 ```tsx
+'use client';
+
+import { useEffect, useState, type ReactNode } from 'react';
+import { AppProviders } from '@/src/lib/uygulama-saglayicilari';
+import { PanelShell } from './panel-kabugu';
+import type { NavSection } from './panel-yan-menusu';
+import { KullaniciFoteri } from './kullanici-foteri';
+import { YoneticiUstArama } from './yonetici-ust-arama';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
-import { usePanelStore } from '@/src/lib/panel-deposu';
 import { ADMIN_PERMISSIONS } from '@/src/lib/admin-izinler';
 ```
 
-- [ ] **Step 2: `ROL_ETIKETLERI` sabitini ve `useCurrentAdmin`'i gerçek role bağlı hale getir**
+- [ ] **Step 2: İzin filtreleme mantığını ekle ve `navSections`'ı sarmala**
 
 `old_string`:
 ```tsx
-const ROL_ETIKETLERI: Record<string, string> = {
-  super_admin: 'Süper Yönetici',
-  admin: 'Yönetici',
-  community_mod: 'Moderatör',
-};
-
-function useCurrentAdmin() {
-  const [admin, setAdmin] = useState<{ email: string | null; displayName: string; roleLabel: string } | null>(null);
-  useEffect(() => {
-    const supabase = createSupabaseBrowserClient();
-    void supabase.auth.getSession().then(({ data }) => {
-      const user = data.session?.user;
-      if (!user) return;
-      const role = String(user.app_metadata?.role ?? user.user_metadata?.role ?? 'admin').toLocaleLowerCase('tr-TR');
-      const localPart = user.email?.split('@')[0] ?? 'Admin';
-      const displayName = localPart.charAt(0).toUpperCase() + localPart.slice(1);
-      setAdmin({ email: user.email ?? null, displayName, roleLabel: ROL_ETIKETLERI[role] ?? 'Yönetici' });
-    });
-  }, []);
-  return admin;
+interface YoneticiKabukIstemcisiProps {
+  children: ReactNode;
+  bannerSlot?: ReactNode;
 }
 
-function navSectionsWithBadges(sections: NavSection[], countsByHref: Record<string, number>): NavSection[] {
-  return sections.map((section) => ({
-    ...section,
-    items: section.items.map((item) => {
-      const count = countsByHref[item.href];
-      if (!count || count <= 0) return item;
-      return { ...item, badge: count > 99 ? '99+' : String(count), badgeTone: 'primary' as const };
-    }),
-  }));
+export function YoneticiKabukIstemcisi({ children, bannerSlot }: YoneticiKabukIstemcisiProps) {
+  return (
+    <AppProviders>
+      <PanelShell
+        navSections={adminNavSections}
+        logoSlot={<AdminLogo />}
+        topbarTitle="Yönetici Paneli"
+        topbarCenter={<YoneticiUstArama />}
+        sidebarFooter={<KullaniciFoteri />}
+        bannerSlot={bannerSlot}
+      >
+        {children}
+      </PanelShell>
+    </AppProviders>
+  );
 }
 ```
 `new_string`:
 ```tsx
-function useCurrentAdmin() {
-  const [admin, setAdmin] = useState<{ email: string | null; displayName: string; roleLabel: string; permissions: string[] } | null>(null);
+interface YoneticiKabukIstemcisiProps {
+  children: ReactNode;
+  bannerSlot?: ReactNode;
+}
+
+/** Çağıranın gerçek admin izin listesini döner. null: henüz yüklenmedi (admin değilse de boş dizi döner, null olmaz). */
+function useAdminPermissions(): string[] | null {
+  const [permissions, setPermissions] = useState<string[] | null>(null);
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
     void supabase.auth.getSession().then(async ({ data }) => {
-      const user = data.session?.user;
-      if (!user) return;
-      const localPart = user.email?.split('@')[0] ?? 'Admin';
-      const displayName = localPart.charAt(0).toUpperCase() + localPart.slice(1);
+      if (!data.session?.user) { setPermissions([]); return; }
       const { data: roleRows } = await (supabase as any).rpc('get_my_admin_role_v1');
       const roleRow = Array.isArray(roleRows) ? roleRows[0] : null;
-      setAdmin({
-        email: user.email ?? null,
-        displayName,
-        roleLabel: roleRow?.role_name ?? 'Yönetici',
-        permissions: roleRow?.permissions ?? [],
-      });
+      setPermissions(roleRow?.permissions ?? []);
     });
   }, []);
-  return admin;
-}
-
-function navSectionsWithBadges(sections: NavSection[], countsByHref: Record<string, number>): NavSection[] {
-  return sections.map((section) => ({
-    ...section,
-    items: section.items.map((item) => {
-      const count = countsByHref[item.href];
-      if (!count || count <= 0) return item;
-      return { ...item, badge: count > 99 ? '99+' : String(count), badgeTone: 'primary' as const };
-    }),
-  }));
+  return permissions;
 }
 
 /** permissions === null: henüz yüklenmedi, tüm sayfalar gösterilir (yanıp-sönmeyi önler). Plan A'da hiçbir route henüz gerçekten kısıtlı değil, bu filtre sadece kenar çubuğu görünürlüğü içindir. */
@@ -1397,26 +1397,24 @@ function navSectionsWithPermissions(sections: NavSection[], permissions: string[
     }))
     .filter((section) => section.items.length > 0);
 }
-```
 
-- [ ] **Step 3: `navSections` prop'unu her iki filtreyi de uygulayacak şekilde güncelle**
-
-`old_string`:
-```tsx
-        navSections={navSectionsWithBadges(adminNavSections, {
-          '/yonetici/itirazlar': bekleyenItirazSayisi,
-          '/yonetici/kuyruklar': bekleyenKuyrukSayisi,
-        })}
-```
-`new_string`:
-```tsx
-        navSections={navSectionsWithPermissions(
-          navSectionsWithBadges(adminNavSections, {
-            '/yonetici/itirazlar': bekleyenItirazSayisi,
-            '/yonetici/kuyruklar': bekleyenKuyrukSayisi,
-          }),
-          admin ? admin.permissions : null,
-        )}
+export function YoneticiKabukIstemcisi({ children, bannerSlot }: YoneticiKabukIstemcisiProps) {
+  const permissions = useAdminPermissions();
+  return (
+    <AppProviders>
+      <PanelShell
+        navSections={navSectionsWithPermissions(adminNavSections, permissions)}
+        logoSlot={<AdminLogo />}
+        topbarTitle="Yönetici Paneli"
+        topbarCenter={<YoneticiUstArama />}
+        sidebarFooter={<KullaniciFoteri />}
+        bannerSlot={bannerSlot}
+      >
+        {children}
+      </PanelShell>
+    </AppProviders>
+  );
+}
 ```
 
 ---

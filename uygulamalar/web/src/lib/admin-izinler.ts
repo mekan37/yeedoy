@@ -1,11 +1,12 @@
 export type AdminPermissionKey =
-  | 'page:isletmeler' | 'page:zincirler' | 'page:kuyruklar' | 'page:isletme-basvurulari'
-  | 'page:raporlar' | 'page:kullanicilar' | 'page:yorumlar' | 'page:itirazlar'
+  | 'page:isletmeler' | 'page:zincirler' | 'page:arama' | 'page:kuyruk' | 'page:itirazlar-claims'
+  | 'page:isletme-basvurulari' | 'page:raporlar' | 'page:kullanicilar' | 'page:yorumlar' | 'page:itirazlar'
   | 'page:fis-basvurulari' | 'page:cop-kutusu' | 'page:olaylar' | 'page:konumlar'
   | 'page:analitik' | 'page:musteri-destek' | 'page:oneriler' | 'page:fiyat-onerileri'
   | 'page:fraud-tespiti' | 'page:fotograf-moderasyon' | 'page:feature-flags'
   | 'page:api-anahtarlari' | 'page:roller' | 'page:gozlemlenebilirlik'
-  | 'page:gelistirme-araclari' | 'page:kvkk-gdpr' | 'page:gecici-yuklemeler';
+  | 'page:gelistirme-araclari' | 'page:kvkk-gdpr' | 'page:denetim-kaydi'
+  | 'page:gecici-yuklemeler' | 'page:toplu-islemler';
 
 export interface AdminPermissionInfo {
   key: AdminPermissionKey;
@@ -20,7 +21,9 @@ export interface AdminPermissionInfo {
 export const ADMIN_PERMISSIONS: AdminPermissionInfo[] = [
   { key: 'page:isletmeler', label: 'İşletmeler', group: 'Operasyon', href: '/yonetici/isletmeler' },
   { key: 'page:zincirler', label: 'Zincirler', group: 'Operasyon', href: '/yonetici/zincirler' },
-  { key: 'page:kuyruklar', label: 'Kuyruklar', group: 'Operasyon', href: '/yonetici/kuyruklar' },
+  { key: 'page:arama', label: 'Arama', group: 'Operasyon', href: '/yonetici/arama' },
+  { key: 'page:kuyruk', label: 'İnceleme Kuyruğu', group: 'Operasyon', href: '/yonetici/kuyruk' },
+  { key: 'page:itirazlar-claims', label: 'Sahiplenme Kuyruğu', group: 'Operasyon', href: '/yonetici/itirazlar/claims' },
   { key: 'page:isletme-basvurulari', label: 'İşletme Talepleri', group: 'Operasyon', href: '/yonetici/isletme-basvurulari' },
   { key: 'page:raporlar', label: 'Raporlar', group: 'Operasyon', href: '/yonetici/raporlar' },
   { key: 'page:kullanicilar', label: 'Kullanıcılar', group: 'Operasyon', href: '/yonetici/kullanicilar' },
@@ -42,7 +45,9 @@ export const ADMIN_PERMISSIONS: AdminPermissionInfo[] = [
   { key: 'page:gozlemlenebilirlik', label: 'Gözlemlenebilirlik', group: 'Güvenlik ve Sistem', href: '/yonetici/gozlemlenebilirlik' },
   { key: 'page:gelistirme-araclari', label: 'Geliştirici Araçları', group: 'Güvenlik ve Sistem', href: '/yonetici/gelistirme-araclari' },
   { key: 'page:kvkk-gdpr', label: 'KVKK / GDPR', group: 'Güvenlik ve Sistem', href: '/yonetici/kvkk-gdpr' },
+  { key: 'page:denetim-kaydi', label: 'Denetim Kaydı', group: 'Güvenlik ve Sistem', href: '/yonetici/denetim-kaydi' },
   { key: 'page:gecici-yuklemeler', label: 'Geçici Yüklemeler', group: 'Güvenlik ve Sistem', href: '/yonetici/gecici-yuklemeler' },
+  { key: 'page:toplu-islemler', label: 'Toplu İşlemler', group: 'Güvenlik ve Sistem', href: '/yonetici/toplu-islemler' },
 ];
 
 export const ADMIN_PERMISSION_GROUPS = Array.from(new Set(ADMIN_PERMISSIONS.map((p) => p.group)));
