@@ -882,11 +882,13 @@ export function RolTablosu({ roles, members, nameByUserId }: { roles: AdminRole[
     const hedefRoleId = tasima[userId];
     if (!hedefRoleId || hedefRoleId === currentRoleId) return;
     startTransition(async () => {
-      await fetch('/sunucu/yonetici/roller/kullanici-ata', {
+      const res = await fetch('/sunucu/yonetici/roller/kullanici-ata', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, roleId: hedefRoleId }),
       });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) { alert(json.error ?? 'Taşınamadı'); return; }
       router.refresh();
     });
   }
