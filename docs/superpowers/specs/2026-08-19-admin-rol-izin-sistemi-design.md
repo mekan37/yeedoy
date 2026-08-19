@@ -88,10 +88,10 @@ Hepsi `SECURITY DEFINER`, `is_admin()` + ilgili `has_permission_v1('page:roller'
 
 ## Eski Sistemin Temizliği
 
-- `app/sunucu/yonetici/kullanici-rol/route.ts` — silinir (yerini `admin_assign_user_role_v1` çağıran yeni bir route alır, yalnızca admin_users üyeleri için).
-- `app/yonetici/kullanicilar/rol-degistir-istemci.tsx` — yeniden yazılır: yalnızca satır `admin_users` üyesiyse görünür, gerçek `admin_roles` listesinden seçim yaptırır. Admin olmayan kullanıcılar için hiçbir rol dropdown'u gösterilmez (mevcut yanıltıcı davranış kaldırılır).
-- `yonetici-kabuk-istemcisi.tsx` içindeki `ROL_ETIKETLERI` / `app_metadata.role` okuma mantığı → kullanıcının gerçek `admin_roles.name`'i ile değiştirilir (aynı RPC/sorgunun sonucu cache'lenip kullanılabilir).
-- `app/yonetici/roller/page.tsx` — mevcut `ROLES` sabiti, `getUserRole()`, statik `PERMISSIONS` dizisi tamamen kaldırılır, yerini yukarıdaki gerçek veri alır.
+**Kapsam düzeltmesi (plan yazımı sırasında bulundu):** `app/yonetici/kullanicilar/**` sayfasındaki `role` / `ROLE_MAP` / `RolDegistirIstemci` / `app/sunucu/yonetici/kullanici-rol/route.ts` aslında **admin_users'tan tamamen bağımsız, kendi başına çalışan ayrı bir özellik** — tüm kullanıcı tabanında (admin olsun olmasın herkes) genel bir rol etiketi tutuyor ve `super_admin` etiketli tek bir hesabı toplu banlama/tekli banlamadan koruyor. Bu, admin panelin sayfa erişim izinleriyle ilgisi olmayan, kendi içinde tutarlı ve işlevsel bir mekanizma. **Bu spec kapsamında dokunulmuyor** — silinmiyor, değiştirilmiyor.
+
+- `yonetici-kabuk-istemcisi.tsx` içindeki `ROL_ETIKETLERI` / `app_metadata.role` okuma mantığı — **yalnızca giriş yapmış admin'in kendi rozetini** gösteriyor (kenar çubuğu üstündeki "Süper Yönetici" etiketi); bu, o admin'in gerçek `admin_roles.name`'i ile değiştirilir. Kullanıcılar sayfasındaki genel `role` sistemiyle karışmaz, ayrı bir okuma noktası.
+- `app/yonetici/roller/page.tsx` — mevcut `ROLES` sabiti, `getUserRole()`, statik `PERMISSIONS` dizisi tamamen kaldırılır, yerini yukarıdaki gerçek veri alır. Bu dosya `app_metadata.role` okumuyordu zaten sadece kendi içinde sabit bir liste tutuyordu — kaldırılması başka hiçbir dosyayı etkilemez.
 
 ## Faz Planı
 
