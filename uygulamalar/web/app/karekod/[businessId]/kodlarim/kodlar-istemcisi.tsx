@@ -78,6 +78,9 @@ export function KodlarIstemcisi({ businessId, businessSlug, siteUrl, initialCode
   useEffect(() => {
     let alive = true;
     const url = selected ? targetUrl(selected) : defaultMenuUrl;
+    // Asenkron QR üretimi başlamadan önce önceki sonucu temizler — dış `qrcode`
+    // kütüphanesiyle senkronizasyon, derive-from-render'a taşınamaz.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setQrDataUrl(null);
     setQrError(null);
 

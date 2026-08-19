@@ -195,6 +195,8 @@ export function EnIyilerCanli() {
     }
   }, [category, debouncedCity, sort, minRating, verified]);
 
+  // Filtre/sıralama değiştiğinde sunucudan liste çeker — dış sistemle senkronizasyon.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { fetch_(); }, [fetch_]);
 
   const temizle = () => {

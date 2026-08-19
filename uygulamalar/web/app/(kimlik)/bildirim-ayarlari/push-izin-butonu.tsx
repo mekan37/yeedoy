@@ -59,7 +59,9 @@ export function PushIzinButonu() {
   const [requesting, setRequesting] = useState(false);
 
   useEffect(() => {
+    // Notification API tarayıcı durumunu okur — UI dışı bir kaynaktan senkronizasyon.
     if (!('Notification' in window)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setStatus('unsupported');
       return;
     }

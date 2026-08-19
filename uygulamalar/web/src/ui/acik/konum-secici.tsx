@@ -119,11 +119,15 @@ export function KonumSecici() {
   const [mounted, setMounted] = useState(false);
   const aramaRef              = useRef<HTMLInputElement>(null);
 
+  // SSR/istemci hydration güvenliği için mount bayrağı — derive-from-render'a taşınamaz.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     try {
       const kayitli = localStorage.getItem(DEPO_KEY);
+      // localStorage okuması UI dışı bir kaynaktan senkronizasyon.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (kayitli) setSecili(JSON.parse(kayitli) as Konum);
     } catch { /* ignore */ }
   }, []);

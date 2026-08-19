@@ -56,6 +56,8 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
   useEffect(() => {
     try {
       const saved = localStorage.getItem('yd_beni_hatirla');
+      // localStorage okuması UI dışı bir kaynaktan senkronizasyon.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (saved) { setEmail(saved); setRememberMe(true); }
     } catch { /* ignore */ }
   }, []);

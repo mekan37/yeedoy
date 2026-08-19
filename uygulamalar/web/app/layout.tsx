@@ -42,7 +42,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="tr">
+    <html lang="tr" data-scroll-behavior="smooth">
       <head />
       <body
         className={`${outfit.variable} ${inter.variable} bg-bg text-text`}

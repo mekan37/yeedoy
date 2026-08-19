@@ -1,5 +1,9 @@
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { logger } from '@/src/lib/kayitci';
+import type { FisGonderim, FisGonderimDurumu, FisGonderimOzeti, FisGonderimSonucu } from './fis-gonderimleri-types';
+
+export type { FisGonderim, FisGonderimDurumu, FisGonderimOzeti, FisGonderimSonucu } from './fis-gonderimleri-types';
+export { REVIEW_STATUS_LABELS, REVIEW_STATUS_STYLES } from './fis-gonderimleri-types';
 
 /** Yalnızca http/https scheme'e izin ver — javascript: ve diğer vektörleri engelle. */
 function guvenliImageUrl(raw: string | null): string | null {
@@ -12,56 +16,6 @@ function guvenliImageUrl(raw: string | null): string | null {
     return null;
   }
 }
-
-// ─── Tipler ─────────────────────────────────────────────────────────────────
-
-export type FisGonderimDurumu = 'pending' | 'reviewed' | 'needs_followup' | 'all';
-
-export type FisGonderim = {
-  receipt_id: string;
-  created_at: string;
-  /** Maskelenmiş kullanıcı gösterimi — ham user_id asla UI'a verilmez */
-  submitter_display: string;
-  business_id: string | null;
-  business_name: string | null;
-  city: string | null;
-  district: string | null;
-  chain_name: string | null;
-  /** Supabase Storage tam URL veya dış URL olabilir */
-  image_url: string | null;
-  matches_count: number;
-  review_status: string;
-  review_note: string | null;
-};
-
-export type FisGonderimOzeti = {
-  total_count: number;
-  pending_count: number;
-  reviewed_count: number;
-  needs_followup_count: number;
-  zero_match_count: number;
-  business_count: number;
-  recent_24h_count: number;
-};
-
-export type FisGonderimSonucu = {
-  list: FisGonderim[];
-  count: number | null;
-  hasNextPage: boolean;
-  fetchError: boolean;
-};
-
-export const REVIEW_STATUS_LABELS: Record<string, string> = {
-  pending: 'Bekliyor',
-  reviewed: 'İncelendi',
-  needs_followup: 'Takip Gerekli',
-};
-
-export const REVIEW_STATUS_STYLES: Record<string, string> = {
-  pending: 'bg-amber-50 text-amber-700',
-  reviewed: 'bg-green-50 text-green-700',
-  needs_followup: 'bg-blue-50 text-blue-700',
-};
 
 // ─── Maskeleme ───────────────────────────────────────────────────────────────
 

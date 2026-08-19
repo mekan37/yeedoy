@@ -260,14 +260,22 @@ export function ReportBusinessButton({ businessId, businessName }: { businessId:
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    const supabase = createSupabaseBrowserClient();
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      window.location.href = `/giris?redirect=${encodeURIComponent(window.location.pathname)}`;
+      return;
+    }
+
     setStatus('loading');
     const formData = new FormData(event.currentTarget);
-    const message = String(formData.get('message') ?? '').trim();
-    const category = String(formData.get('category') ?? 'other') as 'menu' | 'price' | 'service' | 'app' | 'other';
-    const response = await fetch('/sunucu/geri-bildirim', {
+    const details = String(formData.get('message') ?? '').trim();
+    const reason = String(formData.get('category') ?? 'Diğer');
+    const response = await fetch('/sunucu/rapor-et', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ businessId, rating: 1, category, message }),
+      body: JSON.stringify({ targetType: 'business', targetId: businessId, reason, details }),
     }).catch(() => null);
     setStatus(response?.ok ? 'done' : 'error');
   }
@@ -297,14 +305,91 @@ export function ReportBusinessButton({ businessId, businessName }: { businessId:
             <label className="mt-5 block text-sm font-black text-textStrong">
               Konu
               <select name="category" className="mt-2 w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30">
-                <option value="menu">Menü içeriği</option>
-                <option value="price">Fiyat bilgisi</option>
-                <option value="service">Servis / işletme bilgisi</option>
-                <option value="other">Diğer</option>
+                <option value="Menü içeriği">Menü içeriği</option>
+                <option value="Fiyat bilgisi">Fiyat bilgisi</option>
+                <option value="Servis / işletme bilgisi">Servis / işletme bilgisi</option>
+                <option value="Diğer">Diğer</option>
               </select>
             </label>
             <label className="mt-4 block text-sm font-black text-textStrong">
               Açıklama
+              <textarea name="message" maxLength={500} rows={4} className="mt-2 w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30" />
+            </label>
+            <button
+              type="submit"
+              disabled={status === 'loading' || status === 'done'}
+              className="mt-5 inline-flex min-h-[52px] w-full items-center justify-center rounded-2xl px-5 text-sm font-black text-white disabled:opacity-60"
+              style={{ background: 'var(--yd-gradient-primary)' }}
+            >
+              {status === 'loading' ? 'Gönderiliyor...' : status === 'done' ? 'Rapor alındı' : 'Gönder'}
+            </button>
+            {status === 'error' ? <p className="mt-3 text-sm font-extrabold text-danger">Rapor gönderilemedi. Daha sonra tekrar deneyin.</p> : null}
+          </form>
+        </div>
+      ) : null}
+    </>
+  );
+}
+
+export function ReportReviewButton({ reviewId }: { reviewId: string }) {
+  const [open, setOpen] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const supabase = createSupabaseBrowserClient();
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      window.location.href = `/giris?redirect=${encodeURIComponent(window.location.pathname)}`;
+      return;
+    }
+
+    setStatus('loading');
+    const formData = new FormData(event.currentTarget);
+    const details = String(formData.get('message') ?? '').trim();
+    const reason = String(formData.get('category') ?? 'Diğer');
+    const response = await fetch('/sunucu/rapor-et', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ targetType: 'review', targetId: reviewId, reason, details }),
+    }).catch(() => null);
+    setStatus(response?.ok ? 'done' : 'error');
+  }
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="inline-flex min-h-11 items-center gap-1.5 rounded-2xl border border-border bg-card px-3 text-xs font-black text-muted hover:border-danger/35 hover:text-danger"
+      >
+        <Icon name="flag" size={13} />
+        Bildir
+      </button>
+      {open ? (
+        <div className="fixed inset-0 z-50 grid place-items-end bg-black/35 p-3 sm:place-items-center" role="dialog" aria-modal="true">
+          <form onSubmit={submit} className="w-full max-w-md rounded-[24px] border border-border bg-card p-5 shadow-yd3">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h2 className="text-lg font-black text-textStrong">Yorumu bildir</h2>
+                <p className="mt-1 text-sm text-muted">Bu yorumla ilgili sorunu iletin, ekibimiz inceleyecek.</p>
+              </div>
+              <button type="button" onClick={() => setOpen(false)} className="min-h-11 rounded-2xl px-3 text-sm font-black text-muted hover:bg-cardAlt">
+                Kapat
+              </button>
+            </div>
+            <label className="mt-5 block text-sm font-black text-textStrong">
+              Konu
+              <select name="category" className="mt-2 w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30">
+                <option value="Yanıltıcı içerik">Yanıltıcı içerik</option>
+                <option value="Uygunsuz dil">Uygunsuz dil</option>
+                <option value="Spam / alakasız">Spam / alakasız</option>
+                <option value="Diğer">Diğer</option>
+              </select>
+            </label>
+            <label className="mt-4 block text-sm font-black text-textStrong">
+              Açıklama <span className="font-bold text-muted">(isteğe bağlı)</span>
               <textarea name="message" maxLength={500} rows={4} className="mt-2 w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong focus:outline-hidden focus:ring-2 focus:ring-primary/30" />
             </label>
             <button
@@ -337,6 +422,8 @@ export function HelpfulVoteButton({
   // Sayfa yüklenince localStorage'dan önceki oyu kontrol et
   useEffect(() => {
     if (!storageKey) return;
+    // localStorage okuması UI dışı bir kaynaktan senkronizasyon.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (localStorage.getItem(storageKey) === '1') setVoted(true);
   }, [storageKey]);
 

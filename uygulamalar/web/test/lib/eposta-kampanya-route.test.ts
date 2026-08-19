@@ -6,6 +6,7 @@ describe('epostaKampanyaGovdesi', () => {
   it('geçerli bir gövdeyi kabul eder', () => {
     const result = epostaKampanyaGovdesi.safeParse({
       businessId: '11111111-1111-4111-8111-111111111111',
+      campaignId: '22222222-2222-4222-8222-222222222222',
       subject: 'Yeni Kampanya',
       body: 'Merhaba, size özel bir teklifimiz var.',
       targetSegment: 'tag:VIP',
@@ -16,6 +17,7 @@ describe('epostaKampanyaGovdesi', () => {
   it('boş subject reddedilir', () => {
     const result = epostaKampanyaGovdesi.safeParse({
       businessId: '11111111-1111-4111-8111-111111111111',
+      campaignId: '22222222-2222-4222-8222-222222222222',
       subject: '',
       body: 'Merhaba',
       targetSegment: 'all_followers',
@@ -26,6 +28,17 @@ describe('epostaKampanyaGovdesi', () => {
   it('geçersiz businessId (uuid değil) reddedilir', () => {
     const result = epostaKampanyaGovdesi.safeParse({
       businessId: 'not-a-uuid',
+      campaignId: '22222222-2222-4222-8222-222222222222',
+      subject: 'Test',
+      body: 'Merhaba',
+      targetSegment: 'all_followers',
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it('campaignId eksikse reddedilir (e-posta artık bir kampanyaya bağlı olmak zorunda)', () => {
+    const result = epostaKampanyaGovdesi.safeParse({
+      businessId: '11111111-1111-4111-8111-111111111111',
       subject: 'Test',
       body: 'Merhaba',
       targetSegment: 'all_followers',

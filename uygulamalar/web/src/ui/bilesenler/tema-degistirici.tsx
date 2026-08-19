@@ -35,6 +35,8 @@ export function ThemeToggle({ className = '' }: { className?: string }) {
   const [applied, setApplied] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
+    // DOM/localStorage okuması UI dışı bir kaynaktan senkronizasyon.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setApplied(getApplied());
     function handleThemeChange() {
       setApplied(getApplied());

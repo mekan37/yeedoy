@@ -3,66 +3,69 @@
 import { type ReactNode } from 'react';
 import { clsx } from 'clsx';
 
+export type MetricCardTone = 'primary' | 'blue' | 'pink' | 'purple' | 'green' | 'orange';
+
+const TONE_CLASSES: Record<MetricCardTone, string> = {
+  primary: 'bg-primary/10 text-(--yd-color-primary)',
+  blue: 'bg-blue-50 text-blue-600',
+  pink: 'bg-rose-50 text-rose-600',
+  purple: 'bg-violet-50 text-violet-600',
+  green: 'bg-emerald-50 text-emerald-600',
+  orange: 'bg-amber-50 text-amber-600',
+};
+
 interface MetricCardProps {
   title: string;
   value: string | number;
   subtitle?: string;
   icon?: ReactNode;
+  tone?: MetricCardTone;
   trend?: { value: number; label?: string };
   /** Additional className on the wrapper */
   className?: string;
 }
 
-export function MetricCard({ title, value, subtitle, icon, trend, className }: MetricCardProps) {
+export function MetricCard({ title, value, subtitle, icon, tone = 'primary', trend, className }: MetricCardProps) {
   const trendPositive = trend && trend.value >= 0;
 
   return (
     <div
       className={clsx(
-        'group relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-xs',
+        'group flex flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-xs',
         'transition-all duration-200 hover:translate-y-[-2px] hover:shadow-md',
         className,
       )}
     >
-      {/* Subtle radial top-left glow */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(127,29,29,0.04),transparent_60%)]" />
-
-      <div className="relative flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-xs font-bold uppercase tracking-[0.06em] text-muted">{title}</p>
-          <p
-            className="mt-1 text-3xl font-black tabular-nums tracking-tight text-textStrong"
-            style={{ fontVariantNumeric: 'tabular-nums' }}
-          >
-            {value}
-          </p>
-          {subtitle && <p className="mt-0.5 text-xs text-muted">{subtitle}</p>}
-          {trend && (
-            <span
-              className={clsx(
-                'mt-2 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-extrabold',
-                trendPositive
-                  ? 'bg-green-50 text-green-700'
-                  : 'bg-red-50 text-(--yd-color-danger)',
-              )}
-            >
-              {trendPositive ? '▲' : '▼'}
-              {Math.abs(trend.value)}%{trend.label ? ` ${trend.label}` : ''}
-            </span>
-          )}
+      {icon && (
+        <div className={clsx('flex h-10 w-10 shrink-0 items-center justify-center rounded-xl', TONE_CLASSES[tone])}>
+          {icon}
         </div>
+      )}
 
-        {icon && (
-          <div
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-(--yd-color-primary)"
-            style={{
-              background: 'radial-gradient(circle at center, rgba(127,29,29,0.10), rgba(127,29,29,0.04))',
-            }}
-          >
-            {icon}
-          </div>
-        )}
+      <div className="min-w-0">
+        <p
+          className="text-2xl font-black tabular-nums tracking-tight text-textStrong"
+          style={{ fontVariantNumeric: 'tabular-nums' }}
+        >
+          {value}
+        </p>
+        <p className="mt-0.5 truncate text-xs font-bold text-muted">{title}</p>
       </div>
+
+      {trend && (
+        <div className="flex flex-col gap-0.5">
+          <span
+            className={clsx(
+              'inline-flex w-fit items-center gap-0.5 text-[11px] font-extrabold',
+              trendPositive ? 'text-emerald-600' : 'text-(--yd-color-danger)',
+            )}
+          >
+            {trendPositive ? '↑' : '↓'} %{Math.abs(trend.value)}
+          </span>
+          {trend.label && <span className="truncate text-[11px] text-muted">{trend.label}</span>}
+        </div>
+      )}
+      {subtitle && !trend && <p className="text-[11px] text-muted">{subtitle}</p>}
     </div>
   );
 }

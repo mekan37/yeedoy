@@ -16,11 +16,24 @@ function parseHours(value: string): { open: number; close: number } | null {
 export function AcikKapaliRozeti({ todayValue }: { todayValue?: string }) {
   const [status, setStatus] = useState<'acik' | 'kapali' | null>(null);
 
+  // new Date() sunucu/istemci arasında farklı olabileceğinden hydration mismatch'i
+  // önlemek için ilk render'da null döner, gerçek durum yalnızca istemcide hesaplanır
+  // — derive-from-render'a taşınamaz.
   useEffect(() => {
-    if (!todayValue) { setStatus('kapali'); return; }
-    if (/kapali/i.test(todayValue)) { setStatus('kapali'); return; }
+    if (!todayValue) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setStatus('kapali');
+      return;
+    }
+    if (/kapali/i.test(todayValue)) {
+      setStatus('kapali');
+      return;
+    }
     const range = parseHours(todayValue);
-    if (!range) { setStatus(null); return; }
+    if (!range) {
+      setStatus(null);
+      return;
+    }
     const now = new Date();
     const minutes = now.getHours() * 60 + now.getMinutes();
     setStatus(minutes >= range.open && minutes < range.close ? 'acik' : 'kapali');

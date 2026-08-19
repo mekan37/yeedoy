@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { GirisFormu } from '@/src/ui/bolumler/giris-formu';
 import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { sanitizeInternalRedirect } from '@/src/lib/guvenli-yonlendirme';
-import { appConfig } from '@/src/lib/ayarlar';
 
 export const metadata: Metadata = {
   title: 'Giris | Yeedoy Karekod Menu',
@@ -23,10 +22,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const { redirect: redirectParam, tab } = await searchParams;
   // null = no explicit redirect → server will resolve by role after login
   const redirectTo = redirectParam ? getExplicitRedirect(redirectParam) : null;
-  const panelBase = appConfig.panelUrl();
-  const panelLoginUrl = panelBase
-    ? `${panelBase.replace(/\/$/, '')}/isletme-giris?redirect=${encodeURIComponent('/sahip/isletmeler')}`
-    : null;
+  const panelLoginUrl = '/isletme-giris';
 
   return (
     <PublicShell footer={false}>

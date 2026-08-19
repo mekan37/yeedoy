@@ -214,7 +214,7 @@ async function searchClaims(supabase: SupabaseLike, query: string, limit: number
       created_at: row.created_at,
       meta: row,
       score: scoreMatch(query, [row.full_name, row.phone, row.status]),
-      href: '/yonetici/itirazlar/claims',
+      href: '/yonetici/kuyruklar?tab=sahiplenme',
     });
   });
 }
