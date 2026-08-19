@@ -12,23 +12,16 @@ const GECERLI_DURUMLAR: ReviewStatus[] = ['pending', 'reviewed', 'needs_followup
 /**
  * Fiş başvurusunun inceleme durumunu günceller.
  * RPC: admin_update_receipt_submission_review_v1
- *
- * Form action olarak kullanıldığı için void döner.
- * Hatalar server log'a yazılır; UI revalidate ile güncellenir.
  */
-export async function fisDurumGuncelle(formData: FormData): Promise<void> {
-  const receiptId = String(formData.get('receipt_id') ?? '').trim();
-  const yeniDurum = String(formData.get('review_status') ?? '').trim() as ReviewStatus;
-  const not = String(formData.get('review_note') ?? '').trim() || null;
-
+export async function updateFisDurum(receiptId: string, yeniDurum: ReviewStatus, not?: string | null): Promise<void> {
   if (!receiptId || !GECERLI_DURUMLAR.includes(yeniDurum)) {
-    logger.warn('fisDurumGuncelle: Geçersiz parametre', { receiptId, yeniDurum });
+    logger.warn('updateFisDurum: Geçersiz parametre', { receiptId, yeniDurum });
     return;
   }
 
   const guard = await checkAdminAccess();
   if (!guard.authorized) {
-    logger.warn('fisDurumGuncelle: Admin guard başarısız', { status: guard.status });
+    logger.warn('updateFisDurum: Admin guard başarısız', { status: guard.status });
     return;
   }
 
@@ -40,17 +33,17 @@ export async function fisDurumGuncelle(formData: FormData): Promise<void> {
     const { data, error } = await sb.rpc('admin_update_receipt_submission_review_v1', {
       p_receipt_id: receiptId,
       p_review_status: yeniDurum,
-      p_review_note: not,
+      p_review_note: not ?? null,
       p_reviewed_by: userId,
     });
 
     if (error) {
-      logger.warn('fisDurumGuncelle: RPC hatası', { error, receiptId });
+      logger.warn('updateFisDurum: RPC hatası', { error, receiptId });
       return;
     }
 
     if (data && typeof data === 'object' && 'ok' in data && !data.ok) {
-      logger.warn('fisDurumGuncelle: RPC başarısız', {
+      logger.warn('updateFisDurum: RPC başarısız', {
         code: (data as Record<string, unknown>)['code'],
         receiptId,
       });
@@ -59,6 +52,6 @@ export async function fisDurumGuncelle(formData: FormData): Promise<void> {
 
     revalidatePath('/yonetici/fis-basvurulari');
   } catch (err) {
-    logger.warn('fisDurumGuncelle: istisna', { err });
+    logger.warn('updateFisDurum: istisna', { err });
   }
 }

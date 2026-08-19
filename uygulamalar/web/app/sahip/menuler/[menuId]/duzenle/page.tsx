@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getMenuWithSections } from '@/src/lib/veri/owner/sahip-menuler';
-import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi } from '@/src/ui/yerlesim/panel-section-card';
 import { MenuEditorClient } from './menu-duzenleyici-istemcisi';
 
@@ -58,42 +56,13 @@ export default async function MenuEditorPage({ params }: Props) {
     }
   }
 
-  const STATUS_MAP: Record<string, { label: string; className: string }> = {
-    draft:     { label: 'Taslak',   className: 'bg-amber-50 text-amber-700' },
-    published: { label: 'Yayında',  className: 'bg-green-50 text-green-700' },
-    archived:  { label: 'Arşiv',    className: 'bg-zinc-100 text-zinc-500'  },
-  };
-  const statusInfo = STATUS_MAP[menu.status] ?? STATUS_MAP.draft;
-
   return (
     <div className="flex flex-col">
-      <PanelSayfaBasligi
-        eyebrow={biz.name}
-        title={menu.title}
-        description={`Menü editörü — ${sections.length} bölüm, ${items.length} ürün`}
-        actions={
-          <div className="flex items-center gap-2">
-            <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${statusInfo.className}`}>{statusInfo.label}</span>
-            <Link
-              href={`/sahip/menuler/${menuId}/kategoriler`}
-              className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-bold text-textStrong transition-colors hover:bg-bg"
-            >
-              Kategoriler
-            </Link>
-            <Link
-              href={`/karekod/${biz.id}?lang=tr&theme=bold`}
-              className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-bold text-textStrong transition-colors hover:bg-bg"
-            >
-              QR Studio
-            </Link>
-            <Link href={`/sahip/menuler/${menuId}`} className="rounded-xl border border-border bg-card px-3 py-1.5 text-[12px] font-bold text-textStrong hover:bg-bg transition-colors cursor-pointer">← Önizleme</Link>
-          </div>
-        }
-      />
       <PanelIcerikYuzeyi className="pt-6">
           <MenuEditorClient
           menuId={menuId}
           businessId={biz.id}
+          businessName={biz.name}
           initialTitle={menu.title}
           initialStatus={menu.status as 'draft' | 'published' | 'archived'}
           sections={sections.map((section) => ({

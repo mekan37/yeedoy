@@ -10,17 +10,17 @@ const BRANCHES: CokluSubeBranch[] = [
   {
     business_id: 'b1', name: 'No 18 Coffee - Merkez', branch_label: 'Merkez', city: 'Ankara',
     district: 'Çankaya', is_active: true, logo_url: null, chain_sort_order: 0, is_main_branch: true,
-    views: 100, reservations: 10,
+    views: 100, page_views: 60, reservations: 10,
   },
   {
     business_id: 'b2', name: 'No 18 Coffee - Kadıköy', branch_label: 'Kadıköy', city: 'İstanbul',
     district: 'Kadıköy', is_active: true, logo_url: null, chain_sort_order: 1, is_main_branch: false,
-    views: 50, reservations: 5,
+    views: 50, page_views: 30, reservations: 5,
   },
   {
     business_id: 'b3', name: 'No 18 Coffee - Alsancak', branch_label: 'Alsancak', city: 'İzmir',
     district: 'Konak', is_active: false, logo_url: null, chain_sort_order: 2, is_main_branch: false,
-    views: 20, reservations: 0,
+    views: 20, page_views: 12, reservations: 0,
   },
 ];
 

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { YoneticiKabukIstemcisi } from '@/src/ui/kabuk/yonetici-kabuk-istemcisi';
-import { TwoFactorBanner } from '@/src/ui/bilesenler/two-factor-banner';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 export const metadata: Metadata = {
@@ -9,21 +8,32 @@ export const metadata: Metadata = {
 };
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
-  // MFA durumunu server-side oku — hata varsa guvenli fallback (banner gizle)
-  let hasTwoFactor = true;
+  let bekleyenItirazSayisi = 0;
+  let bekleyenKuyrukSayisi = 0;
+  let bekleyenBildirimSayisi = 0;
   try {
     const supabase = await createSupabaseServerClient();
-    const { data: factors } = await supabase.auth.mfa.listFactors();
-    const verifiedTotp = factors?.totp?.some((f) => f.status === 'verified') ?? false;
-    hasTwoFactor = verifiedTotp;
+    const sb = supabase as any;
+    const [itirazRes, oneriRes, sahiplenmeRes, incelemeRes] = await Promise.all([
+      sb.from('moderation_appeals').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+      sb.from('business_suggestions').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+      sb.from('owner_claims').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
+      sb.from('business_submissions').select('id', { count: 'exact', head: true }).eq('status', 'new'),
+    ]);
+    bekleyenItirazSayisi = itirazRes.count ?? 0;
+    bekleyenKuyrukSayisi = (incelemeRes.count ?? 0) + (sahiplenmeRes.count ?? 0);
+    bekleyenBildirimSayisi = bekleyenItirazSayisi + (oneriRes.count ?? 0) + bekleyenKuyrukSayisi;
   } catch {
-    // MFA API hatasi — paneli kirma, banner gizle
-    hasTwoFactor = true;
+    bekleyenItirazSayisi = 0;
+    bekleyenKuyrukSayisi = 0;
+    bekleyenBildirimSayisi = 0;
   }
 
   return (
     <YoneticiKabukIstemcisi
-      bannerSlot={<TwoFactorBanner hasTwoFactor={hasTwoFactor} />}
+      bekleyenItirazSayisi={bekleyenItirazSayisi}
+      bekleyenKuyrukSayisi={bekleyenKuyrukSayisi}
+      bekleyenBildirimSayisi={bekleyenBildirimSayisi}
     >
       {children}
     </YoneticiKabukIstemcisi>

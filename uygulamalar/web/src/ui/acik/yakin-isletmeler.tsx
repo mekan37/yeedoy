@@ -110,7 +110,9 @@ export function YakindakiIsletmeler() {
   const [state, setState] = useState<State>({ status: 'idle' });
 
   useEffect(() => {
+    // navigator.geolocation kontrolü UI dışı bir kaynaktan senkronizasyon.
     if (!('geolocation' in navigator)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setState({ status: 'denied' });
       return;
     }

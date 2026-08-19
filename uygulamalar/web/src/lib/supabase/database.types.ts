@@ -3170,6 +3170,7 @@ export type Database = {
       email_campaigns: {
         Row: {
           business_id: string
+          campaign_id: string | null
           created_at: string
           html_body: string
           id: string
@@ -3182,6 +3183,7 @@ export type Database = {
         }
         Insert: {
           business_id: string
+          campaign_id?: string | null
           created_at?: string
           html_body: string
           id?: string
@@ -3194,6 +3196,7 @@ export type Database = {
         }
         Update: {
           business_id?: string
+          campaign_id?: string | null
           created_at?: string
           html_body?: string
           id?: string
@@ -3231,6 +3234,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_with_stats_mv"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "email_campaigns_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
             referencedColumns: ["id"]
           },
         ]
@@ -5526,6 +5536,8 @@ export type Database = {
       moderation_appeals: {
         Row: {
           appellant_user_id: string
+          assigned_at: string | null
+          assigned_to: string | null
           created_at: string
           decided_at: string | null
           decided_by: string | null
@@ -5540,6 +5552,8 @@ export type Database = {
         }
         Insert: {
           appellant_user_id: string
+          assigned_at?: string | null
+          assigned_to?: string | null
           created_at?: string
           decided_at?: string | null
           decided_by?: string | null
@@ -5554,6 +5568,8 @@ export type Database = {
         }
         Update: {
           appellant_user_id?: string
+          assigned_at?: string | null
+          assigned_to?: string | null
           created_at?: string
           decided_at?: string | null
           decided_by?: string | null
@@ -5644,6 +5660,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      notification_preferences: {
+        Row: {
+          created_at: string
+          enabled: boolean
+          id: string
+          notification_type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          notification_type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          notification_type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       notifications: {
         Row: {
@@ -8059,6 +8102,7 @@ export type Database = {
           language_code: string | null
           marketing_email_opt_in: boolean
           marketing_email_opted_in_at: string | null
+          owner_onboarding_redirected_at: string | null
           phone: string | null
           referral_code: string | null
           shadow_banned: boolean
@@ -8079,6 +8123,7 @@ export type Database = {
           language_code?: string | null
           marketing_email_opt_in?: boolean
           marketing_email_opted_in_at?: string | null
+          owner_onboarding_redirected_at?: string | null
           phone?: string | null
           referral_code?: string | null
           shadow_banned?: boolean
@@ -8099,6 +8144,7 @@ export type Database = {
           language_code?: string | null
           marketing_email_opt_in?: boolean
           marketing_email_opted_in_at?: string | null
+          owner_onboarding_redirected_at?: string | null
           phone?: string | null
           referral_code?: string | null
           shadow_banned?: boolean
@@ -9192,6 +9238,7 @@ export type Database = {
         Returns: boolean
       }
       _normalize_public_slug_v1: { Args: { input: string }; Returns: string }
+      _normalize_tr_match: { Args: { p: string }; Returns: string }
       _postgis_deprecate: {
         Args: { newname: string; oldname: string; version: string }
         Returns: undefined
@@ -10267,6 +10314,10 @@ export type Database = {
         Args: { p_achievement_id: string; p_reason?: string; p_user_id: string }
         Returns: Json
       }
+      admin_set_appeal_review_v1: {
+        Args: { p_appeal_id: string; p_in_review: boolean }
+        Returns: Json
+      }
       admin_set_business_media_v1: {
         Args: { p_business_id: string; p_field: string; p_url: string }
         Returns: Json
@@ -10299,6 +10350,10 @@ export type Database = {
       }
       admin_set_sponsorship_status_v1: {
         Args: { p_sponsorship_id: string; p_status: string }
+        Returns: Json
+      }
+      admin_set_submission_review_v1: {
+        Args: { p_in_review: boolean; p_submission_id: string }
         Returns: Json
       }
       admin_sla_metrics_v1: { Args: never; Returns: Json }
@@ -10444,15 +10499,10 @@ export type Database = {
           unlocked_count: number
         }[]
       }
-      approve_business_suggestion: {
-        Args: { p_suggestion_id: string }
-        Returns: string
-      }
       approve_menu_item_suggestion_v1: {
         Args: { p_note?: string; p_suggestion_id: string }
         Returns: Json
       }
-      approve_owner_claim: { Args: { p_claim_id: string }; Returns: undefined }
       assert_owner_scope_v1: {
         Args: { p_business_id: string }
         Returns: undefined
@@ -10639,6 +10689,7 @@ export type Database = {
       create_email_campaign_v1: {
         Args: {
           p_business_id: string
+          p_campaign_id?: string
           p_html_body: string
           p_scheduled_at?: string
           p_subject: string
@@ -10679,10 +10730,6 @@ export type Database = {
       create_menu_snapshot_v1: {
         Args: { p_menu_id: string; p_reason?: string }
         Returns: string
-      }
-      create_owner_claim: {
-        Args: { p_business_id: string }
-        Returns: undefined
       }
       create_price_alert_v1: {
         Args: {
@@ -11028,6 +11075,13 @@ export type Database = {
           title: string
         }[]
       }
+      get_business_categories_v1: {
+        Args: never
+        Returns: {
+          business_count: number
+          category: string
+        }[]
+      }
       get_business_chain_info_v1: {
         Args: { p_business_id: string }
         Returns: {
@@ -11040,6 +11094,13 @@ export type Database = {
           chain_name: string
           chain_slug: string
           is_template_branch: boolean
+        }[]
+      }
+      get_business_cities_v1: {
+        Args: { p_limit?: number }
+        Returns: {
+          business_count: number
+          city: string
         }[]
       }
       get_business_compare_v1: {
@@ -11064,6 +11125,13 @@ export type Database = {
         Args: { p_business_id: string; p_latest_reviews_limit?: number }
         Returns: Json
       }
+      get_business_districts_v1: {
+        Args: { p_city?: string }
+        Returns: {
+          business_count: number
+          district: string
+        }[]
+      }
       get_business_fee_summary_v1: {
         Args: { p_business_id: string }
         Returns: Json
@@ -11084,6 +11152,16 @@ export type Database = {
         Returns: Json
       }
       get_business_hours_v1: { Args: { p_business_id: string }; Returns: Json }
+      get_business_location_district_stats_v1: {
+        Args: never
+        Returns: {
+          active_count: number
+          business_count: number
+          city: string
+          district: string
+          verified_count: number
+        }[]
+      }
       get_business_loyalty_members_v1: {
         Args: { p_business_id: string }
         Returns: Json
@@ -11140,12 +11218,25 @@ export type Database = {
         Args: { p_business_id: string; p_limit?: number }
         Returns: {
           business_price_cents: number
+          category: string
           city_avg_cents: number
+          city_max_cents: number
+          city_min_cents: number
           city_sample_count: number
           diff_pct: number
           district_avg_cents: number
           item_name: string
           menu_item_id: string
+        }[]
+      }
+      get_business_price_competitors_v1: {
+        Args: { p_business_id: string; p_limit?: number }
+        Returns: {
+          business_id: string
+          category: string
+          city: string
+          district: string
+          matched_items: number
         }[]
       }
       get_business_price_history_v1: {
@@ -11165,6 +11256,17 @@ export type Database = {
       get_business_profile_score_v1: {
         Args: { p_business_id: string }
         Returns: Json
+      }
+      get_business_province_map_v1: {
+        Args: { p_tolerance?: number }
+        Returns: {
+          active_count: number
+          business_count: number
+          district_count: number
+          geojson: string
+          province_name: string
+          verified_count: number
+        }[]
       }
       get_business_quality_score_v1: {
         Args: { p_business_id: string }
@@ -12861,6 +12963,7 @@ export type Database = {
         Args: { p_option_id: string }
         Returns: Json
       }
+      owner_empty_trash_v1: { Args: { p_business_id: string }; Returns: Json }
       owner_find_chained_business_v1: { Args: never; Returns: string }
       owner_force_delete_menu_item_photo_v1: {
         Args: { p_photo_id: string }
@@ -13089,6 +13192,18 @@ export type Database = {
           p_reason: string
           p_suggestion_id: string
         }
+        Returns: Json
+      }
+      owner_permanently_delete_menu_item_photo_v1: {
+        Args: { p_photo_id: string }
+        Returns: Json
+      }
+      owner_permanently_delete_menu_item_v1: {
+        Args: { p_item_id: string }
+        Returns: Json
+      }
+      owner_permanently_delete_menu_v1: {
+        Args: { p_menu_id: string }
         Returns: Json
       }
       owner_publish_menu_item_v1: { Args: { p_item_id: string }; Returns: Json }
@@ -13412,10 +13527,6 @@ export type Database = {
           p_platform: string
         }
         Returns: string
-      }
-      reject_business_suggestion: {
-        Args: { p_admin_note?: string; p_suggestion_id: string }
-        Returns: undefined
       }
       reject_menu_ai_analysis_v1: {
         Args: { p_analysis_id: string }

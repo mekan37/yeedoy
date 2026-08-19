@@ -1,0 +1,36 @@
+'use client';
+
+import { ilCsvOlustur, ilceCsvOlustur, type IlSatiri, type IlceSatiri } from './konumlar-yardimcilari';
+
+export function DisaAktarButonu({ view, ilRows, ilceRows }: { view: 'cities' | 'districts'; ilRows: IlSatiri[]; ilceRows: IlceSatiri[] }) {
+  function disaAktar() {
+    const csv = view === 'districts' ? ilceCsvOlustur(ilceRows) : ilCsvOlustur(ilRows);
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `konumlar-${view === 'districts' ? 'ilceler' : 'iller'}-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={disaAktar}
+      title="Bu görünümdeki tüm satırları CSV olarak indir"
+      className="flex min-h-11 items-center gap-2 rounded-xl border border-border bg-card px-4 text-sm font-extrabold text-textStrong transition-colors hover:border-primary/30 hover:text-primary"
+    >
+      <DownloadIcon />
+      Dışa Aktar
+    </button>
+  );
+}
+
+function DownloadIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
+  );
+}

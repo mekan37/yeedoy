@@ -4,6 +4,21 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { Item, Section, formatPrice, SortMode } from '../menu-duzenleyici-yardimcilari';
 
+const KATEGORI_RENKLERI = [
+  'bg-orange-50 text-orange-700',
+  'bg-blue-50 text-blue-700',
+  'bg-pink-50 text-pink-700',
+  'bg-emerald-50 text-emerald-700',
+  'bg-violet-50 text-violet-700',
+  'bg-amber-50 text-amber-700',
+];
+
+function kategoriRengi(sectionId: string, sections: Section[]): string {
+  const index = sections.findIndex((s) => s.id === sectionId);
+  if (index < 0) return 'bg-bg text-muted border border-border';
+  return KATEGORI_RENKLERI[index % KATEGORI_RENKLERI.length];
+}
+
 export function UrunTablosu({
   items,
   sections,
@@ -99,7 +114,7 @@ export function UrunTablosu({
                 {item.description && <p className="max-w-[220px] truncate text-xs text-muted">{item.description}</p>}
               </td>
               <td className="px-3 py-2">
-                <span className="rounded-full border border-border bg-bg px-2 py-0.5 text-[11px] font-bold text-muted">
+                <span className={`rounded-full px-2 py-0.5 text-[11px] font-extrabold ${kategoriRengi(item.section_id, sections)}`}>
                   {sectionTitle(item.section_id)}
                 </span>
               </td>

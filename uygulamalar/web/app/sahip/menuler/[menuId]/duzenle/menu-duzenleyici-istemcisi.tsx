@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState, useTransition } from 'react';
+import Link from 'next/link';
 import {
   updateMenuTitle,
   publishMenu,
@@ -32,6 +33,7 @@ import { CanliOnizlemeWidgeti } from './bilesenler/canli-onizleme-widgeti';
 export function MenuEditorClient({
   menuId,
   businessId,
+  businessName,
   initialTitle,
   initialStatus,
   sections: initSections,
@@ -41,6 +43,7 @@ export function MenuEditorClient({
 }: {
   menuId: string;
   businessId: string;
+  businessName: string;
   initialTitle: string;
   initialStatus: 'draft' | 'published' | 'archived';
   sections: Section[];
@@ -115,9 +118,54 @@ export function MenuEditorClient({
     });
   }
 
+  const STATUS_MAP: Record<typeof initialStatus, { label: string; className: string }> = {
+    draft:     { label: 'Taslak',   className: 'bg-amber-50 text-amber-700' },
+    published: { label: 'Yayında',  className: 'bg-green-50 text-green-700' },
+    archived:  { label: 'Arşiv',    className: 'bg-zinc-100 text-zinc-500'  },
+  };
+  const statusInfo = STATUS_MAP[initialStatus];
+
   return (
     <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
       <div className="flex min-w-0 flex-1 flex-col gap-4">
+        {/* Sayfa başlığı + ana aksiyonlar */}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-black tracking-tight text-textStrong">Menü Yönetimi</h1>
+            <p className="mt-1 text-sm text-muted">Menünüzü düzenleyin, kategorileri yönetin ve ürünlerinizi güncel tutun.</p>
+          </div>
+          <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+            {showNewSection ? (
+              <form
+                className="flex w-64 items-center gap-1.5"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const fd = new FormData(e.currentTarget);
+                  run(() => createSection(menuId, String(fd.get('title') ?? ''), sections.length));
+                  setShowNewSection(false);
+                }}
+              >
+                <input name="title" required autoFocus placeholder="Kategori adı" className="min-w-0 flex-1 rounded-lg border border-border bg-bg px-2 py-2 text-sm text-textStrong" />
+                <button type="submit" className="rounded-lg bg-primary px-3 py-2 text-xs font-bold text-white cursor-pointer">Ekle</button>
+                <button type="button" onClick={() => setShowNewSection(false)} className="rounded-lg border border-border px-2 py-2 text-xs font-bold text-textStrong cursor-pointer">İptal</button>
+              </form>
+            ) : (
+              <button type="button" onClick={() => setShowNewSection(true)} className="rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-extrabold text-textStrong hover:bg-bg cursor-pointer">
+                + Kategori Ekle
+              </button>
+            )}
+            <button
+              type="button"
+              disabled={sections.length === 0}
+              onClick={() => setAddingSectionId(activeSectionId ?? sections[0]?.id ?? null)}
+              className="rounded-xl px-4 py-2.5 text-sm font-extrabold text-white shadow-[0_4px_16px_rgba(127,29,29,0.28)] transition-all hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-50"
+              style={{ background: 'linear-gradient(135deg, #7f1d1d, #dc2626)' }}
+            >
+              + Yeni Ürün Ekle
+            </button>
+          </div>
+        </div>
+
         {/* Menü başlığı + yayın kontrolleri */}
         <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-border bg-card p-4">
           {showTitleEdit ? (
@@ -136,7 +184,9 @@ export function MenuEditorClient({
             </form>
           ) : (
             <>
+              <span className="text-xs font-bold text-muted">{businessName}</span>
               <span className="flex-1 font-bold text-textStrong">{initialTitle}</span>
+              <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${statusInfo.className}`}>{statusInfo.label}</span>
               <button onClick={() => setShowTitleEdit(true)} className="rounded-xl border border-border px-3 py-1.5 text-xs font-bold text-textStrong hover:bg-bg cursor-pointer">Başlığı Düzenle</button>
             </>
           )}
@@ -150,38 +200,8 @@ export function MenuEditorClient({
             {initialStatus !== 'archived' && (
               <button onClick={() => run(() => publishMenu(menuId, 'archived'))} disabled={isPending} className="rounded-xl border border-border px-3 py-1.5 text-xs font-bold text-muted hover:bg-bg disabled:opacity-60 cursor-pointer">Arşivle</button>
             )}
+            <Link href={`/sahip/menuler/${menuId}`} className="rounded-xl border border-border px-3 py-1.5 text-xs font-bold text-textStrong hover:bg-bg cursor-pointer">Önizleme</Link>
           </div>
-        </div>
-
-        {/* Ekleme butonları */}
-        <div className="flex justify-end gap-2">
-          {showNewSection ? (
-            <form
-              className="flex flex-1 items-center gap-2 rounded-xl border border-dashed border-border bg-card p-2"
-              onSubmit={(e) => {
-                e.preventDefault();
-                const fd = new FormData(e.currentTarget);
-                run(() => createSection(menuId, String(fd.get('title') ?? ''), sections.length));
-                setShowNewSection(false);
-              }}
-            >
-              <input name="title" required autoFocus placeholder="Kategori adı" className="min-w-0 flex-1 rounded-lg border border-border bg-bg px-2 py-1.5 text-sm text-textStrong" />
-              <button type="submit" className="rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-white cursor-pointer">Ekle</button>
-              <button type="button" onClick={() => setShowNewSection(false)} className="rounded-lg border border-border px-3 py-1.5 text-xs font-bold text-textStrong cursor-pointer">İptal</button>
-            </form>
-          ) : (
-            <button type="button" onClick={() => setShowNewSection(true)} className="rounded-xl border border-border bg-card px-3 py-2 text-sm font-bold text-textStrong hover:bg-bg cursor-pointer">
-              + Kategori Ekle
-            </button>
-          )}
-          <button
-            type="button"
-            disabled={sections.length === 0}
-            onClick={() => setAddingSectionId(activeSectionId ?? sections[0]?.id ?? null)}
-            className="rounded-xl bg-primary px-3 py-2 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
-          >
-            + Yeni Ürün Ekle
-          </button>
         </div>
 
         {error && <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>}

@@ -517,3 +517,23 @@ input:focus-visible {
 .leaflet-container.location-picker {
   touch-action: none;
 }
+
+/* ── Koyu (lacivert) panel sidebar için tema uyumlu scrollbar ───────────────
+   Varsayılan tarayıcı scrollbar'ı koyu zeminde beyaz/parlak kalıyordu. */
+.yd-sidebar-scroll-dark {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+.yd-sidebar-scroll-dark::-webkit-scrollbar {
+  width: 8px;
+}
+.yd-sidebar-scroll-dark::-webkit-scrollbar-track {
+  background: transparent;
+}
+.yd-sidebar-scroll-dark::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+}
+.yd-sidebar-scroll-dark::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}

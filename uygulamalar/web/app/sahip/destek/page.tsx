@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
-import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi } from '@/src/ui/yerlesim/panel-section-card';
 import { DestekIstemci } from './destek-istemci';
 import type { DestekTicket } from './destek-islemleri';
@@ -35,11 +34,6 @@ export default async function DestekSayfasi() {
 
   return (
     <div className="flex flex-col">
-      <PanelSayfaBasligi
-        eyebrow="Destek"
-        title="Yeedoy Destek"
-        description="Sorularınız için buradayız! Size nasıl yardımcı olabiliriz?"
-      />
       <PanelIcerikYuzeyi className="pt-6">
         <DestekIstemci initialTickets={tickets} businesses={businesses} />
       </PanelIcerikYuzeyi>

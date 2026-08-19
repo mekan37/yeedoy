@@ -3,8 +3,9 @@ import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi } from '@/src/ui/yerlesim/panel-section-card';
-import { KampanyalarIstemcisi } from './kampanyalar-istemcisi';
+import { KampanyalarSayfaIstemcisi } from './kampanyalar-sayfa-istemcisi';
 import type { Kampanya } from './kampanya-formu';
+import type { EpostaKampanyaOzet } from './eposta-sekmesi';
 
 export const metadata: Metadata = {
   title: 'Kampanyalar | Sahip Paneli',
@@ -36,13 +37,18 @@ export default async function SahipKampanyalarSayfasi() {
     period_views: number; period_clicks: number;
   } | null };
 
-  const [listRes, statsRes] = await Promise.all([
+  type EtiketSonucu = { data: string[] | null };
+  type EmailListSonucu = { data: { total: number; items: EpostaKampanyaOzet[] } | null };
+
+  const [listRes, statsRes, etiketRes, emailListRes] = await Promise.all([
     (supabase as any).rpc('owner_list_campaigns_v1', {
       p_business_id: businessId, p_page: 1, p_page_size: 100,
     }) as Promise<ListSonucu>,
     (supabase as any).rpc('owner_get_campaign_stats_v1', {
       p_business_id: businessId, p_period_days: 7,
     }) as Promise<StatsSonucu>,
+    (supabase as any).rpc('list_customer_tags_v1', { p_business_id: businessId }) as Promise<EtiketSonucu>,
+    (supabase as any).rpc('list_email_campaigns_v1', { p_business_id: businessId }) as Promise<EmailListSonucu>,
   ]);
 
   const campaigns: Kampanya[] = listRes.data?.campaigns ?? [];
@@ -52,20 +58,24 @@ export default async function SahipKampanyalarSayfasi() {
     total_views: 0, total_clicks: 0,
     period_views: 0, period_clicks: 0,
   };
+  const etiketler = etiketRes.data ?? [];
+  const emailKampanyalar = emailListRes.data?.items ?? [];
 
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
         eyebrow="Pazarlama"
         title="Kampanyalar"
-        description="İşletmenize özel kampanyalar oluşturun, yönetin ve performanslarını takip edin."
+        description="İşletmenize özel kampanyalar oluşturun, yönetin, performanslarını takip edin ve e-posta ile duyurun."
       />
       <PanelIcerikYuzeyi className="pt-4">
-        <KampanyalarIstemcisi
+        <KampanyalarSayfaIstemcisi
           businessId={businessId}
           initialCampaigns={campaigns}
           initialTotal={total}
           stats={stats}
+          etiketler={etiketler}
+          initialEmailKampanyalar={emailKampanyalar}
         />
       </PanelIcerikYuzeyi>
     </div>

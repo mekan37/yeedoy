@@ -4,7 +4,6 @@ import { useEffect, type ReactNode } from 'react';
 import { PanelSidebar, type NavSection } from './panel-yan-menusu';
 import { PanelTopbar, TopbarIconButton } from './panel-ust-cubugu';
 import { usePanelStore } from '@/src/lib/panel-deposu';
-import { ThemeToggle } from '@/src/ui/bilesenler/tema-degistirici';
 
 interface PanelShellProps {
   navSections: NavSection[];
@@ -12,8 +11,16 @@ interface PanelShellProps {
   topbarTitle?: string;
   topbarCenter?: ReactNode;
   topbarActions?: ReactNode;
+  /** Topbar'ın solunda, toggle butonundan önce gösterilen logo (owner panelinde kullanılır). */
+  topbarLogoSlot?: ReactNode;
+  /** Topbar'daki nokta+büyük harf panel rozetini gizler. Varsayılan: görünür. */
+  showPanelBadge?: boolean;
   sidebarFooter?: ReactNode;
   bannerSlot?: ReactNode;
+  /** true = koyu (lacivert) sidebar teması — admin panelinde kullanılır */
+  sidebarDark?: boolean;
+  /** true = koyu (lacivert) topbar teması — admin panelinde kullanılır */
+  topbarDark?: boolean;
   children: ReactNode;
 }
 
@@ -25,8 +32,12 @@ export function PanelShell({
   topbarTitle,
   topbarCenter,
   topbarActions,
+  topbarLogoSlot,
+  showPanelBadge = true,
   sidebarFooter,
   bannerSlot,
+  sidebarDark = false,
+  topbarDark = false,
   children,
 }: PanelShellProps) {
   const { sidebarCollapsed, toggleSidebar, setSidebarCollapsed } = usePanelStore();
@@ -44,35 +55,49 @@ export function PanelShell({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Panel her zaman açık temada — sistem/genel site tercihi karanlık olsa da.
+  useEffect(() => {
+    const html = document.documentElement;
+    html.classList.remove('dark');
+    html.classList.add('light');
+    html.style.colorScheme = 'light';
+  }, []);
+
   return (
-    <div className="flex h-screen overflow-hidden bg-bg">
-      {/* Sidebar */}
-      <PanelSidebar
-        sections={navSections}
-        collapsed={sidebarCollapsed}
-        logoSlot={logoSlot}
-        footerSlot={sidebarFooter}
+    <div className="flex h-screen flex-col overflow-hidden bg-bg">
+      {/* Topbar — tam genişlik, en üstte */}
+      <PanelTopbar
+        title={topbarTitle}
+        logoSlot={topbarLogoSlot}
+        showPanelBadge={showPanelBadge}
+        dark={topbarDark}
+        centerSlot={topbarCenter}
+        toggleButton={
+          <TopbarIconButton
+            label="Menüyü aç/kapat"
+            onClick={toggleSidebar}
+            className={topbarDark ? 'text-white/50 hover:bg-white/5 hover:text-white' : undefined}
+          >
+            <CollapseIcon collapsed={sidebarCollapsed} />
+          </TopbarIconButton>
+        }
+        actions={topbarActions}
       />
 
-      {/* Main area */}
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <PanelTopbar
-          title={topbarTitle}
-          centerSlot={topbarCenter}
-          toggleButton={
-            <TopbarIconButton label="Menüyü aç/kapat" onClick={toggleSidebar}>
-              <CollapseIcon collapsed={sidebarCollapsed} />
-            </TopbarIconButton>
-          }
-          actions={
-            <>
-              {topbarActions}
-              <ThemeToggle className="min-h-9 min-w-9 rounded-lg" />
-            </>
-          }
+      {/* Topbar altında: sidebar + içerik */}
+      <div className="flex flex-1 overflow-hidden">
+        <PanelSidebar
+          sections={navSections}
+          collapsed={sidebarCollapsed}
+          logoSlot={logoSlot}
+          footerSlot={sidebarFooter}
+          dark={sidebarDark}
         />
-        {bannerSlot}
-        <main className="flex-1 overflow-y-auto">{children}</main>
+
+        <div className="flex flex-1 flex-col overflow-hidden">
+          {bannerSlot}
+          <main className="flex-1 overflow-y-auto">{children}</main>
+        </div>
       </div>
     </div>
   );

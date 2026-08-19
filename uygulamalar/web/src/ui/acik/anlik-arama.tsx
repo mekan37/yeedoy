@@ -74,6 +74,8 @@ export function AnlikArama({ className = '' }: { className?: string }) {
     if (!navigator.geolocation) return;
     const stored = sessionStorage.getItem('yd-coords');
     if (stored) {
+      // sessionStorage okuması UI dışı bir kaynaktan senkronizasyon.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       try { setCoords(JSON.parse(stored)); } catch { /* skip */ }
       return;
     }
@@ -109,6 +111,8 @@ export function AnlikArama({ className = '' }: { className?: string }) {
   }, [coords]);
 
   useEffect(() => {
+    // Debounce edilmiş sorguyla sunucudan arama sonucu çeker — dış sistemle senkronizasyon.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     doSearch(debouncedQuery);
   }, [debouncedQuery, doSearch]);
 

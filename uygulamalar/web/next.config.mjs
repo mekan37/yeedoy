@@ -84,9 +84,6 @@ const nextConfig = {
   // All permanent (308) so search engines update their indices.
   async redirects() {
     return [
-      // Turkish-language auth aliases used by the Flutter panel
-      { source: '/isletme-giris', destination: '/giris', permanent: true },
-      { source: '/isletme-kayit', destination: '/giris', permanent: true },
       // Flutter used /owner/qr/design, Next.js consolidates to /owner/qr
       { source: '/owner/qr/design', destination: '/owner/qr', permanent: true },
       // QR Studio / short QR-scan links — İngilizce ikizler Türkçe kanoniğe taşındı.
@@ -120,16 +117,16 @@ const nextConfig = {
       { source: '/owner/settings', destination: '/sahip/ayarlar', permanent: true },
       { source: '/owner/settings/domain', destination: '/sahip/ayarlar/alan-adi', permanent: true },
       { source: '/owner/settings/hours', destination: '/sahip/ayarlar/saatler', permanent: true },
-      { source: '/owner/ai-analysis', destination: '/sahip/yapay-zeka-analizi', permanent: true },
+      { source: '/owner/ai-analysis', destination: '/sahip/gosterge-panosu', permanent: true },
       { source: '/owner/team', destination: '/sahip/ekip', permanent: true },
       { source: '/owner/trash', destination: '/sahip/cop-kutusu', permanent: true },
-      { source: '/owner/price-suggestions', destination: '/sahip/fiyat-onerileri', permanent: true },
+      { source: '/owner/price-suggestions', destination: '/sahip/gosterge-panosu', permanent: true },
       { source: '/owner/growth', destination: '/sahip/buyume', permanent: true },
       { source: '/owner/audit', destination: '/sahip/denetim-kaydi', permanent: true },
       { source: '/owner/activity', destination: '/sahip/denetim-kaydi', permanent: true },
-      { source: '/owner/requests', destination: '/sahip/istekler', permanent: true },
+      { source: '/owner/requests', destination: '/sahip/gosterge-panosu', permanent: true },
       { source: '/owner/suspended', destination: '/sahip/askiya-alinanlar', permanent: true },
-      { source: '/owner/pricing', destination: '/sahip/fiyatlandirma', permanent: true },
+      { source: '/owner/pricing', destination: '/sahip/gosterge-panosu', permanent: true },
       { source: '/owner/onboarding', destination: '/sahip/baslangic', permanent: true },
       // Admin paneli Türkçeleştirme — eski İngilizce path'lerden yenilerine
       { source: '/admin', destination: '/yonetici', permanent: true },

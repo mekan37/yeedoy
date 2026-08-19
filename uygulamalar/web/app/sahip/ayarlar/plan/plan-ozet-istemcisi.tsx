@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 type FeatureRow = {
   feature_key: string;
   label: string;
@@ -47,13 +49,12 @@ export function PlanOzetIstemcisi({
         ))}
       </div>
 
-      <p className="text-xs text-muted">
-        Kademenizi yükseltmek için{' '}
-        <a href="mailto:destek@yeedoy.com" className="font-bold text-primary hover:underline">
-          bize ulaşın
-        </a>
-        .
-      </p>
+      <Link
+        href="/sahip/premium"
+        className="flex min-h-10 items-center justify-center rounded-xl bg-(--yd-color-primary) px-4 text-sm font-extrabold text-white transition-opacity hover:opacity-90"
+      >
+        Planları Karşılaştır
+      </Link>
     </div>
   );
 }

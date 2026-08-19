@@ -1,31 +1,47 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { clsx } from 'clsx';
 import { HeartHandshake, Smile, HandHelping, Star, type LucideIcon } from 'lucide-react';
+
+export type YorumDurumu = 'pending' | 'approved' | 'rejected';
 
 interface YorumSatiriProps {
   reviewId: string;
   businessName: string;
+  showBranchBadge: boolean;
   rating: number;
   content: string | null;
   displayName: string | null;
   avatarUrl: string | null;
   createdAt: string;
-  isVisible: boolean;
+  status: YorumDurumu;
   ownerReply: string | null;
   ownerRepliedAt: string | null;
+}
+
+function zamanOnce(iso: string): string {
+  const diffMs = Date.now() - new Date(iso).getTime();
+  const gun = Math.floor(diffMs / 86400000);
+  if (gun <= 0) return 'Bugün';
+  if (gun === 1) return 'Dün';
+  if (gun < 7) return `${gun} gün önce`;
+  if (gun < 30) return `${Math.floor(gun / 7)} hafta önce`;
+  if (gun < 365) return `${Math.floor(gun / 30)} ay önce`;
+  return `${Math.floor(gun / 365)} yıl önce`;
 }
 
 export function YorumSatiri({
   reviewId,
   businessName,
+  showBranchBadge,
   rating,
   content,
   displayName,
   avatarUrl,
   createdAt,
-  isVisible,
+  status,
   ownerReply: initialReply,
   ownerRepliedAt: initialRepliedAt,
 }: YorumSatiriProps) {
@@ -37,6 +53,7 @@ export function YorumSatiri({
   const [error, setError] = useState<string | null>(null);
   const [showTemplates, setShowTemplates] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const router = useRouter();
 
   const REPLY_TEMPLATES: { icon: LucideIcon; label: string; text: string }[] = [
     { icon: HeartHandshake, label: 'Teşekkür', text: 'Değerli yorumunuz için çok teşekkür ederiz! Sizi ağırlamaktan büyük mutluluk duyduk. Tekrar görüşmek dileğiyle, iyi günler!' },
@@ -61,6 +78,10 @@ export function YorumSatiri({
       setSavedReply(text);
       setRepliedAt(json.repliedAt ?? new Date().toISOString());
       setShowForm(false);
+      // Yan menüdeki yanıtsız yorum rozeti /sahip/layout.tsx'te hesaplanıyor —
+      // bu fetch bir server action olmadığından revalidate tetiklemiyor, o yüzden
+      // rozetin gerçek sayıyı yansıtması için layout'u elle tazeliyoruz.
+      router.refresh();
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -82,6 +103,7 @@ export function YorumSatiri({
       setSavedReply(null);
       setRepliedAt(null);
       setReply('');
+      router.refresh();
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -96,35 +118,44 @@ export function YorumSatiri({
   }
 
   return (
-    <li className="px-5 py-4">
+    <li id={`yorum-${reviewId}`} className="px-5 py-4">
       {/* Yorum başlığı */}
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex min-w-0 flex-1 items-start gap-3">
           <ReviewerAvatar avatarUrl={avatarUrl} displayName={displayName} />
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <StarRating rating={rating} />
               <span className="text-xs font-bold text-textStrong">
                 {displayName ?? 'Anonim'}
               </span>
-              {businessName && (
-                <span className="text-xs text-muted">· {businessName}</span>
-              )}
+              <StarRating rating={rating} />
+              <span className="text-xs text-muted">· {zamanOnce(createdAt)}</span>
             </div>
             {content && (
               <p className="mt-1.5 text-sm leading-relaxed text-text">{content}</p>
             )}
           </div>
         </div>
-        <div className="shrink-0 text-right">
-          <p className="text-xs text-muted">
-            {new Date(createdAt).toLocaleDateString('tr-TR')}
-          </p>
-          {isVisible === false && (
-            <span className="mt-1 inline-block rounded-full bg-border px-2 py-0.5 text-[11px] font-bold text-muted">
-              Gizli
-            </span>
+        <div className="flex shrink-0 flex-col items-end gap-2">
+          <div className="flex flex-wrap items-center justify-end gap-1.5">
+            {showBranchBadge && businessName && (
+              <span className="rounded-full border border-border bg-bg px-2 py-0.5 text-[11px] font-bold text-muted">
+                {businessName}
+              </span>
+            )}
+            <StatusBadge status={status} hasReply={Boolean(savedReply)} />
+          </div>
+          {status === 'approved' && !savedReply && !showForm && (
+            <button
+              onClick={() => { setShowForm(true); setTimeout(() => textareaRef.current?.focus(), 50); }}
+              className="rounded-lg border border-border px-3 py-1.5 text-xs font-extrabold text-primary hover:bg-bg"
+            >
+              Yanıtla
+            </button>
           )}
+          <p className="text-[11px] text-muted">
+            {new Date(createdAt).toLocaleDateString('tr-TR')} {new Date(createdAt).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}
+          </p>
         </div>
       </div>
 
@@ -160,7 +191,7 @@ export function YorumSatiri({
       )}
 
       {/* Yanıt formu */}
-      {showForm ? (
+      {showForm && (
         <div className="mt-3">
           {/* Reply templates */}
           <div className="mb-2">
@@ -213,18 +244,22 @@ export function YorumSatiri({
             <span className="ml-auto text-[11px] text-muted">{reply.length}/2000</span>
           </div>
         </div>
-      ) : !savedReply ? (
-        <div className="mt-2">
-          <button
-            onClick={() => { setShowForm(true); setTimeout(() => textareaRef.current?.focus(), 50); }}
-            className="text-xs font-extrabold text-primary underline-offset-2 hover:underline"
-          >
-            + Yanıtla
-          </button>
-        </div>
-      ) : null}
+      )}
     </li>
   );
+}
+
+function StatusBadge({ status, hasReply }: { status: YorumDurumu; hasReply: boolean }) {
+  if (status === 'rejected') {
+    return <span className="rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-extrabold text-red-700">Reddedildi</span>;
+  }
+  if (status === 'pending') {
+    return <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-[11px] font-extrabold text-zinc-600">Onay Bekliyor</span>;
+  }
+  if (!hasReply) {
+    return <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-extrabold text-amber-700">Yanıt Bekliyor</span>;
+  }
+  return <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-extrabold text-emerald-700">Yayınlandı</span>;
 }
 
 function ReviewerAvatar({ avatarUrl, displayName }: { avatarUrl: string | null; displayName: string | null }) {

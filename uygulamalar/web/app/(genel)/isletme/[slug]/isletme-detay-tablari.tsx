@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 import { createSupabaseBrowserClient } from '@/src/lib/taban-istemci';
 import { FotoGalerisiTetik, type GaleriPhoto } from '@/src/ui/acik/foto-galerisi-modal';
-import { HelpfulVoteButton } from '@/src/ui/acik/eylem-istemcisi';
+import { HelpfulVoteButton, ReportReviewButton } from '@/src/ui/acik/eylem-istemcisi';
 import { Icon } from '@/src/ui/acik/simgeler';
 import { AdresKopyalaButonu } from '@/src/ui/acik/isletme-istemci';
 import { OsmHarita } from '@/src/components/maps/OsmHarita';
@@ -290,6 +290,7 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
       {/* Actions */}
       <div className="mt-3 flex items-center gap-3">
         <HelpfulVoteButton reviewId={yorum.id} initialCount={yorum.helpful_count} />
+        <ReportReviewButton reviewId={yorum.id} />
         {!showReplyForm && (
           <button
             type="button"

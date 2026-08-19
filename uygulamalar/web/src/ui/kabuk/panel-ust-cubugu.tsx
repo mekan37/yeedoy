@@ -8,22 +8,31 @@ interface PanelTopbarProps {
   toggleButton?: ReactNode;
   centerSlot?: ReactNode;
   actions?: ReactNode;
+  /** Sol üstte, toggle butonundan önce gösterilen logo alanı (owner panelinde kullanılır). */
+  logoSlot?: ReactNode;
+  /** Panel kimlik rozetini (nokta + büyük harf başlık) gizler. Varsayılan: görünür. */
+  showPanelBadge?: boolean;
+  /** true = koyu (lacivert) topbar — sidebar ile aynı renk, admin panelinde kullanılır */
+  dark?: boolean;
 }
 
-export function PanelTopbar({ title, toggleButton, centerSlot, actions }: PanelTopbarProps) {
+export function PanelTopbar({ title, toggleButton, centerSlot, actions, logoSlot, showPanelBadge = true, dark = false }: PanelTopbarProps) {
   return (
-    <header className="flex h-[60px] shrink-0 items-center gap-2 border-b border-border bg-card px-3">
+    <header className={clsx('flex h-[60px] shrink-0 items-center gap-3 border-b px-4', dark ? 'border-white/10 bg-[#0b1220]' : 'border-border bg-card')}>
+      {logoSlot}
       {toggleButton}
 
       {/* Panel kimlik badge'i */}
-      <div className="flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/8 px-2.5 py-1">
-        <span className="h-2 w-2 shrink-0 rounded-full bg-primary" />
-        <span className="text-[11px] font-black uppercase tracking-[0.14em] text-primary whitespace-nowrap">
-          {title ?? 'Panel'}
-        </span>
-      </div>
+      {showPanelBadge && (
+        <div className="flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/8 px-2.5 py-1">
+          <span className="h-2 w-2 shrink-0 rounded-full bg-primary" />
+          <span className="text-[11px] font-black uppercase tracking-[0.14em] text-primary whitespace-nowrap">
+            {title ?? 'Panel'}
+          </span>
+        </div>
+      )}
 
-      {centerSlot && <div className="flex flex-1 justify-center px-3">{centerSlot}</div>}
+      {centerSlot && <div className="flex flex-1 items-center gap-3 px-3">{centerSlot}</div>}
       <div className="ml-auto flex items-center gap-2">{actions}</div>
     </header>
   );

@@ -39,6 +39,8 @@ export function RecentSearches({ currentQ }: { currentQ: string }) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
+    // localStorage okuması UI dışı bir kaynaktan senkronizasyon — derive-from-render'a taşınamaz.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRecent(getRecent());
     // Save current q if it came from a search
     if (currentQ.trim()) {

@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
-import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
-import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
-import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
-import { RestoreButton } from './geri-yukle-dugmesi';
+import { PanelIcerikYuzeyi } from '@/src/ui/yerlesim/panel-section-card';
+import { CopKutusuIstemcisi, type CopKutusuSatiri } from './cop-kutusu-istemcisi';
 
 export const metadata: Metadata = {
   title: 'Çöp Kutusu | Sahip Paneli',
@@ -22,12 +20,6 @@ type TrashRow = {
   photo_url: string | null;
 };
 
-const ENTITY_LABELS: Record<string, string> = {
-  menu: 'Menü',
-  item: 'Ürün',
-  photo: 'Fotoğraf',
-};
-
 export default async function OwnerTrashPage() {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -36,97 +28,57 @@ export default async function OwnerTrashPage() {
     ? await getOwnerBusinesses<{ id: string; name: string }>(supabase as any, user.id, 'id, name')
     : [];
 
-  // Collect trash rows for all owned businesses
   const trashResults = await Promise.all(
     bizList.map((b) =>
       (supabase as any)
         .rpc('list_owner_menu_trash_v1', { p_business_id: b.id })
         .then((res: { data: TrashRow[] | null }) => ({
+          businessId: b.id,
           bizName: b.name,
           rows: res.data ?? [],
         })),
     ),
   );
 
-  const allRows = trashResults.flatMap((r) =>
-    r.rows.map((row: TrashRow) => ({ ...row, bizName: r.bizName })),
+  // Arşivlenmiş menülerin gerçek ürün sayısı (o menüye ait tüm bölüm+ürünler,
+  // durumdan bağımsız) — "Silinme Ürün Sayısı" sütunu için.
+  const archivedMenuIds = trashResults.flatMap((r) => r.rows.filter((row: TrashRow) => row.entity_type === 'menu').map((row: TrashRow) => row.entity_id));
+  const menuItemCounts = new Map<string, number>();
+  if (archivedMenuIds.length > 0) {
+    const { data: sectionRows } = await (supabase as any).from('menu_sections').select('id, menu_id').in('menu_id', archivedMenuIds);
+    const sectionToMenu = new Map<string, string>((sectionRows ?? []).map((s: { id: string; menu_id: string }) => [s.id, s.menu_id]));
+    const sectionIds = Array.from(sectionToMenu.keys());
+    if (sectionIds.length > 0) {
+      const { data: itemRows } = await (supabase as any).from('menu_items').select('section_id').in('section_id', sectionIds);
+      for (const item of (itemRows ?? []) as Array<{ section_id: string }>) {
+        const menuId = sectionToMenu.get(item.section_id);
+        if (!menuId) continue;
+        menuItemCounts.set(menuId, (menuItemCounts.get(menuId) ?? 0) + 1);
+      }
+    }
+  }
+
+  const allRows: CopKutusuSatiri[] = trashResults.flatMap((r) =>
+    r.rows.map((row: TrashRow): CopKutusuSatiri => ({
+      entityType: row.entity_type,
+      entityId: row.entity_id,
+      title: row.title,
+      subtitle: row.subtitle,
+      occurredAt: row.occurred_at,
+      photoUrl: row.photo_url,
+      businessId: r.businessId,
+      businessName: r.bizName,
+      itemCount: row.entity_type === 'menu' ? (menuItemCounts.get(row.entity_id) ?? 0) : null,
+    })),
   );
 
-  // Sort by occurred_at desc
-  allRows.sort((a, b) => new Date(b.occurred_at).getTime() - new Date(a.occurred_at).getTime());
+  allRows.sort((a, b) => new Date(b.occurredAt).getTime() - new Date(a.occurredAt).getTime());
 
   return (
     <div className="flex flex-col">
-      <PanelSayfaBasligi
-        eyebrow="Sahip"
-        title="Çöp Kutusu"
-        description="Silinen menü ve içerikleri bu alandan geri yükleyebilirsiniz. Silinen içerikler 30 gün boyunca saklanır."
-      />
       <PanelIcerikYuzeyi className="pt-6">
-        {allRows.length === 0 ? (
-          <PanelEmptyState
-            icon={<TrashIcon />}
-            title="Çöp kutusu boş"
-            description="Silinen menüler ve ürünler burada listelenecek."
-          />
-        ) : (
-          <PanelBolumKarti
-            title={`${allRows.length} silinen öğe`}
-            description="Öğeyi geri yüklemek için 'Geri Yükle' düğmesine tıklayın."
-            noPadding
-          >
-            <ul className="divide-y divide-border">
-              {allRows.map((row) => (
-                <li key={row.entity_id} className="flex items-center gap-4 px-5 py-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-bg text-muted">
-                    <EntityIcon type={row.entity_type} />
-                  </div>
-                  <div className="flex min-w-0 flex-1 flex-col">
-                    <span className="truncate font-bold text-textStrong">{row.title}</span>
-                    <span className="mt-0.5 text-xs text-muted">
-                      {ENTITY_LABELS[row.entity_type] ?? row.entity_type}
-                      {row.bizName ? ` · ${row.bizName}` : ''}
-                      {' · '}
-                      {new Date(row.occurred_at).toLocaleDateString('tr-TR')}
-                    </span>
-                  </div>
-                  <RestoreButton entityType={row.entity_type} entityId={row.entity_id} />
-                </li>
-              ))}
-            </ul>
-          </PanelBolumKarti>
-        )}
+        <CopKutusuIstemcisi satirlar={allRows} coklu={bizList.length > 1} />
       </PanelIcerikYuzeyi>
     </div>
   );
 }
-
-function TrashIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <polyline points="3 6 5 6 21 6" />
-      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-      <path d="M10 11v6" /><path d="M14 11v6" />
-      <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
-    </svg>
-  );
-}
-
-function EntityIcon({ type }: { type: string }) {
-  if (type === 'menu') return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="15" y2="18" />
-    </svg>
-  );
-  if (type === 'photo') return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
-    </svg>
-  );
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" />
-    </svg>
-  );
-}
-

@@ -51,6 +51,8 @@ function HaritaArama({
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
     const trimmed = sorgu.trim();
+    // Debounce edilmiş sunucu aramasının bir parçası — dış sistemle senkronizasyon.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!trimmed) { setSonuclar([]); return; }
     setYukleniyor(true);
     debounceRef.current = setTimeout(async () => {
@@ -241,6 +243,8 @@ function IsletmePaneli({
   const ilkHarf = (isletme.name.charAt(0) || '?').toUpperCase();
 
   useEffect(() => {
+    // Seçili işletme değiştiğinde sunucudan özet çeker — dış sistemle senkronizasyon.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDetay(null);
     setYukleniyor(true);
     fetch(`/api/isletme-ozet?id=${encodeURIComponent(isletme.id)}`)

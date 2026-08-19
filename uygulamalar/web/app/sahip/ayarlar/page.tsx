@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
@@ -25,21 +24,6 @@ type UserProfile = {
 type HoursResult = {
   weekly?: WeeklyHourRow[];
 };
-
-const SUPPLEMENTARY_ITEMS = [
-  {
-    href: '/sahip/ayarlar/saatler',
-    label: 'Çalışma Saatleri',
-    description: 'Birden fazla işletmeniz varsa haftalık saatleri buradan toplu düzenleyin',
-    disabled: false,
-  },
-  {
-    href: '/sahip/ayarlar/alan-adi',
-    label: 'Özel Domain',
-    description: 'İşletmenize özel alan adı bağlayın',
-    disabled: false,
-  },
-];
 
 function throwSettingsLoadError(
   source: 'claim' | 'business' | 'profile' | 'hours',
@@ -114,6 +98,21 @@ export default async function OwnerSettingsPage() {
     user.email?.split('@')[0] ||
     'Kullanıcı';
 
+  let notificationPrefs: Record<string, boolean> = {};
+  try {
+    const { data: prefRows } = await (supabase as any)
+      .from('notification_preferences')
+      .select('notification_type, enabled')
+      .eq('user_id', user.id);
+    if (Array.isArray(prefRows)) {
+      for (const row of prefRows as Array<{ notification_type: string; enabled: boolean }>) {
+        notificationPrefs[row.notification_type] = row.enabled;
+      }
+    }
+  } catch {
+    // Tablo/sorgu hatası — varsayılan (tümü açık) ile devam et
+  }
+
   return (
     <div className="flex flex-col">
       <PanelSayfaBasligi
@@ -130,55 +129,8 @@ export default async function OwnerSettingsPage() {
           }}
           business={businessResult.data}
           hours={hoursResult.data?.weekly ?? []}
+          notificationPrefs={notificationPrefs}
         />
-
-        <div className="mt-8 border-t border-border pt-6">
-          <h2 className="mb-3 text-[15px] font-black text-textStrong">Diğer Ayarlar</h2>
-          <div className="flex max-w-lg flex-col gap-3">
-            {SUPPLEMENTARY_ITEMS.map((item) =>
-              item.disabled ? (
-                <div
-                  key={item.href}
-                  className="flex cursor-not-allowed items-center justify-between rounded-2xl border border-border bg-card px-6 py-5 opacity-60"
-                >
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <p className="font-bold text-textStrong">{item.label}</p>
-                      <span className="rounded-full bg-muted/15 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-muted">
-                        Yakında
-                      </span>
-                    </div>
-                    <p className="mt-0.5 text-sm text-muted">{item.description}</p>
-                  </div>
-                </div>
-              ) : (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="flex cursor-pointer items-center justify-between rounded-2xl border border-border bg-card px-6 py-5 transition-colors hover:border-primary/30"
-                >
-                  <div>
-                    <p className="font-bold text-textStrong">{item.label}</p>
-                    <p className="mt-0.5 text-sm text-muted">{item.description}</p>
-                  </div>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="shrink-0 text-muted"
-                  >
-                    <path d="M9 18l6-6-6-6" />
-                  </svg>
-                </Link>
-              ),
-            )}
-          </div>
-        </div>
       </PanelIcerikYuzeyi>
     </div>
   );

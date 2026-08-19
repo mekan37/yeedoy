@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
-import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi } from '@/src/ui/yerlesim/panel-section-card';
 import { CokluSubeIstemcisi } from './coklu-sube-istemcisi';
 import { subeYonetimVerisiGetir } from './coklu-sube-islemleri';
@@ -35,11 +34,6 @@ export default async function CokluSubeSayfasi() {
 
   return (
     <div className="flex flex-col">
-      <PanelSayfaBasligi
-        eyebrow="Çoklu Şube"
-        title="Çoklu Şube Yönetimi"
-        description="Tüm şubelerinizi yönetin, performanslarını takip edin ve detaylara hızlıca erişin."
-      />
       <PanelIcerikYuzeyi className="pt-6">
         <CokluSubeIstemcisi businessId={anchorBusinessId} initialOverview={overview} />
       </PanelIcerikYuzeyi>

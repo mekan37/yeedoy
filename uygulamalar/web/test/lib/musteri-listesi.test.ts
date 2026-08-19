@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { MusteriListesi, filtrelenmisMusteriler, type MusteriOzet } from '@/app/sahip/musteriler/musteri-listesi';
+import { filtrelenmisMusteriler } from '@/app/sahip/musteriler/musteriler-yardimcilari';
+import { type MusteriOzet } from '@/app/sahip/musteriler/musteriler-istemcisi';
 import { ZamanCizelgesi } from '@/app/sahip/musteriler/[user_id]/zaman-cizelgesi';
 
 describe('CRM müşteri bileşenleri', () => {
   it('bileşenler export edilir', () => {
-    expect(typeof MusteriListesi).toBe('function');
     expect(typeof ZamanCizelgesi).toBe('function');
   });
 });
@@ -15,10 +15,14 @@ function fakeMusteri(overrides: Partial<MusteriOzet>): MusteriOzet {
     display_name: 'Test Müşteri',
     avatar_url: null,
     last_interaction_at: '2026-08-01T00:00:00Z',
+    first_interaction_at: '2026-07-01T00:00:00Z',
     review_count: 0,
     reservation_count: 0,
     loyalty_progress: null,
     loyalty_reward_threshold: null,
+    loyalty_event_count: 0,
+    is_following: false,
+    is_email_subscribed: false,
     tags: [],
     ...overrides,
   };

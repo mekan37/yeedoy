@@ -1,170 +1,122 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
-import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
-import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
-import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
-import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { IsletmelerimIstemcisi, type IsletmelerimSatiri } from './isletmelerim-istemcisi';
 
 export const metadata: Metadata = {
-  title: 'İşletmeler | Sahip Paneli',
+  title: 'İşletmelerim | Sahip Paneli',
   robots: { index: false, follow: false },
+};
+
+type BizRow = {
+  id: string;
+  name: string;
+  slug: string | null;
+  logo_url: string | null;
+  cover_url: string | null;
+  category: string;
+  city: string | null;
+  district: string | null;
+  is_active: boolean;
+  created_at: string;
 };
 
 export default async function OwnerBusinessesPage() {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  type BizRow = {
-    id: string;
-    name: string;
-    slug: string | null;
-    logo_url: string | null;
-    cover_url: string | null;
-    category: string;
-    city: string | null;
-    district: string | null;
-    lat: number | null;
-    lng: number | null;
-    is_active: boolean;
-    created_at: string;
-  };
   const businessIds = await getOwnerBusinessIds(supabase as any, user!.id);
-  const { data: businesses } = businessIds.length > 0
-    ? await (supabase as any)
-        .from('businesses')
-        .select('id, name, slug, logo_url, cover_url, category, city, district, lat, lng, is_active, created_at')
-        .in('id', businessIds)
-        .order('created_at', { ascending: false }) as { data: BizRow[] | null }
-    : { data: [] };
+
+  const [{ data: businesses }, { data: pendingClaims }] = await Promise.all([
+    businessIds.length > 0
+      ? (supabase as any)
+          .from('businesses')
+          .select('id, name, slug, logo_url, cover_url, category, city, district, is_active, created_at')
+          .in('id', businessIds)
+          .order('created_at', { ascending: true }) as Promise<{ data: BizRow[] | null }>
+      : Promise.resolve({ data: [] }),
+    (supabase as any)
+      .from('owner_claims')
+      .select('id')
+      .eq('user_id', user!.id)
+      .eq('status', 'pending'),
+  ]);
 
   const list = businesses ?? [];
+  const pendingCount = pendingClaims?.length ?? 0;
+
+  let statsMap = new Map<string, { avg_rating: number | null; reviews_count: number | null }>();
+  let saatByBiz = new Map<string, { isOpenNow: boolean | null; closeTime: string | null }>();
+  let trendByBiz = new Map<string, number>();
+
+  if (list.length > 0) {
+    const ids = list.map((b) => b.id);
+    const since7d = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    const since14d = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
+
+    const [statsRes, viewsRes, hoursResults] = await Promise.all([
+      (supabase as any).from('businesses_with_stats').select('id, avg_rating, reviews_count').in('id', ids),
+      (supabase as any).from('analytics_events').select('business_id, created_at').in('business_id', ids).eq('event_name', 'business_page_view').gte('created_at', since14d),
+      Promise.all(
+        ids.map((id: string) =>
+          (supabase as any)
+            .rpc('get_business_hours_v1', { p_business_id: id })
+            .then((r: { data: { weekly?: Array<{ day_of_week: number; close_time: string; is_closed: boolean }>; is_open_now?: boolean } | null }) => {
+              const nowIstanbul = new Date(Date.now() + 3 * 60 * 60 * 1000);
+              const todayDow = nowIstanbul.getUTCDay();
+              const today = r?.data?.weekly?.find((row) => row.day_of_week === todayDow);
+              return [id, {
+                isOpenNow: r?.data?.is_open_now ?? null,
+                closeTime: today && !today.is_closed ? today.close_time : null,
+              }] as const;
+            })
+            .catch(() => [id, { isOpenNow: null, closeTime: null }] as const),
+        ),
+      ),
+    ]);
+
+    statsMap = new Map((statsRes.data ?? []).map((r: { id: string; avg_rating: number | null; reviews_count: number | null }) => [r.id, r]));
+    saatByBiz = new Map(hoursResults);
+
+    const trendCounts = new Map<string, { curr: number; prev: number }>();
+    for (const id of ids) trendCounts.set(id, { curr: 0, prev: 0 });
+    for (const row of (viewsRes.data ?? []) as Array<{ business_id: string; created_at: string }>) {
+      const entry = trendCounts.get(row.business_id);
+      if (!entry) continue;
+      if (row.created_at >= since7d) entry.curr += 1;
+      else entry.prev += 1;
+    }
+    for (const [id, c] of trendCounts) {
+      trendByBiz.set(id, c.prev === 0 ? (c.curr > 0 ? 100 : 0) : Math.round(((c.curr - c.prev) / c.prev) * 100));
+    }
+  }
+
+  const satirlar: IsletmelerimSatiri[] = list.map((b, i) => {
+    const stats = statsMap.get(b.id) ?? { avg_rating: null, reviews_count: null };
+    const saat = saatByBiz.get(b.id) ?? { isOpenNow: null, closeTime: null };
+    return {
+      id: b.id,
+      name: b.name,
+      slug: b.slug,
+      category: b.category,
+      city: b.city,
+      district: b.district,
+      isActive: b.is_active,
+      isPrimary: i === 0,
+      photoUrl: buildMenuImageUrl(b.cover_url ?? b.logo_url, { width: 200, quality: 80 }),
+      avgRating: stats.avg_rating,
+      reviewsCount: stats.reviews_count,
+      viewTrendPct: trendByBiz.get(b.id) ?? 0,
+      isOpenNow: saat.isOpenNow,
+      closeTime: saat.closeTime,
+    };
+  });
 
   return (
-    <div className="flex flex-col">
-      <PanelSayfaBasligi
-        eyebrow="Sahip"
-        title="İşletmeler"
-        description="Sahip olduğunuz işletmeleri yönetin"
-        actions={
-          <Link href="/sahip/isletmeler/yeni">
-            <PanelActionButton variant="primary" icon={<PlusIcon />}>
-              Yeni İşletme
-            </PanelActionButton>
-          </Link>
-        }
-      />
-      <PanelIcerikYuzeyi className="pt-6">
-        {list.length === 0 ? (
-          <PanelEmptyState
-            icon={<BuildingIcon />}
-            title="Henüz işletme yok"
-            description="İlk işletmenizi ekleyerek başlayın."
-            action={
-              <Link href="/sahip/isletmeler/yeni">
-                <PanelActionButton variant="primary" icon={<PlusIcon />}>
-                  İşletme Ekle
-                </PanelActionButton>
-              </Link>
-            }
-          />
-        ) : (
-          <div className="grid gap-4 lg:grid-cols-2">
-              {list.map((b) => (
-                <PanelBolumKarti key={b.id} noPadding className="overflow-hidden">
-                  <Link
-                    href={`/sahip/isletmeler/${b.id}`}
-                    className="group block transition-colors hover:bg-black/2"
-                  >
-                    <div
-                      className="relative min-h-[150px] bg-[linear-gradient(135deg,#171717,#525252)]"
-                      style={b.cover_url ? {
-                        backgroundImage: `linear-gradient(90deg, rgba(0,0,0,.62), rgba(0,0,0,.14)), url("${buildMenuImageUrl(b.cover_url, { width: 900, quality: 80 }) ?? ''}")`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                      } : undefined}
-                    >
-                      <div className="absolute inset-x-0 bottom-0 flex items-end gap-3 p-4 text-white">
-                        <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/25 bg-white/15 text-2xl font-black shadow-yd2 backdrop-blur-sm">
-                          {b.logo_url ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={buildMenuImageUrl(b.logo_url, { width: 160, quality: 84 }) ?? ''}
-                              alt={b.name}
-                              className="h-full w-full object-cover"
-                            />
-                          ) : (
-                            b.name.charAt(0).toUpperCase()
-                          )}
-                        </div>
-                        <div className="min-w-0 pb-1">
-                          <p className="truncate text-lg font-black">{b.name}</p>
-                          <p className="truncate text-xs font-bold text-white/75">
-                            {[b.category, b.district, b.city].filter(Boolean).join(' · ') || 'İşletme profili'}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-3 px-4 py-3">
-                      <div className="flex flex-wrap gap-2">
-                        <span
-                          className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-extrabold ${
-                            b.is_active
-                              ? 'bg-green-50 text-green-700'
-                              : 'bg-zinc-100 text-zinc-500'
-                          }`}
-                        >
-                          {b.is_active ? 'Aktif' : 'Pasif'}
-                        </span>
-                        <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold ${
-                          b.lat && b.lng ? 'bg-primary/8 text-primary' : 'bg-amber-50 text-amber-700'
-                        }`}>
-                          {b.lat && b.lng ? 'Konum var' : 'Konum eksik'}
-                        </span>
-                        <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-extrabold ${
-                          b.logo_url && b.cover_url ? 'bg-blue-50 text-blue-700' : 'bg-zinc-100 text-zinc-600'
-                        }`}>
-                          {b.logo_url && b.cover_url ? 'Görseller hazır' : 'Görsel eksik'}
-                        </span>
-                      </div>
-                      <ChevronIcon />
-                    </div>
-                  </Link>
-                </PanelBolumKarti>
-              ))}
-          </div>
-        )}
-      </PanelIcerikYuzeyi>
-    </div>
+    <IsletmelerimIstemcisi
+      satirlar={satirlar}
+      pendingCount={pendingCount}
+    />
   );
 }
-
-function BuildingIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
-      <path d="M9 22V12h6v10" />
-    </svg>
-  );
-}
-
-function PlusIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="12" y1="5" x2="12" y2="19" />
-      <line x1="5" y1="12" x2="19" y2="12" />
-    </svg>
-  );
-}
-
-function ChevronIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted">
-      <polyline points="9 18 15 12 9 6" />
-    </svg>
-  );
-}
-
