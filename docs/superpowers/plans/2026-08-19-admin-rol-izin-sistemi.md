@@ -1172,12 +1172,12 @@ export default async function RollerPage({ searchParams }: Props) {
       <PanelIcerikYuzeyi className="pt-6">
         <div className="flex flex-col gap-6">
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-            <MetricCard title="Toplam Rol" value={total.toLocaleString('tr-TR')} tone="blue" icon={<UsersIcon />} />
-            <MetricCard title="Aktif Rol" value={activeCount.toLocaleString('tr-TR')} subtitle={total ? `%${Math.round((activeCount / total) * 100)}` : undefined} tone="green" icon={<CheckIcon />} trend={trend(thisWeek, lastWeek)} />
-            <MetricCard title="Sistem Rolü" value={systemCount.toLocaleString('tr-TR')} subtitle="Sistem tarafından tanımlı" tone="purple" icon={<LockIcon />} />
-            <MetricCard title="Özel Rol" value={customCount.toLocaleString('tr-TR')} subtitle="Özel olarak oluşturulmuş" tone="primary" icon={<PlusIcon />} />
-            <MetricCard title="Kullanıcı Atanan" value={assignedUserCount.toLocaleString('tr-TR')} subtitle="Toplam admin kullanıcı" tone="pink" icon={<ShieldIcon />} />
-            <MetricCard title="Son Güncelleme" value={sonGuncellenen ? goreliZaman(sonGuncellenen.updated_at) : '—'} subtitle={sonGuncellenen?.updated_by_name ?? undefined} tone="orange" icon={<ClockIcon />} />
+            <MetricCard title="Toplam Rol" value={total.toLocaleString('tr-TR')} icon={<UsersIcon />} />
+            <MetricCard title="Aktif Rol" value={activeCount.toLocaleString('tr-TR')} subtitle={total ? `%${Math.round((activeCount / total) * 100)}` : undefined} icon={<CheckIcon />} trend={trend(thisWeek, lastWeek)} />
+            <MetricCard title="Sistem Rolü" value={systemCount.toLocaleString('tr-TR')} subtitle="Sistem tarafından tanımlı" icon={<LockIcon />} />
+            <MetricCard title="Özel Rol" value={customCount.toLocaleString('tr-TR')} subtitle="Özel olarak oluşturulmuş" icon={<PlusIcon />} />
+            <MetricCard title="Kullanıcı Atanan" value={assignedUserCount.toLocaleString('tr-TR')} subtitle="Toplam admin kullanıcı" icon={<ShieldIcon />} />
+            <MetricCard title="Son Güncelleme" value={sonGuncellenen ? goreliZaman(sonGuncellenen.updated_at) : '—'} subtitle={sonGuncellenen?.updated_by_name ?? undefined} icon={<ClockIcon />} />
           </div>
 
           <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
