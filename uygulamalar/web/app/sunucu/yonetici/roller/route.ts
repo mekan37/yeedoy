@@ -30,7 +30,7 @@ async function guard(sb: SupabaseAny, userId: string): Promise<NextResponse | nu
   const rl = rateLimit(`roller:${userId}`, 30, 3_600_000);
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
-  const { data: dbRate } = await sb.rpc('consume_rate_limit_v1', { p_action: 'admin_roller_write', p_limit: 30 });
+  const { data: dbRate } = await sb.rpc('consume_rate_limit_v1', { p_action: 'admin_roller_write', p_daily_limit: 30 });
   if (dbRate && (dbRate as { ok?: boolean }).ok === false) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
