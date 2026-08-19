@@ -2,10 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
+import { hasPermission } from '@/src/lib/yetki-kontrol';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
 import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
+import { YetkisizErisim } from '@/src/ui/bilesenler/yetkisiz-erisim';
 import { KullanicilarTablosu } from './kullanicilar-tablosu';
 import { DisaAktarButonu } from './disa-aktar-butonu';
 import { DavetEtModal } from './davet-et-modal';
@@ -20,6 +22,16 @@ type Props = { searchParams: Promise<{ q?: string; role?: string; city?: string;
 const PAGE_SIZE = 10;
 
 export default async function AdminUsersPage({ searchParams }: Props) {
+  const yetkili = await hasPermission('page:kullanicilar');
+  if (!yetkili) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Yönetici" title="Kullanıcılar" description="Bu sayfayı görüntüleme yetkiniz yok." />
+        <PanelIcerikYuzeyi className="pt-6"><YetkisizErisim sayfaAdi="Kullanıcılar" /></PanelIcerikYuzeyi>
+      </div>
+    );
+  }
+
   const { q = '', role = '', city = '', page = '1' } = await searchParams;
   const pageNum = Math.max(1, parseInt(page, 10) || 1);
 

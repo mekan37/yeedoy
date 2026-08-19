@@ -31,6 +31,11 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   }
 
+  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:itirazlar' });
+  if (!yetkili) {
+    return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+  }
+
   const serviceClient = createSupabaseServiceClient();
   if (!serviceClient) {
     logger.warn('Admin claims list: no service client available');
