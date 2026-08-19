@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { hasPermission } from '@/src/lib/yetki-kontrol';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
 import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
+import { YetkisizErisim } from '@/src/ui/bilesenler/yetkisiz-erisim';
 import {
   flagDurum, DURUM_ETIKETLERI, PROJE_SECENEKLERI, TUR_SECENEKLERI, ORTAM_ETIKETLERI, trend,
   type FeatureFlag,
@@ -25,6 +27,16 @@ type Props = {
 };
 
 export default async function FeatureFlagsPage({ searchParams }: Props) {
+  const yetkili = await hasPermission('page:feature-flags');
+  if (!yetkili) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Yönetici" title="Feature Flags" description="Bu sayfayı görüntüleme yetkiniz yok." />
+        <PanelIcerikYuzeyi className="pt-6"><YetkisizErisim sayfaAdi="Feature Flags" /></PanelIcerikYuzeyi>
+      </div>
+    );
+  }
+
   const { q = '', proje = '', ortam = '', durum = '', tur = '' } = await searchParams;
   const supabase = await createSupabaseServerClient();
   const sb = supabase as any;

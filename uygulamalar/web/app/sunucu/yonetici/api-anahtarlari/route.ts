@@ -21,6 +21,9 @@ export async function POST(request: Request) {
   const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ ok: false, error: 'Forbidden' }, { status: 403 });
 
+  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:api-anahtarlari' });
+  if (!yetkili) return NextResponse.json({ ok: false, error: 'forbidden' }, { status: 403 });
+
   const rl = rateLimit(`apikey:${user.id}`, 10, 3_600_000); // 10/hour
   if (!rl.ok) return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
 
@@ -73,6 +76,9 @@ export async function DELETE(request: Request) {
 
   const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ ok: false, error: 'Forbidden' }, { status: 403 });
+
+  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:api-anahtarlari' });
+  if (!yetkili) return NextResponse.json({ ok: false, error: 'forbidden' }, { status: 403 });
 
   const rl2 = rateLimit(`apikey:${user.id}`, 10, 3_600_000); // shared 10/hour bucket with POST
   if (!rl2.ok) return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });

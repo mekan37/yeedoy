@@ -18,6 +18,9 @@ export async function PATCH(request: Request) {
   const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ ok: false, error: 'Forbidden' }, { status: 403 });
 
+  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:feature-flags' });
+  if (!yetkili) return NextResponse.json({ ok: false, error: 'forbidden' }, { status: 403 });
+
   const rawBody = await request.json().catch(() => null);
   const parsed = patchSchema.safeParse(rawBody);
   if (!parsed.success) return NextResponse.json({ ok: false, error: 'invalid_input' }, { status: 400 });
@@ -47,6 +50,9 @@ export async function POST(request: Request) {
 
   const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ ok: false, error: 'Forbidden' }, { status: 403 });
+
+  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:feature-flags' });
+  if (!yetkili) return NextResponse.json({ ok: false, error: 'forbidden' }, { status: 403 });
 
   const body = await request.json() as {
     key: string;

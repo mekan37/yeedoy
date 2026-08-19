@@ -16,6 +16,9 @@ export async function PATCH(req: Request) {
   const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
+  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:fotograf-moderasyon' });
+  if (!yetkili) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+
   const parsed = schema.safeParse(await req.json());
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
 

@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { hasPermission } from '@/src/lib/yetki-kontrol';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
 import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
+import { YetkisizErisim } from '@/src/ui/bilesenler/yetkisiz-erisim';
 import { trend, type ModerasyonFotografi } from './fotograf-moderasyon-yardimcilari';
 import { FotografModerasyon } from './fotograf-moderasyon-istemci';
 
@@ -22,6 +24,16 @@ type Props = {
 };
 
 export default async function FotografModerasyonPage({ searchParams }: Props) {
+  const yetkili = await hasPermission('page:fotograf-moderasyon');
+  if (!yetkili) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Yönetici" title="Fotoğraf Moderasyon" description="Bu sayfayı görüntüleme yetkiniz yok." />
+        <PanelIcerikYuzeyi className="pt-6"><YetkisizErisim sayfaAdi="Fotoğraf Moderasyon" /></PanelIcerikYuzeyi>
+      </div>
+    );
+  }
+
   const { durum = 'pending', tur = '', kategori = '', q = '', page = '1' } = await searchParams;
   const pageNum = Math.max(1, parseInt(page, 10) || 1);
   const supabase = await createSupabaseServerClient();
