@@ -2,9 +2,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
+import { hasPermission } from '@/src/lib/yetki-kontrol';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
+import { YetkisizErisim } from '@/src/ui/bilesenler/yetkisiz-erisim';
 import { DisaAktarButonu } from './disa-aktar-butonu';
 import { TarihSecici } from './tarih-secici';
 import { yuzdeDegisim, gunEtiketi, KAYNAK_ETIKETLERI, kaynaktanPlatformCikar, PLATFORM_ETIKETLERI, GUN_ETIKETLERI, type Platform } from './analitik-yardimcilari';
@@ -22,6 +24,16 @@ type OlayRow = {
 };
 
 export default async function AdminAnalyticsPage({ searchParams }: Props) {
+  const yetkili = await hasPermission('page:analitik');
+  if (!yetkili) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Yönetici" title="Analitik" description="Bu sayfayı görüntüleme yetkiniz yok." />
+        <PanelIcerikYuzeyi className="pt-6"><YetkisizErisim sayfaAdi="Analitik" /></PanelIcerikYuzeyi>
+      </div>
+    );
+  }
+
   const { tarih = 'all' } = await searchParams;
   const supabase = await createSupabaseServerClient();
   const sb = (createSupabaseServiceClient() ?? supabase) as any;

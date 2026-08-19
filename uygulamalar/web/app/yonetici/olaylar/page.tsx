@@ -2,10 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
+import { hasPermission } from '@/src/lib/yetki-kontrol';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
 import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
+import { YetkisizErisim } from '@/src/ui/bilesenler/yetkisiz-erisim';
 import { OlaylarTablosu } from './olaylar-tablosu';
 import { DisaAktarButonu } from './disa-aktar-butonu';
 import {
@@ -31,6 +33,16 @@ const TARIH_SECENEKLERI = [
 ];
 
 export default async function AdminEventsPage({ searchParams }: Props) {
+  const yetkili = await hasPermission('page:olaylar');
+  if (!yetkili) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Yönetici" title="Olaylar" description="Bu sayfayı görüntüleme yetkiniz yok." />
+        <PanelIcerikYuzeyi className="pt-6"><YetkisizErisim sayfaAdi="Olaylar" /></PanelIcerikYuzeyi>
+      </div>
+    );
+  }
+
   const { q = '', tarih = 'all', tur = '', sonuc = '', page = '1' } = await searchParams;
   const pageNum = Math.max(1, parseInt(page, 10) || 1);
   const supabase = await createSupabaseServerClient();

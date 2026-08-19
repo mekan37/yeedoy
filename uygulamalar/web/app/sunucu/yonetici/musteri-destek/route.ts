@@ -25,6 +25,9 @@ async function requireAdmin() {
   const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return { supabase, supabaseAny, user, response: NextResponse.json({ error: 'Forbidden' }, { status: 403 }) };
 
+  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:musteri-destek' });
+  if (!yetkili) return { supabase, supabaseAny, user, response: NextResponse.json({ error: 'forbidden' }, { status: 403 }) };
+
   return { supabase, supabaseAny, user, response: null };
 }
 
