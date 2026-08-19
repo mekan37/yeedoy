@@ -5,20 +5,27 @@ function formatTarih(iso: string | null): string {
   return new Date(iso).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
+const TONE_CLASSES = {
+  blue:   'bg-blue-50 text-blue-600',
+  green:  'bg-emerald-50 text-emerald-600',
+  amber:  'bg-amber-50 text-amber-600',
+  purple: 'bg-violet-50 text-violet-600',
+} as const;
+
 export function IstatistikKartlari({ stats }: { stats: MenuStats }) {
   const kartlar = [
-    { label: 'Toplam Kategori', value: String(stats.toplamKategori), icon: <KategoriIcon /> },
-    { label: 'Toplam Ürün', value: String(stats.toplamUrun), icon: <UrunIcon /> },
-    { label: 'Aktif Ürün', value: String(stats.aktifUrun), icon: <AktifIcon /> },
-    { label: 'Pasif Ürün', value: String(stats.pasifUrun), icon: <PasifIcon /> },
-    { label: 'Son Güncelleme', value: formatTarih(stats.sonGuncelleme), icon: <SaatIcon /> },
+    { label: 'Toplam Kategori', value: String(stats.toplamKategori), icon: <KategoriIcon />, tone: 'blue' as const },
+    { label: 'Toplam Ürün', value: String(stats.toplamUrun), icon: <UrunIcon />, tone: 'green' as const },
+    { label: 'Aktif Ürün', value: String(stats.aktifUrun), icon: <AktifIcon />, tone: 'green' as const },
+    { label: 'Pasif Ürün', value: String(stats.pasifUrun), icon: <PasifIcon />, tone: 'amber' as const },
+    { label: 'Son Güncelleme', value: formatTarih(stats.sonGuncelleme), icon: <SaatIcon />, tone: 'purple' as const },
   ];
 
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
       {kartlar.map((kart) => (
         <div key={kart.label} className="rounded-2xl border border-border bg-card p-4 shadow-xs">
-          <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <div className={`mb-2 flex h-9 w-9 items-center justify-center rounded-xl ${TONE_CLASSES[kart.tone]}`}>
             {kart.icon}
           </div>
           <p className="text-[11px] font-bold uppercase tracking-wide text-muted">{kart.label}</p>

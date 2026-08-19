@@ -2,12 +2,12 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
-import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi } from '@/src/ui/yerlesim/panel-section-card';
+import Link from 'next/link';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
-import { SadakatKurulumIstemcisi, type SadakatProgram } from './sadakat-kurulum-istemcisi';
-import { SadakatTaramaIstemcisi } from './sadakat-tarama-istemcisi';
-import { UyeListesi, type SadakatUyesi } from './uye-listesi';
+import { SadakatIstemcisi } from './sadakat-istemcisi';
+import type { SadakatProgram } from './sadakat-kurulum-istemcisi';
+import type { SadakatUyesi } from './uye-listesi';
 
 export const metadata: Metadata = {
   title: 'Sadakat Programı | Sahip Paneli',
@@ -35,19 +35,18 @@ export default async function SadakatSayfasi() {
   if (!sadakatAcik) {
     return (
       <div className="flex flex-col">
-        <PanelSayfaBasligi eyebrow="Pazarlama" title="Sadakat Programı" />
         <PanelIcerikYuzeyi className="pt-6">
           <PanelEmptyState
             icon={<span>🎁</span>}
             title="Sadakat programı Standart ve üzeri planlarda"
             description="Müşterilerinize damga kartı veya puan sistemi sunmak için planınızı yükseltin."
             action={
-              <a
-                href="mailto:destek@yeedoy.com"
+              <Link
+                href="/sahip/premium"
                 className="rounded-xl bg-primary px-4 py-2 text-sm font-bold text-white hover:opacity-90"
               >
-                Planı yükselt
-              </a>
+                Planları Görüntüle
+              </Link>
             }
           />
         </PanelIcerikYuzeyi>
@@ -59,35 +58,38 @@ export default async function SadakatSayfasi() {
     p_business_id: businessId,
   })) as { data: SadakatProgram | null };
 
-  const { data: members } = program
-    ? ((await sb.rpc('get_business_loyalty_members_v1', { p_business_id: businessId })) as {
-        data: SadakatUyesi[] | null;
-      })
-    : { data: null };
+  const [{ data: members }, { count: aktifKampanyaSayisi }] = await Promise.all([
+    program
+      ? (sb.rpc('get_business_loyalty_members_v1', { p_business_id: businessId }) as Promise<{ data: SadakatUyesi[] | null }>)
+      : Promise.resolve({ data: null as SadakatUyesi[] | null }),
+    sb.from('campaigns').select('id', { count: 'exact', head: true }).eq('business_id', businessId).eq('status', 'active'),
+  ]);
+
+  const uyeler = members ?? [];
+  const aktifUye = uyeler.length;
+  const toplamPuanVeyaDamga = uyeler.reduce((sum, m) => sum + m.progress, 0);
+  const kullanilanOdul = uyeler.reduce((sum, m) => sum + m.redeemed_count, 0);
+
+  const tamamlayanlar = uyeler.filter((m) => m.redeemed_count > 0).length;
+  const devamEdenler = uyeler.filter((m) => m.redeemed_count === 0 && m.progress > 0).length;
+  const aktifOlmayanlar = uyeler.filter((m) => m.progress === 0 && m.redeemed_count === 0).length;
 
   return (
-    <div className="flex flex-col gap-6">
-      <PanelSayfaBasligi
-        eyebrow="Pazarlama"
-        title="Sadakat Programı"
-        description="Müşterilerinize damga kartı veya puan sistemi sunun"
-      />
-      <PanelIcerikYuzeyi>
-        <SadakatKurulumIstemcisi businessId={businessId} program={program ?? null} />
+    <div className="flex flex-col">
+      <PanelIcerikYuzeyi className="pt-6">
+        <SadakatIstemcisi
+          businessId={businessId}
+          program={program ?? null}
+          uyeler={uyeler}
+          stats={{
+            aktifUye,
+            toplamPuanVeyaDamga,
+            kullanilanOdul,
+            aktifKampanyaSayisi: aktifKampanyaSayisi ?? 0,
+          }}
+          uyeDagilimi={{ tamamlayanlar, devamEdenler, aktifOlmayanlar }}
+        />
       </PanelIcerikYuzeyi>
-      {program && (
-        <PanelIcerikYuzeyi>
-          <SadakatTaramaIstemcisi
-            businessId={businessId}
-            program={{ is_active: program.is_active, mode: program.mode }}
-          />
-        </PanelIcerikYuzeyi>
-      )}
-      {program && (
-        <PanelIcerikYuzeyi>
-          <UyeListesi members={members ?? []} />
-        </PanelIcerikYuzeyi>
-      )}
     </div>
   );
 }

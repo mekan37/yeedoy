@@ -24,7 +24,7 @@ export async function subeYonetimVerisiGetir(businessId: string): Promise<{ erro
   })) as { data: CokluSubeOverview | null; error: { message: string } | null };
 
   if (error) return { error: error.message };
-  return data ?? { chain_id: null, chain_name: null, branches: [], total_views: 0, total_reservations: 0 };
+  return data ?? { chain_id: null, chain_name: null, branches: [], total_views: 0, total_page_views: 0, total_reservations: 0 };
 }
 
 export async function zincirOlustur(

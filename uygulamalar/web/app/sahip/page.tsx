@@ -85,16 +85,6 @@ export default async function OwnerLandingPage() {
       title: 'Kampanyalar',
       desc: 'Özel kampanya ve indirimler oluşturarak müşteri sadakatini artır.',
     },
-    {
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="3" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14" /><path d="M22.54 6.42a15 15 0 0 1 0 11.16M1.46 6.42a15 15 0 0 0 0 11.16" />
-        </svg>
-      ),
-      bg: '#eef2ff',
-      title: 'Yapay Zeka Analizi',
-      desc: 'Menün, yorumların ve istatistiklerin AI destekli içgörülerle analiz edilsin.',
-    },
   ];
 
   const steps = [

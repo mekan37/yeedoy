@@ -59,9 +59,10 @@ interface SettingsClientProps {
   user: UserData;
   business: BusinessData;
   hours: WeeklyHourRow[];
+  notificationPrefs: Record<string, boolean>;
 }
 
-export function SettingsClient({ user, business, hours }: SettingsClientProps) {
+export function SettingsClient({ user, business, hours, notificationPrefs }: SettingsClientProps) {
   const [activeTab, setActiveTab] = useState<SettingsTab>('profile');
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
@@ -132,7 +133,9 @@ export function SettingsClient({ user, business, hours }: SettingsClientProps) {
             <IsletmeProfilTab business={business} hours={hours} />
           )}
           {activeTab === 'account' && <HesapAyarlariTab user={user} />}
-          {activeTab === 'notifications' && <BildirimAyarlariTab />}
+          {activeTab === 'notifications' && (
+            <BildirimAyarlariTab userId={user.id} initialPrefs={notificationPrefs} />
+          )}
           {activeTab === 'reservations' && (
             <RezervasyonAyarlariTab business={business} />
           )}

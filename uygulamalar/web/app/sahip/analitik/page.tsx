@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { getYogunSaatler } from '@/src/lib/veri/owner/mesgul-saatler';
@@ -14,6 +13,7 @@ import { PanelIcerikYuzeyi } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
 import { AnalitikIstemcisi } from './analitik-istemcisi';
 import type { GunlukNokta, TrafikKaynagi, EylemMetrigi } from './analitik-istemcisi';
+import { TarihAraligiSecici, type AralikSecenegi } from './tarih-araligi-secici';
 
 export const metadata: Metadata = {
   title: 'Analitik | Sahip Paneli',
@@ -30,6 +30,14 @@ const aralikEtiket: Record<Aralik, string> = { '7g': 'Son 7 gün', '30g': 'Son 3
 function parseAralik(raw: string | undefined): Aralik {
   if (raw === '7g' || raw === '90g') return raw;
   return '30g';
+}
+
+function formatTarihAraligi(gunSayisi: number): string {
+  const end = new Date();
+  const start = new Date(end.getTime() - (gunSayisi - 1) * 86400000);
+  const startStr = start.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' });
+  const endStr = end.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+  return `${startStr} - ${endStr}`;
 }
 
 // Gerçek `source` değerleri → görünen etiketler
@@ -288,14 +296,29 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
     saatlikVeri.push({ saat: `${h}:00`, sayi: saatlikDagilim[k] ?? 0 });
   }
 
+  const aralikSecenekleri: AralikSecenegi[] = [
+    { aralik: '7g', etiket: 'Son 7 Gün', tarihAraligi: formatTarihAraligi(7) },
+    { aralik: '30g', etiket: 'Son 30 Gün', tarihAraligi: formatTarihAraligi(30) },
+    { aralik: '90g', etiket: 'Son 90 Gün', tarihAraligi: formatTarihAraligi(90) },
+  ];
+  const aktifSecenek = aralikSecenekleri.find((s) => s.aralik === aralik)!;
+
   return (
     <div className="flex flex-col">
-      <PanelSayfaBasligi
-        eyebrow="Sahip"
-        title="Analitik"
-        description={`İşletme performans analitiği — ${etiket.toLowerCase()}`}
-        actions={<AralikSecici aktif={aralik} />}
-      />
+      <div className="flex flex-col gap-3 px-6 pt-6 pb-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-black tracking-tight text-textStrong">İstatistikler</h1>
+          <p className="mt-1 text-sm text-muted">
+            İşletmenizin performansını detaylı olarak inceleyin ve gelişiminizi takip edin.
+          </p>
+        </div>
+        <TarihAraligiSecici
+          aktif={aralik}
+          aktifTarihAraligi={aktifSecenek.tarihAraligi}
+          secenekler={aralikSecenekleri}
+          karsilastirmaEtiketi={`Önceki ${gunSayisi} Gün`}
+        />
+      </div>
       <AnalitikIstemcisi
         etiket={etiket}
         isletmeSayisi={businessIds.length}
@@ -317,39 +340,6 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
         olayVarMi={guncelOlaylar.length > 0}
         yogunSaatler={yogunSaatler}
       />
-    </div>
-  );
-}
-
-// ─── Zaman aralığı seçici (link-based, permalink uyumlu) ─────────────────────
-
-function AralikSecici({ aktif }: { aktif: Aralik }) {
-  const secenekler: { aralik: Aralik; etiket: string }[] = [
-    { aralik: '7g',  etiket: '7 gün' },
-    { aralik: '30g', etiket: '30 gün' },
-    { aralik: '90g', etiket: '90 gün' },
-  ];
-
-  return (
-    <div className="flex items-center gap-1 rounded-xl border border-border bg-cardAlt p-1">
-      {secenekler.map(({ aralik, etiket }) => {
-        const isActive = aralik === aktif;
-        return (
-          <Link
-            key={aralik}
-            href={`/sahip/analitik?aralik=${aralik}`}
-            aria-current={isActive ? 'page' : undefined}
-            className={[
-              'min-h-[32px] rounded-lg px-3 text-xs font-bold transition-all duration-150',
-              isActive
-                ? 'btn-primary text-white'
-                : 'text-muted hover:text-textStrong',
-            ].join(' ')}
-          >
-            {etiket}
-          </Link>
-        );
-      })}
     </div>
   );
 }

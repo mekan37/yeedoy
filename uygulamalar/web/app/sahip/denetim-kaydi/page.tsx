@@ -8,7 +8,7 @@ import { DenetimKaydiIstemcisi } from './denetim-kaydi-istemcisi';
 import type { DenetimKaydiSatiri, UyeSecenegi } from './denetim-kaydi-istemcisi';
 
 export const metadata: Metadata = {
-  title: 'Denetim Kaydı | Sahip Paneli',
+  title: 'Aktivite Geçmişi | Sahip Paneli',
   robots: { index: false, follow: false },
 };
 
@@ -65,12 +65,12 @@ export default async function SahipDenetimKaydiSayfasi({ searchParams }: Props) 
   if (businessIds.length === 0) {
     return (
       <div className="flex flex-col">
-        <PanelSayfaBasligi eyebrow="Sahip" title="Denetim Kaydı" description="Ekip üyelerinizin yaptığı tüm işlemleri burada görüntüleyebilir ve filtreleyebilirsiniz." />
+        <PanelSayfaBasligi eyebrow="Sahip" title="Aktivite Geçmişi" description="Ekip üyelerinizin yaptığı tüm işlemleri burada görüntüleyebilir ve filtreleyebilirsiniz." />
         <PanelIcerikYuzeyi className="pt-6">
           <PanelEmptyState
             icon={<ShieldIcon />}
             title="İşletme bulunamadı"
-            description="Denetim kaydını görmek için önce bir işletmeye erişiminiz olmalı."
+            description="Aktivite geçmişini görmek için önce bir işletmeye erişiminiz olmalı."
           />
         </PanelIcerikYuzeyi>
       </div>
@@ -119,12 +119,12 @@ export default async function SahipDenetimKaydiSayfasi({ searchParams }: Props) 
     <div className="flex flex-col">
       <PanelSayfaBasligi
         eyebrow="Sahip"
-        title="Denetim Kaydı"
+        title="Aktivite Geçmişi"
         description="Ekip üyelerinizin yaptığı tüm işlemleri burada görüntüleyebilir ve filtreleyebilirsiniz."
         actions={
           <>
             <PanelActionButton variant="secondary" disabled title="Yakında aktif olacak">Dışa Aktar</PanelActionButton>
-            <PanelActionButton variant="primary" disabled title="Yakında aktif olacak">Denetim Raporu</PanelActionButton>
+            <PanelActionButton variant="primary" disabled title="Yakında aktif olacak">Aktivite Raporu</PanelActionButton>
           </>
         }
       />

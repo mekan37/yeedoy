@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'invalid_payload', issues: parsed.error.flatten().fieldErrors }, { status: 400 });
   }
 
-  const { businessId, subject, body, targetSegment } = parsed.data;
+  const { businessId, campaignId, subject, body, targetSegment } = parsed.data;
   const safeBody = stripHtml(body).trim();
 
   if (!process.env.UNSUBSCRIBE_HMAC_SECRET?.trim()) {
@@ -43,15 +43,19 @@ export async function POST(request: Request) {
 
   const supabaseAny = supabase as unknown as { rpc: (fn: string, args?: unknown) => any };
 
-  const { data: campaignId, error: createError } = await supabaseAny.rpc('create_email_campaign_v1', {
+  const { data: emailCampaignId, error: createError } = await supabaseAny.rpc('create_email_campaign_v1', {
     p_business_id: businessId,
     p_subject: subject.trim(),
     p_html_body: `<p>${escapeHtml(safeBody)}</p>`,
     p_target_segment: targetSegment,
+    p_campaign_id: campaignId,
   }) as { data: string | null; error: { message: string } | null };
 
-  if (createError || !campaignId) {
+  if (createError || !emailCampaignId) {
     logger.warn('eposta-kampanya: create_email_campaign_v1 başarısız', { message: createError?.message });
+    if (createError?.message?.includes('validation_error')) {
+      return NextResponse.json({ error: 'invalid_payload', issues: { campaignId: ['Kampanya bulunamadı'] } }, { status: 400 });
+    }
     return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   }
 
@@ -98,7 +102,7 @@ export async function POST(request: Request) {
       sent_count: emailResult.success_count,
       sent_at: new Date().toISOString(),
     })
-    .eq('id', campaignId);
+    .eq('id', emailCampaignId);
 
   if (updateError) {
     logger.warn('eposta-kampanya: sent_count/sent_at güncellemesi başarısız', { message: updateError.message });
@@ -106,7 +110,7 @@ export async function POST(request: Request) {
 
   return NextResponse.json({
     data: {
-      campaignId,
+      emailCampaignId,
       sentCount: emailResult.success_count,
       providerNotConfigured: emailResult.provider_not_configured ?? false,
     },

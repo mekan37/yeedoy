@@ -135,7 +135,7 @@ export function DenetimKaydiIstemcisi({ logRows, total, page, pageSize, members,
         <PanelBolumKarti>
           <PanelEmptyState
             icon={<ShieldIcon />}
-            title="Denetim kaydı yok"
+            title="Aktivite kaydı yok"
             description="Seçilen filtrelerle eşleşen bir kayıt bulunmuyor."
           />
         </PanelBolumKarti>
@@ -236,7 +236,7 @@ export function DenetimKaydiIstemcisi({ logRows, total, page, pageSize, members,
 
       <div className="mt-4 flex items-center gap-2 rounded-2xl border border-border bg-card px-5 py-3 text-xs text-muted">
         <ShieldIcon className="h-4 w-4 shrink-0" />
-        Denetim kayıtları 12 ay boyunca saklanır. Güvenliğiniz için bu kayıtlar düzenlenemez veya silinemez.
+        Aktivite kayıtları 12 ay boyunca saklanır. Güvenliğiniz için bu kayıtlar düzenlenemez veya silinemez.
       </div>
     </div>
   );

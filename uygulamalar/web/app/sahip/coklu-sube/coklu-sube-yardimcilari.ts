@@ -9,6 +9,7 @@ export type CokluSubeBranch = {
   chain_sort_order: number;
   is_main_branch: boolean;
   views: number;
+  page_views: number;
   reservations: number;
 };
 
@@ -17,6 +18,7 @@ export type CokluSubeOverview = {
   chain_name: string | null;
   branches: CokluSubeBranch[];
   total_views: number;
+  total_page_views: number;
   total_reservations: number;
 };
 

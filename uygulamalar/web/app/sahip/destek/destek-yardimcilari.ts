@@ -45,9 +45,9 @@ export const FAQ_ITEMS: Array<{ q: string; a: string }> = [
 ];
 
 export const POPULER_KONULAR = [
-  { title: 'İşletme Bilgileri', description: 'İşletme profilinizi düzenleyin.', href: '/sahip/isletmeler' },
-  { title: 'Menü Yönetimi', description: 'Ürün ekleme, düzenleme ve fiyat güncelleme.', href: '/sahip/menuler' },
-  { title: 'QR Menü & Kod', description: 'QR menü oluşturma ve baskı materyalleri.', href: '/sahip/karekod' },
-  { title: 'İstatistikler', description: 'Görüntülenme, tıklama ve performans raporları.', href: '/sahip/analitik' },
-  { title: 'Rezervasyonlar', description: 'Rezervasyon ayarları ve yönetimi.', href: '/sahip/rezervasyonlar' },
+  { title: 'İşletme Profili', description: 'İşletme bilgilerinizi düzenleme, doğrulama ve profil ayarları.', href: '/sahip/ayarlar', tone: 'red' as const },
+  { title: 'Menü Yönetimi', description: 'Menü ekleme, ürün düzenleme ve fiyat güncelleme.', href: '/sahip/menu-yonetimi', tone: 'green' as const },
+  { title: 'QR Menü & Kod', description: 'QR menü oluşturma ve baskı materyalleri.', href: '/sahip/karekod', tone: 'teal' as const },
+  { title: 'İstatistikler', description: 'Görüntülenme, tıklama ve performans raporları.', href: '/sahip/analitik', tone: 'purple' as const },
+  { title: 'Rezervasyonlar', description: 'Rezervasyon ayarları ve yönetimi.', href: '/sahip/rezervasyonlar', tone: 'blue' as const },
 ] as const;

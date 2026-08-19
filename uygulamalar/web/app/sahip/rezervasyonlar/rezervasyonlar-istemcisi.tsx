@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { updateReservationStatus } from './rezervasyon-islemleri';
 
@@ -38,8 +38,9 @@ type Channel = 'Yeedoy App' | 'Web Sitesi' | 'Telefon';
 interface Reservation {
   id: string;
   no: string;
-  guest: { name: string; phone: string; initials: string; color: string; };
+  guest: { name: string; phone: string; email: string | null; initials: string; color: string; };
   dateStr: string;
+  rawDate: string;
   day: string;
   time: string;
   people: number;
@@ -63,6 +64,13 @@ const STATUS_MAP: Record<DbReservation['status'], Status> = {
   confirmed: 'Onaylandı',
   cancelled: 'İptal Edildi',
   completed: 'Tamamlandı',
+};
+
+const STATUS_TO_DB: Record<Status, DbReservation['status']> = {
+  'Bekliyor':     'pending',
+  'Onaylandı':    'confirmed',
+  'İptal Edildi': 'cancelled',
+  'Tamamlandı':   'completed',
 };
 
 const CHANNEL_MAP: Record<DbReservation['channel'], Channel> = {
@@ -96,8 +104,9 @@ function toReservation(r: DbReservation): Reservation {
   return {
     id: r.id,
     no: r.reservation_no,
-    guest: { name: r.guest_name, phone: r.guest_phone, initials, color },
+    guest: { name: r.guest_name, phone: r.guest_phone, email: r.guest_email, initials, color },
     dateStr,
+    rawDate: r.reservation_date,
     day: dayName,
     time,
     people: r.party_size,
@@ -120,6 +129,8 @@ const STATUS_STYLES: Record<Status, string> = {
   'Tamamlandı':   'bg-slate-100 text-slate-500',
 };
 
+const PAGE_SIZE = 7;
+
 const TABS = [
   { key: 'all',       label: 'Tümü',         filter: (_: Reservation) => true },
   { key: 'pending',   label: 'Bekleyen',      filter: (r: Reservation) => r.status === 'Bekliyor' },
@@ -140,6 +151,11 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
   const [tab, setTab] = useState<TabKey>('all');
   const [search, setSearch] = useState('');
   const [channel, setChannel] = useState('all');
+  const [dateFilter, setDateFilter] = useState('');
+  const [sayfa, setSayfa] = useState(1);
+  const [noteDraft, setNoteDraft] = useState('');
+  const [showNoteForm, setShowNoteForm] = useState(false);
+  const [actionPending, setActionPending] = useState(false);
 
   const selected = useMemo(
     () => (selectedId ? all.find((r) => r.id === selectedId) ?? all[0] : all[0]),
@@ -157,23 +173,46 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
         }
         return true;
       })
-      .filter((r) => channel === 'all' || r.channel === channel);
-  }, [all, tab, search, channel]);
+      .filter((r) => channel === 'all' || r.channel === channel)
+      .filter((r) => !dateFilter || r.rawDate === dateFilter);
+  }, [all, tab, search, channel, dateFilter]);
 
-  async function handleCancel(id: string) {
-    // Optimistic update
-    setAll((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, status: 'İptal Edildi' as Status } : r)),
-    );
-    // Persist to DB
-    const result = await updateReservationStatus(id, businessId, 'cancelled');
+  const sayfaSayisi = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const guvenliSayfa = Math.min(sayfa, sayfaSayisi);
+  const sayfadakiListe = filtered.slice((guvenliSayfa - 1) * PAGE_SIZE, guvenliSayfa * PAGE_SIZE);
+
+  async function handleStatusChange(id: string, dbStatus: 'confirmed' | 'cancelled' | 'completed', label: Status) {
+    const prevStatus = all.find((r) => r.id === id)?.status;
+    setActionPending(true);
+    setAll((prev) => prev.map((r) => (r.id === id ? { ...r, status: label } : r)));
+    const result = await updateReservationStatus(id, businessId, dbStatus);
+    setActionPending(false);
     if (result.error) {
-      // Revert optimistic update on failure
-      setAll((prev) =>
-        prev.map((r) => (r.id === id ? { ...r, status: 'Bekliyor' as Status } : r)),
-      );
-      console.error('Rezervasyon iptal edilemedi:', result.error);
+      setAll((prev) => prev.map((r) => (r.id === id ? { ...r, status: prevStatus ?? 'Bekliyor' } : r)));
+      console.error('Rezervasyon durumu güncellenemedi:', result.error);
     }
+  }
+
+  const handleCancel = (id: string) => handleStatusChange(id, 'cancelled', 'İptal Edildi');
+  const handleConfirm = (id: string) => handleStatusChange(id, 'confirmed', 'Onaylandı');
+  const handleComplete = (id: string) => handleStatusChange(id, 'completed', 'Tamamlandı');
+
+  async function handleAddNote(id: string) {
+    const text = noteDraft.trim();
+    if (!text) return;
+    const current = all.find((r) => r.id === id);
+    if (!current) return;
+    const dbStatus = STATUS_TO_DB[current.status];
+    setActionPending(true);
+    const result = await updateReservationStatus(id, businessId, dbStatus, text);
+    setActionPending(false);
+    if (result.error) {
+      console.error('Not eklenemedi:', result.error);
+      return;
+    }
+    setAll((prev) => prev.map((r) => (r.id === id ? { ...r, hasNote: true, note: text } : r)));
+    setNoteDraft('');
+    setShowNoteForm(false);
   }
 
   // Stats — compare reservation date string to today's formatted date
@@ -216,7 +255,7 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
           return (
             <button
               key={t.key}
-              onClick={() => setTab(t.key)}
+              onClick={() => { setTab(t.key); setSayfa(1); }}
               className={`relative pb-3 pt-1 px-3 text-[13px] font-extrabold transition-colors ${
                 active ? 'text-[#dc2626]' : 'text-[#64748b] hover:text-[#1a1a2e]'
               }`}
@@ -244,17 +283,28 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
                 <SearchIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#94a3b8]" />
                 <input
                   value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                  onChange={(e) => { setSearch(e.target.value); setSayfa(1); }}
                   placeholder="Misafir adı, telefon veya rezervasyon no ile ara..."
                   className="w-full rounded-xl border border-[#e2e8f0] bg-[#f8fafc] py-2 pl-9 pr-3 text-sm text-[#1a1a2e] placeholder:text-[#94a3b8] focus:outline-hidden focus:ring-2 focus:ring-[#dc2626]/20"
                 />
               </div>
-              <button className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-[12px] font-bold text-[#475569] hover:bg-[#f1f5f9]">
-                <CalendarSmIcon className="h-4 w-4" /> Tarih Seçin
-              </button>
+              <label className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-[12px] font-bold text-[#475569]">
+                <CalendarSmIcon className="h-4 w-4" />
+                <input
+                  type="date"
+                  value={dateFilter}
+                  onChange={(e) => { setDateFilter(e.target.value); setSayfa(1); }}
+                  className="bg-transparent text-[12px] font-bold text-[#475569] outline-hidden [color-scheme:light]"
+                />
+                {dateFilter && (
+                  <button type="button" onClick={() => setDateFilter('')} className="text-[#94a3b8] hover:text-[#dc2626]" aria-label="Tarih filtresini temizle">
+                    <XSmIcon className="h-3.5 w-3.5" />
+                  </button>
+                )}
+              </label>
               <select
                 value={channel}
-                onChange={(e) => setChannel(e.target.value)}
+                onChange={(e) => { setChannel(e.target.value); setSayfa(1); }}
                 className="rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-[12px] font-bold text-[#475569] focus:outline-hidden focus:ring-2 focus:ring-[#dc2626]/20"
               >
                 <option value="all">Tüm Kanallar</option>
@@ -262,9 +312,6 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
                 <option value="Web Sitesi">Web Sitesi</option>
                 <option value="Telefon">Telefon</option>
               </select>
-              <button className="flex items-center gap-1.5 rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-[12px] font-bold text-[#475569] hover:bg-[#f1f5f9]">
-                <FilterIcon className="h-4 w-4" /> Filtrele
-              </button>
             </div>
 
             {/* Table */}
@@ -278,15 +325,15 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#f0f0f0]">
-                  {filtered.length === 0 ? (
+                  {sayfadakiListe.length === 0 ? (
                     <tr>
                       <td colSpan={7} className="py-16 text-center text-sm text-[#94a3b8]">Rezervasyon bulunamadı.</td>
                     </tr>
                   ) : (
-                    filtered.map((r) => (
+                    sayfadakiListe.map((r) => (
                       <tr
                         key={r.id}
-                        onClick={() => setSelectedId(r.id)}
+                        onClick={() => { setSelectedId(r.id); setShowNoteForm(false); setNoteDraft(''); }}
                         className={`cursor-pointer transition-colors ${selectedId === r.id ? 'bg-[#fff5f5]' : 'hover:bg-[#fafafa]'}`}
                       >
                         {/* Misafir */}
@@ -329,9 +376,12 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
                         </td>
                         {/* İşlemler */}
                         <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
-                          <button className="flex h-7 w-7 items-center justify-center rounded-lg text-[#94a3b8] hover:bg-[#f1f5f9]">
-                            <DotsIcon className="h-4 w-4" />
-                          </button>
+                          <SatirIslemMenusu
+                            reservation={r}
+                            onConfirm={() => handleConfirm(r.id)}
+                            onCancel={() => handleCancel(r.id)}
+                            onComplete={() => handleComplete(r.id)}
+                          />
                         </td>
                       </tr>
                     ))
@@ -342,13 +392,36 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
 
             {/* Pagination */}
             <div className="flex items-center justify-between border-t border-[#f0f0f0] px-5 py-3">
-              <span className="text-xs text-[#94a3b8]">Toplam {total} rezervasyon</span>
+              <span className="text-xs text-[#94a3b8]">Toplam {filtered.length} rezervasyon{total > all.length ? ` (ilk ${all.length} yüklendi)` : ''}</span>
               <div className="flex items-center gap-1">
-                <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#e2e8f0] text-[#94a3b8] hover:bg-[#f8fafc]">
+                <button
+                  type="button"
+                  disabled={guvenliSayfa === 1}
+                  onClick={() => setSayfa((p) => Math.max(1, p - 1))}
+                  className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#e2e8f0] text-[#94a3b8] hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-40"
+                >
                   <ChevLeftIcon className="h-3.5 w-3.5" />
                 </button>
-                <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#dc2626] bg-[#dc2626] text-[11px] font-black text-white">1</button>
-                <button className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#e2e8f0] text-[#64748b] hover:bg-[#f8fafc]">
+                {Array.from({ length: sayfaSayisi }, (_, i) => i + 1).map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    onClick={() => setSayfa(n)}
+                    className={
+                      n === guvenliSayfa
+                        ? 'flex h-7 w-7 items-center justify-center rounded-lg border border-[#dc2626] bg-[#dc2626] text-[11px] font-black text-white'
+                        : 'flex h-7 w-7 items-center justify-center rounded-lg border border-[#e2e8f0] text-[11px] font-bold text-[#64748b] hover:bg-[#f8fafc]'
+                    }
+                  >
+                    {n}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  disabled={guvenliSayfa === sayfaSayisi}
+                  onClick={() => setSayfa((p) => Math.min(sayfaSayisi, p + 1))}
+                  className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#e2e8f0] text-[#64748b] hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-40"
+                >
                   <ChevRightIcon className="h-3.5 w-3.5" />
                 </button>
               </div>
@@ -379,17 +452,17 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
                 </div>
 
                 {/* Quick actions */}
-                <div className="mt-4 grid grid-cols-3 gap-2">
+                <div className={`mt-4 grid gap-2 ${selected.guest.email ? 'grid-cols-2' : 'grid-cols-1'}`}>
                   <a href={`tel:${selected.guest.phone.replace(/\s/g,'')}`}
                     className="flex flex-col items-center gap-1 rounded-xl border border-[#e2e8f0] py-2.5 text-[11px] font-extrabold text-[#475569] hover:bg-[#f8fafc] transition-colors">
                     <PhoneIcon className="h-4 w-4 text-[#64748b]" /> Ara
                   </a>
-                  <button className="flex flex-col items-center gap-1 rounded-xl border border-[#e2e8f0] py-2.5 text-[11px] font-extrabold text-[#475569] hover:bg-[#f8fafc] transition-colors">
-                    <MessageIcon className="h-4 w-4 text-[#64748b]" /> Mesaj
-                  </button>
-                  <button className="flex flex-col items-center gap-1 rounded-xl border border-[#e2e8f0] py-2.5 text-[11px] font-extrabold text-[#475569] hover:bg-[#f8fafc] transition-colors">
-                    <MailIcon className="h-4 w-4 text-[#64748b]" /> E-posta
-                  </button>
+                  {selected.guest.email && (
+                    <a href={`mailto:${selected.guest.email}`}
+                      className="flex flex-col items-center gap-1 rounded-xl border border-[#e2e8f0] py-2.5 text-[11px] font-extrabold text-[#475569] hover:bg-[#f8fafc] transition-colors">
+                      <MailIcon className="h-4 w-4 text-[#64748b]" /> E-posta
+                    </a>
+                  )}
                 </div>
 
                 {/* Detail rows */}
@@ -437,20 +510,68 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
 
                 {/* Action buttons */}
                 <div className="mt-5 flex flex-col gap-2 border-t border-[#f0f0f0] pt-4">
-                  <button className="w-full rounded-xl bg-[#dc2626] py-2.5 text-[13px] font-extrabold text-white transition hover:opacity-90">
-                    Rezervasyonu Düzenle
-                  </button>
-                  {selected.status !== 'İptal Edildi' && (
+                  {selected.status === 'Bekliyor' && (
+                    <button
+                      onClick={() => handleConfirm(selected.id)}
+                      disabled={actionPending}
+                      className="w-full rounded-xl bg-[#dc2626] py-2.5 text-[13px] font-extrabold text-white transition hover:opacity-90 disabled:opacity-50"
+                    >
+                      Rezervasyonu Onayla
+                    </button>
+                  )}
+                  {selected.status === 'Onaylandı' && (
+                    <button
+                      onClick={() => handleComplete(selected.id)}
+                      disabled={actionPending}
+                      className="w-full rounded-xl bg-[#dc2626] py-2.5 text-[13px] font-extrabold text-white transition hover:opacity-90 disabled:opacity-50"
+                    >
+                      Tamamlandı Olarak İşaretle
+                    </button>
+                  )}
+                  {selected.status !== 'İptal Edildi' && selected.status !== 'Tamamlandı' && (
                     <button
                       onClick={() => handleCancel(selected.id)}
-                      className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#fecaca] py-2.5 text-[13px] font-extrabold text-[#dc2626] transition hover:bg-[#fff1f2]"
+                      disabled={actionPending}
+                      className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#fecaca] py-2.5 text-[13px] font-extrabold text-[#dc2626] transition hover:bg-[#fff1f2] disabled:opacity-50"
                     >
                       <XSmIcon className="h-4 w-4" /> Rezervasyonu İptal Et
                     </button>
                   )}
-                  <button className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#e2e8f0] py-2.5 text-[13px] font-extrabold text-[#475569] transition hover:bg-[#f8fafc]">
-                    <NoteIcon className="h-4 w-4" /> Not Ekle
-                  </button>
+
+                  {showNoteForm ? (
+                    <div className="flex flex-col gap-2">
+                      <textarea
+                        value={noteDraft}
+                        onChange={(e) => setNoteDraft(e.target.value)}
+                        rows={2}
+                        maxLength={1000}
+                        placeholder="Not yazın..."
+                        className="w-full resize-none rounded-xl border border-[#e2e8f0] bg-[#f8fafc] px-3 py-2 text-sm text-[#1a1a2e] placeholder:text-[#94a3b8] focus:outline-hidden focus:ring-2 focus:ring-[#dc2626]/20"
+                      />
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleAddNote(selected.id)}
+                          disabled={actionPending || !noteDraft.trim()}
+                          className="flex-1 rounded-xl bg-[#1a1a2e] py-2 text-[12px] font-extrabold text-white transition hover:opacity-90 disabled:opacity-50"
+                        >
+                          Kaydet
+                        </button>
+                        <button
+                          onClick={() => { setShowNoteForm(false); setNoteDraft(''); }}
+                          className="flex-1 rounded-xl border border-[#e2e8f0] py-2 text-[12px] font-extrabold text-[#475569] hover:bg-[#f8fafc]"
+                        >
+                          İptal
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => { setNoteDraft(selected.note ?? ''); setShowNoteForm(true); }}
+                      className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#e2e8f0] py-2.5 text-[13px] font-extrabold text-[#475569] transition hover:bg-[#f8fafc]"
+                    >
+                      <NoteIcon className="h-4 w-4" /> {selected.note ? 'Notu Düzenle' : 'Not Ekle'}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -476,6 +597,53 @@ export function ReservationsClient({ businessId, initialReservations, total }: P
 }
 
 // ── Sub-components ────────────────────────────────────────────────────────────
+
+function SatirIslemMenusu({
+  reservation, onConfirm, onCancel, onComplete,
+}: {
+  reservation: Reservation;
+  onConfirm: () => void;
+  onCancel: () => void;
+  onComplete: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function onPointerDown(e: PointerEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => document.removeEventListener('pointerdown', onPointerDown);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="true"
+        aria-expanded={open}
+        className="flex h-7 w-7 items-center justify-center rounded-lg text-[#94a3b8] hover:bg-[#f1f5f9]"
+      >
+        <DotsIcon className="h-4 w-4" />
+      </button>
+      {open && (
+        <div className="absolute right-0 top-8 z-20 w-44 rounded-xl border border-[#f0f0f0] bg-white py-1 shadow-lg">
+          {reservation.status === 'Bekliyor' && (
+            <button type="button" onClick={() => { onConfirm(); setOpen(false); }} className="block w-full px-3 py-2 text-left text-xs font-bold text-[#1a1a2e] hover:bg-[#f8fafc]">Onayla</button>
+          )}
+          {reservation.status === 'Onaylandı' && (
+            <button type="button" onClick={() => { onComplete(); setOpen(false); }} className="block w-full px-3 py-2 text-left text-xs font-bold text-[#1a1a2e] hover:bg-[#f8fafc]">Tamamlandı İşaretle</button>
+          )}
+          {reservation.status !== 'İptal Edildi' && reservation.status !== 'Tamamlandı' && (
+            <button type="button" onClick={() => { onCancel(); setOpen(false); }} className="block w-full px-3 py-2 text-left text-xs font-bold text-[#dc2626] hover:bg-[#fff1f2]">İptal Et</button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function GuestAvatar({ initials, color, size = 38 }: { initials: string; color: string; size?: number }) {
   return (
@@ -534,9 +702,6 @@ function ChannelIcon({ channel }: { channel: Channel }) {
 function SearchIcon({ className = 'h-4 w-4' }: { className?: string }) {
   return <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>;
 }
-function FilterIcon({ className = 'h-4 w-4' }: { className?: string }) {
-  return <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>;
-}
 function ChevLeftIcon({ className = 'h-4 w-4' }: { className?: string }) {
   return <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>;
 }
@@ -551,9 +716,6 @@ function NoteIcon({ className = 'h-4 w-4' }: { className?: string }) {
 }
 function PhoneIcon({ className = 'h-4 w-4' }: { className?: string }) {
   return <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>;
-}
-function MessageIcon({ className = 'h-4 w-4' }: { className?: string }) {
-  return <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>;
 }
 function MailIcon({ className = 'h-4 w-4' }: { className?: string }) {
   return <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>;
