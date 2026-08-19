@@ -3,13 +3,14 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
+import { clsx } from 'clsx';
 import {
   ADMIN_SEARCH_CATEGORY_BADGES,
   ADMIN_SEARCH_CATEGORY_LABELS,
   type AdminSearchResult,
 } from '@/src/lib/veri/admin/yonetici-arama';
 
-export function YoneticiUstArama() {
+export function YoneticiUstArama({ dark = false }: { dark?: boolean }) {
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<AdminSearchResult[]>([]);
@@ -17,6 +18,18 @@ export function YoneticiUstArama() {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const closeTimer = useRef<number | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+    }
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, []);
 
   const trimmedQuery = query.trim();
   const allResultsHref = useMemo(
@@ -25,7 +38,9 @@ export function YoneticiUstArama() {
   );
 
   useEffect(() => {
+    // Debounce edilmiş sunucu aramasının bir parçası — dış sistemle senkronizasyon.
     if (trimmedQuery.length < 2) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setResults([]);
       setLoading(false);
       setError(false);
@@ -96,16 +111,32 @@ export function YoneticiUstArama() {
       onFocus={keepOpen}
       onBlur={handleBlur}
     >
-      <SearchIcon />
+      <SearchIcon dark={dark} />
       <input
+        ref={inputRef}
         value={query}
         onChange={(event) => {
           setQuery(event.target.value);
           setOpen(true);
         }}
         placeholder="İşletme, kullanıcı, rapor ara..."
-        className="h-11 w-full rounded-xl border border-border bg-bg pl-10 pr-4 text-sm font-semibold text-textStrong placeholder:text-muted transition-colors focus:border-primary/40 focus:outline-hidden focus:ring-2 focus:ring-primary/20"
+        className={clsx(
+          'h-11 w-full rounded-xl border pl-10 pr-16 text-sm font-semibold transition-colors focus:outline-hidden focus:ring-2 focus:ring-primary/20',
+          dark
+            ? 'border-white/10 bg-white/5 text-white placeholder:text-white/35 focus:border-white/25'
+            : 'border-border bg-bg text-textStrong placeholder:text-muted focus:border-primary/40',
+        )}
       />
+      {!query && (
+        <kbd
+          className={clsx(
+            'pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 rounded-md border px-1.5 py-0.5 text-[10px] font-bold',
+            dark ? 'border-white/15 bg-white/5 text-white/40' : 'border-border bg-card text-muted',
+          )}
+        >
+          Ctrl+K
+        </kbd>
+      )}
 
       {showPanel && (
         <div className="absolute left-0 right-0 top-[48px] z-50 overflow-hidden rounded-xl border border-border bg-card shadow-yd2">
@@ -153,7 +184,7 @@ export function YoneticiUstArama() {
   );
 }
 
-function SearchIcon() {
+function SearchIcon({ dark = false }: { dark?: boolean }) {
   return (
     <svg
       aria-hidden="true"
@@ -163,7 +194,7 @@ function SearchIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted"
+      className={clsx('pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2', dark ? 'text-white/35' : 'text-muted')}
     >
       <circle cx="11" cy="11" r="8" />
       <line x1="21" y1="21" x2="16.65" y2="16.65" />

@@ -6,59 +6,87 @@ import { usePathname } from 'next/navigation';
 import { AppProviders } from '@/src/lib/uygulama-saglayicilari';
 import { PanelShell } from './panel-kabugu';
 import type { NavSection } from './panel-yan-menusu';
-import { KullaniciFoteri } from './kullanici-foteri';
-import { ReferralButonu } from './referral-butonu';
 import { UserDropdown } from '@/src/ui/bilesenler/kullanici-dropdown';
+import { YeedoyLogo } from '@/src/ui/marka/yeedoy-logo';
+import { IsletmeSwitcherDropdown, type IsletmeSwitcherOgesi } from './isletme-switcher-dropdown';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 import { getOnboardingStatus } from '@/src/lib/veri/owner/sahip-baslangic-durumu';
+import { usePanelStore } from '@/src/lib/panel-deposu';
 
 export interface SahipKabukIsletmeKimligi {
   id: string;
   name: string;
+  slug: string | null;
   category: string | null;
   logoUrl: string | null;
   isVerified: boolean;
+  isActive: boolean;
 }
 
+// Referans tasarımdaki gibi tek, düz liste — bölüm başlığı yok.
 const ownerNavSections: NavSection[] = [
   {
-    title: 'Operasyon',
     items: [
       { href: '/sahip/gosterge-panosu', label: 'Genel Bakış', icon: <HomeIcon />, exact: true },
-      { href: '/sahip/isletmeler', label: 'İşletmeler', icon: <BuildingIcon /> },
-      { href: '/sahip/menuler', label: 'Menüler', icon: <MenuIcon /> },
-      { href: '/sahip/rezervasyonlar', label: 'Rezervasyonlar', icon: <CalendarIcon /> },
-      { href: '/sahip/fotograflar', label: 'Fotoğraflar', icon: <ImageIcon /> },
       { href: '/sahip/baslangic', label: 'Başlangıç Rehberi', icon: <RocketIcon /> },
-    ],
-  },
-  {
-    title: 'Büyüme',
-    items: [
-      { href: '/sahip/analitik', label: 'Analitik', icon: <ChartIcon /> },
-      { href: '/sahip/fiyat-raporu', label: 'Fiyat Raporu', icon: <PriceIcon /> },
+      { href: '/sahip/isletmeler', label: 'İşletmelerim', icon: <BuildingIcon /> },
+      { href: '/sahip/premium', label: 'Premium', icon: <CrownIcon /> },
+      {
+        href: '/sahip/menu-yonetimi',
+        label: 'Menü Yönetimi',
+        icon: <MenuIcon />,
+        children: [
+          { href: '/sahip/menu-yonetimi', label: 'Menü', icon: <MenuIcon />, exact: true },
+          { href: '/sahip/menu-yonetimi/kategoriler', label: 'Kategoriler', icon: <MenuIcon /> },
+          { href: '/sahip/karekod', label: 'QR Menü & QR Kod', icon: <QrIcon /> },
+        ],
+      },
+      { href: '/sahip/fotograflar', label: 'Fotoğraflar', icon: <ImageIcon /> },
+      { href: '/sahip/rezervasyonlar', label: 'Rezervasyonlar', icon: <CalendarIcon /> },
       { href: '/sahip/yorumlar', label: 'Yorumlar', icon: <StarIcon /> },
-      { href: '/sahip/karekod', label: 'QR Kodlar', icon: <QrIcon /> },
-      { href: '/sahip/pazarlama/kampanyalar', label: 'Pazarlama', icon: <MegaphoneIcon /> },
-      { href: '/sahip/pazarlama/eposta-kampanyalari', label: 'E-posta Kampanyaları', icon: <MailIcon /> },
-      { href: '/sahip/pazarlama/sadakat', label: 'Sadakat', icon: <GiftIcon /> },
-      { href: '/sahip/yapay-zeka-analizi', label: 'Yapay Zeka Analizi', icon: <SparklesIcon /> },
-    ],
-  },
-  {
-    title: 'Yönetim',
-    items: [
-      { href: '/sahip/ekip', label: 'Ekip', icon: <UsersIcon /> },
       { href: '/sahip/musteriler', label: 'Müşteriler', icon: <ContactIcon /> },
-      { href: '/sahip/fiyat-onerileri', label: 'Fiyat Önerileri', icon: <TagIcon /> },
-      { href: '/sahip/istekler', label: 'Grup İstekleri', icon: <GroupIcon /> },
-      { href: '/sahip/etkinlik', label: 'Etkinlikler', icon: <ActivityIcon /> },
       { href: '/sahip/bildirimler', label: 'Bildirimler', icon: <BellIcon /> },
-      { href: '/sahip/denetim-kaydi', label: 'Denetim Kaydı', icon: <ShieldIcon /> },
-      { href: '/sahip/cop-kutusu', label: 'Çöp Kutusu', icon: <TrashIcon /> },
-      { href: '/sahip/coklu-sube', label: 'Çoklu Şube Yönetimi', icon: <ChoklusubeIcon /> },
+      {
+        href: '/sahip/pazarlama/kampanyalar',
+        label: 'Pazarlama',
+        icon: <MegaphoneIcon />,
+        children: [
+          { href: '/sahip/pazarlama/kampanyalar', label: 'Kampanyalar', icon: <MegaphoneIcon />, exact: true },
+          { href: '/sahip/pazarlama/sadakat', label: 'Sadakat', icon: <GiftIcon /> },
+          { href: '/sahip/etkinlik', label: 'Etkinlikler', icon: <ActivityIcon /> },
+        ],
+      },
+      {
+        href: '/sahip/analitik',
+        label: 'Raporlar',
+        icon: <ChartIcon />,
+        children: [
+          { href: '/sahip/analitik', label: 'İstatistikler', icon: <ChartIcon />, exact: true },
+          { href: '/sahip/fiyat-raporu', label: 'Fiyat Raporu', icon: <PriceIcon /> },
+        ],
+      },
+      {
+        href: '/sahip/ekip',
+        label: 'Yönetim',
+        icon: <ChoklusubeIcon />,
+        children: [
+          { href: '/sahip/ekip', label: 'Ekip', icon: <UsersIcon />, exact: true },
+          { href: '/sahip/coklu-sube', label: 'Çoklu Şube Yönetimi', icon: <ChoklusubeIcon /> },
+          { href: '/sahip/denetim-kaydi', label: 'Aktivite Geçmişi', icon: <ShieldIcon /> },
+          { href: '/sahip/cop-kutusu', label: 'Çöp Kutusu', icon: <TrashIcon /> },
+        ],
+      },
       { href: '/sahip/destek', label: 'Destek', icon: <HeadsetIcon /> },
-      { href: '/sahip/ayarlar', label: 'Ayarlar', icon: <SettingsIcon /> },
+      { href: '/sahip/sss', label: 'S.S.S.', icon: <HelpIcon /> },
+      {
+        href: '/sahip/ayarlar',
+        label: 'Hesabım',
+        icon: <SettingsIcon />,
+        children: [
+          { href: '/sahip/ayarlar', label: 'Ayarlar', icon: <SettingsIcon />, exact: true },
+          { href: '/sahip/profilim', label: 'Profilim', icon: <UserIcon /> },
+        ],
+      },
     ],
   },
 ];
@@ -97,6 +125,7 @@ interface SahipKabukIstemcisiProps {
   bannerSlot?: ReactNode;
   isletme?: SahipKabukIsletmeKimligi | null;
   isletmeSayisi?: number;
+  isletmeListesi?: IsletmeSwitcherOgesi[];
   yorumBadgeSayisi?: number;
 }
 
@@ -106,7 +135,7 @@ function navSectionsWithYorumBadge(sections: NavSection[], badgeCount: number): 
   return sections.map((section) => ({
     ...section,
     items: section.items.map((item) =>
-      item.href === '/sahip/yorumlar' ? { ...item, badge } : item,
+      item.href === '/sahip/yorumlar' ? { ...item, badge, badgeTone: 'primary' as const } : item,
     ),
   }));
 }
@@ -116,6 +145,7 @@ export function SahipKabukIstemcisi({
   bannerSlot,
   isletme = null,
   isletmeSayisi = 0,
+  isletmeListesi = [],
   yorumBadgeSayisi = 0,
 }: SahipKabukIstemcisiProps) {
   const user = useCurrentUser();
@@ -137,23 +167,60 @@ export function SahipKabukIstemcisi({
       }))
     : ownerNavSections;
 
+  const isletmeSayfaHref = isletme?.slug ? `/isletme/${isletme.slug}` : null;
+
   return (
     <AppProviders>
       <PanelShell
         navSections={navSectionsWithYorumBadge(baseSections, effectiveYorumBadge)}
-        logoSlot={<OwnerLogo />}
-        topbarTitle="Sahip Paneli"
-        topbarCenter={<IsletmeKimlikRozeti isletme={isletme} isletmeSayisi={isletmeSayisi} />}
-        sidebarFooter={<><ReferralButonu /><KullaniciFoteri /></>}
-        topbarActions={
-          user ? (
-            <UserDropdown
-              displayName={user.displayName}
-              email={user.email}
-              avatarUrl={user.avatarUrl}
-              variant="topbar"
+        logoSlot={<IsletmeKimlikKarti isletme={isletme} />}
+        topbarLogoSlot={<OwnerLogo />}
+        showPanelBadge={false}
+        topbarCenter={
+          isletme ? (
+            <IsletmeSwitcherDropdown
+              aktifIsletme={{ id: isletme.id, name: isletme.name, isVerified: isletme.isVerified }}
+              isletmeler={isletmeListesi}
             />
-          ) : undefined
+          ) : null
+        }
+        sidebarFooter={<DestekKarti />}
+        topbarActions={
+          <>
+            {isletmeSayfaHref && (
+              <a
+                href={isletmeSayfaHref}
+                target="_blank"
+                rel="noreferrer"
+                className="hidden items-center gap-1.5 rounded-xl border border-border px-3 py-2 text-xs font-extrabold text-textStrong transition-colors hover:border-primary hover:text-primary sm:flex"
+              >
+                <ExternalLinkIcon />
+                İşletme Sayfasını Gör
+              </a>
+            )}
+            <Link
+              href="/sahip/bildirimler"
+              aria-label="Bildirimler"
+              className="relative flex h-9 w-9 items-center justify-center rounded-lg text-muted transition-colors hover:bg-textStrong/[0.07] hover:text-textStrong"
+            >
+              <BellIcon />
+              {effectiveYorumBadge > 0 && (
+                <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-(--yd-color-primary) px-1 text-[9px] font-black text-white">
+                  {effectiveYorumBadge > 9 ? '9+' : effectiveYorumBadge}
+                </span>
+              )}
+            </Link>
+            {user ? (
+              <UserDropdown
+                displayName={user.displayName}
+                email={user.email}
+                avatarUrl={user.avatarUrl}
+                variant="topbar"
+                context="owner"
+                roleLabel="İşletme Sahibi"
+              />
+            ) : undefined}
+          </>
         }
         bannerSlot={bannerSlot}
       >
@@ -163,63 +230,70 @@ export function SahipKabukIstemcisi({
   );
 }
 
-function IsletmeKimlikRozeti({
-  isletme,
-  isletmeSayisi,
-}: {
-  isletme: SahipKabukIsletmeKimligi | null;
-  isletmeSayisi: number;
-}) {
-  if (isletme) {
-    return (
-      <Link
-        href="/sahip/isletmeler"
-        className="flex items-center gap-2 rounded-lg border border-border bg-card px-2.5 py-1 text-xs font-bold text-textStrong transition-colors hover:bg-textStrong/[0.05]"
-      >
-        <span className="flex h-6 w-6 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary/10 text-[11px] font-black text-primary">
-          {isletme.logoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={isletme.logoUrl} alt={isletme.name} className="h-full w-full object-cover" />
-          ) : (
-            isletme.name.charAt(0).toUpperCase()
-          )}
-        </span>
-        <span className="max-w-[180px] truncate">{isletme.name}</span>
+/** Sidebar üstü — işletme kimlik kartı (fotoğraf, ad, kategori, onay rozeti). Daraltılmışken sadece görsel kalır. İşletme yoksa Yeedoy logosuna düşer. */
+function IsletmeKimlikKarti({ isletme }: { isletme: SahipKabukIsletmeKimligi | null }) {
+  const { sidebarCollapsed } = usePanelStore();
+  if (!isletme) return <OwnerLogo />;
+
+  const foto = (
+    <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-primary/10 text-sm font-black text-primary">
+      {isletme.logoUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={isletme.logoUrl} alt={isletme.name} className="h-full w-full object-cover" />
+      ) : (
+        isletme.name.charAt(0).toUpperCase()
+      )}
+    </span>
+  );
+
+  if (sidebarCollapsed) return foto;
+
+  return (
+    <div className="flex w-full items-center gap-3">
+      {foto}
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-[13px] font-black text-textStrong">{isletme.name}</p>
+        <p className="truncate text-[11px] font-bold text-muted">{isletme.category ?? 'İşletme'}</p>
         {isletme.isVerified && (
-          <span className="shrink-0 rounded-full bg-primary/12 px-1.5 py-0.5 text-[10px] font-extrabold text-primary">
-            Onaylı
+          <span className="mt-1 inline-flex items-center rounded-full bg-green-50 px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wide text-green-700">
+            Onaylı İşletme
           </span>
         )}
-      </Link>
-    );
-  }
-
-  if (isletmeSayisi > 1) {
-    return (
-      <Link
-        href="/sahip/isletmeler"
-        className="flex items-center gap-1.5 rounded-lg border border-border bg-card px-2.5 py-1 text-xs font-bold text-textStrong transition-colors hover:bg-textStrong/[0.05]"
-      >
-        <BuildingIcon />
-        <span>İşletmelerim</span>
-        <span className="text-muted">({isletmeSayisi})</span>
-      </Link>
-    );
-  }
-
-  return null;
+      </div>
+    </div>
+  );
 }
 
 function OwnerLogo() {
   return (
-    <div className="flex items-center gap-2">
-      <div
-        className="flex h-8 w-8 items-center justify-center rounded-lg text-white text-sm font-black"
-        style={{ background: 'linear-gradient(135deg, #7f1d1d, #dc2626)' }}
-      >
-        Y
+    <div className="flex shrink-0 items-center">
+      <YeedoyLogo size={26} />
+    </div>
+  );
+}
+
+/** Sidebar altı — destek CTA kartı. Sidebar daraltıldığında tamamen gizlenir. */
+function DestekKarti() {
+  const { sidebarCollapsed } = usePanelStore();
+  if (sidebarCollapsed) return null;
+
+  return (
+    <div className="mx-1 mb-1 rounded-xl border border-primary/20 bg-primary/5 p-3.5">
+      <div className="mb-2 flex items-center gap-2">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/12 text-primary">
+          <HeadsetIcon />
+        </span>
+        <p className="text-[12px] font-black text-textStrong">Yeedoy Destek</p>
       </div>
-      <span className="text-[15px] font-black text-textStrong">Yeedoy</span>
+      <p className="mb-3 text-[11px] leading-relaxed text-muted">
+        Yardım al ve destek ekibimize ulaş.
+      </p>
+      <Link
+        href="/sahip/destek"
+        className="flex min-h-9 items-center justify-center gap-1.5 rounded-lg bg-(--yd-color-primary) px-3 text-[11px] font-extrabold text-white transition-opacity hover:opacity-90"
+      >
+        Destek Talebi Oluştur
+      </Link>
     </div>
   );
 }
@@ -311,14 +385,6 @@ function UsersIcon() {
   );
 }
 
-function TagIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
-      <line x1="7" y1="7" x2="7.01" y2="7" />
-    </svg>
-  );
-}
 
 function ChoklusubeIcon() {
   return (
@@ -340,6 +406,15 @@ function HeadsetIcon() {
   );
 }
 
+function UserIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  );
+}
+
 function SettingsIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -356,17 +431,6 @@ function RocketIcon() {
       <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
       <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
       <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
-    </svg>
-  );
-}
-
-function GroupIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-      <circle cx="9" cy="7" r="4" />
-      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
     </svg>
   );
 }
@@ -420,15 +484,6 @@ function MegaphoneIcon() {
   );
 }
 
-function MailIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="5" width="18" height="14" rx="2" />
-      <path d="m3 7 9 6 9-6" />
-    </svg>
-  );
-}
-
 function ContactIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -449,20 +504,40 @@ function GiftIcon() {
   );
 }
 
-function SparklesIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3l1.9 4.9L19 9.8l-5.1 1.9L12 16.6l-1.9-4.9L5 9.8l5.1-1.9z" />
-      <path d="M19 3v4M17 5h4" />
-    </svg>
-  );
-}
 
 function BellIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
       <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    </svg>
+  );
+}
+
+function ExternalLinkIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
+  );
+}
+
+function CrownIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m2 20 2-11 5 5 3-8 3 8 5-5 2 11Z" />
+    </svg>
+  );
+}
+
+function HelpIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
     </svg>
   );
 }
