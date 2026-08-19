@@ -2,64 +2,62 @@
 
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-
-interface Photo {
-  id: string; business_id: string; user_id: string; url: string;
-  status: string; created_at: string;
-  businesses: { name: string } | null;
-  user_profiles: { display_name: string } | null;
-}
+import { kindEtiket, STATUS_ETIKETLERI, STATUS_RENKLERI, fotografCsvOlustur, type ModerasyonFotografi } from './fotograf-moderasyon-yardimcilari';
 
 async function moderatePhoto(photoId: string, action: 'approve' | 'reject') {
-  await fetch('/sunucu/yonetici/fotograf-moderasyon', {
+  return fetch('/sunucu/yonetici/fotograf-moderasyon', {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ photoId, action }),
   });
 }
 
-export function FotografModerasyon({ photos }: { photos: Photo[] }) {
+export function FotografModerasyon({ photos }: { photos: ModerasyonFotografi[] }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [filter, setFilter] = useState<'all' | 'pending' | 'flagged'>('all');
-
-  const filtered = photos.filter(p => filter === 'all' || p.status === filter);
 
   const toggle = (id: string) =>
-    setSelected(prev => { const s = new Set(prev); s.has(id) ? s.delete(id) : s.add(id); return s; });
+    setSelected((prev) => { const s = new Set(prev); s.has(id) ? s.delete(id) : s.add(id); return s; });
 
   const toggleAll = () =>
-    setSelected(prev => prev.size === filtered.length ? new Set() : new Set(filtered.map(p => p.id)));
+    setSelected((prev) => (prev.size === photos.length ? new Set() : new Set(photos.map((p) => p.id))));
 
   const bulkAction = (action: 'approve' | 'reject') => {
     startTransition(async () => {
-      await Promise.all([...selected].map(id => moderatePhoto(id, action)));
+      await Promise.all([...selected].map((id) => moderatePhoto(id, action)));
       setSelected(new Set());
       router.refresh();
     });
   };
 
+  const disaAktar = () => {
+    const csv = fotografCsvOlustur(photos);
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `fotograf-moderasyon-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="flex flex-col gap-4">
-      {/* Filters + bulk */}
       <div className="flex flex-wrap items-center gap-3">
-        {(['all', 'pending', 'flagged'] as const).map(f => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
-            className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${filter === f ? 'bg-primary text-white' : 'bg-surface border border-border text-muted hover:text-textStrong'}`}
-          >
-            {f === 'all' ? 'Tümü' : f === 'pending' ? 'Bekleyen' : 'Şikayet Edilen'}
-          </button>
-        ))}
+        <button onClick={toggleAll} className="text-xs font-bold text-muted hover:text-textStrong">
+          {selected.size === photos.length ? 'Seçimi Kaldır' : 'Tümünü Seç'}
+        </button>
+        <button onClick={disaAktar} className="ml-auto flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-extrabold text-textStrong hover:border-primary/30 hover:text-primary">
+          <DownloadIcon /> Dışa Aktar
+        </button>
         {selected.size > 0 && (
-          <div className="ml-auto flex items-center gap-2">
-            <span className="text-xs text-muted">{selected.size} seçili</span>
+          <div className="flex items-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-3 py-2">
+            <span className="text-xs font-extrabold text-textStrong">{selected.size} seçili</span>
             <button
               disabled={isPending}
               onClick={() => bulkAction('approve')}
-              className="rounded-lg bg-green-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-green-700 disabled:opacity-50"
+              className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-emerald-700 disabled:opacity-50"
             >
               Toplu Onayla
             </button>
@@ -74,85 +72,72 @@ export function FotografModerasyon({ photos }: { photos: Photo[] }) {
         )}
       </div>
 
-      {filtered.length === 0 ? (
-        <p className="py-12 text-center text-sm text-muted">Bu filtrede fotoğraf yok</p>
-      ) : (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          {filtered.map(photo => (
-            <div
-              key={photo.id}
-              className={`relative overflow-hidden rounded-xl border-2 transition-colors ${selected.has(photo.id) ? 'border-primary' : 'border-border'}`}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        {photos.map((photo) => (
+          <div
+            key={photo.id}
+            className={`relative overflow-hidden rounded-xl border-2 bg-card transition-colors ${selected.has(photo.id) ? 'border-primary' : 'border-border'}`}
+          >
+            <button
+              onClick={() => toggle(photo.id)}
+              className="absolute left-2 top-2 z-10 flex h-5 w-5 items-center justify-center rounded border-2 border-white bg-white/80 backdrop-blur-xs"
+              aria-label="Seç"
             >
-              {/* Checkbox */}
-              <button
-                onClick={() => toggle(photo.id)}
-                className="absolute left-2 top-2 z-10 flex h-5 w-5 items-center justify-center rounded border-2 border-white bg-white/80 backdrop-blur-sm"
-              >
-                {selected.has(photo.id) && (
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--yd-color-primary)" strokeWidth="3">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                )}
-              </button>
+              {selected.has(photo.id) && (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--yd-color-primary)" strokeWidth="3">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              )}
+            </button>
 
-              {/* Status badge */}
-              <span className={`absolute right-2 top-2 z-10 rounded-full px-2 py-0.5 text-[10px] font-bold ${photo.status === 'flagged' ? 'bg-red-500 text-white' : 'bg-yellow-400 text-yellow-900'}`}>
-                {photo.status === 'flagged' ? 'Şikayet' : 'Bekliyor'}
-              </span>
+            <span className={`absolute right-2 top-2 z-10 rounded-full px-2 py-0.5 text-[10px] font-bold ${photo.is_hidden ? 'bg-red-500 text-white' : STATUS_RENKLERI[photo.status] ?? 'bg-zinc-100 text-zinc-600'}`}>
+              {photo.is_hidden ? 'Gizli' : (STATUS_ETIKETLERI[photo.status] ?? photo.status)}
+            </span>
 
-              {/* Image */}
-              <div className="aspect-square w-full bg-zinc-100">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={photo.url}
-                  alt={photo.businesses?.name ?? 'Fotoğraf'}
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                />
-              </div>
+            <div className="aspect-square w-full bg-zinc-100">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={photo.url_thumb || photo.url}
+                alt={photo.business_name ?? 'Fotoğraf'}
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+            </div>
 
-              {/* Info + actions */}
-              <div className="p-2">
-                <p className="truncate text-xs font-bold text-textStrong">{photo.businesses?.name ?? '—'}</p>
-                <p className="truncate text-[10px] text-muted">{photo.user_profiles?.display_name ?? '—'}</p>
-                <div className="mt-2 flex gap-1">
-                  <button
-                    disabled={isPending}
-                    onClick={() => {
-                      startTransition(async () => {
-                        await moderatePhoto(photo.id, 'approve');
-                        router.refresh();
-                      });
-                    }}
-                    className="flex-1 rounded bg-green-100 py-1 text-[10px] font-extrabold text-green-700 hover:bg-green-200 disabled:opacity-50"
-                  >
-                    Onayla
-                  </button>
-                  <button
-                    disabled={isPending}
-                    onClick={() => {
-                      startTransition(async () => {
-                        await moderatePhoto(photo.id, 'reject');
-                        router.refresh();
-                      });
-                    }}
-                    className="flex-1 rounded bg-red-100 py-1 text-[10px] font-extrabold text-red-700 hover:bg-red-200 disabled:opacity-50"
-                  >
-                    Reddet
-                  </button>
-                </div>
+            <div className="p-2">
+              <p className="truncate text-xs font-bold text-textStrong">{photo.business_name ?? '—'}</p>
+              <p className="flex items-center gap-1 truncate text-[10px] text-muted">
+                {photo.business_category ?? '—'} · {kindEtiket(photo.kind)}
+              </p>
+              <p className="text-[10px] text-muted">{new Date(photo.created_at).toLocaleDateString('tr-TR')}</p>
+              <div className="mt-2 flex gap-1">
+                <button
+                  disabled={isPending}
+                  onClick={() => startTransition(async () => { await moderatePhoto(photo.id, 'approve'); router.refresh(); })}
+                  className="flex-1 rounded bg-emerald-100 py-1 text-[10px] font-extrabold text-emerald-700 hover:bg-emerald-200 disabled:opacity-50"
+                >
+                  Onayla
+                </button>
+                <button
+                  disabled={isPending}
+                  onClick={() => startTransition(async () => { await moderatePhoto(photo.id, 'reject'); router.refresh(); })}
+                  className="flex-1 rounded bg-red-100 py-1 text-[10px] font-extrabold text-red-700 hover:bg-red-200 disabled:opacity-50"
+                >
+                  Reddet
+                </button>
               </div>
             </div>
-          ))}
-        </div>
-      )}
-
-      {/* Select all */}
-      {filtered.length > 0 && (
-        <button onClick={toggleAll} className="text-xs font-semibold text-muted hover:text-textStrong">
-          {selected.size === filtered.length ? 'Seçimi Kaldır' : 'Tümünü Seç'}
-        </button>
-      )}
+          </div>
+        ))}
+      </div>
     </div>
+  );
+}
+
+function DownloadIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
   );
 }
