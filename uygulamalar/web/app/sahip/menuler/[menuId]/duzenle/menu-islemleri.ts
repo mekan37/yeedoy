@@ -189,15 +189,16 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
 export async function upsertItemAllergens(
   itemId: string,
   menuId: string,
-  allergenCodes: string[],
+  allergens: Array<{ code: string; status: 'confirmed' | 'possible'; evidence?: string }>,
 ): Promise<{ error: string } | null> {
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
 
-  const p_allergens = allergenCodes.map((code) => ({
+  const p_allergens = allergens.map(({ code, status, evidence }) => ({
     allergen: code,
-    risk_level: 'contains',
-    detected_by: 'manual',
+    status,
+    evidence: evidence ?? null,
+    detected_by: evidence ? 'ai' : 'manual',
   }));
 
   const { error } = await (context.supabase as any).rpc('owner_upsert_menu_item_allergens_v1', {

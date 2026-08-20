@@ -39,6 +39,7 @@ export function MenuEditorClient({
   sections: initSections,
   items: initItems,
   allergenMap,
+  possibleAllergenMap,
   ingredientMap,
 }: {
   menuId: string;
@@ -49,6 +50,7 @@ export function MenuEditorClient({
   sections: Section[];
   items: Item[];
   allergenMap: Record<string, string[]>;
+  possibleAllergenMap: Record<string, string[]>;
   ingredientMap: Record<string, string[]>;
 }) {
   const [isPending, startTransition] = useTransition();
@@ -276,6 +278,7 @@ export function MenuEditorClient({
             portion_unit: editingItem.portion_unit,
           } : undefined}
           initialAllergens={editingItem ? allergenMap[editingItem.id] ?? [] : []}
+          initialPossibleAllergens={editingItem ? possibleAllergenMap[editingItem.id] ?? [] : []}
           initialIngredients={editingItem ? ingredientMap[editingItem.id] ?? [] : []}
           submitLabel={editingItem ? 'Kaydet' : 'Ürün Ekle'}
           onSuccess={() => { setEditingItemId(null); setAddingSectionId(null); }}

@@ -31,14 +31,19 @@ export default async function MenuEditorPage({ params }: Props) {
   // Batch-fetch allergens for all items in this menu
   const allItemIds = items.map((item) => item.id);
   const allergenMap: Record<string, string[]> = {};
+  const possibleAllergenMap: Record<string, string[]> = {};
   if (allItemIds.length > 0) {
     const { data: allergenRows } = await (supabase as any)
       .from('menu_item_allergens')
-      .select('item_id, allergen')
-      .in('item_id', allItemIds) as { data: Array<{ item_id: string; allergen: string }> | null };
+      .select('item_id, allergen, status')
+      .in('item_id', allItemIds) as { data: Array<{ item_id: string; allergen: string; status: string }> | null };
     for (const row of allergenRows ?? []) {
       if (!allergenMap[row.item_id]) allergenMap[row.item_id] = [];
       allergenMap[row.item_id].push(row.allergen);
+      if (row.status === 'possible') {
+        if (!possibleAllergenMap[row.item_id]) possibleAllergenMap[row.item_id] = [];
+        possibleAllergenMap[row.item_id].push(row.allergen);
+      }
     }
   }
 
@@ -86,6 +91,7 @@ export default async function MenuEditorPage({ params }: Props) {
             portion_unit: item.portion_unit ?? null,
           }))}
           allergenMap={allergenMap}
+          possibleAllergenMap={possibleAllergenMap}
           ingredientMap={ingredientMap}
         />
       </PanelIcerikYuzeyi>

@@ -3,10 +3,13 @@
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
 
+export type AiAllergenSonuc = { code: string; status: 'confirmed' | 'possible'; evidence: string };
+
 export type AiDoldurmaSonuc =
   | { error: string }
   | {
-      allergens: string[];
+      allergens: AiAllergenSonuc[];
+      unmatchedIngredients: string[];
       calorieMin: number | null;
       calorieMax: number | null;
     };
@@ -43,7 +46,11 @@ export async function aiIleAlerjenKaloriDoldur(
   if (allergenRes.error) return { error: 'Alerjen tespiti başarısız: ' + allergenRes.error.message };
   if (nutritionRes.error) return { error: 'Kalori tahmini başarısız: ' + nutritionRes.error.message };
 
-  const allergenData = allergenRes.data as { ok: boolean; allergens?: Array<{ allergen: string; risk: string }> };
+  const allergenData = allergenRes.data as {
+    ok: boolean;
+    allergens?: Array<{ code: string; status: 'confirmed' | 'possible'; evidence: string }>;
+    unmatchedIngredients?: string[];
+  };
   const nutritionData = nutritionRes.data as { ok: boolean; calorie_min?: number; calorie_max?: number };
 
   if (!allergenData.ok || !nutritionData.ok) {
@@ -51,7 +58,8 @@ export async function aiIleAlerjenKaloriDoldur(
   }
 
   return {
-    allergens: (allergenData.allergens ?? []).map((entry) => entry.allergen),
+    allergens: allergenData.allergens ?? [],
+    unmatchedIngredients: allergenData.unmatchedIngredients ?? [],
     calorieMin: nutritionData.calorie_min ?? null,
     calorieMax: nutritionData.calorie_max ?? null,
   };

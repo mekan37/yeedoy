@@ -124,7 +124,7 @@ function ImageUrlField({
 }
 
 export function UrunPaneli({
-  menuId, sectionId, businessId, itemId, initialValues, initialAllergens, initialIngredients, submitLabel, onSuccess, onCancel,
+  menuId, sectionId, businessId, itemId, initialValues, initialAllergens, initialPossibleAllergens, initialIngredients, submitLabel, onSuccess, onCancel,
 }: {
   menuId: string;
   sectionId: string;
@@ -135,6 +135,7 @@ export function UrunPaneli({
     is_available: boolean; calories_min: number | null; portion_size: number | null; portion_unit: string | null;
   };
   initialAllergens: string[];
+  initialPossibleAllergens: string[];
   initialIngredients: string[];
   submitLabel: string;
   onSuccess: () => void;
@@ -143,6 +144,9 @@ export function UrunPaneli({
   const [isPending, startTransition] = useTransition();
   const [formError, setFormError] = useState<string | null>(null);
   const [selectedAllergens, setSelectedAllergens] = useState<Set<string>>(new Set(initialAllergens));
+  const [possibleAllergens, setPossibleAllergens] = useState<Set<string>>(new Set(initialPossibleAllergens));
+  const [allergenEvidence, setAllergenEvidence] = useState<Map<string, string>>(new Map());
+  const [unmatchedIngredients, setUnmatchedIngredients] = useState<string[]>([]);
   const [ingredients, setIngredients] = useState<string[]>(initialIngredients);
   const [ingredientInput, setIngredientInput] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
@@ -159,7 +163,10 @@ export function UrunPaneli({
     try {
       const result = await aiIleAlerjenKaloriDoldur(businessId, name, descInput?.value ?? '');
       if ('error' in result) { setFormError(result.error); return; }
-      setSelectedAllergens(new Set(result.allergens));
+      setSelectedAllergens(new Set(result.allergens.map((a) => a.code)));
+      setPossibleAllergens(new Set(result.allergens.filter((a) => a.status === 'possible').map((a) => a.code)));
+      setAllergenEvidence(new Map(result.allergens.map((a) => [a.code, a.evidence])));
+      setUnmatchedIngredients(result.unmatchedIngredients);
       if (result.calorieMin !== null) setCalorieValue(String(result.calorieMin));
     } catch {
       setFormError('AI çağrısı başarısız oldu, tekrar deneyin.');
@@ -172,6 +179,13 @@ export function UrunPaneli({
     setSelectedAllergens((prev) => {
       const next = new Set(prev);
       if (next.has(code)) next.delete(code); else next.add(code);
+      return next;
+    });
+    // Dokunulan bir alerjen artık "gözden geçirilmiş" sayılır — rozet kalkar.
+    setPossibleAllergens((prev) => {
+      if (!prev.has(code)) return prev;
+      const next = new Set(prev);
+      next.delete(code);
       return next;
     });
   }
@@ -194,7 +208,12 @@ export function UrunPaneli({
       if ('error' in result) { setFormError(result.error); return; }
       const resolvedId = result.itemId;
       if (resolvedId) {
-        const allergenResult = await upsertItemAllergens(resolvedId, menuId, [...selectedAllergens]);
+        const allergenPayload = [...selectedAllergens].map((code) => ({
+          code,
+          status: (possibleAllergens.has(code) ? 'possible' : 'confirmed') as 'possible' | 'confirmed',
+          evidence: allergenEvidence.get(code),
+        }));
+        const allergenResult = await upsertItemAllergens(resolvedId, menuId, allergenPayload);
         if (allergenResult?.error) { setFormError(allergenResult.error); return; }
         const ingredientResult = await upsertItemIngredients(resolvedId, menuId, ingredients);
         if (ingredientResult?.error) { setFormError(ingredientResult.error); return; }
@@ -278,15 +297,24 @@ export function UrunPaneli({
             <div className="grid grid-cols-2 gap-1.5">
               {ALLERGEN_LIST.map(({ code, labelTr }) => {
                 const active = selectedAllergens.has(code);
+                const needsReview = active && possibleAllergens.has(code);
                 return (
-                  <button key={code} type="button" onClick={() => toggleAllergen(code)} className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-bold text-left cursor-pointer transition-colors ${active ? 'border-primary bg-primary/10 text-textStrong' : 'border-border bg-card text-muted hover:bg-bg'}`}>
+                  <button key={code} type="button" onClick={() => toggleAllergen(code)} className={`relative flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-bold text-left cursor-pointer transition-colors ${active ? 'border-primary bg-primary/10 text-textStrong' : 'border-border bg-card text-muted hover:bg-bg'}`}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={`/allergens/allergen_${code}.svg`} alt="" width={16} height={16} className="shrink-0" />
                     <span>{labelTr}</span>
+                    {needsReview && (
+                      <span className="absolute -right-1 -top-1 rounded-full bg-amber-500 px-1.5 py-0.5 text-[9px] font-extrabold leading-none text-white" title="AI tahmini — gözden geçirin">?</span>
+                    )}
                   </button>
                 );
               })}
             </div>
+            {unmatchedIngredients.length > 0 && (
+              <p className="rounded-lg bg-amber-50 px-2.5 py-1.5 text-[11px] font-semibold text-amber-800">
+                AI şu malzemeleri tanıyamadı, elle kontrol edin: {unmatchedIngredients.join(', ')}
+              </p>
+            )}
           </div>
 
           {formError && <p className="text-xs font-bold text-red-600">{formError}</p>}
