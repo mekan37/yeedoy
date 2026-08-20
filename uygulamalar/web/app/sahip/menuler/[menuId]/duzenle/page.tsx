@@ -87,6 +87,8 @@ export default async function MenuEditorPage({ params }: Props) {
             sort_order: item.sort_order,
             updated_at: item.updated_at,
             calories_min: item.calories_min ?? null,
+            calories_max: item.calories_max ?? null,
+            calorie_source: item.calorie_source ?? null,
             portion_size: item.portion_size ?? null,
             portion_unit: item.portion_unit ?? null,
           }))}

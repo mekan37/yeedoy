@@ -274,6 +274,8 @@ export function MenuEditorClient({
             price_cents: editingItem.price_cents,
             is_available: editingItem.is_available,
             calories_min: editingItem.calories_min,
+            calories_max: editingItem.calories_max,
+            calorie_source: editingItem.calorie_source,
             portion_size: editingItem.portion_size,
             portion_unit: editingItem.portion_unit,
           } : undefined}

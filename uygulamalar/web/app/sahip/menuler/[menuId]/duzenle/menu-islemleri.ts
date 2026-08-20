@@ -125,7 +125,9 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
     }
   }
 
-  const caloriesRaw = fd.get('calories') ? Number(fd.get('calories')) : null;
+  const caloriesMinRaw = fd.get('calories_min') ? Number(fd.get('calories_min')) : null;
+  const caloriesMaxRaw = fd.get('calories_max') ? Number(fd.get('calories_max')) : null;
+  const calorieSourceRaw = (fd.get('calorie_source') as string) || null;
   const portionSizeRaw = fd.get('portion_size') ? Number(fd.get('portion_size')) : null;
   const portionUnit = (fd.get('portion_unit') as string) || null;
 
@@ -137,11 +139,11 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
     currency: 'TRY',
     is_available,
     section_id: sectionId,
-    calories_min: caloriesRaw,
-    calories_max: caloriesRaw,
+    calories_min: caloriesMinRaw,
+    calories_max: caloriesMaxRaw ?? caloriesMinRaw,
     portion_size: portionSizeRaw,
     portion_unit: portionUnit,
-    calorie_source: caloriesRaw !== null ? 'owner' : 'unknown',
+    calorie_source: caloriesMinRaw !== null ? (calorieSourceRaw ?? 'owner') : 'unknown',
   };
 
   let resolvedItemId: string;

@@ -11,6 +11,8 @@ export type Item = {
   section_id: string;
   sort_order: number;
   calories_min: number | null;
+  calories_max: number | null;
+  calorie_source: string | null;
   portion_size: number | null;
   portion_unit: string | null;
   updated_at: string;

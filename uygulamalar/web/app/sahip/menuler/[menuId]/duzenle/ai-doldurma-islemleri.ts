@@ -12,12 +12,16 @@ export type AiDoldurmaSonuc =
       unmatchedIngredients: string[];
       calorieMin: number | null;
       calorieMax: number | null;
+      calorieSource: string | null;
+      portionGrams: number | null;
     };
 
 export async function aiIleAlerjenKaloriDoldur(
   businessId: string,
   itemName: string,
   description: string,
+  ingredients: string[],
+  portionGrams: number | null,
 ): Promise<AiDoldurmaSonuc> {
   const supabase = await createSupabaseServerClient();
   const {
@@ -39,7 +43,7 @@ export async function aiIleAlerjenKaloriDoldur(
       body: { item_name: itemName, description, business_id: businessId },
     }),
     supabase.functions.invoke('ai-nutrition-estimate', {
-      body: { item_name: itemName, description, business_id: businessId },
+      body: { item_name: itemName, description, business_id: businessId, ingredients, portion_grams: portionGrams },
     }),
   ]);
 
@@ -51,7 +55,12 @@ export async function aiIleAlerjenKaloriDoldur(
     allergens?: Array<{ code: string; status: 'confirmed' | 'possible'; evidence: string }>;
     unmatchedIngredients?: string[];
   };
-  const nutritionData = nutritionRes.data as { ok: boolean; calorie_min?: number; calorie_max?: number };
+  const nutritionData = nutritionRes.data as {
+    ok: boolean;
+    source?: string;
+    portion_grams?: number;
+    calories?: { min: number; max: number };
+  };
 
   if (!allergenData.ok || !nutritionData.ok) {
     return { error: 'AI otomasyonu şu an kullanılamıyor.' };
@@ -60,8 +69,10 @@ export async function aiIleAlerjenKaloriDoldur(
   return {
     allergens: allergenData.allergens ?? [],
     unmatchedIngredients: allergenData.unmatchedIngredients ?? [],
-    calorieMin: nutritionData.calorie_min ?? null,
-    calorieMax: nutritionData.calorie_max ?? null,
+    calorieMin: nutritionData.calories?.min ?? null,
+    calorieMax: nutritionData.calories?.max ?? null,
+    calorieSource: nutritionData.source ?? null,
+    portionGrams: nutritionData.portion_grams ?? null,
   };
 }
 

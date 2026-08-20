@@ -17,19 +17,19 @@ const ITEMS: Item[] = [
   {
     id: 'i1', name: 'Serpme Kahvaltı', description: null, image_url: null,
     price_cents: 29500, currency: 'TRY', is_available: true, section_id: 's1',
-    sort_order: 0, calories_min: null, portion_size: null, portion_unit: null,
+    sort_order: 0, calories_min: null, calories_max: null, calorie_source: null, portion_size: null, portion_unit: null,
     updated_at: '2026-07-06T09:40:00Z',
   },
   {
     id: 'i2', name: 'Flat White', description: null, image_url: null,
     price_cents: 9500, currency: 'TRY', is_available: false, section_id: 's2',
-    sort_order: 0, calories_min: null, portion_size: null, portion_unit: null,
+    sort_order: 0, calories_min: null, calories_max: null, calorie_source: null, portion_size: null, portion_unit: null,
     updated_at: '2026-07-04T16:22:00Z',
   },
   {
     id: 'i3', name: 'Soğuk Kahve', description: null, image_url: null,
     price_cents: 11000, currency: 'TRY', is_available: true, section_id: 's2',
-    sort_order: 1, calories_min: null, portion_size: null, portion_unit: null,
+    sort_order: 1, calories_min: null, calories_max: null, calorie_source: null, portion_size: null, portion_unit: null,
     updated_at: '2026-07-08T12:30:00Z',
   },
 ];

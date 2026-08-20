@@ -9,21 +9,25 @@ import {
 } from '../menu-islemleri';
 import { aiIleAlerjenKaloriDoldur, aiIleGorselUret } from '../ai-doldurma-islemleri';
 
+// Kodlar public.allergens tablosuyla (ve müşteri tarafında gösterimi yapan
+// menu-duzen.tsx ALLERGEN_LABEL ile) birebir aynı olmalı — bu liste daha önce
+// 'egg'/'crustaceans'/'sulfur_dioxide' kullanıyordu, o kodlar müşteri
+// tarafında hiç görüntülenmiyordu ('eggs'/'shellfish'/'sulphites' bekleniyor).
 const ALLERGEN_LIST = [
-  { code: 'gluten',         labelTr: 'Gluten'                      },
-  { code: 'crustaceans',    labelTr: 'Kabuklu Deniz Ürünleri'      },
-  { code: 'egg',            labelTr: 'Yumurta'                     },
-  { code: 'fish',           labelTr: 'Balık'                       },
-  { code: 'peanuts',        labelTr: 'Yer Fıstığı'                },
-  { code: 'soy',            labelTr: 'Soya'                        },
-  { code: 'milk',           labelTr: 'Süt'                         },
-  { code: 'treenuts',       labelTr: 'Sert Kabuklu Yemişler'      },
-  { code: 'celery',         labelTr: 'Kereviz'                     },
-  { code: 'mustard',        labelTr: 'Hardal'                      },
-  { code: 'sesame',         labelTr: 'Susam'                       },
-  { code: 'sulfur_dioxide', labelTr: 'Kükürt Dioksit / Sülfitler'  },
-  { code: 'lupin',          labelTr: 'Acı Bakla'                   },
-  { code: 'molluscs',       labelTr: 'Yumuşakçalar'                },
+  { code: 'gluten',    labelTr: 'Gluten'                 },
+  { code: 'shellfish', labelTr: 'Kabuklu Deniz Ürünleri' },
+  { code: 'eggs',      labelTr: 'Yumurta'                },
+  { code: 'fish',      labelTr: 'Balık'                  },
+  { code: 'peanuts',   labelTr: 'Yer Fıstığı'            },
+  { code: 'soy',       labelTr: 'Soya'                   },
+  { code: 'milk',      labelTr: 'Süt'                    },
+  { code: 'treenuts',  labelTr: 'Sert Kabuklu Yemişler'  },
+  { code: 'celery',    labelTr: 'Kereviz'                },
+  { code: 'mustard',   labelTr: 'Hardal'                 },
+  { code: 'sesame',    labelTr: 'Susam'                  },
+  { code: 'sulphites', labelTr: 'Sülfitler'              },
+  { code: 'lupin',     labelTr: 'Acı Bakla'              },
+  { code: 'molluscs',  labelTr: 'Yumuşakçalar'           },
 ] as const;
 
 function Input({
@@ -132,7 +136,8 @@ export function UrunPaneli({
   itemId?: string;
   initialValues?: {
     name: string; description: string | null; image_url: string | null; price_cents: number;
-    is_available: boolean; calories_min: number | null; portion_size: number | null; portion_unit: string | null;
+    is_available: boolean; calories_min: number | null; calories_max: number | null;
+    calorie_source: string | null; portion_size: number | null; portion_unit: string | null;
   };
   initialAllergens: string[];
   initialPossibleAllergens: string[];
@@ -150,24 +155,36 @@ export function UrunPaneli({
   const [ingredients, setIngredients] = useState<string[]>(initialIngredients);
   const [ingredientInput, setIngredientInput] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
-  const [calorieValue, setCalorieValue] = useState(initialValues?.calories_min ?? '');
+  const [calorieMinValue, setCalorieMinValue] = useState(initialValues?.calories_min ?? '');
+  const [calorieMaxValue, setCalorieMaxValue] = useState(initialValues?.calories_max ?? '');
+  const [calorieSource, setCalorieSource] = useState(initialValues?.calorie_source ?? '');
   const formRef = useRef<HTMLFormElement>(null);
+
+  function markCaloriesOwnerEdited() {
+    if (calorieSource === 'ai') setCalorieSource('owner');
+  }
 
   async function aiIleDoldur() {
     const nameInput = formRef.current?.elements.namedItem('name') as HTMLInputElement | null;
     const descInput = formRef.current?.elements.namedItem('description') as HTMLInputElement | null;
+    const portionSizeInput = formRef.current?.elements.namedItem('portion_size') as HTMLInputElement | null;
+    const portionUnitInput = formRef.current?.elements.namedItem('portion_unit') as HTMLSelectElement | null;
     const name = nameInput?.value?.trim();
     if (!name) { setFormError('AI doldurmadan önce ürün adını girin.'); return; }
     setAiLoading(true);
     setFormError(null);
     try {
-      const result = await aiIleAlerjenKaloriDoldur(businessId, name, descInput?.value ?? '');
+      const portionSize = portionSizeInput?.value ? Number(portionSizeInput.value) : null;
+      const portionGrams = portionSize && portionUnitInput?.value === 'g' ? portionSize : null;
+      const result = await aiIleAlerjenKaloriDoldur(businessId, name, descInput?.value ?? '', ingredients, portionGrams);
       if ('error' in result) { setFormError(result.error); return; }
       setSelectedAllergens(new Set(result.allergens.map((a) => a.code)));
       setPossibleAllergens(new Set(result.allergens.filter((a) => a.status === 'possible').map((a) => a.code)));
       setAllergenEvidence(new Map(result.allergens.map((a) => [a.code, a.evidence])));
       setUnmatchedIngredients(result.unmatchedIngredients);
-      if (result.calorieMin !== null) setCalorieValue(String(result.calorieMin));
+      if (result.calorieMin !== null) setCalorieMinValue(String(result.calorieMin));
+      if (result.calorieMax !== null) setCalorieMaxValue(String(result.calorieMax));
+      setCalorieSource('ai');
     } catch {
       setFormError('AI çağrısı başarısız oldu, tekrar deneyin.');
     } finally {
@@ -245,8 +262,14 @@ export function UrunPaneli({
           <div className="flex flex-col gap-3 rounded-2xl border border-border bg-bg p-3">
             <p className="text-xs font-bold text-muted">Şeffaf Menü Bilgileri (İsteğe Bağlı)</p>
             <div className="flex flex-col gap-1">
-              <label className="text-xs font-bold text-muted">Enerji Değeri (kcal)</label>
-              <input name="calories" type="number" value={calorieValue} onChange={(e) => setCalorieValue(e.target.value)} min="0" max="9999" placeholder="örn: 450" className="rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30" />
+              <label className="text-xs font-bold text-muted">Enerji Değeri (kcal) — aralık</label>
+              <div className="flex items-center gap-2">
+                <input name="calories_min" type="number" value={calorieMinValue} onChange={(e) => { setCalorieMinValue(e.target.value); markCaloriesOwnerEdited(); }} min="0" max="9999" placeholder="min" className="w-full rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30" />
+                <span className="text-xs text-muted">–</span>
+                <input name="calories_max" type="number" value={calorieMaxValue} onChange={(e) => { setCalorieMaxValue(e.target.value); markCaloriesOwnerEdited(); }} min="0" max="9999" placeholder="max" className="w-full rounded-xl border border-border bg-card px-3 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30" />
+              </div>
+              {calorieSource === 'ai' && <p className="text-[10px] text-muted">AI tahmini — bu bir kesinlik değil, aralıktır. Elle düzenlenirse sahip kaynaklı sayılır.</p>}
+              <input type="hidden" name="calorie_source" value={calorieSource} />
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div className="flex flex-col gap-1">
