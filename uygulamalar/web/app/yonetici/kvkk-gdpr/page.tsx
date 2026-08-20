@@ -6,6 +6,7 @@ import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-sect
 import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
 import { YetkisizErisim } from '@/src/ui/bilesenler/yetkisiz-erisim';
 import { DsarYonetimi } from './dsar-istemci';
+import { PolitikaYonetimi } from './politika-istemci';
 
 export const metadata: Metadata = {
   title: 'KVKK / GDPR | Admin Panel',
@@ -59,12 +60,15 @@ export default async function KvkkGdprPage() {
   const processing = allRequests.filter(r => r.status === 'in_review');
   const completed = allRequests.filter(r => r.status === 'resolved');
 
-  // Stats
-  const { count: totalUsers } = await (supabase as any)
-    .from('user_profiles')
-    .select('user_id', { count: 'exact', head: true });
-
-  const consentRate = 94; // Estimated consent rate
+  const { data: legalDocs } = await (supabase as any)
+    .from('legal_documents')
+    .select('id, slug, title, description, content, is_published, sort_order, updated_at')
+    .order('sort_order') as { data: Array<{
+      id: string; slug: string; title: string; description: string | null; content: string;
+      is_published: boolean; sort_order: number; updated_at: string;
+    }> | null };
+  const allLegalDocs = legalDocs ?? [];
+  const publishedDocCount = allLegalDocs.filter(d => d.is_published).length;
 
   return (
     <div className="flex flex-col">
@@ -80,38 +84,15 @@ export default async function KvkkGdprPage() {
             <MetricCard title="Bekleyen DSAR" value={pending.length} icon={<FileIcon />} />
             <MetricCard title="İşlemdeki" value={processing.length} icon={<ClockIcon />} />
             <MetricCard title="Tamamlanan" value={completed.length} icon={<CheckIcon />} />
-            <MetricCard title="Onay Oranı" value={`%${consentRate}`} icon={<ShieldIcon />} />
+            <MetricCard title="Yayındaki Politika" value={publishedDocCount} icon={<ShieldIcon />} />
           </div>
 
           {/* DSAR Management */}
           <PanelBolumKarti title="DSAR Yönetimi (Veri Konusu Erişim Talepleri)">
-            <div className="mb-4 flex flex-col gap-3">
-              <p className="text-sm text-muted">
-                KVKK Madde 11 ve GDPR Article 15-22 kapsamındaki veri konusu talepleri.
-                Her talep oluşturma tarihinden itibaren <strong>30 gün</strong> içinde yanıtlanmalıdır.
-              </p>
-              <div className="rounded-xl border border-border bg-zinc-50 p-4">
-                <p className="text-xs font-extrabold text-muted mb-2">Uyum Durumu Özeti</p>
-                <div className="grid gap-2 sm:grid-cols-2">
-                  {[
-                    { label: 'Veri Dışa Aktarma', status: 'compliant', desc: 'privacy_requests tablosu + otomatik export' },
-                    { label: 'Hesap Silme', status: 'compliant', desc: 'delete_user_account_v1 RPC + cascade delete' },
-                    { label: 'Veri Portabilitesi', status: 'partial', desc: 'CSV export mevcut; JSON formatı eksik' },
-                    { label: 'Onay Geri Çekme', status: 'compliant', desc: 'Bildirim toggle + profil ayarları' },
-                    { label: 'DSAR 30-Gün SLA', status: 'compliant', desc: 'Manuel süreç; otomatik uyarı yok' },
-                    { label: 'Veri İşleme Kaydı', status: 'partial', desc: 'Audit log mevcut; veri işleme sicili eksik' },
-                  ].map(item => (
-                    <div key={item.label} className={`flex items-start gap-3 rounded-lg border p-3 ${item.status === 'compliant' ? 'border-green-200 bg-green-50' : 'border-yellow-200 bg-yellow-50'}`}>
-                      <span>{item.status === 'compliant' ? '✅' : '⚠️'}</span>
-                      <div>
-                        <p className="text-sm font-extrabold text-textStrong">{item.label}</p>
-                        <p className="text-xs text-muted">{item.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <p className="text-sm text-muted">
+              KVKK Madde 11 ve GDPR Article 15-22 kapsamındaki veri konusu talepleri.
+              Her talep oluşturma tarihinden itibaren <strong>30 gün</strong> içinde yanıtlanmalıdır.
+            </p>
           </PanelBolumKarti>
 
           {/* DSAR Request List */}
@@ -123,24 +104,9 @@ export default async function KvkkGdprPage() {
             )}
           </PanelBolumKarti>
 
-          {/* Data Retention Policy */}
-          <PanelBolumKarti title="Veri Saklama Politikası">
-            <div className="grid gap-3 sm:grid-cols-2">
-              {[
-                { table: 'user_profiles', retention: 'Hesap aktif olduğu sürece', action: 'Silme talebinde cascade delete' },
-                { table: 'reviews', retention: 'İçerik kaldırılana dek', action: 'soft delete → 30g sonra hard delete' },
-                { table: 'analytics_events', retention: '2 yıl', action: 'Otomatik partition silme' },
-                { table: 'audit_log', retention: '5 yıl (yasal)', action: 'Arşivleme, silinmez' },
-                { table: 'privacy_requests', retention: '7 yıl (yasal)', action: 'Arşivleme, silinmez' },
-                { table: 'push_tokens', retention: 'Onay geri çekilene dek', action: 'consent_withdraw ile temizlenir' },
-              ].map(item => (
-                <div key={item.table} className="rounded-xl border border-border p-3">
-                  <code className="text-xs font-extrabold text-primary">{item.table}</code>
-                  <p className="mt-1 text-xs font-bold text-textStrong">{item.retention}</p>
-                  <p className="text-[10px] text-muted">{item.action}</p>
-                </div>
-              ))}
-            </div>
+          {/* Legal document management */}
+          <PanelBolumKarti title="Politikalar & Belgeler" description="Gizlilik/kullanım/çerez politikalarının halka açık /yasal sayfalarında görünen içeriği. Yayınlanan belgeler anında canlıya yansır.">
+            <PolitikaYonetimi documents={allLegalDocs} />
           </PanelBolumKarti>
         </div>
       </PanelIcerikYuzeyi>
