@@ -80,12 +80,13 @@ function ImageUrlField({
   async function generateWithAi() {
     if (uploading) return;
     const nameInput = itemNameRef.current?.elements.namedItem('name') as HTMLInputElement | null;
+    const descInput = itemNameRef.current?.elements.namedItem('description') as HTMLInputElement | null;
     const name = nameInput?.value?.trim();
     if (!name) { setUploadError('Görsel oluşturmadan önce ürün adını girin.'); return; }
     setAiGenerating(true);
     setUploadError(null);
     try {
-      const result = await aiIleGorselUret(businessId, name);
+      const result = await aiIleGorselUret(businessId, name, descInput?.value ?? '');
       if ('error' in result) { setUploadError(result.error); return; }
       setUrl(result.imageUrl);
     } catch {

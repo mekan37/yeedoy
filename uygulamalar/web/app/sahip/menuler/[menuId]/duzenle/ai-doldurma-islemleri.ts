@@ -79,6 +79,7 @@ export async function aiIleAlerjenKaloriDoldur(
 export async function aiIleGorselUret(
   businessId: string,
   itemName: string,
+  description: string,
 ): Promise<{ error: string } | { imageUrl: string }> {
   const supabase = await createSupabaseServerClient();
   const {
@@ -96,7 +97,7 @@ export async function aiIleGorselUret(
   if (limitError) return { error: 'Bu özellik yalnızca Pro kademede var.' };
 
   const { data, error } = await supabase.functions.invoke('ai-menu-image-gen', {
-    body: { item_name: itemName, business_id: businessId },
+    body: { item_name: itemName, description, business_id: businessId },
   });
   if (error) return { error: 'Görsel üretilemedi: ' + error.message };
 
