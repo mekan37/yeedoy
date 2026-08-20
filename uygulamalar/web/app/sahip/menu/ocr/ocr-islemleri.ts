@@ -60,9 +60,10 @@ export async function ocrTaramaDurumu(
         id: string;
         sourceText: string;
         normalizedText: string | null;
-        allergens: string[];
-        calorieMin: number | null;
-        calorieMax: number | null;
+        descriptionText: string | null;
+        categoryName: string | null;
+        priceCents: number | null;
+        currency: string;
         confidence: number;
         status: string;
       }>;
@@ -92,9 +93,10 @@ export async function ocrTaramaDurumu(
       id: string;
       source_text: string;
       normalized_text: string | null;
-      allergens_json: string[];
-      calorie_min: number | null;
-      calorie_max: number | null;
+      description_text: string | null;
+      category_name: string | null;
+      price_cents: number | null;
+      currency: string;
       confidence: number;
       status: string;
     }> | null;
@@ -111,9 +113,10 @@ export async function ocrTaramaDurumu(
       id: a.id,
       sourceText: a.source_text,
       normalizedText: a.normalized_text,
-      allergens: a.allergens_json ?? [],
-      calorieMin: a.calorie_min,
-      calorieMax: a.calorie_max,
+      descriptionText: a.description_text,
+      categoryName: a.category_name,
+      priceCents: a.price_cents,
+      currency: a.currency,
       confidence: a.confidence,
       status: a.status,
     })),

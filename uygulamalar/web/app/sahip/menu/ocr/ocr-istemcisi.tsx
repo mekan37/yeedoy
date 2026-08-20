@@ -7,12 +7,18 @@ type Analiz = {
   id: string;
   sourceText: string;
   normalizedText: string | null;
-  allergens: string[];
-  calorieMin: number | null;
-  calorieMax: number | null;
+  descriptionText: string | null;
+  categoryName: string | null;
+  priceCents: number | null;
+  currency: string;
   confidence: number;
   status: string;
 };
+
+function formatPrice(cents: number | null, currency: string): string {
+  if (cents === null) return 'Fiyat okunamadı';
+  return (cents / 100).toLocaleString('tr-TR', { minimumFractionDigits: 2 }) + ' ' + (currency === 'TRY' ? '₺' : currency);
+}
 
 function taramaHataMesaji(errorMessage: string | null): string {
   if (errorMessage === 'no_text_extracted') {
@@ -182,9 +188,10 @@ export function OcrIstemcisi({
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold text-textStrong">{analiz.normalizedText ?? analiz.sourceText}</p>
                   <p className="text-xs text-muted">
-                    {analiz.allergens.length > 0 ? `${analiz.allergens.length} alerjen` : 'Alerjen yok'}
-                    {analiz.calorieMin ? ` · ${analiz.calorieMin}-${analiz.calorieMax} kcal` : ''}
+                    {analiz.categoryName ? `${analiz.categoryName} · ` : ''}
+                    {formatPrice(analiz.priceCents, analiz.currency)}
                   </p>
+                  {analiz.descriptionText && <p className="text-xs text-muted">{analiz.descriptionText}</p>}
                 </div>
                 <div className="flex shrink-0 gap-2">
                   <button
