@@ -10,9 +10,9 @@
 
 ---
 
-## Durum: Bu plan sadece hazırlandı, UYGULANMADI
+## Durum: Task 1-6 UYGULANDI (2026-08-21), Task 7 (canlı API key gerektiren manuel doğrulama) bekliyor
 
-Kullanıcı talebi: önce diğer işler bitirilecek, sonra bu plana dönülecek. Hiçbir kod/migration bu plan kapsamında henüz yazılmadı/uygulanmadı. subagent-driven-development veya executing-plans ile başlatılana kadar bekletilecek.
+Commit'ler: `9c6d7fda` (Task 1), `7f05cfdc` (Task 2), `967d9c81` (Task 3), `1f3d1c93` (Task 4), `30672ca6` (Task 5), `88bdf1a4` (Task 6). Typecheck/lint/unit test (152/152) temiz. Task 7 için Vercel'e `GEMINI_API_KEY`/`GROQ_API_KEY`/`CLOUDFLARE_ACCOUNT_ID`/`CLOUDFLARE_API_TOKEN` eklenmesi gerekiyor (Supabase edge function secret'larından ayrı, bu route Next.js/Vercel'de çalışıyor).
 
 ---
 
