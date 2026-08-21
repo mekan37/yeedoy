@@ -12,12 +12,13 @@ const TARGET_LANGS = [
   { code: 'zh', label: 'Çince' },
 ];
 
+const LANG_LABELS: Record<string, string> = Object.fromEntries(TARGET_LANGS.map((l) => [l.code, l.label]));
+
 export function OtomatikCeviriPanel({ menuIds }: { menuIds: string[] }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [selectedLangs, setSelectedLangs] = useState<string[]>(['en']);
-  const [engine, setEngine] = useState<'openai' | 'deepl'>('openai');
-  const [result, setResult] = useState<{ ok: boolean; message: string } | null>(null);
+  const [result, setResult] = useState<{ ok: boolean; message: string; skippedLocales?: string[] } | null>(null);
 
   const toggleLang = (code: string) =>
     setSelectedLangs(prev =>
@@ -32,11 +33,15 @@ export function OtomatikCeviriPanel({ menuIds }: { menuIds: string[] }) {
       const res = await fetch('/sunucu/sahip/ceviriler-otomatik', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ menuIds, targetLocales: selectedLangs, engine }),
+        body: JSON.stringify({ menuIds, targetLocales: selectedLangs }),
       });
-      const data = await res.json() as { ok?: boolean; translated?: number; error?: string };
+      const data = await res.json() as { ok?: boolean; translated?: number; skippedLocales?: string[]; error?: string };
       if (data.ok) {
-        setResult({ ok: true, message: `${data.translated ?? 0} öğe çevrildi. Sayfa yenileniyor…` });
+        const skipped = data.skippedLocales ?? [];
+        const skippedMsg = skipped.length > 0
+          ? ` Plan limitiniz nedeniyle atlanan diller: ${skipped.map(c => LANG_LABELS[c] ?? c).join(', ')}.`
+          : '';
+        setResult({ ok: true, message: `${data.translated ?? 0} öğe çevrildi.${skippedMsg} Sayfa yenileniyor…`, skippedLocales: skipped });
         setTimeout(() => router.refresh(), 1500);
       } else {
         setResult({ ok: false, message: data.error ?? 'Çeviri başarısız.' });
@@ -47,20 +52,9 @@ export function OtomatikCeviriPanel({ menuIds }: { menuIds: string[] }) {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-sm text-muted">
-        Menünüzdeki tüm kategori ve ürün adlarını seçilen dillere otomatik çevirin.
+        Menünüzdeki tüm kategori ve ürün adlarını (ve varsa açıklamalarını) seçilen dillere otomatik çevirin.
         Mevcut çeviriler üzerine yazılmaz — sadece eksik olanlar eklenir.
       </p>
-
-      {/* Engine */}
-      <div className="flex items-center gap-3">
-        <p className="text-xs font-bold text-muted">Motor:</p>
-        {(['openai', 'deepl'] as const).map(e => (
-          <label key={e} className={`flex cursor-pointer items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-bold ${engine === e ? 'border-primary bg-primary/5 text-primary' : 'border-border text-muted'}`}>
-            <input type="radio" name="engine" value={e} checked={engine === e} onChange={() => setEngine(e)} className="hidden" />
-            {e === 'openai' ? 'GPT-4o (OpenAI)' : 'DeepL'}
-          </label>
-        ))}
-      </div>
 
       {/* Languages */}
       <div>
