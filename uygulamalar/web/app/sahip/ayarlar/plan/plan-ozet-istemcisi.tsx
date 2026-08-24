@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { PLAN_CEILING_FEATURE_KEYS } from '@/src/lib/plan/plan-sabitleri';
 
 type FeatureRow = {
   feature_key: string;
@@ -29,24 +30,31 @@ export function PlanOzetIstemcisi({
       </div>
 
       <div className="divide-y divide-border rounded-2xl border border-border bg-card">
-        {features.map((feature) => (
-          <div key={feature.feature_key} className="flex items-center justify-between gap-4 px-5 py-3">
-            <span className="text-sm font-semibold text-textStrong">{feature.label}</span>
-            {!feature.enabled ? (
-              <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-bold text-zinc-500">
-                Kilitli
-              </span>
-            ) : feature.limit_value === null ? (
-              <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700">
-                Sınırsız
-              </span>
-            ) : (
-              <span className="rounded-full border border-border bg-bg px-2.5 py-1 text-xs font-bold text-textStrong">
-                {feature.used} / {feature.limit_value}
-              </span>
-            )}
-          </div>
-        ))}
+        {features.map((feature) => {
+          const isCeiling = (PLAN_CEILING_FEATURE_KEYS as readonly string[]).includes(feature.feature_key);
+          return (
+            <div key={feature.feature_key} className="flex items-center justify-between gap-4 px-5 py-3">
+              <span className="text-sm font-semibold text-textStrong">{feature.label}</span>
+              {!feature.enabled ? (
+                <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-bold text-zinc-500">
+                  Kilitli
+                </span>
+              ) : feature.limit_value === null ? (
+                <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700">
+                  Sınırsız
+                </span>
+              ) : isCeiling ? (
+                <span className="rounded-full border border-border bg-bg px-2.5 py-1 text-xs font-bold text-textStrong">
+                  Son {feature.limit_value} gün
+                </span>
+              ) : (
+                <span className="rounded-full border border-border bg-bg px-2.5 py-1 text-xs font-bold text-textStrong">
+                  {feature.used} / {feature.limit_value}
+                </span>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       <Link

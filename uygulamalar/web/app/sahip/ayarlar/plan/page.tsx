@@ -5,27 +5,11 @@ import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi } from '@/src/ui/yerlesim/panel-section-card';
 import { PlanOzetIstemcisi } from './plan-ozet-istemcisi';
+import { FEATURE_LABELS, TIER_LABELS } from '@/src/lib/plan/plan-sabitleri';
 
 export const metadata: Metadata = {
   title: 'Plan | Sahip Paneli',
   robots: { index: false, follow: false },
-};
-
-const FEATURE_LABELS: Record<string, string> = {
-  menu_item_count: 'Ürün sayısı',
-  ocr_scans_per_month: 'OCR taraması (bu ay)',
-  allergen_ai: 'AI alerjen/kalori otomasyonu',
-  language_count: 'Dil sayısı',
-  ai_image_gen: 'AI görsel üretme',
-  qr_watermark: 'QR filigranı',
-  map_boost: 'Harita önceliklendirme',
-};
-
-const TIER_LABELS: Record<string, string> = {
-  free: 'Ücretsiz',
-  starter: 'Başlangıç',
-  standard: 'Standart',
-  pro: 'Pro (İşletme)',
 };
 
 export default async function PlanSayfasi() {
@@ -70,10 +54,10 @@ export default async function PlanSayfasi() {
       <PanelIcerikYuzeyi className="pt-6">
         <PlanOzetIstemcisi
           planTier={data.plan_tier}
-          planLabel={TIER_LABELS[data.plan_tier] ?? data.plan_tier}
+          planLabel={TIER_LABELS[data.plan_tier as keyof typeof TIER_LABELS] ?? data.plan_tier}
           features={data.features.map((f) => ({
             ...f,
-            label: FEATURE_LABELS[f.feature_key] ?? f.feature_key,
+            label: FEATURE_LABELS[f.feature_key as keyof typeof FEATURE_LABELS] ?? f.feature_key,
           }))}
         />
       </PanelIcerikYuzeyi>
