@@ -1,44 +1,45 @@
-import { beforeAll, describe, expect, it } from 'vitest';
-import { bulVarsayilanYemekGorseli } from '@/src/lib/menu/varsayilan-yemek-gorseli';
+import { describe, expect, it } from 'vitest';
+import { bulEslesenYemekGorselleri, bulVarsayilanYemekGorseli, type StockDishImage } from '@/src/lib/menu/varsayilan-yemek-gorseli';
+
+const KUTUPHANE: StockDishImage[] = [
+  { id: '1', image_url: 'https://x.test/corbalar/mercimek.webp', keywords: ['mercimek çorbası'] },
+  { id: '2', image_url: 'https://x.test/sulu_yemekler/ali_nazik.webp', keywords: ['ali nazik'] },
+  { id: '3', image_url: 'https://x.test/zeytinyaglilar/barbunya.webp', keywords: ['zeytinyağlı barbunya'] },
+  { id: '4', image_url: 'https://x.test/sulu_yemekler/bamya.webp', keywords: ['etli bamya'] },
+  { id: '5', image_url: 'https://x.test/corbalar/bamya.webp', keywords: ['bamya çorbası'] },
+];
 
 describe('bulVarsayilanYemekGorseli', () => {
-  beforeAll(() => {
-    process.env.NEXT_PUBLIC_SUPABASE_URL ??= 'https://test.supabase.co';
-  });
-
-  it('kategori çorba ise ürün adına göre çorba görseli döner', () => {
-    const url = bulVarsayilanYemekGorseli('Mercimek Çorbası', 'Çorbalar');
-    expect(url).toContain('varsayilan-yemekler/corbalar/mercimek.webp');
+  it('ürün adı bir anahtar ifadeyi içeriyorsa ilgili görseli döner', () => {
+    expect(bulVarsayilanYemekGorseli('Mercimek Çorbası', KUTUPHANE)).toBe('https://x.test/corbalar/mercimek.webp');
   });
 
   it('bitişik yazılmış yemek adını da eşleştirir (ör. "Alinazik")', () => {
-    const url = bulVarsayilanYemekGorseli('Alinazik Kebap', 'Ana Yemekler');
-    expect(url).toContain('varsayilan-yemekler/sulu_yemekler/ali_nazik.webp');
+    expect(bulVarsayilanYemekGorseli('Alinazik Kebap', KUTUPHANE)).toBe('https://x.test/sulu_yemekler/ali_nazik.webp');
   });
 
-  it('aynı slug birden fazla klasörde varsa kategoriye göre doğru klasörü seçer', () => {
-    const zeytinyagli = bulVarsayilanYemekGorseli('Zeytinyağlı Barbunya', 'Zeytinyağlılar');
-    expect(zeytinyagli).toContain('varsayilan-yemekler/zeytinyaglilar/barbunya.webp');
-
-    const suluYemek = bulVarsayilanYemekGorseli('Etli Bamya', 'Ana Yemekler');
-    expect(suluYemek).toContain('varsayilan-yemekler/sulu_yemekler/bamya.webp');
+  it('aynı kelime birden fazla görselde geçerse en uzun/özgül anahtar kazanır', () => {
+    // "Etli Bamya Çorbası" hem "etli bamya" (11 char) hem "bamya çorbası" (13 char)
+    // ile eşleşir — daha uzun/özgül olan kazanmalı.
+    expect(bulVarsayilanYemekGorseli('Etli Bamya Çorbası', KUTUPHANE)).toBe('https://x.test/corbalar/bamya.webp');
   });
 
-  it('kategori 4 kapsanan gruptan birine eşleşmiyorsa null döner', () => {
-    expect(bulVarsayilanYemekGorseli('Cheeseburger', 'Burgerler')).toBeNull();
+  it('hiçbir anahtar ifade eşleşmiyorsa null döner', () => {
+    expect(bulVarsayilanYemekGorseli('Cheeseburger', KUTUPHANE)).toBeNull();
   });
 
-  it('kategori kapsanan gruptaysa ama ürün adı hiçbir yemekle örtüşmüyorsa null döner', () => {
-    expect(bulVarsayilanYemekGorseli('Bilinmeyen Özel Yemek', 'Çorbalar')).toBeNull();
+  it('boş kütüphaneyle null döner (hata fırlatmaz)', () => {
+    expect(bulVarsayilanYemekGorseli('Mercimek Çorbası', [])).toBeNull();
+  });
+});
+
+describe('bulEslesenYemekGorselleri', () => {
+  it('birden fazla eşleşmeyi en özgülden en genele sıralı döner', () => {
+    const sonuc = bulEslesenYemekGorselleri('Etli Bamya Çorbası', KUTUPHANE);
+    expect(sonuc.map((s) => s.id)).toEqual(['5', '4']);
   });
 
-  it('kategori adı boş/yoksa null döner', () => {
-    expect(bulVarsayilanYemekGorseli('Mercimek Çorbası', null)).toBeNull();
-    expect(bulVarsayilanYemekGorseli('Mercimek Çorbası', undefined)).toBeNull();
-  });
-
-  it('dönen URL Supabase Storage public path formatındadır', () => {
-    const url = bulVarsayilanYemekGorseli('Humus', 'Salata & Mezeler');
-    expect(url).toMatch(/^https:\/\/.*\/storage\/v1\/object\/public\/menu-media\/varsayilan-yemekler\/.*\.webp$/);
+  it('eşleşme yoksa boş dizi döner', () => {
+    expect(bulEslesenYemekGorselleri('Cheeseburger', KUTUPHANE)).toEqual([]);
   });
 });
