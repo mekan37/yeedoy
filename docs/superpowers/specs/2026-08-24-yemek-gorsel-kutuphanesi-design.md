@@ -59,7 +59,7 @@ Konum: `app/yonetici/gorsel-kutuphanesi/`, "Operasyon" nav grubuna eklenir (İş
 - **Liste/ızgara**: her görsel bir kart — küçük resim, anahtar kelime "chip"leri, aktif/pasif anahtarı.
 - **Yeni ekle**: dosya yükle (mevcut `menu-media` bucket kısıtları geçerli: jpeg/png/webp, 5MB) + bir veya daha fazla anahtar ifade.
 - **Düzenle**: anahtar ifadeleri ekle/çıkar, aktif/pasif yap.
-- **Pasifleştirme (birincil aksiyon)** vs **gerçek silme (ikincil, uyarılı aksiyon)**: pasifleştirme yeni eşleşmelerde görünmez yapar ama dosyayı silmez, zaten seçilmiş `image_url`'leri bozmaz. Gerçek silme dosyayı Storage'dan da kaldırır — "bunu seçmiş işletmeler olabilir, görselleri bozulabilir" uyarısıyla, daha az öne çıkan bir aksiyon olarak sunulur.
+- **Pasifleştirme (birincil aksiyon)** vs **gerçek silme (ikincil, uyarılı aksiyon)**: pasifleştirme yeni eşleşmelerde görünmez yapar ama dosyayı silmez, zaten seçilmiş `image_url`'leri bozmaz. Gerçek silme **v1'de yalnızca kütüphane satırını kaldırır** (Storage'daki dosyaya dokunmaz — dosya `storage.objects` tablosundan güvenli/atomik şekilde silinmesi ayrı bir path-türetme + yetkilendirme katmanı gerektirir, v1 kapsamı dışında bırakıldı) — "bunu seçmiş işletmeler olabilir, görselleri bozulabilir" uyarısıyla, daha az öne çıkan bir aksiyon olarak sunulur.
 
 ## Sahip Tarafı — "Sistemden Seç" (yalnızca web)
 
