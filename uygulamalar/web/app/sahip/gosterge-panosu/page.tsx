@@ -9,6 +9,12 @@ import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
 import { getOwnerBusinessIds, getOwnerBusinessesByIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 import { GoruntulenmeGrafigi, type GunlukGoruntulenme } from './goruntuleme-grafigi';
+import { FEATURE_LABELS } from '@/src/lib/plan/plan-sabitleri';
+
+type PlanOzetVerisi = {
+  plan_tier: string;
+  features: Array<{ feature_key: string; enabled: boolean; limit_value: number | null; used: number }>;
+};
 
 export const metadata: Metadata = {
   title: 'Genel Bakış | Sahip Paneli',
@@ -193,7 +199,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
   const qrByBiz = new Map<string, TrendCount>();
   const reviewTrendByBiz = new Map<string, TrendCount>();
   const reviewsByBiz = new Map<string, ReviewRow[]>();
-  const planTierByBiz = new Map<string, string>();
+  const planByBiz = new Map<string, PlanOzetVerisi>();
   const profileMap = new Map<string, { display_name: string | null; avatar_url: string | null }>();
   const saatDurumuByBiz = new Map<string, { isOpenNow: boolean | null; closeTime: string | null }>();
   let dailyViewsByBiz = new Map<string, GunlukGoruntulenme[]>();
@@ -228,7 +234,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
         selectedIds.map((id) =>
           (supabase as any)
             .rpc('get_my_plan_v1', { p_business_id: id })
-            .then((r: { data: { plan_tier?: string } | null }) => [id, r?.data?.plan_tier] as const)
+            .then((r: { data: PlanOzetVerisi | null }) => [id, r?.data ?? undefined] as const)
             .catch(() => [id, undefined] as const),
         ),
       ),
@@ -274,8 +280,8 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
       reviewsByBiz.get(row.business_id)?.push(row);
     }
 
-    for (const [id, tier] of (planResults as Array<readonly [string, string | undefined]>)) {
-      if (tier) planTierByBiz.set(id, tier);
+    for (const [id, plan] of (planResults as Array<readonly [string, PlanOzetVerisi | undefined]>)) {
+      if (plan) planByBiz.set(id, plan);
     }
 
     const reviewerIds = Array.from(new Set(detailRows.map((r) => r.user_id).filter((id): id is string => Boolean(id))));
@@ -390,7 +396,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
             const qrTrend = qrByBiz.get(b.id) ?? { curr: 0, prev: 0 };
             const reviewTrend = reviewTrendByBiz.get(b.id) ?? { curr: 0, prev: 0 };
             const bizReviews = reviewsByBiz.get(b.id) ?? [];
-            const planTier = planTierByBiz.get(b.id);
+            const plan = planByBiz.get(b.id);
             const dailyViews = dailyViewsByBiz.get(b.id) ?? [];
 
             return (
@@ -557,7 +563,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
                   />
                 </div>
 
-                {planTier === 'free' && <PremiumBanner />}
+                <PlanKompaktRozet plan={plan} />
               </div>
             );
           })}
@@ -664,22 +670,35 @@ function BusinessPreviewCard({
   );
 }
 
-function PremiumBanner() {
-  return (
-    <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-primary/25 bg-primary/5 px-5 py-4">
-      <div className="flex items-center gap-3">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-card text-primary shadow-xs">
-          <GiftIcon />
-        </span>
-        <div>
-          <p className="text-sm font-black text-textStrong">Premium&apos;a Geçin</p>
-          <p className="mt-0.5 text-xs text-muted">
-            Daha fazla müşteriye ulaşın, öne çıkan işletmeler arasında yer alın.
-          </p>
-        </div>
+function PlanKompaktRozet({ plan }: { plan: PlanOzetVerisi | undefined }) {
+  if (!plan) return null;
+
+  if (plan.plan_tier === 'free') {
+    return (
+      <div className="mt-3 flex items-center justify-between gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
+        <p className="text-xs font-bold text-amber-800">
+          Ücretsiz plandasınız — daha fazla özellik için yükseltin.
+        </p>
+        <Link href="/sahip/premium" className="shrink-0 text-xs font-extrabold text-amber-800 underline">
+          Planları Gör
+        </Link>
       </div>
-      <Link href="/sahip/ayarlar/plan" className="btn-primary inline-flex shrink-0 items-center gap-1 rounded-xl px-4 py-2 text-xs font-extrabold">
-        Premium&apos;a Geç →
+    );
+  }
+
+  const kritikOzellik = plan.features.find(
+    (f) => f.enabled && f.limit_value !== null && f.used >= f.limit_value * 0.8,
+  );
+
+  if (!kritikOzellik) return null;
+
+  return (
+    <div className="mt-3 flex items-center justify-between gap-3 rounded-xl border border-border bg-cardAlt px-4 py-3">
+      <p className="text-xs font-bold text-textStrong">
+        {FEATURE_LABELS[kritikOzellik.feature_key as keyof typeof FEATURE_LABELS] ?? kritikOzellik.feature_key}: {kritikOzellik.used}/{kritikOzellik.limit_value} kullanıldı
+      </p>
+      <Link href="/sahip/ayarlar/plan" className="shrink-0 text-xs font-extrabold text-primary underline">
+        Detay
       </Link>
     </div>
   );
@@ -830,17 +849,6 @@ function CheckBadgeIcon() {
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M12 2 9.5 4.5 6 4l-.5 3.5L2 9l2 3-2 3 3.5 1.5L6 20l3.5-.5L12 22l2.5-2.5L18 20l.5-3.5L22 15l-2-3 2-3-3.5-1.5L18 4l-3.5.5z" />
       <path d="M9 12l2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-    </svg>
-  );
-}
-
-function GiftIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="8" width="18" height="4" />
-      <path d="M12 8v13M19 12v9H5v-9" />
-      <path d="M7.5 8a2.5 2.5 0 1 1 0-5C10 3 12 8 12 8" />
-      <path d="M16.5 8a2.5 2.5 0 1 0 0-5C14 3 12 8 12 8" />
     </svg>
   );
 }
