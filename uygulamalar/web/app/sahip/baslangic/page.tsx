@@ -44,6 +44,14 @@ export default async function OwnerOnboardingPage() {
   const submissionPending = hasSubmission && submissions[0]?.status === 'new';
   const firstName = (profile?.display_name as string | null)?.trim().split(/\s+/)[0] || null;
 
+  const { data: planData } = hasBusiness
+    ? ((await (supabase as any).rpc('get_my_plan_v1', { p_business_id: businessIds[0] })) as {
+        data: { plan_tier: string; features: Array<{ feature_key: string; enabled: boolean }> } | null;
+      })
+    : { data: null };
+
+  const sadakatAcik = planData?.features.some((f) => f.feature_key === 'sadakat_programi' && f.enabled) ?? false;
+
   const onboarding = await getOnboardingStatus();
 
   let hasHours = false;
@@ -227,6 +235,8 @@ export default async function OwnerOnboardingPage() {
                     description="Düzenli müşterilerini ödüllendir ve sadakati artır."
                     href="/sahip/pazarlama/sadakat"
                     label="Oluştur"
+                    locked={!sadakatAcik}
+                    lockedLabel="Standart+ planda"
                   />
                   <OneriKarti
                     title="Bildirim tercihlerini ayarla"
@@ -275,14 +285,34 @@ export default async function OwnerOnboardingPage() {
   );
 }
 
-function OneriKarti({ title, description, href, label }: { title: string; description: string; href: string; label: string }) {
+function OneriKarti({
+  title,
+  description,
+  href,
+  label,
+  locked,
+  lockedLabel,
+}: {
+  title: string;
+  description: string;
+  href: string;
+  label: string;
+  locked?: boolean;
+  lockedLabel?: string;
+}) {
   return (
     <div className="rounded-xl border border-border p-3">
       <p className="text-xs font-extrabold text-textStrong">{title}</p>
       <p className="mt-0.5 text-[11px] text-muted">{description}</p>
-      <Link href={href} className="mt-2 inline-block text-xs font-extrabold text-primary hover:underline">
-        {label} →
-      </Link>
+      {locked ? (
+        <Link href="/sahip/premium" className="mt-2 inline-block text-xs font-extrabold text-muted hover:underline">
+          🔒 {lockedLabel ?? 'Yükselt'} →
+        </Link>
+      ) : (
+        <Link href={href} className="mt-2 inline-block text-xs font-extrabold text-primary hover:underline">
+          {label} →
+        </Link>
+      )}
     </div>
   );
 }
