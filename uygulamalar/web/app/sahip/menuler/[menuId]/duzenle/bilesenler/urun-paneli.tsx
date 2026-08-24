@@ -8,6 +8,8 @@ import {
   upsertItemIngredients,
 } from '../menu-islemleri';
 import { aiIleAlerjenKaloriDoldur, aiIleGorselUret } from '../ai-doldurma-islemleri';
+import { bulEslesenYemekGorselleri, type StockDishImage } from '@/src/lib/menu/varsayilan-yemek-gorseli';
+import { getStokYemekKutuphanesi } from '@/src/lib/menu/stok-yemek-kutuphanesi';
 
 // Kodlar public.allergens tablosuyla (ve müşteri tarafında gösterimi yapan
 // menu-duzen.tsx ALLERGEN_LABEL ile) birebir aynı olmalı — bu liste daha önce
@@ -56,6 +58,25 @@ function ImageUrlField({
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [aiGenerating, setAiGenerating] = useState(false);
   const isBusy = uploading || aiGenerating;
+  const [stokAcik, setStokAcik] = useState(false);
+  const [stokAdaylar, setStokAdaylar] = useState<StockDishImage[]>([]);
+  const [stokYukleniyor, setStokYukleniyor] = useState(false);
+
+  async function sistemdenSecAc() {
+    if (stokAcik) { setStokAcik(false); return; }
+    const nameInput = itemNameRef.current?.elements.namedItem('name') as HTMLInputElement | null;
+    const name = nameInput?.value?.trim();
+    if (!name) { setUploadError('Sistemden seçmeden önce ürün adını girin.'); return; }
+    setStokYukleniyor(true);
+    setUploadError(null);
+    try {
+      const kutuphane = await getStokYemekKutuphanesi();
+      setStokAdaylar(bulEslesenYemekGorselleri(name, kutuphane).slice(0, 12));
+      setStokAcik(true);
+    } finally {
+      setStokYukleniyor(false);
+    }
+  }
 
   async function upload(file: File | null) {
     if (!file || aiGenerating) return;
@@ -116,6 +137,9 @@ function ImageUrlField({
             {uploading ? 'Yükleniyor...' : 'Bilgisayardan seç'}
             <input type="file" accept="image/png,image/jpeg,image/webp" disabled={isBusy} onChange={(event) => upload(event.target.files?.[0] ?? null)} className="sr-only" />
           </label>
+          <button type="button" onClick={sistemdenSecAc} disabled={isBusy || stokYukleniyor} className="inline-flex min-h-10 items-center rounded-xl border border-border bg-card px-3 py-2 text-xs font-extrabold text-textStrong hover:bg-white disabled:opacity-60 cursor-pointer">
+            {stokYukleniyor ? 'Aranıyor...' : '🖼️ Sistemden seç'}
+          </button>
           {url && (
             <button type="button" onClick={() => setUrl('')} disabled={isBusy} className="min-h-10 rounded-xl border border-border px-3 py-2 text-xs font-extrabold text-muted hover:bg-card disabled:opacity-60">
               Kaldır
@@ -123,6 +147,24 @@ function ImageUrlField({
           )}
           {uploadError && <span className="text-xs font-bold text-red-600">{uploadError}</span>}
         </div>
+        {stokAcik && (
+          <div className="flex flex-wrap gap-2 rounded-xl border border-border bg-bg p-2">
+            {stokAdaylar.length === 0 ? (
+              <p className="text-xs text-muted">Eşleşen stok görsel bulunamadı.</p>
+            ) : (
+              stokAdaylar.map((aday) => (
+                <button
+                  key={aday.id}
+                  type="button"
+                  onClick={() => { setUrl(aday.image_url); setStokAcik(false); }}
+                  className="relative h-16 w-16 overflow-hidden rounded-lg border border-border hover:ring-2 hover:ring-primary cursor-pointer"
+                >
+                  <Image src={aday.image_url} alt="" fill sizes="64px" className="object-cover" unoptimized />
+                </button>
+              ))
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
