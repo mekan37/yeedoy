@@ -58,7 +58,7 @@ export function GorselKutuphanesiIstemcisi({ initialGorseller }: { initialGorsel
         return;
       }
       setGorseller((prev) => [
-        { id: crypto.randomUUID(), image_url: yeniUrl, keywords, is_active: true, created_at: new Date().toISOString() },
+        { id: result.id, image_url: yeniUrl, keywords, is_active: true, created_at: new Date().toISOString() },
         ...prev,
       ]);
       setYeniUrl('');
