@@ -9,7 +9,7 @@ import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
 import { getOwnerBusinessIds, getOwnerBusinessesByIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 import { GoruntulenmeGrafigi, type GunlukGoruntulenme } from './goruntuleme-grafigi';
-import { FEATURE_LABELS } from '@/src/lib/plan/plan-sabitleri';
+import { FEATURE_LABELS, PLAN_CEILING_FEATURE_KEYS } from '@/src/lib/plan/plan-sabitleri';
 
 type PlanOzetVerisi = {
   plan_tier: string;
@@ -687,7 +687,11 @@ function PlanKompaktRozet({ plan }: { plan: PlanOzetVerisi | undefined }) {
   }
 
   const kritikOzellik = plan.features.find(
-    (f) => f.enabled && f.limit_value !== null && f.used >= f.limit_value * 0.8,
+    (f) =>
+      f.enabled &&
+      f.limit_value !== null &&
+      f.used >= f.limit_value * 0.8 &&
+      !(PLAN_CEILING_FEATURE_KEYS as readonly string[]).includes(f.feature_key),
   );
 
   if (!kritikOzellik) return null;
