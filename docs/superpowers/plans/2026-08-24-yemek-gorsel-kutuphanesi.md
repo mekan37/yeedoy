@@ -23,7 +23,7 @@
 **Files:**
 - Create: `supabase/migrations/20260824000001_stock_dish_images_table.sql`
 
-- [ ] **Step 1: Migration dosyasını yaz**
+- [x] **Step 1: Migration dosyasını yaz**
 
 ```sql
 CREATE TABLE public.stock_dish_images (
@@ -45,7 +45,7 @@ COMMENT ON TABLE public.stock_dish_images IS
   'Ürün adı eşleştirmesiyle otomatik/manuel önerilen stok yemek görseli kütüphanesi. Erişim: get_stock_dish_images_v1 (public okuma), admin_* RPC''ler (admin yazma).';
 ```
 
-- [ ] **Step 2: Uygula ve doğrula**
+- [x] **Step 2: Uygula ve doğrula**
 
 ```bash
 psql "$SUPABASE_DB_URL" -f supabase/migrations/20260824000001_stock_dish_images_table.sql
@@ -53,7 +53,7 @@ psql "$SUPABASE_DB_URL" -c "select count(*) from public.stock_dish_images"
 ```
 Expected: `CREATE TABLE`, `CREATE INDEX`, ikinci komut `0` döner (henüz veri yok).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add supabase/migrations/20260824000001_stock_dish_images_table.sql
@@ -67,7 +67,7 @@ git commit -m "feat(db): stock_dish_images tablosu — yemek görsel kütüphane
 **Files:**
 - Create: `supabase/migrations/20260824000002_get_stock_dish_images_v1.sql`
 
-- [ ] **Step 1: Migration dosyasını yaz**
+- [x] **Step 1: Migration dosyasını yaz**
 
 ```sql
 CREATE OR REPLACE FUNCTION public.get_stock_dish_images_v1()
@@ -88,7 +88,7 @@ COMMENT ON FUNCTION public.get_stock_dish_images_v1 IS
   'Aktif stok yemek görsellerini döner (id, image_url, keywords). Public okuma — anonim menü ziyaretçileri dahil. Called by: web varsayilan-yemek-gorseli fetch, mobil menu_page fetch, sahip Sistemden Seç.';
 ```
 
-- [ ] **Step 2: Uygula ve doğrula**
+- [x] **Step 2: Uygula ve doğrula**
 
 ```bash
 psql "$SUPABASE_DB_URL" -f supabase/migrations/20260824000002_get_stock_dish_images_v1.sql
@@ -96,7 +96,7 @@ psql "$SUPABASE_DB_URL" -c "select public.get_stock_dish_images_v1()"
 ```
 Expected: `CREATE FUNCTION`, ikinci komut boş sonuç kümesi döner (hata değil — henüz satır yok).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add supabase/migrations/20260824000002_get_stock_dish_images_v1.sql
@@ -110,7 +110,7 @@ git commit -m "feat(db): get_stock_dish_images_v1 — public stok görsel okuma 
 **Files:**
 - Create: `supabase/migrations/20260824000003_admin_stock_dish_image_rpcs.sql`
 
-- [ ] **Step 1: Migration dosyasını yaz**
+- [x] **Step 1: Migration dosyasını yaz**
 
 ```sql
 CREATE OR REPLACE FUNCTION public.admin_list_stock_dish_images_v1()
@@ -206,14 +206,14 @@ COMMENT ON FUNCTION public.admin_delete_stock_dish_image_v1 IS
   'Admin: kütüphane satırını kalıcı siler (yalnızca DB satırı — Storage dosyası v1 kapsamında silinmez). Called by: app/yonetici/gorsel-kutuphanesi.';
 ```
 
-- [ ] **Step 2: Uygula ve doğrula**
+- [x] **Step 2: Uygula ve doğrula**
 
 ```bash
 psql "$SUPABASE_DB_URL" -f supabase/migrations/20260824000003_admin_stock_dish_image_rpcs.sql
 ```
 Expected: 3× `CREATE FUNCTION`. (Fonksiyonel doğrulama Task 5'te gerçek admin oturumu simülasyonuyla yapılacak — burada sadece syntax/deploy doğrulanır.)
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add supabase/migrations/20260824000003_admin_stock_dish_image_rpcs.sql
@@ -230,7 +230,7 @@ git commit -m "feat(db): admin_list/upsert/delete_stock_dish_image_v1 RPC'leri"
 
 **ÖNEMLİ:** Bu iki dosya AYRI `psql -f` çağrılarıyla uygulanmalı (Postgres: `ALTER TYPE ... ADD VALUE` ile eklenen değer, ekleyen transaction'da kullanılamaz).
 
-- [ ] **Step 1: Enum'a yeni değer ekleyen migration'ı yaz**
+- [x] **Step 1: Enum'a yeni değer ekleyen migration'ı yaz**
 
 Create `supabase/migrations/20260824000004_admin_permission_gorsel_kutuphanesi.sql`:
 
@@ -238,14 +238,14 @@ Create `supabase/migrations/20260824000004_admin_permission_gorsel_kutuphanesi.s
 ALTER TYPE public.admin_permission_key ADD VALUE 'page:gorsel-kutuphanesi';
 ```
 
-- [ ] **Step 2: Uygula (ayrı psql çağrısı)**
+- [x] **Step 2: Uygula (ayrı psql çağrısı)**
 
 ```bash
 psql "$SUPABASE_DB_URL" -f supabase/migrations/20260824000004_admin_permission_gorsel_kutuphanesi.sql
 ```
 Expected: `ALTER TYPE`
 
-- [ ] **Step 3: super_admin izinlerini yenileyen migration'ı yaz**
+- [x] **Step 3: super_admin izinlerini yenileyen migration'ı yaz**
 
 Create `supabase/migrations/20260824000005_refresh_super_admin_permissions.sql`:
 
@@ -255,7 +255,7 @@ SET permissions = enum_range(NULL::public.admin_permission_key)
 WHERE is_system = true;
 ```
 
-- [ ] **Step 4: Uygula ve doğrula (ayrı psql çağrısı)**
+- [x] **Step 4: Uygula ve doğrula (ayrı psql çağrısı)**
 
 ```bash
 psql "$SUPABASE_DB_URL" -f supabase/migrations/20260824000005_refresh_super_admin_permissions.sql
@@ -263,7 +263,7 @@ psql "$SUPABASE_DB_URL" -c "select 'page:gorsel-kutuphanesi' = any(permissions) 
 ```
 Expected: `UPDATE 1` (veya kaç sistem rolü varsa), ikinci komut `t` (true) döner.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add supabase/migrations/20260824000004_admin_permission_gorsel_kutuphanesi.sql supabase/migrations/20260824000005_refresh_super_admin_permissions.sql
@@ -278,7 +278,7 @@ git commit -m "feat(db): admin_permission_key'e page:gorsel-kutuphanesi eklendi"
 - Create: `scripts/seed-stock-dish-images.mjs` (bir kerelik generator script)
 - Create: `supabase/migrations/20260824000006_seed_stock_dish_images.sql` (script'in ürettiği dosya)
 
-- [ ] **Step 1: Generator script'i yaz**
+- [x] **Step 1: Generator script'i yaz**
 
 Create `scripts/seed-stock-dish-images.mjs`:
 
@@ -370,21 +370,21 @@ fs.writeFileSync('supabase/migrations/20260824000006_seed_stock_dish_images.sql'
 console.log(`${rows.length} satır supabase/migrations/20260824000006_seed_stock_dish_images.sql dosyasına yazıldı.`);
 ```
 
-- [ ] **Step 2: Script'i çalıştır**
+- [x] **Step 2: Script'i çalıştır**
 
 ```bash
 node scripts/seed-stock-dish-images.mjs
 ```
 Expected: `117 satır supabase/migrations/20260824000006_seed_stock_dish_images.sql dosyasına yazıldı.`
 
-- [ ] **Step 3: Üretilen SQL dosyasını gözden geçir**
+- [x] **Step 3: Üretilen SQL dosyasını gözden geçir**
 
 ```bash
 grep -c "^  ('" supabase/migrations/20260824000006_seed_stock_dish_images.sql
 ```
 Expected: `117`
 
-- [ ] **Step 4: Uygula ve doğrula**
+- [x] **Step 4: Uygula ve doğrula**
 
 ```bash
 psql "$SUPABASE_DB_URL" -f supabase/migrations/20260824000006_seed_stock_dish_images.sql
@@ -393,7 +393,7 @@ psql "$SUPABASE_DB_URL" -c "select image_url, keywords from public.stock_dish_im
 ```
 Expected: `INSERT 0 117`, count sorgusu `117`, üçüncü sorgu `corbalar/mercimek.webp` içeren bir satır döner.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add scripts/seed-stock-dish-images.mjs supabase/migrations/20260824000006_seed_stock_dish_images.sql
@@ -407,7 +407,7 @@ git commit -m "feat(db): 117 mevcut stok yemek görseli stock_dish_images'e taş
 **Files:**
 - Create: `uygulamalar/web/app/sunucu/medya/yonetici-yukleme/route.ts`
 
-- [ ] **Step 1: Route handler'ı yaz**
+- [x] **Step 1: Route handler'ı yaz**
 
 Mevcut `app/sunucu/medya/yukleme/route.ts`'nin business-scoped deseni admin-context'e uyarlanıyor (`hasOwnerBusiness` yerine `checkAdminAccess`, path business'a değil kütüphaneye özel).
 
@@ -501,14 +501,14 @@ function extensionFromMimeType(mimeType: string) {
 }
 ```
 
-- [ ] **Step 2: Typecheck**
+- [x] **Step 2: Typecheck**
 
 ```bash
 cd uygulamalar/web && pnpm run typecheck
 ```
 Expected: Hata yok.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add uygulamalar/web/app/sunucu/medya/yonetici-yukleme/route.ts
@@ -523,7 +523,7 @@ git commit -m "feat(web): admin görsel kütüphanesi yükleme route'u"
 - Modify: `uygulamalar/web/src/lib/admin-izinler.ts`
 - Modify: `uygulamalar/web/src/ui/kabuk/yonetici-kabuk-istemcisi.tsx`
 
-- [ ] **Step 1: `admin-izinler.ts`'e yeni izin ekle**
+- [x] **Step 1: `admin-izinler.ts`'e yeni izin ekle**
 
 Modify `uygulamalar/web/src/lib/admin-izinler.ts` — `AdminPermissionKey` union'ına ekle:
 
@@ -543,7 +543,7 @@ Modify `uygulamalar/web/src/lib/admin-izinler.ts` — `AdminPermissionKey` union
   { key: 'page:gorsel-kutuphanesi', label: 'Görsel Kütüphanesi', group: 'Operasyon', href: '/yonetici/gorsel-kutuphanesi' },
 ```
 
-- [ ] **Step 2: Nav bileşenine ekle**
+- [x] **Step 2: Nav bileşenine ekle**
 
 Modify `uygulamalar/web/src/ui/kabuk/yonetici-kabuk-istemcisi.tsx` — dosyayı önce oku (görsel kütüphanesi işi öncesindeki gerçek hâlini teyit et: `ImageIcon` importu zaten var mı — `page:fotograf-moderasyon` satırında `<ImageIcon />` kullanılıyor, aynı ikonu tekrar kullan ya da farklı bir ikon bileşeni gerekiyorsa mevcut ikon importlarının hemen yanına ekle). `Operasyon` grubunun `items` dizisine, `konumlar` satırından hemen sonra ekle:
 
@@ -564,14 +564,14 @@ function ImageIcon() {
 }
 ```
 
-- [ ] **Step 3: Typecheck**
+- [x] **Step 3: Typecheck**
 
 ```bash
 cd uygulamalar/web && pnpm run typecheck
 ```
 Expected: Hata yok.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add uygulamalar/web/src/lib/admin-izinler.ts uygulamalar/web/src/ui/kabuk/yonetici-kabuk-istemcisi.tsx
@@ -587,7 +587,7 @@ git commit -m "feat(web): admin nav'a Görsel Kütüphanesi sayfası eklendi"
 - Create: `uygulamalar/web/app/yonetici/gorsel-kutuphanesi/gorsel-kutuphanesi-islemleri.ts`
 - Create: `uygulamalar/web/app/yonetici/gorsel-kutuphanesi/gorsel-kutuphanesi-istemcisi.tsx`
 
-- [ ] **Step 1: Server actions dosyasını yaz**
+- [x] **Step 1: Server actions dosyasını yaz**
 
 Create `uygulamalar/web/app/yonetici/gorsel-kutuphanesi/gorsel-kutuphanesi-islemleri.ts`:
 
@@ -679,7 +679,7 @@ export async function gorselSil(id: string): Promise<IslemSonucu> {
 }
 ```
 
-- [ ] **Step 2: Server component (page.tsx) yaz**
+- [x] **Step 2: Server component (page.tsx) yaz**
 
 Create `uygulamalar/web/app/yonetici/gorsel-kutuphanesi/page.tsx`:
 
@@ -736,7 +736,7 @@ export default async function GorselKutuphanesiPage() {
 }
 ```
 
-- [ ] **Step 3: Client component (istemci) yaz**
+- [x] **Step 3: Client component (istemci) yaz**
 
 Create `uygulamalar/web/app/yonetici/gorsel-kutuphanesi/gorsel-kutuphanesi-istemcisi.tsx`:
 
@@ -894,14 +894,14 @@ export function GorselKutuphanesiIstemcisi({ initialGorseller }: { initialGorsel
 }
 ```
 
-- [ ] **Step 4: Typecheck + lint**
+- [x] **Step 4: Typecheck + lint**
 
 ```bash
 cd uygulamalar/web && pnpm run typecheck && pnpm run lint
 ```
 Expected: Hata yok. (`PanelSayfaBasligi`/`PanelIcerikYuzeyi`/`YetkisizErisim` import yollarının gerçek dosya konumuyla eşleştiğini typecheck doğrulayacak — `fotograf-moderasyon/page.tsx`'teki import satırlarıyla birebir aynı yollar kullanıldı.)
 
-- [ ] **Step 5: Manuel doğrulama**
+- [x] **Step 5: Manuel doğrulama**
 
 ```bash
 pnpm run dev
@@ -909,7 +909,7 @@ pnpm run dev
 Tarayıcıda admin oturumuyla `/yonetici/gorsel-kutuphanesi`'ye git.
 Expected: Sayfa açılıyor, Task 5'te eklenen 117 görsel ızgara halinde listeleniyor, yeni görsel ekleme formu çalışıyor.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add uygulamalar/web/app/yonetici/gorsel-kutuphanesi/
@@ -925,7 +925,7 @@ git commit -m "feat(web): admin Görsel Kütüphanesi sayfası — CRUD"
 - Create: `uygulamalar/web/src/lib/menu/stok-yemek-kutuphanesi.ts`
 - Modify: `uygulamalar/web/test/lib/menu/varsayilan-yemek-gorseli.test.ts`
 
-- [ ] **Step 1: Başarısız testi yaz (yeni imza)**
+- [x] **Step 1: Başarısız testi yaz (yeni imza)**
 
 Modify `uygulamalar/web/test/lib/menu/varsayilan-yemek-gorseli.test.ts` — dosyanın tamamını değiştir:
 
@@ -977,14 +977,14 @@ describe('bulEslesenYemekGorselleri', () => {
 });
 ```
 
-- [ ] **Step 2: Testi çalıştır, başarısız olduğunu doğrula**
+- [x] **Step 2: Testi çalıştır, başarısız olduğunu doğrula**
 
 ```bash
 cd uygulamalar/web && pnpm vitest run test/lib/menu/varsayilan-yemek-gorseli.test.ts
 ```
 Expected: FAIL — `bulEslesenYemekGorselleri`/`StockDishImage` export edilmiyor, imza uyuşmazlığı.
 
-- [ ] **Step 3: Modülü yeniden yaz**
+- [x] **Step 3: Modülü yeniden yaz**
 
 Modify `uygulamalar/web/src/lib/menu/varsayilan-yemek-gorseli.ts` — dosyanın tamamını değiştir:
 
@@ -1047,7 +1047,7 @@ export function bulVarsayilanYemekGorseli(urunAdi: string, library: StockDishIma
 }
 ```
 
-- [ ] **Step 4: Fetch/cache modülünü yaz**
+- [x] **Step 4: Fetch/cache modülünü yaz**
 
 Create `uygulamalar/web/src/lib/menu/stok-yemek-kutuphanesi.ts`:
 
@@ -1084,21 +1084,21 @@ async function fetchStokYemekKutuphanesi(): Promise<StockDishImage[]> {
 }
 ```
 
-- [ ] **Step 5: Testi çalıştır, geçtiğini doğrula**
+- [x] **Step 5: Testi çalıştır, geçtiğini doğrula**
 
 ```bash
 pnpm vitest run test/lib/menu/varsayilan-yemek-gorseli.test.ts
 ```
 Expected: PASS (7/7)
 
-- [ ] **Step 6: Typecheck**
+- [x] **Step 6: Typecheck**
 
 ```bash
 pnpm run typecheck
 ```
 Expected: `menu-duzen.tsx`'te eski 3-parametreli çağrı (`bulVarsayilanYemekGorseli(item.name, catName)`) artık tip hatası verecek — bu Task 10'da düzeltilecek. Bu adımda hatayı görüp not almak yeterli, henüz düzeltme.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add uygulamalar/web/src/lib/menu/varsayilan-yemek-gorseli.ts uygulamalar/web/src/lib/menu/stok-yemek-kutuphanesi.ts uygulamalar/web/test/lib/menu/varsayilan-yemek-gorseli.test.ts
@@ -1112,11 +1112,11 @@ git commit -m "refactor(web): varsayilan-yemek-gorseli DB-tabanlı kütüphaneye
 **Files:**
 - Modify: `uygulamalar/web/src/ui/bolumler/menu-sayfasi/menu-duzen.tsx`
 
-- [ ] **Step 1: Dosyayı oku, mevcut `catName`/`bulVarsayilanYemekGorseli` kullanımını bul**
+- [x] **Step 1: Dosyayı oku, mevcut `catName`/`bulVarsayilanYemekGorseli` kullanımını bul**
 
 Read `uygulamalar/web/src/ui/bolumler/menu-sayfasi/menu-duzen.tsx` — Task 9'daki tip hatası şu satırlardan gelecek: `UrunSatiri` bileşeninin `catName` prop'u ve `bulVarsayilanYemekGorseli(item.name, catName)` çağrısı (2026-08-24'te bu oturumun daha önceki bir aşamasında eklenmişti). Kategori-önsüz filtre kaldırıldığı için `catName` prop'una artık gerek yok — DB-tabanlı kütüphane bileşenin en üstünde bir kez çekilip `UrunSatiri`'ye geçirilecek.
 
-- [ ] **Step 2: `useState`/`useEffect` importu ve kütüphane state'i ekle**
+- [x] **Step 2: `useState`/`useEffect` importu ve kütüphane state'i ekle**
 
 Modify import satırını:
 
@@ -1149,7 +1149,7 @@ import { getStokYemekKutuphanesi } from '@/src/lib/menu/stok-yemek-kutuphanesi';
   }, []);
 ```
 
-- [ ] **Step 3: `UrunSatiri` çağrısını ve bileşenini güncelle**
+- [x] **Step 3: `UrunSatiri` çağrısını ve bileşenini güncelle**
 
 `UrunSatiri` çağrı satırını değiştir:
 
@@ -1173,21 +1173,21 @@ function UrunSatiri({ item, stokKutuphanesi }: { item: MenuItemRecord; stokKutup
   const varsayilanUrl = item.image_url ? null : bulVarsayilanYemekGorseli(item.name, stokKutuphanesi);
 ```
 
-- [ ] **Step 4: Typecheck**
+- [x] **Step 4: Typecheck**
 
 ```bash
 cd uygulamalar/web && pnpm run typecheck
 ```
 Expected: Hata yok.
 
-- [ ] **Step 5: Lint + tüm testler**
+- [x] **Step 5: Lint + tüm testler**
 
 ```bash
 pnpm run lint && pnpm run test:unit
 ```
 Expected: 0 hata, tüm testler geçer.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add uygulamalar/web/src/ui/bolumler/menu-sayfasi/menu-duzen.tsx
@@ -1201,11 +1201,11 @@ git commit -m "refactor(web): menu-duzen artık DB-tabanlı stok kütüphanesini
 **Files:**
 - Modify: `uygulamalar/web/app/sahip/menuler/[menuId]/duzenle/bilesenler/urun-paneli.tsx`
 
-- [ ] **Step 1: Dosyayı oku, `ImageUrlField` bileşenini teyit et**
+- [x] **Step 1: Dosyayı oku, `ImageUrlField` bileşenini teyit et**
 
 Read `uygulamalar/web/app/sahip/menuler/[menuId]/duzenle/bilesenler/urun-paneli.tsx` — `ImageUrlField` bileşeninin gerçek güncel hâlini doğrula (özellikle `url`/`setUrl`/`uploading`/`aiGenerating`/`isBusy` state'leri ve buton satırının yapısı).
 
-- [ ] **Step 2: Import ekle**
+- [x] **Step 2: Import ekle**
 
 Dosyanın en üstüne ekle:
 
@@ -1216,7 +1216,7 @@ import { getStokYemekKutuphanesi } from '../../../../../../src/lib/menu/stok-yem
 
 (Gerçek göreli yol derinliğini dosyanın konumuna göre doğrula — `app/sahip/menuler/[menuId]/duzenle/bilesenler/` içinden `src/lib/menu/`'ye kaç `../` gerektiğini say; alternatif olarak proje `@/` path alias'ını destekliyorsa (diğer dosyalarda `@/src/lib/...` kullanıldığı görüldü) onu tercih et: `import { ... } from '@/src/lib/menu/varsayilan-yemek-gorseli';`.)
 
-- [ ] **Step 3: `ImageUrlField`'e state ve fonksiyon ekle**
+- [x] **Step 3: `ImageUrlField`'e state ve fonksiyon ekle**
 
 `ImageUrlField` bileşeninin state tanımlarının hemen altına ekle:
 
@@ -1242,7 +1242,7 @@ import { getStokYemekKutuphanesi } from '../../../../../../src/lib/menu/stok-yem
   }
 ```
 
-- [ ] **Step 4: Buton grubuna "Sistemden seç" ekle ve aday ızgarasını render et**
+- [x] **Step 4: Buton grubuna "Sistemden seç" ekle ve aday ızgarasını render et**
 
 Mevcut buton grubuna ("Bilgisayardan seç" label'ından hemen sonra) ekle:
 
@@ -1288,14 +1288,14 @@ Mevcut buton grubuna ("Bilgisayardan seç" label'ından hemen sonra) ekle:
         )}
 ```
 
-- [ ] **Step 5: Typecheck**
+- [x] **Step 5: Typecheck**
 
 ```bash
 cd uygulamalar/web && pnpm run typecheck
 ```
 Expected: Hata yok. (Göreli import yolu hatası varsa Step 2'deki notu izleyip `@/` alias'ına geç.)
 
-- [ ] **Step 6: Manuel doğrulama**
+- [x] **Step 6: Manuel doğrulama**
 
 ```bash
 pnpm run dev
@@ -1303,7 +1303,7 @@ pnpm run dev
 Sahip panelinde bir menüye git, "Yeni Ürün" aç, ürün adına "Mercimek Çorbası" yaz, görsel alanındaki "🖼️ Sistemden seç" butonuna tıkla.
 Expected: Eşleşen stok görsel(ler) küçük ızgara halinde beliriyor, birine tıklayınca üstteki 96px önizleme o görsele dönüyor.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add uygulamalar/web/app/sahip/menuler/[menuId]/duzenle/bilesenler/urun-paneli.tsx
@@ -1319,7 +1319,7 @@ git commit -m "feat(web): ürün görsel seçicisine 'Sistemden seç' eklendi"
 - Modify: `uygulamalar/mobil/lib/features/menus/ui/menu_page.dart`
 - Modify: `uygulamalar/mobil/test/features/menus/data/varsayilan_yemek_sozlugu_test.dart`
 
-- [ ] **Step 1: Başarısız testi yaz (yeni imza)**
+- [x] **Step 1: Başarısız testi yaz (yeni imza)**
 
 Modify `uygulamalar/mobil/test/features/menus/data/varsayilan_yemek_sozlugu_test.dart` — dosyanın tamamını değiştir:
 
@@ -1386,14 +1386,14 @@ void main() {
 }
 ```
 
-- [ ] **Step 2: Testi çalıştır, başarısız olduğunu doğrula**
+- [x] **Step 2: Testi çalıştır, başarısız olduğunu doğrula**
 
 ```bash
 cd uygulamalar/mobil && flutter test test/features/menus/data/varsayilan_yemek_sozlugu_test.dart
 ```
 Expected: FAIL — `StockDishImage` tanımlı değil, `bul` imza uyuşmazlığı.
 
-- [ ] **Step 3: Modülü yeniden yaz**
+- [x] **Step 3: Modülü yeniden yaz**
 
 Modify `uygulamalar/mobil/lib/features/menus/data/varsayilan_yemek_sozlugu.dart` — dosyanın tamamını değiştir:
 
@@ -1470,14 +1470,14 @@ class VarsayilanYemekSozlugu {
 }
 ```
 
-- [ ] **Step 4: Testi çalıştır, geçtiğini doğrula**
+- [x] **Step 4: Testi çalıştır, geçtiğini doğrula**
 
 ```bash
 flutter test test/features/menus/data/varsayilan_yemek_sozlugu_test.dart
 ```
 Expected: PASS (7/7)
 
-- [ ] **Step 5: `menu_page.dart`'a provider ekle ve entegre et**
+- [x] **Step 5: `menu_page.dart`'a provider ekle ve entegre et**
 
 Read `uygulamalar/mobil/lib/features/menus/ui/menu_page.dart` — mevcut `_menuItemVariantsProvider` tanımının (satır ~87-125 civarı, `supabaseProvider` kullanan `FutureProvider.autoDispose.family`) hemen altına, aynı dosyada yeni bir provider ekle:
 
@@ -1532,7 +1532,7 @@ final stockDishImages = stockDishImagesAsync.value ?? const <StockDishImage>[];
 
 Diğer iki çağrı sitesinde (categoryAdi hiç yoktu) sadece `stockDishImages: stockDishImages,` satırını `priceAgeError: _ageError,`'den hemen sonra ekle.
 
-- [ ] **Step 6: `_MenuItemRow` widget'ını güncelle**
+- [x] **Step 6: `_MenuItemRow` widget'ını güncelle**
 
 `_MenuItemRow` constructor'ını ve alanını değiştir:
 
@@ -1594,21 +1594,21 @@ class _MenuItemRow extends StatefulWidget {
         : null;
 ```
 
-- [ ] **Step 7: `flutter analyze` çalıştır**
+- [x] **Step 7: `flutter analyze` çalıştır**
 
 ```bash
 flutter analyze
 ```
 Expected: `No issues found!`
 
-- [ ] **Step 8: İlgili testleri çalıştır**
+- [x] **Step 8: İlgili testleri çalıştır**
 
 ```bash
 flutter test test/features/menus/
 ```
 Expected: Tüm testler PASS, regresyon yok.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add uygulamalar/mobil/lib/features/menus/data/varsayilan_yemek_sozlugu.dart uygulamalar/mobil/lib/features/menus/ui/menu_page.dart uygulamalar/mobil/test/features/menus/data/varsayilan_yemek_sozlugu_test.dart
@@ -1621,7 +1621,7 @@ git commit -m "refactor(mobil): varsayilan_yemek_sozlugu DB-tabanlı kütüphane
 
 **Files:** (yok — yalnızca doğrulama)
 
-- [ ] **Step 1: Web tam kontrol**
+- [x] **Step 1: Web tam kontrol**
 
 ```bash
 cd uygulamalar/web
@@ -1631,7 +1631,7 @@ pnpm run test:unit
 ```
 Expected: Üçü de hatasız/başarısız test olmadan biter.
 
-- [ ] **Step 2: Mobil tam kontrol**
+- [x] **Step 2: Mobil tam kontrol**
 
 ```bash
 cd uygulamalar/mobil
@@ -1640,12 +1640,12 @@ flutter test
 ```
 Expected: `No issues found!`, tüm testler geçer (Task 12'den önceki test paketiyle karşılaştır — yeni başarısızlık olmamalı; varsa `git stash` ile Task 12 öncesi duruma dönüp aynı testin zaten başarısız olup olmadığını doğrula, bu oturumda daha önce kullanılan yöntem).
 
-- [ ] **Step 3: Supabase advisors kontrolü**
+- [x] **Step 3: Supabase advisors kontrolü**
 
 Yeni 6 fonksiyon (`get_stock_dish_images_v1`, `admin_list/upsert/delete_stock_dish_image_v1`) ve yeni tablo (`stock_dish_images`) için beklenmeyen güvenlik bulgusu var mı kontrol et (`mcp__supabase__get_advisors(type=security)` ya da eşdeğer).
 Expected: `stock_dish_images` için RLS-enabled-no-policy bir INFO bulgusu beklenir (kasıtlı — tüm erişim RPC üzerinden), başka yeni WARN/ERROR olmamalı. `get_stock_dish_images_v1`'in `anon`'a açık SECURITY DEFINER fonksiyon olması beklenen bir INFO/WARN'dır (kasıtlı, public okuma).
 
-- [ ] **Step 4: Uçtan uca manuel senaryo listesi**
+- [x] **Step 4: Uçtan uca manuel senaryo listesi**
 
 - Admin `/yonetici/gorsel-kutuphanesi`'nde yeni bir görsel yükleyip anahtar ifade ekliyor → listede görünüyor.
 - Admin bir görseli pasifleştiriyor → sahip panelinde "Sistemden Seç" artık bu görseli önermiyor, ama daha önce bu görseli seçmiş bir ürünün görseli bozulmuyor.
@@ -1653,7 +1653,7 @@ Expected: `stock_dish_images` için RLS-enabled-no-policy bir INFO bulgusu bekle
 - Görselsiz bir ürün, adı hiçbir kütüphane girdisiyle eşleşmiyorsa hem sahip önizlemesinde hem public QR menü sayfasında mevcut jenerik 🍽️ ikonuna düşüyor (regresyon yok).
 - Mobil müşteri menü sayfasında görselsiz bir ürün, adı eşleşiyorsa stok fotoğrafı, eşleşmiyorsa jenerik tabak ikonunu gösteriyor (regresyon yok — Task 12 öncesi de bu davranış vardı, sadece veri kaynağı değişti).
 
-- [ ] **Step 5: Plan dosyasındaki tüm checkbox'ları işaretle**
+- [x] **Step 5: Plan dosyasındaki tüm checkbox'ları işaretle**
 
 `docs/superpowers/plans/2026-08-24-yemek-gorsel-kutuphanesi.md` içindeki tüm `- [ ]` satırlarını `- [x]` yap.
 
@@ -1662,7 +1662,7 @@ cd /c/yeedoy
 sed -i 's/^- \[ \]/- [x]/' docs/superpowers/plans/2026-08-24-yemek-gorsel-kutuphanesi.md
 ```
 
-- [ ] **Step 6: Final commit**
+- [x] **Step 6: Final commit**
 
 ```bash
 git add -A
