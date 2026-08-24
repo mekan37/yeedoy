@@ -192,6 +192,14 @@ GRANT EXECUTE ON FUNCTION public.{action}_{subject}_v1(...) TO authenticated;
 COMMENT ON FUNCTION public.{action}_{subject}_v1 IS 'Short description. Called by: {file}.';
 ```
 
+**`admin_*` functions — always add an explicit anon revoke.** Production has a standing `ALTER DEFAULT PRIVILEGES` entry that auto-grants `anon` EXECUTE on every new function created by the `postgres` role. `REVOKE ALL ... FROM PUBLIC` does **not** undo this (`anon` is a real role, not the `PUBLIC` pseudo-role). This has caused three separate production security fixes so far (`20260810000006_sadakat_v1_revoke_anon_execute`, `20260820062028_fix_admin_alert_rules_anon_execute`, `20260824000008_admin_stock_dish_image_rpcs_revoke_anon`). Any new `admin_*` RPC must include:
+
+```sql
+REVOKE EXECUTE ON FUNCTION public.admin_{subject}_v1(...) FROM anon;
+```
+
+right after the `GRANT EXECUTE ... TO authenticated` line — don't rely on the `is_admin()` in-body check alone.
+
 ### Next.js Route Handler Rules
 
 Every mutation handler must have: `zod.safeParse` + auth check + rate limit.
