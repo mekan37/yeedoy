@@ -1,3 +1,9 @@
+-- TEK SEFERLİK, ZATEN UYGULANDI (2026-08-24). TEKRAR ÇALIŞTIRMAYIN:
+-- ON CONFLICT DO NOTHING burada bir şeyi engellemiyor — stock_dish_images'te
+-- image_url/keywords üzerinde unique kısıt yok (yalnızca her zaman yeni
+-- gen_random_uuid() alan id var), bu yüzden ikinci bir apply 117 satırı
+-- sessizce yineler (hata vermeden 117 mükerrer satır daha ekler).
+--
 -- 117 mevcut stok görselinin (varsayilan-yemek-gorseli.ts / varsayilan_yemek_sozlugu.dart
 -- statik sözlüklerinden taşınan) stock_dish_images tablosuna ilk yükleme migration'ı.
 -- Dosyalar Supabase Storage'da (menu-media/varsayilan-yemekler/...) zaten duruyor,

@@ -1,5 +1,13 @@
 import fs from 'node:fs';
 
+// TEK SEFERLİK: 2026-08-24'te çalıştırıldı, üretilen migration production'a
+// uygulandı (bkz. supabase/migrations/20260824000006_seed_stock_dish_images.sql).
+// Tekrar çalıştırmak dosyayı yeniden üretir ama ÇIKTI SQL'İNİ TEKRAR PRODUCTION'A
+// UYGULAMAYIN — o dosyadaki ON CONFLICT DO NOTHING, stock_dish_images'te
+// image_url/keywords üzerinde unique kısıt olmadığı için hiçbir şeyi engellemez
+// (id her zaman yeni gen_random_uuid() alır) — ikinci bir apply, 117 satırı
+// SESSİZCE YİNELER (117 mükerrer satır daha ekler), hata vermez.
+//
 // uygulamalar/web/src/lib/menu/varsayilan-yemek-gorseli.ts'teki YEMEK_SOZLUGU
 // ile birebir aynı — bu Task 9'da bu dosyadaki statik sözlük kaldırılacağı
 // için burada bir kez, kalıcı SQL veriye dönüştürülmek üzere kopyalanıyor.
