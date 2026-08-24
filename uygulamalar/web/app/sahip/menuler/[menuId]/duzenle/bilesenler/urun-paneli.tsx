@@ -157,6 +157,7 @@ function ImageUrlField({
                   key={aday.id}
                   type="button"
                   onClick={() => { setUrl(aday.image_url); setStokAcik(false); }}
+                  aria-label="Bu görseli seç"
                   className="relative h-16 w-16 overflow-hidden rounded-lg border border-border hover:ring-2 hover:ring-primary cursor-pointer"
                 >
                   <Image src={aday.image_url} alt="" fill sizes="64px" className="object-cover" unoptimized />
