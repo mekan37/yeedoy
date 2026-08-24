@@ -99,7 +99,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
   })) as { data: { features: Array<{ feature_key: string; limit_value: number | null }> } | null };
 
   const analitikLimit =
-    planData?.features.find((f) => f.feature_key === 'analytics_range_days')?.limit_value ?? 90;
+    planData?.features.find((f) => f.feature_key === 'analytics_range_days')?.limit_value ?? 7;
 
   // Kullanıcı URL'den ?aralik=90g gönderse bile (UI bypass), aşağıdaki tüm hesaplamalar
   // (since/sincePrev/simdiMs/goruntulenmeGunluk/vb.) bu clamp'lenmiş değeri kullanır.
