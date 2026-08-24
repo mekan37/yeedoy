@@ -125,6 +125,16 @@ final _menuItemVariantsProvider =
       return byItem;
     });
 
+final _stockDishImagesProvider = FutureProvider.autoDispose<List<StockDishImage>>((ref) async {
+  final client = ref.watch(supabaseProvider);
+  final res = await client.rpc('get_stock_dish_images_v1');
+  if (res is! List) return const [];
+  return res
+      .whereType<Map>()
+      .map((m) => StockDishImage.fromMap(m.cast<String, dynamic>()))
+      .toList();
+});
+
 class _MenuPageState extends ConsumerState<MenuPage>
     with WidgetsBindingObserver {
   Map<String, DateTime?> _priceAgeMap = const {};
@@ -333,6 +343,9 @@ class _MenuPageState extends ConsumerState<MenuPage>
             );
             final cacheUpdatedAt = cacheUpdatedAtAsync.asData?.value;
             final businessAsync = ref.watch(_menuBusinessProvider(businessId));
+            final stockDishImagesAsync = ref.watch(_stockDishImagesProvider);
+            final stockDishImages =
+                stockDishImagesAsync.value ?? const <StockDishImage>[];
             _maybeLoadPriceAge(items);
             final latestPriceAt = _latestPriceAt(items);
 
@@ -480,7 +493,7 @@ class _MenuPageState extends ConsumerState<MenuPage>
                           variants: variantsByItem[item.id] ?? const [],
                           lastPriceAt: _priceAgeMap[item.id],
                           priceAgeError: _ageError,
-                          categoryAdi: section.title,
+                          stockDishImages: stockDishImages,
                           onVerifyTap: () => _openVerifyPriceSheet(item),
                           onTap: () async {
                             final updated = await context.push(
@@ -512,6 +525,7 @@ class _MenuPageState extends ConsumerState<MenuPage>
                         variants: variantsByItem[item.id] ?? const [],
                         lastPriceAt: _priceAgeMap[item.id],
                         priceAgeError: _ageError,
+                        stockDishImages: stockDishImages,
                         onVerifyTap: () => _openVerifyPriceSheet(item),
                         onTap: () async {
                           final updated = await context.push(
@@ -541,6 +555,7 @@ class _MenuPageState extends ConsumerState<MenuPage>
                         variants: variantsByItem[item.id] ?? const [],
                         lastPriceAt: _priceAgeMap[item.id],
                         priceAgeError: _ageError,
+                        stockDishImages: stockDishImages,
                         onVerifyTap: () => _openVerifyPriceSheet(item),
                         onTap: () async {
                           final updated = await context.push(
@@ -954,7 +969,7 @@ class _MenuItemRow extends StatefulWidget {
     required this.onVerifyTap,
     required this.lastPriceAt,
     required this.priceAgeError,
-    this.categoryAdi,
+    required this.stockDishImages,
   });
   final AppLocalizations t;
   final MenuItem item;
@@ -963,7 +978,7 @@ class _MenuItemRow extends StatefulWidget {
   final VoidCallback onVerifyTap;
   final DateTime? lastPriceAt;
   final Object? priceAgeError;
-  final String? categoryAdi;
+  final List<StockDishImage> stockDishImages;
 
   @override
   State<_MenuItemRow> createState() => _MenuItemRowState();
@@ -999,7 +1014,7 @@ class _MenuItemRowState extends State<_MenuItemRow> {
     final imageUrl = _resolveRemoteImageUrl(item.imageUrl);
     final dataBytes = _decodeDataImageBytes(item.imageUrl);
     final varsayilanGorselUrl = (imageUrl == null && dataBytes == null)
-        ? VarsayilanYemekSozlugu.bul(item.name, widget.categoryAdi)
+        ? VarsayilanYemekSozlugu.bul(item.name, widget.stockDishImages)
         : null;
     final days = _daysAgo(lastPriceAt);
     final statusText = isVerified

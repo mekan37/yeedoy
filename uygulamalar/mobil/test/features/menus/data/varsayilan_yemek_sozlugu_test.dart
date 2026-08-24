@@ -1,54 +1,60 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:yeedoy/features/menus/data/varsayilan_yemek_sozlugu.dart';
 
 void main() {
-  setUpAll(() {
-    dotenv.loadFromString(
-      envString: 'SUPABASE_URL=https://test.supabase.co\nSUPABASE_ANON_KEY=test',
-    );
-  });
+  final kutuphane = [
+    const StockDishImage(id: '1', imageUrl: 'https://x.test/corbalar/mercimek.webp', keywords: ['mercimek çorbası']),
+    const StockDishImage(id: '2', imageUrl: 'https://x.test/sulu_yemekler/ali_nazik.webp', keywords: ['ali nazik']),
+    const StockDishImage(id: '4', imageUrl: 'https://x.test/sulu_yemekler/bamya.webp', keywords: ['etli bamya']),
+    const StockDishImage(id: '5', imageUrl: 'https://x.test/corbalar/bamya.webp', keywords: ['bamya çorbası']),
+  ];
 
   group('VarsayilanYemekSozlugu.bul', () {
-    test('kategori corba ise urun adina gore corba gorseli doner', () {
-      final url = VarsayilanYemekSozlugu.bul('Mercimek Corbasi', 'Corbalar');
-      expect(url, contains('varsayilan-yemekler/corbalar/mercimek.webp'));
+    test('urun adi bir anahtar ifadeyi iceriyorsa ilgili gorseli doner', () {
+      expect(
+        VarsayilanYemekSozlugu.bul('Mercimek Corbasi', kutuphane),
+        'https://x.test/corbalar/mercimek.webp',
+      );
     });
 
     test('bitisik yazilmis yemek adini da eslestirir (or. "Alinazik")', () {
-      final url = VarsayilanYemekSozlugu.bul('Alinazik Kebap', 'Ana Yemekler');
-      expect(url, contains('varsayilan-yemekler/sulu_yemekler/ali_nazik.webp'));
-    });
-
-    test('ayni slug birden fazla klasorde varsa kategoriye gore dogru klasoru secer', () {
-      final zeytinyagli = VarsayilanYemekSozlugu.bul('Zeytinyagli Barbunya', 'Zeytinyaglilar');
-      expect(zeytinyagli, contains('varsayilan-yemekler/zeytinyaglilar/barbunya.webp'));
-
-      final suluYemek = VarsayilanYemekSozlugu.bul('Etli Bamya', 'Ana Yemekler');
-      expect(suluYemek, contains('varsayilan-yemekler/sulu_yemekler/bamya.webp'));
-    });
-
-    test('kategori 4 kapsanan gruptan birine eslesmiyorsa null doner', () {
-      expect(VarsayilanYemekSozlugu.bul('Cheeseburger', 'Burgerler'), isNull);
-    });
-
-    test('kategori kapsanan gruptaysa ama urun adi hicbir yemekle ortusmuyorsa null doner', () {
-      expect(VarsayilanYemekSozlugu.bul('Bilinmeyen Ozel Yemek', 'Corbalar'), isNull);
-    });
-
-    test('kategori adi bos/yoksa null doner', () {
-      expect(VarsayilanYemekSozlugu.bul('Mercimek Corbasi', null), isNull);
-      expect(VarsayilanYemekSozlugu.bul('Mercimek Corbasi', ''), isNull);
-    });
-
-    test('donen URL Supabase Storage public path formatindadir', () {
-      final url = VarsayilanYemekSozlugu.bul('Humus', 'Salata & Mezeler');
       expect(
-        url,
-        matches(
-          RegExp(r'^https://.*/storage/v1/object/public/menu-media/varsayilan-yemekler/.*\.webp$'),
-        ),
+        VarsayilanYemekSozlugu.bul('Alinazik Kebap', kutuphane),
+        'https://x.test/sulu_yemekler/ali_nazik.webp',
       );
+    });
+
+    test('ayni kelime birden fazla goselde geçerse en uzun/ozgul anahtar kazanir', () {
+      expect(
+        VarsayilanYemekSozlugu.bul('Etli Bamya Corbasi', kutuphane),
+        'https://x.test/corbalar/bamya.webp',
+      );
+    });
+
+    test('hicbir anahtar ifade eslesmiyorsa null doner', () {
+      expect(VarsayilanYemekSozlugu.bul('Cheeseburger', kutuphane), isNull);
+    });
+
+    test('bos kutuphaneyle null doner (hata firlatmaz)', () {
+      expect(VarsayilanYemekSozlugu.bul('Mercimek Corbasi', const []), isNull);
+    });
+  });
+
+  group('StockDishImage.fromMap', () {
+    test('gecerli map alanlarini dogru parse eder', () {
+      final item = StockDishImage.fromMap({
+        'id': '42',
+        'image_url': 'https://x.test/a.webp',
+        'keywords': ['a', 'b'],
+      });
+      expect(item.id, '42');
+      expect(item.imageUrl, 'https://x.test/a.webp');
+      expect(item.keywords, ['a', 'b']);
+    });
+
+    test('eksik keywords alaniyla bos listeye duser', () {
+      final item = StockDishImage.fromMap({'id': '1', 'image_url': 'https://x.test/a.webp'});
+      expect(item.keywords, isEmpty);
     });
   });
 }
