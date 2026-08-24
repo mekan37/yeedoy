@@ -29,6 +29,7 @@ import '../../discovery/data/discovery_repository.dart';
 import '../../../core/storage/offline_cache_prefs.dart';
 import '../data/menu_repository.dart';
 import '../data/offline_verify_queue.dart';
+import '../data/varsayilan_yemek_sozlugu.dart';
 import '../domain/menu_models.dart';
 import '../domain/menu_providers.dart';
 import 'components/verify_price_bottom_sheet.dart';
@@ -479,6 +480,7 @@ class _MenuPageState extends ConsumerState<MenuPage>
                           variants: variantsByItem[item.id] ?? const [],
                           lastPriceAt: _priceAgeMap[item.id],
                           priceAgeError: _ageError,
+                          categoryAdi: section.title,
                           onVerifyTap: () => _openVerifyPriceSheet(item),
                           onTap: () async {
                             final updated = await context.push(
@@ -952,6 +954,7 @@ class _MenuItemRow extends StatefulWidget {
     required this.onVerifyTap,
     required this.lastPriceAt,
     required this.priceAgeError,
+    this.categoryAdi,
   });
   final AppLocalizations t;
   final MenuItem item;
@@ -960,6 +963,7 @@ class _MenuItemRow extends StatefulWidget {
   final VoidCallback onVerifyTap;
   final DateTime? lastPriceAt;
   final Object? priceAgeError;
+  final String? categoryAdi;
 
   @override
   State<_MenuItemRow> createState() => _MenuItemRowState();
@@ -994,6 +998,9 @@ class _MenuItemRowState extends State<_MenuItemRow> {
     final isVerified = item.priceStatus == 'verified';
     final imageUrl = _resolveRemoteImageUrl(item.imageUrl);
     final dataBytes = _decodeDataImageBytes(item.imageUrl);
+    final varsayilanGorselUrl = (imageUrl == null && dataBytes == null)
+        ? VarsayilanYemekSozlugu.bul(item.name, widget.categoryAdi)
+        : null;
     final days = _daysAgo(lastPriceAt);
     final statusText = isVerified
         ? t.verifiedDaysAgo(days)
@@ -1013,25 +1020,35 @@ class _MenuItemRowState extends State<_MenuItemRow> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (imageUrl != null || dataBytes != null) ...[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: dataBytes != null
-                        ? Image.memory(
-                            dataBytes,
-                            width: 56,
-                            height: 56,
-                            fit: BoxFit.cover,
-                          )
-                        : AppNetworkImage(
-                            url: imageUrl!,
-                            width: 56,
-                            height: 56,
-                            fit: BoxFit.cover,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: dataBytes != null
+                      ? Image.memory(
+                          dataBytes,
+                          width: 56,
+                          height: 56,
+                          fit: BoxFit.cover,
+                        )
+                      : (imageUrl != null || varsayilanGorselUrl != null)
+                      ? AppNetworkImage(
+                          url: imageUrl ?? varsayilanGorselUrl!,
+                          width: 56,
+                          height: 56,
+                          fit: BoxFit.cover,
+                        )
+                      : Container(
+                          width: 56,
+                          height: 56,
+                          color: AppColors.bg,
+                          alignment: Alignment.center,
+                          child: Icon(
+                            Icons.restaurant_menu,
+                            size: 24,
+                            color: AppColors.muted,
                           ),
-                  ),
-                  const SizedBox(width: 10),
-                ],
+                        ),
+                ),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     item.name,
