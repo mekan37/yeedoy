@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -10,7 +10,8 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
-import { bulVarsayilanYemekGorseli } from '@/src/lib/menu/varsayilan-yemek-gorseli';
+import { bulVarsayilanYemekGorseli, type StockDishImage } from '@/src/lib/menu/varsayilan-yemek-gorseli';
+import { getStokYemekKutuphanesi } from '@/src/lib/menu/stok-yemek-kutuphanesi';
 import { getTranslationValue } from '@/src/lib/acik-menu-sayfasi';
 import type { PublicMenuPageData } from '@/src/lib/acik-menu-sayfasi';
 import type { MenuItemRecord } from '@/src/lib/veri/menu-okuma';
@@ -107,6 +108,11 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
   const [query, setQuery] = useState('');
   const [showMoreMap, setShowMoreMap] = useState<Record<string, boolean>>({});
   const [collapsedMap, setCollapsedMap] = useState<Record<string, boolean>>({});
+  const [stokKutuphanesi, setStokKutuphanesi] = useState<StockDishImage[]>([]);
+
+  useEffect(() => {
+    getStokYemekKutuphanesi().then(setStokKutuphanesi);
+  }, []);
 
   const catNameMap = new Map<string, string>(
     categories.map((cat, index) => [
@@ -429,7 +435,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
                   <>
                     <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
                       {visibleItems.map((item) => (
-                        <UrunSatiri key={item.id} item={item} catName={catName} />
+                        <UrunSatiri key={item.id} item={item} stokKutuphanesi={stokKutuphanesi} />
                       ))}
                     </div>
 
@@ -530,8 +536,8 @@ function UrunKarti({ item }: { item: MenuItemRecord }) {
 
 // ── Ürün satırı (yatay liste) ────────────────────────────────────────────────
 
-function UrunSatiri({ item, catName }: { item: MenuItemRecord; catName?: string }) {
-  const varsayilanUrl = item.image_url ? null : bulVarsayilanYemekGorseli(item.name, catName);
+function UrunSatiri({ item, stokKutuphanesi }: { item: MenuItemRecord; stokKutuphanesi: StockDishImage[] }) {
+  const varsayilanUrl = item.image_url ? null : bulVarsayilanYemekGorseli(item.name, stokKutuphanesi);
   const imgUrl = buildMenuImageUrl(item.image_url ?? varsayilanUrl, { width: 200, quality: 80 });
   const isAvailable = item.is_available !== false;
   const kcal = kalori(item);
