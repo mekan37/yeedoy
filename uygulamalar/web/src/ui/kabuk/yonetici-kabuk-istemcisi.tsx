@@ -28,6 +28,7 @@ const adminNavSections: NavSection[] = [
       { href: '/yonetici/cop-kutusu', label: 'Silinmiş Menüler', icon: <TrashIcon /> },
       { href: '/yonetici/olaylar', label: 'Olaylar', icon: <AlertIcon /> },
       { href: '/yonetici/konumlar', label: 'Konumlar', icon: <MapPinIcon /> },
+      { href: '/yonetici/gorsel-kutuphanesi', label: 'Görsel Kütüphanesi', icon: <ImageIcon /> },
     ],
   },
   {

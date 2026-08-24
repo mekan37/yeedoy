@@ -5,7 +5,8 @@ export type AdminPermissionKey =
   | 'page:analitik' | 'page:musteri-destek' | 'page:oneriler' | 'page:fiyat-onerileri'
   | 'page:fraud-tespiti' | 'page:fotograf-moderasyon' | 'page:feature-flags'
   | 'page:api-anahtarlari' | 'page:roller' | 'page:gozlemlenebilirlik'
-  | 'page:gelistirme-araclari' | 'page:kvkk-gdpr' | 'page:gecici-yuklemeler';
+  | 'page:gelistirme-araclari' | 'page:kvkk-gdpr' | 'page:gecici-yuklemeler'
+  | 'page:gorsel-kutuphanesi';
 
 export interface AdminPermissionInfo {
   key: AdminPermissionKey;
@@ -30,6 +31,7 @@ export const ADMIN_PERMISSIONS: AdminPermissionInfo[] = [
   { key: 'page:cop-kutusu', label: 'Silinmiş Menüler', group: 'Operasyon', href: '/yonetici/cop-kutusu' },
   { key: 'page:olaylar', label: 'Olaylar', group: 'Operasyon', href: '/yonetici/olaylar' },
   { key: 'page:konumlar', label: 'Konumlar', group: 'Operasyon', href: '/yonetici/konumlar' },
+  { key: 'page:gorsel-kutuphanesi', label: 'Görsel Kütüphanesi', group: 'Operasyon', href: '/yonetici/gorsel-kutuphanesi' },
   { key: 'page:analitik', label: 'Analitik', group: 'Büyüme ve Gelir', href: '/yonetici/analitik' },
   { key: 'page:musteri-destek', label: 'Müşteri Destek', group: 'Büyüme ve Gelir', href: '/yonetici/musteri-destek' },
   { key: 'page:oneriler', label: 'Öneriler', group: 'Büyüme ve Gelir', href: '/yonetici/oneriler' },
