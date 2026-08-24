@@ -1,3 +1,5 @@
+import { FEATURE_LABELS } from '@/src/lib/plan/plan-sabitleri';
+
 export type PlanTierId = 'free' | 'starter' | 'standard' | 'pro';
 
 export interface PlanTanimi {
@@ -62,5 +64,25 @@ export const PLAN_OZELLIKLERI: PlanOzellik[] = [
     key: 'sadakat_programi',
     label: 'Sadakat programı (damga/puan)',
     values: { free: '—', starter: '—', standard: 'Var', pro: 'Var' },
+  },
+  {
+    key: 'team_seat_count',
+    label: FEATURE_LABELS.team_seat_count,
+    values: { free: '1 (sadece sahip)', starter: '3', standard: '10', pro: 'Sınırsız' },
+  },
+  {
+    key: 'campaign_count_per_month',
+    label: FEATURE_LABELS.campaign_count_per_month,
+    values: { free: '—', starter: 'Ayda 1', standard: 'Ayda 5', pro: 'Sınırsız' },
+  },
+  {
+    key: 'branch_count',
+    label: FEATURE_LABELS.branch_count,
+    values: { free: '1 (çoklu şube kapalı)', starter: '1 (kapalı)', standard: '3 şube', pro: 'Sınırsız' },
+  },
+  {
+    key: 'analytics_range_days',
+    label: FEATURE_LABELS.analytics_range_days,
+    values: { free: 'Son 7 gün', starter: 'Son 30 gün', standard: 'Son 90 gün', pro: 'Son 90 gün' },
   },
 ];
