@@ -10,6 +10,7 @@ export interface AralikSecenegi {
   aralik: Aralik;
   etiket: string;
   tarihAraligi: string;
+  locked?: boolean;
 }
 
 interface Props {
@@ -48,20 +49,33 @@ export function TarihAraligiSecici({ aktif, aktifTarihAraligi, secenekler, karsi
 
         {open && (
           <div className="absolute right-0 top-full z-50 mt-2 w-60 overflow-hidden rounded-2xl border border-border bg-card py-1 shadow-lg">
-            {secenekler.map((s) => (
-              <Link
-                key={s.aralik}
-                href={`/sahip/analitik?aralik=${s.aralik}`}
-                onClick={() => setOpen(false)}
-                className={clsx(
-                  'flex flex-col gap-0.5 px-4 py-2.5 text-left transition-colors hover:bg-cardAlt',
-                  s.aralik === aktif && 'bg-primary/5',
-                )}
-              >
-                <span className="text-sm font-bold text-textStrong">{s.etiket}</span>
-                <span className="text-[11px] text-muted">{s.tarihAraligi}</span>
-              </Link>
-            ))}
+            {secenekler.map((s) =>
+              s.locked ? (
+                <div
+                  key={s.aralik}
+                  className="flex cursor-not-allowed flex-col gap-0.5 px-4 py-2.5 text-left opacity-50"
+                  title="Bu aralık kademenizde kilitli"
+                >
+                  <span className="flex items-center gap-1.5 text-sm font-bold text-textStrong">
+                    🔒 {s.etiket}
+                  </span>
+                  <span className="text-[11px] text-muted">Yükseltmeniz gerekiyor</span>
+                </div>
+              ) : (
+                <Link
+                  key={s.aralik}
+                  href={`/sahip/analitik?aralik=${s.aralik}`}
+                  onClick={() => setOpen(false)}
+                  className={clsx(
+                    'flex flex-col gap-0.5 px-4 py-2.5 text-left transition-colors hover:bg-cardAlt',
+                    s.aralik === aktif && 'bg-primary/5',
+                  )}
+                >
+                  <span className="text-sm font-bold text-textStrong">{s.etiket}</span>
+                  <span className="text-[11px] text-muted">{s.tarihAraligi}</span>
+                </Link>
+              ),
+            )}
           </div>
         )}
       </div>

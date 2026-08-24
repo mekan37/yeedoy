@@ -68,7 +68,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
   const params = await searchParams;
   const aralik = parseAralik(params.aralik);
   const etiket = aralikEtiket[aralik];
-  const gunSayisi = aralikGun[aralik];
+  const gunSayisiIstenen = aralikGun[aralik];
 
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -93,6 +93,17 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
       </div>
     );
   }
+
+  const { data: planData } = (await (supabase as any).rpc('get_my_plan_v1', {
+    p_business_id: businessIds[0],
+  })) as { data: { features: Array<{ feature_key: string; limit_value: number | null }> } | null };
+
+  const analitikLimit =
+    planData?.features.find((f) => f.feature_key === 'analytics_range_days')?.limit_value ?? 90;
+
+  // Kullanıcı URL'den ?aralik=90g gönderse bile (UI bypass), aşağıdaki tüm hesaplamalar
+  // (since/sincePrev/simdiMs/goruntulenmeGunluk/vb.) bu clamp'lenmiş değeri kullanır.
+  const gunSayisi = Math.min(gunSayisiIstenen, analitikLimit);
 
   const now       = Date.now();
   const since     = new Date(now - gunSayisi * 86400000).toISOString();
@@ -297,9 +308,9 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
   }
 
   const aralikSecenekleri: AralikSecenegi[] = [
-    { aralik: '7g', etiket: 'Son 7 Gün', tarihAraligi: formatTarihAraligi(7) },
-    { aralik: '30g', etiket: 'Son 30 Gün', tarihAraligi: formatTarihAraligi(30) },
-    { aralik: '90g', etiket: 'Son 90 Gün', tarihAraligi: formatTarihAraligi(90) },
+    { aralik: '7g', etiket: 'Son 7 Gün', tarihAraligi: formatTarihAraligi(7), locked: analitikLimit < 7 },
+    { aralik: '30g', etiket: 'Son 30 Gün', tarihAraligi: formatTarihAraligi(30), locked: analitikLimit < 30 },
+    { aralik: '90g', etiket: 'Son 90 Gün', tarihAraligi: formatTarihAraligi(90), locked: analitikLimit < 90 },
   ];
   const aktifSecenek = aralikSecenekleri.find((s) => s.aralik === aralik)!;
 
