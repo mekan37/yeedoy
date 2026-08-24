@@ -12,9 +12,11 @@ Bu doküman, statik sistemi DB-tabanlı, admin tarafından yönetilebilen bir k�
 
 ## Kapsam
 
+**Düzeltme (plan yazımı sırasında doğrulandı):** Mobil uygulamada sahibin ürün ekleyip düzenlediği bir CRUD ekranı **yok** — `CLAUDE.md`'deki "No admin/owner CRUD in mobile app" kuralı fiilen uygulanıyor (`upsert_menu_item`/`create_menu_item` gibi bir RPC çağrısı mobil kod tabanında hiç bulunmuyor). Dolayısıyla "Sistemden Seç" seçici **yalnızca web'de** olacak; mobil tarafı yalnızca otomatik-fallback'in veri kaynağını (statik dizi yerine `get_stock_dish_images_v1()`) güncelleyecek, yeni bir owner-facing UI almayacak.
+
 Tek bir birleşik özellik olarak ele alınıyor (kullanıcı onayı: "tek yapalım"):
 - Admin paneline yeni bir "Görsel Kütüphanesi" sayfası (CRUD)
-- Sahip panelindeki ürün görsel seçicisine yeni bir "Sistemden Seç" sekmesi (hem web hem mobil)
+- Sahip panelindeki ürün görsel seçicisine yeni bir "Sistemden Seç" seçeneği (yalnızca web — mobilde owner-facing ürün editörü yok)
 - Mevcut 117 statik görselin yeni DB tablosuna taşınması, statik kod sözlüklerinin kaldırılması
 
 ## Veri Modeli
@@ -59,13 +61,14 @@ Konum: `app/yonetici/gorsel-kutuphanesi/`, "Operasyon" nav grubuna eklenir (İş
 - **Düzenle**: anahtar ifadeleri ekle/çıkar, aktif/pasif yap.
 - **Pasifleştirme (birincil aksiyon)** vs **gerçek silme (ikincil, uyarılı aksiyon)**: pasifleştirme yeni eşleşmelerde görünmez yapar ama dosyayı silmez, zaten seçilmiş `image_url`'leri bozmaz. Gerçek silme dosyayı Storage'dan da kaldırır — "bunu seçmiş işletmeler olabilir, görselleri bozulabilir" uyarısıyla, daha az öne çıkan bir aksiyon olarak sunulur.
 
-## Sahip Tarafı — "Sistemden Seç" Sekmesi
+## Sahip Tarafı — "Sistemden Seç" (yalnızca web)
 
-Hem web hem mobilde, mevcut ürün görsel seçicisine (bugünkü "Link ver / Cihazdan yükle / AI ile üret" seçeneklerinin yanına) yeni bir sekme olarak eklenir (onaylanan mockup A — sekmeli tam ekran seçici, otomatik öneri şeridi değil).
+**Gerçek dosya bulundu (plan yazımı sırasında doğrulandı):** `uygulamalar/web/app/sahip/menuler/[menuId]/duzenle/bilesenler/urun-paneli.tsx` içindeki `ImageUrlField` bileşeni. Onaylanan mockup A (tam ekran sekmeli seçici) soyut bir illüstrasyondu; gerçek arayüz çok daha kompakt: sağdan kayan `UrunPaneli` panelinin içinde küçük bir form-alanı grubu — 96px küçük resim önizlemesi + URL text input + "✨ AI ile görsel oluştur" butonu + "Bilgisayardan seç" dosya input + "Kaldır" butonu, hepsi tek satırda. **Uyarlama:** tam ekran sekme yerine, aynı buton grubuna üçüncü bir buton eklenecek: "🖼️ Sistemden seç" — tıklanınca form alanının hemen altında o an yazılı ürün adına göre eşleşen adayları gösteren küçük bir ızgara açılır (mockup A'nın ruhu korunuyor — ayrı bir giriş noktası olarak "sistemden seç" — ama gerçek bileşenin kompakt tasarımına uyarlanmış haliyle). Bu, mockup'ı zorla tam-ekran modale dönüştürmekten çok daha az kod ve mevcut UX ile daha tutarlı.
 
-- Sekme açıldığında, formda o an yazılı ürün adına göre `get_stock_dish_images_v1()`'in cache'lenmiş sonucu üzerinde client-side eşleştirme yapılır, eşleşen adaylar ızgara halinde gösterilir.
-- Sahip bir aday seçerse formun `image_url` alanı doldurulur — kaydet'e basana kadar kalıcı olmaz, mevcut link/yükleme akışıyla aynı davranış.
-- Hiç eşleşme yoksa "Sistemden Seç" sekmesi boş durum gösterir, diğer sekmeler (link/yükle/AI) her zaman kullanılabilir kalır.
+- Buton tıklandığında, formda o an yazılı ürün adına göre `get_stock_dish_images_v1()`'in cache'lenmiş sonucu üzerinde client-side eşleştirme yapılır (aynı sayfa yüklenirken bir kez çekilir), eşleşen adaylar küçük bir ızgara halinde gösterilir.
+- Sahip bir aday seçerse `url` state'i (ve dolayısıyla gizli `imageUrl` form alanı) doldurulur — kaydet'e basana kadar kalıcı olmaz, mevcut link/yükleme akışıyla aynı davranış.
+- Hiç eşleşme yoksa ızgara "Eşleşen stok görsel bulunamadı" boş durumu gösterir; diğer seçenekler (link/yükle/AI) her zaman kullanılabilir kalır.
+- **Mobil:** owner-facing bir ürün editörü mobilde hiç olmadığı için (bkz. yukarıdaki düzeltme) burada değişiklik yok. Mobil sadece "Mevcut 117 Görselin Taşınması" bölümündeki otomatik-fallback veri kaynağı güncellemesini alır.
 
 ## 117 Görselin Taşınması
 
