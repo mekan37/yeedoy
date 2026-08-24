@@ -25,7 +25,7 @@
 **Files:**
 - Create: `supabase/migrations/20260822000001_premium_plan_genisletme_features.sql`
 
-- [ ] **Step 1: Migration dosyasını yaz**
+- [x] **Step 1: Migration dosyasını yaz**
 
 Create `supabase/migrations/20260822000001_premium_plan_genisletme_features.sql`:
 
@@ -56,7 +56,7 @@ INSERT INTO public.plan_features (plan_tier, feature_key, limit_value, enabled) 
 ON CONFLICT (plan_tier, feature_key) DO NOTHING;
 ```
 
-- [ ] **Step 2: Uygula ve doğrula**
+- [x] **Step 2: Uygula ve doğrula**
 
 Run:
 ```bash
@@ -65,7 +65,7 @@ psql "$SUPABASE_DB_URL" -c "select plan_tier, feature_key, limit_value from publ
 ```
 Expected: 16 satır döner (4 kademe × 4 özellik), `campaign_count_per_month`/`free` satırı `limit_value=0`.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add supabase/migrations/20260822000001_premium_plan_genisletme_features.sql
@@ -79,7 +79,7 @@ git commit -m "feat(db): premium plan genişletmesi — ekip/CRM/çoklu-şube/an
 **Files:**
 - Create: `supabase/migrations/20260822000002_check_plan_limit_instant_counters.sql`
 
-- [ ] **Step 1: Migration dosyasını yaz**
+- [x] **Step 1: Migration dosyasını yaz**
 
 Create `supabase/migrations/20260822000002_check_plan_limit_instant_counters.sql`:
 
@@ -226,7 +226,7 @@ END;
 $$;
 ```
 
-- [ ] **Step 2: Uygula ve doğrula**
+- [x] **Step 2: Uygula ve doğrula**
 
 Run:
 ```bash
@@ -239,7 +239,7 @@ psql "$SUPABASE_DB_URL" -c "select public.get_my_plan_v1('<business_id>'::uuid)"
 ```
 Expected: dönen jsonb'de `team_seat_count` ve `branch_count` satırlarının `used` alanı 0/NULL değil, gerçek sayı (en az sahip için 1) gösteriyor.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add supabase/migrations/20260822000002_check_plan_limit_instant_counters.sql
@@ -253,7 +253,7 @@ git commit -m "feat(db): _check_plan_limit_v1 ve get_my_plan_v1'e team_seat_coun
 **Files:**
 - Create: `supabase/migrations/20260822000003_team_seat_limit.sql`
 
-- [ ] **Step 1: Migration dosyasını yaz**
+- [x] **Step 1: Migration dosyasını yaz**
 
 `upsert_team_member_v1` yalnızca YENİ üyelik (INSERT dalı) için limit kontrolü yapmalı — mevcut bir üyeliği güncellemek (rol değişikliği, yeniden davet) koltuk tüketmiyor. Fonksiyon `jsonb {ok,code}` döndürdüğü için `_check_plan_limit_v1`'in `P0003` fırlatması yakalanıp aynı sözleşmeye çevriliyor.
 
@@ -394,7 +394,7 @@ END;
 $$;
 ```
 
-- [ ] **Step 2: Uygula ve doğrula**
+- [x] **Step 2: Uygula ve doğrula**
 
 Run:
 ```bash
@@ -407,7 +407,7 @@ psql "$SUPABASE_DB_URL" -c "select public.upsert_team_member_v1('<free_business_
 ```
 Expected: `{"ok": false, "code": "plan_limit_exceeded", "feature_key": "team_seat_count"}`
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add supabase/migrations/20260822000003_team_seat_limit.sql
@@ -421,7 +421,7 @@ git commit -m "feat(db): upsert_team_member_v1'e team_seat_count plan limiti ekl
 **Files:**
 - Create: `supabase/migrations/20260822000004_campaign_monthly_limit.sql`
 
-- [ ] **Step 1: Migration dosyasını yaz**
+- [x] **Step 1: Migration dosyasını yaz**
 
 Yalnızca YENİ kampanya oluşturma (`p_id IS NULL` dalı) sayaç tüketir; düzenleme tüketmez.
 
@@ -486,7 +486,7 @@ END;
 $$;
 ```
 
-- [ ] **Step 2: Uygula ve doğrula**
+- [x] **Step 2: Uygula ve doğrula**
 
 Run:
 ```bash
@@ -499,7 +499,7 @@ psql "$SUPABASE_DB_URL" -c "select public.owner_upsert_campaign_v1('<free_busine
 ```
 Expected: `ERROR: plan_limit_exceeded: campaign_count_per_month`
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add supabase/migrations/20260822000004_campaign_monthly_limit.sql
@@ -513,7 +513,7 @@ git commit -m "feat(db): owner_upsert_campaign_v1'e campaign_count_per_month ayl
 **Files:**
 - Create: `supabase/migrations/20260822000005_branch_count_limit.sql`
 
-- [ ] **Step 1: Migration dosyasını yaz**
+- [x] **Step 1: Migration dosyasını yaz**
 
 Yalnızca `owner_add_business_to_chain_v1` değişiyor — `owner_create_chain_v1`'e dokunulmuyor (tek işletmeli zincir hiçbir kademede limiti aşmaz, bkz. plan başlığındaki not).
 
@@ -565,7 +565,7 @@ END;
 $$;
 ```
 
-- [ ] **Step 2: Uygula ve doğrula**
+- [x] **Step 2: Uygula ve doğrula**
 
 Run:
 ```bash
@@ -578,7 +578,7 @@ psql "$SUPABASE_DB_URL" -c "select public.owner_add_business_to_chain_v1('<chain
 ```
 Expected: `ERROR: plan_limit_exceeded: branch_count`
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add supabase/migrations/20260822000005_branch_count_limit.sql
@@ -592,7 +592,7 @@ git commit -m "feat(db): owner_add_business_to_chain_v1'e branch_count plan limi
 **Files:**
 - Create: `supabase/migrations/20260822000006_support_ticket_priority.sql`
 
-- [ ] **Step 1: Migration dosyasını yaz**
+- [x] **Step 1: Migration dosyasını yaz**
 
 `p_business_id` NULL olabilir (genel destek talebi, işletmeyle ilgisiz) — bu durumda öncelik varsayılan `medium` kalır.
 
@@ -653,7 +653,7 @@ COMMENT ON FUNCTION public.create_support_ticket_v1 IS
   'Destek talebi oluşturur. İşletme bazlı taleplerde priority, işletmenin plan kademesine göre otomatik atanır (pro=urgent, standard=high, free/starter=medium). Kullanıcı girdisi değil.';
 ```
 
-- [ ] **Step 2: Uygula ve doğrula**
+- [x] **Step 2: Uygula ve doğrula**
 
 Run:
 ```bash
@@ -669,7 +669,7 @@ select priority from public.support_tickets order by created_at desc limit 1;
 ```
 Expected: `priority = 'urgent'`
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add supabase/migrations/20260822000006_support_ticket_priority.sql
@@ -684,7 +684,7 @@ git commit -m "feat(db): create_support_ticket_v1'de plan kademesine göre otoma
 - Create: `uygulamalar/web/src/lib/plan/plan-sabitleri.ts`
 - Test: `uygulamalar/web/test/lib/plan-sabitleri.test.ts`
 
-- [ ] **Step 1: Başarısız testi yaz**
+- [x] **Step 1: Başarısız testi yaz**
 
 Create `uygulamalar/web/test/lib/plan-sabitleri.test.ts`:
 
@@ -710,12 +710,12 @@ describe('plan-sabitleri', () => {
 });
 ```
 
-- [ ] **Step 2: Testi çalıştır, başarısız olduğunu doğrula**
+- [x] **Step 2: Testi çalıştır, başarısız olduğunu doğrula**
 
 Run: `cd uygulamalar/web && pnpm vitest run test/lib/plan-sabitleri.test.ts`
 Expected: FAIL — `Cannot find module '@/src/lib/plan/plan-sabitleri'`
 
-- [ ] **Step 3: Modülü yaz**
+- [x] **Step 3: Modülü yaz**
 
 Create `uygulamalar/web/src/lib/plan/plan-sabitleri.ts`:
 
@@ -764,12 +764,12 @@ export const TIER_LABELS: Record<'free' | 'starter' | 'standard' | 'pro', string
 export const PLAN_CEILING_FEATURE_KEYS: readonly PlanFeatureKey[] = ['analytics_range_days'];
 ```
 
-- [ ] **Step 4: Testi çalıştır, geçtiğini doğrula**
+- [x] **Step 4: Testi çalıştır, geçtiğini doğrula**
 
 Run: `cd uygulamalar/web && pnpm vitest run test/lib/plan-sabitleri.test.ts`
 Expected: PASS (3/3)
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add uygulamalar/web/src/lib/plan/plan-sabitleri.ts uygulamalar/web/test/lib/plan-sabitleri.test.ts
@@ -784,7 +784,7 @@ git commit -m "feat(web): paylaşılan plan etiketleri modülü — FEATURE_LABE
 - Modify: `uygulamalar/web/app/sahip/ayarlar/plan/page.tsx`
 - Modify: `uygulamalar/web/app/sahip/ayarlar/plan/plan-ozet-istemcisi.tsx`
 
-- [ ] **Step 1: `page.tsx`'teki yerel `FEATURE_LABELS`/`TIER_LABELS`'ı sil, paylaşılan modülden import et**
+- [x] **Step 1: `page.tsx`'teki yerel `FEATURE_LABELS`/`TIER_LABELS`'ı sil, paylaşılan modülden import et**
 
 Modify `uygulamalar/web/app/sahip/ayarlar/plan/page.tsx` — dosyanın başındaki yerel sabitleri sil:
 
@@ -814,7 +814,7 @@ Import satırlarına ekle:
 import { FEATURE_LABELS, TIER_LABELS } from '@/src/lib/plan/plan-sabitleri';
 ```
 
-- [ ] **Step 2: `plan-ozet-istemcisi.tsx`'e tavan-değer (ceiling) gösterimi ekle**
+- [x] **Step 2: `plan-ozet-istemcisi.tsx`'e tavan-değer (ceiling) gösterimi ekle**
 
 Modify `uygulamalar/web/app/sahip/ayarlar/plan/plan-ozet-istemcisi.tsx`:
 
@@ -889,17 +889,17 @@ export function PlanOzetIstemcisi({
 }
 ```
 
-- [ ] **Step 3: Typecheck**
+- [x] **Step 3: Typecheck**
 
 Run: `cd uygulamalar/web && pnpm run typecheck`
 Expected: Hata yok.
 
-- [ ] **Step 4: Manuel doğrulama**
+- [x] **Step 4: Manuel doğrulama**
 
 Run: `cd uygulamalar/web && pnpm run dev`, tarayıcıda `/sahip/ayarlar/plan`'a git.
 Expected: "Sadakat programı" satırı artık ham anahtar değil Türkçe etiketle görünüyor; "Analitik aralığı" satırı "Son N gün" olarak görünüyor (0/N değil).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add uygulamalar/web/app/sahip/ayarlar/plan/page.tsx uygulamalar/web/app/sahip/ayarlar/plan/plan-ozet-istemcisi.tsx
@@ -913,7 +913,7 @@ git commit -m "fix(web): plan sayfası paylaşılan etiket modülünü kullanıy
 **Files:**
 - Modify: `uygulamalar/web/app/sahip/premium/premium-veri.ts`
 
-- [ ] **Step 1: `PLAN_OZELLIKLERI`'ne 4 yeni satır ekle, etiketleri paylaşılan modülden al**
+- [x] **Step 1: `PLAN_OZELLIKLERI`'ne 4 yeni satır ekle, etiketleri paylaşılan modülden al**
 
 Modify `uygulamalar/web/app/sahip/premium/premium-veri.ts`:
 
@@ -1008,12 +1008,12 @@ export const PLAN_OZELLIKLERI: PlanOzellik[] = [
 ];
 ```
 
-- [ ] **Step 2: Typecheck + manuel doğrulama**
+- [x] **Step 2: Typecheck + manuel doğrulama**
 
 Run: `cd uygulamalar/web && pnpm run typecheck && pnpm run dev`, tarayıcıda `/sahip/premium`'a git.
 Expected: 12 satırlık tam özellik karşılaştırma tablosu görünüyor.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add uygulamalar/web/app/sahip/premium/premium-veri.ts
@@ -1027,7 +1027,7 @@ git commit -m "feat(web): /sahip/premium fiyat tablosuna ekip/CRM/çoklu-şube/a
 **Files:**
 - Modify: `uygulamalar/web/app/sahip/baslangic/page.tsx`
 
-- [ ] **Step 1: Plan verisini çek**
+- [x] **Step 1: Plan verisini çek**
 
 `OwnerOnboardingPage` fonksiyonunda, `businessIds` alındıktan sonra (satır ~27), `Promise.all` bloğuna (satır ~56 civarı, mevcut sorgularla birlikte) ekle:
 
@@ -1041,7 +1041,7 @@ const { data: planData } = hasBusiness
 const sadakatAcik = planData?.features.some((f) => f.feature_key === 'sadakat_programi' && f.enabled) ?? false;
 ```
 
-- [ ] **Step 2: `OneriKarti`'ye `locked` prop'u ekle**
+- [x] **Step 2: `OneriKarti`'ye `locked` prop'u ekle**
 
 Modify `uygulamalar/web/app/sahip/baslangic/page.tsx` — `OneriKarti` fonksiyonunu güncelle:
 
@@ -1079,7 +1079,7 @@ function OneriKarti({
 }
 ```
 
-- [ ] **Step 3: Sadakat kartını koşullu yap**
+- [x] **Step 3: Sadakat kartını koşullu yap**
 
 Modify `uygulamalar/web/app/sahip/baslangic/page.tsx` — "Sıradaki Öneriler" bloğundaki sadakat kartını değiştir:
 
@@ -1094,12 +1094,12 @@ Modify `uygulamalar/web/app/sahip/baslangic/page.tsx` — "Sıradaki Öneriler" 
 />
 ```
 
-- [ ] **Step 4: Typecheck + manuel doğrulama**
+- [x] **Step 4: Typecheck + manuel doğrulama**
 
 Run: `cd uygulamalar/web && pnpm run typecheck && pnpm run dev`
 Expected: Free/başlangıç kademesindeki bir işletmede sadakat kartı "🔒 Standart+ planda →" gösteriyor ve tıklanınca `/sahip/premium`'a gidiyor; standart/pro'da normal "Oluştur →" davranışı korunuyor.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add uygulamalar/web/app/sahip/baslangic/page.tsx
@@ -1113,7 +1113,7 @@ git commit -m "fix(web): baslangic sayfasındaki sadakat önerisi artık plan ki
 **Files:**
 - Modify: `uygulamalar/web/app/sahip/gosterge-panosu/page.tsx`
 
-- [ ] **Step 1: `get_my_plan_v1` sonucunun tamamını sakla (yalnızca tier değil)**
+- [x] **Step 1: `get_my_plan_v1` sonucunun tamamını sakla (yalnızca tier değil)**
 
 Modify `uygulamalar/web/app/sahip/gosterge-panosu/page.tsx` — plan sorgusunun bulunduğu `Promise.all` girdisini değiştir:
 
@@ -1164,7 +1164,7 @@ for (const [id, plan] of (planResults as Array<readonly [string, PlanOzetVerisi 
 
 Map tanımının olduğu satırı (`const planTierByBiz = new Map<string, string>();`) buna göre güncelle: `const planByBiz = new Map<string, PlanOzetVerisi>();`
 
-- [ ] **Step 2: Render bölümünü güncelle**
+- [x] **Step 2: Render bölümünü güncelle**
 
 Kart render döngüsünde (`const planTier = planTierByBiz.get(b.id);` satırı) değiştir:
 
@@ -1186,7 +1186,7 @@ Ve banner render satırını değiştir:
 <PlanKompaktRozet plan={plan} />
 ```
 
-- [ ] **Step 3: `PremiumBanner`'ı `PlanKompaktRozet` ile değiştir**
+- [x] **Step 3: `PremiumBanner`'ı `PlanKompaktRozet` ile değiştir**
 
 Modify `uygulamalar/web/app/sahip/gosterge-panosu/page.tsx` — `function PremiumBanner()` fonksiyonunu bul ve değiştir:
 
@@ -1228,12 +1228,12 @@ function PlanKompaktRozet({ plan }: { plan: { plan_tier: string; features: Array
 
 Dosyanın import bloğuna ekle: `import { FEATURE_LABELS } from '@/src/lib/plan/plan-sabitleri';`
 
-- [ ] **Step 4: Typecheck + manuel doğrulama**
+- [x] **Step 4: Typecheck + manuel doğrulama**
 
 Run: `cd uygulamalar/web && pnpm run typecheck && pnpm run dev`
 Expected: Free kademede sarı "Ücretsiz plandasınız" şeridi görünüyor; limiti %80+ dolu bir ücretli kademede "X/Y kullanıldı" şeridi görünüyor; her ikisi de değilse hiçbir şerit yok (regresyon değil, önceden de free-olmayan+doluluk-yok durumda hiçbir şey göstermiyordu).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add uygulamalar/web/app/sahip/gosterge-panosu/page.tsx
@@ -1248,7 +1248,7 @@ git commit -m "feat(web): gosterge-panosu artık tüm kademelerde kompakt plan/k
 - Modify: `uygulamalar/web/app/sahip/analitik/tarih-araligi-secici.tsx`
 - Modify: `uygulamalar/web/app/sahip/analitik/page.tsx`
 
-- [ ] **Step 1: `AralikSecenegi` tipine `locked` alanı ekle, kilitli seçenek kilitli görünsün**
+- [x] **Step 1: `AralikSecenegi` tipine `locked` alanı ekle, kilitli seçenek kilitli görünsün**
 
 Modify `uygulamalar/web/app/sahip/analitik/tarih-araligi-secici.tsx`:
 
@@ -1293,7 +1293,7 @@ Seçenek render bloğunu değiştir:
 )}
 ```
 
-- [ ] **Step 2: `page.tsx`'te plan limitini oku, `gunSayisi`'yi kaynağında clamp'le**
+- [x] **Step 2: `page.tsx`'te plan limitini oku, `gunSayisi`'yi kaynağında clamp'le**
 
 Dosyanın gerçek yapısı (satır numaraları teyit edildi): `gunSayisi` satır 71'de `const gunSayisi = aralikGun[aralik];` olarak tanımlanıyor; `businessIds` satır 80'de hesaplanıyor; satır 82-95 arası `businessIds.length === 0` için erken `return`; `gunSayisi` ilk kez satır 98'de (`since` hesabı) kullanılıyor. Plan verisi `businessIds` gerektirdiği için, clamp işlemi erken-return bloğundan SONRA, `since`/`sincePrev` hesabından ÖNCE yapılıyor — bu sayede satır 98, 99, 197, 219, 220, 222, 285, 319'daki mevcut `gunSayisi` kullanımlarının HİÇBİRİNE dokunmaya gerek kalmıyor (hepsi otomatik olarak clamp'lenmiş değeri kullanır).
 
@@ -1332,17 +1332,17 @@ const aralikSecenekleri: AralikSecenegi[] = [
 ];
 ```
 
-- [ ] **Step 3: Typecheck**
+- [x] **Step 3: Typecheck**
 
 Run: `cd uygulamalar/web && pnpm run typecheck`
 Expected: Hata yok.
 
-- [ ] **Step 4: Manuel doğrulama**
+- [x] **Step 4: Manuel doğrulama**
 
 Run: `pnpm run dev`, free kademedeki bir işletmeyle `/sahip/analitik?aralik=90g`'ye git.
 Expected: Sayfa 90 günlük değil 7 günlük veri gösteriyor (URL manipülasyonu bypass edilemiyor); aralık seçicide 30g/90g kilitli (🔒) görünüyor.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add uygulamalar/web/app/sahip/analitik/page.tsx uygulamalar/web/app/sahip/analitik/tarih-araligi-secici.tsx
@@ -1355,7 +1355,7 @@ git commit -m "feat(web): analitik sayfasında aralık seçimi plan kademesine g
 
 **Files:** (yok — yalnızca doğrulama)
 
-- [ ] **Step 1: Web tam kontrol**
+- [x] **Step 1: Web tam kontrol**
 
 Run:
 ```bash
@@ -1366,12 +1366,12 @@ pnpm run test:unit
 ```
 Expected: Üçü de hatasız/başarısız test olmadan biter.
 
-- [ ] **Step 2: Supabase advisors kontrolü**
+- [x] **Step 2: Supabase advisors kontrolü**
 
 Yeni/değişen 6 fonksiyon için beklenmeyen güvenlik bulgusu var mı kontrol et (MCP `get_advisors(type=security)` ya da eşdeğer `supabase inspect` komutu).
 Expected: Yeni bulgu yok (fonksiyonlar zaten `SECURITY DEFINER` + `SET search_path` desenini koruyor).
 
-- [ ] **Step 3: Uçtan uca manuel senaryo listesi**
+- [x] **Step 3: Uçtan uca manuel senaryo listesi**
 
 - Free işletmede ekip daveti → engellenir (`plan_limit_exceeded`).
 - Free işletmede kampanya oluşturma → engellenir.
@@ -1380,7 +1380,7 @@ Expected: Yeni bulgu yok (fonksiyonlar zaten `SECURITY DEFINER` + `SET search_pa
 - Free işletmede analitik `?aralik=90g` → sunucu 7 güne clamp'liyor.
 - `/sahip/baslangic`, `/sahip/gosterge-panosu`, `/sahip/ayarlar/plan`, `/sahip/premium` dört sayfada da plan/kademe bilgisi tutarlı ve `sadakat_programi` doğru Türkçe etiketle görünüyor.
 
-- [ ] **Step 4: Final commit**
+- [x] **Step 4: Final commit**
 
 ```bash
 git add -A
