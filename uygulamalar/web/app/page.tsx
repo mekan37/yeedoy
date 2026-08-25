@@ -102,7 +102,7 @@ function PriceLevelBadge({ priceLevel }: { priceLevel?: string | null }) {
   );
 }
 
-function BusinessCard({ biz }: { biz: AcikIsletmeKarti }) {
+function BusinessCard({ biz, priority = false }: { biz: AcikIsletmeKarti; priority?: boolean }) {
   const slug = biz.publicSlug ?? biz.slug;
   const rating = biz.avgRating;
   const coverSrc = buildMenuImageUrl(biz.coverUrl ?? biz.logoUrl, { width: 600, quality: 80 })
@@ -119,6 +119,7 @@ function BusinessCard({ biz }: { biz: AcikIsletmeKarti }) {
           alt={biz.name}
           fill
           sizes="(max-width: 640px) 50vw, 300px"
+          priority={priority}
           className="object-cover transition-transform group-hover:scale-105"
         />
         {/* Rating badge — top-left white pill */}
@@ -248,7 +249,7 @@ export default async function HomePage() {
           <div className="border-t border-border/50">
             <Container className="py-4">
               <div className="flex gap-4 overflow-x-auto pb-1 [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden">
-                {HOMEPAGE_CATEGORIES.map((cat) => (
+                {HOMEPAGE_CATEGORIES.map((cat, i) => (
                   <Link
                     key={cat.id}
                     href={`/kesif?category=${encodeURIComponent(cat.id)}`}
@@ -260,6 +261,7 @@ export default async function HomePage() {
                         alt={cat.label}
                         width={68}
                         height={68}
+                        priority={i < 4}
                         className="h-full w-full object-cover"
                       />
                     </div>
@@ -302,9 +304,9 @@ export default async function HomePage() {
                 </div>
                 {featuredBusinesses.length > 0 ? (
                   <div className="flex gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] scrollbar-none [&::-webkit-scrollbar]:hidden">
-                    {featuredBusinesses.map((biz) => (
+                    {featuredBusinesses.map((biz, i) => (
                       <div key={biz.id} className="w-64 shrink-0">
-                        <BusinessCard biz={biz} />
+                        <BusinessCard biz={biz} priority={i === 0} />
                       </div>
                     ))}
                   </div>

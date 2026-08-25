@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { YeedoyLogo } from '@/src/ui/marka/yeedoy-logo';
 import { Container } from '@/src/ui/acik/ortak';
 
@@ -72,12 +73,10 @@ export function PublicFooter() {
           <p className="mb-3 text-xs leading-5 text-muted">Her yerde lezzetleri keşfet, fırsatları kaçırma!</p>
           <div className="flex flex-wrap gap-2">
             <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" className="block transition-opacity hover:opacity-80">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/appstorelight.png" alt="Download on the App Store" height={48} className="h-12 w-auto" />
+              <Image src="/appstorelight.png" alt="Download on the App Store" width={144} height={48} className="h-12 w-auto" />
             </a>
             <a href="https://play.google.com" target="_blank" rel="noopener noreferrer" className="block transition-opacity hover:opacity-80">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/playstorelight.png" alt="Get it on Google Play" height={48} className="h-12 w-auto" />
+              <Image src="/playstorelight.png" alt="Get it on Google Play" width={144} height={48} className="h-12 w-auto" />
             </a>
           </div>
         </div>
