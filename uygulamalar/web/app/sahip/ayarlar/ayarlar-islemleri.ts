@@ -214,6 +214,7 @@ function revalidateBusinessPaths(
   );
   for (const publicSlug of publicSlugs) {
     revalidatePath(`/b/${publicSlug}`);
+    revalidatePath(`/isletme/${publicSlug}`);
   }
 }
 

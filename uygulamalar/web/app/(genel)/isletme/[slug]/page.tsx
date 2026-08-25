@@ -191,9 +191,24 @@ export default async function BusinessPage({ params }: Props) {
       }
     }
   } catch { /* profil yoksa Anonim göster */ }
+  let photosMap: Record<string, string[]> = {};
+  try {
+    const reviewIds = reviewsBase.map((r) => r.id).filter(Boolean);
+    if (reviewIds.length > 0) {
+      const { data: photoRows } = await (createSupabasePublicClient() as any)
+        .from('review_photos')
+        .select('review_id, url')
+        .in('review_id', reviewIds)
+        .order('created_at', { ascending: true });
+      for (const p of (photoRows ?? []) as Array<{ review_id: string; url: string }>) {
+        (photosMap[p.review_id] ??= []).push(p.url);
+      }
+    }
+  } catch { /* fotoğraf yoksa boş göster */ }
   const detayliYorumlar: YorumDetay[] = reviewsBase.map((r) => ({
     ...r,
     user_profiles: r.user_id ? (profilesMap[r.user_id] ?? null) : null,
+    photos: photosMap[r.id] ?? [],
   }));
   const reviewStats: ReviewStatRow[] = reviewStatsRaw?.data ?? [];
   const chainInfo: ChainInfoRow | null = (chainInfoRaw as ChainInfoRow[])[0] ?? null;

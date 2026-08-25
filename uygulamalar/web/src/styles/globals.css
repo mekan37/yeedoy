@@ -88,6 +88,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -96,6 +97,7 @@ body {
   color: rgb(var(--yd-color-text-rgb));
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
   background-image:
     radial-gradient(circle at top left, rgba(127, 29, 29, 0.06), transparent 34%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(249, 250, 251, 1));

@@ -20,9 +20,9 @@ type Business = {
   id: string; name: string; slug: string; description: string | null;
   logo_url: string | null; cover_url: string | null;
   category: string | null; city: string | null; district: string | null;
-  address: string | null; phone: string | null; website: string | null;
-  whatsapp_number: string | null; instagram_handle: string | null;
-  facebook_page: string | null; lat: number | null; lng: number | null;
+  address: string | null; phone: string | null; website_url: string | null;
+  instagram_url: string | null;
+  facebook_url: string | null; lat: number | null; lng: number | null;
   is_verified: boolean; is_active: boolean;
   order_yemeksepeti_url: string | null;
   order_trendyolgo_url: string | null;
@@ -81,8 +81,8 @@ export default async function BusinessPage({ params }: Props) {
 
   const { data: biz } = await (supabase as any)
     .from('businesses')
-    .select('id, name, slug, description, logo_url, cover_url, category, city, district, address, phone, website, whatsapp_number, instagram_handle, facebook_page, lat, lng, is_verified, is_active, order_yemeksepeti_url, order_trendyolgo_url, order_getir_url')
-    .eq('slug', slug).single() as { data: Business | null };
+    .select('id, name, slug, description, logo_url, cover_url, category, city, district, address, phone, website_url, instagram_url, facebook_url, lat, lng, is_verified, is_active, order_yemeksepeti_url, order_trendyolgo_url, order_getir_url')
+    .eq('slug', slug).maybeSingle() as { data: Business | null };
 
   if (!biz || !biz.is_active) notFound();
 
@@ -120,7 +120,7 @@ export default async function BusinessPage({ params }: Props) {
   const mealCards = mealCardsRes.data ?? [];
 
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
-  const hasContact = biz.phone || biz.whatsapp_number || biz.website || biz.instagram_handle || biz.address || (biz.lat && biz.lng);
+  const hasContact = biz.phone || biz.website_url || biz.instagram_url || biz.address || (biz.lat && biz.lng);
 
   return (
     <main className="min-h-screen bg-bg">
@@ -372,10 +372,10 @@ export default async function BusinessPage({ params }: Props) {
                       </TrackedLink>
                     </li>
                   )}
-                  {(biz.whatsapp_number ?? biz.phone) && (
+                  {biz.phone && (
                     <li>
                       <TrackedLink eventName="whatsapp_click" businessId={biz.id} source="business_page"
-                        href={`https://wa.me/${(biz.whatsapp_number ?? biz.phone)?.replace(/\D/g,'')}`} target="_blank" rel="noopener noreferrer"
+                        href={`https://wa.me/${biz.phone.replace(/\D/g,'')}`} target="_blank" rel="noopener noreferrer"
                         className="flex items-center gap-2.5 text-sm text-textStrong hover:text-green-600 transition-colors">
                         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-border bg-bg text-muted"><WhatsappIcon /></span>
                         WhatsApp
@@ -402,18 +402,18 @@ export default async function BusinessPage({ params }: Props) {
                       </TrackedLink>
                     </li>
                   )}
-                  {biz.instagram_handle && (
+                  {biz.instagram_url && (
                     <li>
-                      <a href={`https://instagram.com/${biz.instagram_handle}`} target="_blank" rel="noopener noreferrer"
+                      <a href={biz.instagram_url} target="_blank" rel="noopener noreferrer"
                         className="flex items-center gap-2.5 text-sm text-textStrong hover:text-pink-600 transition-colors">
                         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-border bg-bg text-muted"><InstagramIcon /></span>
-                        @{biz.instagram_handle}
+                        Instagram
                       </a>
                     </li>
                   )}
-                  {biz.website && (
+                  {biz.website_url && (
                     <li>
-                      <a href={biz.website} target="_blank" rel="noopener noreferrer"
+                      <a href={biz.website_url} target="_blank" rel="noopener noreferrer"
                         className="flex items-center gap-2.5 text-sm text-primary hover:underline transition-colors">
                         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-border bg-bg text-muted"><GlobeIcon /></span>
                         Web sitesi

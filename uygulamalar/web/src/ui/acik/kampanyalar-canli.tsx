@@ -208,7 +208,7 @@ function KampanyaKarti({ k }: { k: Kampanya }) {
 
         {/* Detay linki */}
         <Link
-          href={`/b/${k.slug}`}
+          href={`/isletme/${k.slug}`}
           className="mt-1 flex h-9 w-full items-center justify-center rounded-xl bg-primary text-sm font-black text-white transition-all hover:brightness-110"
         >
           Fırsatı Gör →

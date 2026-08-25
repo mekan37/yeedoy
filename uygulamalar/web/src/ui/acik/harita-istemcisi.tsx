@@ -466,7 +466,7 @@ function IsletmePaneli({
       {/* ── CTA ── */}
       <div style={{ padding: '12px 16px 20px', flexShrink: 0, borderTop: '1px solid #F3F4F6', background: 'white' }}>
         <a
-          href={`/b/${slug}`}
+          href={`/isletme/${slug}`}
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
             background: '#7F1D1D', color: 'white',

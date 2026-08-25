@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -34,6 +34,7 @@ export type YorumDetay = {
   owner_reply: string | null;
   user_id?: string | null;
   user_profiles?: { display_name: string; avatar_url: string | null } | null;
+  photos?: string[];
 };
 
 export type AltPuanOrt = {
@@ -279,6 +280,18 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
         <p className="mt-2 text-sm leading-6 text-textStrong line-clamp-4">{yorum.content}</p>
       )}
 
+      {/* Yorum fotoğrafları */}
+      {yorum.photos && yorum.photos.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {yorum.photos.map((url) => (
+            <a key={url} href={url} target="_blank" rel="noopener noreferrer" className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-border">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={url} alt="" className="h-full w-full object-cover" />
+            </a>
+          ))}
+        </div>
+      )}
+
       {/* Owner reply (mevcut yanıt gösterimi) */}
       {ownerReply && !showReplyForm && (
         <div className="mt-3 rounded-[14px] border border-border bg-primary/5 px-4 py-3">
@@ -382,6 +395,8 @@ function MiniKriterSecici({ label, value, onChange }: { label: string; value: nu
   );
 }
 
+const MAKS_FOTOGRAF = 5;
+
 function YorumYapForm({ businessId, businessSlug }: { businessId: string; businessSlug: string }) {
   const router = useRouter();
   const [yildiz, setYildiz] = useState(0);
@@ -391,6 +406,20 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
   const [gonderiliyor, setGonderiliyor] = useState(false);
   const [basarili, setBasarili] = useState(false);
   const [hata, setHata] = useState<string | null>(null);
+  const [fotograflar, setFotograflar] = useState<File[]>([]);
+  const dosyaInputRef = useRef<HTMLInputElement>(null);
+
+  const onizlemeler = useMemo(() => fotograflar.map((f) => URL.createObjectURL(f)), [fotograflar]);
+  useEffect(() => () => { onizlemeler.forEach((url) => URL.revokeObjectURL(url)); }, [onizlemeler]);
+
+  function fotografSec(files: FileList | null) {
+    if (!files || files.length === 0) return;
+    setFotograflar((prev) => [...prev, ...Array.from(files)].slice(0, MAKS_FOTOGRAF));
+  }
+
+  function fotografKaldir(index: number) {
+    setFotograflar((prev) => prev.filter((_, i) => i !== index));
+  }
 
   const gonder = useCallback(async () => {
     if (yildiz === 0) { setHata('Lütfen bir puan seçin.'); return; }
@@ -403,7 +432,7 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
         window.location.href = `/giris?redirect=${encodeURIComponent(window.location.pathname)}`;
         return;
       }
-      const { error } = await (sb as any).from('business_reviews').insert({
+      const { data: yeniYorum, error } = await (sb as any).from('business_reviews').insert({
         business_id: businessId,
         user_id: session.user.id,
         rating: yildiz,
@@ -414,19 +443,43 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
         price_performance_rating: kriterler.price || null,
         cleanliness_rating: kriterler.cleanliness || null,
         atmosphere_rating: kriterler.atmosphere || null,
-      });
+      }).select('id').single();
       if (error) throw error;
+
+      if (fotograflar.length > 0 && yeniYorum?.id) {
+        const yuklenenUrller: string[] = [];
+        for (const dosya of fotograflar) {
+          const formData = new FormData();
+          formData.set('businessId', businessId);
+          formData.set('file', dosya);
+          const res = await fetch('/sunucu/medya/yorum-yukleme', { method: 'POST', body: formData });
+          const payload = (await res.json().catch(() => null)) as { data?: { url?: string } } | null;
+          if (res.ok && payload?.data?.url) yuklenenUrller.push(payload.data.url);
+        }
+        if (yuklenenUrller.length > 0) {
+          await (sb as any).from('review_photos').insert(
+            yuklenenUrller.map((url) => ({
+              review_id: yeniYorum.id,
+              business_id: businessId,
+              url,
+              created_by: session.user.id,
+            })),
+          );
+        }
+      }
+
       setBasarili(true);
       setYildiz(0);
       setMetin('');
       setKriterler({ taste: 0, service: 0, price: 0, cleanliness: 0, atmosphere: 0 });
+      setFotograflar([]);
       router.refresh();
     } catch (e: any) {
       setHata(e?.message ?? 'Bir hata oluştu, lütfen tekrar deneyin.');
     } finally {
       setGonderiliyor(false);
     }
-  }, [yildiz, metin, kriterler, gizli, businessId, router]);
+  }, [yildiz, metin, kriterler, gizli, businessId, fotograflar, router]);
 
   if (basarili) {
     return (
@@ -479,18 +532,49 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
         </div>
       </div>
 
-      {/* Photo upload placeholder */}
+      {/* Fotoğraf ekleme */}
+      <input
+        ref={dosyaInputRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        multiple
+        onChange={(e) => { fotografSec(e.target.files); e.target.value = ''; }}
+        className="sr-only"
+      />
       <button
         type="button"
-        className="mt-3 flex w-full items-center gap-2 rounded-[14px] border border-dashed border-border bg-bg px-4 py-2.5 text-xs font-extrabold text-muted transition-colors hover:border-primary/30 hover:text-primary"
+        onClick={() => dosyaInputRef.current?.click()}
+        disabled={fotograflar.length >= MAKS_FOTOGRAF}
+        className="mt-3 flex w-full items-center gap-2 rounded-[14px] border border-dashed border-border bg-bg px-4 py-2.5 text-xs font-extrabold text-muted transition-colors hover:border-primary/30 hover:text-primary disabled:cursor-not-allowed disabled:opacity-60"
       >
         <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
         Fotoğraf Ekle
-        <span className="ml-auto text-[10px] font-bold text-muted">Maks. 5</span>
+        <span className="ml-auto text-[10px] font-bold text-muted">{fotograflar.length}/{MAKS_FOTOGRAF}</span>
       </button>
+
+      {onizlemeler.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-2">
+          {onizlemeler.map((url, i) => (
+            <div key={url} className="relative h-16 w-16 overflow-hidden rounded-xl border border-border">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={url} alt="" className="h-full w-full object-cover" />
+              <button
+                type="button"
+                onClick={() => fotografKaldir(i)}
+                aria-label="Fotoğrafı kaldır"
+                className="absolute right-0.5 top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white"
+              >
+                <svg viewBox="0 0 24 24" className="h-3 w-3 fill-none stroke-current stroke-[3]" aria-hidden="true">
+                  <path strokeLinecap="round" d="M6 6l12 12M18 6L6 18" />
+                </svg>
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
 
       <label className="mt-3 flex cursor-pointer items-center gap-2">
         <input
@@ -548,54 +632,126 @@ function YorumlarIcerik({
 }) {
   const [yildizFiltre, setYildizFiltre] = useState<number | null>(null);
   const [siralama, setSiralama] = useState<'yeni' | 'iyi' | 'dogrulandi'>('yeni');
+  const [sadeceFotograf, setSadeceFotograf] = useState(false);
   const [yorumlar, setYorumlar] = useState<YorumDetay[]>(ilkYorumlar);
   const [offset, setOffset] = useState(ilkYorumlar.length);
   const [daha, setDaha] = useState(ilkYorumlar.length === 15);
   const [yukleniyor, setYukleniyor] = useState(false);
+  const [dogrulanmisIdler, setDogrulanmisIdler] = useState<string[] | null>(null);
+  const [fotografliIdler, setFotografliIdler] = useState<string[] | null>(null);
+
+  const fotograflariGetir = useCallback(async (reviewIds: string[]): Promise<Record<string, string[]>> => {
+    if (reviewIds.length === 0) return {};
+    const sb = createSupabaseBrowserClient();
+    const { data } = await (sb as any)
+      .from('review_photos')
+      .select('review_id, url')
+      .in('review_id', reviewIds)
+      .order('created_at', { ascending: true });
+    const map: Record<string, string[]> = {};
+    for (const row of (data ?? []) as Array<{ review_id: string; url: string }>) {
+      (map[row.review_id] ??= []).push(row.url);
+    }
+    return map;
+  }, []);
+
+  const getirYorumlar = useCallback(async (
+    baslangicOffset: number,
+    verifiedIds: string[] | null,
+    fotoIds: string[] | null,
+  ): Promise<{ data: YorumDetay[]; bitti: boolean }> => {
+    if (siralama === 'dogrulandi' && (!verifiedIds || verifiedIds.length === 0)) {
+      return { data: [], bitti: true };
+    }
+    if (sadeceFotograf && (!fotoIds || fotoIds.length === 0)) {
+      return { data: [], bitti: true };
+    }
+    const sb = createSupabaseBrowserClient();
+    let q = (sb as any)
+      .from('business_reviews')
+      .select('id, rating, overall_rating, content, title, created_at, helpful_count, taste_rating, service_speed_rating, atmosphere_rating, price_performance_rating, cleanliness_rating, owner_reply, user_id')
+      .eq('business_id', businessId)
+      .eq('status', 'approved')
+      .range(baslangicOffset, baslangicOffset + 14);
+    if (siralama === 'iyi') q = q.order('helpful_count', { ascending: false });
+    else q = q.order('created_at', { ascending: false });
+    if (yildizFiltre) q = q.eq('rating', yildizFiltre);
+    if (siralama === 'dogrulandi' && verifiedIds) q = q.in('user_id', verifiedIds);
+    if (sadeceFotograf && fotoIds) q = q.in('id', fotoIds);
+    const { data: reviewsData } = await q;
+    if (!reviewsData || reviewsData.length === 0) return { data: [], bitti: true };
+    // Profilleri ve fotoğrafları ayrı çek
+    const uids = [...new Set(reviewsData.map((r: any) => r.user_id).filter(Boolean))] as string[];
+    let pMap: Record<string, { display_name: string; avatar_url: string | null }> = {};
+    if (uids.length > 0) {
+      const { data: profs } = await (sb as any)
+        .from('user_profiles')
+        .select('user_id, display_name, avatar_url')
+        .in('user_id', uids);
+      for (const p of profs ?? []) pMap[p.user_id] = { display_name: p.display_name, avatar_url: p.avatar_url ?? null };
+    }
+    const photoMap = await fotograflariGetir(reviewsData.map((r: any) => r.id));
+    const merged: YorumDetay[] = reviewsData.map((r: any) => ({
+      ...r,
+      user_profiles: r.user_id ? (pMap[r.user_id] ?? null) : null,
+      photos: photoMap[r.id] ?? [],
+    }));
+    return { data: merged, bitti: reviewsData.length < 15 };
+  }, [businessId, siralama, yildizFiltre, sadeceFotograf, fotograflariGetir]);
 
   const dahayukle = useCallback(async () => {
     setYukleniyor(true);
     try {
-      const sb = createSupabaseBrowserClient();
-      let q = (sb as any)
-        .from('business_reviews')
-        .select('id, rating, overall_rating, content, title, created_at, helpful_count, taste_rating, service_speed_rating, atmosphere_rating, price_performance_rating, cleanliness_rating, owner_reply, user_id')
-        .eq('business_id', businessId)
-        .eq('status', 'approved')
-        .range(offset, offset + 14);
-      if (siralama === 'iyi') q = q.order('helpful_count', { ascending: false });
-      else q = q.order('created_at', { ascending: false });
-      if (yildizFiltre) q = q.eq('rating', yildizFiltre);
-      const { data: reviewsData } = await q;
-      if (reviewsData && reviewsData.length > 0) {
-        // Profilleri ayrı çek
-        const uids = [...new Set(reviewsData.map((r: any) => r.user_id).filter(Boolean))] as string[];
-        let pMap: Record<string, { display_name: string; avatar_url: string | null }> = {};
-        if (uids.length > 0) {
-          const { data: profs } = await (sb as any)
-            .from('user_profiles')
-            .select('user_id, display_name, avatar_url')
-            .in('user_id', uids);
-          for (const p of profs ?? []) pMap[p.user_id] = { display_name: p.display_name, avatar_url: p.avatar_url ?? null };
-        }
-        const merged: YorumDetay[] = reviewsData.map((r: any) => ({
-          ...r,
-          user_profiles: r.user_id ? (pMap[r.user_id] ?? null) : null,
-        }));
-        setYorumlar((prev) => [...prev, ...merged]);
-        setOffset((prev) => prev + reviewsData.length);
-        if (reviewsData.length < 15) setDaha(false);
-      } else {
-        setDaha(false);
-      }
+      const sonuc = await getirYorumlar(offset, dogrulanmisIdler, fotografliIdler);
+      setYorumlar((prev) => [...prev, ...sonuc.data]);
+      setOffset((prev) => prev + sonuc.data.length);
+      setDaha(!sonuc.bitti);
     } finally {
       setYukleniyor(false);
     }
-  }, [businessId, offset, siralama, yildizFiltre]);
+  }, [offset, dogrulanmisIdler, fotografliIdler, getirYorumlar]);
 
-  const gosterilen = yildizFiltre
-    ? yorumlar.filter((y) => y.rating === yildizFiltre)
-    : yorumlar;
+  // Sıralama, yıldız veya fotoğraf filtresi değiştiğinde listeyi baştan getir.
+  const ilkMount = useRef(true);
+  useEffect(() => {
+    if (ilkMount.current) { ilkMount.current = false; return; }
+    let iptal = false;
+    (async () => {
+      setYukleniyor(true);
+      try {
+        let verifiedIds = dogrulanmisIdler;
+        if (siralama === 'dogrulandi' && verifiedIds === null) {
+          const sb = createSupabaseBrowserClient();
+          const { data } = await (sb as any).rpc('get_business_checkin_user_ids_v1', { p_business_id: businessId });
+          verifiedIds = Array.isArray(data) ? data : [];
+          if (iptal) return;
+          setDogrulanmisIdler(verifiedIds);
+        }
+        let fotoIds = fotografliIdler;
+        if (sadeceFotograf && fotoIds === null) {
+          const sb = createSupabaseBrowserClient();
+          const { data } = await (sb as any)
+            .from('review_photos')
+            .select('review_id')
+            .eq('business_id', businessId);
+          fotoIds = [...new Set(((data ?? []) as Array<{ review_id: string }>).map((r) => r.review_id))];
+          if (iptal) return;
+          setFotografliIdler(fotoIds);
+        }
+        const sonuc = await getirYorumlar(0, verifiedIds, fotoIds);
+        if (iptal) return;
+        setYorumlar(sonuc.data);
+        setOffset(sonuc.data.length);
+        setDaha(!sonuc.bitti);
+      } finally {
+        if (!iptal) setYukleniyor(false);
+      }
+    })();
+    return () => { iptal = true; };
+    // dogrulanmisIdler / fotografliIdler kasıtlı olarak dışarıda bırakıldı — bu efekt
+    // tarafından yazılıyorlar, tekrar tetiklenmesi gereken bağımlılıklar değil.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [siralama, yildizFiltre, sadeceFotograf, businessId, getirYorumlar]);
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
@@ -689,34 +845,45 @@ function YorumlarIcerik({
               </button>
             );
           })}
-          <Link
-            href={`/isletme/${businessSlug}/yorumlar/new`}
+          <button
+            type="button"
+            onClick={() => setSadeceFotograf((v) => !v)}
+            className={`rounded-xl border px-3 py-1.5 text-xs font-extrabold transition-all ${sadeceFotograf ? 'border-primary/40 bg-primary/8 text-primary' : 'border-border bg-card text-muted hover:text-textStrong'}`}
+          >
+            📷 Fotoğraflı
+          </button>
+          <a
+            href="#yorum-yaz"
             className="ml-auto inline-flex h-8 items-center gap-1.5 rounded-xl border border-border bg-card px-3 text-xs font-extrabold text-muted transition-colors hover:border-primary/30 hover:text-primary"
           >
             <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-none stroke-current stroke-2" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
             </svg>
             Yorum Yaz
-          </Link>
+          </a>
         </div>
 
         {/* Yorum listesi */}
         <div className="mt-5 space-y-5">
-          {gosterilen.length === 0 ? (
+          {yorumlar.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted">
               {yildizFiltre
                 ? `${yildizFiltre} yıldızlı yorum bulunamadı.`
-                : 'Henüz yorum yapılmamış.'}
+                : siralama === 'dogrulandi'
+                  ? 'Doğrulanmış ziyaretçilerden yorum bulunamadı.'
+                  : sadeceFotograf
+                    ? 'Fotoğraflı yorum bulunamadı.'
+                    : 'Henüz yorum yapılmamış.'}
             </p>
           ) : (
-            gosterilen.map((yorum) => (
+            yorumlar.map((yorum) => (
               <YorumKartiDetay key={yorum.id} yorum={yorum} businessId={businessId} />
             ))
           )}
         </div>
 
         {/* Daha fazla */}
-        {daha && !yildizFiltre && (
+        {daha && (
           <button
             type="button"
             onClick={dahayukle}
@@ -736,7 +903,7 @@ function YorumlarIcerik({
       </div>
 
       {/* Sağ — sidebar */}
-      <div className="space-y-4 lg:sticky lg:top-20 lg:self-start">
+      <div id="yorum-yaz" className="space-y-4 lg:sticky lg:top-20 lg:self-start">
         <YorumYapForm businessId={businessId} businessSlug={businessSlug} />
 
         {/* Puanlara Göre */}

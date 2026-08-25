@@ -61,7 +61,7 @@ function IsletmeKart({ biz }: { biz: Isletme }) {
 
   return (
     <Link
-      href={`/b/${biz.slug}`}
+      href={`/isletme/${biz.slug}`}
       className="group flex flex-col overflow-hidden rounded-[20px] border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2"
     >
       <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/10' }}>

@@ -47,7 +47,7 @@ export function BusinessTile({
 }: BusinessTileProps) {
   return (
     <Link
-      href={`/b/${slug}`}
+      href={`/isletme/${slug}`}
       className={clsx(
         'group flex items-center gap-3 rounded-[20px] border border-border bg-cardAlt p-3 shadow-yd2',
         'cursor-pointer transition-all duration-180 hover:-translate-y-0.5 hover:shadow-yd3 active:scale-[0.97] active:shadow-yd1',

@@ -79,7 +79,7 @@ export function SettingsRightSidebar({ user, business }: SettingsRightSidebarPro
         <nav aria-label="Ayarlar hızlı işlemleri" className="divide-y divide-border">
           {business.slug ? (
             <QuickActionLink
-              href={`/b/${business.slug}`}
+              href={`/isletme/${business.slug}`}
               label="İşletme profilini önizle"
               icon={ExternalLink}
               external

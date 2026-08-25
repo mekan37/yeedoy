@@ -100,7 +100,7 @@ export default async function EmbedViewerPage({ params }: Props) {
 
       <div className="mt-4 pt-3 border-t border-border flex justify-end">
         <a
-          href={`/b/${biz.slug}`}
+          href={`/isletme/${biz.slug}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-[10px] text-muted hover:text-primary transition-colors no-underline"

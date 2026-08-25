@@ -291,7 +291,7 @@ export function AnlikArama({ className = '' }: { className?: string }) {
 
 function BizSatiri({ biz, onSelect }: { biz: BizResult; onSelect: () => void }) {
   const imgSrc = buildMenuImageUrl(biz.logoUrl ?? biz.coverUrl ?? null, { width: 80, quality: 75 });
-  const href = `/b/${biz.slug}`;
+  const href = `/isletme/${biz.slug}`;
 
   return (
     <li role="option" aria-selected="false">
@@ -350,7 +350,7 @@ function BizSatiri({ biz, onSelect }: { biz: BizResult; onSelect: () => void }) 
 
 function YemekSatiri({ item, onSelect }: { item: ItemResult; onSelect: () => void }) {
   const imgSrc = buildMenuImageUrl(item.image_url ?? null, { width: 80, quality: 75 });
-  const href = `/b/${item.businessSlug}`;
+  const href = `/isletme/${item.businessSlug}`;
 
   return (
     <li role="option" aria-selected="false">

@@ -91,7 +91,7 @@ function OneriKarti({ biz, tip }: { biz: OneriIsletme; tip: 'secilmis' | 'deneme
   const etiket = ETIKET_MAP[biz.category ?? ''] ?? { text: 'Sık tercih ettiğin mekan', color: '#7f1d1d' };
 
   return (
-    <Link href={`/b/${biz.slug}`} className="group flex w-[220px] shrink-0 flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2">
+    <Link href={`/isletme/${biz.slug}`} className="group flex w-[220px] shrink-0 flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2">
       {/* Görsel */}
       <div className="relative h-[140px] w-full overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
