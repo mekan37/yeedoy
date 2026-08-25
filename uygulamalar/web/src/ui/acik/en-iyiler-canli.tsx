@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 
 // ── Tipler ───────────────────────────────────────────────────────────────────
@@ -68,12 +69,13 @@ function useDebounce<T>(v: T, ms: number) {
 // ── Sıralı kart ───────────────────────────────────────────────────────────────
 
 function IsletmeKarti({ biz, rank }: { biz: Isletme; rank: number }) {
+  const router = useRouter();
   const cover = buildMenuImageUrl(biz.coverUrl ?? biz.logoUrl ?? null, { width: 640, quality: 78 })
     ?? coverFallback(biz.category);
   const rankStyle = RANK_COLORS[rank] ?? { bg: '#1E293B', text: '#fff' };
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-[20px] border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2">
+    <Link href={`/isletme/${biz.slug}`} className="group flex flex-col overflow-hidden rounded-[20px] border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2">
       <div className="relative w-full overflow-hidden" style={{ aspectRatio: '4/3' }}>
         <Image
           src={cover}
@@ -89,15 +91,16 @@ function IsletmeKarti({ biz, rank }: { biz: Isletme; rank: number }) {
         >
           {rank}
         </div>
-        <Link href={`/m/${biz.slug}`} tabIndex={-1}
+        <button type="button"
+          onClick={(e) => { e.preventDefault(); router.push(`/m/${biz.slug}`); }}
           className="absolute right-2.5 top-2.5 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-muted shadow-md backdrop-blur-sm hover:text-primary"
           aria-label={`${biz.name} menüsüne git`}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
-        </Link>
+        </button>
       </div>
-      <Link href={`/isletme/${biz.slug}`} className="flex flex-1 flex-col gap-2 p-3">
+      <div className="flex flex-1 flex-col gap-2 p-3">
         <div>
           <div className="flex items-start gap-1.5">
             <p className="line-clamp-1 flex-1 text-sm font-black text-textStrong">{biz.name}</p>
@@ -134,8 +137,8 @@ function IsletmeKarti({ biz, rank }: { biz: Isletme; rank: number }) {
             <span className="text-[11px] font-extrabold text-success">✓ Doğrulandı</span></>
           )}
         </div>
-      </Link>
-    </article>
+      </div>
+    </Link>
   );
 }
 

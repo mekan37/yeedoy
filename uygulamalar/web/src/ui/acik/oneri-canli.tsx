@@ -91,7 +91,7 @@ function OneriKarti({ biz, tip }: { biz: OneriIsletme; tip: 'secilmis' | 'deneme
   const etiket = ETIKET_MAP[biz.category ?? ''] ?? { text: 'Sık tercih ettiğin mekan', color: '#7f1d1d' };
 
   return (
-    <article className="group flex w-[220px] shrink-0 flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2">
+    <Link href={`/b/${biz.slug}`} className="group flex w-[220px] shrink-0 flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2">
       {/* Görsel */}
       <div className="relative h-[140px] w-full overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -112,6 +112,7 @@ function OneriKarti({ biz, tip }: { biz: OneriIsletme; tip: 'secilmis' | 'deneme
         <button
           type="button"
           aria-label="Favorilere ekle"
+          onClick={(e) => e.preventDefault()}
           className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-white/90 text-muted shadow-sm backdrop-blur-sm transition-colors hover:text-primary"
         >
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -122,9 +123,9 @@ function OneriKarti({ biz, tip }: { biz: OneriIsletme; tip: 'secilmis' | 'deneme
 
       {/* İçerik */}
       <div className="flex flex-1 flex-col gap-1.5 p-3">
-        <Link href={`/b/${biz.slug}`} className="line-clamp-1 text-sm font-black text-textStrong hover:text-primary">
+        <p className="line-clamp-1 text-sm font-black text-textStrong group-hover:text-primary">
           {biz.name}
-        </Link>
+        </p>
         <p className="line-clamp-1 text-[11px] font-bold text-muted">
           {biz.category ?? '—'}
           {biz.district ? ` · ${biz.district}` : biz.city ? ` · ${biz.city}` : ''}
@@ -154,7 +155,7 @@ function OneriKarti({ biz, tip }: { biz: OneriIsletme; tip: 'secilmis' | 'deneme
           </span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
 
