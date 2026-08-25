@@ -52,20 +52,20 @@ WebAuthn kodu Auth-js'in ayrılmaz parçası; kaldırmak SDK fork'lamayı gerekt
 - Oluştur: `src/lib/taban/hafif-auth-istemcisi.ts` — `@supabase/auth-js`'in `GoTrueClient`'ını `@supabase/ssr` ile aynı cookie storage adaptörüyle saran, ama `SupabaseClient`/`RealtimeClient` içermeyen minimal bir factory.
 - Değiştir: `src/ui/bilesenler/oturum-suresi-uyarisi.tsx`, `src/ui/bilesenler/kullanici-dropdown.tsx` — `createSupabaseBrowserClient()` yerine yeni hafif istemciyi kullan.
 
-- [ ] `@supabase/ssr`'in `createBrowserClient`'ının cookie/storage adaptörünü nasıl kurduğunu (`src/lib/taban/istemci.ts` → `createBrowserClient` kaynağı) incele, aynı davranışı `GoTrueClient` için manuel kur
-- [ ] Yeni `hafif-auth-istemcisi.ts`'i yaz, local'de giriş/çıkış/oturum-yenileme akışlarını test et (gerçek prod DB'ye karşı, mevcut oturum çalışması pattern'i ile)
-- [ ] `oturum-suresi-uyarisi.tsx` ve `kullanici-dropdown.tsx`'i güncelle
-- [ ] Build sonrası `_next/static/chunks/` içinde realtime-js/webauthn string'lerinin bu iki bileşenin bulunduğu paylaşılan chunk'tan kalktığını doğrula (bkz. bu oturumdaki `grep -oE 'sentryReplaySession'` yöntemi)
-- [ ] Gerçek tarayıcıda: oturum açma, oturum kapatma, "oturum süresi doluyor" uyarısının hâlâ doğru tetiklendiğini manuel doğrula
+- [x] `@supabase/ssr`'in `createBrowserClient`'ının cookie/storage adaptörünü nasıl kurduğunu (`src/lib/taban/istemci.ts` → `createBrowserClient` kaynağı) incele, aynı davranışı `GoTrueClient` için manuel kur
+- [x] Yeni `hafif-auth-istemcisi.ts`'i yaz, local'de giriş/çıkış/oturum-yenileme akışlarını test et (gerçek prod DB'ye karşı, mevcut oturum çalışması pattern'i ile) — birim testleri + gerçek `@supabase/ssr` adaptörüne karşı interop testi eklendi (`test/lib/hafif-auth-istemcisi*.test.ts`)
+- [x] `oturum-suresi-uyarisi.tsx` ve `kullanici-dropdown.tsx`'i güncelle
+- [x] Build sonrası `_next/static/chunks/` içinde realtime-js/webauthn string'lerinin bu iki bileşenin bulunduğu paylaşılan chunk'tan kalktığını doğrula — doğrulandı, ilgili chunk'larda bu string'ler yok
+- [ ] Gerçek tarayıcıda: oturum açma, oturum kapatma, "oturum süresi doluyor" uyarısının hâlâ doğru tetiklendiğini manuel doğrula — **yapılmadı**, prod kimlik bilgisi gerektirdiği için kullanıcı tarafından ayrıca doğrulanmalı
 
 ### Görev 2: Regresyon taraması
 
-- [ ] `createSupabaseBrowserClient` kullanan kalan ~13 dosyayı (bkz. analiz) tek tek gözden geçir — hangileri gerçekten sadece auth, hangileri postgrest/realtime de kullanıyor; sadece-auth olanları aynı şekilde taşımayı değerlendir (opsiyonel ikinci dalga)
-- [ ] `pnpm run test:unit`, `pnpm run typecheck`, `pnpm run lint`, `pnpm run test:e2e` (giriş/çıkış akışını kapsayan varsa) çalıştır
+- [x] `createSupabaseBrowserClient` kullanan kalan dosyaları (34 tane, planın "~13" tahmininden fazla) tek tek gözden geçir — 6'sı sadece-auth (ikinci dalga adayı), 28'i postgrest/realtime de kullanıyor (taşınmamalı); hiçbiri bu turda taşınmadı
+- [x] `pnpm run test:unit` (173/173), `pnpm run typecheck`, `pnpm run lint` çalıştırıldı, hepsi temiz — `pnpm run test:e2e` ortam eksikliği (`.env.local`, Playwright tarayıcısı kurulu değil) nedeniyle çalıştırılamadı; mevcut e2e testleri zaten login/logout akışını kapsamıyor
 
 ### Görev 3: PageSpeed ile doğrula
 
-- [ ] Production'a deploy sonrası mobil+masaüstü PageSpeed'i tekrar çalıştır, "Kullanılmayan JavaScript" bulgusundaki KiB miktarının azaldığını doğrula
+- [x] Production'a deploy sonrası mobil+masaüstü PageSpeed'i tekrar çalıştır, "Kullanılmayan JavaScript" bulgusundaki KiB miktarının azaldığını doğrula — **mobil 136 KiB → 99 KiB (~37 KiB kazanç)**, masaüstü skoru 98'de sabit, mobil skoru 79-80 aralığında (istatistiksel gürültü içinde)
 
 ---
 
