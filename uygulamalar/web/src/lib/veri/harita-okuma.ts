@@ -11,6 +11,7 @@ export interface HaritaIsletme {
   logo_url: string | null;
   cover_url: string | null;
   is_verified: boolean;
+  is_open_now: boolean | null;
 }
 
 export async function getMapBusinesses(
@@ -18,6 +19,7 @@ export async function getMapBusinesses(
   centerLng = 32.8597,
   radiusKm = 50,
   limit = 200,
+  category?: string | null,
 ): Promise<HaritaIsletme[]> {
   try {
     const supabase = createSupabasePublicClient();
@@ -32,6 +34,7 @@ export async function getMapBusinesses(
       p_lng: centerLng,
       p_radius_m: radiusKm * 1000,
       p_limit: limit,
+      p_category: category || null,
     });
 
     if (error || !data) return [];
@@ -49,6 +52,7 @@ export async function getMapBusinesses(
         logo_url: b.logo_url != null ? String(b.logo_url) : null,
         cover_url: b.cover_url != null ? String(b.cover_url) : null,
         is_verified: Boolean(b.is_verified),
+        is_open_now: b.is_open_now == null ? null : Boolean(b.is_open_now),
       }));
   } catch {
     return [];

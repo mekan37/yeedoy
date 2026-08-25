@@ -7,6 +7,7 @@ export async function GET(req: NextRequest) {
   const lat = parseFloat(searchParams.get('lat') ?? '39.9334');
   const lng = parseFloat(searchParams.get('lng') ?? '32.8597');
   const radius = parseFloat(searchParams.get('radius') ?? '50');
+  const category = searchParams.get('category');
 
   if (isNaN(lat) || isNaN(lng)) {
     return NextResponse.json({ error: 'invalid params' }, { status: 400 });
@@ -21,7 +22,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
-  const businesses = await getMapBusinesses(lat, lng, radius);
+  const businesses = await getMapBusinesses(lat, lng, radius, 200, category);
   return NextResponse.json(businesses, {
     headers: {
       'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60',

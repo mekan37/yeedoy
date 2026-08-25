@@ -1,7 +1,41 @@
 import { Protocol } from 'pmtiles';
 import { addProtocol, setWorkerUrl, type StyleSpecification } from 'maplibre-gl';
-import { layers, namedFlavor } from '@protomaps/basemaps';
+import { layers, LIGHT, type Flavor } from '@protomaps/basemaps';
 import { clusterSizeTier, type ClusterSizeTier } from '@/src/lib/harita-cluster';
+
+// Protomaps'in nötr 'light' paletinin sıcak, krem tonlu bir varyantı — Google Maps'in
+// gri-mavi taban haritasından ayrışmak ve marka renklerimizle (bkz. tokens.css
+// --yd-color-card-alt/--yd-color-primary-soft) hizalanmak için. Etiket/sınır/POI
+// renkleri LIGHT'tan devralınıyor, sadece zemin/yol/bina/su tonları değişti.
+const YEEDOY_FLAVOR: Flavor = {
+  ...LIGHT,
+  background: '#f6efe4',
+  earth: '#f6efe4',
+  buildings: '#ece1cf',
+  water: '#c9dadd',
+  park_a: '#dde7d3',
+  park_b: '#cfdcc4',
+  wood_a: '#d3e0c8',
+  wood_b: '#c6d6ba',
+  scrub_a: '#e6dfc7',
+  scrub_b: '#dad2b5',
+  pedestrian: '#f1e8d8',
+  sand: '#efe0bf',
+  beach: '#f0e2c4',
+  major: '#fffbf3',
+  major_casing_early: '#e7d8bf',
+  major_casing_late: '#e7d8bf',
+  highway: '#ffffff',
+  highway_casing_early: '#eec39f',
+  highway_casing_late: '#eec39f',
+  minor_a: '#fdf8ee',
+  minor_b: '#fdf8ee',
+  minor_casing: '#e7dac2',
+  link: '#fdf8ee',
+  link_casing: '#e7dac2',
+  minor_service: '#fdf8ee',
+  minor_service_casing: '#e7dac2',
+};
 
 const PMTILES_URL =
   process.env.NEXT_PUBLIC_YEEDOY_PMTILES_URL ??
@@ -42,11 +76,11 @@ const GLYPHS_CDN = 'https://cdn.jsdelivr.net/gh/protomaps/basemaps-assets@main/f
 const POI_LABEL_IDS = new Set(['pois']);
 
 export function buildPmtilesStyle(): StyleSpecification {
-  const geomLayers = layers('protomaps', namedFlavor('light'));
+  const geomLayers = layers('protomaps', YEEDOY_FLAVOR);
   // lang:'tr' → name:tr etiketi varsa onu, yoksa yerel OSM adını (Türkiye'de zaten
   // çoğunlukla Türkçe) kullanır; script otomatik 'Latin' (dil-script eşleşme tablosu).
   const labelLayers = (
-    layers('protomaps', namedFlavor('light'), { lang: 'tr', labelsOnly: true }) as StyleSpecification['layers']
+    layers('protomaps', YEEDOY_FLAVOR, { lang: 'tr', labelsOnly: true }) as StyleSpecification['layers']
   ).filter((l) => !POI_LABEL_IDS.has(l.id));
   return {
     version: 8,
@@ -64,7 +98,11 @@ export function buildPmtilesStyle(): StyleSpecification {
 }
 
 /** İşletme adı etiketi + logo/harf daire pin — harita sayfasıyla aynı stil */
-export function buildRichMarkerEl(name: string, logoUrl?: string | null): HTMLDivElement {
+export function buildRichMarkerEl(
+  name: string,
+  logoUrl?: string | null,
+  opts?: { isVerified?: boolean; avgRating?: number | null; isOpenNow?: boolean | null },
+): HTMLDivElement {
   const wrap = document.createElement('div');
   wrap.dataset.testid = 'harita-pin';
   wrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;cursor:pointer;';
@@ -94,10 +132,12 @@ export function buildRichMarkerEl(name: string, logoUrl?: string | null): HTMLDi
   pin.style.cssText = [
     'width:40px', 'height:40px', 'border-radius:50%',
     'border:2.5px solid white',
-    'box-shadow:0 2px 8px rgba(0,0,0,0.28)',
+    opts?.isVerified
+      ? 'box-shadow:0 0 0 3px rgba(220,38,38,0.22),0 3px 9px rgba(0,0,0,0.28)'
+      : 'box-shadow:0 2px 8px rgba(0,0,0,0.28)',
     'overflow:hidden', 'background:#7F1D1D',
     'display:flex', 'align-items:center', 'justify-content:center',
-    'flex-shrink:0',
+    'flex-shrink:0', 'position:relative',
   ].join(';');
 
   if (logoUrl) {
@@ -112,6 +152,32 @@ export function buildRichMarkerEl(name: string, logoUrl?: string | null): HTMLDi
     pin.appendChild(img);
   } else {
     pin.appendChild(_initialSpan(name));
+  }
+
+  if (opts?.avgRating != null && opts.avgRating > 0) {
+    const ratingBadge = document.createElement('div');
+    ratingBadge.textContent = opts.avgRating.toFixed(1);
+    ratingBadge.style.cssText = [
+      'position:absolute', 'bottom:-4px', 'right:-4px',
+      'background:white', 'color:#111',
+      'border-radius:999px', 'padding:1px 5px',
+      'font-size:9px', 'font-weight:800',
+      'font-family:system-ui,sans-serif',
+      'box-shadow:0 1px 4px rgba(0,0,0,0.25)',
+      'border:1.5px solid #fbbf24',
+    ].join(';');
+    pin.appendChild(ratingBadge);
+  }
+
+  if (opts?.isOpenNow != null) {
+    const statusDot = document.createElement('div');
+    statusDot.style.cssText = [
+      'position:absolute', 'bottom:-2px', 'left:-2px',
+      'width:11px', 'height:11px', 'border-radius:50%',
+      `background:${opts.isOpenNow ? '#15803d' : '#9aa4af'}`,
+      'border:2px solid white',
+    ].join(';');
+    pin.appendChild(statusDot);
   }
 
   wrap.appendChild(label);
@@ -141,7 +207,7 @@ export function buildClusterBadgeEl(count: number): HTMLDivElement {
     `width:${size}px`,
     `height:${size}px`,
     'border-radius:50%',
-    'background:#7F1D1D',
+    'background:linear-gradient(135deg,#7F1D1D,#DC2626)',
     'color:white',
     'border:2px solid white',
     'box-shadow:0 2px 8px rgba(0,0,0,0.3)',

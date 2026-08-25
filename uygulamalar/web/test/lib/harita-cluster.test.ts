@@ -13,6 +13,7 @@ const isletme = (overrides: Partial<HaritaIsletme> = {}): HaritaIsletme => ({
   logo_url: null,
   cover_url: null,
   is_verified: false,
+  is_open_now: null,
   ...overrides,
 });
 

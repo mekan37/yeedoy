@@ -26,7 +26,12 @@ interface IsletmeDetay {
 }
 
 const DEFAULT_CENTER: [number, number] = [32.8597, 39.9334];
-const DEFAULT_ZOOM = 6;
+// Konum izni beklenirken (veya reddedilirse kalıcı olarak) gösterilen ilk görünüm.
+// Eskiden 6'ydı (tüm Türkiye) — kullanıcı konumu paylaşmadan/GPS gelmeden önce
+// tek bir dev cluster'dan başka bir şey görmüyordu. Şehir ölçeğine çekildi.
+const DEFAULT_ZOOM = 12;
+// Konum izni verildiğinde uçulan zoom seviyesi.
+const GEOLOCATED_ZOOM = 14;
 const FETCH_DEBOUNCE_MS = 500;
 const MAX_MARKERS = 150;
 // Supercluster yalnızca bu zoom'a kadar cluster ağacı kurar; ötesi (CLUSTER_MAX_ZOOM + 1)
@@ -34,6 +39,8 @@ const MAX_MARKERS = 150;
 // getClusterExpansionZoom() sadece "ilk ayrışma" zoom'unu verir (ör. 30 → 16+14 gibi alt
 // kümelere), tam tekilleşmeyi garanti etmez — bu yüzden tıklamada en az bu+1'e zoom'luyoruz.
 const CLUSTER_MAX_ZOOM = 16;
+
+const HARITA_KATEGORILERI = ['Restoran', 'Kafe', 'Kahvaltı', 'Tatlıcı', 'Mekan', 'Balık / Et'];
 
 
 // ── Harita arama kutusu ──────────────────────────────────────────────────────
@@ -506,6 +513,11 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
   const clusterRef = useRef<Supercluster<HaritaIsletme> | null>(null);
   const rafRef = useRef<number | null>(null);
   const [selected, setSelected] = useState<HaritaIsletme | null>(null);
+  const [kategori, setKategori] = useState<string | null>(null);
+  const kategoriRef = useRef<string | null>(null);
+  useEffect(() => {
+    kategoriRef.current = kategori;
+  }, [kategori]);
 
   // Ref: renderClusters'ı her render'da yeniden oluşturmadan click state'ini günceller
   const onClickRef = useRef((_b: HaritaIsletme) => {});
@@ -582,7 +594,11 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
       }
 
       const business = feature.properties as HaritaIsletme;
-      const el = buildRichMarkerEl(business.name, business.logo_url);
+      const el = buildRichMarkerEl(business.name, business.logo_url, {
+        isVerified: business.is_verified,
+        avgRating: business.avg_rating,
+        isOpenNow: business.is_open_now,
+      });
       el.addEventListener('click', (e) => {
         e.stopPropagation();
         onClickRef.current(business);
@@ -605,9 +621,10 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
   const fetchAndUpdate = useCallback(async () => {
     if (!mapRef.current) return;
     const center = mapRef.current.getCenter();
+    const kategoriQs = kategoriRef.current ? `&category=${encodeURIComponent(kategoriRef.current)}` : '';
     try {
       const res = await fetch(
-        `/api/harita-isletmeler?lat=${center.lat}&lng=${center.lng}&radius=50`,
+        `/api/harita-isletmeler?lat=${center.lat}&lng=${center.lng}&radius=50${kategoriQs}`,
       );
       if (!res.ok) return;
       const data: HaritaIsletme[] = await res.json();
@@ -655,7 +672,7 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
           (pos) => {
             map.flyTo({
               center: [pos.coords.longitude, pos.coords.latitude],
-              zoom: 13,
+              zoom: GEOLOCATED_ZOOM,
               duration: 1200,
             });
           },
@@ -679,14 +696,59 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
     };
   }, [initialBusinesses, buildClusterIndex, renderClusters, onMoveEnd, onMapRender, clearMarkers]);
 
+  // Kategori değiştiğinde mevcut harita merkezinde yeniden getir (ilk mount'ta atla —
+  // initialBusinesses zaten sunucudan filtresiz geldi).
+  const kategoriIlkMount = useRef(true);
+  useEffect(() => {
+    if (kategoriIlkMount.current) { kategoriIlkMount.current = false; return; }
+    fetchAndUpdate();
+  }, [kategori, fetchAndUpdate]);
+
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '500px' }}>
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
+      <div
+        style={{
+          position: 'absolute', top: 64, left: 12, right: 12,
+          display: 'flex', gap: 8, overflowX: 'auto',
+          zIndex: 5, paddingBottom: 2,
+        }}
+      >
+        <KategoriPili etiket="Tümü" secili={kategori === null} onClick={() => setKategori(null)} />
+        {HARITA_KATEGORILERI.map((k) => (
+          <KategoriPili key={k} etiket={k} secili={kategori === k} onClick={() => setKategori(k)} />
+        ))}
+      </div>
       <HaritaArama onSec={handleSearchSelect} />
       {selected && (
         <IsletmePaneli isletme={selected} onKapat={() => setSelected(null)} />
       )}
     </div>
+  );
+}
+
+function KategoriPili({ etiket, secili, onClick }: { etiket: string; secili: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        flexShrink: 0,
+        padding: '7px 14px',
+        borderRadius: 999,
+        fontSize: 12.5,
+        fontWeight: 700,
+        fontFamily: 'system-ui,sans-serif',
+        whiteSpace: 'nowrap',
+        cursor: 'pointer',
+        border: secili ? '1px solid transparent' : '1px solid rgba(0,0,0,0.08)',
+        background: secili ? 'linear-gradient(135deg,#7F1D1D,#DC2626)' : 'white',
+        color: secili ? 'white' : '#3c4148',
+        boxShadow: secili ? '0 4px 12px rgba(127,29,29,0.28)' : '0 1px 4px rgba(0,0,0,0.14)',
+      }}
+    >
+      {etiket}
+    </button>
   );
 }
 
