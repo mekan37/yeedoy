@@ -56,7 +56,7 @@ WebAuthn kodu Auth-js'in ayrılmaz parçası; kaldırmak SDK fork'lamayı gerekt
 - [x] Yeni `hafif-auth-istemcisi.ts`'i yaz, local'de giriş/çıkış/oturum-yenileme akışlarını test et (gerçek prod DB'ye karşı, mevcut oturum çalışması pattern'i ile) — birim testleri + gerçek `@supabase/ssr` adaptörüne karşı interop testi eklendi (`test/lib/hafif-auth-istemcisi*.test.ts`)
 - [x] `oturum-suresi-uyarisi.tsx` ve `kullanici-dropdown.tsx`'i güncelle
 - [x] Build sonrası `_next/static/chunks/` içinde realtime-js/webauthn string'lerinin bu iki bileşenin bulunduğu paylaşılan chunk'tan kalktığını doğrula — doğrulandı, ilgili chunk'larda bu string'ler yok
-- [ ] Gerçek tarayıcıda: oturum açma, oturum kapatma, "oturum süresi doluyor" uyarısının hâlâ doğru tetiklendiğini manuel doğrula — **yapılmadı**, prod kimlik bilgisi gerektirdiği için kullanıcı tarafından ayrıca doğrulanmalı
+- [x] Gerçek tarayıcıda: oturum açma, oturum kapatma, "oturum süresi doluyor" uyarısının hâlâ doğru tetiklendiğini manuel doğrula — kullanıcı tarafından production'da doğrulandı, giriş/çıkış normal çalışıyor
 
 ### Görev 2: Regresyon taraması
 
