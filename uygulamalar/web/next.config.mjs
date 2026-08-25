@@ -64,6 +64,14 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   reactCompiler: true,
+  // lucide-react her sayfada (header/drawer/footer) kullanılıyor; bu olmadan
+  // named import'lar (import { X } from 'lucide-react') paketin tamamını
+  // bundle'a dahil edebiliyor — PageSpeed'in "Kullanılmayan JavaScript"
+  // bulgusunun ana kaynağıydı (~135 KiB, biri neredeyse tamamen kullanılmayan
+  // bir chunk). Next.js bunları otomatik olarak per-icon deep import'a çevirir.
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
   // pnpm workspaces monorepo — hoists `next` to the repo root node_modules.
   // outputFileTracingRoot and turbopack.root must point to the same place
   // (Next.js requirement) or Turbopack fails with "Next.js inferred your

@@ -7,11 +7,19 @@ import * as Sentry from "@sentry/nextjs";
 Sentry.init({
   dsn: "https://1960d8a51dd860f83af1893a8d29bd0c@o4511903059738624.ingest.de.sentry.io/4511903317491792",
 
-  // Add optional integrations for additional features
-  integrations: [Sentry.replayIntegration()],
+  // Session Replay entegrasyonu init sırasında EKLENMİYOR — SDK'sı (~150 KiB'lik
+  // ayrı bir chunk) PageSpeed'de "Kullanılmayan JavaScript" ve "Uzun ana iş
+  // parçacığı görevleri" bulgularının doğrudan kaynağıydı: %10 örnekleme oranına
+  // rağmen kod her sayfa yüklemesinde eagerly indirilip parse ediliyordu (görüş
+  // ilk boyamayla/LCP ile yarışıyordu). Aşağıda ilk boyamadan sonra ekleniyor;
+  // replaysSessionSampleRate/replaysOnErrorSampleRate ayarları entegrasyon ne
+  // zaman eklenirse eklensin aynı şekilde uygulanır (Sentry SDK davranışı).
+  integrations: [],
 
   // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
-  tracesSampleRate: 1,
+  // 1 (yüzde 100) canlıda aşırıydı — her ziyaretçinin her sayfa geçişi tam
+  // izleme overhead'i (fetch/XHR sarmalama, span oluşturma) taşıyordu.
+  tracesSampleRate: 0.2,
   // Enable logs to be sent to Sentry
   enableLogs: true,
 
@@ -30,5 +38,14 @@ Sentry.init({
     // httpBodies: [],
   },
 });
+
+if (typeof window !== 'undefined') {
+  const addReplay = () => Sentry.addIntegration(Sentry.replayIntegration());
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(addReplay);
+  } else {
+    setTimeout(addReplay, 3000);
+  }
+}
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
