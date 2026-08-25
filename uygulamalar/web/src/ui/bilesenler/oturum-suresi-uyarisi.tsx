@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { createHafifAuthClient } from '@/src/lib/taban/hafif-auth-istemcisi';
 
 const WARN_BEFORE_SECS = 5 * 60; // 5 dakika önce uyar
 
@@ -12,11 +12,11 @@ export function OturumSuresiUyarisi() {
   const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
-    const supabase = createSupabaseBrowserClient();
+    const auth = createHafifAuthClient();
     let interval: ReturnType<typeof setInterval> | null = null;
 
     async function checkExpiry() {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await auth.getSession();
       if (!session) { setSecondsLeft(null); return; }
 
       const expiresAt = session.expires_at; // unix timestamp in seconds
@@ -32,15 +32,15 @@ export function OturumSuresiUyarisi() {
   }, []);
 
   async function extend() {
-    const supabase = createSupabaseBrowserClient();
-    await supabase.auth.refreshSession();
+    const auth = createHafifAuthClient();
+    await auth.refreshSession();
     setDismissed(true);
     setSecondsLeft(null);
   }
 
   function signOut() {
-    const supabase = createSupabaseBrowserClient();
-    supabase.auth.signOut().then(() => router.push('/giris'));
+    const auth = createHafifAuthClient();
+    auth.signOut().then(() => router.push('/giris'));
   }
 
   if (dismissed || secontsLeft === null || secontsLeft > WARN_BEFORE_SECS || secontsLeft <= 0) {

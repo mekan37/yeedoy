@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { clsx } from 'clsx';
-import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { createHafifAuthClient } from '@/src/lib/taban/hafif-auth-istemcisi';
 
 interface UserDropdownProps {
   displayName?: string | null;
@@ -61,8 +61,8 @@ export function UserDropdown({ displayName, email, avatarUrl, variant = 'topbar'
   function signOut() {
     setOpen(false);
     startTransition(async () => {
-      const supabase = createSupabaseBrowserClient();
-      await supabase.auth.signOut();
+      const auth = createHafifAuthClient();
+      await auth.signOut();
       router.push('/giris');
       router.refresh();
     });
