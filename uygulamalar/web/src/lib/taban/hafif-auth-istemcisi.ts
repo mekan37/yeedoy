@@ -19,6 +19,22 @@ import { appConfig } from '@/src/lib/ayarlar';
  * aynı cookie adı (storageKey), aynı chunklama (`key`, `key.0`, `key.1`, ...), aynı
  * `base64-` önekli base64url kodlama. Aksi halde bu istemci ile tam istemci (`istemci.ts`)
  * aynı sayfada farklı cookie formatları yazıp birbirinin oturumunu bozabilir.
+ *
+ * KRİTİK #2 — SÜRÜM PIN INVARIANT'I: `package.json`'da `@supabase/auth-js` `2.110.8` olarak TAM
+ * (caret'siz) sabitlenmiş durumda — bu, bugün `@supabase/supabase-js@^2.57.4`'ün transitive olarak
+ * bundle ettiği auth-js sürümüyle (`node_modules/@supabase/supabase-js/package.json` ->
+ * `dependencies["@supabase/auth-js"]`) aynı olacak şekilde seçildi. Bu eşleşme sadece kozmetik
+ * değil: aynı `storageKey` altında iki ayrı `GoTrueClient` instance'ının (bu dosyanınki + tam
+ * istemcinin içindeki) `BroadcastChannel` + commit-guard/single-flight refresh mekanizmasını
+ * (bkz. `GoTrueClient.ts` `_callRefreshToken`/`_notifyAllSubscribers` civarı) güvenle
+ * paylaşabilmesinin ÖN KOŞULU — iki farklı auth-js build'i, mesaj/state şeklini uyumsuz şekilde
+ * değiştirmiş olabilir. `supabase-js` caret range'de (`^2.57.4`) olduğu için ileride bir
+ * `pnpm update`, bu pin'i BURADA hareket ettirmeden supabase-js'in içindeki auth-js'i farklı bir
+ * sürüme taşıyabilir. Bu sessiz sürüklenmeyi yakalamak için
+ * `test/lib/supabase-auth-js-version-invariant.test.ts` dosyası, buradaki pin ile
+ * `@supabase/supabase-js`'in kendi `package.json`'ındaki auth-js bağımlılığını karşılaştırıyor —
+ * o test kırılırsa, bu dosyadaki `"@supabase/auth-js"` pin'ini supabase-js'in yeni auth-js
+ * sürümüyle eşleşecek şekilde güncelle.
  */
 
 // ── Cookie chunk/encoding yardımcıları ─────────────────────────────────────────
@@ -173,13 +189,30 @@ async function getItem(key: string): Promise<string | null> {
   if (!combined) return null;
   if (!combined.startsWith(BASE64_PREFIX)) return combined;
 
+  // Aşağıdaki iki hata kolu ve mesajları, @supabase/ssr'nin `cookies.ts` ->
+  // `decodeChunkedCookieValue`'suyla kasıtlı olarak birebir eşleşiyor (teşhis sinyali kaybolmasın
+  // diye): teşhis edilebilir bir prod bug'ı ("sürekli çıkışa atılıyorum" gibi) rapor edildiğinde,
+  // konsolda hangi kolun tetiklendiği görünür olmalı.
+  let decoded: string;
   try {
-    const decoded = base64UrlToUtf8(combined.slice(BASE64_PREFIX.length));
-    JSON.parse(decoded); // Sağlamlık kontrolü — @supabase/ssr ile aynı davranış: geçersiz JSON = yok say.
-    return decoded;
-  } catch {
+    decoded = base64UrlToUtf8(combined.slice(BASE64_PREFIX.length));
+  } catch (error) {
+    console.warn(
+      'hafif-auth-istemcisi: could not base64url-decode chunked cookie value, treating as absent. Cookie chunks may have been written partially across responses.',
+      error,
+    );
     return null;
   }
+
+  try {
+    JSON.parse(decoded);
+  } catch {
+    console.warn(
+      'hafif-auth-istemcisi: chunked cookie decoded to invalid JSON, treating as absent. This usually indicates that cookie chunks from different writes were combined (e.g. response committed before all Set-Cookie headers were sent).',
+    );
+    return null;
+  }
+  return decoded;
 }
 
 async function setItem(key: string, value: string): Promise<void> {
