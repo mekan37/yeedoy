@@ -177,43 +177,15 @@ const nextConfig = {
     ];
   },
   async headers() {
-    const supabaseHost = (() => {
-      try { return new URL(process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').hostname; } catch { return '*.supabase.co'; }
-    })();
-
-    const isDev = process.env.NODE_ENV === 'development';
-
-    const ContentSecurityPolicy = [
-      "default-src 'self'",
-      // 'unsafe-eval' is required by Next.js React Fast Refresh in development only.
-      // Production builds do not use eval and this directive is omitted there.
-      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://vercel-scripts.com https://va.vercel-scripts.com`,
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-      "font-src 'self' data: https://fonts.gstatic.com",
-      "img-src 'self' data: blob: https: http:",
-      // MapLibre GL v6 loads its WebGL worker as a same-origin module file
-      // (new Worker(url, { type: 'module' })) rather than a blob: URL like
-      // v5 did — 'self' is required, blob: kept for other/older code paths.
-      "worker-src 'self' blob:",
-      // In development, also allow the local WebSocket HMR connection.
-      `connect-src 'self'${isDev ? ' ws://localhost:* ws://127.0.0.1:*' : ''} https://${supabaseHost} wss://${supabaseHost} https://*.supabase.co wss://*.supabase.co https://fonts.googleapis.com https://maps.yeedoy.com https://cdn.jsdelivr.net`,
-      "frame-src https://www.openstreetmap.org",
-      "frame-ancestors 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-      "upgrade-insecure-requests",
-    ].join('; ');
-
-    // Embed pages allow framing from any origin (they are designed to be iframed)
-    const EmbedCSP = ContentSecurityPolicy.replace("frame-ancestors 'none'", "frame-ancestors *");
-
+    // Content-Security-Policy artık proxy.ts'te per-request nonce ile
+    // dinamik olarak üretiliyor (bkz. proxy.ts buildCsp). Burada sabit
+    // olarak set edilmiyor.
     return [
       // Embed viewer: allow iframing from any origin
       {
         source: '/embed/:businessId*',
         headers: [
           { key: 'X-Frame-Options', value: 'ALLOWALL' },
-          { key: 'Content-Security-Policy', value: EmbedCSP },
         ],
       },
       {
@@ -234,10 +206,6 @@ const nextConfig = {
           {
             key: 'X-Frame-Options',
             value: 'SAMEORIGIN',
-          },
-          {
-            key: 'Content-Security-Policy',
-            value: ContentSecurityPolicy,
           },
           {
             key: 'Permissions-Policy',
