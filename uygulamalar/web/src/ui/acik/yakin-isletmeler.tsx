@@ -147,7 +147,7 @@ export function YakindakiIsletmeler() {
 
     function fetchNearby(lat: number, lng: number) {
       setState({ status: 'loading', lat, lng });
-      fetch(`/api/yakin-isletmeler?lat=${lat}&lng=${lng}&r=15&limit=60`)
+      fetch(`/api/yakin-isletmeler?lat=${lat}&lng=${lng}&r=15&limit=60`, { signal: AbortSignal.timeout(8_000) })
         .then((r) => r.json())
         .then(({ data }) => {
           setState({ status: 'done', businesses: data ?? [], lat, lng });

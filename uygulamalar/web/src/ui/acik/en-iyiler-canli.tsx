@@ -186,7 +186,7 @@ export function EnIyilerCanli() {
       if (verified)      p.set('verified', 'true');
       p.set('limit', '24');
 
-      const res = await window.fetch(`/api/isletmeler?${p}`, { signal: ctrl.signal });
+      const res = await window.fetch(`/api/isletmeler?${p}`, { signal: AbortSignal.any([ctrl.signal, AbortSignal.timeout(8_000)]) });
       if (!res.ok) return;
       const json = await res.json() as { data: Isletme[]; total: number };
       setResults(json.data);

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { appConfig } from '@/src/lib/ayarlar';
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
+import { BUSINESS_CHUNK_SIZE, getSitemapBusinessChunkCount } from '@/src/lib/veri/sitemap-parcalari';
 
 export const revalidate = 3600;
 
@@ -17,7 +18,17 @@ function slugify(text: string): string {
     .replace(/[^a-z0-9-]/g, '');
 }
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+// id 0: statik sayfalar + şehir/ilçe/kategori hub sayfaları (küçük, sabit boyutlu).
+// id 1..N: işletme parçaları — her biri en fazla BUSINESS_CHUNK_SIZE işletmeyi
+// (/isletme/[slug] + /m/[slug] olmak üzere 2 URL/işletme) kapsar. Toplam işletme
+// sayısı Google'ın 50.000 URL/dosya sınırını çoktan aştığı için (42K+ işletme),
+// tek dosyaya sığdırmak yerine generateSitemaps ile birden fazla dosyaya bölünür.
+export async function generateSitemaps() {
+  const businessChunks = await getSitemapBusinessChunkCount();
+  return Array.from({ length: businessChunks + 1 }, (_, i) => ({ id: i }));
+}
+
+async function buildStaticAndGeoSitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   const now = new Date();
 
@@ -34,77 +45,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/yasal`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
   ];
 
-  let isletmeRoutes: MetadataRoute.Sitemap = [];
-  let businessRoutes: MetadataRoute.Sitemap = [];
-  let menuRoutes: MetadataRoute.Sitemap = [];
-  let cityRoutes: MetadataRoute.Sitemap = [];
-  let districtRoutes: MetadataRoute.Sitemap = [];
-  let categoryRoutes: MetadataRoute.Sitemap = [];
+  const cityRoutes: MetadataRoute.Sitemap = [];
+  const districtRoutes: MetadataRoute.Sitemap = [];
+  const categoryRoutes: MetadataRoute.Sitemap = [];
 
   try {
     const supabase = await createSupabaseServerClient();
+    const seenCity = new Set<string>();
+    const seenDistrict = new Set<string>();
+    const seenCategory = new Set<string>();
 
-    // İşletme detay sayfaları — /isletme/[slug] (SEO öncelikli)
-    const { data: businesses } = await (supabase as any)
-      .from('businesses')
-      .select('slug, updated_at, created_at')
-      .eq('is_active', true)
-      .not('slug', 'is', null)
-      .order('created_at', { ascending: false })
-      .range(0, 2499) as { data: Array<{ slug: string; updated_at: string | null; created_at: string | null }> | null };
+    // ÖNEMLİ: şehir/ilçe/kategori kombinasyonlarını tekilleştirmeden önce TÜM
+    // satırları sayfalayarak çekiyoruz (sabit bir range() sınırı koyup sonra
+    // tekilleştirmek, alfabetik olarak önce gelen tek bir şehir — örn. Adana —
+    // o sınırı tek başına doldurursa diğer TÜM şehirlerin sitemap'ten tamamen
+    // dışarıda kalmasına yol açıyordu).
+    const PAGE = 1000;
+    let from = 0;
+    for (;;) {
+      const { data: combos } = await (supabase as any)
+        .from('businesses')
+        .select('city, district, category')
+        .eq('is_active', true)
+        .not('city', 'is', null)
+        .not('district', 'is', null)
+        .not('category', 'is', null)
+        .order('id', { ascending: true })
+        .range(from, from + PAGE - 1) as { data: Array<{ city: string; district: string; category: string }> | null };
 
-    if (businesses) {
-      isletmeRoutes = businesses.map((b) => ({
-        url: `${siteUrl}/isletme/${b.slug}`,
-        lastModified: b.updated_at ? new Date(b.updated_at) : b.created_at ? new Date(b.created_at) : now,
-        changeFrequency: 'weekly' as const,
-        priority: 0.85,
-      }));
-      // /b/[slug] — QR alias sayfaları
-      businessRoutes = businesses.map((b) => ({
-        url: `${siteUrl}/b/${b.slug}`,
-        lastModified: b.updated_at ? new Date(b.updated_at) : b.created_at ? new Date(b.created_at) : now,
-        changeFrequency: 'weekly' as const,
-        priority: 0.8,
-      }));
-    }
-
-    // Menü sayfaları — /m/[slug]
-    const menuLimit = Math.max(0, 5000 - (businesses?.length ?? 0));
-    if (menuLimit > 0) {
-      const { data: menus } = await (supabase as any)
-        .from('menus')
-        .select('slug, updated_at, created_at')
-        .eq('status', 'published')
-        .not('slug', 'is', null)
-        .order('created_at', { ascending: false })
-        .range(0, menuLimit - 1) as { data: Array<{ slug: string; updated_at: string | null; created_at: string | null }> | null };
-
-      if (menus) {
-        menuRoutes = menus.map((m) => ({
-          url: `${siteUrl}/m/${m.slug}`,
-          lastModified: m.updated_at ? new Date(m.updated_at) : m.created_at ? new Date(m.created_at) : now,
-          changeFrequency: 'weekly' as const,
-          priority: 0.7,
-        }));
-      }
-    }
-
-    // Şehir/ilçe/kategori listesi sayfaları — /[sehir], /[sehir]/[ilce], /[sehir]/[ilce]/[kategori]
-    const { data: combos } = await (supabase as any)
-      .from('businesses')
-      .select('city, district, category')
-      .eq('is_active', true)
-      .not('city', 'is', null)
-      .not('district', 'is', null)
-      .not('category', 'is', null)
-      .order('city')
-      .range(0, 4999) as { data: Array<{ city: string; district: string; category: string }> | null };
-
-    if (combos) {
-      const seenCity = new Set<string>();
-      const seenDistrict = new Set<string>();
-      const seenCategory = new Set<string>();
+      if (!combos || combos.length === 0) break;
 
       for (const row of combos) {
         const cs = slugify(row.city);
@@ -112,45 +81,85 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const ks = slugify(row.category);
         if (!cs || !ds || !ks) continue;
 
-        // /[sehir] — city hub
         if (!seenCity.has(cs)) {
           seenCity.add(cs);
-          cityRoutes.push({
-            url: `${siteUrl}/${cs}`,
-            lastModified: now,
-            changeFrequency: 'daily' as const,
-            priority: 0.85,
-          });
+          cityRoutes.push({ url: `${siteUrl}/${cs}`, lastModified: now, changeFrequency: 'daily', priority: 0.85 });
         }
 
-        // /[sehir]/[ilce] — district listing
         const districtKey = `${cs}||${ds}`;
         if (!seenDistrict.has(districtKey)) {
           seenDistrict.add(districtKey);
-          districtRoutes.push({
-            url: `${siteUrl}/${cs}/${ds}`,
-            lastModified: now,
-            changeFrequency: 'daily' as const,
-            priority: 0.82,
-          });
+          districtRoutes.push({ url: `${siteUrl}/${cs}/${ds}`, lastModified: now, changeFrequency: 'daily', priority: 0.82 });
         }
 
-        // /[sehir]/[ilce]/[kategori] — category listing
-        const categoryKey = `${cs}||${ds}||${ks}`;
+        const categoryKey = `${districtKey}||${ks}`;
         if (!seenCategory.has(categoryKey)) {
           seenCategory.add(categoryKey);
-          categoryRoutes.push({
-            url: `${siteUrl}/${cs}/${ds}/${ks}`,
-            lastModified: now,
-            changeFrequency: 'daily' as const,
-            priority: 0.8,
-          });
+          categoryRoutes.push({ url: `${siteUrl}/${cs}/${ds}/${ks}`, lastModified: now, changeFrequency: 'daily', priority: 0.8 });
         }
       }
+
+      if (combos.length < PAGE) break;
+      from += PAGE;
     }
   } catch {
-    // DB hatasında sadece statik rotaları döndür
+    // DB hatasında sadece statik rotalar döner.
   }
 
-  return [...staticRoutes, ...isletmeRoutes, ...businessRoutes, ...menuRoutes, ...cityRoutes, ...districtRoutes, ...categoryRoutes];
+  return [...staticRoutes, ...cityRoutes, ...districtRoutes, ...categoryRoutes];
+}
+
+async function buildBusinessChunkSitemap(chunkIndex: number): Promise<MetadataRoute.Sitemap> {
+  const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
+  const now = new Date();
+  const from = chunkIndex * BUSINESS_CHUNK_SIZE;
+  const to = from + BUSINESS_CHUNK_SIZE - 1;
+
+  try {
+    const supabase = await createSupabaseServerClient();
+    const routes: MetadataRoute.Sitemap = [];
+
+    // PostgREST varsayılan olarak tek istekte en fazla 1000 satır döner (db-max-rows) —
+    // .range(from, to) BUSINESS_CHUNK_SIZE (20.000) kadar geniş olsa da, sunucu bunu
+    // sessizce 1000'e kırpıyor. Bu yüzden parça penceresi (from..to) içinde de
+    // PAGE'er PAGE'er sayfalamak gerekiyor.
+    const PAGE = 1000;
+    let pageFrom = from;
+    for (;;) {
+      const pageTo = Math.min(pageFrom + PAGE - 1, to);
+      if (pageFrom > to) break;
+
+      const { data: businesses } = await (supabase as any)
+        .from('businesses')
+        .select('slug, created_at')
+        .eq('is_active', true)
+        .not('slug', 'is', null)
+        .order('created_at', { ascending: false })
+        .order('id', { ascending: true })
+        .range(pageFrom, pageTo) as { data: Array<{ slug: string; created_at: string | null }> | null };
+
+      if (!businesses || businesses.length === 0) break;
+
+      for (const b of businesses) {
+        const lastModified = b.created_at ? new Date(b.created_at) : now;
+        // /b/[slug] (QR alias sayfası) kasıtlı olarak sitemap'e dahil edilmiyor —
+        // canonical URL değil, /isletme/[slug]'ın kopyası; sitemap'e sadece
+        // canonical URL'ler girmeli.
+        routes.push({ url: `${siteUrl}/isletme/${b.slug}`, lastModified, changeFrequency: 'weekly', priority: 0.85 });
+        routes.push({ url: `${siteUrl}/m/${b.slug}`, lastModified, changeFrequency: 'weekly', priority: 0.7 });
+      }
+
+      if (businesses.length < PAGE) break;
+      pageFrom += PAGE;
+    }
+    return routes;
+  } catch {
+    return [];
+  }
+}
+
+export default async function sitemap({ id }: { id: number | Promise<number> }): Promise<MetadataRoute.Sitemap> {
+  const resolvedId = Number(await id);
+  if (resolvedId === 0) return buildStaticAndGeoSitemap();
+  return buildBusinessChunkSitemap(resolvedId - 1);
 }

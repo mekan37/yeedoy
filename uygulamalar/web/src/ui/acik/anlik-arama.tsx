@@ -94,6 +94,9 @@ export function AnlikArama({ className = '' }: { className?: string }) {
   const doSearch = useCallback(async (q: string) => {
     if (!q.trim()) { setResults(null); return; }
     setLoading(true);
+    // Ağ isteği herhangi bir sebeple (ör. bot koruması sinyal üretimi) hiç
+    // sonuçlanmazsa arama kutusunun sonsuza kadar "yükleniyor" kalmasını önler.
+    const timeout = AbortSignal.timeout(8_000);
     try {
       const url = new URL('/api/arama/anlik', window.location.origin);
       url.searchParams.set('q', q.trim());
@@ -101,10 +104,10 @@ export function AnlikArama({ className = '' }: { className?: string }) {
         url.searchParams.set('lat', String(coords.lat));
         url.searchParams.set('lng', String(coords.lng));
       }
-      const res = await fetch(url.toString());
+      const res = await fetch(url.toString(), { signal: timeout });
       if (res.ok) setResults(await res.json());
     } catch {
-      // hata — sessizce geç
+      // hata veya zaman aşımı — sessizce geç
     } finally {
       setLoading(false);
     }

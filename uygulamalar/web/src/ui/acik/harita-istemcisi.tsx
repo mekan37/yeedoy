@@ -64,7 +64,7 @@ function HaritaArama({
     setYukleniyor(true);
     debounceRef.current = setTimeout(async () => {
       try {
-        const res = await fetch(`/api/harita-arama?q=${encodeURIComponent(trimmed)}`);
+        const res = await fetch(`/api/harita-arama?q=${encodeURIComponent(trimmed)}`, { signal: AbortSignal.timeout(8_000) });
         if (res.ok) setSonuclar(await res.json());
       } catch { /* sessiz */ }
       finally { setYukleniyor(false); }
@@ -254,7 +254,7 @@ function IsletmePaneli({
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setDetay(null);
     setYukleniyor(true);
-    fetch(`/api/isletme-ozet?id=${encodeURIComponent(isletme.id)}`)
+    fetch(`/api/isletme-ozet?id=${encodeURIComponent(isletme.id)}`, { signal: AbortSignal.timeout(8_000) })
       .then((r) => (r.ok ? r.json() : null))
       .then((d: IsletmeDetay | null) => { setDetay(d); })
       .catch(() => {})
@@ -625,6 +625,7 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
     try {
       const res = await fetch(
         `/api/harita-isletmeler?lat=${center.lat}&lng=${center.lng}&radius=50${kategoriQs}`,
+        { signal: AbortSignal.timeout(8_000) },
       );
       if (!res.ok) return;
       const data: HaritaIsletme[] = await res.json();
