@@ -6,6 +6,37 @@ import { resolveBrandTheme } from '@/src/lib/brand-theme';
 import { isBusinessMenuPathKey, isUuid } from '@/src/lib/business-path';
 import { resolveLang } from '@/src/lib/i18n';
 
+// ── CSP nonce ──────────────────────────────────────────────────────────────────
+// Her istekte taze bir nonce üretilir. Next.js bunu CSP response header'ından
+// otomatik ayrıştırıp kendi inline bootstrap/hydration <script>'lerine uygular.
+// Kendi ham HTML'ini döndüren route handler'lar (örn. app/auth/panel-handoff)
+// nonce'u x-nonce request header'ından okur.
+function buildCsp(nonce: string, isEmbed: boolean): string {
+  const supabaseHost = (() => {
+    try { return new URL(process.env.NEXT_PUBLIC_SUPABASE_URL ?? '').hostname; } catch { return '*.supabase.co'; }
+  })();
+  const isDev = process.env.NODE_ENV === 'development';
+
+  return [
+    "default-src 'self'",
+    // 'unsafe-eval' sadece dev'de React Fast Refresh için gerekli.
+    `script-src 'self' 'nonce-${nonce}'${isDev ? " 'unsafe-eval'" : ''} https://vercel-scripts.com https://va.vercel-scripts.com`,
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' data: https://fonts.gstatic.com",
+    "img-src 'self' data: blob: https: http:",
+    // MapLibre GL v6 worker'ı same-origin module dosyası olarak yükler
+    // (new Worker(url, { type: 'module' })) — 'self' gerekli, blob: eski
+    // kod yolları için tutuluyor.
+    "worker-src 'self' blob:",
+    `connect-src 'self'${isDev ? ' ws://localhost:* ws://127.0.0.1:*' : ''} https://${supabaseHost} wss://${supabaseHost} https://*.supabase.co wss://*.supabase.co https://fonts.googleapis.com https://maps.yeedoy.com https://cdn.jsdelivr.net`,
+    "frame-src https://www.openstreetmap.org",
+    `frame-ancestors ${isEmbed ? '*' : "'none'"}`,
+    "base-uri 'self'",
+    "form-action 'self'",
+    "upgrade-insecure-requests",
+  ].join('; ');
+}
+
 // ── Subdomain → panel rewrite ─────────────────────────────────────────────────
 // isletme.yeedoy.com  →  /sahip/[path]
 // ops.yeedoy.com      →  /yonetici/[path]   (secret subdomain, no public links)
@@ -14,7 +45,7 @@ import { resolveLang } from '@/src/lib/i18n';
 //   OWNER_HOSTNAMES = "isletme.yeedoy.com,isletme.localhost"
 //   ADMIN_HOSTNAME  = "ops.yeedoy.com,ops.localhost"   ← keep secret
 
-function rewriteSubdomainPanel(request: NextRequest): NextResponse | null {
+function rewriteSubdomainPanel(request: NextRequest, requestHeaders: Headers): NextResponse | null {
   const hostname = request.headers.get('host')?.split(':')[0] ?? '';
   const { pathname } = request.nextUrl;
 
@@ -34,7 +65,7 @@ function rewriteSubdomainPanel(request: NextRequest): NextResponse | null {
   const url = request.nextUrl.clone();
   url.pathname = `${prefix}${suffix}`;
   // Use rewrite so URL bar stays as isletme.yeedoy.com/...
-  return NextResponse.rewrite(url);
+  return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
 }
 
 // ── Protected panel route guard ───────────────────────────────────────────────
@@ -48,7 +79,7 @@ const LOGIN_PATH = '/giris';
 // Owner routes redirect unauthenticated users to the canonical login page.
 const OWNER_LOGIN_PATH = '/giris';
 
-async function guardPanelRoute(request: NextRequest): Promise<NextResponse | null> {
+async function guardPanelRoute(request: NextRequest, requestHeaders: Headers): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl;
   // Exclude public owner pages from the auth guard
   const OWNER_PUBLIC_PATHS = [OWNER_LOGIN_PATH, '/sahip'];
@@ -65,7 +96,7 @@ async function guardPanelRoute(request: NextRequest): Promise<NextResponse | nul
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!supabaseUrl || !supabaseAnonKey) return null;
 
-  const response = NextResponse.next({ request });
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
 
   const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
@@ -189,11 +220,22 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const hostname = request.headers.get('host')?.split(':')[0] ?? '';
 
+  const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-nonce', nonce);
+  const isEmbed = pathname.startsWith('/embed/');
+  const csp = buildCsp(nonce, isEmbed);
+
+  const applyCsp = (response: NextResponse): NextResponse => {
+    response.headers.set('Content-Security-Policy', csp);
+    return response;
+  };
+
   // ── Panel subdomain rewrite (isletme.* / ops.*) ───────────────────────────
   // Must run before the custom-domain slug lookup so panel subdomains are not
   // mistakenly treated as business custom domains.
-  const subdomainRewrite = rewriteSubdomainPanel(request);
-  if (subdomainRewrite) return subdomainRewrite;
+  const subdomainRewrite = rewriteSubdomainPanel(request, requestHeaders);
+  if (subdomainRewrite) return applyCsp(subdomainRewrite);
 
   // ── Custom domain rewrite ─────────────────────────────────────────────────
   // If the request comes in on a custom domain (not yeedoy.com / localhost),
@@ -214,16 +256,16 @@ export async function proxy(request: NextRequest) {
       // Rewrite root and any sub-path to /m/[slug]/...
       const suffix = pathname === '/' ? '' : pathname;
       url.pathname = `/m/${slug}${suffix}`;
-      return NextResponse.rewrite(url);
+      return applyCsp(NextResponse.rewrite(url, { request: { headers: requestHeaders } }));
     }
   }
 
-  const panelGuard = await guardPanelRoute(request);
-  if (panelGuard) return panelGuard;
+  const panelGuard = await guardPanelRoute(request, requestHeaders);
+  if (panelGuard) return applyCsp(panelGuard);
 
   const routeGuard = normalizePublicRoute(request);
   if (routeGuard) {
-    return routeGuard;
+    return applyCsp(routeGuard);
   }
 
   if (
@@ -235,7 +277,7 @@ export async function proxy(request: NextRequest) {
     !pathname.startsWith('/karekod/') &&
     pathname !== '/auth/panel-handoff'
   ) {
-    return NextResponse.next();
+    return applyCsp(NextResponse.next({ request: { headers: requestHeaders } }));
   }
 
   const identity = getRequestIdentity({
@@ -254,10 +296,10 @@ export async function proxy(request: NextRequest) {
       : rateLimit(`middleware:qr:${identity}`, 20, 60_000);
 
   if (policy.ok) {
-    return NextResponse.next();
+    return applyCsp(NextResponse.next({ request: { headers: requestHeaders } }));
   }
 
-  return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
+  return applyCsp(NextResponse.json({ error: 'rate_limited' }, { status: 429 }));
 }
 
 export const config = {
