@@ -117,11 +117,13 @@ function createPanelHandoffSuccessResponse(input: {
     );
   }
 
+  const nonce = input.request.headers.get('x-nonce') ?? '';
   const html = renderRedirectHtml({
     title: 'Redirecting to QR Studio',
     message: 'Your owner session is ready. Redirecting to the QR Studio now.',
     destination: input.destination,
     ctaLabel: 'Open QR Studio',
+    nonce,
   });
 
   const headers = new Headers(input.response.headers);
@@ -152,11 +154,13 @@ function createPanelHandoffErrorResponse(input: {
     );
   }
 
+  const nonce = input.request.headers.get('x-nonce') ?? '';
   const html = renderRedirectHtml({
     title: 'Owner session could not be restored',
     message: 'Your panel session could not be validated. Open the login page and continue to the same QR Studio route.',
     destination: loginUrl,
     ctaLabel: 'Open login',
+    nonce,
     autoRedirect: false,
   });
 
@@ -188,11 +192,12 @@ function cloneCookiesAsHeaders(response: NextResponse) {
   return headers;
 }
 
-function renderRedirectHtml(input: {
+export function renderRedirectHtml(input: {
   title: string;
   message: string;
   destination: string;
   ctaLabel: string;
+  nonce: string;
   autoRedirect?: boolean;
 }) {
   const escapedDestination = escapeHtml(input.destination);
@@ -281,7 +286,7 @@ function renderRedirectHtml(input: {
       <code>${escapedDestination}</code>
       ${
         shouldRedirect
-          ? `<script>window.location.replace(${JSON.stringify(input.destination)});</script>`
+          ? `<script nonce="${escapeHtml(input.nonce)}">window.location.replace(${JSON.stringify(input.destination)});</script>`
           : ''
       }
     </main>
