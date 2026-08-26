@@ -1,13 +1,7 @@
 import { NextResponse } from 'next/server';
-import { checkBotId } from 'botid/server';
 import { createSupabasePublicClient } from '@/src/lib/taban/acik';
 
 export async function GET(request: Request) {
-  const { isBot } = await checkBotId();
-  if (isBot) {
-    return NextResponse.json({ error: 'forbidden' }, { status: 403 });
-  }
-
   const { searchParams } = new URL(request.url);
   const lat = parseFloat(searchParams.get('lat') ?? '');
   const lng = parseFloat(searchParams.get('lng') ?? '');

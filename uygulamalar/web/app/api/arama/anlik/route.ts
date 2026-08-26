@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { checkBotId } from 'botid/server';
 import { createSupabasePublicClient } from '@/src/lib/taban/acik';
 import { rateLimit, getRequestIdentity, getClientIp } from '@/src/lib/oran-siniri';
 
@@ -11,11 +10,6 @@ const querySchema = z.object({
 });
 
 export async function GET(request: Request) {
-  const { isBot } = await checkBotId();
-  if (isBot) {
-    return NextResponse.json({ error: 'forbidden' }, { status: 403 });
-  }
-
   const id = getRequestIdentity({
     ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),

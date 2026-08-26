@@ -1,14 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { checkBotId } from 'botid/server';
 import { getMapBusinesses } from '@/src/lib/veri/harita-okuma';
 import { rateLimit, getRequestIdentity, getClientIp } from '@/src/lib/rate-limit';
 
 export async function GET(req: NextRequest) {
-  const { isBot } = await checkBotId();
-  if (isBot) {
-    return NextResponse.json({ error: 'forbidden' }, { status: 403 });
-  }
-
   const { searchParams } = new URL(req.url);
   const lat = parseFloat(searchParams.get('lat') ?? '39.9334');
   const lng = parseFloat(searchParams.get('lng') ?? '32.8597');

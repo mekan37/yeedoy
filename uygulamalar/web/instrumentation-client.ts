@@ -3,22 +3,6 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from "@sentry/nextjs";
-import { initBotId } from "botid/client/core";
-
-// Veri kazıma (scraping) koruması — sadece toplu işletme/menü verisi döndüren
-// arama/liste API'leri korunuyor. Genel sayfalar ve arama motoru crawler'ları
-// (Googlebot/Bingbot) etkilenmez — bu, sunucu tarafındaki checkBotId()
-// çağrılarının hangi path'lerde çalışacağını belirler.
-initBotId({
-  protect: [
-    { path: "/api/arama/anlik", method: "GET" },
-    { path: "/api/isletmeler", method: "GET" },
-    { path: "/api/isletme-ozet", method: "GET" },
-    { path: "/api/harita-isletmeler", method: "GET" },
-    { path: "/api/harita-arama", method: "GET" },
-    { path: "/api/yakin-isletmeler", method: "GET" },
-  ],
-});
 
 Sentry.init({
   dsn: "https://1960d8a51dd860f83af1893a8d29bd0c@o4511903059738624.ingest.de.sentry.io/4511903317491792",
