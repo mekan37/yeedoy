@@ -1,0 +1,4 @@
+Contact: mailto:yeedoy37@gmail.com
+Expires: 2027-08-26T00:00:00.000Z
+Preferred-Languages: tr, en
+Canonical: https://www.yeedoy.com/.well-known/security.txt
