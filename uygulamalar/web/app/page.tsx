@@ -116,7 +116,7 @@ function BusinessCard({ biz, priority = false }: { biz: AcikIsletmeKarti; priori
       <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/10' }}>
         <Image
           src={coverSrc}
-          alt={biz.name}
+          alt=""
           fill
           sizes="(max-width: 640px) 50vw, 300px"
           priority={priority}
@@ -258,7 +258,7 @@ export default async function HomePage() {
                     <div className="flex h-[68px] w-[68px] items-center justify-center overflow-hidden rounded-[22px] bg-white shadow-yd1 transition-all group-hover:-translate-y-0.5 group-hover:shadow-yd2">
                       <Image
                         src={cat.img}
-                        alt={cat.label}
+                        alt=""
                         width={68}
                         height={68}
                         priority={i < 4}
@@ -273,6 +273,7 @@ export default async function HomePage() {
                 {/* Tüm kategoriler */}
                 <Link
                   href="/kesif"
+                  aria-label="Tüm kategorileri keşfet"
                   className="group flex shrink-0 flex-col items-center gap-1.5"
                 >
                   <div className="flex h-[68px] w-[68px] items-center justify-center rounded-[22px] shadow-yd1 transition-all group-hover:-translate-y-0.5 group-hover:shadow-yd2" style={{ background: 'var(--yd-gradient-primary)' }}>
@@ -298,7 +299,7 @@ export default async function HomePage() {
               <section>
                 <div className="mb-4 flex items-center justify-between">
                   <h2 className="text-xl font-black text-textStrong">Senin için öne çıkanlar</h2>
-                  <Link href="/kesif" className="flex items-center gap-1 text-sm font-extrabold text-primary hover:underline">
+                  <Link href="/kesif" aria-label="Öne çıkan işletmelerin tümünü gör" className="flex items-center gap-1 text-sm font-extrabold text-primary hover:underline">
                     Tümünü gör <ChevronRight size={14} aria-hidden="true" />
                   </Link>
                 </div>
@@ -327,7 +328,7 @@ export default async function HomePage() {
               >
                 <div className="flex-1 min-w-0">
                   <p className="font-black text-textStrong">Lezzetli fırsatları kaçırma! 🎉</p>
-                  <p className="mt-1 text-sm text-muted">Sana özel indirimleri keşfet.</p>
+                  <p className="mt-1 text-sm text-textStrong">Sana özel indirimleri keşfet.</p>
                 </div>
                 <div className="relative shrink-0">
                   <Image

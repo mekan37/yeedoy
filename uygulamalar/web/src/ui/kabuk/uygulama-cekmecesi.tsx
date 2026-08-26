@@ -148,6 +148,7 @@ export function AppDrawer({ sessionUser, unreadCount }: AppDrawerProps) {
               name="q"
               type="search"
               placeholder="İşletme veya yemek ara..."
+              aria-label="İşletme veya yemek ara"
               autoComplete="off"
               className="min-w-0 flex-1 bg-transparent text-sm text-textStrong placeholder:text-muted focus:outline-hidden"
             />
