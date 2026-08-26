@@ -25,7 +25,7 @@ type MarketplaceBusinessDetail = AcikIsletmeKarti & {
 };
 
 const businessSelect =
-  'id,name,slug,public_slug,description,logo_url,cover_url,category,city,district,address,is_verified,is_active,created_at,accepts_reservations,reservation_phone,reservation_min_party,reservation_max_party,reservation_note';
+  'id,name,slug,public_slug,description,logo_url,cover_url,category,city,district,address,is_verified,is_active,created_at,accepts_reservations,reservation_phone,reservation_min_party,reservation_max_party,reservation_note,price_level';
 
 const fallbackBusinesses: AcikIsletmeKarti[] = [];
 
