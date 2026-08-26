@@ -23,7 +23,9 @@ function buildCsp(nonce: string, isEmbed: boolean): string {
     `script-src 'self' 'nonce-${nonce}'${isDev ? " 'unsafe-eval'" : ''} https://vercel-scripts.com https://va.vercel-scripts.com`,
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' data: https://fonts.gstatic.com",
-    "img-src 'self' data: blob: https: http:",
+    // next.config.mjs'nin imageRemotePatterns'ıyla eşleşen, işletme
+    // cover/logo görsellerinin gerçekten geldiği harici kaynaklar.
+    `img-src 'self' data: blob: https://${supabaseHost} https://images.unsplash.com https://*.unsplash.com https://fastly.4sqi.net https://*.googleusercontent.com${isDev ? ' http://localhost:* http://127.0.0.1:*' : ''}`,
     // MapLibre GL v6 worker'ı same-origin module dosyası olarak yükler
     // (new Worker(url, { type: 'module' })) — 'self' gerekli, blob: eski
     // kod yolları için tutuluyor.
