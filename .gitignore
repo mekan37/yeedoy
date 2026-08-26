@@ -95,6 +95,9 @@ deploy/next/.next/
 supabase/.branches/
 supabase/.temp/
 
+# Bölge migrasyonu geçici dosyaları — gerçek prod verisi (dump'lar, auth verisi) içerir, asla commit edilmez
+migration/
+
 # Legacy English-named app dirs (migrated to uygulamalar/)
 apps/
 
