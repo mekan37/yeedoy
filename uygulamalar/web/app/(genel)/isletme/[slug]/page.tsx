@@ -301,6 +301,7 @@ export default async function BusinessPage({ params }: Props) {
     image: business.coverUrl ?? business.logoUrl ?? undefined,
     servesCuisine: business.category ?? undefined,
     telephone: (business as any).phone ?? undefined,
+    priceRange: priceSymbol ?? undefined,
     address: business.address
       ? {
           '@type': 'PostalAddress',
