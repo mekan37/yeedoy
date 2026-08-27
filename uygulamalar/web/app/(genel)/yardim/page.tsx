@@ -6,6 +6,7 @@ import { Container } from '@/src/ui/acik/ortak';
 export const metadata: Metadata = {
   title: 'Yardım & SSS | Yeedoy',
   description: 'Sık sorulan sorular ve yardım rehberi.',
+  alternates: { canonical: '/yardim' },
 };
 
 const SECTIONS = [

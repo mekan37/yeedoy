@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: 'Akıllı Öneri | Yeedoy',
   description: 'Zevklerine ve alışkanlıklarına göre senin için seçtik!',
   openGraph: { title: 'Akıllı Öneri | Yeedoy', description: 'Zevklerine göre kişisel restoran önerileri.' },
+  alternates: { canonical: '/oneri' },
 };
 
 export const revalidate = 180;

@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   description:
     'Restoranınızın menüsünü dijitalleştirin, fiyatlarınızı güncel tutun ve müşterilerinize ulaşın. Yeedoy ile işletmenizi öne çıkarın.',
   robots: { index: true, follow: true },
+  alternates: { canonical: '/isletme' },
 };
 
 const OZELLIKLER: { icon: ComponentType<LucideProps>; baslik: string; aciklama: string }[] = [

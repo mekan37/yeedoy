@@ -2,12 +2,28 @@ import type { Metadata } from 'next';
 import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { Container } from '@/src/ui/acik/ortak';
 
+// aria-labelledby bir IDREF listesidir (boşlukla ayrılır) — section.title'daki boşluklar
+// ve Türkçe karakterler id/aria-labelledby'yi geçersiz kılıyordu (ekran okuyucular
+// referansı bulamıyordu). Başlığı geçerli tek bir id token'ına indirger.
+function slugifySection(text: string): string {
+  return text
+    .toLocaleLowerCase('tr-TR')
+    .replace(/ğ/g, 'g')
+    .replace(/ş/g, 's')
+    .replace(/ı/g, 'i')
+    .replace(/ç/g, 'c')
+    .replace(/ö/g, 'o')
+    .replace(/ü/g, 'u')
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+}
+
 export const metadata: Metadata = {
   title: 'Yardım Merkezi | Yeedoy',
   description:
     'Yeedoy hakkında sık sorulan sorular, hesap yönetimi ve destek iletişim bilgileri.',
   alternates: {
-    canonical: 'https://yeedoy.com/destek',
+    canonical: '/destek',
   },
   robots: { index: true, follow: true },
 };
@@ -110,9 +126,9 @@ export default function DestekSayfasi() {
             {/* SSS bölümleri */}
             <div className="space-y-8">
               {FAQ_SECTIONS.map((section) => (
-                <section key={section.title} aria-labelledby={`section-${section.title}`}>
+                <section key={section.title} aria-labelledby={`section-${slugifySection(section.title)}`}>
                   <h2
-                    id={`section-${section.title}`}
+                    id={`section-${slugifySection(section.title)}`}
                     className="mb-4 text-lg font-black text-textStrong"
                   >
                     {section.title}

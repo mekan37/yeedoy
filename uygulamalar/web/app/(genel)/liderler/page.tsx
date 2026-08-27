@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   description:
     "Yeedoy topluluğunun bu haftanın en çok katkı yapan üyeleri — fiyat doğrulamaları, yorumlar ve fotoğraflar.",
   robots: { index: true, follow: true },
+  alternates: { canonical: '/liderler' },
 };
 
 type LeaderboardRow = {

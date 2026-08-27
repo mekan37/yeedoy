@@ -7,6 +7,7 @@ export const revalidate = 86400;
 export const metadata: Metadata = {
   title: 'Yasal Bilgiler | Yeedoy',
   description: 'Gizlilik politikası, kullanım şartları ve diğer yasal belgeler',
+  alternates: { canonical: '/yasal' },
 };
 
 const FALLBACK_DOCS = [

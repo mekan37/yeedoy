@@ -18,6 +18,7 @@ export const metadata: Metadata = {
   title: 'Yeedoy — Lezzetleri Keşfet, Fiyatları Karşılaştır',
   description:
     'Yakınındaki restoranları, kafeleri ve menüleri keşfet. Gerçek kullanıcı yorumları, güncel fiyatlar ve toplulukça doğrulanmış bilgilerle en iyi lezzet deneyimini yaşa.',
+  alternates: { canonical: '/' },
 };
 
 const HOMEPAGE_CATEGORIES = [
