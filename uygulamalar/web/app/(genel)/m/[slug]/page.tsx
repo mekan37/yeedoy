@@ -6,6 +6,7 @@ import { MenuDuzen } from '@/src/ui/bolumler/menu-sayfasi/menu-duzen';
 import { type BrandTheme } from '@/src/lib/marka-temasi';
 import { getPublicMenuPageData, getTranslationValue } from '@/src/lib/acik-menu-sayfasi';
 import { getBusinessBySlugOrId, getBusinessHoursInfo, type BusinessHoursInfo } from '@/src/lib/veri/menu-okuma';
+import { getMarketplaceBusinesses } from '@/src/lib/veri/pazar-okuma';
 import { appConfig } from '@/src/lib/ayarlar';
 import { formatBusinessLocation } from '@/src/lib/bicimlendirme';
 import { appendMediaVersion, buildMenuImageUrl } from '@/src/lib/medya-adresi';
@@ -356,7 +357,30 @@ export default async function PublicMenuPage({ params, searchParams }: MenuPageP
     // İşletme var ama menüsü yoksa (bu, işletmelerin büyük çoğunluğu için
     // geçerli), sahibini menü eklemeye teşvik eden kişiselleştirilmiş mesaj göster.
     const business = await getBusinessBySlugOrId(slug).catch(() => null);
-    return <MenuNotFound business={business ? { id: business.id, name: business.name } : null} />;
+    const similar = business?.category
+      ? await getMarketplaceBusinesses({ category: business.category, pageSize: 8 })
+          .then((r) => r.data.filter((b) => b.id !== business.id).slice(0, 3))
+          .catch(() => [])
+      : [];
+    return (
+      <MenuNotFound
+        business={
+          business
+            ? {
+                id: business.id,
+                name: business.name,
+                category: business.category,
+                city: business.city,
+                district: business.district,
+                coverUrl: business.cover_url,
+                logoUrl: business.logo_url,
+                isVerified: business.is_verified,
+              }
+            : null
+        }
+        similar={similar}
+      />
+    );
   }
   const normalized = normalizeDisplayParams(rawSearchParams, {
     lang: data.presentation.defaultLang,
