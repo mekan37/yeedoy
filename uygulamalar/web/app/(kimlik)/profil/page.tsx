@@ -96,7 +96,7 @@ export default async function ProfilPage() {
 
   // Son yorumlar
   const yorumlarRes = await ((supabase as any)
-    .from('business_reviews')
+    .from('reviews')
     .select('id, content, title, rating, overall_rating, created_at, businesses ( name, category, district, slug )')
     .eq('user_id', user!.id)
     .order('created_at', { ascending: false })

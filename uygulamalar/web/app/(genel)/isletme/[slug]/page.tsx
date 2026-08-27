@@ -156,7 +156,7 @@ export default async function BusinessPage({ params }: Props) {
         : Promise.resolve([]),
       // Detaylı yorumlar (ilk 15) — FK yoktur, profil ayrı çekilir
       (createSupabasePublicClient() as any)
-        .from('business_reviews')
+        .from('reviews')
         .select('id, rating, overall_rating, content, title, created_at, helpful_count, taste_rating, service_speed_rating, atmosphere_rating, price_performance_rating, cleanliness_rating, owner_reply, user_id')
         .eq('business_id', business.id)
         .eq('status', 'approved')
@@ -164,7 +164,7 @@ export default async function BusinessPage({ params }: Props) {
         .limit(15) as Promise<{ data: any[] | null; error: any }>,
       // İstatistik veriler (rating dağılımı + alt puan ortalamaları)
       (createSupabasePublicClient() as any)
-        .from('business_reviews')
+        .from('reviews')
         .select('rating, taste_rating, service_speed_rating, atmosphere_rating, price_performance_rating, cleanliness_rating')
         .eq('business_id', business.id)
         .eq('status', 'approved')

@@ -291,7 +291,7 @@ export async function getBusinessReviews(businessId: string, limit = 5): Promise
 
   if (!rows) {
     const { data } = await supabaseAny
-      .from('business_reviews')
+      .from('reviews')
       .select('id,rating,content,created_at,helpful_count,user_profiles!user_id(display_name)')
       .eq('business_id', businessId)
       .eq('status', 'approved')
@@ -346,7 +346,7 @@ async function enrichBusinessCards(businesses: AcikIsletmeKarti[]) {
   let reviewData: Array<{ business_id: string; rating: number }> | null = null;
   try {
     const result = await supabaseAny
-      .from('business_reviews')
+      .from('reviews')
       .select('business_id,rating')
       .in('business_id', ids)
       .eq('status', 'approved');

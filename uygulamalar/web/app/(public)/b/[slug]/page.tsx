@@ -43,8 +43,8 @@ type HoursRpcResult = {
 } | null;
 
 type Review = {
-  id: string; rating: number; body: string | null; content: string | null;
-  created_at: string; verified_visit?: boolean;
+  id: string; rating: number; content: string | null;
+  created_at: string;
   user_profiles: { display_name: string | null } | null;
 };
 
@@ -90,8 +90,8 @@ export default async function BusinessPage({ params }: Props) {
 
   const [menusRes, reviewsRes, statsRes, hoursRes, photosRes, badges, checkedInToday, mealCardsRes] = await Promise.all([
     (supabase as any).from('menus').select('id, title, slug, status').eq('business_id', biz.id).eq('status', 'published').order('created_at', { ascending: true }).limit(10) as Promise<{ data: MenuRow[] | null }>,
-    (supabase as any).from('business_reviews').select('id, rating, body, content, created_at, verified_visit, user_profiles!user_id(display_name)').eq('business_id', biz.id).eq('is_visible', true).order('created_at', { ascending: false }).limit(5) as Promise<{ data: Review[] | null }>,
-    (supabase as any).from('business_reviews').select('rating', { count: 'exact' }).eq('business_id', biz.id).eq('is_visible', true) as Promise<{ data: { rating: number }[] | null; count: number | null }>,
+    (supabase as any).from('reviews').select('id, rating, content, created_at, user_profiles!user_id(display_name)').eq('business_id', biz.id).eq('status', 'approved').order('created_at', { ascending: false }).limit(5) as Promise<{ data: Review[] | null }>,
+    (supabase as any).from('reviews').select('rating', { count: 'exact' }).eq('business_id', biz.id).eq('status', 'approved') as Promise<{ data: { rating: number }[] | null; count: number | null }>,
     (supabase as any).rpc('get_business_hours_v1', { p_business_id: biz.id }) as Promise<{ data: HoursRpcResult }>,
     (supabase as any).from('menu_item_photos').select('url, url_thumb').eq('business_id', biz.id).eq('status', 'approved').eq('is_hidden', false).order('up_votes', { ascending: false }).limit(9) as Promise<{ data: Array<{ url: string; url_thumb: string | null }> | null }>,
     fetchBusinessBadges(biz.id),
@@ -294,19 +294,13 @@ export default async function BusinessPage({ params }: Props) {
               ) : (
                 <div className="flex flex-col gap-3">
                   {reviews.map((r) => {
-                    const text = r.body ?? r.content;
+                    const text = r.content;
                     const author = r.user_profiles?.display_name ?? 'Anonim Gurme';
                     return (
                       <article key={r.id} className="rounded-[20px] border border-border bg-cardAlt p-5 shadow-yd1">
                         <div className="flex items-start justify-between gap-2 mb-2">
                           <div className="flex items-center gap-2 flex-wrap">
                             <span className="font-extrabold text-textStrong text-sm">{author}</span>
-                            {r.verified_visit && (
-                              <span className="inline-flex items-center gap-1 rounded-full border border-success/25 bg-success/12 px-2 py-0.5 text-[10px] font-extrabold text-success">
-                                <svg viewBox="0 0 24 24" className="h-2.5 w-2.5 fill-current"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                                Doğrulanmış
-                              </span>
-                            )}
                           </div>
                           <div className="flex shrink-0 items-center gap-0.5">
                             {Array.from({ length: 5 }).map((_, i) => (

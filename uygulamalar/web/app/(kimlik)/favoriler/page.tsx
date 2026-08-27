@@ -41,7 +41,7 @@ export default async function FavoritesPage() {
   let yorumSayisi = 0;
   try {
     const { count } = await (supabase as any)
-      .from('business_reviews')
+      .from('reviews')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', user!.id) as { count: number | null };
     yorumSayisi = count ?? 0;
@@ -61,7 +61,7 @@ export default async function FavoritesPage() {
   let helpfulSayisi = 0;
   try {
     const { data: hrData } = await (supabase as any)
-      .from('business_reviews')
+      .from('reviews')
       .select('helpful_count')
       .eq('user_id', user!.id) as { data: { helpful_count: number }[] | null };
     helpfulSayisi = (hrData ?? []).reduce((s, r) => s + (r.helpful_count ?? 0), 0);

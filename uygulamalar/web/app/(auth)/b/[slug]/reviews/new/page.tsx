@@ -99,7 +99,7 @@ export default function ReviewNewPage() {
         ...(criteria.cleanliness_rating > 0 ? { cleanliness_rating: criteria.cleanliness_rating } : {}),
         ...(criteria.atmosphere_rating > 0 ? { atmosphere_rating: criteria.atmosphere_rating } : {}),
       };
-      const { error: err } = await (supabase as any).from('business_reviews').insert(payload);
+      const { error: err } = await (supabase as any).from('reviews').insert(payload);
       if (err) throw err;
       router.push(`/b/${slug}/reviews`);
     } catch (err: unknown) {

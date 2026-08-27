@@ -402,7 +402,6 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
   const [yildiz, setYildiz] = useState(0);
   const [metin, setMetin] = useState('');
   const [kriterler, setKriterler] = useState<KriterPuanlar>({ taste: 0, service: 0, price: 0, cleanliness: 0, atmosphere: 0 });
-  const [gizli, setGizli] = useState(false);
   const [gonderiliyor, setGonderiliyor] = useState(false);
   const [basarili, setBasarili] = useState(false);
   const [hata, setHata] = useState<string | null>(null);
@@ -423,6 +422,7 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
 
   const gonder = useCallback(async () => {
     if (yildiz === 0) { setHata('Lütfen bir puan seçin.'); return; }
+    if (!metin.trim()) { setHata('Lütfen bir yorum yazın.'); return; }
     setGonderiliyor(true);
     setHata(null);
     try {
@@ -432,12 +432,11 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
         window.location.href = `/giris?redirect=${encodeURIComponent(window.location.pathname)}`;
         return;
       }
-      const { data: yeniYorum, error } = await (sb as any).from('business_reviews').insert({
+      const { data: yeniYorum, error } = await (sb as any).from('reviews').insert({
         business_id: businessId,
         user_id: session.user.id,
         rating: yildiz,
-        content: metin.trim() || null,
-        is_anonymous: gizli,
+        content: metin.trim(),
         taste_rating: kriterler.taste || null,
         service_speed_rating: kriterler.service || null,
         price_performance_rating: kriterler.price || null,
@@ -479,7 +478,7 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
     } finally {
       setGonderiliyor(false);
     }
-  }, [yildiz, metin, kriterler, gizli, businessId, fotograflar, router]);
+  }, [yildiz, metin, kriterler, businessId, fotograflar, router]);
 
   if (basarili) {
     return (
@@ -576,16 +575,6 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
         </div>
       )}
 
-      <label className="mt-3 flex cursor-pointer items-center gap-2">
-        <input
-          type="checkbox"
-          checked={gizli}
-          onChange={(e) => setGizli(e.target.checked)}
-          className="h-4 w-4 rounded border-border accent-primary"
-        />
-        <span className="text-xs font-extrabold text-textStrong">İsmim gizli kalsın</span>
-      </label>
-
       {hata && <p className="mt-2 text-xs font-extrabold text-danger">{hata}</p>}
 
       <button
@@ -668,7 +657,7 @@ function YorumlarIcerik({
     }
     const sb = createSupabaseBrowserClient();
     let q = (sb as any)
-      .from('business_reviews')
+      .from('reviews')
       .select('id, rating, overall_rating, content, title, created_at, helpful_count, taste_rating, service_speed_rating, atmosphere_rating, price_performance_rating, cleanliness_rating, owner_reply, user_id')
       .eq('business_id', businessId)
       .eq('status', 'approved')

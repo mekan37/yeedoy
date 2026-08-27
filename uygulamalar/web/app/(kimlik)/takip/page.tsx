@@ -35,10 +35,10 @@ export default async function FollowingPage() {
     try {
       const uids = list.map((f) => f.followed_id);
       const { data: reviews } = await (supabase as any)
-        .from('business_reviews')
+        .from('reviews')
         .select('user_id, rating, businesses(name)')
         .in('user_id', uids)
-        .eq('is_visible', true)
+        .eq('status', 'approved')
         .order('created_at', { ascending: false })
         .limit(list.length * 2) as { data: Array<{ user_id: string; rating: number; businesses: { name: string } | null }> | null };
 
