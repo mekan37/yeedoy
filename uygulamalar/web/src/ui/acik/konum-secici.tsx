@@ -73,7 +73,7 @@ const POPULER_KONUMLAR: Konum[] = [
 // düşük riskli varsayılan liste — get_public_business_cities_v1 RPC'si gerçek
 // taranan şehirleri sayımla döndürünce bunun yerini alır.
 const VARSAYILAN_SEHIRLER = [
-  'Ankara', 'İstanbul', 'İzmir', 'Bursa', 'Antalya',
+  'Ankara', 'Antalya', 'Bursa', 'İstanbul', 'İzmir',
 ];
 
 const DEPO_KEY = 'yd_konum';
@@ -157,6 +157,9 @@ export function KonumSecici() {
         const { data, error } = await (sb as any).rpc('get_public_business_cities_v1', { p_limit: 80 });
         if (error) throw error;
         const cities = ((data ?? []) as Array<{ city: string }>).map((r) => r.city).filter(Boolean);
+        // RPC işletme sayısına göre sıralı döner (en sık kullanılan ilk 80 şehri seçmek için) —
+        // aranabilirlik için gösterimde alfabetik sıraya çeviriyoruz.
+        cities.sort((a, b) => a.localeCompare(b, 'tr'));
         if (cities.length > 0) setSehirler(cities);
       } catch {
         // Sessizce varsayılan listede kal
