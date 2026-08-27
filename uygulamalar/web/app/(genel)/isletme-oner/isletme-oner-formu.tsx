@@ -487,7 +487,7 @@ export function IsletmeOnerFormu() {
           {/* Sol sidebar */}
           <aside className="w-full space-y-4 lg:w-72 lg:shrink-0 lg:sticky lg:top-20 lg:self-start">
             <div className="rounded-2xl border border-border bg-card p-5 shadow-yd1">
-              <h3 className="mb-2 text-sm font-black text-textStrong">Neden Öneride Bulunmalısın?</h3>
+              <h2 className="mb-2 text-sm font-black text-textStrong">Neden Öneride Bulunmalısın?</h2>
               <p className="mb-4 text-[13px] font-bold leading-relaxed text-muted">
                 Yeedoy topluluğunun gücü, senin gibi keşfetmeyi sevenlerin katkılarıyla büyüyor. Beğendiğin işletmeleri önererek hem şehrindeki yeni lezzetlerin keşfedilmesine yardımcı ol hem de diğer kullanıcıların deneyimini zenginleştir.
               </p>

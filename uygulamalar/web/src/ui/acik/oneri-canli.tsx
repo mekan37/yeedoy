@@ -311,7 +311,7 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
 
             {/* Zevkler */}
             <div className="rounded-2xl border border-border bg-card p-4 shadow-yd1">
-              <h3 className="mb-3 text-sm font-black text-textStrong">Senin Zevklerine Göre</h3>
+              <h2 className="mb-3 text-sm font-black text-textStrong">Senin Zevklerine Göre</h2>
               <div className="space-y-3">
                 {kategoriDagilim.map(({ kat, pct, subtitle, color }) => {
                   const KatIcon = KAT_ICON[kat] ?? Utensils;
@@ -344,7 +344,7 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
 
             {/* Son aktiviteler */}
             <div className="rounded-2xl border border-border bg-card p-4 shadow-yd1">
-              <h3 className="mb-3 text-sm font-black text-textStrong">Son Aktivitelerin</h3>
+              <h2 className="mb-3 text-sm font-black text-textStrong">Son Aktivitelerin</h2>
               <div className="space-y-3">
                 {aktiviteler.map(({ biz, tip, zaman }) => (
                   <div key={biz.id} className="flex items-center gap-2.5">
@@ -367,7 +367,7 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
 
             {/* Bugünkü puan */}
             <div className="rounded-2xl border border-border bg-card p-4 shadow-yd1">
-              <h3 className="mb-3 text-sm font-black text-textStrong">Bugünkü Öneri Puanın</h3>
+              <h2 className="mb-3 text-sm font-black text-textStrong">Bugünkü Öneri Puanın</h2>
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-success/30 bg-success/10 text-xl font-black text-success">
                   88

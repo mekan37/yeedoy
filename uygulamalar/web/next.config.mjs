@@ -86,6 +86,7 @@ const nextConfig = {
     // Görsel URL'leri güncellemede versiyon query param'ı alır (bkz. medya-adresi.ts
     // appendMediaVersion), bu yüzden uzun TTL bayat görsel riski taşımaz.
     minimumCacheTTL: 604800, // 7 gün
+    formats: ['image/avif', 'image/webp'],
   },
   // ── Flutter Web panel backwards-compat redirects ─────────────────────────
   // Old Flutter Web URLs that users may have bookmarked → new Next.js paths.
