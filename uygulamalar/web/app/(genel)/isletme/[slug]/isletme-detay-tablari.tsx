@@ -13,10 +13,27 @@ import { AdresKopyalaButonu } from '@/src/ui/acik/isletme-istemci';
 import { OsmHarita } from '@/src/components/maps/OsmHarita';
 import type { AcikIsletmeKarti, AcikMenuUrunKarti } from '@/src/ui/acik/tipler';
 import { ReservasyonFormu } from './rezervasyon-formu';
+import {
+  type KampanyaTuru,
+  TUR_ETIKETLER,
+  TUR_RENK,
+  gunKaldiHesapla,
+  kampanyaBadge,
+} from '@/src/lib/kampanya-sunum';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-type DetayTab = 'genel' | 'menu' | 'yorumlar' | 'fotograflar' | 'bilgiler';
+export type DetayTab = 'genel' | 'menu' | 'yorumlar' | 'fotograflar' | 'bilgiler' | 'kampanyalar';
+
+export type KampanyaBilgi = {
+  id: string;
+  title: string;
+  description: string | null;
+  type: KampanyaTuru;
+  discountPercent: number | null;
+  imageUrl: string | null;
+  endsAt: string | null;
+};
 
 export type YorumDetay = {
   id: string;
@@ -89,6 +106,8 @@ export type IsletmeDetayTablariProps = {
   reservationMinParty: number;
   reservationMaxParty: number;
   reservationNote: string | null;
+  kampanyalar: KampanyaBilgi[];
+  initialTab?: DetayTab;
 };
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -590,6 +609,72 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
   );
 }
 
+// ── Kampanyalar tab content ────────────────────────────────────────────────────
+
+function KampanyaKartiDetay({ k }: { k: KampanyaBilgi }) {
+  const gunKaldi = gunKaldiHesapla(k.endsAt);
+  const badge = kampanyaBadge(k.type, k.discountPercent);
+  const renk = TUR_RENK[k.type];
+
+  return (
+    <article className="overflow-hidden rounded-[20px] border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2">
+      <div className="h-1.5" style={{ background: renk }} />
+      <div className="p-5">
+        <div className="mb-3 flex items-start justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-1.5">
+            {badge.map((line, i) => (
+              <span
+                key={i}
+                className={`rounded-full px-2.5 py-1 font-black text-white ${line.buyuk ? 'text-sm' : 'text-[10px] uppercase tracking-wide'}`}
+                style={{ background: renk }}
+              >
+                {line.metin}
+              </span>
+            ))}
+          </div>
+          {gunKaldi != null && (
+            <span className="flex shrink-0 items-center gap-1 rounded-full bg-danger/10 px-2.5 py-1 text-[11px] font-black text-danger">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" />
+              </svg>
+              {gunKaldi === 0 ? 'Son gün' : `${gunKaldi} gün kaldı`}
+            </span>
+          )}
+        </div>
+        <h3 className="mb-1.5 text-base font-black text-textStrong">{k.title}</h3>
+        {k.description && (
+          <p className="text-sm leading-6 text-muted">{k.description}</p>
+        )}
+      </div>
+    </article>
+  );
+}
+
+function KampanyalarIcerik({ kampanyalar }: { kampanyalar: KampanyaBilgi[] }) {
+  if (kampanyalar.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center rounded-[20px] border border-border bg-card py-16 text-center shadow-yd1">
+        <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-cardAlt">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-muted" aria-hidden="true">
+            <path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0L2.5 12.5V2h10.5l8.09 8.09a2 2 0 0 1 0 2.82z" />
+            <circle cx="6.5" cy="6.5" r="1.5" />
+          </svg>
+        </div>
+        <p className="text-sm font-extrabold text-textStrong">Şu an aktif kampanya yok</p>
+        <p className="mt-1 text-xs text-muted">Bu işletme yeni bir kampanya oluşturduğunda burada göreceksin.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {kampanyalar.map((k) => (
+        <KampanyaKartiDetay key={k.id} k={k} />
+      ))}
+    </div>
+  );
+}
+
 // ── Yorumlar tab content ──────────────────────────────────────────────────────
 
 function YorumlarIcerik({
@@ -965,13 +1050,15 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
     yorumlar, yorumlarToplam, yildizDagitimi, altPuanOrt, oneriYuzdesi, oneriKisi,
     anahrarKelimeler, similar, checkinCount, todayHours, medianPriceCents,
     acceptsReservations, reservationPhone, reservationMinParty, reservationMaxParty, reservationNote,
+    kampanyalar, initialTab,
   } = props;
 
-  const [aktifTab, setAktifTab] = useState<DetayTab>('genel');
+  const [aktifTab, setAktifTab] = useState<DetayTab>(initialTab ?? 'genel');
 
   const SEKMELER: Array<{ id: DetayTab; label: string; count?: number }> = [
     { id: 'genel', label: 'Genel Bakış' },
     { id: 'menu', label: 'Menü' },
+    { id: 'kampanyalar', label: 'Kampanyalar', count: kampanyalar.length > 0 ? kampanyalar.length : undefined },
     { id: 'yorumlar', label: 'Yorumlar', count: yorumlarToplam },
     { id: 'fotograflar', label: 'Fotoğraflar', count: galleryPhotos.length > 0 ? galleryPhotos.length + 1 : undefined },
     { id: 'bilgiler', label: 'Bilgiler' },
@@ -1174,6 +1261,11 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
               businessIsVerified={businessIsVerified}
             />
           </div>
+        )}
+
+        {/* Kampanyalar */}
+        {aktifTab === 'kampanyalar' && (
+          <KampanyalarIcerik kampanyalar={kampanyalar} />
         )}
 
         {/* Yorumlar */}

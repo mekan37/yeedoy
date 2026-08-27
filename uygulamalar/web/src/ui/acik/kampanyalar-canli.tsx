@@ -3,6 +3,14 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
+import {
+  type KampanyaTuru,
+  type BadgeLine,
+  TUR_ETIKETLER,
+  TUR_RENK,
+  gunKaldiHesapla,
+  kampanyaBadge,
+} from '@/src/lib/kampanya-sunum';
 
 // ── Tipler ───────────────────────────────────────────────────────────────────
 
@@ -13,8 +21,6 @@ export type IsletmeProp = {
   isVerified: boolean; reviewsCount: number; avgRating: number | null;
   priceLevel: string | null; medianPriceCents: number | null;
 };
-
-type KampanyaTuru = 'discount' | 'special_offer' | 'loyalty' | 'announcement';
 
 // Sunucudan gelen ham kampanya + işletme verisi (public.campaigns tablosu — owner
 // panelinden gerçekten oluşturulmuş kampanyalar, RLS: sadece status='active' olanlar).
@@ -27,8 +33,6 @@ export type KampanyaGirdi = IsletmeProp & {
   campaignImageUrl: string | null;
   endsAt: string | null;
 };
-
-type BadgeLine = { metin: string; buyuk?: boolean };
 
 type Kampanya = IsletmeProp & {
   campaignId: string;
@@ -44,36 +48,6 @@ type Kampanya = IsletmeProp & {
 // ── Sabitler ─────────────────────────────────────────────────────────────────
 
 const KAT_SEKMELER = ['Tümü', 'Restoran', 'Kafe', 'Tatlıcı', 'Fast Food', 'Kahvaltı'] as const;
-
-const TUR_ETIKETLER: Record<KampanyaTuru, string> = {
-  discount:       'İndirim',
-  special_offer:  'Özel Fırsat',
-  loyalty:        'Sadakat',
-  announcement:   'Duyuru',
-};
-
-const TUR_RENK: Record<KampanyaTuru, string> = {
-  discount:      '#7f1d1d',
-  special_offer: '#b45309',
-  loyalty:       '#0e7490',
-  announcement:  '#16a34a',
-};
-
-// ── Yardımcılar ──────────────────────────────────────────────────────────────
-
-function gunKaldiHesapla(endsAt: string | null): number | null {
-  if (!endsAt) return null;
-  const fark = new Date(endsAt).getTime() - Date.now();
-  return Math.max(0, Math.ceil(fark / 86_400_000));
-}
-
-function kampanyaBadge(tur: KampanyaTuru, discountPercent: number | null): BadgeLine[] {
-  if (tur === 'discount' && discountPercent != null) {
-    return [{ metin: `%${discountPercent}`, buyuk: true }, { metin: 'İNDİRİM' }];
-  }
-  const etiket = TUR_ETIKETLER[tur].toLocaleUpperCase('tr');
-  return [{ metin: etiket, buyuk: true }];
-}
 
 function kampanyaDonustur(veri: KampanyaGirdi): Kampanya {
   return {
@@ -190,7 +164,7 @@ function KampanyaKarti({ k }: { k: Kampanya }) {
 
         {/* Detay linki */}
         <Link
-          href={`/isletme/${k.slug}`}
+          href={`/isletme/${k.slug}?tab=kampanyalar`}
           className="mt-1 flex h-9 w-full items-center justify-center rounded-xl bg-primary text-sm font-black text-white transition-all hover:brightness-110"
         >
           Fırsatı Gör →

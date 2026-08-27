@@ -15,6 +15,7 @@ import { FavoriteButton, ShareButton } from '@/src/ui/acik/eylem-istemcisi';
 import { Icon } from '@/src/ui/acik/simgeler';
 import { FotoGalerisiTetik, type GaleriPhoto } from '@/src/ui/acik/foto-galerisi-modal';
 import { createSupabasePublicClient } from '@/src/lib/taban/acik';
+import type { KampanyaTuru } from '@/src/lib/kampanya-sunum';
 import {
   IsletmeDetayTablari,
   type YorumDetay,
@@ -40,7 +41,10 @@ export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
   }
 }
 
-type Props = { params: Promise<{ slug: string }> };
+type Props = {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ tab?: string }>;
+};
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -117,8 +121,9 @@ function kelimeCikar(yorumlar: Array<{ content: string | null }>): Array<{ kelim
     .map(([kelime, sayi]) => ({ kelime, sayi }));
 }
 
-export default async function BusinessPage({ params }: Props) {
+export default async function BusinessPage({ params, searchParams }: Props) {
   const { slug } = await params;
+  const { tab } = await searchParams;
   const business = await getMarketplaceBusinessBySlug(slug);
   if (!business) notFound();
 
@@ -138,7 +143,13 @@ export default async function BusinessPage({ params }: Props) {
     branch_label: string | null; is_template_branch: boolean; branch_count: number;
   };
 
-  const [menuData, checkinCount, mealCards, similar, detayliYorumlarRaw, reviewStatsRaw, chainInfoRaw] =
+  type CampaignRow = {
+    id: string; title: string; description: string | null;
+    type: KampanyaTuru; discount_percent: number | null;
+    image_url: string | null; ends_at: string | null;
+  };
+
+  const [menuData, checkinCount, mealCards, similar, detayliYorumlarRaw, reviewStatsRaw, chainInfoRaw, campaignRows] =
     await Promise.all([
       getPublicMenuPageData({ businessSlugOrId: business.slug }).catch(() => null),
       (createSupabasePublicClient() as any)
@@ -174,6 +185,16 @@ export default async function BusinessPage({ params }: Props) {
         .rpc('get_business_chain_info_v1', { p_business_id: business.id })
         .then((r: any) => (r?.data as ChainInfoRow[]) ?? [])
         .catch(() => [] as ChainInfoRow[]),
+      // Aktif kampanyalar (RLS: campaigns_public_read — herkes status='active' okuyabilir)
+      (createSupabasePublicClient() as any)
+        .from('campaigns')
+        .select('id,title,description,type,discount_percent,image_url,ends_at')
+        .eq('business_id', business.id)
+        .eq('status', 'active')
+        .or(`ends_at.is.null,ends_at.gt.${new Date().toISOString()}`)
+        .order('created_at', { ascending: false })
+        .then((r: any) => (r?.data as CampaignRow[]) ?? [])
+        .catch(() => [] as CampaignRow[]),
     ]);
 
   // Profilleri ayrı sorgula (FK constraint olmadığından join kullanılamaz)
@@ -547,6 +568,16 @@ export default async function BusinessPage({ params }: Props) {
               reservationMinParty={business.reservationMinParty}
               reservationMaxParty={business.reservationMaxParty}
               reservationNote={business.reservationNote}
+              kampanyalar={campaignRows.map((c: CampaignRow) => ({
+                id: c.id,
+                title: c.title,
+                description: c.description,
+                type: c.type,
+                discountPercent: c.discount_percent,
+                imageUrl: c.image_url,
+                endsAt: c.ends_at,
+              }))}
+              initialTab={tab === 'kampanyalar' ? 'kampanyalar' : undefined}
             />
           </div>
         </div>
