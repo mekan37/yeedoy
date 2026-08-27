@@ -195,6 +195,7 @@ export function KesifCanli() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="İşletme ara..."
+            aria-label="İşletme ara"
             className="w-full rounded-xl border border-border bg-surface py-2.5 pl-9 pr-3 text-sm font-bold text-textStrong placeholder:text-muted focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
           />
         </div>

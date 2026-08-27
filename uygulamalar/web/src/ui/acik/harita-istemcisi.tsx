@@ -103,6 +103,7 @@ function HaritaArama({
         <input
           type="text"
           placeholder="İşletme ara…"
+          aria-label="İşletme ara"
           value={sorgu}
           onChange={(e: ChangeEvent<HTMLInputElement>) => setSorgu(e.target.value)}
           style={{

@@ -48,6 +48,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
       <main>
         <section className="border-b border-border bg-cardAlt py-8">
           <Container>
+            <h1 className="sr-only">Arama</h1>
             <SectionHeader title="Ara" subtitle="İşletme, şehir veya kategori ara." className="mb-5" />
             <SearchBar q={q} city={city} action="/arama" />
           </Container>

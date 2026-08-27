@@ -164,7 +164,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
 
 
   return (
-    <>
+    <main>
       {/* Ana içerik — 2 sütun */}
       <div className="flex flex-1 flex-col lg:flex-row">
 
@@ -218,7 +218,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               {mode === 'kayit' && (
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="mb-1.5 block text-sm font-bold text-textStrong">Ad</label>
+                    <label htmlFor="giris-ad" className="mb-1.5 block text-sm font-bold text-textStrong">Ad</label>
                     <div className="relative">
                       <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted">
                         <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -226,6 +226,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                         </svg>
                       </span>
                       <input
+                        id="giris-ad"
                         type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)}
                         required autoComplete="given-name" placeholder="Adınız" maxLength={40}
                         className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-3 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10"
@@ -233,8 +234,9 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                     </div>
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-sm font-bold text-textStrong">Soyad</label>
+                    <label htmlFor="giris-soyad" className="mb-1.5 block text-sm font-bold text-textStrong">Soyad</label>
                     <input
+                      id="giris-soyad"
                       type="text" value={lastName} onChange={(e) => setLastName(e.target.value)}
                       autoComplete="family-name" placeholder="Soyadınız" maxLength={40}
                       className="h-12 w-full rounded-2xl border border-border bg-bg px-4 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10"
@@ -245,7 +247,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
 
               {/* E-posta */}
               <div>
-                <label className="mb-1.5 block text-sm font-bold text-textStrong">
+                <label htmlFor="giris-eposta" className="mb-1.5 block text-sm font-bold text-textStrong">
                   {mode === 'giris' ? 'E-posta veya Telefon' : 'E-posta'}
                 </label>
                 <div className="relative">
@@ -255,6 +257,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                     </svg>
                   </span>
                   <input
+                    id="giris-eposta"
                     type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                     required autoComplete="email"
                     placeholder={mode === 'giris' ? 'E-posta adresiniz veya telefon numaranız' : 'ornek@mail.com'}
@@ -266,7 +269,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               {/* Kayıt — Telefon */}
               {mode === 'kayit' && (
                 <div>
-                  <label className="mb-1.5 block text-sm font-bold text-textStrong">
+                  <label htmlFor="giris-telefon" className="mb-1.5 block text-sm font-bold text-textStrong">
                     Telefon <span className="text-xs font-medium text-muted">(opsiyonel)</span>
                   </label>
                   <div className="relative flex">
@@ -299,6 +302,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                       )}
                     </div>
                     <input
+                      id="giris-telefon"
                       type="tel" value={phone}
                       onChange={(e) => {
                         const d = e.target.value.replace(/\D/g, '').slice(0, 10);
@@ -314,7 +318,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               {/* Şifre */}
               <div>
                 <div className="mb-1.5 flex items-center justify-between">
-                  <label className="text-sm font-bold text-textStrong">Şifre</label>
+                  <label htmlFor="giris-sifre" className="text-sm font-bold text-textStrong">Şifre</label>
                   {mode === 'giris' && (
                     <Link href="/sifremi-unuttum" className="text-sm font-bold text-primary hover:underline">
                       Şifremi unuttum?
@@ -328,6 +332,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                     </svg>
                   </span>
                   <input
+                    id="giris-sifre"
                     type={showPassword ? 'text' : 'password'}
                     value={password} onChange={(e) => setPassword(e.target.value)}
                     required autoComplete={mode === 'giris' ? 'current-password' : 'new-password'}
@@ -351,7 +356,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               {/* Kayıt — Şifre tekrar */}
               {mode === 'kayit' && (
                 <div>
-                  <label className="mb-1.5 block text-sm font-bold text-textStrong">Şifre (Tekrar)</label>
+                  <label htmlFor="giris-sifre-tekrar" className="mb-1.5 block text-sm font-bold text-textStrong">Şifre (Tekrar)</label>
                   <div className="relative">
                     <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted">
                       <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -359,6 +364,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                       </svg>
                     </span>
                     <input
+                      id="giris-sifre-tekrar"
                       type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
                       required autoComplete="new-password" placeholder="••••••••"
                       className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-4 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10"
@@ -370,7 +376,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               {/* Kayıt — Doğum tarihi */}
               {mode === 'kayit' && (
                 <div>
-                  <label className="mb-1.5 block text-sm font-bold text-textStrong">
+                  <label htmlFor="giris-dogum-tarihi" className="mb-1.5 block text-sm font-bold text-textStrong">
                     Doğum Tarihi <span className="text-xs font-medium text-muted">(opsiyonel)</span>
                   </label>
                   <div className="relative">
@@ -380,6 +386,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                       </svg>
                     </span>
                     <input
+                      id="giris-dogum-tarihi"
                       type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)}
                       max={new Date(new Date().setFullYear(new Date().getFullYear() - 13)).toISOString().split('T')[0]}
                       min="1920-01-01"
@@ -661,6 +668,6 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
           ))}
         </div>
       </div>
-    </>
+    </main>
   );
 }
