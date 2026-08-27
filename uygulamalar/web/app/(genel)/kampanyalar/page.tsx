@@ -31,19 +31,27 @@ export default async function KampanyalarPage() {
   if (campaigns.length > 0) {
     const businessIds = [...new Set(campaigns.map((c: any) => c.business_id as string))];
 
-    const [{ data: statsRows }, { data: details }] = await Promise.all([
+    const [{ data: statsRows }, { data: details }, { data: priceRows }] = await Promise.all([
       sb
         .from('businesses_with_stats')
         .select('id,name,category,city,district,is_verified,is_active,reviews_count,avg_rating')
         .in('id', businessIds) as Promise<{ data: any[] | null }>,
       sb
         .from('businesses')
-        .select('id,slug,public_slug,logo_url,cover_url,price_level,median_price_cents')
+        // Not: median_price_cents businesses tablosunda YOK (business_price_index_v1'de) —
+        // buraya eklenirse PostgREST 42703 verir, tüm sorgu sessizce null döner ve slug
+        // her zaman UUID'ye düşer. Bkz. get_smart_recommendations_v2 RPC'sindeki aynı desen.
+        .select('id,slug,public_slug,logo_url,cover_url,price_level')
         .in('id', businessIds) as Promise<{ data: any[] | null }>,
+      sb
+        .from('business_price_index_v1')
+        .select('business_id,median_price_cents')
+        .in('business_id', businessIds) as Promise<{ data: any[] | null }>,
     ]);
 
     const statsMap = new Map((statsRows ?? []).map((r: any) => [r.id, r]));
     const detMap = new Map((details ?? []).map((d: any) => [d.id, d]));
+    const priceMap = new Map((priceRows ?? []).map((p: any) => [p.business_id, p.median_price_cents]));
 
     list = campaigns
       .filter((c: any) => statsMap.get(c.business_id)?.is_active)
@@ -63,7 +71,7 @@ export default async function KampanyalarPage() {
           reviewsCount:     row.reviews_count ?? 0,
           avgRating:        row.avg_rating ? parseFloat(row.avg_rating) : null,
           priceLevel:       det?.price_level ?? null,
-          medianPriceCents: det?.median_price_cents ?? null,
+          medianPriceCents: priceMap.get(c.business_id) ?? null,
           campaignId:          c.id,
           campaignTitle:       c.title,
           campaignDescription: c.description ?? null,
