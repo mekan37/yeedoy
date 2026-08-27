@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
+import MenuNotFound from './not-found';
 import { MenuDuzen } from '@/src/ui/bolumler/menu-sayfasi/menu-duzen';
 import { type BrandTheme } from '@/src/lib/marka-temasi';
 import { getPublicMenuPageData, getTranslationValue } from '@/src/lib/acik-menu-sayfasi';
-import { getBusinessHoursInfo, type BusinessHoursInfo } from '@/src/lib/veri/menu-okuma';
+import { getBusinessBySlugOrId, getBusinessHoursInfo, type BusinessHoursInfo } from '@/src/lib/veri/menu-okuma';
 import { appConfig } from '@/src/lib/ayarlar';
 import { formatBusinessLocation } from '@/src/lib/bicimlendirme';
 import { appendMediaVersion, buildMenuImageUrl } from '@/src/lib/medya-adresi';
@@ -343,7 +344,20 @@ export async function generateMetadata({ params, searchParams }: MenuPageProps) 
 export default async function PublicMenuPage({ params, searchParams }: MenuPageProps) {
   const [{ slug }, rawSearchParams] = await Promise.all([params, searchParams]);
   const data = await getPublicMenuPageData({ businessSlugOrId: slug }).catch(() => null);
-  if (!data) notFound();
+  // notFound() burada kasıtlı olarak KULLANILMIYOR: (genel) route grubunun kendi
+  // loading.tsx'i bu sayfayı otomatik bir Suspense sınırına sarıyor, ve bu sınır
+  // içinde fırlatılan notFound() Next.js 16.2.11'de client'a hiç swap edilmiyor —
+  // doğru "Menü bulunamadı" HTML'i stream'de var ama tarayıcı sonsuza kadar
+  // loading.tsx iskeletinde takılı kalıyor (kanıtlandı: canlı tarayıcıda test
+  // edildi, curl ile ham HTML'de doğru içerik görüldü ama DOM'da hiç görünmedi).
+  // Sayfa zaten noindex olduğu için gerçek 404 durum kodundan ödün verip
+  // not-found.tsx'in JSX'ini doğrudan render ediyoruz.
+  if (!data) {
+    // İşletme var ama menüsü yoksa (bu, işletmelerin büyük çoğunluğu için
+    // geçerli), sahibini menü eklemeye teşvik eden kişiselleştirilmiş mesaj göster.
+    const business = await getBusinessBySlugOrId(slug).catch(() => null);
+    return <MenuNotFound business={business ? { id: business.id, name: business.name } : null} />;
+  }
   const normalized = normalizeDisplayParams(rawSearchParams, {
     lang: data.presentation.defaultLang,
     theme: data.presentation.templateKey,
