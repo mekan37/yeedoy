@@ -14,95 +14,79 @@ export type IsletmeProp = {
   priceLevel: string | null; medianPriceCents: number | null;
 };
 
-type KampanyaTuru = 'indirim' | '1a1b' | 'paket' | 'menu' | 'ucretsiz';
+type KampanyaTuru = 'discount' | 'special_offer' | 'loyalty' | 'announcement';
+
+// Sunucudan gelen ham kampanya + işletme verisi (public.campaigns tablosu — owner
+// panelinden gerçekten oluşturulmuş kampanyalar, RLS: sadece status='active' olanlar).
+export type KampanyaGirdi = IsletmeProp & {
+  campaignId: string;
+  campaignTitle: string;
+  campaignDescription: string | null;
+  campaignType: KampanyaTuru;
+  discountPercent: number | null;
+  campaignImageUrl: string | null;
+  endsAt: string | null;
+};
 
 type BadgeLine = { metin: string; buyuk?: boolean };
 
 type Kampanya = IsletmeProp & {
+  campaignId: string;
   tur: KampanyaTuru;
   badge: BadgeLine[];
   badgeRenk: string;
+  baslik: string;
   aciklama: string;
-  altKategori: string | null;
-  gunKaldi: number;
-  uyeOzel: boolean;
+  imageUrl: string | null;
+  gunKaldi: number | null;
 };
 
 // ── Sabitler ─────────────────────────────────────────────────────────────────
 
-const ALT_KAT: Record<string, string[]> = {
-  Restoran:    ['Türk Mutfağı', 'İtalyan Mutfağı', 'Uzak Doğu', 'Dünya Mutfağı', 'Fast Food'],
-  Kafe:        ['Kahve', 'Çay', 'Soğuk İçecek'],
-  'Tatlıcı':  ['Pastane', 'Dondurma', 'Tatlı'],
-  Mekan:       ['Bar', 'Pub', 'Lounge'],
-  'Balık / Et':['Balık', 'Et', 'Steakhouse'],
-  'Kahvaltı': ['Türk Kahvaltısı', 'Serpme', 'Büfe'],
-};
-
 const KAT_SEKMELER = ['Tümü', 'Restoran', 'Kafe', 'Tatlıcı', 'Fast Food', 'Kahvaltı'] as const;
 
 const TUR_ETIKETLER: Record<KampanyaTuru, string> = {
-  indirim: 'İndirim',
-  '1a1b':  '1 Alana 1 Bedava',
-  paket:   'Paket Fırsat',
-  menu:    'Menü Fırsatı',
-  ucretsiz:'Ücretsiz Teslimat',
+  discount:       'İndirim',
+  special_offer:  'Özel Fırsat',
+  loyalty:        'Sadakat',
+  announcement:   'Duyuru',
 };
 
-const INDIRIM_LIST = [10, 15, 20, 25, 30];
-const FIYAT_LIST   = [99, 129, 149, 179, 199, 229, 249];
-const GUN_LIST     = [1, 2, 3, 4, 5, 6, 7];
-const TUR_LIST: KampanyaTuru[] = ['indirim', 'indirim', '1a1b', 'paket', 'menu', 'ucretsiz', 'indirim'];
+const TUR_RENK: Record<KampanyaTuru, string> = {
+  discount:      '#7f1d1d',
+  special_offer: '#b45309',
+  loyalty:       '#0e7490',
+  announcement:  '#16a34a',
+};
 
 // ── Yardımcılar ──────────────────────────────────────────────────────────────
 
-function hash(s: string): number {
-  return (s.split('').reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 0) >>> 0);
+function gunKaldiHesapla(endsAt: string | null): number | null {
+  if (!endsAt) return null;
+  const fark = new Date(endsAt).getTime() - Date.now();
+  return Math.max(0, Math.ceil(fark / 86_400_000));
 }
 
-function kampanyaOlustur(biz: IsletmeProp): Kampanya {
-  const h   = hash(biz.id);
-  const tur = TUR_LIST[h % TUR_LIST.length];
-  const gun = GUN_LIST[h % GUN_LIST.length];
-  const uyeOzel = h % 4 === 0;
-  const fiyat   = FIYAT_LIST[h % FIYAT_LIST.length];
-  const ind     = INDIRIM_LIST[h % INDIRIM_LIST.length];
-  const catU    = (biz.category ?? 'MENÜ').toUpperCase();
-  const altList = ALT_KAT[biz.category ?? ''];
-  const altKat  = altList ? (altList[h % altList.length] ?? null) : null;
-
-  let badge: BadgeLine[];
-  let badgeRenk: string;
-  let aciklama: string;
-
-  switch (tur) {
-    case 'indirim':
-      badge     = [{ metin: `%${ind}`, buyuk: true }, { metin: 'İNDİRİM' }];
-      badgeRenk = '#7f1d1d';
-      aciklama  = `Tüm ${biz.category?.toLowerCase() ?? 'menü'} ürünlerinde %${ind} indirim!`;
-      break;
-    case '1a1b':
-      badge     = [{ metin: '1 ALANA 1' }, { metin: 'BEDAVA', buyuk: true }];
-      badgeRenk = '#15803d';
-      aciklama  = 'Seçili ürün alana ikinci ücretsiz!';
-      break;
-    case 'paket':
-      badge     = [{ metin: catU }, { metin: 'MENÜSÜ' }, { metin: `₺${fiyat}`, buyuk: true }];
-      badgeRenk = '#b45309';
-      aciklama  = `${biz.category ?? 'Özel'} menüsü sadece ₺${fiyat}!`;
-      break;
-    case 'menu':
-      badge     = [{ metin: 'KAHVE' }, { metin: '+ TATLISI' }, { metin: `₺${fiyat}`, buyuk: true }];
-      badgeRenk = '#0e7490';
-      aciklama  = `Kahve + Tatlı keyfi sadece ₺${fiyat}!`;
-      break;
-    default: // ucretsiz
-      badge     = [{ metin: 'ÜCRETSİZ' }, { metin: 'TESLİMAT', buyuk: false }];
-      badgeRenk = '#16a34a';
-      aciklama  = `₺${fiyat} ve üzeri siparişlerde ücretsiz teslimat!`;
+function kampanyaBadge(tur: KampanyaTuru, discountPercent: number | null): BadgeLine[] {
+  if (tur === 'discount' && discountPercent != null) {
+    return [{ metin: `%${discountPercent}`, buyuk: true }, { metin: 'İNDİRİM' }];
   }
+  const etiket = TUR_ETIKETLER[tur].toLocaleUpperCase('tr');
+  return [{ metin: etiket, buyuk: true }];
+}
 
-  return { ...biz, tur, badge, badgeRenk, aciklama, altKategori: altKat, gunKaldi: gun, uyeOzel };
+function kampanyaDonustur(veri: KampanyaGirdi): Kampanya {
+  return {
+    ...veri,
+    campaignId: veri.campaignId,
+    tur: veri.campaignType,
+    badge: kampanyaBadge(veri.campaignType, veri.discountPercent),
+    badgeRenk: TUR_RENK[veri.campaignType],
+    baslik: veri.campaignTitle,
+    aciklama: veri.campaignDescription?.trim() || veri.campaignTitle,
+    imageUrl: veri.campaignImageUrl,
+    gunKaldi: gunKaldiHesapla(veri.endsAt),
+  };
 }
 
 function fiyatSembolu(pl: string | null | undefined, mc: number | null | undefined): string {
@@ -118,7 +102,7 @@ function fiyatSembolu(pl: string | null | undefined, mc: number | null | undefin
 // ── Kampanya kartı ────────────────────────────────────────────────────────────
 
 function KampanyaKarti({ k }: { k: Kampanya }) {
-  const img = buildMenuImageUrl(k.coverUrl ?? k.logoUrl ?? null, { width: 640, quality: 78 })
+  const img = buildMenuImageUrl(k.imageUrl ?? k.coverUrl ?? k.logoUrl ?? null, { width: 640, quality: 78 })
     ?? '/category-images/restoran.webp';
 
   return (
@@ -126,7 +110,7 @@ function KampanyaKarti({ k }: { k: Kampanya }) {
       {/* Görsel */}
       <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/10' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={img} alt={k.name} className="h-full w-full object-cover transition-transform group-hover:scale-105" loading="lazy" />
+        <img src={img} alt={k.baslik} className="h-full w-full object-cover transition-transform group-hover:scale-105" loading="lazy" />
 
         {/* Alt gradient (timer okunabilirliği) */}
         <div className="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-black/60 to-transparent" aria-hidden="true" />
@@ -159,21 +143,25 @@ function KampanyaKarti({ k }: { k: Kampanya }) {
           </svg>
         </button>
 
-        {/* Süre rozeti — sol alt */}
-        <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1 rounded-full bg-danger px-2.5 py-1 shadow-sm">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
-          </svg>
-          <span className="text-[11px] font-black text-white">{k.gunKaldi} gün kaldı</span>
-        </div>
+        {/* Süre rozeti — sol alt (bitiş tarihi olmayan kampanyalarda gösterilmez) */}
+        {k.gunKaldi != null && (
+          <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1 rounded-full bg-danger px-2.5 py-1 shadow-sm">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+            </svg>
+            <span className="text-[11px] font-black text-white">
+              {k.gunKaldi === 0 ? 'Son gün' : `${k.gunKaldi} gün kaldı`}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* İçerik */}
       <div className="flex flex-col gap-1.5 p-3">
-        <p className="text-base font-black text-textStrong leading-tight">{k.name}</p>
+        <p className="text-base font-black text-textStrong leading-tight">{k.baslik}</p>
         <p className="text-[13px] font-bold text-muted line-clamp-2 leading-snug">{k.aciklama}</p>
         <p className="text-[11px] font-bold text-muted/70">
-          {[k.category, k.altKategori].filter(Boolean).join(' · ')}
+          {[k.name, k.category].filter(Boolean).join(' · ')}
         </p>
 
         {/* Alt bilgi satırı */}
@@ -198,12 +186,6 @@ function KampanyaKarti({ k }: { k: Kampanya }) {
               )}
             </span>
           ) : null}
-
-          {k.uyeOzel && (
-            <span className="ml-auto flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-black text-amber-700">
-              👑 Üye Özel
-            </span>
-          )}
         </div>
 
         {/* Detay linki */}
@@ -220,9 +202,9 @@ function KampanyaKarti({ k }: { k: Kampanya }) {
 
 // ── Ana bileşen ───────────────────────────────────────────────────────────────
 
-type Props = { businesses: IsletmeProp[] };
+type Props = { campaigns: KampanyaGirdi[] };
 
-export function KampanyalarCanli({ businesses }: Props) {
+export function KampanyalarCanli({ campaigns }: Props) {
   const [aktifSekme, setAktifSekme] = useState<string>('Tümü');
   const [aktifTurler, setAktifTurler] = useState<Set<KampanyaTuru>>(new Set());
   const [aktifFiyat, setAktifFiyat] = useState<string>('');
@@ -230,19 +212,14 @@ export function KampanyalarCanli({ businesses }: Props) {
   const [sort, setSort] = useState<'yeni' | 'puan' | 'bitis' | 'fiyat'>('yeni');
   const [konum, setKonum] = useState('');
 
-  // Demo kampanya verisi oluştur (deterministik)
-  const tumKampanyalar = useMemo(() => businesses.map(kampanyaOlustur), [businesses]);
+  const tumKampanyalar = useMemo(() => campaigns.map(kampanyaDonustur), [campaigns]);
 
   // Filtrele
   const filtered = useMemo(() => {
     let list = tumKampanyalar;
 
     if (aktifSekme !== 'Tümü') {
-      if (aktifSekme === 'Fast Food') {
-        list = list.filter((k) => k.category === 'Restoran' || k.altKategori === 'Fast Food');
-      } else {
-        list = list.filter((k) => k.category === aktifSekme);
-      }
+      list = list.filter((k) => k.category === aktifSekme);
     }
     if (aktifTurler.size > 0) {
       list = list.filter((k) => aktifTurler.has(k.tur));
@@ -250,20 +227,28 @@ export function KampanyalarCanli({ businesses }: Props) {
     if (aktifFiyat) {
       list = list.filter((k) => fiyatSembolu(k.priceLevel, k.medianPriceCents) === aktifFiyat);
     }
+    if (konum.trim()) {
+      const q = konum.trim().toLocaleLowerCase('tr');
+      list = list.filter((k) =>
+        (k.city?.toLocaleLowerCase('tr').includes(q) ?? false) ||
+        (k.district?.toLocaleLowerCase('tr').includes(q) ?? false));
+    }
     if (gecerlilik === 'bugun') {
-      list = list.filter((k) => k.gunKaldi === 1);
+      list = list.filter((k) => k.gunKaldi != null && k.gunKaldi <= 1);
     } else if (gecerlilik === 'bu-hafta') {
-      list = list.filter((k) => k.gunKaldi <= 7);
+      list = list.filter((k) => k.gunKaldi != null && k.gunKaldi <= 7);
+    } else if (gecerlilik === 'bu-ay') {
+      list = list.filter((k) => k.gunKaldi != null && k.gunKaldi <= 30);
     }
 
     return list;
-  }, [tumKampanyalar, aktifSekme, aktifTurler, aktifFiyat, gecerlilik]);
+  }, [tumKampanyalar, aktifSekme, aktifTurler, aktifFiyat, gecerlilik, konum]);
 
   // Sırala
   const sorted = useMemo(() => {
     return [...filtered].sort((a, b) => {
       if (sort === 'puan')   return (b.avgRating ?? 0) - (a.avgRating ?? 0);
-      if (sort === 'bitis')  return a.gunKaldi - b.gunKaldi;
+      if (sort === 'bitis')  return (a.gunKaldi ?? Infinity) - (b.gunKaldi ?? Infinity);
       if (sort === 'fiyat')  return (a.medianPriceCents ?? 0) - (b.medianPriceCents ?? 0);
       return b.reviewsCount - a.reviewsCount; // yeni: en popüler
     });
@@ -287,7 +272,7 @@ export function KampanyalarCanli({ businesses }: Props) {
     setKonum('');
   }
 
-  const hasFilter = aktifSekme !== 'Tümü' || aktifTurler.size > 0 || aktifFiyat || gecerlilik !== 'tumu';
+  const hasFilter = aktifSekme !== 'Tümü' || aktifTurler.size > 0 || !!aktifFiyat || gecerlilik !== 'tumu' || !!konum;
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
@@ -463,9 +448,13 @@ export function KampanyalarCanli({ businesses }: Props) {
           <div className="flex-1 min-w-0">
             {!sorted.length ? (
               <div className="rounded-2xl border border-border bg-card p-12 text-center">
-                <p className="text-base font-black text-textStrong">Sonuç bulunamadı</p>
-                <p className="mt-2 text-sm font-bold text-muted">Farklı filtreler deneyin</p>
-                {hasFilter && (
+                <p className="text-base font-black text-textStrong">
+                  {tumKampanyalar.length === 0 ? 'Şu an aktif kampanya yok' : 'Sonuç bulunamadı'}
+                </p>
+                <p className="mt-2 text-sm font-bold text-muted">
+                  {tumKampanyalar.length === 0 ? 'Yakında yeni fırsatlar burada olacak, takipte kal!' : 'Farklı filtreler deneyin'}
+                </p>
+                {hasFilter && tumKampanyalar.length > 0 && (
                   <button
                     type="button"
                     onClick={filtreleriTemizle}
@@ -479,7 +468,7 @@ export function KampanyalarCanli({ businesses }: Props) {
               <>
                 <p className="mb-4 text-xs font-extrabold text-muted">{sorted.length} kampanya listelendi</p>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                  {sorted.map((k) => <KampanyaKarti key={k.id} k={k} />)}
+                  {sorted.map((k) => <KampanyaKarti key={k.campaignId} k={k} />)}
                 </div>
               </>
             )}
