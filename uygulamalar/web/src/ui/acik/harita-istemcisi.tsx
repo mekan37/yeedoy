@@ -74,29 +74,19 @@ function HaritaArama({
 
   const temizle = () => { setSorgu(''); setSonuclar([]); };
 
-  const ilkHarfEl = (name: string, size = 28) => (
-    <div style={{
-      width: size, height: size, borderRadius: '50%',
-      background: '#7F1D1D', flexShrink: 0,
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      overflow: 'hidden',
-    }}>
-      <span style={{ color: 'white', fontSize: size * 0.44, fontWeight: 800, fontFamily: 'system-ui,sans-serif' }}>
+  const ilkHarfEl = (name: string) => (
+    <div className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary">
+      <span className="font-[system-ui,_sans-serif] text-xs font-extrabold text-white">
         {(name.charAt(0) || '?').toUpperCase()}
       </span>
     </div>
   );
 
   return (
-    <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 10, width: 280 }}>
+    <div className="absolute left-2.5 top-2.5 z-10 w-[280px]">
       {/* Giriş satırı */}
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 6,
-        background: 'white', borderRadius: 10,
-        boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
-        padding: '0 10px',
-      }}>
-        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" style={{ flexShrink: 0, opacity: 0.45 }}>
+      <div className="flex items-center gap-1.5 rounded-[10px] bg-white px-2.5 shadow-[0_2px_10px_rgba(0,0,0,0.2)]">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" className="shrink-0 opacity-45">
           <circle cx="8.5" cy="8.5" r="5.5" stroke="#111" strokeWidth="2"/>
           <path d="M13 13l3.5 3.5" stroke="#111" strokeWidth="2" strokeLinecap="round"/>
         </svg>
@@ -106,30 +96,17 @@ function HaritaArama({
           aria-label="İşletme ara"
           value={sorgu}
           onChange={(e: ChangeEvent<HTMLInputElement>) => setSorgu(e.target.value)}
-          style={{
-            border: 'none', outline: 'none',
-            padding: '11px 4px', fontSize: 13, flex: 1,
-            background: 'transparent', fontFamily: 'system-ui,sans-serif',
-            color: '#111',
-          }}
+          className="flex-1 border-none bg-transparent py-[11px] px-1 font-[system-ui,_sans-serif] text-[13px] text-[#111] outline-none"
         />
         {sorgu && (
           <button
             onClick={temizle}
             aria-label="Temizle"
-            style={{
-              border: 'none', background: 'none', cursor: 'pointer',
-              color: '#9CA3AF', fontSize: 18, lineHeight: 1,
-              padding: 2, flexShrink: 0,
-            }}
+            className="shrink-0 border-none bg-transparent p-0.5 text-lg leading-none text-[#9CA3AF]"
           >×</button>
         )}
         {yukleniyor && (
-          <div style={{
-            width: 14, height: 14, border: '2px solid #7F1D1D',
-            borderTopColor: 'transparent', borderRadius: '50%',
-            animation: 'spin 0.7s linear infinite', flexShrink: 0,
-          }} />
+          <div className="h-3.5 w-3.5 shrink-0 animate-[spin_0.7s_linear_infinite] rounded-full border-2 border-primary [border-top-color:transparent]" />
         )}
       </div>
 
@@ -144,30 +121,22 @@ function HaritaArama({
             <button
               key={b.id}
               onClick={() => { onSec(b); temizle(); }}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 10,
-                width: '100%', padding: '9px 12px',
-                border: 'none', background: 'none', cursor: 'pointer',
-                textAlign: 'left',
-                borderBottom: i < sonuclar.length - 1 ? '1px solid #F3F4F6' : 'none',
-              }}
+              className={`flex w-full items-center gap-2.5 border-none bg-transparent px-3 py-[9px] text-left ${
+                i < sonuclar.length - 1 ? 'border-b border-b-[#F3F4F6]' : 'border-b-0'
+              }`}
             >
               {b.logo_url ? (
-                <div style={{ width: 28, height: 28, borderRadius: '50%', overflow: 'hidden', flexShrink: 0 }}>
+                <div className="h-7 w-7 shrink-0 overflow-hidden rounded-full">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={b.logo_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={b.logo_url} alt="" className="h-full w-full object-cover" />
                 </div>
               ) : ilkHarfEl(b.name)}
-              <div style={{ overflow: 'hidden' }}>
-                <div style={{
-                  fontWeight: 700, fontSize: 13, color: '#111',
-                  fontFamily: 'system-ui,sans-serif',
-                  whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                }}>
+              <div className="overflow-hidden">
+                <div className="overflow-hidden text-ellipsis whitespace-nowrap font-[system-ui,_sans-serif] text-[13px] font-bold text-[#111]">
                   {b.name}
                 </div>
                 {b.category && (
-                  <div style={{ fontSize: 11, color: '#9CA3AF', fontFamily: 'system-ui,sans-serif' }}>
+                  <div className="font-[system-ui,_sans-serif] text-[11px] text-[#9CA3AF]">
                     {b.category}
                   </div>
                 )}
@@ -179,17 +148,10 @@ function HaritaArama({
 
       {/* Sonuç yok */}
       {sorgu.trim() && !yukleniyor && sonuclar.length === 0 && (
-        <div style={{
-          background: 'white', borderRadius: 10,
-          boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
-          marginTop: 4, padding: '12px 14px',
-          fontSize: 13, color: '#9CA3AF', fontFamily: 'system-ui,sans-serif',
-        }}>
+        <div className="mt-1 rounded-[10px] bg-white px-3.5 py-3 font-[system-ui,_sans-serif] text-[13px] text-[#9CA3AF] shadow-[0_4px_20px_rgba(0,0,0,0.12)]">
           Sonuç bulunamadı
         </div>
       )}
-
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }
@@ -204,7 +166,7 @@ function StarRating({ rating }: { rating: number }) {
   return (
     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 1 }}>
       {[1, 2, 3, 4, 5].map((i) => (
-        <span key={i} style={{ color: i <= full ? '#F59E0B' : half && i === full + 1 ? '#F59E0B' : '#D1D5DB', fontSize: 13 }}>
+        <span key={i} className={`text-[13px] ${i <= full || (half && i === full + 1) ? 'text-[#F59E0B]' : 'text-[#D1D5DB]'}`}>
           {i <= full ? '★' : half && i === full + 1 ? '⯨' : '☆'}
         </span>
       ))}
@@ -214,7 +176,7 @@ function StarRating({ rating }: { rating: number }) {
 
 function PhoneIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, color: '#6B7280' }}>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-[#6B7280]">
       <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/>
     </svg>
   );
@@ -222,20 +184,22 @@ function PhoneIcon() {
 
 function LocationIcon() {
   return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, color: '#6B7280' }}>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-[#6B7280]">
       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
       <circle cx="12" cy="10" r="3"/>
     </svg>
   );
 }
 
-function SkeletonLine({ width = '100%', height = 14, mb = 8 }: { width?: string | number; height?: number; mb?: number }) {
+// width, CSP style-src'den 'unsafe-inline' kaldırıldığında style="" özniteliği hiç
+// kullanılamadığı için (nonce sadece <style> bloklarına uygulanır, style attribute'una
+// uygulanamaz) sabit bir Tailwind arbitrary-value class'ı olarak veriliyor — bu bileşenin
+// tüm çağrı yerlerinde (bkz. IsletmePaneli) sadece '70%'/'50%'/'85%' kullanılıyor.
+function SkeletonLine({ widthClass = 'w-full' }: { widthClass?: string }) {
   return (
-    <div style={{
-      width, height, borderRadius: 6, background: 'linear-gradient(90deg,#F3F4F6 25%,#E5E7EB 50%,#F3F4F6 75%)',
-      backgroundSize: '200% 100%', animation: 'shimmer 1.4s ease-in-out infinite',
-      marginBottom: mb,
-    }} />
+    <div
+      className={`mb-2 h-3.5 rounded-md bg-[linear-gradient(90deg,#F3F4F6_25%,#E5E7EB_50%,#F3F4F6_75%)] bg-[length:200%_100%] [animation:skeleton-sweep_1.4s_ease-in-out_infinite] ${widthClass}`}
+    />
   );
 }
 
@@ -407,9 +371,9 @@ function IsletmePaneli({
         {/* Loading skeleton */}
         {yukleniyor && !detay && (
           <div style={{ marginBottom: 12 }}>
-            <SkeletonLine width="70%" />
-            <SkeletonLine width="50%" />
-            <SkeletonLine width="85%" />
+            <SkeletonLine widthClass="w-[70%]" />
+            <SkeletonLine widthClass="w-[50%]" />
+            <SkeletonLine widthClass="w-[85%]" />
           </div>
         )}
 
@@ -489,13 +453,6 @@ function IsletmePaneli({
           </svg>
         </a>
       </div>
-
-      <style>{`
-        @keyframes shimmer {
-          0% { background-position: 200% 0; }
-          100% { background-position: -200% 0; }
-        }
-      `}</style>
     </div>
   );
 }

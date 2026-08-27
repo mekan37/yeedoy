@@ -21,7 +21,16 @@ function buildCsp(nonce: string, isEmbed: boolean): string {
     "default-src 'self'",
     // 'unsafe-eval' sadece dev'de React Fast Refresh için gerekli.
     `script-src 'self' 'nonce-${nonce}'${isDev ? " 'unsafe-eval'" : ''} https://vercel-scripts.com https://va.vercel-scripts.com`,
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    // style-src-elem/style-src-attr ayrımı: <style> blokları ve harici stylesheet'ler
+    // (style-src-elem) sıkı tutulur — nonce/hash olmadan hiçbir inline <style> bloğu
+    // çalışmaz. style-src-attr için 'unsafe-inline' bilerek bırakıldı: CSP nonce'u
+    // yalnızca <style> elementlerine uygulanabiliyor, style="" HTML özniteliğine hiç
+    // uygulanamıyor (spec kısıtı) — React'in yaygın style={{...}} kullanımını nonce'suz
+    // tamamen kaldırmak, her dinamik değer için ayrı bir nonce altyapısı gerektirirdi.
+    // style="" JavaScript çalıştıramadığı için (script-src'nin aksine) bu, kabul
+    // edilebilir bir risk dengesi — GitHub gibi birçok üretim sitesi aynı ayrımı kullanır.
+    "style-src-elem 'self' https://fonts.googleapis.com",
+    "style-src-attr 'unsafe-inline'",
     "font-src 'self' data: https://fonts.gstatic.com",
     // next.config.mjs'nin imageRemotePatterns'ıyla eşleşen, işletme
     // cover/logo görsellerinin gerçekten geldiği harici kaynaklar.
