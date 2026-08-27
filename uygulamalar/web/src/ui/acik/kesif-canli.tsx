@@ -127,9 +127,15 @@ export function KesifCanli() {
   const [q, setQ]                 = useState(searchParams.get('q') ?? '');
   const [category, setCategory]   = useState(searchParams.get('category') ?? '');
   const [city, setCity]           = useState(searchParams.get('city') ?? '');
-  const [sort, setSort]           = useState('rating');
-  const [minRating, setMinRating] = useState(0);
-  const [verified, setVerified]   = useState(false);
+  const [sort, setSort]           = useState(() => {
+    const s = searchParams.get('sort');
+    return s === 'reviews' || s === 'az' ? s : 'rating';
+  });
+  const [minRating, setMinRating] = useState(() => {
+    const r = Number(searchParams.get('minRating'));
+    return MIN_PUAN.some((p) => p.value === r) ? r : 0;
+  });
+  const [verified, setVerified]   = useState(searchParams.get('verified') === 'true');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [results, setResults]   = useState<Isletme[]>([]);

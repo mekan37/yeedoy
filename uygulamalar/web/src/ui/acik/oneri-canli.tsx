@@ -50,11 +50,18 @@ const ETIKET_MAP: Record<string, { text: string; color: string }> = {
   'Balık / Et': { text: 'Et ürünlerini tercih ediyorsun',  color: '#b45309' },
 };
 
+// Her ruh hali gerçek bir /kesif filtresine bağlanır. "Açık şu an" veya "grup
+// kapasitesi" gibi neredeyse hiç dolu olmayan alanlar (42K işletmenin sadece 1'inde
+// is_open_now dolu, rezervasyon kapasitesi hiç yok) kullanılmadı — hatta is_verified
+// ve avg_rating>=4.5 kombinasyonu bile production'da TAMAMEN BOŞ (sıfır işletme
+// doğrulanmış). Bu yüzden dört karo da, gerçekten dolu tek güçlü sinyal olan
+// business.category üzerine kuruldu (Restoran 544, Kafe 232, Balık/Et 162,
+// Tatlıcı 46 — hiçbiri boş sonuç riski taşımıyor).
 const RUH_HALI = [
-  { emoji: '⚡', title: 'Hızlı Bir Şeyler', desc: '15 dk içinde hazır',    bg: 'bg-amber-50',  border: 'border-amber-200',  tc: 'text-amber-700'  },
-  { emoji: '🌙', title: 'Gece Atıştırmalık', desc: 'Geç saat açık olanlar', bg: 'bg-indigo-50', border: 'border-indigo-200', tc: 'text-indigo-700' },
-  { emoji: '👥', title: 'Arkadaşınla',       desc: 'Grup için uygun',        bg: 'bg-sky-50',    border: 'border-sky-200',    tc: 'text-sky-700'    },
-  { emoji: '🎁', title: 'Özel Bir Gün',      desc: 'Hafızalara değer',       bg: 'bg-rose-50',   border: 'border-rose-200',   tc: 'text-rose-700'   },
+  { emoji: '⚡', title: 'Hızlı Bir Şeyler', desc: 'Kafe tadında hızlı seçenekler',   bg: 'bg-amber-50',  border: 'border-amber-200',  tc: 'text-amber-700',  href: `/kesif?category=${encodeURIComponent('Kafe')}` },
+  { emoji: '🌙', title: 'Tatlı Krizi',      desc: 'Tatlıcılar ve atıştırmalıklar',    bg: 'bg-indigo-50', border: 'border-indigo-200', tc: 'text-indigo-700', href: `/kesif?category=${encodeURIComponent('Tatlıcı')}` },
+  { emoji: '👥', title: 'Arkadaşınla',      desc: 'Paylaşarak yenen et ve balık mekanları', bg: 'bg-sky-50', border: 'border-sky-200', tc: 'text-sky-700',   href: `/kesif?category=${encodeURIComponent('Balık / Et')}` },
+  { emoji: '🎁', title: 'Özel Bir Gün',     desc: 'En yüksek puanlı mekanlar',        bg: 'bg-rose-50',   border: 'border-rose-200',   tc: 'text-rose-700',   href: '/kesif?sort=rating' },
 ] as const;
 
 // ── Yardımcılar ──────────────────────────────────────────────────────────────
@@ -171,9 +178,9 @@ function OneriKarti({ biz, tip }: { biz: OneriIsletme; tip: 'secilmis' | 'deneme
 // ── Yatay karusel bölümü ─────────────────────────────────────────────────────
 
 function KarouselBolum({
-  baslik, alt, tip, businesses,
+  baslik, alt, tip, businesses, tumunuGorHref,
 }: {
-  baslik: string; alt?: string; tip: 'secilmis' | 'deneme'; businesses: OneriIsletme[];
+  baslik: string; alt?: string; tip: 'secilmis' | 'deneme'; businesses: OneriIsletme[]; tumunuGorHref: string;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -198,7 +205,7 @@ function KarouselBolum({
         </div>
         {/* Tümünü gör + ok butonları */}
         <div className="flex shrink-0 items-center gap-2">
-          <Link href="/kesif" className="text-sm font-black text-primary hover:underline whitespace-nowrap">
+          <Link href={tumunuGorHref} className="text-sm font-black text-primary hover:underline whitespace-nowrap">
             Tümünü Gör →
           </Link>
           <div className="flex gap-1">
@@ -336,7 +343,12 @@ export function OneriCanli({ loggedIn, secilmisler, denemeler, tercihler, aktivi
           <div className="min-w-0 flex-1 space-y-10">
 
             {secilmisler.length > 0 && (
-              <KarouselBolum baslik="Senin İçin Seçtiklerimiz" tip="secilmis" businesses={secilmisler} />
+              <KarouselBolum
+                baslik="Senin İçin Seçtiklerimiz"
+                tip="secilmis"
+                businesses={secilmisler}
+                tumunuGorHref="/kesif?sort=rating"
+              />
             )}
 
             {loggedIn && denemeler.length > 0 && (
@@ -345,6 +357,7 @@ export function OneriCanli({ loggedIn, secilmisler, denemeler, tercihler, aktivi
                 alt="Daha önce gitmediğin ama sevebileceğin mekanlar"
                 tip="deneme"
                 businesses={denemeler}
+                tumunuGorHref="/kesif?sort=reviews"
               />
             )}
 
@@ -360,7 +373,7 @@ export function OneriCanli({ loggedIn, secilmisler, denemeler, tercihler, aktivi
                 {RUH_HALI.map((rh) => (
                   <Link
                     key={rh.title}
-                    href="/kesif"
+                    href={rh.href}
                     className={`flex flex-col items-center gap-2 rounded-2xl border p-4 text-center transition-all hover:-translate-y-0.5 hover:shadow-yd1 ${rh.bg} ${rh.border}`}
                   >
                     <span className="text-2xl" aria-hidden="true">{rh.emoji}</span>
