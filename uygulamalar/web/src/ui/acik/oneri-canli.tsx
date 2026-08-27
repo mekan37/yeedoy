@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useRef, useState } from 'react';
+import { useRef } from 'react';
 import type { ComponentType } from 'react';
 import Link from 'next/link';
 import { Utensils, Coffee, Cake, Egg, Beer, Beef, type LucideProps } from 'lucide-react';
@@ -13,6 +13,25 @@ export type OneriIsletme = {
   category: string | null; city: string | null; district: string | null;
   logoUrl: string | null; coverUrl: string | null;
   isVerified: boolean; reviewsCount: number; avgRating: number | null;
+  eslesmeYuzde: number | null;
+};
+
+export type OneriTercih = { category: string; interaction_count: number; pct: number };
+
+export type OneriAktivite = {
+  businessId: string;
+  businessName: string;
+  slug: string;
+  activityType: 'favorite' | 'review' | 'visit';
+  createdAt: string;
+};
+
+type Props = {
+  loggedIn: boolean;
+  secilmisler: OneriIsletme[];
+  denemeler: OneriIsletme[];
+  tercihler: OneriTercih[];
+  aktiviteler: OneriAktivite[];
 };
 
 // ── Sabitler ─────────────────────────────────────────────────────────────────
@@ -31,14 +50,6 @@ const ETIKET_MAP: Record<string, { text: string; color: string }> = {
   'Balık / Et': { text: 'Et ürünlerini tercih ediyorsun',  color: '#b45309' },
 };
 
-const AKTIVITE_TURLERI = [
-  { icon: 'heart', label: 'Favorilere eklendi' },
-  { icon: 'star',  label: '5 yıldız verdin' },
-  { icon: 'eye',   label: 'Ziyaret ettin' },
-] as const;
-
-const ZAMAN = ['2 gün önce', '4 gün önce', '1 hafta önce'] as const;
-
 const RUH_HALI = [
   { emoji: '⚡', title: 'Hızlı Bir Şeyler', desc: '15 dk içinde hazır',    bg: 'bg-amber-50',  border: 'border-amber-200',  tc: 'text-amber-700'  },
   { emoji: '🌙', title: 'Gece Atıştırmalık', desc: 'Geç saat açık olanlar', bg: 'bg-indigo-50', border: 'border-indigo-200', tc: 'text-indigo-700' },
@@ -48,13 +59,20 @@ const RUH_HALI = [
 
 // ── Yardımcılar ──────────────────────────────────────────────────────────────
 
-function hash(s: string): number {
-  return (s.split('').reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 0) >>> 0);
+function zamanFarki(iso: string): string {
+  const gun = Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000);
+  if (gun < 1) return 'Bugün';
+  if (gun < 7) return `${gun} gün önce`;
+  const hafta = Math.floor(gun / 7);
+  if (hafta < 5) return `${hafta} hafta önce`;
+  return `${Math.floor(gun / 30)} ay önce`;
 }
 
-function uyumYuzde(id: string): number {
-  return 82 + (hash(id) % 18); // 82–99
-}
+const AKTIVITE_ETIKET: Record<OneriAktivite['activityType'], string> = {
+  favorite: 'Favorilere eklendi',
+  review:   'Yorum yaptın',
+  visit:    'Ziyaret ettin',
+};
 
 // ── Aktivite ikonu ────────────────────────────────────────────────────────────
 
@@ -87,28 +105,30 @@ function AktiviteIkon({ tip }: { tip: 'heart' | 'star' | 'eye' }) {
 function OneriKarti({ biz, tip }: { biz: OneriIsletme; tip: 'secilmis' | 'deneme' }) {
   const img = buildMenuImageUrl(biz.coverUrl ?? biz.logoUrl ?? null, { width: 480, quality: 78 })
     ?? '/category-images/restoran.webp';
-  const uyum   = uyumYuzde(biz.id);
   const etiket = ETIKET_MAP[biz.category ?? ''] ?? { text: 'Sık tercih ettiğin mekan', color: '#7f1d1d' };
 
   return (
     <Link href={`/isletme/${biz.slug}`} className="group flex w-[220px] shrink-0 flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2">
-      {/* Görsel */}
       <div className="relative h-[140px] w-full overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={img} alt={biz.name} className="h-full w-full object-cover transition-transform group-hover:scale-105" loading="lazy" />
 
-        {/* Rozet sol üst */}
-        {tip === 'secilmis' ? (
+        {biz.eslesmeYuzde != null ? (
           <div className="absolute left-2 top-2 rounded-full bg-success px-2.5 py-1 text-[11px] font-black text-white shadow-xs">
-            %{uyum} Uyum
+            %{biz.eslesmeYuzde} Uyum
           </div>
         ) : (
-          <div className="absolute left-2 top-2 rounded-full px-2.5 py-1 text-[11px] font-black text-white shadow-xs" style={{ background: '#7c3aed' }}>
+          <div className="absolute left-2 top-2 rounded-full bg-primary px-2.5 py-1 text-[11px] font-black text-white shadow-xs">
+            Popüler
+          </div>
+        )}
+        {tip === 'deneme' && (
+          <div className="absolute left-2 top-9 rounded-full px-2.5 py-1 text-[11px] font-black text-white shadow-xs" style={{ background: '#7c3aed' }}>
             Yeni
           </div>
         )}
 
-        {/* Favori sağ üst */}
+        {/* Favori butonu — değişmedi */}
         <button
           type="button"
           aria-label="Favorilere ekle"
@@ -121,16 +141,12 @@ function OneriKarti({ biz, tip }: { biz: OneriIsletme; tip: 'secilmis' | 'deneme
         </button>
       </div>
 
-      {/* İçerik */}
       <div className="flex flex-1 flex-col gap-1.5 p-3">
-        <p className="line-clamp-1 text-sm font-black text-textStrong group-hover:text-primary">
-          {biz.name}
-        </p>
+        <p className="line-clamp-1 text-sm font-black text-textStrong group-hover:text-primary">{biz.name}</p>
         <p className="line-clamp-1 text-[11px] font-bold text-muted">
           {biz.category ?? '—'}
           {biz.district ? ` · ${biz.district}` : biz.city ? ` · ${biz.city}` : ''}
         </p>
-
         {biz.avgRating && biz.avgRating > 0 ? (
           <div className="flex items-center gap-1.5 text-[11px] font-extrabold">
             <span className="flex items-center gap-0.5 text-amber-500">
@@ -139,18 +155,11 @@ function OneriKarti({ biz, tip }: { biz: OneriIsletme; tip: 'secilmis' | 'deneme
               </svg>
               {biz.avgRating.toFixed(1)}
             </span>
-            {biz.reviewsCount > 0 && (
-              <span className="text-muted">({biz.reviewsCount.toLocaleString('tr-TR')})</span>
-            )}
+            {biz.reviewsCount > 0 && <span className="text-muted">({biz.reviewsCount.toLocaleString('tr-TR')})</span>}
           </div>
         ) : null}
-
-        {/* Insight etiketi */}
         <div className="mt-auto pt-1.5">
-          <span
-            className="inline-block rounded-full px-2.5 py-1 text-[10px] font-extrabold"
-            style={{ background: `${etiket.color}18`, color: etiket.color }}
-          >
+          <span className="inline-block rounded-full px-2.5 py-1 text-[10px] font-extrabold" style={{ background: `${etiket.color}18`, color: etiket.color }}>
             {etiket.text}
           </span>
         </div>
@@ -234,43 +243,7 @@ function KarouselBolum({
 
 // ── Ana bileşen ───────────────────────────────────────────────────────────────
 
-export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
-  const [spinning, setSpinning] = useState(false);
-
-  // Sidebar: kategori dağılımı
-  const kategoriDagilim = useMemo(() => {
-    const sayac: Record<string, number> = {};
-    for (const b of businesses) {
-      if (b.category) sayac[b.category] = (sayac[b.category] ?? 0) + 1;
-    }
-    return Object.entries(sayac)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 3)
-      .map(([kat], i) => ({
-        kat,
-        pct:      [38, 27, 18][i] ?? 10,
-        subtitle: ['En çok tercih ettiğin', 'Sık tercih ettiğin', 'Sevdiğin mutfak'][i] ?? '',
-        color:    ['#ef4444', '#f97316', '#22c55e'][i] ?? '#94a3b8',
-      }));
-  }, [businesses]);
-
-  // Sidebar: son aktiviteler
-  const aktiviteler = useMemo(() =>
-    businesses.slice(0, 3).map((b, i) => ({
-      biz:  b,
-      tip:  AKTIVITE_TURLERI[i % AKTIVITE_TURLERI.length]!,
-      zaman: ZAMAN[i] ?? '1 hafta önce',
-    })),
-  [businesses]);
-
-  const secilmisler = businesses.slice(0, 8);
-  const denemeler   = businesses.slice(8, 16);
-
-  function handleYenile() {
-    setSpinning(true);
-    setTimeout(() => setSpinning(false), 700);
-  }
-
+export function OneriCanli({ loggedIn, secilmisler, denemeler, tercihler, aktiviteler }: Props) {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
@@ -286,106 +259,77 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
               Zevklerine ve alışkanlıklarına göre senin için seçtik!
             </p>
           </div>
-          <button
-            type="button"
-            onClick={handleYenile}
-            className="flex shrink-0 items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-extrabold text-textStrong shadow-yd1 transition-all hover:border-primary/40 hover:text-primary"
-          >
-            <svg
-              width="14" height="14" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
-              className={spinning ? 'animate-spin' : ''} aria-hidden="true"
-            >
-              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
-              <path d="M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
-            </svg>
-            Önerileri Yenile
-          </button>
         </div>
 
         {/* İki sütun */}
         <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
 
-          {/* ── Sol sidebar ──────────────────────────────────────────────── */}
+          {/* Sol sidebar */}
           <aside className="w-full space-y-5 lg:w-64 lg:shrink-0 lg:sticky lg:top-20 lg:self-start">
-
-            {/* Zevkler */}
-            <div className="rounded-2xl border border-border bg-card p-4 shadow-yd1">
-              <h2 className="mb-3 text-sm font-black text-textStrong">Senin Zevklerine Göre</h2>
-              <div className="space-y-3">
-                {kategoriDagilim.map(({ kat, pct, subtitle, color }) => {
-                  const KatIcon = KAT_ICON[kat] ?? Utensils;
-                  return (
-                  <div key={kat} className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/5 text-primary">
-                      <KatIcon size={18} aria-hidden="true" />
+            {loggedIn ? (
+              <>
+                {tercihler.length > 0 && (
+                  <div className="rounded-2xl border border-border bg-card p-4 shadow-yd1">
+                    <h2 className="mb-3 text-sm font-black text-textStrong">Senin Zevklerine Göre</h2>
+                    <div className="space-y-3">
+                      {tercihler.map(({ category, pct }) => {
+                        const KatIcon = KAT_ICON[category] ?? Utensils;
+                        return (
+                          <div key={category} className="flex items-center gap-3">
+                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/5 text-primary">
+                              <KatIcon size={18} aria-hidden="true" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-sm font-black text-textStrong leading-tight">{category}</p>
+                            </div>
+                            <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-black text-primary">
+                              %{pct}
+                            </span>
+                          </div>
+                        );
+                      })}
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-black text-textStrong leading-tight">{kat}</p>
-                      <p className="text-[11px] font-bold text-muted">{subtitle}</p>
-                    </div>
-                    <span
-                      className="shrink-0 rounded-full px-2 py-0.5 text-[11px] font-black"
-                      style={{ background: `${color}20`, color }}
-                    >
-                      %{pct}
-                    </span>
                   </div>
-                  );
-                })}
-              </div>
-              <Link href="/kesif" className="mt-4 flex items-center gap-1 text-xs font-black text-primary hover:underline">
-                Tüm tercihlerini gör
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-                  <path d="m9 18 6-6-6-6"/>
-                </svg>
-              </Link>
-            </div>
+                )}
 
-            {/* Son aktiviteler */}
-            <div className="rounded-2xl border border-border bg-card p-4 shadow-yd1">
-              <h2 className="mb-3 text-sm font-black text-textStrong">Son Aktivitelerin</h2>
-              <div className="space-y-3">
-                {aktiviteler.map(({ biz, tip, zaman }) => (
-                  <div key={biz.id} className="flex items-center gap-2.5">
-                    <AktiviteIkon tip={tip.icon} />
-                    <div className="min-w-0 flex-1">
-                      <p className="line-clamp-1 text-sm font-black text-textStrong">{biz.name}</p>
-                      <p className="text-[11px] font-bold text-muted">{tip.label}</p>
+                {aktiviteler.length > 0 && (
+                  <div className="rounded-2xl border border-border bg-card p-4 shadow-yd1">
+                    <h2 className="mb-3 text-sm font-black text-textStrong">Son Aktivitelerin</h2>
+                    <div className="space-y-3">
+                      {aktiviteler.map((a) => (
+                        <Link key={`${a.businessId}-${a.createdAt}`} href={`/isletme/${a.slug}`} className="flex items-center gap-2.5 hover:opacity-80">
+                          <AktiviteIkon tip={a.activityType === 'favorite' ? 'heart' : a.activityType === 'review' ? 'star' : 'eye'} />
+                          <div className="min-w-0 flex-1">
+                            <p className="line-clamp-1 text-sm font-black text-textStrong">{a.businessName}</p>
+                            <p className="text-[11px] font-bold text-muted">{AKTIVITE_ETIKET[a.activityType]}</p>
+                          </div>
+                          <span className="shrink-0 text-[11px] font-bold text-muted">{zamanFarki(a.createdAt)}</span>
+                        </Link>
+                      ))}
                     </div>
-                    <span className="shrink-0 text-[11px] font-bold text-muted">{zaman}</span>
                   </div>
-                ))}
-              </div>
-              <Link href="/kesif" className="mt-4 flex items-center gap-1 text-xs font-black text-primary hover:underline">
-                Tüm aktiviteleri gör
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-                  <path d="m9 18 6-6-6-6"/>
-                </svg>
-              </Link>
-            </div>
+                )}
 
-            {/* Bugünkü puan */}
-            <div className="rounded-2xl border border-border bg-card p-4 shadow-yd1">
-              <h2 className="mb-3 text-sm font-black text-textStrong">Bugünkü Öneri Puanın</h2>
-              <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-success/30 bg-success/10 text-xl font-black text-success">
-                  88
-                </div>
-                <p className="text-sm font-extrabold text-textStrong">⭐⭐ Harika seçimler yapıyorsun! 🎉</p>
+                {tercihler.length === 0 && aktiviteler.length === 0 && (
+                  <div className="rounded-2xl border border-border bg-card p-4 shadow-yd1">
+                    <h2 className="mb-1.5 text-sm font-black text-textStrong">Henüz veri yok</h2>
+                    <p className="text-[12px] font-bold text-muted">
+                      Favorilerine ekle, yorum yap veya ziyaretlerini işaretle — sana özel önerileri burada göreceksin.
+                    </p>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="rounded-2xl border border-primary/20 bg-primary/5 p-4 shadow-yd1">
+                <h2 className="mb-1.5 text-sm font-black text-textStrong">Sana özel öneriler için giriş yap</h2>
+                <p className="mb-3 text-[12px] font-bold text-muted">
+                  Zevklerine göre eşleşme skorları ve son aktivitelerin burada görünsün.
+                </p>
+                <Link href="/giris" className="flex h-10 items-center justify-center rounded-xl bg-primary text-sm font-black text-white transition-all hover:brightness-110">
+                  Giriş Yap / Üye Ol
+                </Link>
               </div>
-              <div className="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
-                <div
-                  className="h-full rounded-full bg-success"
-                  style={{ width: '88%' }}
-                  role="progressbar"
-                  aria-valuenow={88}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                />
-              </div>
-              <p className="mt-2 text-[11px] font-bold text-muted">Dün: 88 · Geçen Hafta: 91</p>
-            </div>
+            )}
           </aside>
 
           {/* ── Sağ: asıl içerik ─────────────────────────────────────────── */}
@@ -395,7 +339,7 @@ export function OneriCanli({ businesses }: { businesses: OneriIsletme[] }) {
               <KarouselBolum baslik="Senin İçin Seçtiklerimiz" tip="secilmis" businesses={secilmisler} />
             )}
 
-            {denemeler.length > 0 && (
+            {loggedIn && denemeler.length > 0 && (
               <KarouselBolum
                 baslik="Denemeni Öneririz"
                 alt="Daha önce gitmediğin ama sevebileceğin mekanlar"
