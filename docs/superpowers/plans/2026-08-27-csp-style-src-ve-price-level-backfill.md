@@ -177,3 +177,9 @@ Beklenen: `updated` sayısı gerçek menüsü/fiyat verisi olan işletme sayıs�
 
 - Bölüm A ve B tamamen bağımsız — istenirse ayrı ayrı, farklı sıralarda uygulanabilir.
 - Bölüm A, kapsamı itibarıyla (118 dosya) bu oturumdaki diğer düzeltmelerden daha büyük ve daha yüksek riskli — her adımda gerçek tarayıcı doğrulaması şart.
+
+## Sonuç (2026-08-27'de uygulandı)
+
+**Bölüm A — style-src:** Tam mekanik dönüşüm yerine `style-src`, `style-src-elem` (sıkı, `'self'` + fonts) ve `style-src-attr` (`'unsafe-inline'` bilerek bırakıldı) olarak ikiye ayrıldı — çünkü CSP nonce'u `style=""` HTML özniteliğine hiç uygulanamıyor (spec kısıtı), bu yüzden dinamik değerler için tam eleme pratik değil. `harita-istemcisi.tsx`'teki 2 inline `<style>` bloğu (tek gerçek `style-src-elem` ihlali kaynağı, kod tabanında başka yok) kaldırıldı, ~30 statik/sonlu-varyantlı kullanım da Tailwind class'ına taşındı. Kalan ~230 `style={{}}` kullanımına dokunulmadı — artık gerekli değil.
+
+**Bölüm B — price_level backfill:** `batch_recompute_price_levels_v1()` tüm işletmeler için tek seferde çalıştırıldı (37 şehire ayrı ayrı gerek kalmadı, timeout olmadı). **Sonuç: `updated: 0, set_null: 41998`** — sistemde HİÇBİR işletme price_level almadı. Kök neden bug değil, veri: fonksiyon aynı şehir+kategori grubunda en az 3 farklı işletmenin her birinin en az 3 fiyatlı menü ürününe sahip olmasını şart koşuyor; sistemde gerçek menü verisi olan tek işletme (`ornek-yeedoy`) bile bu "3 peer işletme" şartını sağlayamıyor. **`PriceLevelBadge` gerçek menü/fiyat verisi birden fazla işletmede birikene kadar hiçbir yerde görünmeyecek** — bu, daha fazla işletmenin gerçek menü eklemesini bekleyen bir veri olgunluğu meselesi, kod değişikliğiyle çözülemez.
