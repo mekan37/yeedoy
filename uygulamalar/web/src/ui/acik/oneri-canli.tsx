@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import type { ComponentType } from 'react';
 import Link from 'next/link';
-import { Utensils, Coffee, Cake, Egg, Beer, Beef, type LucideProps } from 'lucide-react';
+import { Utensils, Coffee, Cake, Egg, Beer, Beef, Zap, Users, Gift, type LucideProps } from 'lucide-react';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 
 // ── Tipler ───────────────────────────────────────────────────────────────────
@@ -58,10 +58,10 @@ const ETIKET_MAP: Record<string, { text: string; color: string }> = {
 // business.category üzerine kuruldu (Restoran 544, Kafe 232, Balık/Et 162,
 // Tatlıcı 46 — hiçbiri boş sonuç riski taşımıyor).
 const RUH_HALI = [
-  { emoji: '⚡', title: 'Hızlı Bir Şeyler', desc: 'Kafe tadında hızlı seçenekler',   bg: 'bg-amber-50',  border: 'border-amber-200',  tc: 'text-amber-700',  href: `/kesif?category=${encodeURIComponent('Kafe')}` },
-  { emoji: '🌙', title: 'Tatlı Krizi',      desc: 'Tatlıcılar ve atıştırmalıklar',    bg: 'bg-indigo-50', border: 'border-indigo-200', tc: 'text-indigo-700', href: `/kesif?category=${encodeURIComponent('Tatlıcı')}` },
-  { emoji: '👥', title: 'Arkadaşınla',      desc: 'Paylaşarak yenen et ve balık mekanları', bg: 'bg-sky-50', border: 'border-sky-200', tc: 'text-sky-700',   href: `/kesif?category=${encodeURIComponent('Balık / Et')}` },
-  { emoji: '🎁', title: 'Özel Bir Gün',     desc: 'En yüksek puanlı mekanlar',        bg: 'bg-rose-50',   border: 'border-rose-200',   tc: 'text-rose-700',   href: '/kesif?sort=rating' },
+  { icon: Zap,   title: 'Hızlı Bir Şeyler', desc: 'Kafe tadında hızlı seçenekler',   bg: 'bg-amber-50',  border: 'border-amber-200',  tc: 'text-amber-700',  href: `/kesif?category=${encodeURIComponent('Kafe')}` },
+  { icon: Cake,  title: 'Tatlı Krizi',      desc: 'Tatlıcılar ve atıştırmalıklar',    bg: 'bg-indigo-50', border: 'border-indigo-200', tc: 'text-indigo-700', href: `/kesif?category=${encodeURIComponent('Tatlıcı')}` },
+  { icon: Users, title: 'Arkadaşınla',      desc: 'Paylaşarak yenen et ve balık mekanları', bg: 'bg-sky-50', border: 'border-sky-200', tc: 'text-sky-700',   href: `/kesif?category=${encodeURIComponent('Balık / Et')}` },
+  { icon: Gift,  title: 'Özel Bir Gün',     desc: 'En yüksek puanlı mekanlar',        bg: 'bg-rose-50',   border: 'border-rose-200',   tc: 'text-rose-700',   href: '/kesif?sort=rating' },
 ] as const;
 
 // ── Yardımcılar ──────────────────────────────────────────────────────────────
@@ -376,7 +376,7 @@ export function OneriCanli({ loggedIn, secilmisler, denemeler, tercihler, aktivi
                     href={rh.href}
                     className={`flex flex-col items-center gap-2 rounded-2xl border p-4 text-center transition-all hover:-translate-y-0.5 hover:shadow-yd1 ${rh.bg} ${rh.border}`}
                   >
-                    <span className="text-2xl" aria-hidden="true">{rh.emoji}</span>
+                    <rh.icon className={`h-6 w-6 ${rh.tc}`} aria-hidden="true" />
                     <p className={`text-sm font-black ${rh.tc}`}>{rh.title}</p>
                     <p className="text-[11px] font-bold text-muted">{rh.desc}</p>
                   </Link>
@@ -387,7 +387,7 @@ export function OneriCanli({ loggedIn, secilmisler, denemeler, tercihler, aktivi
             {/* CTA banner */}
             <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-primary px-6 py-5">
               <div className="flex items-center gap-4">
-                <span className="text-2xl" aria-hidden="true">🎁</span>
+                <Gift className="h-7 w-7 text-white" aria-hidden="true" />
                 <div>
                   <p className="text-base font-black text-white">
                     Ne kadar çok keşfedersen, o kadar iyi öneririz!
