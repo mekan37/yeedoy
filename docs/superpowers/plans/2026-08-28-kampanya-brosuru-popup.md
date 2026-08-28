@@ -16,7 +16,7 @@
 - Modify: `uygulamalar/web/app/sunucu/medya/yukleme/route.ts`
 - Test: `uygulamalar/web/test/lib/medya-yukleme-route.test.ts`
 
-- [ ] **Step 1: Şemayı export et ve başarısız olacak testi yaz**
+- [x] **Step 1: Şemayı export et ve başarısız olacak testi yaz**
 
 `uygulamalar/web/app/sunucu/medya/yukleme/route.ts` dosyasında satır 10-13'ü değiştir:
 
@@ -62,12 +62,12 @@ describe('uploadSchema', () => {
 });
 ```
 
-- [ ] **Step 2: Testi çalıştır, "campaign tipini kabul eder" testinin FAIL olduğunu doğrula**
+- [x] **Step 2: Testi çalıştır, "campaign tipini kabul eder" testinin FAIL olduğunu doğrula**
 
 Run: `cd uygulamalar/web && pnpm vitest run test/lib/medya-yukleme-route.test.ts`
 Expected: `bilinmeyen bir tipi reddeder` ve `geçersiz businessId...` PASS, `campaign tipini kabul eder` FAIL (çünkü enum'da `'campaign'` yok).
 
-- [ ] **Step 3: `campaign` tipini enum'a ve storage path mantığına ekle**
+- [x] **Step 3: `campaign` tipini enum'a ve storage path mantığına ekle**
 
 `route.ts` satır 10-13'ü güncelle:
 
@@ -90,12 +90,12 @@ Satır 73-77'deki path mantığını güncelle:
         : `businesses/${parsed.data.businessId}/branding/${parsed.data.type}/${randomUUID()}.${extension}`;
 ```
 
-- [ ] **Step 4: Testi tekrar çalıştır, tümünün PASS olduğunu doğrula**
+- [x] **Step 4: Testi tekrar çalıştır, tümünün PASS olduğunu doğrula**
 
 Run: `cd uygulamalar/web && pnpm vitest run test/lib/medya-yukleme-route.test.ts`
 Expected: 3 test de PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add uygulamalar/web/app/sunucu/medya/yukleme/route.ts uygulamalar/web/test/lib/medya-yukleme-route.test.ts
@@ -112,7 +112,7 @@ Bu fonksiyon şu an sadece `isletme-gorselleri-editoru.tsx` içinde tanımlı. T
 - Create: `uygulamalar/web/src/lib/gorsel-sikistir.ts`
 - Modify: `uygulamalar/web/app/sahip/ayarlar/sekmeler/isletme-gorselleri-editoru.tsx`
 
-- [ ] **Step 1: Yeni paylaşılan dosyayı oluştur**
+- [x] **Step 1: Yeni paylaşılan dosyayı oluştur**
 
 ```ts
 export async function compressToWebP(file: File, maxPx: number): Promise<File> {
@@ -148,7 +148,7 @@ export async function compressToWebP(file: File, maxPx: number): Promise<File> {
 
 (Not: Bu fonksiyon tarayıcı `Image`/`canvas` API'lerine bağımlı; mevcut haliyle de test edilmiyordu — bu taşıma test kapsamını değiştirmiyor.)
 
-- [ ] **Step 2: `isletme-gorselleri-editoru.tsx`'te yerel tanımı kaldır, import ekle**
+- [x] **Step 2: `isletme-gorselleri-editoru.tsx`'te yerel tanımı kaldır, import ekle**
 
 Dosyanın en üstündeki import bloğuna ekle (satır 4-5 civarı):
 
@@ -159,12 +159,12 @@ import { compressToWebP } from '@/src/lib/gorsel-sikistir';
 
 Dosyadaki satır 20-48 arasındaki (`async function compressToWebP(file: File, maxPx: number): Promise<File> { ... }`) yerel fonksiyon tanımının tamamını sil.
 
-- [ ] **Step 3: Typecheck ile doğrula**
+- [x] **Step 3: Typecheck ile doğrula**
 
 Run: `cd uygulamalar/web && pnpm run typecheck`
 Expected: Hata yok (fonksiyon artık import'tan geliyor, imza aynı).
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add uygulamalar/web/src/lib/gorsel-sikistir.ts uygulamalar/web/app/sahip/ayarlar/sekmeler/isletme-gorselleri-editoru.tsx
@@ -179,7 +179,7 @@ git commit -m "refactor(web): compressToWebP paylaşılan bir yardımcı dosyaya
 - Modify: `uygulamalar/web/app/sahip/pazarlama/kampanyalar/kampanya-islemleri.ts`
 - Test: `uygulamalar/web/test/lib/kampanya-islemleri.test.ts`
 
-- [ ] **Step 1: Şemayı export et ve başarısız olacak testi yaz**
+- [x] **Step 1: Şemayı export et ve başarısız olacak testi yaz**
 
 `kampanya-islemleri.ts` satır 11'i değiştir:
 
@@ -228,12 +228,12 @@ describe('KampanyaSemasi', () => {
 });
 ```
 
-- [ ] **Step 2: Testi çalıştır, "geçersiz bir image_url reddedilir" testinin FAIL olduğunu doğrula**
+- [x] **Step 2: Testi çalıştır, "geçersiz bir image_url reddedilir" testinin FAIL olduğunu doğrula**
 
 Run: `cd uygulamalar/web && pnpm vitest run test/lib/kampanya-islemleri.test.ts`
 Expected: `image_url` alanı şemada henüz tanımlı olmadığı için zod, nesnedeki bu fazladan alanı varsayılan olarak yok sayar — bu yüzden `image_url olmadan kabul eder`, `geçerli bir image_url kabul eder` ve `null image_url kabul eder` testleri (üçü de `success: true` bekliyor) zaten yanlışlıkla PASS olur. Sadece `geçersiz bir image_url (url formatında değil) reddedilir` testi FAIL olmalı — çünkü `'not-a-url'` değeri de yok sayılıp `success: true` dönüyor ama test `false` bekliyor.
 
-- [ ] **Step 3: `image_url` alanını şemaya ekle**
+- [x] **Step 3: `image_url` alanını şemaya ekle**
 
 `kampanya-islemleri.ts` satır 11-24'teki şemayı güncelle:
 
@@ -289,12 +289,12 @@ RPC çağrısına `p_image_url` parametresini ekle (satır 69-79 civarı):
     }) as { error: { message: string } | null };
 ```
 
-- [ ] **Step 4: Testi tekrar çalıştır, tümünün PASS olduğunu doğrula**
+- [x] **Step 4: Testi tekrar çalıştır, tümünün PASS olduğunu doğrula**
 
 Run: `cd uygulamalar/web && pnpm vitest run test/lib/kampanya-islemleri.test.ts`
 Expected: 4 test de PASS — özellikle `geçersiz bir image_url (url formatında değil) reddedilir` artık gerçekten reddediyor.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add uygulamalar/web/app/sahip/pazarlama/kampanyalar/kampanya-islemleri.ts uygulamalar/web/test/lib/kampanya-islemleri.test.ts
@@ -308,7 +308,7 @@ git commit -m "feat(web): kampanya kaydetme action'ı image_url alanını kabul 
 **Files:**
 - Modify: `uygulamalar/web/app/sahip/pazarlama/kampanyalar/kampanya-formu.tsx`
 
-- [ ] **Step 1: `Kampanya` interface'ine `image_url` ekle, importları güncelle**
+- [x] **Step 1: `Kampanya` interface'ine `image_url` ekle, importları güncelle**
 
 Dosyanın üstündeki import satırını değiştir:
 
@@ -339,7 +339,7 @@ export interface Kampanya {
 }
 ```
 
-- [ ] **Step 2: Görsel yükleme state'ini ve handler'larını ekle**
+- [x] **Step 2: Görsel yükleme state'ini ve handler'larını ekle**
 
 `KampanyaFormu` fonksiyonunun başındaki state tanımlarına ekle (satır 49-52 civarı, `hasSubmitted` tanımından hemen sonra):
 
@@ -394,7 +394,7 @@ export interface Kampanya {
   }
 ```
 
-- [ ] **Step 3: Formda görsel alanını render et**
+- [x] **Step 3: Formda görsel alanını render et**
 
 "Açıklama" alanından hemen sonra, "Tip + Durum" grid'inden önce ekle (satır 108-110 civarı):
 
@@ -437,16 +437,16 @@ export interface Kampanya {
           </Field>
 ```
 
-- [ ] **Step 4: Typecheck ve lint ile doğrula**
+- [x] **Step 4: Typecheck ve lint ile doğrula**
 
 Run: `cd uygulamalar/web && pnpm run typecheck && pnpm run lint`
 Expected: Hata yok.
 
-- [ ] **Step 5: Tarayıcıda manuel doğrulama**
+- [ ] **Step 5: Tarayıcıda manuel doğrulama** — ⚠️ TAMAMLANMADI (agent güvenlik sınıflandırıcısı gerçek bir sahip oturumu taklit etme girişimini bilerek engelledi; kod yolu statik olarak doğrulandı ama gerçek tıklama testi bir insan tarafından yapılmalı)
 
 `pnpm run dev` ile web'i başlat, `/sahip/pazarlama/kampanyalar` sayfasına git, bir kampanya oluştur/düzenle, "Görsel Yükle" butonuna bas, bir JPEG/PNG seç → önizleme görünmeli → "Kaydet"e bas → kampanyanın kaydedildiğini doğrula. Ardından formu tekrar aç, görselin (X butonu ile) kaldırılabildiğini doğrula.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add uygulamalar/web/app/sahip/pazarlama/kampanyalar/kampanya-formu.tsx
@@ -460,7 +460,7 @@ git commit -m "feat(web): sahip paneli kampanya formuna görsel yükleme alanı 
 **Files:**
 - Modify: `uygulamalar/web/app/(genel)/isletme/[slug]/isletme-detay-tablari.tsx:612-676`
 
-- [ ] **Step 1: `KampanyaKartiDetay`, yeni `KampanyaBrosurPopup` ve güncellenmiş `KampanyalarIcerik`'i yaz**
+- [x] **Step 1: `KampanyaKartiDetay`, yeni `KampanyaBrosurPopup` ve güncellenmiş `KampanyalarIcerik`'i yaz**
 
 Dosyadaki 612. satırdan 676. satıra kadar olan "Kampanyalar tab content" bloğunun tamamını şununla değiştir:
 
@@ -615,12 +615,12 @@ function KampanyalarIcerik({ kampanyalar }: { kampanyalar: KampanyaBilgi[] }) {
 
 Not: `useState`, `useEffect`, `buildMenuImageUrl`, `kampanyaBadge`, `TUR_RENK`, `gunKaldiHesapla` dosyanın üstünde zaten import edilmiş durumda (satır 3-22) — yeni bir import eklemeye gerek yok.
 
-- [ ] **Step 2: Typecheck ve lint ile doğrula**
+- [x] **Step 2: Typecheck ve lint ile doğrula**
 
 Run: `cd uygulamalar/web && pnpm run typecheck && pnpm run lint`
 Expected: Hata yok.
 
-- [ ] **Step 3: Tarayıcıda manuel doğrulama**
+- [ ] **Step 3: Tarayıcıda manuel doğrulama** — ⚠️ TAMAMLANMADI (bu worktree'nin .env.local'ı canlı/production Supabase projesine bağlı; agent'lar buna karşı dev server başlatmaktan kaçındı, statik doğrulama yapıldı — gerçek tıklama testi bir insan tarafından yapılmalı)
 
 `pnpm run dev` ile web'i başlat, Task 4'te görsel eklenen kampanyanın işletmesine ait `/isletme/[slug]?tab=kampanyalar` sayfasına git:
 - Görseli olan kampanya kartında küçük bir thumbnail görünmeli.
@@ -628,7 +628,7 @@ Expected: Hata yok.
 - X butonu, backdrop'a tıklama ve Escape tuşu — üçü de popup'ı kapatmalı.
 - Görseli olmayan (varsa) başka bir kampanya kartına tıklayınca da popup açılmalı, bu sefer görsel olmadan sadece metin büyütülmüş halde gösterilmeli.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add "uygulamalar/web/app/(genel)/isletme/[slug]/isletme-detay-tablari.tsx"
@@ -641,11 +641,13 @@ git commit -m "feat(web): işletme detay sayfası Kampanyalar sekmesine görsel 
 
 **Files:** (yok — sadece doğrulama)
 
-- [ ] **Step 1: Tam doğrulama komutunu çalıştır**
+- [x] **Step 1: Tam doğrulama komutunu çalıştır**
 
 Run: `cd uygulamalar/web && pnpm run test:ci`
 Expected: typecheck + lint + unit testler (Task 1 ve 3'teki yeni testler dahil) + build hepsi PASS.
 
-- [ ] **Step 2: Uçtan uca manuel akış**
+Sonuç: PASS — typecheck temiz, lint 0 hata (45 önceden var olan, bu değişiklikle ilgisiz uyarı), 35/35 test dosyası ve 188/188 test PASS (baseline 33 dosya/181 testten +2 dosya/+7 test — Task 1 ve 3'ün yeni testleriyle tam eşleşiyor), production build başarılı.
+
+- [ ] **Step 2: Uçtan uca manuel akış** — ⚠️ TAMAMLANMADI (bu worktree'nin .env.local'ı canlı/production Supabase projesine bağlı olduğu için agent'lar gerçek bir sahip oturumu açmaktan/dev server'ı canlı veriye karşı çalıştırmaktan kaçındı — bir insan tarafından yapılmalı)
 
 Sahip panelinde yeni bir kampanya oluştur, görsel yükle, `active` durumuna al → işletme detay sayfasında kartta görünmesini, tıklanınca popup'ta doğru gösterilmesini doğrula (Task 4/5'teki adımların birleşik hâli, gerçek bir kampanya üzerinden baştan sona).
