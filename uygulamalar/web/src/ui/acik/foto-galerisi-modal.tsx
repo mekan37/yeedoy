@@ -54,7 +54,7 @@ export function FotoGalerisiTetik({
       <button
         type="button"
         onClick={handleOpen}
-        className="group relative block w-full cursor-zoom-in"
+        className="group relative block h-full w-full cursor-zoom-in"
         aria-label={`Fotoğrafı büyüt: ${photos[index].name}`}
       >
         {children}
