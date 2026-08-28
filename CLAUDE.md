@@ -68,6 +68,7 @@ All privileged RPCs follow `*_v1` / `*_v2` naming. New Supabase access goes thro
 ## Constraints
 
 - No admin/owner CRUD in mobile app.
+- **Web and mobile move together.** Before building a user-facing feature on one platform, check whether the other already has it (don't assume web is "primary" — mobile is sometimes ahead) and build/flag the missing side as part of the same task. If the feature is something an owner or admin would plausibly need to configure or manage, also check whether `/sahip` or `/yonetici` needs an equivalent.
 - No second state management library (Riverpod in Flutter, Zustand in web).
 - No new Supabase access outside a repository class in Flutter.
 - No new architecture on the stub packages (`api_client`, `shared_config`, `shared_types`).

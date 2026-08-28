@@ -459,18 +459,32 @@ export default async function BusinessPage({ params, searchParams }: Props) {
                     <Icon name="check" size={12} /> Doğrulanmış
                   </span>
                 )}
-                {chainInfo && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-extrabold text-amber-800 border border-amber-200/60">
-                    <ZincirIkonu />
-                    {chainInfo.chain_name}
-                    {chainInfo.branch_count > 1 && (
-                      <span className="font-bold text-amber-600">· {chainInfo.branch_count} şube</span>
-                    )}
-                    {chainInfo.chain_is_verified && (
-                      <Icon name="check" size={11} className="text-amber-600" />
-                    )}
-                  </span>
-                )}
+                {chainInfo && (() => {
+                  const rozetIcerik = (
+                    <>
+                      <ZincirIkonu />
+                      {chainInfo.chain_name}
+                      {chainInfo.branch_count > 1 && (
+                        <span className="font-bold text-amber-600">· {chainInfo.branch_count} şube</span>
+                      )}
+                      {chainInfo.chain_is_verified && (
+                        <Icon name="check" size={11} className="text-amber-600" />
+                      )}
+                    </>
+                  );
+                  const rozetClass = "inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-extrabold text-amber-800 border border-amber-200/60";
+                  return chainInfo.branch_count > 1 && chainInfo.chain_slug ? (
+                    <Link
+                      href={`/zincir/${chainInfo.chain_slug}`}
+                      className={`${rozetClass} transition hover:border-amber-400/70 hover:bg-amber-100`}
+                      title="Diğer şubeleri gör"
+                    >
+                      {rozetIcerik}
+                    </Link>
+                  ) : (
+                    <span className={rozetClass}>{rozetIcerik}</span>
+                  );
+                })()}
                 {checkinCount > 0 && (
                   <span className="inline-flex items-center gap-1 rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-extrabold text-orange-700">
                     <Icon name="flame" size={11} />
