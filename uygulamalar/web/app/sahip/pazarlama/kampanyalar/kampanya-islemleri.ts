@@ -8,7 +8,7 @@ import { rateLimit } from '@/src/lib/oran-siniri';
 
 const REVALIDATE = '/sahip/pazarlama/kampanyalar';
 
-const KampanyaSemasi = z.object({
+export const KampanyaSemasi = z.object({
   business_id:      z.string().uuid(),
   title:            z.string().min(1).max(120),
   type:             z.enum(['discount', 'special_offer', 'loyalty', 'announcement']),
@@ -20,6 +20,7 @@ const KampanyaSemasi = z.object({
   // new Date(...).toISOString() ile dönüştürülüp doğrulanıyor.
   starts_at:        z.string().optional().nullable(),
   ends_at:          z.string().optional().nullable(),
+  image_url:        z.string().url().optional().nullable(),
   id:               z.string().uuid().optional().nullable(),
 });
 
@@ -45,6 +46,7 @@ export async function kampanyaKaydet(
     discount_percent: formData.get('discount_percent') || null,
     starts_at:        formData.get('starts_at') || null,
     ends_at:          formData.get('ends_at') || null,
+    image_url:        formData.get('image_url') || null,
     id:               formData.get('id') || null,
   };
 
@@ -75,6 +77,7 @@ export async function kampanyaKaydet(
       p_discount_percent: d.discount_percent ?? null,
       p_starts_at:       startsAtIso,
       p_ends_at:         endsAtIso,
+      p_image_url:       d.image_url ?? null,
       p_id:              d.id ?? null,
     }) as { error: { message: string } | null };
 
