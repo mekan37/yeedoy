@@ -1,7 +1,8 @@
 'use client';
 
-import { useActionState, useEffect, useRef } from 'react';
+import { useActionState, useEffect, useRef, useState } from 'react';
 import { kampanyaKaydet } from './kampanya-islemleri';
+import { compressToWebP } from '@/src/lib/gorsel-sikistir';
 
 export type KampanyaTipi = 'discount' | 'special_offer' | 'loyalty' | 'announcement';
 export type KampanyaDurumu = 'draft' | 'planned' | 'active' | 'completed';
@@ -15,6 +16,7 @@ export interface Kampanya {
   discount_percent: number | null;
   starts_at: string | null;
   ends_at: string | null;
+  image_url: string | null;
   view_count: number;
   click_count: number;
   created_at: string;
@@ -48,8 +50,52 @@ function toDatetimeLocal(iso: string | null | undefined): string {
 export function KampanyaFormu({ businessId, campaign, onClose }: Props) {
   const [state, action, pending] = useActionState(kampanyaKaydet, null);
   const formRef = useRef<HTMLFormElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const hasSubmitted = useRef(false);
   const isEdit = !!campaign;
+
+  const [imageUrl, setImageUrl] = useState<string | null>(campaign?.image_url ?? null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  async function handleImageUpload(file: File) {
+    setUploadError(null);
+    setUploading(true);
+    try {
+      const compressed = await compressToWebP(file, 1600);
+      const fd = new FormData();
+      fd.append('businessId', businessId);
+      fd.append('type', 'campaign');
+      fd.append('file', compressed);
+
+      const response = await fetch('/sunucu/medya/yukleme', { method: 'POST', body: fd });
+      const result = await response.json().catch(() => null) as { data?: { url?: string }; error?: string } | null;
+
+      if (!response.ok) {
+        setUploadError(
+          result?.error === 'rate_limited' ? 'Çok fazla istek, bekleyin.' :
+          result?.error === 'file_too_large' ? 'Dosya çok büyük.' :
+          result?.error === 'invalid_mime_type' ? 'Desteklenmeyen dosya türü.' :
+          result?.error === 'forbidden' ? 'Bu işletmeyi düzenleme yetkiniz yok.' : 'Yükleme başarısız.',
+        );
+        return;
+      }
+
+      const url = result?.data?.url;
+      if (!url) throw new Error('invalid_upload_response');
+      setImageUrl(url);
+    } catch {
+      setUploadError('Yükleme sırasında bir bağlantı hatası oluştu. Lütfen tekrar deneyin.');
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const f = e.target.files?.[0];
+    if (f) handleImageUpload(f);
+    e.target.value = '';
+  }
 
   useEffect(() => {
     if (hasSubmitted.current && state === null && !pending) {
@@ -105,6 +151,43 @@ export function KampanyaFormu({ businessId, campaign, onClose }: Props) {
               rows={3}
               className={`${inputCls} resize-none`}
             />
+          </Field>
+
+          {/* Görsel */}
+          <Field label="Kampanya Görseli" hint="Opsiyonel — broşür/afiş görseli">
+            <input type="hidden" name="image_url" value={imageUrl ?? ''} />
+            {imageUrl ? (
+              <div className="relative overflow-hidden rounded-xl border border-border" style={{ aspectRatio: '16/9' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={imageUrl} alt="Kampanya görseli" className="h-full w-full object-cover" />
+                <button
+                  type="button"
+                  onClick={() => setImageUrl(null)}
+                  aria-label="Görseli kaldır"
+                  className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white transition hover:bg-black/70"
+                >
+                  <CloseIcon />
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+                className="flex h-24 w-full items-center justify-center gap-2 rounded-xl border border-dashed border-border text-sm font-bold text-muted transition hover:border-primary/40 hover:text-primary disabled:opacity-60"
+              >
+                {uploading ? <SpinIcon /> : null}
+                {uploading ? 'Yükleniyor...' : 'Görsel Yükle'}
+              </button>
+            )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              className="hidden"
+              onChange={onFileChange}
+            />
+            {uploadError && <p className="mt-1.5 text-xs font-bold text-danger">{uploadError}</p>}
           </Field>
 
           {/* Tip + Durum */}
