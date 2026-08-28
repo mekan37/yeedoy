@@ -48,7 +48,7 @@
 
 ### Play Console Data Safety Manuel Giriş
 - **Durum:** Açık — taslak hazır
-- **Kanıt:** `docs/release/store-data-safety-iarc.md` detaylı taslak içeriyor
+- **Kanıt:** `docs/yayin/store-data-safety-iarc.md` detaylı taslak içeriyor
 - **Etki:** Play Console'da form doldurulmadan yayın yapılamaz
 - **Bağımlılık:** Play Console erişimi
 - **Önerilen branch:** — (kod değişikliği yok, manuel form)
@@ -57,7 +57,7 @@
 
 ### Play Console IARC Derecelendirme Formu
 - **Durum:** Açık
-- **Kanıt:** `docs/release/store-data-safety-iarc.md` IARC bölümü taslak içeriyor
+- **Kanıt:** `docs/yayin/store-data-safety-iarc.md` IARC bölümü taslak içeriyor
 - **Etki:** IARC derecelendirmesi olmadan store listing tamamlanamaz
 - **Bağımlılık:** Play Console erişimi
 - **Önerilen branch:** —
@@ -74,7 +74,7 @@
 
 ### Release Notes Final Kontrol
 - **Durum:** 🟡 Taslak hazır, son gözden geçirme gerekiyor
-- **Kanıt:** `docs/release/mobile-release-readiness.md` TR + EN release notes şablonları kullanıma hazır
+- **Kanıt:** `docs/yayin/mobile-release-readiness.md` TR + EN release notes şablonları kullanıma hazır
 - **Etki:** Düşük — taslak zaten kullanılabilir durumda
 - **Önerilen agent:** content-marketer
 - **Kabul kriteri:** TR/EN release notes onaylandı, store listing'e yapıştırıldı
@@ -90,7 +90,7 @@
 
 ## P2 — Runtime Env / Dış Entegrasyonlar
 
-> Detaylı entegrasyon durumu için bkz. `docs/delivery/delivery-integration-status.md`
+> Detaylı entegrasyon durumu için bkz. `docs/bildirim-teslimati/delivery-integration-status.md`
 
 ---
 
@@ -104,7 +104,7 @@
   kaynak yorumu: *"AI menü analizi ürün kararı netleşmeden kapsam dışı
   tutulmuştur (NEEDS_HUMAN_DECISION)"*.
 - **Kanıt:** `app/sahip/yapay-zeka-analizi/page.tsx`. Referans verdiği
-  `docs/engineering/2026-yeedoy-mvp-scope-prune-audit.md` artık repo'da yok.
+  `docs/muhendislik/2026-yeedoy-mvp-scope-prune-audit.md` artık repo'da yok.
 - **Etki:** Yok (kasıtlı) — açılırsa gerçek bir feature, teknik iş yok.
 - **Bağımlılık:** Ürün kararı — özellik açılsın mı, kapalı mı kalsın?
 - **Önerilen branch:** — (kod zaten var, sadece stub'ı kaldırıp gerçek page'i geri almak yeterli)
@@ -142,7 +142,7 @@
 
 ## P5 — Fikir Havuzu / Daha Sonra
 
-- Fiyat Endeksi medya lansmanı (bkz. `docs/archive/fiyat-endeksi-medya-raporu.md`)
+- Fiyat Endeksi medya lansmanı (bkz. `docs/arsiv/fiyat-endeksi-medya-raporu.md`)
 - Search Console submit (tamamlandı, ek optimizasyon yapılabilir)
 - A/B test alt yapısı
 - 2FA / hesap güvenliği — TOTP enroll/verify aktif ✅ (PR #84). Stub redirect ✅ (PR #85). AAL2 middleware rollout planı ✅ (PR #86). Soft banner (Faz 1) ✅ (PR #87). Test planı + TwoFactorBanner unit testleri ✅ (PR #88). Sıradaki: admin high-risk AAL2 middleware (Faz 2) → owner high-risk AAL2 middleware (Faz 3) → E2E smoke testleri

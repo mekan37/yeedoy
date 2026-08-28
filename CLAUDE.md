@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> **Ürün Kapsamı Uyarısı:** Güncel ürün kapsamı için sadece `docs/product/2026-yeedoy-final-scope-source-of-truth.md` baz alınacak. `docs/research` ve `docs/engineering` içindeki eski raporlar tarihsel bağlamdır, tek başına karar kaynağı değildir.
+> **Ürün Kapsamı Uyarısı:** Güncel ürün kapsamı için sadece `docs/urun/2026-yeedoy-final-scope-source-of-truth.md` baz alınacak. `docs/research` ve `docs/muhendislik` içindeki eski raporlar tarihsel bağlamdır, tek başına karar kaynağı değildir.
 
 ## Repository Structure
 

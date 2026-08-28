@@ -31,7 +31,7 @@
 --     güncellemeyi SECURITY DEFINER aracılığıyla güvenli biçimde sağlar
 --
 -- Tarih: 2026-06-20
--- Karar referansı: docs/legal/r5-marketing-optin-data-model-decision.md Bölüm 5
+-- Karar referansı: docs/arsiv/r5-marketing-optin-data-model-decision.md Bölüm 5
 -- Hazırlayan: postgres-pro (R-5 Seçenek B)
 -- =============================================================================
 

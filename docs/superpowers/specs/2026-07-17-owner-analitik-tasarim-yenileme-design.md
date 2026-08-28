@@ -3,7 +3,7 @@
 ## Arka plan
 
 Kullanıcı, `owner/(panel)/analytics` sayfası için bir mockup görseli
-(ChatGPT ile üretilmiş, `docs/design-previews/analitik-mockup-2026-07-16.png`
+(ChatGPT ile üretilmiş, `docs/tasarim-onizlemeleri/analitik-mockup-2026-07-16.png`
 olarak referans alınıyor — dosya kullanıcının Downloads klasöründe) paylaştı
 ve bu görselin **görsel/yapısal tasarımının** mevcut koda uygulanmasını
 istedi. Mockup'taki bazı metrikler (`Ziyaretçi Demografisi`, `Ortalama

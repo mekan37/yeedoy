@@ -41,7 +41,7 @@
 --     UYARI: rollback veri kaybına yol açar; opt-in kayıtları silinir.
 --
 --   Tarih: 2026-06-20
---   Karar referansı: docs/legal/r5-marketing-optin-data-model-decision.md Bölüm 4
+--   Karar referansı: docs/arsiv/r5-marketing-optin-data-model-decision.md Bölüm 4
 --   Hazırlayan: postgres-pro (R-5 Seçenek B)
 -- =============================================================================
 

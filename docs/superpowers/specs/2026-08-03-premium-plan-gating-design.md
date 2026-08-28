@@ -4,7 +4,7 @@
 
 İki ayrı araştırma turu (rakip piyasa analizi + kod tabanı denetimi, 2026-08-03) sonucunda şu tespit edildi: Yeedoy'da hiçbir plan/abonelik altyapısı yok — `businesses` tablosunda plan/tier alanı, ödeme entegrasyonu veya plan-bazlı özellik kilitleme mekanizması bulunmuyor. Buna karşılık birkaç "premium" adayı özellik (OCR menü tarama, AI alerjen/kalori tespiti, AI görsel üretme) Supabase edge function seviyesinde tam çalışır durumda ama hiçbir UI'dan çağrılmıyor (orphaned). Çoklu dil (`menu_translations`) ve QR özelleştirme (`karekod-uretici.tsx`) ise tamamen çalışıyor ama hiçbir kademeye kilitli değil.
 
-Bu doküman, denetim raporundaki 14 kalemden kullanıcıyla birlikte teker teker onaylanan alt kümeyi kapsıyor. Kapsam dışı bırakılan kalemler (CRM, sadakat/loyalty, envanter, çoklu şube, destek sistemi, operasyonel personel app) ayrı bir stratejik karar/tur gerektiriyor; sadakat özellikle `docs/product/2026-yeedoy-final-scope-source-of-truth.md`'de MVP dışı sayıldığı için bilerek dışarıda bırakıldı.
+Bu doküman, denetim raporundaki 14 kalemden kullanıcıyla birlikte teker teker onaylanan alt kümeyi kapsıyor. Kapsam dışı bırakılan kalemler (CRM, sadakat/loyalty, envanter, çoklu şube, destek sistemi, operasyonel personel app) ayrı bir stratejik karar/tur gerektiriyor; sadakat özellikle `docs/urun/2026-yeedoy-final-scope-source-of-truth.md`'de MVP dışı sayıldığı için bilerek dışarıda bırakıldı.
 
 ## Kapsam
 

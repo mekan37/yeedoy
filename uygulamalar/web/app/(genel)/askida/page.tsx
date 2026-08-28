@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 // MVP scope dışı: askıda öğün bağışı (suspended meals) final strateji kararına göre
-// kapsam dışı bırakıldı (docs/engineering/2026-yeedoy-final-forbidden-scope-sweep.md).
+// kapsam dışı bırakıldı (docs/arsiv/2026-yeedoy-final-forbidden-scope-sweep.md).
 // Sayfa silinmedi, keşif sayfasına yönlendirildi.
 export default async function SuspendedMealsPage(): Promise<never> {
   redirect('/kesif');

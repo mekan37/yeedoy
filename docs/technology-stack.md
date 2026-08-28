@@ -114,7 +114,7 @@ Not (2026-06-24): `uygulamalar/personel` (Flutter owner/garson operasyon uygulam
 | Flutter analyze/test | Mobil kalite kapısı | Mobile CI | `.github/workflows/mobile_quality.yml` |
 | Android AAB/APK release | Mobil release build | `flutter build appbundle`, `flutter build apk` | `.github/workflows/mobile_release.yml`, `.github/workflows/mobile_readiness.yml` |
 | iOS IPA release dry run | iOS signing ve IPA dry run | macOS runner, `flutter build ipa` | `.github/workflows/mobile_readiness.yml` |
-| Vercel | Web deployment/runtime ortamı olarak dokümante edilmiş | Env ve dashboard referansları | `docs/delivery/delivery-integration-status.md`, `uygulamalar/web/app/admin/dev-tools/page.tsx`, `uygulamalar/web/next.config.mjs` |
+| Vercel | Web deployment/runtime ortamı olarak dokümante edilmiş | Env ve dashboard referansları | `docs/bildirim-teslimati/delivery-integration-status.md`, `uygulamalar/web/app/admin/dev-tools/page.tsx`, `uygulamalar/web/next.config.mjs` |
 
 ## 8. Test Teknolojileri
 
@@ -163,7 +163,7 @@ Not (2026-06-24): `uygulamalar/personel` (Flutter owner/garson operasyon uygulam
 | Foursquare Places API | İlçe bazlı mekan import aracı | `tools/foursquare-ilce-ice-aktar.mjs`, `FOURSQUARE_API_KEY` | Tooling/import |
 | OpenStreetMap / Overpass API | POI ve idari sınır importu | `tools/overpass-ilce-canli-ice-aktar.mjs`, OSM import scripts | Tooling/import |
 | osmium-tool | OSM PBF işleme | `tools/osm-pbf-isle.mjs` | Tooling/import; sistem aracı gerekli |
-| Vercel | Web production env/deployment referansı | `docs/delivery/delivery-integration-status.md`, CSP `vercel-scripts` | Dokümante edilmiş |
+| Vercel | Web production env/deployment referansı | `docs/bildirim-teslimati/delivery-integration-status.md`, CSP `vercel-scripts` | Dokümante edilmiş |
 | pnpm | Workspace/package manager | Kanıt bulunamadı; `pnpm-workspace.yaml` yok | Kullanım kanıtı yok |
 | Flutter web panel | Eski panel yüzeyi | Aktif kanıt bulunamadı; workflow arşivli | Kullanılmıyor/arşiv |
 

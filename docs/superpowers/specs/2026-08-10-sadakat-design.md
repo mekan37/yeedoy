@@ -9,7 +9,7 @@ Repo'da hâlâ iki eski, çakışan ve tamamen ölü sadakat tasarımı duruyor:
 - `20260507000008_sadakat_karti.sql` — damga-kartı tasarımı (`loyalty_cards`, `create_loyalty_program_v1` vb.), aynı `loyalty_programs` tablosunu ikinci kez farklı şemayla `ALTER` etmiş
 - `20260424000010_loyalty_automations.sql` — P4 otomasyon eklentisi (doğum günü/eşik/"sizi özledik"), cron'u zaten `20260723000003_unschedule_dead_cron_jobs.sql`'de bozuk olduğu için iptal edilmiş
 
-Her üçü de hiçbir gerçek UI'a bağlı değil (route'lar redirect/410 ile kapalı, `docs/product/2026-yeedoy-final-scope-source-of-truth.md`'a göre MVP kapsamı dışı işaretlenmiş). Bu doküman, onların yerine geçecek **tek, birleşik ve baştan doğru** bir tasarımı tanımlar. İmplementasyonun ilk adımı eski üç migration'ın etkisini geri almak olacak (aşağıda §Eski Koddan Geçiş).
+Her üçü de hiçbir gerçek UI'a bağlı değil (route'lar redirect/410 ile kapalı, `docs/urun/2026-yeedoy-final-scope-source-of-truth.md`'a göre MVP kapsamı dışı işaretlenmiş). Bu doküman, onların yerine geçecek **tek, birleşik ve baştan doğru** bir tasarımı tanımlar. İmplementasyonun ilk adımı eski üç migration'ın etkisini geri almak olacak (aşağıda §Eski Koddan Geçiş).
 
 ## Hedefler
 

@@ -487,7 +487,7 @@ Google Maps 2025'te Gemini modelleriyle proaktif öneri yapmaya başladı. Yeedo
 | **1** | Medya veri paketini hazırla; Fiyat Endeksi ilk raporu | 1+ medya yayını | Organik trafik ↑ |
 | **1-2** | ✅ **Açık/kapalı, yoğun saat, fiyat rozeti tamamlandı (PR #12–#22)** | ✅ %80+ işletme kapsama | ✅ Oturum derinliği ↑ |
 | **2-3** | ✅ **SEO altyapısı tamamlandı (PR #9)** | ✅ 100+ indexlenen sayfa | ⏳ Google Search Console trafik izlenecek |
-| **3** | ⏳ App Store ve Google Play listing hazırla | 🟡 Store listing taslağı hazır (docs/release/store_listing.md) | 5.000+ aylık indirme hedefi |
+| **3** | ⏳ App Store ve Google Play listing hazırla | 🟡 Store listing taslağı hazır (docs/yayin/store_listing.md) | 5.000+ aylık indirme hedefi |
 | **3-4** | ✅ **Sponsorluk Vitrin Paketi yayında (PR #1 / 2026-06-01)** | ✅ Lead form entegrasyonu | ⏳ İlk 10 işletmeye satış denemeleri başlanacak |
 | **4-5** | ✅ **Viral paylaşım mekanikler MVP başlatıldı (PR #1 / 2026-06-01)** | ✅ Paylaşım butonları aktif | ⏳ Metrik takibi başlanacak |
 | **5-6** | B2B veri ürünü pilot | 2 pilot B2B anlaşma | Veri potansiyeli doğrulandı |
