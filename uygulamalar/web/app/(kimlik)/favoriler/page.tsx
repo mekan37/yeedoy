@@ -1,23 +1,12 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { ProfilSidebarNav } from '@/src/ui/acik/profil-sidebar-nav';
 import { FavorilerListesi, type FavIsletme } from './favoriler-listesi';
 
 export const metadata: Metadata = {
   title: 'Favorilerim | Yeedoy',
   robots: { index: false, follow: false },
 };
-
-// ── Sidebar sabitler ─────────────────────────────────────────────────────────
-
-const NAV_SIDEBAR = [
-  { href: '/profil',          label: 'Profilim' },
-  { href: '/favoriler',       label: 'Favorilerim', active: true },
-  { href: '/onerilerim',      label: 'Yorumlarım' },
-  { href: '/gelen-kutusu',    label: 'Bildirimlerim' },
-  { href: '/profil/ayarlar', label: 'Ayarlar' },
-  { href: '/yardim',          label: 'Yardım & Destek' },
-];
 
 // ── Sayfa ────────────────────────────────────────────────────────────────────
 
@@ -74,27 +63,7 @@ export default async function FavoritesPage() {
 
           {/* ── Sol sidebar ────────────────────────────────────────────── */}
           <aside className="hidden w-56 shrink-0 lg:block lg:sticky lg:top-20 lg:self-start space-y-3">
-            <nav className="rounded-2xl border border-border bg-card shadow-yd1 overflow-hidden">
-              {NAV_SIDEBAR.map(({ href, label, active }) => (
-                <Link key={label} href={href}
-                  className={`flex items-center gap-3 px-4 py-3 text-sm font-extrabold border-b border-border last:border-0 transition-colors ${
-                    active
-                      ? 'bg-primary/8 text-primary'
-                      : 'text-textStrong hover:bg-cardAlt hover:text-primary'
-                  }`}>
-                  {active && (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="shrink-0 text-primary" aria-hidden="true">
-                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                    </svg>
-                  )}
-                  {label}
-                </Link>
-              ))}
-              <button type="button"
-                className="flex w-full items-center gap-3 px-4 py-3 text-sm font-extrabold text-danger transition-colors hover:bg-danger/5">
-                Çıkış Yap
-              </button>
-            </nav>
+            <ProfilSidebarNav active="/favoriler" />
 
             {/* Premium card */}
             <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">

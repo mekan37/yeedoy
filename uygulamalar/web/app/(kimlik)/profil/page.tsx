@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Heart, MessageCircle, MapPin, ThumbsUp, Users, Bell } from 'lucide-react';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { ProfilSidebarNav } from '@/src/ui/acik/profil-sidebar-nav';
+import { YorumKarti, type YorumSatiri } from '@/src/ui/acik/yorum-karti';
 import { FavoriKarusel, type FavoriIsletme } from './favori-karusel';
 import { AvatarYukleme } from './avatar-yukleme';
 
@@ -22,19 +24,16 @@ type Stats = {
   favorites_count: number; visits_count: number; contribution_score: number;
 };
 
-type YorumSatiri = {
-  id: string; content: string | null; title: string | null;
-  rating: number | null; overall_rating: number | null; created_at: string;
-  businesses: { name: string; category: string | null; district: string | null; slug: string | null } | null;
-};
-
 // ── Sabitler ──────────────────────────────────────────────────────────────────
 
 const AYLAR = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
 
+// Sadece mobildeki hızlı erişim menüsü için — ikonlu, ayrı bir sunum.
+// Masaüstü sidebar'ı artık ProfilSidebarNav'dan geliyor (tek kaynak).
 const NAV_ITEMS = [
   { href: '/profil',          label: 'Profilim',        icon: <UserIcon /> },
   { href: '/favoriler',       label: 'Favorilerim',     icon: <HeartIcon /> },
+  { href: '/yorumlarim',      label: 'Yorumlarım',      icon: <ReviewIcon /> },
   { href: '/onerilerim',      label: 'Önerilerim',      icon: <LightbulbIcon /> },
   { href: '/gelen-kutusu',    label: 'Bildirimlerim',   icon: <BellIcon /> },
   { href: '/profil/ayarlar', label: 'Ayarlar',         icon: <SettingsIcon /> },
@@ -53,17 +52,6 @@ const HESAP_AYARLARI = [
 function formatUyelik(iso: string): string {
   const d = new Date(iso);
   return `${AYLAR[d.getMonth()]} ${d.getFullYear()}'den beri üye`;
-}
-
-function formatZaman(iso: string): string {
-  const diff = Date.now() - new Date(iso).getTime();
-  const gun = Math.floor(diff / 86_400_000);
-  if (gun === 0) return 'Bugün';
-  if (gun === 1) return 'Dün';
-  if (gun < 7) return `${gun} gün önce`;
-  if (gun < 30) return `${Math.floor(gun / 7)} hafta önce`;
-  if (gun < 365) return `${Math.floor(gun / 30)} ay önce`;
-  return `${Math.floor(gun / 365)} yıl önce`;
 }
 
 function uyeSuresi(iso: string): string {
@@ -164,20 +152,7 @@ export default async function ProfilPage() {
             </div>
 
             {/* Nav */}
-            <nav className="rounded-2xl border border-border bg-card shadow-yd1 overflow-hidden">
-              {NAV_ITEMS.map(({ href, label, icon }) => (
-                <Link key={href} href={href}
-                  className="flex items-center gap-3 px-4 py-3 text-sm font-extrabold text-textStrong transition-colors hover:bg-cardAlt hover:text-primary border-b border-border last:border-0">
-                  <span className="w-5 shrink-0 text-muted">{icon}</span>
-                  {label}
-                </Link>
-              ))}
-              <button type="button"
-                className="flex w-full items-center gap-3 px-4 py-3 text-sm font-extrabold text-danger transition-colors hover:bg-danger/5">
-                <span className="w-5 shrink-0"><LogoutIcon /></span>
-                Çıkış Yap
-              </button>
-            </nav>
+            <ProfilSidebarNav active="/profil" />
 
             {/* Davet et kartı */}
             <div className="rounded-2xl border border-primary/20 bg-primary/5 p-5 shadow-yd1">
@@ -304,7 +279,7 @@ export default async function ProfilPage() {
               <div className="flex-3 rounded-2xl border border-border bg-card p-5 shadow-yd1">
                 <div className="mb-4 flex items-center justify-between">
                   <h2 className="text-base font-black text-textStrong">Son Yorumlarım</h2>
-                  <Link href="/onerilerim" className="text-[13px] font-black text-primary hover:underline">Tümünü Gör</Link>
+                  <Link href="/yorumlarim" className="text-[13px] font-black text-primary hover:underline">Tümünü Gör</Link>
                 </div>
 
                 {yorumlar.length === 0 ? (
@@ -325,67 +300,14 @@ export default async function ProfilPage() {
                   </div>
                 ) : (
                   <div className="space-y-3">
-                    {yorumlar.map((y) => {
-                      const b = y.businesses;
-                      const bizHref = b?.slug ? `/isletme/${b.slug}` : '/kesif';
-                      const rating = y.rating ?? 0;
-                      const ratingColor = rating >= 4
-                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                        : rating === 3
-                        ? 'bg-amber-50 text-amber-700 border-amber-200'
-                        : rating > 0
-                        ? 'bg-red-50 text-red-600 border-red-200'
-                        : 'bg-cardAlt text-muted border-border';
-                      return (
-                        <div key={y.id} className="rounded-2xl border border-border bg-cardAlt overflow-hidden transition hover:border-primary/20 hover:shadow-yd1">
-                          {/* Header */}
-                          <div className="flex items-center gap-3 px-4 py-3 bg-card border-b border-border/60">
-                            {/* Rating badge */}
-                            <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border text-base font-black ${ratingColor}`}>
-                              {rating > 0 ? rating : '—'}
-                            </div>
-                            {/* Stars + date */}
-                            <div className="min-w-0 flex-1">
-                              <div className="flex items-center gap-0.5">
-                                {Array.from({ length: 5 }, (_, i) => (
-                                  <svg key={i} width="13" height="13" viewBox="0 0 24 24"
-                                    fill={i < rating ? '#f59e0b' : '#e2e8f0'} aria-hidden="true">
-                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                                  </svg>
-                                ))}
-                                <span className="ml-1.5 text-[11px] font-bold text-muted">{formatZaman(y.created_at)}</span>
-                              </div>
-                            </div>
-                            {/* Business link */}
-                            <Link href={bizHref} className="shrink-0 text-right group max-w-[130px]">
-                              <p className="text-[12px] font-black text-textStrong group-hover:text-primary transition-colors leading-tight line-clamp-1">{b?.name ?? 'İşletme'}</p>
-                              {(b?.category || b?.district) && (
-                                <p className="text-[10px] font-bold text-muted leading-tight line-clamp-1">{[b?.category, b?.district].filter(Boolean).join(' · ')}</p>
-                              )}
-                            </Link>
-                          </div>
-                          {/* Review body */}
-                          {(y.title || y.content) && (
-                            <div className="flex gap-3 px-4 py-3">
-                              <div className="w-0.5 shrink-0 rounded-full bg-primary/30 self-stretch" />
-                              <div className="min-w-0 space-y-0.5">
-                                {y.title && (
-                                  <p className="text-[13px] font-black text-textStrong leading-snug">{y.title}</p>
-                                )}
-                                {y.content && (
-                                  <p className="text-[12px] font-bold leading-relaxed text-text line-clamp-2">{y.content}</p>
-                                )}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
+                    {yorumlar.map((y) => (
+                      <YorumKarti key={y.id} y={y} />
+                    ))}
                   </div>
                 )}
 
                 {yorumlar.length > 0 && (
-                  <Link href="/onerilerim"
+                  <Link href="/yorumlarim"
                     className="mt-4 flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-border bg-cardAlt text-sm font-extrabold text-textStrong transition hover:border-primary/30 hover:text-primary">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                     Tüm yorumlarımı gör
@@ -504,6 +426,9 @@ function HeartIcon() {
 function LightbulbIcon() {
   return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>;
 }
+function ReviewIcon() {
+  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>;
+}
 function BellIcon() {
   return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>;
 }
@@ -512,7 +437,4 @@ function SettingsIcon() {
 }
 function HelpIcon() {
   return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>;
-}
-function LogoutIcon() {
-  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>;
 }

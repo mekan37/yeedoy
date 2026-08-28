@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Star, Megaphone, TrendingUp, Gift, User, Receipt, Bell, type LucideIcon } from 'lucide-react';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { ProfilSidebarNav } from '@/src/ui/acik/profil-sidebar-nav';
 import {
   HepsiniOkunduButonu,
   BildirimiOkunduButonu,
@@ -131,11 +132,16 @@ export default async function InboxPage({ searchParams }: PageProps) {
     <main className="min-h-screen bg-bg">
       {/* C-2: Realtime bildirim güncelleyici */}
       <GelenKutusuRealtimeYenileyici userId={user!.id} />
-      <div className="mx-auto max-w-2xl px-4 py-12">
-        <Link href="/profil" className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted hover:text-primary cursor-pointer">
-          ← Profilime Dön
-        </Link>
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+        <div className="flex gap-6 lg:items-start">
 
+          {/* ── Sol sidebar ────────────────────────────────────────────── */}
+          <aside className="hidden w-56 shrink-0 lg:block lg:sticky lg:top-20 lg:self-start">
+            <ProfilSidebarNav active="/gelen-kutusu" />
+          </aside>
+
+          {/* ── Ana içerik ─────────────────────────────────────────────── */}
+          <div className="min-w-0 flex-1 max-w-2xl">
         {/* Başlık + aksiyon bar */}
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
@@ -273,6 +279,9 @@ export default async function InboxPage({ searchParams }: PageProps) {
             </svg>
             Bildirim Tercihlerini Düzenle
           </Link>
+        </div>
+          </div>
+
         </div>
       </div>
     </main>

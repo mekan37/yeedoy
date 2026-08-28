@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { ProfilSidebarNav } from '@/src/ui/acik/profil-sidebar-nav';
 
 export const metadata: Metadata = {
   title: 'Önerilerim | Yeedoy',
@@ -61,25 +62,16 @@ export default async function OnerilerimPage() {
 
   return (
     <main className="min-h-screen bg-bg">
-      <div className="mx-auto max-w-2xl px-4 py-12">
-        {/* Geri */}
-        <Link
-          href="/profil"
-          className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted hover:text-primary"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            className="h-3.5 w-3.5 fill-none stroke-current"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-          Profilime Dön
-        </Link>
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+        <div className="flex gap-6 lg:items-start">
 
+          {/* ── Sol sidebar ────────────────────────────────────────────── */}
+          <aside className="hidden w-56 shrink-0 lg:block lg:sticky lg:top-20 lg:self-start">
+            <ProfilSidebarNav active="/onerilerim" />
+          </aside>
+
+          {/* ── Ana içerik ─────────────────────────────────────────────── */}
+          <div className="min-w-0 flex-1 max-w-2xl">
         {/* Başlık */}
         <div className="mb-8">
           <h1 className="text-2xl font-black text-textStrong">Önerilerim</h1>
@@ -168,6 +160,9 @@ export default async function OnerilerimPage() {
             </div>
           </>
         )}
+          </div>
+
+        </div>
       </div>
     </main>
   );

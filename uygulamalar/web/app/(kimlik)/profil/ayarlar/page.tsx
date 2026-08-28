@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 import { toast } from '@/src/lib/toast-deposu';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
+import { ProfilSidebarNav } from '@/src/ui/acik/profil-sidebar-nav';
 
 // ── Sabitler ────────────────────────────────────────────────────────────────
 
@@ -22,16 +23,6 @@ const DIYET_SECENEKLERI = [
 ];
 const FIYAT_SEVIYELERI = ['₺', '₺₺', '₺₺₺', '₺₺₺₺'];
 const CINSIYETLER = ['Belirtmek istemiyorum', 'Erkek', 'Kadın', 'Diğer'];
-
-const NAV_SIDEBAR = [
-  { href: '/profil',          label: 'Profilim' },
-  { href: '/profil/ayarlar', label: 'Profil Düzenle', active: true },
-  { href: '/favoriler',       label: 'Favorilerim' },
-  { href: '/onerilerim',      label: 'Önerilerim' },
-  { href: '/gelen-kutusu',    label: 'Bildirimlerim' },
-  { href: '/profil/ayarlar', label: 'Ayarlar' },
-  { href: '/yardim',          label: 'Yardım & Destek' },
-];
 
 // ── Yardımcılar ─────────────────────────────────────────────────────────────
 
@@ -274,25 +265,7 @@ export default function ProfileSettingsPage() {
 
           {/* ── Sol sidebar ────────────────────────────────────────────── */}
           <aside className="hidden w-56 shrink-0 lg:block lg:sticky lg:top-20 lg:self-start space-y-3">
-            <nav className="rounded-2xl border border-border bg-card shadow-yd1 overflow-hidden">
-              {NAV_SIDEBAR.map(({ href, label, active }) => (
-                <Link key={label} href={href}
-                  className={`flex items-center gap-3 px-4 py-3 text-sm font-extrabold border-b border-border last:border-0 transition-colors ${
-                    active
-                      ? 'bg-primary/8 text-primary'
-                      : 'text-textStrong hover:bg-cardAlt hover:text-primary'
-                  }`}>
-                  {active && (
-                    <span className="h-1.5 w-1.5 rounded-full bg-primary shrink-0" aria-hidden="true" />
-                  )}
-                  {label}
-                </Link>
-              ))}
-              <button type="button"
-                className="flex w-full items-center gap-3 px-4 py-3 text-sm font-extrabold text-danger transition-colors hover:bg-danger/5">
-                Çıkış Yap
-              </button>
-            </nav>
+            <ProfilSidebarNav active="/profil/ayarlar" />
 
             {/* Premium card */}
             <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
