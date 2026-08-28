@@ -282,7 +282,7 @@ export async function proxy(request: NextRequest) {
   if (
     !pathname.startsWith('/m/') &&
     !pathname.startsWith('/sunucu/izleme') &&
-    !pathname.startsWith('/api/presentation-settings') &&
+    !pathname.startsWith('/sunucu/sunum-ayarlari') &&
     !pathname.startsWith('/qr/') &&
     !pathname.startsWith('/karekod/') &&
     pathname !== '/auth/panel-handoff'
@@ -297,7 +297,7 @@ export async function proxy(request: NextRequest) {
 
   const policy = pathname.startsWith('/sunucu/izleme')
     ? rateLimit(`middleware:track:${identity}`, 60, 60_000)
-    : pathname.startsWith('/api/presentation-settings')
+    : pathname.startsWith('/sunucu/sunum-ayarlari')
       ? rateLimit(`middleware:presentation-settings:${identity}`, 30, 60_000)
     : pathname === '/auth/panel-handoff'
       ? rateLimit(`middleware:panel-handoff:${identity}`, 20, 60_000)

@@ -18,7 +18,7 @@ import {
   discoverLiveOwnerTarget,
   issueSession,
   getServiceClient,
-} from './canli-smoke-yardimcisi';
+} from './live-smoke.helpers';
 
 // ─── Guard: ortam yoksa atla ──────────────────────────────────────────────────
 

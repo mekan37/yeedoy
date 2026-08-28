@@ -74,7 +74,7 @@ Not:
 - `/qr/:businessId`
 - `/q/:shortCode`
 - `/auth/panel-handoff`
-- `/api/presentation-settings`
+- `/sunucu/sunum-ayarlari`
 - `/sunucu/medya/yukleme`
 
 `/q/:shortCode` deterministic UUID kisaltmasi kullanir; yeni tablo yazimi yapmaz. Redirect zinciri public slug varsa canonical `/m/{publicSlug}` ile sonlanir.

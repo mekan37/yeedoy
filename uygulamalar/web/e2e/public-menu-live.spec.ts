@@ -211,7 +211,7 @@ test.describe.serial('live public menu smoke', () => {
       const publicResponse = await page.goto(`/m/${target.businessId}`);
       expect(publicResponse?.ok()).toBeTruthy();
       await expect(page.getByTestId('brand-mode-badge')).toHaveText(/elegant/i);
-      await expect(page.getByRole('textbox', { name: /search the menu/i })).toBeVisible();
+      await expect(page.getByRole('searchbox', { name: /menüde ara/i })).toBeVisible();
       await expect(
         page.locator(`img[src*="/businesses/${target.businessId}/branding/background/"]`).first(),
       ).toBeVisible();
@@ -254,7 +254,7 @@ test.describe.serial('live public menu smoke', () => {
     });
     expect(uploadResponse.status()).toBe(403);
 
-    const settingsResponse = await context.request.post('/api/presentation-settings', {
+    const settingsResponse = await context.request.post('/sunucu/sunum-ayarlari', {
       data: {
         businessId: target.businessId,
         defaultLang: 'tr',

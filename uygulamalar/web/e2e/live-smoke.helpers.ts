@@ -300,7 +300,7 @@ export async function savePresentationSettingsViaApi(input: {
     backgroundUrl: string | null;
   };
 }) {
-  const response = await input.request.post('/api/presentation-settings', {
+  const response = await input.request.post('/sunucu/sunum-ayarlari', {
     data: input.payload,
   });
 

@@ -85,7 +85,7 @@ enabled
 **Mevcut koruma katmanları:**
 - `guardPanelRoute()` — `/owner`, `/admin` (ve TR alias'ları `/sahip`, `/yonetici`) için `auth.getUser()` + rol kontrolü
 - `normalizePublicRoute()` — subdomain panel rewrite: `isletme.yeedoy.com` → `/owner`, `ops.yeedoy.com` → `/admin`
-- Rate limit: `/api/track`, `/api/media/upload`, `/api/presentation-settings`, `/auth/panel-handoff`, `/qr/*`
+- Rate limit: `/api/track`, `/api/media/upload`, `/sunucu/sunum-ayarlari`, `/auth/panel-handoff`, `/qr/*`
 
 **Middleware'in şu anda YAPMADIĞI:** `getAuthenticatorAssuranceLevel()` çağrısı yok — 2FA etkin kullanıcıların AAL2 olmadan panel erişimi mümkün.
 
