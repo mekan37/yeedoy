@@ -418,18 +418,18 @@ export default async function BusinessPage({ params, searchParams }: Props) {
 
                 {/* 2×2 mini galeri */}
                 {galleryPhotos.length >= 2 && (
-                  <div className="relative hidden grid-cols-2 grid-rows-2 gap-2 lg:grid">
+                  <div className="relative hidden h-[340px] grid-cols-2 grid-rows-2 gap-2 sm:h-[400px] lg:grid">
                     {galleryPhotos.slice(0, 4).map((photo, idx) => {
                       const photoUrl = buildMenuImageUrl(photo.url, { width: 340, quality: 78 }) ?? photo.url;
                       const allPhotosIdx = coverUrl ? idx + 1 : idx;
                       return (
                         <div
                           key={idx}
-                          className="relative overflow-hidden bg-cardAlt"
+                          className="relative h-full w-full overflow-hidden bg-cardAlt"
                           style={{ borderRadius: idx === 1 ? '0 12px 0 0' : idx === 3 ? '0 0 12px 0' : undefined }}
                         >
                           <FotoGalerisiTetik photos={allPhotos} index={allPhotosIdx}>
-                            <div className="relative h-full w-full" style={{ minHeight: 94 }}>
+                            <div className="relative h-full w-full">
                               <Image
                                 src={photoUrl}
                                 alt={photo.name}
