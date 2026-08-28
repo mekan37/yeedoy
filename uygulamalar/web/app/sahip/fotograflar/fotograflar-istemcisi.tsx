@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState, useCallback } from 'react';
+import { compressToWebP } from '@/src/lib/gorsel-sikistir';
 
 export interface PhotoItem {
   id: string;
@@ -13,38 +14,7 @@ export interface PhotoItem {
 }
 
 const PHOTO_LIMIT = 10;
-
-/** Görseli WebP'ye dönüştürür ve boyutunu küçültür (max 1920px, %82 kalite). */
-async function compressToWebP(file: File): Promise<File> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const objectUrl = URL.createObjectURL(file);
-    img.onload = () => {
-      URL.revokeObjectURL(objectUrl);
-      const MAX = 1920;
-      let { width, height } = img;
-      if (width > MAX || height > MAX) {
-        const ratio = Math.min(MAX / width, MAX / height);
-        width  = Math.round(width  * ratio);
-        height = Math.round(height * ratio);
-      }
-      const canvas = document.createElement('canvas');
-      canvas.width  = width;
-      canvas.height = height;
-      canvas.getContext('2d')!.drawImage(img, 0, 0, width, height);
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) { reject(new Error('compress_failed')); return; }
-          resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.webp'), { type: 'image/webp' }));
-        },
-        'image/webp',
-        0.82,
-      );
-    };
-    img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error('load_failed')); };
-    img.src = objectUrl;
-  });
-}
+const MAX_PX = 1920;
 
 interface Props {
   initialPhotos: PhotoItem[];
@@ -88,7 +58,7 @@ export function PhotosClient({ initialPhotos, businesses, defaultBusinessId }: P
     for (const file of Array.from(files).slice(0, canUpload)) {
       let compressed: File;
       try {
-        compressed = await compressToWebP(file);
+        compressed = await compressToWebP(file, MAX_PX);
       } catch {
         setUploadError('Görsel işlenemedi, farklı bir dosya deneyin.');
         break;
@@ -168,7 +138,7 @@ export function PhotosClient({ initialPhotos, businesses, defaultBusinessId }: P
         <input
           ref={inputRef}
           type="file"
-          accept="image/jpeg,image/png,image/webp"
+          accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif"
           multiple
           className="hidden"
           onChange={(e) => handleFiles(e.target.files)}

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
+import { compressToWebP } from '@/src/lib/gorsel-sikistir';
 import { createSupabaseBrowserClient } from '@/src/lib/taban-istemci';
 import { FotoGalerisiTetik, type GaleriPhoto } from '@/src/ui/acik/foto-galerisi-modal';
 import { HelpfulVoteButton, ReportReviewButton } from '@/src/ui/acik/eylem-istemcisi';
@@ -467,9 +468,10 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
       if (fotograflar.length > 0 && yeniYorum?.id) {
         const yuklenenUrller: string[] = [];
         for (const dosya of fotograflar) {
+          const sikistirilmis = await compressToWebP(dosya, 1600).catch(() => dosya);
           const formData = new FormData();
           formData.set('businessId', businessId);
-          formData.set('file', dosya);
+          formData.set('file', sikistirilmis);
           const res = await fetch('/sunucu/medya/yorum-yukleme', { method: 'POST', body: formData });
           const payload = (await res.json().catch(() => null)) as { data?: { url?: string } } | null;
           if (res.ok && payload?.data?.url) yuklenenUrller.push(payload.data.url);
@@ -554,7 +556,7 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
       <input
         ref={dosyaInputRef}
         type="file"
-        accept="image/jpeg,image/png,image/webp"
+        accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif"
         multiple
         onChange={(e) => { fotografSec(e.target.files); e.target.value = ''; }}
         className="sr-only"

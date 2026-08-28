@@ -183,7 +183,7 @@ export function KampanyaFormu({ businessId, campaign, onClose }: Props) {
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/jpeg,image/png,image/webp"
+              accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif"
               className="hidden"
               onChange={onFileChange}
             />

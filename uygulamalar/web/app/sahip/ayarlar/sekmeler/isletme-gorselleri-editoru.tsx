@@ -123,7 +123,7 @@ export function BrandingEditor({ businessId, initialLogoUrl, initialCoverUrl, bu
           </div>
         </div>
       </button>
-      <input ref={coverInputRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden"
+      <input ref={coverInputRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif" className="hidden"
              onChange={(e) => onFileChange(e, 'cover')} />
 
       {/* ── Logo + bilgi satırı ── */}
@@ -161,7 +161,7 @@ export function BrandingEditor({ businessId, initialLogoUrl, initialCoverUrl, bu
           >
             <PenLine aria-hidden="true" className="h-4 w-4" />
           </button>
-          <input ref={logoInputRef} type="file" accept="image/jpeg,image/png,image/webp" className="hidden"
+          <input ref={logoInputRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif" className="hidden"
                  onChange={(e) => onFileChange(e, 'logo')} />
         </div>
 

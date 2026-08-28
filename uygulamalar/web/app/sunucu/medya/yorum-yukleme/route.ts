@@ -3,15 +3,12 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSupabaseServerClient } from '@/src/lib/taban/sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
-import { logger } from '@/src/lib/kayitci';
 import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
+import { gorselYukle, dosyaUzantisi } from '@/src/lib/medya/yukleme-yardimcisi';
 
 const uploadSchema = z.object({
   businessId: z.string().uuid(),
 });
-
-const allowedMimeTypes = new Set(['image/jpeg', 'image/png', 'image/webp']);
-const maxBytes = 5 * 1024 * 1024;
 
 export async function POST(request: Request) {
   const identity = getRequestIdentity({
@@ -45,60 +42,24 @@ export async function POST(request: Request) {
   }
 
   const file = formData.get('file');
-  if (!(file instanceof File)) {
-    return NextResponse.json({ error: 'file_required' }, { status: 400 });
-  }
-
-  if (!allowedMimeTypes.has(file.type)) {
-    return NextResponse.json({ error: 'invalid_mime_type' }, { status: 400 });
-  }
-
-  if (file.size > maxBytes) {
-    return NextResponse.json({ error: 'file_too_large' }, { status: 400 });
-  }
-
   const service = createSupabaseServiceClient();
   if (!service) {
     return NextResponse.json({ error: 'service_role_required' }, { status: 500 });
   }
 
-  const extension = extensionFromMimeType(file.type);
+  const extension = dosyaUzantisi(file instanceof File ? file.type : '');
   const path = `businesses/${parsed.data.businessId}/review-photos/${user.id}/${randomUUID()}.${extension}`;
-  const { error } = await service.storage.from('menu-media').upload(path, file, {
-    contentType: file.type,
-    cacheControl: '3600',
-    upsert: false,
+
+  const result = await gorselYukle({
+    service,
+    bucket: 'menu-media',
+    file,
+    path,
+    logContext: { businessId: parsed.data.businessId },
   });
 
-  if (error) {
-    logger.warn('Failed to upload review photo', {
-      businessId: parsed.data.businessId,
-      error,
-    });
-    return NextResponse.json({ error: 'upload_failed' }, { status: 500 });
+  if (!result.ok) {
+    return NextResponse.json({ error: result.error }, { status: result.status });
   }
-
-  const { data } = service.storage.from('menu-media').getPublicUrl(path);
-  return NextResponse.json({
-    ok: true,
-    data: {
-      bucket: 'menu-media',
-      path,
-      url: data.publicUrl,
-      mimeType: file.type,
-      size: file.size,
-    },
-  });
-}
-
-function extensionFromMimeType(mimeType: string) {
-  switch (mimeType) {
-    case 'image/png':
-      return 'png';
-    case 'image/webp':
-      return 'webp';
-    case 'image/jpeg':
-    default:
-      return 'jpg';
-  }
+  return NextResponse.json({ ok: true, data: result.data });
 }

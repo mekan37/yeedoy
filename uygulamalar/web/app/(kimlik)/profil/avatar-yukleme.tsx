@@ -3,6 +3,7 @@
 import { useRef, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { compressToWebP } from '@/src/lib/gorsel-sikistir';
 
 const BUCKET = 'menu-media';
 
@@ -27,7 +28,6 @@ export function AvatarYukleme({ userId, avatarUrl, displayName, initials, size =
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 3 * 1024 * 1024) { setHata('Görsel en fazla 3 MB olabilir.'); return; }
 
     const localUrl = URL.createObjectURL(file);
     setPreview(localUrl);
@@ -35,13 +35,13 @@ export function AvatarYukleme({ userId, avatarUrl, displayName, initials, size =
 
     start(async () => {
       try {
+        const compressed = await compressToWebP(file, 512);
         const sb = createSupabaseBrowserClient();
-        const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg';
-        const path = `user-avatars/${userId}.${ext}`;
+        const path = `user-avatars/${userId}.webp`;
 
         const { error: upErr } = await sb.storage
           .from(BUCKET)
-          .upload(path, file, { upsert: true, contentType: file.type });
+          .upload(path, compressed, { upsert: true, contentType: 'image/webp' });
         if (upErr) throw upErr;
 
         const publicUrl = sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
@@ -100,7 +100,7 @@ export function AvatarYukleme({ userId, avatarUrl, displayName, initials, size =
         id={`avatar-upload-${size}`}
         ref={inputRef}
         type="file"
-        accept="image/jpeg,image/png,image/webp"
+        accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif"
         className="sr-only"
         onChange={handleFile}
         disabled={isPending}

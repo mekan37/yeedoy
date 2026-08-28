@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 import { toast } from '@/src/lib/toast-deposu';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
+import { compressToWebP } from '@/src/lib/gorsel-sikistir';
 import { ProfilSidebarNav } from '@/src/ui/acik/profil-sidebar-nav';
 
 // ── Sabitler ────────────────────────────────────────────────────────────────
@@ -150,17 +151,16 @@ export default function ProfileSettingsPage() {
   async function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file || !userId) return;
-    if (file.size > 5 * 1024 * 1024) { toast('Dosya 5 MB\'dan küçük olmalı', 'danger'); return; }
 
     setAvatarPreview(URL.createObjectURL(file));
     setAvatarUploading(true);
     try {
+      const compressed = await compressToWebP(file, 512);
       const sb = createSupabaseBrowserClient();
-      const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg';
-      const path = `user-avatars/${userId}.${ext}`;
+      const path = `user-avatars/${userId}.webp`;
       const { error: upErr } = await sb.storage
         .from(AVATAR_BUCKET)
-        .upload(path, file, { upsert: true, contentType: file.type });
+        .upload(path, compressed, { upsert: true, contentType: 'image/webp' });
       if (upErr) throw upErr;
       const publicUrl = sb.storage.from(AVATAR_BUCKET).getPublicUrl(path).data.publicUrl;
       await (sb as any).from('user_profiles').update({ avatar_url: publicUrl }).eq('user_id', userId);
@@ -340,7 +340,7 @@ export default function ProfileSettingsPage() {
 
               <div>
                 <p className="text-[15px] font-black text-textStrong">Profil Fotoğrafı</p>
-                <p className="mt-0.5 text-[12px] font-bold text-muted">JPG, PNG veya WebP. Maks. 5MB.</p>
+                <p className="mt-0.5 text-[12px] font-bold text-muted">JPG, PNG, WebP, GIF veya HEIC — otomatik olarak optimize edilir.</p>
                 <div className="mt-3 flex items-center gap-2">
                   <button
                     type="button"
@@ -365,7 +365,7 @@ export default function ProfileSettingsPage() {
                 id="avatar-input"
                 ref={fileRef}
                 type="file"
-                accept="image/jpeg,image/png,image/webp"
+                accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif"
                 className="sr-only"
                 onChange={handleAvatarChange}
               />

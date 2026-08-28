@@ -5,10 +5,9 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
 import { canManageBusiness } from '@/src/lib/karekod-erisimi';
 import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
+import { gorselYukle, dosyaUzantisi } from '@/src/lib/medya/yukleme-yardimcisi';
 
 const BUCKET = 'menu-media';
-const ALLOWED_MIME = new Set(['image/jpeg', 'image/png', 'image/webp']);
-const MAX_BYTES = 8 * 1024 * 1024; // 8 MB (client'ta sıkıştırılmış WebP gelir)
 const PHOTO_LIMIT = 10;
 
 const uploadSchema = z.object({
@@ -55,24 +54,23 @@ export async function POST(req: Request) {
   }
 
   const file = formData.get('file');
-  if (!(file instanceof File)) return NextResponse.json({ error: 'file_required' }, { status: 400 });
-  if (!ALLOWED_MIME.has(file.type)) return NextResponse.json({ error: 'invalid_mime_type' }, { status: 400 });
-  if (file.size > MAX_BYTES) return NextResponse.json({ error: 'file_too_large' }, { status: 413 });
-
   const service = createSupabaseServiceClient();
   if (!service) return NextResponse.json({ error: 'service_unavailable' }, { status: 500 });
 
-  const ext = file.type === 'image/png' ? 'png' : file.type === 'image/webp' ? 'webp' : 'jpg';
-  const path = `businesses/${parsed.data.businessId}/gallery/${randomUUID()}.${ext}`;
+  const extension = dosyaUzantisi(file instanceof File ? file.type : '');
+  const path = `businesses/${parsed.data.businessId}/gallery/${randomUUID()}.${extension}`;
 
-  const { error: storageError } = await service.storage
-    .from(BUCKET)
-    .upload(path, file, { contentType: file.type, cacheControl: '3600', upsert: false });
-
-  if (storageError) return NextResponse.json({ error: 'upload_failed' }, { status: 500 });
-
-  const { data: publicData } = service.storage.from(BUCKET).getPublicUrl(path);
-  const url = publicData.publicUrl;
+  const uploadResult = await gorselYukle({
+    service,
+    bucket: BUCKET,
+    file,
+    path,
+    logContext: { businessId: parsed.data.businessId },
+  });
+  if (!uploadResult.ok) {
+    return NextResponse.json({ error: uploadResult.error }, { status: uploadResult.status });
+  }
+  const url = uploadResult.data.url;
 
   // DB kaydı: add_business_media_v1 RPC
   const { data: rpcResult } = await (supabase as any).rpc('add_business_media_v1', {
