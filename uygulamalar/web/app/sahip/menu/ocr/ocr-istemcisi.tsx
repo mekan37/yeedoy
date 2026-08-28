@@ -2,6 +2,13 @@
 
 import { useRef, useState, useTransition } from 'react';
 import { ocrTaramasiBaslat, ocrTaramaDurumu, ocrOnerisiniMenuyeEkle, ocrOnerisiniReddet } from './ocr-islemleri';
+import { compressToWebP } from '@/src/lib/gorsel-sikistir';
+
+// OCR'a giden görsel metin okunabilirliği için standart fotoğraflardan daha
+// büyük boyut + daha yüksek kalitede sıkıştırılır (format normalize edilir,
+// ama küçük fiyat/ürün yazıları bulanıklaşmasın diye agresif küçültülmez).
+const OCR_MAX_PX = 2200;
+const OCR_QUALITY = 0.92;
 
 type Analiz = {
   id: string;
@@ -53,10 +60,11 @@ export function OcrIstemcisi({
     setError(null);
 
     try {
+      const compressed = await compressToWebP(file, OCR_MAX_PX, OCR_QUALITY).catch(() => file);
       const formData = new FormData();
       formData.set('businessId', businessId);
       formData.set('type', 'item');
-      formData.set('file', file);
+      formData.set('file', compressed);
 
       const response = await fetch('/sunucu/medya/yukleme', { method: 'POST', body: formData });
       const payload = (await response.json().catch(() => null)) as { data?: { url?: string } } | null;
@@ -144,7 +152,7 @@ export function OcrIstemcisi({
               : 'Menü fotoğrafı seç'}
           <input
             type="file"
-            accept="image/png,image/jpeg,image/webp"
+            accept="image/png,image/jpeg,image/webp,image/heic,image/heif"
             disabled={uploading || status === 'queued' || status === 'processing'}
             onChange={(event) => uploadAndScan(event.target.files?.[0] ?? null)}
             className="sr-only"

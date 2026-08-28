@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from 'react';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
+import { compressToWebP } from '@/src/lib/gorsel-sikistir';
 import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
 import { LocationPickerMapClient } from '@/src/components/maps/LocationPickerMapClient';
 import { updateBusiness } from './isletme-islemleri';
@@ -196,11 +197,12 @@ function ImageControl({
     if (!file) return;
     setUploading(true);
     setError(null);
-    const body = new FormData();
-    body.set('businessId', businessId);
-    body.set('type', type);
-    body.set('file', file);
     try {
+      const compressed = await compressToWebP(file, 1600);
+      const body = new FormData();
+      body.set('businessId', businessId);
+      body.set('type', type);
+      body.set('file', compressed);
       const response = await fetch('/sunucu/medya/yukleme', { method: 'POST', body });
       const json = await response.json();
       if (!response.ok) throw new Error(json.error ?? 'Yükleme başarısız');
@@ -227,7 +229,7 @@ function ImageControl({
           {uploading ? 'Yükleniyor...' : 'Bilgisayardan Seç'}
           <input
             type="file"
-            accept="image/png,image/jpeg,image/webp"
+            accept="image/png,image/jpeg,image/webp,image/gif,image/heic,image/heif"
             className="sr-only"
             onChange={(event) => void upload(event.target.files?.[0] ?? null)}
           />

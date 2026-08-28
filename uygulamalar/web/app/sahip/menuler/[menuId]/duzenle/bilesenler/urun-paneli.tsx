@@ -10,6 +10,7 @@ import {
 import { aiIleAlerjenKaloriDoldur, aiIleGorselUret } from '../ai-doldurma-islemleri';
 import { bulEslesenYemekGorselleri, type StockDishImage } from '@/src/lib/menu/varsayilan-yemek-gorseli';
 import { getStokYemekKutuphanesi } from '@/src/lib/menu/stok-yemek-kutuphanesi';
+import { compressToWebP } from '@/src/lib/gorsel-sikistir';
 
 // Kodlar public.allergens tablosuyla (ve müşteri tarafında gösterimi yapan
 // menu-duzen.tsx ALLERGEN_LABEL ile) birebir aynı olmalı — bu liste daha önce
@@ -83,10 +84,11 @@ function ImageUrlField({
     setUploading(true);
     setUploadError(null);
     try {
+      const compressed = await compressToWebP(file, 1600);
       const formData = new FormData();
       formData.set('businessId', businessId);
       formData.set('type', 'item');
-      formData.set('file', file);
+      formData.set('file', compressed);
       const response = await fetch('/sunucu/medya/yukleme', { method: 'POST', body: formData });
       const payload = (await response.json().catch(() => null)) as { data?: { url?: string } } | null;
       if (!response.ok || !payload?.data?.url) throw new Error('upload_failed');
@@ -135,7 +137,7 @@ function ImageUrlField({
           </button>
           <label className="inline-flex min-h-10 cursor-pointer items-center rounded-xl border border-border bg-card px-3 py-2 text-xs font-extrabold text-textStrong hover:bg-white">
             {uploading ? 'Yükleniyor...' : 'Bilgisayardan seç'}
-            <input type="file" accept="image/png,image/jpeg,image/webp" disabled={isBusy} onChange={(event) => upload(event.target.files?.[0] ?? null)} className="sr-only" />
+            <input type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/heic,image/heif" disabled={isBusy} onChange={(event) => upload(event.target.files?.[0] ?? null)} className="sr-only" />
           </label>
           <button type="button" onClick={sistemdenSecAc} disabled={isBusy || stokYukleniyor} className="inline-flex min-h-10 items-center rounded-xl border border-border bg-card px-3 py-2 text-xs font-extrabold text-textStrong hover:bg-white disabled:opacity-60 cursor-pointer">
             {stokYukleniyor ? 'Aranıyor...' : '🖼️ Sistemden seç'}

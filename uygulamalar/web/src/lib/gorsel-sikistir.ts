@@ -1,4 +1,10 @@
-export async function compressToWebP(file: File, maxPx: number): Promise<File> {
+/**
+ * @param maxPx En uzun kenar için piksel sınırı.
+ * @param quality WebP kalitesi (0-1). Standart fotoğraflar için varsayılan
+ *   0.85 yeterli; OCR'a gidecek görsellerde (menü/makbuz taraması) metin
+ *   netliği için 0.92+ ve daha büyük bir maxPx kullanılmalı.
+ */
+export async function compressToWebP(file: File, maxPx: number, quality = 0.85): Promise<File> {
   return new Promise((resolve, reject) => {
     const img = new Image();
     const objectUrl = URL.createObjectURL(file);
@@ -20,7 +26,7 @@ export async function compressToWebP(file: File, maxPx: number): Promise<File> {
           resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.webp'), { type: 'image/webp' }));
         },
         'image/webp',
-        0.85,
+        quality,
       );
     };
     img.onerror = () => { URL.revokeObjectURL(objectUrl); reject(new Error('load_failed')); };

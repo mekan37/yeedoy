@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useState, useTransition } from 'react';
+import { compressToWebP } from '@/src/lib/gorsel-sikistir';
 import { gorselKaydet, gorselPasiflestir, gorselSil } from './gorsel-kutuphanesi-islemleri';
 
 export type StokGorsel = {
@@ -27,8 +28,9 @@ export function GorselKutuphanesiIstemcisi({ initialGorseller }: { initialGorsel
     setUploading(true);
     setFormError(null);
     try {
+      const compressed = await compressToWebP(file, 1600);
       const formData = new FormData();
-      formData.set('file', file);
+      formData.set('file', compressed);
       const response = await fetch('/sunucu/medya/yonetici-yukleme', { method: 'POST', body: formData });
       const payload = (await response.json().catch(() => null)) as { data?: { url?: string } } | null;
       if (!response.ok || !payload?.data?.url) throw new Error('upload_failed');
@@ -100,7 +102,7 @@ export function GorselKutuphanesiIstemcisi({ initialGorseller }: { initialGorsel
           <div className="flex flex-col gap-2">
             <label className="inline-flex min-h-10 w-fit cursor-pointer items-center rounded-xl border border-border bg-card px-3 py-2 text-xs font-extrabold text-textStrong hover:bg-white">
               {uploading ? 'Yükleniyor...' : 'Görsel seç'}
-              <input type="file" accept="image/png,image/jpeg,image/webp" disabled={uploading} onChange={(e) => dosyaYukle(e.target.files?.[0] ?? null)} className="sr-only" />
+              <input type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/heic,image/heif" disabled={uploading} onChange={(e) => dosyaYukle(e.target.files?.[0] ?? null)} className="sr-only" />
             </label>
             <input
               type="text"

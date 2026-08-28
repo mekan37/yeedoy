@@ -2,6 +2,12 @@
 
 import { useState, useRef } from 'react';
 import Link from 'next/link';
+import { compressToWebP } from '@/src/lib/gorsel-sikistir';
+
+// Makbuz/fiş OCR'a gidiyor — fiyat/ürün metni bulanıklaşmasın diye standart
+// fotoğraflardan daha büyük boyut + daha yüksek kalitede sıkıştırılır.
+const OCR_MAX_PX = 2200;
+const OCR_QUALITY = 0.92;
 
 type OcrSonuc = {
   tarih?: string | null;
@@ -47,8 +53,9 @@ export default function MakbuzYuklePage() {
     setSonuc(null);
 
     try {
+      const compressed = await compressToWebP(file, OCR_MAX_PX, OCR_QUALITY).catch(() => file);
       const form = new FormData();
-      form.append('makbuz', file);
+      form.append('makbuz', compressed);
 
       const res = await fetch('/sunucu/makbuz-ocr', { method: 'POST', body: form });
       if (!res.ok) {
@@ -100,7 +107,7 @@ export default function MakbuzYuklePage() {
           <input
             ref={inputRef}
             type="file"
-            accept="image/jpeg,image/png,image/webp,image/heic"
+            accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
             className="sr-only"
             onChange={onFileChange}
           />

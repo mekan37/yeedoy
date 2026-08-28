@@ -7,6 +7,7 @@ import type { BrandTheme, BrandThemeDefinition } from '@/src/lib/marka-temasi';
 import { formatCurrency } from '@/src/lib/bicimlendirme';
 import type { AppLang, MenuCopy } from '@/src/lib/ceviri';
 import { appendMediaVersion } from '@/src/lib/medya-adresi';
+import { compressToWebP } from '@/src/lib/gorsel-sikistir';
 import { buildMenuHref, buildShortHref } from '@/src/lib/menu-baglantilari';
 import { getPresentationViewModel } from '@/src/lib/sunum-gorunumu';
 import type { ResolvedPresentationRecord } from '@/src/lib/sunum-ayarlari';
@@ -400,10 +401,11 @@ export function KarekodUreticiIstemcisi({
     setError(null);
 
     try {
+      const compressed = await compressToWebP(file, 1600);
       const formData = new FormData();
       formData.set('businessId', businessId);
       formData.set('type', type);
-      formData.set('file', file);
+      formData.set('file', compressed);
 
       const response = await fetch('/sunucu/medya/yukleme', {
         method: 'POST',

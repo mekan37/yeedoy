@@ -442,7 +442,7 @@ function MediaField({
         {isUploading ? `${uploadLabel}...` : uploadLabel}
         <input
           type="file"
-          accept="image/jpeg,image/png,image/webp"
+          accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif"
           className="sr-only"
           onChange={(event) => onUpload(event.target.files?.[0] ?? null)}
         />
