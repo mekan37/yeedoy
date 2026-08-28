@@ -240,7 +240,7 @@ export async function uploadBrandingAsset(input: {
   mimeType: 'image/png' | 'image/webp';
   buffer: Buffer;
 }): Promise<{ url: string; path: string }> {
-  const response = await input.request.post('/api/media/upload', {
+  const response = await input.request.post('/sunucu/medya/yukleme', {
     multipart: {
       businessId: input.businessId,
       type: input.type,

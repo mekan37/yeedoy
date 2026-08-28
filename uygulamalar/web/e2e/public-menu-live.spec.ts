@@ -241,7 +241,7 @@ test.describe.serial('live public menu smoke', () => {
     });
 
     const file = createTinyPng('unauthorized.png');
-    const uploadResponse = await context.request.post('/api/media/upload', {
+    const uploadResponse = await context.request.post('/sunucu/medya/yukleme', {
       multipart: {
         businessId: target.businessId,
         type: 'logo',

@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { compressToWebP } from '@/src/lib/gorsel-sikistir';
 import { LocationPickerMapClient } from '@/src/components/maps/LocationPickerMapClient';
 import { Store, Users, CheckCircle2, Lightbulb, type LucideIcon } from 'lucide-react';
 
@@ -26,6 +27,12 @@ const NEDENLER = [
 ];
 
 // ── Tipler ────────────────────────────────────────────────────────────────────
+
+type OnerFotografi = {
+  name: string;
+  url: string | null;
+  uploading: boolean;
+};
 
 type EslesenIsletme = {
   id: string;
@@ -324,7 +331,7 @@ export function IsletmeOnerFormu() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError]         = useState<string | null>(null);
   const [dragOver, setDragOver]   = useState(false);
-  const [photos, setPhotos]       = useState<string[]>([]);
+  const [photos, setPhotos]       = useState<OnerFotografi[]>([]);
   const [pickedLat, setPickedLat] = useState<number | null>(null);
   const [pickedLng, setPickedLng] = useState<number | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -341,7 +348,33 @@ export function IsletmeOnerFormu() {
 
   function handleFiles(files: FileList | null) {
     if (!files) return;
-    setPhotos((p) => [...p, ...Array.from(files).map((f) => f.name)].slice(0, 5));
+    const secilenler = Array.from(files).slice(0, Math.max(0, 5 - photos.length));
+    if (secilenler.length === 0) return;
+
+    setPhotos((p) => [...p, ...secilenler.map((f) => ({ name: f.name, url: null, uploading: true }))]);
+
+    secilenler.forEach((dosya) => {
+      uploadOneriFotografi(dosya)
+        .then((url) => {
+          setPhotos((prev) => prev.map((p) => (p.name === dosya.name && p.uploading ? { ...p, url, uploading: false } : p)));
+        })
+        .catch(() => {
+          setPhotos((prev) => prev.filter((p) => !(p.name === dosya.name && p.uploading)));
+        });
+    });
+  }
+
+  async function uploadOneriFotografi(dosya: File): Promise<string> {
+    const sikistirilmis = await compressToWebP(dosya, 1600).catch(() => dosya);
+    const formData = new FormData();
+    formData.append('file', sikistirilmis, dosya.name);
+
+    const res = await fetch('/sunucu/medya/oneri-yukleme', { method: 'POST', body: formData });
+    const json = await res.json().catch(() => null);
+    if (!res.ok || !json?.ok || !json?.data?.url) {
+      throw new Error('Fotoğraf yüklenemedi');
+    }
+    return json.data.url as string;
   }
 
   function resetForm() {
@@ -352,12 +385,13 @@ export function IsletmeOnerFormu() {
   }
 
   async function supabaseInsert() {
+    const yuklenenFotoUrlleri = photos.filter((p) => p.url).map((p) => p.url as string);
     const ekBilgiler = [
       form.neighborhood && `Mahalle: ${form.neighborhood}`,
       (pickedLat !== null && pickedLng !== null) && `Konum: ${pickedLat.toFixed(6)},${pickedLng.toFixed(6)}`,
       form.social       && `Sosyal: ${form.social}`,
       form.reason       && `Neden: ${form.reason}`,
-      photos.length     && `Fotoğraflar: ${photos.join(', ')}`,
+      yuklenenFotoUrlleri.length && `Fotoğraflar: ${yuklenenFotoUrlleri.join(', ')}`,
       form.notes        && `Not: ${form.notes}`,
     ].filter(Boolean).join('\n');
 
@@ -653,16 +687,16 @@ export function IsletmeOnerFormu() {
                         <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
                       </svg>
                       <p className="text-sm font-extrabold text-muted">Fotoğrafları buraya sürükle veya tıkla</p>
-                      <p className="text-xs font-bold text-muted/70">JPG, PNG · maksimum 5 MB</p>
+                      <p className="text-xs font-bold text-muted/70">JPG, PNG, WebP, GIF veya HEIC · en fazla 5 fotoğraf</p>
                     </div>
-                    <input ref={fileRef} type="file" accept="image/*" multiple className="hidden" onChange={(e) => handleFiles(e.target.files)} />
+                    <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif" multiple className="hidden" onChange={(e) => handleFiles(e.target.files)} />
                     {photos.length > 0 && (
                       <div className="flex flex-wrap gap-2">
                         {photos.map((p, i) => (
                           <span key={i} className="flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-extrabold text-textStrong">
-                            📎 {p}
+                            {p.uploading ? '⏳' : p.url ? '📎' : '⚠️'} {p.name}
                             <button type="button" onClick={() => setPhotos((prev) => prev.filter((_, j) => j !== i))}
-                              className="text-muted hover:text-danger transition-colors" aria-label={`${p} kaldır`}>×</button>
+                              className="text-muted hover:text-danger transition-colors" aria-label={`${p.name} kaldır`}>×</button>
                           </span>
                         ))}
                       </div>
@@ -702,7 +736,7 @@ export function IsletmeOnerFormu() {
                       </svg>
                       Taslak Kaydet
                     </button>
-                    <button type="submit" disabled={loading}
+                    <button type="submit" disabled={loading || photos.some((p) => p.uploading)}
                       className="flex h-12 flex-2 items-center justify-center gap-2 rounded-xl bg-primary text-sm font-black text-white shadow-xs transition-all hover:brightness-110 disabled:opacity-60">
                       {loading ? (
                         <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">

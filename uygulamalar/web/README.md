@@ -75,7 +75,7 @@ Not:
 - `/q/:shortCode`
 - `/auth/panel-handoff`
 - `/api/presentation-settings`
-- `/api/media/upload`
+- `/sunucu/medya/yukleme`
 
 `/q/:shortCode` deterministic UUID kisaltmasi kullanir; yeni tablo yazimi yapmaz. Redirect zinciri public slug varsa canonical `/m/{publicSlug}` ile sonlanir.
 `/qr/:businessId` owner/admin session ve business yetkisi gerektirir.
@@ -228,12 +228,12 @@ Storage kesfi:
 
 Upload kontrati:
 
-- route: `/api/media/upload`
-- yetki: `can_manage_business_v1`
-- mime: `image/jpeg`, `image/png`, `image/webp`
-- max boyut: `5MB`
+- route: `/sunucu/medya/yukleme`
+- yetki: `hasOwnerBusiness` (owner_claims, status=approved)
+- mime: `image/jpeg`, `image/png`, `image/webp`, `image/gif`, `image/heic`, `image/heif` (HEIC/HEIF sadece Safari'de <canvas> ile guvenilir aciliyor)
+- max boyut: `20MB` (istemci tarafinda zaten WebP'ye sikistirilmis dosya gelir — bu sadece kotuye kullanima karsi bir tavan)
 - path izolasyonu: `businesses/{businessId}/branding/{type}/{uuid}.{ext}`
-- storage cache suresi: `31536000`
+- storage cache suresi: `3600`
 - public render cache bust: `updated_at` tabanli `?v=` param'i
 - save sonrasi public menu default `template_key` / `default_lang` degeri aninda gecerli olur; query param varsa gecici override eder
 
