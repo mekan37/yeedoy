@@ -7,9 +7,9 @@ import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { logger } from '@/src/lib/kayitci';
 import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 
-const uploadSchema = z.object({
+export const uploadSchema = z.object({
   businessId: z.string().uuid(),
-  type: z.enum(['logo', 'cover', 'background', 'item']),
+  type: z.enum(['logo', 'cover', 'background', 'item', 'campaign']),
 });
 
 const allowedMimeTypes = new Set(['image/jpeg', 'image/png', 'image/webp']);
@@ -74,7 +74,9 @@ export async function POST(request: Request) {
   const path =
     parsed.data.type === 'item'
       ? `businesses/${parsed.data.businessId}/items/${randomUUID()}.${extension}`
-      : `businesses/${parsed.data.businessId}/branding/${parsed.data.type}/${randomUUID()}.${extension}`;
+      : parsed.data.type === 'campaign'
+        ? `businesses/${parsed.data.businessId}/campaigns/${randomUUID()}.${extension}`
+        : `businesses/${parsed.data.businessId}/branding/${parsed.data.type}/${randomUUID()}.${extension}`;
   const { error } = await service.storage.from('menu-media').upload(path, file, {
     contentType: file.type,
     cacheControl: '3600',
