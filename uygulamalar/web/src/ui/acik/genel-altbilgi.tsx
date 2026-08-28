@@ -72,10 +72,10 @@ export function PublicFooter() {
           <p className="mb-3 text-xs leading-5 text-muted">Her yerde lezzetleri keşfet, fırsatları kaçırma!</p>
           <div className="flex flex-wrap gap-2">
             <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" className="block transition-opacity hover:opacity-80">
-              <Image src="/appstorelight.png" alt="Download on the App Store" width={144} height={48} className="h-12 w-auto" />
+              <Image src="/appstorelight.png" alt="Download on the App Store" width={144} height={48} className="h-12 w-auto" style={{ width: 'auto' }} />
             </a>
             <a href="https://play.google.com" target="_blank" rel="noopener noreferrer" className="block transition-opacity hover:opacity-80">
-              <Image src="/playstorelight.png" alt="Get it on Google Play" width={144} height={48} className="h-12 w-auto" />
+              <Image src="/playstorelight.png" alt="Get it on Google Play" width={144} height={48} className="h-12 w-auto" style={{ width: 'auto' }} />
             </a>
           </div>
         </div>

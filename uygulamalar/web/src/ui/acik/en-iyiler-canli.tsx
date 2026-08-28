@@ -81,6 +81,7 @@ function IsletmeKarti({ biz, rank }: { biz: Isletme; rank: number }) {
           src={cover}
           alt={biz.name}
           fill
+          priority={rank <= 3}
           sizes="(max-width: 640px) 50vw, 300px"
           className="object-cover transition-transform group-hover:scale-105"
         />
