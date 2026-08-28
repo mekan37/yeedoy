@@ -1,9 +1,13 @@
 ﻿# YEEDOY Deploy Rehberi (FTP)
 
+> **Not (2026-08-28):** Bu rehber eskiden `deploy/owner` ve `deploy/admin` altında toplanan
+> ayrı Flutter-web owner/admin panel build çıktılarını da kapsıyordu. O panel mimarisi
+> Next.js'e taşındı (`/sahip`, `/yonetici`), kök `package.json`'da `build:owner`/`build:admin`
+> script'leri artık yok, ve `deploy/admin`/`deploy/owner` klasörleri (70MB donmuş build
+> çıktısı) repodan silindi. Kalan tek deploy çıktısı `deploy/next`.
+
 Bu repo yapısında deploy çıktıları tek yerde toplanır:
 
-- `deploy/owner` -> Flutter web owner panel statik çıktı
-- `deploy/admin` -> Flutter web admin panel statik çıktı
 - `deploy/next` -> Next.js build çıktısı (server deploy)
 
 ## 1) Build Komutları
@@ -11,47 +15,11 @@ Bu repo yapısında deploy çıktıları tek yerde toplanır:
 Repo kökünden:
 
 ```bash
-npm run build:owner
-npm run build:admin
 npm run build:next
 npm run build:all
 ```
 
-## 2) FTP'ye Neyi Nereye Atacağım?
-
-Örnek hedefler:
-
-- Owner panel: `/public_html/owner/`
-  - FTP'ye yükle: `deploy/owner/*`
-- Admin panel: `/public_html/admin/`
-  - FTP'ye yükle: `deploy/admin/*`
-- Next.js:
-  - `deploy/next` statik export değildir.
-  - Server tarafında Node.js ile çalıştırılmalıdır.
-  - FTP ile sadece dosya yüklemek yeterli değildir; process manager (PM2/systemd) gerekir.
-
-## 3) Flutter Web (Owner/Admin) Sunucu Ayarları
-
-### Base path
-
-- Owner build: `--base-href /owner/`
-- Admin build: `--base-href /admin/`
-
-### SPA route fallback
-
-Owner ve admin için tüm bilinmeyen route'lar ilgili `index.html` dosyasına düşmelidir:
-
-- `/owner/*` -> `/owner/index.html`
-- `/admin/*` -> `/admin/index.html`
-
-### Cache headers (önerilen)
-
-- `*.js`, `*.css`, `*.wasm`, `assets/*`: uzun cache
-  - `Cache-Control: public, max-age=31536000, immutable`
-- `index.html`: kısa cache
-  - `Cache-Control: no-cache, no-store, must-revalidate`
-
-## 4) Next.js Server Deploy Notu
+## 2) Next.js Server Deploy Notu
 
 `deploy/next` içinde `.next` ve gerekli dosyalar bulunur.
 

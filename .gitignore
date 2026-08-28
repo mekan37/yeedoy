@@ -92,6 +92,8 @@ app.*.map.json
 
 # Deploy/runtime temp artifacts
 deploy/next/.next/
+deploy/admin/
+deploy/owner/
 supabase/.branches/
 supabase/.temp/
 

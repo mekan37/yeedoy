@@ -432,10 +432,4 @@ Do not commit:
 | `AGENTS.md` | Architectural rules and boundaries for AI agents |
 | `CLAUDE.md` | Claude/AI workflow notes and operation rules |
 | `STYLE.md` | Code and architecture style guide (v1.0, 2026-04-08) |
-| `PLAN.md` | Active doc pointers (backlog, setup, deploy, operations) |
-| `docs/SYSTEM_OVERVIEW.md` | Three-app architecture and flow overview |
-| `docs/ARCHITECTURE_AUDIT.md` | Strengths, risks, recommended actions |
-| `docs/DATABASE_REVIEW.md` | Table groups, RPC inventory, RLS status |
-| `docs/ADMIN_OWNER_GAP_ANALYSIS.md` | Feature status matrix (owner / admin) |
-| `docs/SCALING_ROADMAP.md` | Three-phase scaling plan |
 | `supabase/functions/README.md` | Edge function local run and deploy guide |
