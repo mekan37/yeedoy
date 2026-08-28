@@ -611,14 +611,27 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
 
 // ── Kampanyalar tab content ────────────────────────────────────────────────────
 
-function KampanyaKartiDetay({ k }: { k: KampanyaBilgi }) {
+function KampanyaKartiDetay({ k, onSec }: { k: KampanyaBilgi; onSec: (k: KampanyaBilgi) => void }) {
   const gunKaldi = gunKaldiHesapla(k.endsAt);
   const badge = kampanyaBadge(k.type, k.discountPercent);
   const renk = TUR_RENK[k.type];
+  const gorselUrl = buildMenuImageUrl(k.imageUrl, { width: 640, quality: 78 });
 
   return (
-    <article className="overflow-hidden rounded-[20px] border border-border bg-card shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2">
-      <div className="h-1.5" style={{ background: renk }} />
+    <button
+      type="button"
+      onClick={() => onSec(k)}
+      className="w-full overflow-hidden rounded-[20px] border border-border bg-card text-left shadow-yd1 transition-all hover:-translate-y-0.5 hover:shadow-yd2"
+    >
+      {gorselUrl ? (
+        <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/10' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={gorselUrl} alt={k.title} className="h-full w-full object-cover" loading="lazy" />
+          <div className="absolute inset-x-0 bottom-0 h-12 bg-linear-to-t from-black/50 to-transparent" aria-hidden="true" />
+        </div>
+      ) : (
+        <div className="h-1.5" style={{ background: renk }} />
+      )}
       <div className="p-5">
         <div className="mb-3 flex items-start justify-between gap-3">
           <div className="flex flex-wrap items-center gap-1.5">
@@ -643,14 +656,77 @@ function KampanyaKartiDetay({ k }: { k: KampanyaBilgi }) {
         </div>
         <h3 className="mb-1.5 text-base font-black text-textStrong">{k.title}</h3>
         {k.description && (
-          <p className="text-sm leading-6 text-muted">{k.description}</p>
+          <p className="text-sm leading-6 text-muted line-clamp-2">{k.description}</p>
         )}
       </div>
-    </article>
+    </button>
+  );
+}
+
+function KampanyaBrosurPopup({ k, onClose }: { k: KampanyaBilgi; onClose: () => void }) {
+  const gunKaldi = gunKaldiHesapla(k.endsAt);
+  const badge = kampanyaBadge(k.type, k.discountPercent);
+  const renk = TUR_RENK[k.type];
+  const gorselUrl = buildMenuImageUrl(k.imageUrl, { width: 960, quality: 82 });
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose();
+    }
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-4">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-xs" onClick={onClose} />
+      <div className="relative z-10 max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-t-2xl border border-border bg-card shadow-2xl sm:rounded-2xl">
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Kapat"
+          className="absolute right-3 top-3 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition hover:bg-black/60"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+
+        {gorselUrl && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={gorselUrl} alt={k.title} className="max-h-[420px] w-full object-cover" />
+        )}
+
+        <div className="p-6">
+          <div className="mb-3 flex flex-wrap items-center gap-1.5">
+            {badge.map((line, i) => (
+              <span
+                key={i}
+                className={`rounded-full px-2.5 py-1 font-black text-white ${line.buyuk ? 'text-sm' : 'text-[10px] uppercase tracking-wide'}`}
+                style={{ background: renk }}
+              >
+                {line.metin}
+              </span>
+            ))}
+            {gunKaldi != null && (
+              <span className="flex items-center gap-1 rounded-full bg-danger/10 px-2.5 py-1 text-[11px] font-black text-danger">
+                {gunKaldi === 0 ? 'Son gün' : `${gunKaldi} gün kaldı`}
+              </span>
+            )}
+          </div>
+          <h2 className="mb-2 text-xl font-black text-textStrong">{k.title}</h2>
+          {k.description && (
+            <p className="text-sm leading-6 text-muted">{k.description}</p>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
 function KampanyalarIcerik({ kampanyalar }: { kampanyalar: KampanyaBilgi[] }) {
+  const [acikKampanya, setAcikKampanya] = useState<KampanyaBilgi | null>(null);
+
   if (kampanyalar.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center rounded-[20px] border border-border bg-card py-16 text-center shadow-yd1">
@@ -667,11 +743,16 @@ function KampanyalarIcerik({ kampanyalar }: { kampanyalar: KampanyaBilgi[] }) {
   }
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2">
-      {kampanyalar.map((k) => (
-        <KampanyaKartiDetay key={k.id} k={k} />
-      ))}
-    </div>
+    <>
+      <div className="grid gap-4 sm:grid-cols-2">
+        {kampanyalar.map((k) => (
+          <KampanyaKartiDetay key={k.id} k={k} onSec={setAcikKampanya} />
+        ))}
+      </div>
+      {acikKampanya && (
+        <KampanyaBrosurPopup k={acikKampanya} onClose={() => setAcikKampanya(null)} />
+      )}
+    </>
   );
 }
 
