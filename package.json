@@ -23,7 +23,6 @@
     "lint:web": "pnpm --filter yeedoy-web run lint",
     "lint:mobile": "pnpm --filter yeedoy-mobile-flutter run lint",
     "import:osm": "node tools/osm-pbf-isle.mjs --pbf=turkey-260514.osm.pbf",
-    "import:osm:poi": "node tools/osm-pbf-isle.mjs --pbf=turkey-260514.osm.pbf --sadece=poi",
     "import:osm:sinir": "node tools/osm-pbf-isle.mjs --pbf=turkey-260514.osm.pbf --sadece=sinir",
     "import:osm:ata-sinir": "node tools/osm-pbf-isle.mjs --sadece=ata-sinir",
     "import:osm:dry": "node tools/osm-pbf-isle.mjs --pbf=turkey-260514.osm.pbf --dry-run"

@@ -1,14 +1,19 @@
 /**
- * osm-pbf-isle.mjs — OSM PBF import orkestratörü
+ * osm-pbf-isle.mjs — OSM PBF idari sınır import orkestratörü
  *
- * Aşama 1: osmium-tool ile PBF'den POI ve sınır filtreler
+ * NOT (2026-08-29): Bu script'in eski POI (işletme) import aşaması kaldırıldı —
+ * OSM/Foursquare işletme verisi 2026-08-21'de DB'den kalıcı silindi, artık
+ * sadece google_maps kaynağı kullanılıyor. Bu script artık YALNIZCA idari
+ * sınır (il/ilçe/mahalle) import'u ve mevcut işletmelerin bu sınırlara
+ * atanması içindir — nearby_businesses_v2 / get_businesses_in_boundary_v1
+ * gibi harita RPC'leri kaynak fark etmeksizin bu sınır verisini kullanır.
+ *
+ * Aşama 1: osmium-tool ile PBF'den sınır filtreler
  * Aşama 2: Filtrelenmiş GeoJSONL dosyalarını Supabase'e aktarır
  * Aşama 3: Sınır hiyerarşisi ve işletme ataması
  *
  * Kullanım:
  *   node tools/osm-pbf-isle.mjs --pbf=turkey-260514.osm.pbf
- *   node tools/osm-pbf-isle.mjs --pbf=turkey-260514.osm.pbf --sadece=poi
- *   node tools/osm-pbf-isle.mjs --pbf=turkey-260514.osm.pbf --sadece=sinir
  *   node tools/osm-pbf-isle.mjs --sadece=ata-sinir
  *   node tools/osm-pbf-isle.mjs --dry-run --pbf=turkey-260514.osm.pbf
  *
@@ -32,13 +37,11 @@ const ARGS = Object.fromEntries(
 );
 
 const PBF_DOSYA  = ARGS.pbf   || 'turkey-260514.osm.pbf';
-const SADECE     = ARGS.sadece || 'hepsi';   // hepsi | poi | sinir | ata-sinir
+const SADECE     = ARGS.sadece || 'sinir';   // sinir | ata-sinir
 const DRY_RUN    = ARGS['dry-run'] === 'true';
 const SKIP_OSMIUM = ARGS['skip-osmium'] === 'true'; // osmium adımını atla
 
 // ── Çıktı dosyaları ───────────────────────────────────────────────────────
-const POI_PBF       = 'turkey-poi-yemek.osm.pbf';
-const POI_GEOJSONL  = 'turkey-poi-yemek.geojsonl';
 const SINIR_PBF     = 'turkey-sinirlar.osm.pbf';
 const SINIR_GEOJSONL = 'turkey-sinirlar.geojsonl';
 
@@ -84,33 +87,6 @@ function runNode(script, args = '') {
   run(`node "${resolve(__dirname, script)}" ${fullArgs}`, `${script} ${args}`);
 }
 
-// ── Aşama 1: POI filtreleme ───────────────────────────────────────────────
-function filterPOIs() {
-  if (!existsSync(PBF_DOSYA)) {
-    console.error(`❌ PBF dosyası bulunamadı: ${PBF_DOSYA}`);
-    console.error('   --pbf=<dosya-yolu> ile belirtin.');
-    process.exit(1);
-  }
-
-  console.log('\n━━━ Aşama 1: POI Filtreleme ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  run(
-    `osmium tags-filter "${PBF_DOSYA}" ` +
-    `n/amenity=restaurant n/amenity=cafe n/amenity=bar n/amenity=pub ` +
-    `n/amenity=fast_food n/amenity=food_court n/amenity=ice_cream ` +
-    `n/amenity=nightclub n/shop=confectionery ` +
-    `-o "${POI_PBF}" --overwrite`,
-    'POI filtreleme (yemek/içecek node\'ları)'
-  );
-
-  run(
-    `osmium export "${POI_PBF}" ` +
-    `--geometry-types=point --output-format=geojsonseq ` +
-    `--config "${resolve(__dirname, 'osmium-export-config.json')}" ` +
-    `-o "${POI_GEOJSONL}" --overwrite`,
-    'POI → GeoJSONL dönüşümü (ID dahil)'
-  );
-}
-
 // ── Aşama 2: Sınır filtreleme ─────────────────────────────────────────────
 function filterBoundaries() {
   console.log('\n━━━ Aşama 2: Sınır Filtreleme ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
@@ -132,11 +108,6 @@ function filterBoundaries() {
 }
 
 // ── Aşama 3: Supabase import ──────────────────────────────────────────────
-function importPOIs() {
-  console.log('\n━━━ Aşama 3: POI Import ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  runNode('osm-geojson-poi-ice-aktar.mjs', `--dosya="${POI_GEOJSONL}"`);
-}
-
 function importBoundaries() {
   console.log('\n━━━ Aşama 3: Sınır Import ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   runNode('osm-geojson-sinir-ice-aktar.mjs', `--dosya="${SINIR_GEOJSONL}"`);
@@ -167,16 +138,9 @@ async function main() {
 
   if (!SKIP_OSMIUM) checkOsmium();
 
-  if (SADECE === 'poi' || SADECE === 'hepsi') {
-    if (!SKIP_OSMIUM) filterPOIs();
-    importPOIs();
-  }
-
-  if (SADECE === 'sinir' || SADECE === 'hepsi') {
-    if (!SKIP_OSMIUM) filterBoundaries();
-    importBoundaries();
-    linkAndAssign();
-  }
+  if (!SKIP_OSMIUM) filterBoundaries();
+  importBoundaries();
+  linkAndAssign();
 
   console.log('\n═══════════════════════════════════════════════════════════');
   console.log('   ✅ Tüm aşamalar tamamlandı!');
