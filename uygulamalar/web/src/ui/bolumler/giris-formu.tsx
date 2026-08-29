@@ -228,7 +228,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               {mode === 'kayit' && (
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label htmlFor="giris-ad" className="mb-1.5 block text-sm font-bold text-textStrong">Ad</label>
+                    <label htmlFor="giris-ad" className="mb-1.5 block text-sm font-bold text-textStrong">Ad <span className="text-danger" aria-hidden="true">*</span></label>
                     <div className="relative">
                       <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted">
                         <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -258,7 +258,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               {/* E-posta */}
               <div>
                 <label htmlFor="giris-eposta" className="mb-1.5 block text-sm font-bold text-textStrong">
-                  {mode === 'giris' ? 'E-posta veya Telefon' : 'E-posta'}
+                  {mode === 'giris' ? 'E-posta veya Telefon' : 'E-posta'} <span className="text-danger" aria-hidden="true">*</span>
                 </label>
                 <div className="relative">
                   <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted">
@@ -328,7 +328,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               {/* Şifre */}
               <div>
                 <div className="mb-1.5 flex items-center justify-between">
-                  <label htmlFor="giris-sifre" className="text-sm font-bold text-textStrong">Şifre</label>
+                  <label htmlFor="giris-sifre" className="text-sm font-bold text-textStrong">Şifre <span className="text-danger" aria-hidden="true">*</span></label>
                   {mode === 'giris' && (
                     <Link href="/sifremi-unuttum" className="text-sm font-bold text-primary hover:underline">
                       Şifremi unuttum?
@@ -366,7 +366,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               {/* Kayıt — Şifre tekrar */}
               {mode === 'kayit' && (
                 <div>
-                  <label htmlFor="giris-sifre-tekrar" className="mb-1.5 block text-sm font-bold text-textStrong">Şifre (Tekrar)</label>
+                  <label htmlFor="giris-sifre-tekrar" className="mb-1.5 block text-sm font-bold text-textStrong">Şifre (Tekrar) <span className="text-danger" aria-hidden="true">*</span></label>
                   <div className="relative">
                     <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted">
                       <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
