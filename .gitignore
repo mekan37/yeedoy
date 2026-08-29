@@ -26,6 +26,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 packages/l10n_assets/reports/
+uygulamalar/web/reports/
 
 # Local agent/tool state
 .agents/
