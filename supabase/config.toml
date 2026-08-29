@@ -44,17 +44,6 @@ enable_confirmations = false
 enable_signup = false
 enable_confirmations = false
 
-[functions.import_places_json]
-enabled = true
-verify_jwt = true
-import_map = "./functions/import_places_json/deno.json"
-entrypoint = "./functions/import_places_json/index.ts"
-
-[functions.purge-temp-uploads]
-enabled = true
-verify_jwt = true
-entrypoint = "./functions/purge-temp-uploads/index.ts"
-
 [functions.ai-menu-analyze]
 enabled = true
 verify_jwt = true
@@ -75,12 +64,7 @@ enabled = true
 verify_jwt = true
 entrypoint = "./functions/ai-allergen-detect/index.ts"
 
-[functions.ai-ingredient-detect]
+[functions.media-upload-user]
 enabled = true
 verify_jwt = true
-entrypoint = "./functions/ai-ingredient-detect/index.ts"
-
-[functions.get-exchange-rates]
-enabled = true
-verify_jwt = false
-entrypoint = "./functions/get-exchange-rates/index.ts"
+entrypoint = "./functions/media-upload-user/index.ts"

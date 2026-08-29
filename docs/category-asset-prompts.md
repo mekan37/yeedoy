@@ -8,7 +8,7 @@ Findings:
 - `public.businesses.category` exists as `text not null`.
 - `public.businesses.category_slug` does not exist.
 - No `businesses` check constraint or enum for `category` was found in production.
-- Runtime import category allow-list exists in `supabase/functions/import_places_json/index.ts`.
+- Runtime import category allow-list existed in `supabase/functions/import_places_json/index.ts` at the time of this audit (function since removed along with the OSM/Foursquare import pipeline it served).
 
 Production distribution:
 
@@ -22,9 +22,9 @@ Production distribution:
 | Kahvaltı | kahvalti | Live DB + import allow-list | 1,175 rows | Yes |
 | Default | default | App fallback | Fallback for unknown legacy values | Yes |
 
-Static evidence:
+Static evidence (as of this audit; the two Supabase source files below have since been removed):
 - `supabase/functions/import_places_json/index.ts`: `ALLOWED = new Set(["Kafe", "Restoran", "Tatlıcı", "Kahvaltı", "Balık / Et", "Mekan"])`
-- `supabase/seed/migrate_businesses.sql`: legacy/sample values include `Restoran`, `Balık`, `Kafe`, `restaurant`, plus non-food legacy values such as `Oto Servis` and `Klinik`.
+- `supabase/seed/migrate_businesses.sql`: legacy/sample values included `Restoran`, `Balık`, `Kafe`, `restaurant`, plus non-food legacy values such as `Oto Servis` and `Klinik`.
 - `uygulamalar/web/src/ui/acik/kesif.tsx`: public discovery category UI includes `Restoran`, `Kafe`, `Kahvaltı`.
 - `uygulamalar/mobil/lib/l10n/app_tr.arb`: mobile copy includes `Kafe`, `Restoran`, `Tatlıcı`, `Kahvaltı`, `Balık / Et`, `Mekan`.
 

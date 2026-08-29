@@ -92,20 +92,11 @@ Located in `supabase/functions/`. Each subdirectory contains an `index.ts` entry
 | Function | Purpose |
 |---|---|
 | `ai-allergen-detect` | Extract allergen candidates from menu/product text |
-| `ai-ingredient-detect` | Extract ingredient candidates from menu/product text |
 | `ai-menu-analyze` | Batch AI menu analysis from image or raw text (OpenRouter) |
 | `ai-menu-image-gen` | Generate food photography via Gemma + Pollinations.ai |
 | `ai-nutrition-estimate` | Approximate nutrition values from menu text |
-| `admin-api` | Allowlisted admin RPC and write flows through a single edge entry |
 | `anti-spam-guard` | Anti-spam and rate-limit enforcement on review/report/verify writes |
-| `get-exchange-rates` | Fetch exchange rate data for multi-currency panel flows |
-| `import_places_json` | Bulk place import from JSON source |
-| `media-upload` | Panel/admin media upload endpoint (WordPress media API compat layer) |
-| `media-upload-user` | Mobile/user-scoped upload endpoint — writes to Supabase Storage |
-| `purge-temp-uploads` | Periodic cleanup of temporary uploads |
-| `push-dispatch` | Dispatch queued push notifications to providers |
-| `send-push-campaign` | Owner-triggered push campaigns via FCM batch |
-| `send-email-campaign` | Owner-triggered email campaigns via Resend batch API |
+| `media-upload-user` | Mobile/user-scoped upload endpoint — writes to Supabase Storage (`menu-media`, private `menu-media-private` for critical uploads) |
 | `verify-domain` | Domain verification flow for owner branding |
 | `write-gatekeeper` | Central guard layer for sensitive write operations |
 
@@ -224,7 +215,7 @@ SUPABASE_URL=http://127.0.0.1:54321
 SUPABASE_ANON_KEY=<from supabase status>
 SUPABASE_SERVICE_ROLE_KEY=<from supabase status>
 EDGE_RATE_LIMIT_SALT=<random strong string>
-# For send-email-campaign only:
+# For Resend email campaigns only (sent from a Next.js route handler, not an edge function):
 RESEND_API_KEY=<from resend.com>
 ```
 

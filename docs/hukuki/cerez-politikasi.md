@@ -127,14 +127,9 @@ Web platformunda istemci tarafında veya çerez/yerel depolama davranışını e
 - **Sunucu konumu:** Frankfurt, Almanya (AB bölgesi).
 - **Gizlilik politikası:** `[URL_EKLENECEK]`
 
-### Firebase Cloud Messaging — FCM (Web Push Bildirim)
+### Firebase Cloud Messaging — FCM (Web Push Bildirim) — PASİF
 
-- **Amaç:** Web üzerinden push bildirim gönderimi (`src/lib/push/fcm-client.ts`).
-- **Çerez/depolama etkisi:** Firebase JS SDK push tokeni alırken IndexedDB/yerel depolama kullanabilir.
-- **Sağlayıcı:** Google LLC (ABD).
-- **Gizlilik politikası:** `[URL_EKLENECEK]`
-
-> **[KONTROL_EDILECEK]** Web tarafında push bildirim akışının fiilen aktif olup olmadığı ve Firebase JS SDK'nın tarayıcıda hangi yerel depolama anahtarlarını oluşturduğu production'da doğrulanmalıdır. Push aboneliği yalnızca kullanıcı bildirim iznini verdiğinde başlatılmalıdır.
+> **Doğrulandı (2026-08-29):** Web tarafında push bildirim akışı **aktif değildir**. İlgili kod (`src/lib/push/fcm-client.ts`) ve backend dispatch edge function'ları (`push-dispatch`, `send-push-campaign`) kaldırılmıştır; owner push kampanya route'u kill-switch ile kapatılmıştır (MVP kapsamı dışı). Firebase JS SDK web tarafında push amacıyla çalıştırılmamaktadır, dolayısıyla bu amaçla çerez/yerel depolama yazmaz. Bu bölüm, özellik yeniden etkinleştirilirse güncellenmelidir.
 
 ### Hosting / CDN (Barındırma)
 

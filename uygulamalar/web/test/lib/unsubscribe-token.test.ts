@@ -202,10 +202,13 @@ describe('verifyUnsubscribeToken — süresi dolmuş token', () => {
 // ---------------------------------------------------------------------------
 // Node/Deno HMAC cross-implementation uyumluluk testi (T22)
 //
-// Deno edge function (send-email-campaign/index.ts) token üretimini
-// Node.js ortamında replika ederek doğruluyoruz.
+// Bu testler, artık kaldırılmış olan bir Deno edge function'daki (send-email-
+// campaign/index.ts) token üretimini Node.js ortamında replika ederek
+// doğrulamak için yazılmıştı. Edge function silindi ama HMAC algoritmasının
+// sabit/doğru çıktı üretmeye devam ettiğini doğrulayan bu regresyon testleri
+// hâlâ değerli, bu yüzden korunuyor.
 //
-// Deno implementasyonu:
+// Deno implementasyonu (artık yok, tarihsel referans):
 //   toBase64url: btoa(unescape(encodeURIComponent(input))) + URL-safe replace
 //   computeHmac: crypto.subtle.importKey → crypto.subtle.sign → btoa(binary) + URL-safe replace
 //

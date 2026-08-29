@@ -22,9 +22,6 @@ jobs:
       - name: Deno type check
         run: deno check $(find supabase/functions -name "index.ts" | tr '\n' ' ')
 
-      - name: Import map validation
-        run: deno info supabase/functions/import_places_json/index.ts --quiet || true
-
       - name: Auth check
         continue-on-error: true
         run: |
@@ -32,7 +29,7 @@ jobs:
           for f in supabase/functions/*/index.ts; do
             FNAME=$(basename $(dirname $f))
             # skip known-public functions
-            if [[ "$FNAME" == "get-exchange-rates" || "$FNAME" == "verify-domain" ]]; then
+            if [[ "$FNAME" == "verify-domain" ]]; then
               continue
             fi
             if ! grep -q "Authorization\|PURGE_CRON_SECRET\|EXCHANGE_CRON_SECRET" "$f"; then

@@ -74,13 +74,12 @@ Not (2026-06-24): `uygulamalar/personel` (Flutter owner/garson operasyon uygulam
 |---|---|---|---|
 | Supabase Edge Functions | Admin API, AI analiz, upload, push, email ve guard endpointleri | `supabase/functions/*/index.ts` | `supabase/functions/README.md`, `supabase/config.toml` |
 | Deno 2.x | Edge function type check ve runtime hedefi | CI Deno check | `.github/workflows/edge_function_smoke.yml` |
-| TypeScript | Edge function kaynak dili | `index.ts` dosyaları | `supabase/functions/admin-api/index.ts`, `supabase/functions/ai-menu-analyze/index.ts` |
-| Supabase JS | Edge function içinde DB/Auth/Storage client | esm.sh import | `supabase/functions/admin-api/index.ts`, `supabase/functions/_shared/rate-limit.ts` |
+| TypeScript | Edge function kaynak dili | `index.ts` dosyaları | `supabase/functions/write-gatekeeper/index.ts`, `supabase/functions/ai-menu-analyze/index.ts` |
+| Supabase JS | Edge function içinde DB/Auth/Storage client | esm.sh import | `supabase/functions/media-upload-user/index.ts`, `supabase/functions/_shared/rate-limit.ts` |
 | Next.js Route Handlers | Web backend API katmanı | `uygulamalar/web/app/api`, `uygulamalar/web/app/sunucu` | `uygulamalar/web/app/sunucu/masa-siparisi/route.ts` |
 | Rate limit / write guard | Hassas yazma akışları ve spam koruması | Edge function ve shared rate-limit | `supabase/functions/_shared/rate-limit.ts`, `supabase/functions/write-gatekeeper/index.ts`, `supabase/functions/anti-spam-guard/index.ts` |
-| Media upload | Supabase Storage ve legacy WordPress media uyumu | `media-upload`, `media-upload-user` | `supabase/functions/media-upload/index.ts`, `supabase/functions/media-upload-user/index.ts` |
-| Push dispatch | DB kuyruğundan FCM gönderimi | `push-dispatch`, `send-push-campaign` | `supabase/functions/push-dispatch/index.ts`, `supabase/functions/send-push-campaign/index.ts` |
-| Email dispatch | Resend API ile kampanya e-postası | `send-email-campaign`, web resend client | `supabase/functions/send-email-campaign/index.ts`, `uygulamalar/web/src/lib/email/resend-client.ts` |
+| Media upload | Mobil/user-scoped upload, Supabase Storage | `media-upload-user` | `supabase/functions/media-upload-user/index.ts` |
+| Email dispatch | Resend API ile kampanya e-postası (Next.js route handler'dan, edge function değil) | web resend client | `uygulamalar/web/src/lib/email/resend-client.ts`, `uygulamalar/web/app/sunucu/sahip/eposta-kampanya/route.ts` |
 
 ## 6. Database Teknolojileri
 
@@ -144,14 +143,15 @@ Not (2026-06-24): `uygulamalar/personel` (Flutter owner/garson operasyon uygulam
 | Flutter Secure Storage | Mobil secure local secret/session storage | Mobil app | `uygulamalar/mobil/lib/core/security/secure_local_storage.dart` |
 | Local Auth / Face ID | Biyometrik doğrulama | Mobil ayar ve login | `uygulamalar/mobil/pubspec.yaml`, `uygulamalar/mobil/ios/Runner/Info.plist` |
 | Google Sign-In | Federated login | Mobil auth service | `uygulamalar/mobil/pubspec.yaml`, `uygulamalar/mobil/lib/features/auth/data/auth_service.dart` |
-| Firebase Cloud Messaging tokenları | Push auth/device token akışı | Web, mobil, edge dispatch | `uygulamalar/web/src/lib/push/fcm-client.ts`, `supabase/functions/push-dispatch/index.ts`, `uygulamalar/mobil/pubspec.yaml` |
+| Firebase Cloud Messaging tokenları | Mobil device token kaydı (push dispatch/kampanya akışı MVP kapsamı dışına alınıp kill-switch edildi, fcm-client.ts ve push-dispatch/send-push-campaign edge function'ları kaldırıldı) | Mobil | `uygulamalar/mobil/pubspec.yaml` |
 
 ## 10. Dış Servisler
 
 | Servis | Kullanım Amacı | Repoda Kanıt | Durum |
 |---|---|---|---|
 | Supabase | Postgres, Auth, Storage, Edge Functions | `supabase/config.toml`, `@supabase/*` bağımlılıkları | Aktif |
-| Firebase / FCM | Push, analytics, crash, performance | `firebase.json`, `uygulamalar/mobil/pubspec.yaml`, `uygulamalar/web/src/lib/push/fcm-client.ts` | Aktif |
+| Firebase | Analytics, crash, performance (mobil) | `firebase.json`, `uygulamalar/mobil/pubspec.yaml` | Aktif |
+| Firebase Cloud Messaging (web push) | Push bildirim gönderimi | — | Kaldırıldı (kill-switch, 2026-08-29) |
 | Google AdMob | Mobil reklam | `google_mobile_ads`, `GADApplicationIdentifier` | Aktif |
 | Google Sign-In | Mobil federated login | `google_sign_in`, `auth_service.dart` | Aktif |
 | OpenRouter | AI menü/gıda analizi | `OPENROUTER_API_KEY`, `openrouter.ai/api/v1/chat/completions` | Aktif, secret gerekli |
@@ -179,14 +179,14 @@ Not (2026-06-24): `uygulamalar/personel` (Flutter owner/garson operasyon uygulam
 | P0 | Zod | Web mutation route güvenliği ve input doğrulama için gerekli | `uygulamalar/web/app/api`, `uygulamalar/web/app/sunucu` |
 | P1 | Tailwind CSS ve web token sistemi | Web UI standardını bozmadan geliştirme yapmak için gerekli | `uygulamalar/web/tailwind.config.js`, `uygulamalar/web/src/styles/tokens.css` |
 | P1 | Supabase Edge Functions / Deno | AI, upload, email, push ve guard backendlerini değiştirmek için gerekli | `supabase/functions` |
-| P1 | Firebase / FCM / Crashlytics | Push, analytics ve crash akışlarını yönetmek için gerekli | `uygulamalar/mobil`, `uygulamalar/web/src/lib/push` |
+| P1 | Firebase / Crashlytics | Analytics ve crash akışlarını yönetmek için gerekli (FCM push dispatch kill-switch edildi) | `uygulamalar/mobil` |
 | P1 | GitHub Actions | Kalite kapıları ve release akışlarını yönetmek için gerekli | `.github/workflows` |
 | P1 | Playwright / Vitest / Flutter Test | Değişiklikleri doğru yüzeyde doğrulamak için gerekli | `uygulamalar/web/test`, `uygulamalar/web/e2e`, `uygulamalar/mobil/test` |
 | P1 | Android Gradle / iOS CocoaPods signing | Mobil release, Firebase ve native izinleri anlamak için gerekli | `uygulamalar/mobil/android`, `uygulamalar/mobil/ios` |
 | P2 | Replicate / OpenRouter | AI menü analizi ve OCR özellikleriyle çalışırken gerekli | `supabase/functions/ai-*`, `uygulamalar/web/app/sunucu/makbuz-ocr/route.ts` |
-| P2 | Resend | Owner e-posta kampanyaları üzerinde çalışırken gerekli | `supabase/functions/send-email-campaign`, `uygulamalar/web/src/lib/email/resend-client.ts` |
+| P2 | Resend | Owner e-posta kampanyaları üzerinde çalışırken gerekli | `uygulamalar/web/src/lib/email/resend-client.ts`, `uygulamalar/web/app/sunucu/sahip/eposta-kampanya/route.ts` |
 | P2 | Leaflet / flutter_map | Harita ve yakın arama UI'larında gerekli | `uygulamalar/web`, `uygulamalar/mobil/lib/features/discovery` |
-| P2 | OSM / Overpass / Foursquare import tooling | Veri import ve lokasyon veri zenginleştirme işlerinde gerekli | `tools/*osm*`, `tools/*overpass*`, `tools/foursquare-ilce-ice-aktar.mjs` |
+| P2 | OSM / Overpass import tooling (idari sınır) | İdari sınır/lokasyon veri zenginleştirme işlerinde gerekli — işletme POI import pipeline'ı (Foursquare dahil) 2026-08-29'da kaldırıldı | `tools/*osm*`, `tools/*overpass*` |
 
 ## Kısa Özet
 
