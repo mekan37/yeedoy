@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
-import { YeedoyLogo } from '@/src/ui/brand/yeedoy-logo';
+import { YeedoyLogo } from '@/src/ui/marka/yeedoy-logo';
 import { ForbiddenActions } from './forbidden-actions';
 
 export const metadata: Metadata = {

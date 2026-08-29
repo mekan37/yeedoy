@@ -17,9 +17,8 @@ Shared packages (Dart/Flutter):
 - `packages/shared_models/` — canonical domain models
 - `packages/shared_ui_components/` — shared Flutter primitives
 - `packages/l10n_assets/` — common ARB strings (TR+EN)
-- `packages/ui_tokens/` — design tokens (CSS + JSON; web mirror only)
 
-`packages/api_client`, `packages/shared_config`, and `packages/shared_types` were removed 2026-07-25 — unused stubs with zero consumers in either app.
+`packages/api_client`, `packages/shared_config`, and `packages/shared_types` were removed 2026-07-25 — unused stubs with zero consumers in either app. `packages/ui_tokens` was removed 2026-08-29 — it claimed to be the web design-token "mirror" but had drifted completely out of sync (different font family, missing variables) and had zero actual imports from `uygulamalar/web`, which uses its own `src/styles/tokens.css` as the real source of truth.
 
 ## Commands
 

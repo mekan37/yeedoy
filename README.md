@@ -22,7 +22,6 @@
 │  shared_ui_components       Shared Flutter design primitives    │
 │  shared_models              Shared pure-Dart models             │
 │  l10n_assets                Common ARB translation files        │
-│  ui_tokens                  Tailwind/CSS token preset           │
 │                                                                 │
 │                     Supabase                                    │
 │              Auth · PostgreSQL · RLS · Storage                  │
@@ -69,8 +68,7 @@ yeedoy/
 ├── packages/
 │   ├── shared_ui_components/   AppTokens, AppColors, AppDarkColors, brand assets
 │   ├── shared_models/          Pure-Dart models shared across Flutter apps
-│   ├── l10n_assets/            common_tr.arb + common_en.arb (synced ARB)
-│   └── ui_tokens/              tailwind.preset.cjs + tokens.css (web mirror)
+│   └── l10n_assets/            common_tr.arb + common_en.arb (synced ARB)
 ├── supabase/
 │   ├── functions/          Edge Functions (Deno) — see list below
 │   └── migrations/         Ordered SQL migration files
@@ -285,7 +283,7 @@ All workflows are in `.github/workflows/`.
 |---|---|---|---|
 | Mobile Quality | `mobile_quality.yml` | PR or push to `main` touching `uygulamalar/mobil/**` | `flutter pub get` → `flutter analyze` → `flutter test` → offline write guard check → hardcoded color check → release gate dry run |
 | Mobile Readiness | `mobile_readiness.yml` | Manual (`workflow_dispatch`) | iOS readiness audit, release gate audit; optional signed IPA or APK dry-run with CI secrets |
-| Web Quality | `web_quality.yml` | PR or push to `main` touching `uygulamalar/web/**` or `packages/ui_tokens/**` | `npm ci` → typecheck → lint → unit tests → Playwright E2E → `npm run build` → `npm audit` → RLS coverage check |
+| Web Quality | `web_quality.yml` | PR or push to `main` touching `uygulamalar/web/**` | `npm ci` → typecheck → lint → unit tests → Playwright E2E → `npm run build` → `npm audit` → RLS coverage check |
 | Web Release Smoke | `web_release_smoke.yml` | Manual (`workflow_dispatch`) | Playwright smoke against production Supabase with configurable business UUID and language |
 
 The former `personel_quality.yml` workflow has been removed along with the `uygulamalar/personel` app (decommissioned — owner/admin operations now live entirely in `uygulamalar/web`).
@@ -356,7 +354,7 @@ Flutter apps consume the shared design system through `packages/shared_ui_compon
 - Theme builder: `buildAppTheme()` — do not set colors or spacing inline
 - Dark mode: `themeModeProvider` and `buildDarkAppTheme()` wired in the mobile app
 
-Web design tokens are mirrored in `packages/ui_tokens/tailwind.preset.cjs` and `tokens.css`. Web components use semantic Tailwind classes (`bg-card`, `text-textStrong`, `border-border`) rather than raw hex values or arbitrary Tailwind numbers.
+Web design tokens live in `uygulamalar/web/src/styles/tokens.css`. Web components use semantic Tailwind classes (`bg-card`, `text-textStrong`, `border-border`) rather than raw hex values or arbitrary Tailwind numbers.
 
 ### Internationalization
 

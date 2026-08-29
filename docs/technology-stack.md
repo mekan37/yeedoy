@@ -11,7 +11,6 @@
 | Database | PostgreSQL 17 | Supabase DB major version ve SQL migrations | `supabase/config.toml`, `supabase/migrations/00000000000000_base_schema.sql` |
 | Serverless runtime | Supabase Edge Functions / Deno / TypeScript | Edge function `index.ts` girişleri | `supabase/functions/*/index.ts`, `.github/workflows/edge_function_smoke.yml` |
 | Ortak Flutter paketleri | Local Dart packages | Shared models ve shared UI components | `packages/shared_models/pubspec.yaml`, `packages/shared_ui_components/pubspec.yaml` |
-| Web token paketi | Local npm package | `@yeedoy/ui_tokens` | `packages/ui_tokens/package.json`, `uygulamalar/web/package.json` |
 
 ## 2. Mobil Uygulama Teknolojileri
 

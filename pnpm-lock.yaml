@@ -41,8 +41,6 @@ importers:
 
   packages/l10n_assets: {}
 
-  packages/ui_tokens: {}
-
   uygulamalar/mobil: {}
 
   uygulamalar/web:

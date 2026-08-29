@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: [shared_models, shared_ui_components, shared_config, shared_types, api_client, ui_tokens]
+        package: [shared_models, shared_ui_components]
       fail-fast: false
     steps:
       - name: Checkout
