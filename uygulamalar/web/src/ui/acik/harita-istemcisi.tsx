@@ -96,7 +96,7 @@ function HaritaArama({
           aria-label="İşletme ara"
           value={sorgu}
           onChange={(e: ChangeEvent<HTMLInputElement>) => setSorgu(e.target.value)}
-          className="flex-1 border-none bg-transparent py-[11px] px-1 font-[system-ui,_sans-serif] text-[13px] text-[#111] outline-none"
+          className="flex-1 border-none bg-transparent py-3 px-1 font-[system-ui,_sans-serif] text-[13px] text-[#111] outline-none"
         />
         {sorgu && (
           <button
@@ -121,7 +121,7 @@ function HaritaArama({
             <button
               key={b.id}
               onClick={() => { onSec(b); temizle(); }}
-              className={`flex w-full items-center gap-2.5 border-none bg-transparent px-3 py-[9px] text-left ${
+              className={`flex w-full items-center gap-2.5 border-none bg-transparent px-3 py-2 text-left ${
                 i < sonuclar.length - 1 ? 'border-b border-b-[#F3F4F6]' : 'border-b-0'
               }`}
             >

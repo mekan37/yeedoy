@@ -13,7 +13,7 @@ export function generateMetadata(): Metadata {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   return {
     title: 'İşletmeni Sahiplen | Yeedoy',
-    description: 'Yeedoy public işletme sayfasını sahiplenme ve owner paneline yönlendirme.',
+    description: 'İşletmeni Yeedoy\'da sahiplen, menünü ve işletme bilgilerini kendi panelinden güncel tut.',
     alternates: { canonical: `${siteUrl}/sahiplen` },
     robots: { index: true, follow: true },
   };
@@ -32,16 +32,16 @@ export default async function ClaimPage({ searchParams }: ClaimPageProps) {
             <div>
               <p className="yd-eyebrow">Sahiplenme</p>
               <h1 className="mt-3 max-w-3xl text-4xl font-black leading-tight text-textStrong sm:text-5xl">İşletme sayfanı sahiplen, yönetimi panelde tut.</h1>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-muted">Next.js tarafı public keşif ve SEO yüzeyidir. İşletme CRUD, menü yönetimi ve admin süreçleri owner/yonetici panel akışında kalır.</p>
+              <p className="mt-5 max-w-2xl text-base leading-7 text-muted">İşletmeni doğrula, menünü güncel tut ve müşteri yorumlarına panelden yanıt ver.</p>
               <div className="mt-7 flex flex-wrap gap-2">
                 <ButtonLink href={panelHref}>Panele devam et</ButtonLink>
                 <ButtonLink href="/kesif" variant="secondary">İşletmeni bul</ButtonLink>
               </div>
             </div>
             <Card className="p-5">
-              <Badge tone="success"><Icon name="check" size={13} /> Public ayrım korunur</Badge>
+              <Badge tone="success"><Icon name="check" size={13} /> Ücretsiz ve hızlı</Badge>
               <div className="mt-5 grid gap-4">
-                {['İşletme doğrulaması', 'QR ve marka ayarları', 'Menü yönetimi', 'Admin moderasyonu'].map((item) => (
+                {['İşletme doğrulaması', 'QR ve marka ayarları', 'Menü yönetimi', 'Yönetici incelemesi'].map((item) => (
                   <div key={item} className="flex items-center gap-3 rounded-2xl bg-cardAlt px-3 py-3 text-sm font-black text-textStrong">
                     <Icon name="check" size={16} className="text-success" />
                     {item}
@@ -53,13 +53,13 @@ export default async function ClaimPage({ searchParams }: ClaimPageProps) {
         </section>
         <Container className="grid gap-5 py-10 md:grid-cols-3">
           <Card className="p-5">
-            <SectionHeader title="1. Public sayfayı bul" subtitle="Yeedoy keşif veya arama üzerinden işletme detayına ulaş." />
+            <SectionHeader title="1. İşletmeni bul" subtitle="Yeedoy keşif veya arama üzerinden işletmenin sayfasına ulaş." />
           </Card>
           <Card className="p-5">
-            <SectionHeader title="2. Sahiplenme talebi aç" subtitle="Kimlik ve işletme bağlantısı panel tarafındaki güvenli akışta doğrulanır." />
+            <SectionHeader title="2. Sahiplenme talebi aç" subtitle="Kimliğini ve işletmenle bağlantını doğrula." />
           </Card>
           <Card className="p-5">
-            <SectionHeader title="3. Panelden yönet" subtitle="Menü CRUD ve admin işlerini public Next yüzeyine taşımadan ilerle." />
+            <SectionHeader title="3. Panelden yönet" subtitle="Menünü güncelle, fiyatları düzenle, işletme bilgilerini yönet." />
           </Card>
         </Container>
         <Container className="pb-10 text-sm text-muted">
