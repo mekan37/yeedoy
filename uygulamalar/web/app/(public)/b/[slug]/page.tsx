@@ -246,7 +246,7 @@ export default async function BusinessPage({ params }: Props) {
                     <div key={i} className="relative aspect-square overflow-hidden rounded-xl bg-border">
                       <Image
                         src={buildMenuImageUrl(p.url_thumb ?? p.url, { width: 300 }) ?? p.url_thumb ?? p.url}
-                        alt=""
+                        alt={`${biz.name} fotoğrafı ${i + 1}`}
                         fill
                         sizes="(max-width: 640px) 33vw, 224px"
                         className="object-cover transition-transform duration-300 hover:scale-105"

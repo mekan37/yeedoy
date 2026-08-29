@@ -144,10 +144,10 @@ export async function PublicHeader({ variant = 'public' }: { variant?: 'public' 
               </>
             ) : (
               <>
-                <ButtonLink href="/giris" variant="secondary" className="hidden min-h-11 px-4 sm:inline-flex">
+                <ButtonLink href="/giris" variant="ghost" className="hidden min-h-11 px-4 sm:inline-flex">
                   Giriş Yap
                 </ButtonLink>
-                <ButtonLink href="/giris?tab=kayit" className="min-h-11 px-4">
+                <ButtonLink href="/giris?tab=kayit" variant="secondary" className="min-h-11 px-4">
                   Kayıt Ol
                 </ButtonLink>
               </>

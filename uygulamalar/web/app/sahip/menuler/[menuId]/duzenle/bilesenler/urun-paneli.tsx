@@ -122,7 +122,7 @@ function ImageUrlField({
   return (
     <div className="grid gap-3 rounded-xl border border-border bg-bg p-3 sm:grid-cols-[96px_1fr]">
       <div className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-xl border border-border bg-card text-[11px] font-extrabold text-muted">
-        {url ? <Image src={url} alt="" fill sizes="96px" className="object-cover" unoptimized /> : 'Görsel yok'}
+        {url ? <Image src={url} alt={`${label} önizlemesi`} fill sizes="96px" className="object-cover" unoptimized /> : 'Görsel yok'}
       </div>
       <div className="flex min-w-0 flex-col gap-2">
         <input type="hidden" name="imageUrl" value={url} />

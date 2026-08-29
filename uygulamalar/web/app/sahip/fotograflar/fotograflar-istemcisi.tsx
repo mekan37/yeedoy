@@ -193,7 +193,7 @@ export function PhotosClient({ initialPhotos, businesses, defaultBusinessId }: P
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
-          {photos.map((photo) => {
+          {photos.map((photo, i) => {
             const thumb = photo.url_thumb ?? photo.url;
             const statusInfo = STATUS_INFO[photo.status] ?? STATUS_INFO['pending'];
             const isDeleting = deletingId === photo.id;
@@ -203,7 +203,7 @@ export function PhotosClient({ initialPhotos, businesses, defaultBusinessId }: P
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={thumb}
-                  alt=""
+                  alt={`İşletme fotoğrafı ${i + 1}`}
                   className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
                   loading="lazy"
                 />

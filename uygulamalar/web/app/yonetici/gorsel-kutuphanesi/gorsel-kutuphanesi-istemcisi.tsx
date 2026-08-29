@@ -97,7 +97,7 @@ export function GorselKutuphanesiIstemcisi({ initialGorseller }: { initialGorsel
         <h2 className="text-sm font-black text-textStrong">Yeni Görsel Ekle</h2>
         <div className="mt-3 grid gap-3 sm:grid-cols-[96px_1fr]">
           <div className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-xl border border-border bg-bg text-[11px] font-extrabold text-muted">
-            {yeniUrl ? <Image src={yeniUrl} alt="" fill sizes="96px" className="object-cover" unoptimized /> : 'Görsel yok'}
+            {yeniUrl ? <Image src={yeniUrl} alt="Yeni görsel önizlemesi" fill sizes="96px" className="object-cover" unoptimized /> : 'Görsel yok'}
           </div>
           <div className="flex flex-col gap-2">
             <label className="inline-flex min-h-10 w-fit cursor-pointer items-center rounded-xl border border-border bg-card px-3 py-2 text-xs font-extrabold text-textStrong hover:bg-white">
@@ -128,7 +128,7 @@ export function GorselKutuphanesiIstemcisi({ initialGorseller }: { initialGorsel
         {gorseller.map((g) => (
           <div key={g.id} className={`flex flex-col gap-2 rounded-2xl border border-border bg-card p-3 ${!g.is_active ? 'opacity-50' : ''}`}>
             <div className="relative h-28 w-full overflow-hidden rounded-xl">
-              <Image src={g.image_url} alt="" fill sizes="200px" className="object-cover" unoptimized />
+              <Image src={g.image_url} alt={g.keywords.length > 0 ? g.keywords.join(', ') : 'Kütüphane görseli'} fill sizes="200px" className="object-cover" unoptimized />
             </div>
             <div className="flex flex-wrap gap-1">
               {g.keywords.map((k) => (

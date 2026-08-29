@@ -232,15 +232,17 @@ export function IsletmeGirisFormu({ initialTab = 'giris' }: Props) {
           <form onSubmit={handleSubmit} className="space-y-4" aria-describedby={error ? 'form-error' : undefined}>
             {mode === 'kayit' && (
               <>
-                <Alan label="İşletme Adı">
+                <Alan label="İşletme Adı" htmlFor="panel-isletme-adi" required>
                   <input
+                    id="panel-isletme-adi"
                     type="text" value={businessName} onChange={(e) => setBusinessName(e.target.value)}
                     required placeholder="İşletme adınızı girin" maxLength={120}
                     className={INPUT_CLS}
                   />
                 </Alan>
-                <Alan label="Yetkili Ad Soyad">
+                <Alan label="Yetkili Ad Soyad" htmlFor="panel-yetkili-ad" required>
                   <input
+                    id="panel-yetkili-ad"
                     type="text" value={fullName} onChange={(e) => setFullName(e.target.value)}
                     required autoComplete="name" placeholder="Adınız ve soyadınız" maxLength={80}
                     className={INPUT_CLS}
@@ -250,8 +252,9 @@ export function IsletmeGirisFormu({ initialTab = 'giris' }: Props) {
             )}
 
             <div className={mode === 'kayit' ? 'grid grid-cols-2 gap-3' : ''}>
-              <Alan label={mode === 'giris' ? 'E-posta veya Telefon' : 'E-posta'}>
+              <Alan label={mode === 'giris' ? 'E-posta veya Telefon' : 'E-posta'} htmlFor="panel-eposta" required>
                 <input
+                  id="panel-eposta"
                   type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                   required autoComplete="email"
                   placeholder={mode === 'giris' ? 'E-posta adresiniz' : 'ornek@isletme.com'}
@@ -259,8 +262,9 @@ export function IsletmeGirisFormu({ initialTab = 'giris' }: Props) {
                 />
               </Alan>
               {mode === 'kayit' && (
-                <Alan label="Telefon">
+                <Alan label="Telefon" htmlFor="panel-telefon">
                   <input
+                    id="panel-telefon"
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
@@ -272,9 +276,15 @@ export function IsletmeGirisFormu({ initialTab = 'giris' }: Props) {
             </div>
 
             <div className={mode === 'kayit' ? 'grid grid-cols-2 gap-3' : ''}>
-              <Alan label="Şifre" right={mode === 'giris' ? <Link href="/sifremi-unuttum" className="text-sm font-bold text-primary hover:underline">Şifremi unuttum?</Link> : undefined}>
+              <Alan
+                label="Şifre"
+                htmlFor="panel-sifre"
+                required
+                right={mode === 'giris' ? <Link href="/sifremi-unuttum" className="text-sm font-bold text-primary hover:underline">Şifremi unuttum?</Link> : undefined}
+              >
                 <div className="relative">
                   <input
+                    id="panel-sifre"
                     type={showPassword ? 'text' : 'password'}
                     value={password} onChange={(e) => setPassword(e.target.value)}
                     required autoComplete={mode === 'giris' ? 'current-password' : 'new-password'}
@@ -289,8 +299,9 @@ export function IsletmeGirisFormu({ initialTab = 'giris' }: Props) {
                 </div>
               </Alan>
               {mode === 'kayit' && (
-                <Alan label="Şifre Tekrar">
+                <Alan label="Şifre Tekrar" htmlFor="panel-sifre-tekrar" required>
                   <input
+                    id="panel-sifre-tekrar"
                     type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
                     required autoComplete="new-password" placeholder="Şifrenizi tekrar girin"
                     className={INPUT_CLS}
@@ -301,14 +312,15 @@ export function IsletmeGirisFormu({ initialTab = 'giris' }: Props) {
 
             {mode === 'kayit' && (
               <div className="grid grid-cols-2 gap-3">
-                <Alan label="İşletme Kategorisi">
-                  <select value={category} onChange={(e) => setCategory(e.target.value)} required className={INPUT_CLS}>
+                <Alan label="İşletme Kategorisi" htmlFor="panel-kategori" required>
+                  <select id="panel-kategori" value={category} onChange={(e) => setCategory(e.target.value)} required className={INPUT_CLS}>
                     <option value="">Kategori seçin</option>
                     {KATEGORILER.map((k) => <option key={k} value={k}>{k}</option>)}
                   </select>
                 </Alan>
-                <Alan label="Şehir">
+                <Alan label="Şehir" htmlFor="panel-sehir" required>
                   <input
+                    id="panel-sehir"
                     type="text" value={city} onChange={(e) => setCity(e.target.value)}
                     required placeholder="Şehir seçin" maxLength={80}
                     className={INPUT_CLS}
@@ -440,11 +452,26 @@ export function IsletmeGirisFormu({ initialTab = 'giris' }: Props) {
 
 const INPUT_CLS = 'h-12 w-full rounded-xl border border-border bg-bg px-4 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10';
 
-function Alan({ label, right, children }: { label: string; right?: React.ReactNode; children: React.ReactNode }) {
+function Alan({
+  label,
+  htmlFor,
+  right,
+  required,
+  children,
+}: {
+  label: string;
+  htmlFor: string;
+  right?: React.ReactNode;
+  required?: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <div>
       <div className="mb-1.5 flex items-center justify-between">
-        <label className="text-sm font-bold text-textStrong">{label}</label>
+        <label htmlFor={htmlFor} className="text-sm font-bold text-textStrong">
+          {label}
+          {required && <span className="ml-0.5 text-danger" aria-hidden="true">*</span>}
+        </label>
         {right}
       </div>
       {children}

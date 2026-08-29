@@ -95,6 +95,16 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
     setError('');
     setSuccess('');
 
+    if (!email.trim()) {
+      setError(mode === 'giris' ? 'E-posta veya telefon numarası zorunludur.' : 'E-posta adresi zorunludur.');
+      return;
+    }
+    if (mode === 'kayit' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError('Lütfen geçerli bir e-posta adresi girin.');
+      return;
+    }
+    if (!password) { setError('Şifre zorunludur.'); return; }
+
     if (mode === 'kayit') {
       if (!firstName.trim()) { setError('Ad alanı zorunludur.'); return; }
       if (password !== confirmPassword) { setError('Şifreler eşleşmiyor.'); return; }
@@ -212,7 +222,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
             </div>
 
             {/* ── FORM ── */}
-            <form onSubmit={handleSubmit} className="space-y-4" aria-describedby={error ? 'form-error' : undefined}>
+            <form onSubmit={handleSubmit} noValidate className="space-y-4" aria-describedby={error ? 'form-error' : undefined}>
 
               {/* Kayıt — Ad + Soyad yan yana */}
               {mode === 'kayit' && (

@@ -602,7 +602,7 @@ function BusinessPreviewCard({
         <div className="relative min-h-[130px] bg-textStrong/90">
           {coverUrl && (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={coverUrl} alt="" className="absolute inset-0 h-full w-full object-cover" />
+            <img src={coverUrl} alt="İşletme kapak fotoğrafı" className="absolute inset-0 h-full w-full object-cover" />
           )}
           <div className="absolute -bottom-8 left-1/2 flex h-16 w-16 -translate-x-1/2 items-center justify-center overflow-hidden rounded-full border-4 border-card bg-card text-xl font-black text-textStrong shadow-yd2">
             {logoUrl ? (

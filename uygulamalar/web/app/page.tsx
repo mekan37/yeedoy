@@ -334,7 +334,7 @@ export default async function HomePage() {
                 <div className="relative shrink-0">
                   <Image
                     src="/category-images/tatli.webp"
-                    alt=""
+                    alt="Tatlı"
                     width={72}
                     height={72}
                     className="h-[72px] w-[72px] rounded-2xl object-cover"

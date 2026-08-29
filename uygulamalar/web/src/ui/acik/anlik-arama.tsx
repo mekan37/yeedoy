@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Utensils } from 'lucide-react';
@@ -59,11 +60,13 @@ function useDebounce<T>(value: T, ms: number): T {
 // ── Ana bileşen ───────────────────────────────────────────────────────────────
 
 export function AnlikArama({ className = '' }: { className?: string }) {
+  const router = useRouter();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResults | null>(null);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -140,6 +143,34 @@ export function AnlikArama({ className = '' }: { className?: string }) {
   const hasResults = results && (results.businesses.length > 0 || results.items.length > 0);
   const showDropdown = open && (hasResults || loading || (query.trim().length === 0));
 
+  const flatOptions = results
+    ? [
+        ...results.businesses.map((biz) => ({ href: `/isletme/${biz.slug}` })),
+        ...results.items.map((item) => ({ href: `/isletme/${item.businessSlug}` })),
+      ]
+    : [];
+
+  // Sonuç seti değiştiğinde klavye vurgusunu sıfırla — eski index yeni listede
+  // farklı bir satırı işaret edebilir.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setHighlightedIndex(-1); }, [results]);
+
+  function handleInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (!showDropdown || flatOptions.length === 0) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setHighlightedIndex((i) => Math.min(i + 1, flatOptions.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setHighlightedIndex((i) => Math.max(i - 1, 0));
+    } else if (e.key === 'Enter' && highlightedIndex >= 0) {
+      e.preventDefault();
+      const target = flatOptions[highlightedIndex];
+      setOpen(false);
+      router.push(target.href);
+    }
+  }
+
   return (
     <div ref={containerRef} className={`relative w-full ${className}`}>
       {/* Input */}
@@ -156,12 +187,14 @@ export function AnlikArama({ className = '' }: { className?: string }) {
           value={query}
           onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
           onFocus={() => setOpen(true)}
+          onKeyDown={handleInputKeyDown}
           className="h-[52px] w-full rounded-2xl border border-border bg-card pl-12 pr-12 text-sm font-bold text-textStrong placeholder:text-muted focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20 transition-all"
           role="combobox"
           aria-label="Ara"
           aria-expanded={showDropdown}
           aria-controls="anlik-arama-listbox"
           aria-haspopup="listbox"
+          aria-activedescendant={highlightedIndex >= 0 ? `anlik-arama-option-${highlightedIndex}` : undefined}
           autoComplete="off"
         />
         {loading && (
@@ -229,8 +262,14 @@ export function AnlikArama({ className = '' }: { className?: string }) {
                     </Link>
                   </div>
                   <ul>
-                    {results!.businesses.map((biz) => (
-                      <BizSatiri key={biz.id} biz={biz} onSelect={() => setOpen(false)} />
+                    {results!.businesses.map((biz, i) => (
+                      <BizSatiri
+                        key={biz.id}
+                        biz={biz}
+                        index={i}
+                        highlightedIndex={highlightedIndex}
+                        onSelect={() => setOpen(false)}
+                      />
                     ))}
                   </ul>
                 </div>
@@ -243,8 +282,14 @@ export function AnlikArama({ className = '' }: { className?: string }) {
                     <span className="text-[11px] font-black uppercase tracking-widest text-muted">Menü Kalemleri</span>
                   </div>
                   <ul>
-                    {results!.items.map((item) => (
-                      <YemekSatiri key={item.id} item={item} onSelect={() => setOpen(false)} />
+                    {results!.items.map((item, i) => (
+                      <YemekSatiri
+                        key={item.id}
+                        item={item}
+                        index={results!.businesses.length + i}
+                        highlightedIndex={highlightedIndex}
+                        onSelect={() => setOpen(false)}
+                      />
                     ))}
                   </ul>
                 </div>
@@ -292,16 +337,27 @@ export function AnlikArama({ className = '' }: { className?: string }) {
 
 // ── Restoran satırı ───────────────────────────────────────────────────────────
 
-function BizSatiri({ biz, onSelect }: { biz: BizResult; onSelect: () => void }) {
+function BizSatiri({
+  biz,
+  index,
+  highlightedIndex,
+  onSelect,
+}: {
+  biz: BizResult;
+  index: number;
+  highlightedIndex: number;
+  onSelect: () => void;
+}) {
   const imgSrc = buildMenuImageUrl(biz.logoUrl ?? biz.coverUrl ?? null, { width: 80, quality: 75 });
   const href = `/isletme/${biz.slug}`;
+  const isHighlighted = index === highlightedIndex;
 
   return (
-    <li role="option" aria-selected="false">
+    <li id={`anlik-arama-option-${index}`} role="option" aria-selected={isHighlighted}>
       <Link
         href={href}
         onClick={onSelect}
-        className="flex items-center gap-3 px-4 py-2.5 hover:bg-surface transition-colors"
+        className={`flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-surface ${isHighlighted ? 'bg-surface' : ''}`}
       >
         <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xl bg-surface">
           {imgSrc ? (
@@ -351,16 +407,27 @@ function BizSatiri({ biz, onSelect }: { biz: BizResult; onSelect: () => void }) 
 
 // ── Yemek satırı ─────────────────────────────────────────────────────────────
 
-function YemekSatiri({ item, onSelect }: { item: ItemResult; onSelect: () => void }) {
+function YemekSatiri({
+  item,
+  index,
+  highlightedIndex,
+  onSelect,
+}: {
+  item: ItemResult;
+  index: number;
+  highlightedIndex: number;
+  onSelect: () => void;
+}) {
   const imgSrc = buildMenuImageUrl(item.image_url ?? null, { width: 80, quality: 75 });
   const href = `/isletme/${item.businessSlug}`;
+  const isHighlighted = index === highlightedIndex;
 
   return (
-    <li role="option" aria-selected="false">
+    <li id={`anlik-arama-option-${index}`} role="option" aria-selected={isHighlighted}>
       <Link
         href={href}
         onClick={onSelect}
-        className="flex items-center gap-3 px-4 py-2.5 hover:bg-surface transition-colors"
+        className={`flex items-center gap-3 px-4 py-2.5 transition-colors hover:bg-surface ${isHighlighted ? 'bg-surface' : ''}`}
       >
         <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xl bg-surface">
           {imgSrc ? (

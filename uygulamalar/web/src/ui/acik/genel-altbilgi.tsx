@@ -63,6 +63,7 @@ export function PublicFooter() {
             <Link href="/yardim" className="hover:text-primary">Sık Sorulan Sorular</Link>
             <Link href="/yasal/terms" className="hover:text-primary">Kullanım Koşulları</Link>
             <Link href="/gizlilik" className="hover:text-primary">Gizlilik Politikası</Link>
+            <Link href="/sitemap/0.xml" className="hover:text-primary">Site Haritası</Link>
           </div>
         </div>
 

@@ -303,10 +303,10 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
       {/* Yorum fotoğrafları */}
       {yorum.photos && yorum.photos.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-2">
-          {yorum.photos.map((url) => (
+          {yorum.photos.map((url, i) => (
             <a key={url} href={url} target="_blank" rel="noopener noreferrer" className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-border">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={url} alt="" className="h-full w-full object-cover" />
+              <img src={url} alt={`Yorum fotoğrafı ${i + 1}`} className="h-full w-full object-cover" />
             </a>
           ))}
         </div>
@@ -580,7 +580,7 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
           {onizlemeler.map((url, i) => (
             <div key={url} className="relative h-16 w-16 overflow-hidden rounded-xl border border-border">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={url} alt="" className="h-full w-full object-cover" />
+              <img src={url} alt={`Yüklenecek fotoğraf önizlemesi ${i + 1}`} className="h-full w-full object-cover" />
               <button
                 type="button"
                 onClick={() => fotografKaldir(i)}
