@@ -12,12 +12,6 @@ flutter pub get
 flutter run -t lib/main_mobile.dart
 ```
 
-Ek referanslar:
-
-- Release checklist: `docs/mobile_release_checklist.md`
-- CI ve iOS readiness: `docs/mobile_ci_ios_readiness.md`
-- Supabase kontratlari: `docs/mobile_supabase_contracts.md`
-
 ## Build
 
 ```bash
@@ -29,7 +23,6 @@ Not:
   - `android/key.properties` (lokal fallback)
   - env secret'lari (`ANDROID_RELEASE_STORE_FILE`, `ANDROID_RELEASE_STORE_PASSWORD`, `ANDROID_RELEASE_KEY_ALIAS`, `ANDROID_RELEASE_KEY_PASSWORD`)
 - Ornek key format: `android/key.properties.example`
-- Ayrintili checklist: `docs/mobile_release_checklist.md`
 
 PowerShell ornegi:
 
@@ -54,7 +47,7 @@ Not:
 - `dart tool/ios_signing_check.dart` artik sadece env varligini degil, placeholder secret degerlerini, Apple Team ID formatini ve base64 payload decode edilebilirligini de denetler.
 - Signed release tarafinda ikinci kapi olarak `dart tool/ios_signing_assets_check.dart` provisioning profile / entitlements / export options uyumunu denetler; bu arac genelde `mobile_readiness` workflow'u icinde decode edilmis CI asset'lariyla calisir.
 - `mobile_readiness` signed dry-run acildiginda IPA artifact'ini workflow sonucunda yukler; bu build kanitidir, TestFlight dagitimi degildir.
-- Kalan iOS riski signed release asset'lari, `GoogleService-Info.plist` yonetimi ve gercek cihaz smoke kanitidir; detayli durum icin `docs/mobile_ci_ios_readiness.md` dosyasina bakin.
+- Kalan iOS riski signed release asset'lari, `GoogleService-Info.plist` yonetimi ve gercek cihaz smoke kanitidir.
 
 ## Analiz
 

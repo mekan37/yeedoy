@@ -22,8 +22,6 @@
     "build:mobile": "pnpm --filter yeedoy-mobile-flutter run build",
     "lint:web": "pnpm --filter yeedoy-web run lint",
     "lint:mobile": "pnpm --filter yeedoy-mobile-flutter run lint",
-    "build:next": "node tools/calisma-alani-islemleri.mjs build-next",
-    "build:all": "node tools/calisma-alani-islemleri.mjs build-all",
     "import:osm": "node tools/osm-pbf-isle.mjs --pbf=turkey-260514.osm.pbf",
     "import:osm:poi": "node tools/osm-pbf-isle.mjs --pbf=turkey-260514.osm.pbf --sadece=poi",
     "import:osm:sinir": "node tools/osm-pbf-isle.mjs --pbf=turkey-260514.osm.pbf --sadece=sinir",
