@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 
-// MVP scope dışı: masa siparişi / POS kapsam dışı bırakıldı
-// (docs/arsiv/2026-yeedoy-final-forbidden-scope-sweep.md). Kill-switch.
+// MVP scope dışı: masa siparişi / POS kapsam dışı bırakıldı. Kill-switch.
 export async function POST() {
   return NextResponse.json({ error: 'feature_disabled' }, { status: 410 });
 }

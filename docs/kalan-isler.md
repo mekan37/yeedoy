@@ -142,7 +142,7 @@
 
 ## P5 — Fikir Havuzu / Daha Sonra
 
-- Fiyat Endeksi medya lansmanı (bkz. `docs/arsiv/fiyat-endeksi-medya-raporu.md`)
+- Fiyat Endeksi medya lansmanı
 - Search Console submit (tamamlandı, ek optimizasyon yapılabilir)
 - A/B test alt yapısı
 - 2FA / hesap güvenliği — TOTP enroll/verify aktif ✅ (PR #84). Stub redirect ✅ (PR #85). AAL2 middleware rollout planı ✅ (PR #86). Soft banner (Faz 1) ✅ (PR #87). Test planı + TwoFactorBanner unit testleri ✅ (PR #88). Sıradaki: admin high-risk AAL2 middleware (Faz 2) → owner high-risk AAL2 middleware (Faz 3) → E2E smoke testleri

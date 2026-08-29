@@ -285,12 +285,6 @@ Yeedoy'un kullandığı üçüncü taraf hizmet sağlayıcıları, silme/erişim
 | Belge | Konu |
 |---|---|
 | `docs/hukuki/legal-data-inventory.md` | Kişisel veri envanteri |
-| `docs/arsiv/legal-preflight-report.md` | Hukuki ön kontrol ve placeholder listesi |
-| `docs/arsiv/critical-privacy-gaps-report.md` | R-4 / R-5 kritik gizlilik eksikleri |
-| `docs/arsiv/r4-r5-end-to-end-qa-report.md` | Uçtan uca QA doğrulama raporu |
-| `docs/arsiv/r4-ip-metadata-decision-plan.md` | IP metadata kaldırma karar planı |
-| `docs/arsiv/r5-marketing-optin-data-model-decision.md` | Pazarlama opt-in veri modeli kararı |
-| `docs/arsiv/r5-flutter-marketing-optin-implementation-report.md` | Flutter pazarlama opt-in uygulama raporu |
 | `docs/hukuki/kvkk-aydinlatma-metni.md` | KVKK Aydınlatma Metni taslağı |
 | `docs/hukuki/gizlilik-politikasi.md` | Gizlilik Politikası taslağı |
 

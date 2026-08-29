@@ -579,13 +579,6 @@ Bu Gizlilik Politikası aşağıdaki teknik ve analiz belgelerine dayanılarak h
 | Belge | Konu |
 |---|---|
 | `docs/hukuki/legal-data-inventory.md` | Kişisel veri envanteri |
-| `docs/arsiv/legal-preflight-report.md` | Hukuki ön kontrol raporu ve placeholder listesi |
-| `docs/arsiv/critical-privacy-gaps-report.md` | R-4 ve R-5 kritik gizlilik eksikleri |
-| `docs/arsiv/r4-ip-metadata-decision-plan.md` | IP metadata kaldırma karar planı |
-| `docs/arsiv/r5-marketing-optin-data-model-decision.md` | Pazarlama opt-in veri modeli karar raporu |
-| `docs/arsiv/r5-email-filter-token-hardening-report.md` | E-posta filtresi ve token sertleştirme raporu |
-| `docs/arsiv/r5-flutter-marketing-optin-implementation-report.md` | Flutter pazarlama opt-in uygulama raporu |
-| `docs/arsiv/r4-r5-end-to-end-qa-report.md` | Uçtan uca QA doğrulama raporu |
 | `docs/hukuki/kvkk-aydinlatma-metni.md` | KVKK Aydınlatma Metni taslağı |
 
 ---

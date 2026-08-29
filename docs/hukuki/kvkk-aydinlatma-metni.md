@@ -593,19 +593,6 @@ Bu aydınlatma metni aşağıdaki teknik ve analiz belgelerine dayanılarak haz�
 | Belge | Konu |
 |---|---|
 | `docs/hukuki/legal-data-inventory.md` | Kişisel veri envanteri |
-| `docs/arsiv/legal-preflight-report.md` | Hukuki ön kontrol raporu ve placeholder listesi |
-| `docs/arsiv/critical-privacy-gaps-report.md` | R-4 ve R-5 kritik gizlilik eksikleri |
-| `docs/arsiv/r4-ip-metadata-decision-plan.md` | IP metadata kaldırma karar planı |
-| `docs/arsiv/r4-ip-metadata-implementation-report.md` | IP metadata migration uygulama raporu |
-| `docs/arsiv/r4-ip-metadata-verification-report.md` | IP metadata migration doğrulama raporu |
-| `docs/arsiv/r5-marketing-optin-data-model-decision.md` | Pazarlama opt-in veri modeli karar raporu |
-| `docs/arsiv/r5-marketing-optin-db-implementation-report.md` | Pazarlama opt-in veritabanı uygulama raporu |
-| `docs/arsiv/r5-marketing-optin-db-verification-report.md` | Pazarlama opt-in veritabanı doğrulama raporu |
-| `docs/arsiv/r5-unsubscribe-web-edge-decision-plan.md` | Unsubscribe web/edge karar planı |
-| `docs/arsiv/r5-unsubscribe-web-edge-implementation-report.md` | Unsubscribe web/edge uygulama raporu |
-| `docs/arsiv/r5-unsubscribe-security-verification-report.md` | Unsubscribe güvenlik doğrulama raporu |
-| `docs/arsiv/r5-email-filter-token-hardening-report.md` | E-posta filtresi ve token sertleştirme raporu |
-| `docs/arsiv/r5-flutter-marketing-optin-implementation-report.md` | Flutter pazarlama opt-in uygulama raporu |
 
 ---
 
