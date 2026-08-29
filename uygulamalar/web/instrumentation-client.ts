@@ -40,11 +40,22 @@ Sentry.init({
 });
 
 if (typeof window !== 'undefined') {
-  const addReplay = () => Sentry.addIntegration(Sentry.replayIntegration());
+  // Sentry.replayIntegration'a buradaki gibi statik import edilen Sentry
+  // namespace'i üzerinden erişmek (Sentry.replayIntegration()), rrweb tabanlı
+  // Replay uygulamasının bu dosyanın da parçası olduğu ana (eager) client
+  // chunk'ına gömülmesine yol açıyordu — requestIdleCallback sadece
+  // AKTİVASYONU erteliyordu, KOD İNDİRME/PARSE'ı değil. Canlı Lighthouse'ta bu
+  // chunk anasayfa LCP'sini ~5.9s'ye kadar geciktiren 2.2s'lik ana iş parçacığı
+  // bloğunun kaynağıydı. Gerçek kod bölünmesi için replayIntegration'ı SADECE
+  // dinamik import edilen modülden almak gerekiyor.
+  const addReplay = async () => {
+    const { replayIntegration } = await import('@sentry/nextjs');
+    Sentry.addIntegration(replayIntegration());
+  };
   if ('requestIdleCallback' in window) {
-    window.requestIdleCallback(addReplay);
+    window.requestIdleCallback(() => { void addReplay(); });
   } else {
-    setTimeout(addReplay, 3000);
+    setTimeout(() => { void addReplay(); }, 3000);
   }
 }
 
