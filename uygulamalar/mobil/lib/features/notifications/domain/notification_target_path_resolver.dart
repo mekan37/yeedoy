@@ -35,6 +35,7 @@ String resolveNotificationTargetPath({
       return '/inbox';
     case 'nearby_trending':
     case 'owner_daily_summary':
+    case 'regional_recommendation':
       return '/discover';
     default:
       if (businessId != null) return '/b/$businessId';
