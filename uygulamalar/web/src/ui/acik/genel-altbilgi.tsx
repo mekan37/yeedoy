@@ -53,6 +53,7 @@ export function PublicFooter() {
             <Link href="/isletme" className="hover:text-primary">Hakkımızda</Link>
             <Link href="/isletme-oner" className="hover:text-primary">İşletme Öner</Link>
             <Link href="/destek" className="hover:text-primary">İletişim</Link>
+            <a href="mailto:destek@yeedoy.com" className="hover:text-primary">destek@yeedoy.com</a>
           </div>
         </div>
 
