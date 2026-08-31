@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/network/supabase_provider.dart';
 import '../domain/regional_recommendation_models.dart';
@@ -10,7 +11,7 @@ final regionalRecommendationRepositoryProvider =
 
 class RegionalRecommendationRepository {
   RegionalRecommendationRepository(this._supabase);
-  final dynamic _supabase;
+  final SupabaseClient _supabase;
 
   Future<List<RegionalBusiness>> check(String currentCity) async {
     final res = await _supabase.rpc(
