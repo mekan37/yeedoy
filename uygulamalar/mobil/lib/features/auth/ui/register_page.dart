@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -92,13 +94,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           ref.invalidate(legalAcceptanceSnapshotProvider);
         }
         if (_selectedCity != null) {
-          try {
-            await ref
+          unawaited(
+            ref
                 .read(profileRepositoryProvider)
-                .updateCity(_selectedCity);
-          } catch (_) {
-            // Şehir kaydedilemese bile kayıt akışını bloklamaz — profilden sonra eklenebilir.
-          }
+                .updateCity(_selectedCity)
+                .catchError((_) {}),
+          );
         }
       }
       if (!mounted) return;
@@ -210,6 +211,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         );
       },
     );
+    searchCtrl.dispose();
     if (picked != null) setState(() => _selectedCity = picked);
   }
 
