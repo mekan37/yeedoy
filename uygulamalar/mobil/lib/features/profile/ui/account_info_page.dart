@@ -14,6 +14,7 @@ import '../../legal/legal_repository.dart';
 import '../data/profile_model.dart';
 import '../data/profile_repository.dart';
 import '../../../core/privacy/name_masking.dart';
+import '../../../core/location/turkiye_illeri.dart';
 import '../../taste_twin/domain/taste_twin_controllers.dart';
 
 // ── Provider: loads my profile once ─────────────────────────────────────────
@@ -104,6 +105,19 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
       isScrollControlled: true,
       showDragHandle: true,
       builder: (_) => _EditGenderSheet(
+        ref: ref,
+        current: current,
+        onSaved: () => ref.invalidate(_myProfileProvider),
+      ),
+    );
+  }
+
+  void _showCitySheet(BuildContext context, String? current) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (_) => _EditCitySheet(
         ref: ref,
         current: current,
         onSaved: () => ref.invalidate(_myProfileProvider),
@@ -209,6 +223,7 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
     final langCode = profile?.languageCode;
     final birthDate = profile?.birthDate;
     final gender = profile?.gender;
+    final city = profile?.city;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF4F5F7),
@@ -451,6 +466,13 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                   value: birthDate != null ? _formatDate(birthDate) : 'Ekle',
                   valueColor: birthDate == null ? AppColors.primary : null,
                   onTap: () => _showBirthDateSheet(context, birthDate),
+                ),
+                _InfoRow(
+                  icon: Icons.location_city_outlined,
+                  title: 'Yaşadığın Şehir',
+                  value: city ?? 'Ekle',
+                  valueColor: city == null ? AppColors.primary : null,
+                  onTap: () => _showCitySheet(context, city),
                 ),
                 _InfoRow(
                   icon: Icons.people_outline_rounded,
@@ -1275,6 +1297,115 @@ class _EditGenderSheetState extends State<_EditGenderSheet> {
             child: Text(_saving ? 'Kaydediliyor…' : 'Kaydet'),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ── Şehir sheet ───────────────────────────────────────────────────────────────
+
+class _EditCitySheet extends StatefulWidget {
+  const _EditCitySheet({
+    required this.ref,
+    required this.current,
+    required this.onSaved,
+  });
+  final WidgetRef ref;
+  final String? current;
+  final VoidCallback onSaved;
+
+  @override
+  State<_EditCitySheet> createState() => _EditCitySheetState();
+}
+
+class _EditCitySheetState extends State<_EditCitySheet> {
+  final _searchCtrl = TextEditingController();
+  String _filter = '';
+  bool _saving = false;
+
+  @override
+  void dispose() {
+    _searchCtrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save(String il) async {
+    setState(() => _saving = true);
+    try {
+      await widget.ref.read(profileRepositoryProvider).updateCity(il);
+      widget.onSaved();
+      if (mounted) Navigator.of(context).pop();
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Kaydedilemedi.')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final filtered = turkiyeIlleri
+        .where((il) => il.toLowerCase().contains(_filter.toLowerCase()))
+        .toList();
+    final maxHeight = MediaQuery.sizeOf(context).height * 0.75;
+
+    return SafeArea(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: maxHeight),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text(
+                'Yaşadığın Şehir',
+                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+              ),
+              const SizedBox(height: 4),
+              const Text(
+                'Farklı bir şehirdeyken sana o şehrin yöresel lezzetlerini önerebilmemiz için kullanılır.',
+                style: TextStyle(fontSize: 12, color: AppColors.muted),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _searchCtrl,
+                onChanged: (v) => setState(() => _filter = v),
+                decoration: const InputDecoration(
+                  hintText: 'Şehir ara...',
+                  prefixIcon: Icon(Icons.search_rounded, size: 20),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Flexible(
+                child: _saving
+                    ? const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 24),
+                        child: Center(child: CircularProgressIndicator()),
+                      )
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: filtered.length,
+                        itemBuilder: (context, index) {
+                          final il = filtered[index];
+                          final isSelected = widget.current == il;
+                          return ListTile(
+                            title: Text(il),
+                            trailing: isSelected
+                                ? const Icon(Icons.check_rounded, color: AppColors.primary)
+                                : null,
+                            onTap: () => _save(il),
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
