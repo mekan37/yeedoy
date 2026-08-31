@@ -6,7 +6,7 @@ import { checkAdminAccess } from '@/src/lib/auth/admin-guard';
 import { logger } from '@/src/lib/kayitci';
 
 type IslemSonucu = { ok: true } | { ok: false; error: string };
-type KaydetSonucu = { ok: true; id: string } | { ok: false; error: string };
+type KaydetSonucu = { ok: true; id: string; city_norm: string } | { ok: false; error: string };
 
 export async function etiketKaydet(id: string | null, city: string, label: string): Promise<KaydetSonucu> {
   const guard = await checkAdminAccess();
@@ -22,7 +22,8 @@ export async function etiketKaydet(id: string | null, city: string, label: strin
     p_label: label.trim(),
   });
 
-  if (error || typeof data !== 'string') {
+  const sonuc = data as { id?: string; city_norm?: string } | null;
+  if (error || !sonuc?.id || !sonuc?.city_norm) {
     logger.warn('etiketKaydet: RPC hatası', { error, id });
     const rawMessage = (error as { message?: string } | null)?.message;
     const match = rawMessage?.match(/^(validation_error|not_found):\s*(.+)$/);
@@ -30,7 +31,7 @@ export async function etiketKaydet(id: string | null, city: string, label: strin
   }
 
   revalidatePath('/yonetici/yoresel-mutfak');
-  return { ok: true, id: data };
+  return { ok: true, id: sonuc.id, city_norm: sonuc.city_norm };
 }
 
 export async function etiketSil(id: string): Promise<IslemSonucu> {
@@ -50,7 +51,7 @@ export async function etiketSil(id: string): Promise<IslemSonucu> {
   return { ok: true };
 }
 
-export type IsletmeAramaSonucu = { id: string; name: string; city: string; current_tag_label: string | null };
+export type IsletmeAramaSonucu = { id: string; name: string; city: string; city_norm: string; current_tag_label: string | null };
 
 export async function isletmeAra(query: string): Promise<IsletmeAramaSonucu[]> {
   const guard = await checkAdminAccess();

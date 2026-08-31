@@ -4,7 +4,7 @@ import { useRef, useState, useTransition } from 'react';
 import { TURKIYE_ILLERI } from '@/src/lib/turkiye-illeri';
 import { etiketKaydet, etiketSil, isletmeAra, isletmeyeEtiketAta, type IsletmeAramaSonucu } from './yoresel-mutfak-islemleri';
 
-export type YoreselEtiket = { id: string; city: string; label: string; business_count: number; created_at: string };
+export type YoreselEtiket = { id: string; city: string; city_norm: string; label: string; business_count: number; created_at: string };
 
 export function YoreselMutfakIstemcisi({ initialEtiketler }: { initialEtiketler: YoreselEtiket[] }) {
   const [etiketler, setEtiketler] = useState(initialEtiketler);
@@ -24,7 +24,7 @@ export function YoreselMutfakIstemcisi({ initialEtiketler }: { initialEtiketler:
     startTransition(async () => {
       const res = await etiketKaydet(null, city, label);
       if (!res.ok) { setError(res.error); return; }
-      setEtiketler((prev) => [...prev, { id: res.id, city, label, business_count: 0, created_at: new Date().toISOString() }].sort((a, b) => a.city.localeCompare(b.city, 'tr')));
+      setEtiketler((prev) => [...prev, { id: res.id, city, city_norm: res.city_norm, label, business_count: 0, created_at: new Date().toISOString() }].sort((a, b) => a.city.localeCompare(b.city, 'tr')));
       setLabel('');
     });
   }
@@ -67,7 +67,7 @@ export function YoreselMutfakIstemcisi({ initialEtiketler }: { initialEtiketler:
       if (res.ok) {
         setEtiketler((prev) => prev.map((t) => {
           if (t.id === tagId) return { ...t, business_count: t.business_count + 1 };
-          if (business.current_tag_label && t.city === business.city && t.label === business.current_tag_label) {
+          if (business.current_tag_label && t.city_norm === business.city_norm && t.label === business.current_tag_label) {
             return { ...t, business_count: Math.max(0, t.business_count - 1) };
           }
           return t;
@@ -135,10 +135,10 @@ export function YoreselMutfakIstemcisi({ initialEtiketler }: { initialEtiketler:
           <div className="mt-3 rounded-lg border border-border p-3">
             <p className="mb-2 text-sm font-bold text-textStrong">{selectedBusiness.name} ({selectedBusiness.city}) için etiket seç:</p>
             <div className="flex flex-wrap gap-2">
-              {etiketler.filter((t) => t.city === selectedBusiness.city).map((t) => (
+              {etiketler.filter((t) => t.city_norm === selectedBusiness.city_norm).map((t) => (
                 <button key={t.id} type="button" onClick={() => handleAssign(t.id)} disabled={isPending} className="rounded-full border border-border px-3 py-1.5 text-xs font-bold hover:border-primary/40 hover:text-primary">{t.label}</button>
               ))}
-              {etiketler.filter((t) => t.city === selectedBusiness.city).length === 0 && (
+              {etiketler.filter((t) => t.city_norm === selectedBusiness.city_norm).length === 0 && (
                 <p className="text-xs text-muted">Bu şehir için henüz etiket yok — önce yukarıdan ekleyin.</p>
               )}
             </div>
