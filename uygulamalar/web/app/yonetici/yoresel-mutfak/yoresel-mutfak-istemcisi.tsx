@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useRef, useState, useTransition } from 'react';
 import { TURKIYE_ILLERI } from '@/src/lib/turkiye-illeri';
 import { etiketKaydet, etiketSil, isletmeAra, isletmeyeEtiketAta, type IsletmeAramaSonucu } from './yoresel-mutfak-islemleri';
 
@@ -16,6 +16,8 @@ export function YoreselMutfakIstemcisi({ initialEtiketler }: { initialEtiketler:
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<IsletmeAramaSonucu[]>([]);
   const [selectedBusiness, setSelectedBusiness] = useState<IsletmeAramaSonucu | null>(null);
+  const searchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const searchRequestIdRef = useRef(0);
 
   function handleAddTag() {
     setError(null);
@@ -27,25 +29,49 @@ export function YoreselMutfakIstemcisi({ initialEtiketler }: { initialEtiketler:
     });
   }
 
-  function handleDeleteTag(id: string) {
+  function handleDeleteTag(t: YoreselEtiket) {
+    const uyari = t.business_count > 0
+      ? `"${t.label}" etiketini kalıcı olarak silmek istediğinize emin misiniz? Bu etikete atanmış ${t.business_count} işletmenin etiketi kaldırılacak.`
+      : `"${t.label}" etiketini kalıcı olarak silmek istediğinize emin misiniz?`;
+    if (!confirm(uyari)) return;
     startTransition(async () => {
-      const res = await etiketSil(id);
-      if (res.ok) setEtiketler((prev) => prev.filter((t) => t.id !== id));
+      const res = await etiketSil(t.id);
+      if (res.ok) setEtiketler((prev) => prev.filter((x) => x.id !== t.id));
     });
   }
 
   function handleSearch(q: string) {
     setQuery(q);
-    startTransition(async () => {
-      setResults(q.trim() ? await isletmeAra(q) : []);
-    });
+    if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+
+    if (!q.trim()) {
+      searchRequestIdRef.current += 1;
+      setResults([]);
+      return;
+    }
+
+    searchDebounceRef.current = setTimeout(() => {
+      const requestId = ++searchRequestIdRef.current;
+      startTransition(async () => {
+        const sonuc = await isletmeAra(q);
+        if (searchRequestIdRef.current === requestId) setResults(sonuc);
+      });
+    }, 300);
   }
 
   function handleAssign(tagId: string) {
     if (!selectedBusiness) return;
+    const business = selectedBusiness;
     startTransition(async () => {
-      const res = await isletmeyeEtiketAta(selectedBusiness.id, tagId);
+      const res = await isletmeyeEtiketAta(business.id, tagId);
       if (res.ok) {
+        setEtiketler((prev) => prev.map((t) => {
+          if (t.id === tagId) return { ...t, business_count: t.business_count + 1 };
+          if (business.current_tag_label && t.city === business.city && t.label === business.current_tag_label) {
+            return { ...t, business_count: Math.max(0, t.business_count - 1) };
+          }
+          return t;
+        }));
         setSelectedBusiness(null);
         setQuery('');
         setResults([]);
@@ -84,7 +110,7 @@ export function YoreselMutfakIstemcisi({ initialEtiketler }: { initialEtiketler:
                 <td className="px-4 py-2.5">{t.label}</td>
                 <td className="px-4 py-2.5 text-muted">{t.business_count}</td>
                 <td className="px-4 py-2.5 text-right">
-                  <button type="button" onClick={() => handleDeleteTag(t.id)} disabled={isPending} className="text-xs font-bold text-danger hover:underline">Sil</button>
+                  <button type="button" onClick={() => handleDeleteTag(t)} disabled={isPending} className="text-xs font-bold text-danger hover:underline">Sil</button>
                 </td>
               </tr>
             ))}

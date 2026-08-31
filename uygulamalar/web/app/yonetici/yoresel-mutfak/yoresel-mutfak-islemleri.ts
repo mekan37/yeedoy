@@ -24,7 +24,9 @@ export async function etiketKaydet(id: string | null, city: string, label: strin
 
   if (error || typeof data !== 'string') {
     logger.warn('etiketKaydet: RPC hatası', { error, id });
-    return { ok: false, error: 'Etiket kaydedilemedi, tekrar deneyin.' };
+    const rawMessage = (error as { message?: string } | null)?.message;
+    const match = rawMessage?.match(/^(validation_error|not_found):\s*(.+)$/);
+    return { ok: false, error: match ? match[2] : 'Etiket kaydedilemedi, tekrar deneyin.' };
   }
 
   revalidatePath('/yonetici/yoresel-mutfak');
@@ -57,7 +59,10 @@ export async function isletmeAra(query: string): Promise<IsletmeAramaSonucu[]> {
   const supabase = await createSupabaseServerClient();
   const sb = supabase as unknown as { rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }> };
 
-  const { data } = await sb.rpc('admin_search_businesses_for_tagging_v1', { p_query: query });
+  const { data, error } = await sb.rpc('admin_search_businesses_for_tagging_v1', { p_query: query });
+  if (error) {
+    logger.warn('isletmeAra: RPC hatası', { error, query });
+  }
   return Array.isArray(data) ? (data as IsletmeAramaSonucu[]) : [];
 }
 
