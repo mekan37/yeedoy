@@ -58,7 +58,7 @@ current_city != user_profiles.city (ev şehri)?  ──── hayır → hiçbir
 
 **Push gönderimi:** Var olan admin-broadcast FCM gönderim mekanizması (implementasyon planında tam olarak bulunacak) yeniden kullanılır — sadece tek-kullanıcı hedefli yeni bir tetikleme yolu eklenir, FCM entegrasyonu sıfırdan kurulmaz.
 
-**Şehir karşılaştırma riski:** `current_city != user_profiles.city` basit bir string eşitliği değil — Google Maps V5 pipeline'ında daha önce tam bu sınıftan bir bug yaşandı (Türkçe İ/i harflerinin `lower()` ile birleşik işaret/combining-mark üretmesi, il/ilçe eşleşmesini bozması). Reverse-geocode'dan gelen şehir adı ile `regional_cuisine_tags.city`/`user_profiles.city`'de saklanan kanonik il adı, aynı normalize fonksiyonuyla (Türkçe-güvenli, `toLocaleLowerCase('tr')` veya eşdeğeri) karşılaştırılmalı — implementasyon planında ayrı bir adım olarak ele alınacak.
+**Şehir karşılaştırma riski — çözüldü:** `current_city != user_profiles.city` basit bir string eşitliği olamazdı — Google Maps V5 pipeline'ında daha önce tam bu sınıftan bir bug yaşanmıştı (Türkçe İ/i harflerinin `lower()` ile birleşik işaret/combining-mark üretmesi, il/ilçe eşleşmesini bozması). İyi haber: proje bu bug sınıfı için zaten kendi çözümünü üretmiş — `public.normalize_tr_location_text()` SQL fonksiyonu (bkz. `20260609000004_fix_normalize_tr_location_combining_dot.sql`) ve `businesses.city_norm` (önceden hesaplanmış, index'li) zaten var. Faz 1 implementasyon planında `check_regional_recommendation_v1` bu fonksiyonu kullanacak şekilde yazıldı — ayrı bir yeni normalize fonksiyonuna gerek kalmadı.
 
 ## Veri Modeli
 

@@ -194,11 +194,16 @@ git commit -m "feat(supabase): regional_cuisine_tags kataloğu + businesses.regi
 ### Task 2: Admin CRUD RPC'leri
 
 **Files:**
-- Create: `supabase/migrations/20260831000002_regional_cuisine_admin_rpcs.sql`
+- Create: `supabase/migrations/20260831000002_regional_cuisine_admin_rpcs.sql` (gerçek dosya adı, migration aracının canlıya uyguladığı timestamp'e göre değişebilir — bkz. Task 1'in notu. Task 1'in gerçek dosya adı `20260831092626_regional_cuisine_tags.sql` oldu; bu migration'ın onun **sonrasına** sıralanması gerekiyor, o yüzden aracın kendi ürettiği ismi kullan, plandaki `20260831000002` ismini harfiyen kullanma.)
+
+**Task 1'in kod incelemesinde bulunan eksik:** `businesses.regional_tag_id` üzerinde index yoktu. Bu migration'a aşağıdaki gibi ekleniyor.
 
 - [ ] **Step 1: Migration dosyasını yaz**
 
 ```sql
+-- Task 1 code review bulgusu: regional_tag_id üzerinde index eksikti.
+CREATE INDEX businesses_regional_tag_id_idx ON public.businesses (regional_tag_id) WHERE regional_tag_id IS NOT NULL;
+
 CREATE OR REPLACE FUNCTION public.admin_list_regional_cuisine_tags_v1()
 RETURNS TABLE (id uuid, city text, label text, business_count bigint, created_at timestamptz)
 LANGUAGE plpgsql
@@ -415,6 +420,11 @@ $$;
 -- Mevcut GRANT/REVOKE zaten yerinde (CREATE OR REPLACE imzayı korur, yeniden vermeye gerek yok).
 
 -- ── Çekirdek RPC: konum uyuşmazlığını tespit eder, tekilleştirir, bildirim satırı düşer ──
+-- Şehir karşılaştırması public.normalize_tr_location_text() üzerinden yapılır (Task 1 code
+-- review'ında bulundu) — bu proje Türkçe İ/ı/ş/ğ/ü/ö/ç harfleri için ham metin karşılaştırmasının
+-- en az 3 kez production bug'ına yol açtığı bir geçmişe sahip (bkz. 20260609000004_fix_normalize_tr_location_combining_dot.sql).
+-- businesses.city_norm zaten bu fonksiyonla önceden hesaplanmış ve index'li (businesses_city_district_norm_idx)
+-- — b.city yerine b.city_norm üzerinden karşılaştırma hem doğruluk hem performans için doğru.
 CREATE OR REPLACE FUNCTION public.check_regional_recommendation_v1(p_current_city text)
 RETURNS TABLE (
   business_id uuid,
@@ -430,46 +440,48 @@ AS $$
 DECLARE
   v_user_id uuid := auth.uid();
   v_home_city text;
-  v_current_city text := nullif(trim(coalesce(p_current_city, '')), '');
+  v_current_city_raw text := nullif(trim(coalesce(p_current_city, '')), '');
+  v_current_city_norm text;
   v_already_sent boolean;
 BEGIN
   IF v_user_id IS NULL THEN
     RAISE EXCEPTION 'unauthorized' USING ERRCODE = 'P0002';
   END IF;
-  IF v_current_city IS NULL THEN
+  IF v_current_city_raw IS NULL THEN
     RETURN;
   END IF;
+  v_current_city_norm := public.normalize_tr_location_text(v_current_city_raw);
 
   SELECT up.city INTO v_home_city FROM public.user_profiles up WHERE up.user_id = v_user_id;
 
   -- Ev şehri boşsa veya zaten o şehirdeyse — öneri yok.
-  IF v_home_city IS NULL OR v_home_city = v_current_city THEN
+  IF v_home_city IS NULL OR public.normalize_tr_location_text(v_home_city) = v_current_city_norm THEN
     RETURN;
   END IF;
 
   -- O şehirde etiketli işletme yoksa — öneri yok.
   IF NOT EXISTS (
     SELECT 1 FROM public.businesses b
-    WHERE b.city = v_current_city AND b.regional_tag_id IS NOT NULL AND b.is_active = true
+    WHERE b.city_norm = v_current_city_norm AND b.regional_tag_id IS NOT NULL AND b.is_active = true
   ) THEN
     RETURN;
   END IF;
 
-  -- Push tekilleştirme: son 14 günde bu user+city için event var mı?
+  -- Push tekilleştirme: son 14 günde bu user+city için event var mı? (normalize edilmiş şehir üzerinden)
   SELECT EXISTS (
     SELECT 1 FROM public.regional_recommendation_events e
-    WHERE e.user_id = v_user_id AND e.city = v_current_city AND e.sent_at > now() - interval '14 days'
+    WHERE e.user_id = v_user_id AND e.city = v_current_city_norm AND e.sent_at > now() - interval '14 days'
   ) INTO v_already_sent;
 
   IF NOT v_already_sent THEN
-    INSERT INTO public.regional_recommendation_events (user_id, city) VALUES (v_user_id, v_current_city);
+    INSERT INTO public.regional_recommendation_events (user_id, city) VALUES (v_user_id, v_current_city_norm);
     INSERT INTO public.notifications (user_id, type, title, body, data)
     VALUES (
       v_user_id,
       'regional_recommendation',
-      v_current_city || '''desin! İşte yöresel lezzetler',
-      v_current_city || '''nin yöresel mutfağını keşfetmeye ne dersin?',
-      jsonb_build_object('city', v_current_city)
+      v_current_city_raw || '''desin! İşte yöresel lezzetler',
+      v_current_city_raw || '''nin yöresel mutfağını keşfetmeye ne dersin?',
+      jsonb_build_object('city', v_current_city_raw)
     );
   END IF;
 
@@ -477,7 +489,7 @@ BEGIN
     SELECT b.id, b.name, b.slug, b.logo_url, t.label
     FROM public.businesses b
     JOIN public.regional_cuisine_tags t ON t.id = b.regional_tag_id
-    WHERE b.city = v_current_city AND b.is_active = true
+    WHERE b.city_norm = v_current_city_norm AND b.is_active = true
     ORDER BY b.name
     LIMIT 20;
 END;
@@ -486,10 +498,10 @@ $$;
 REVOKE ALL ON FUNCTION public.check_regional_recommendation_v1(text) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.check_regional_recommendation_v1(text) TO authenticated;
 COMMENT ON FUNCTION public.check_regional_recommendation_v1 IS
-  'Kullanıcının ev şehri dışında bir ilde olup olmadığını kontrol eder, o ildeki yöresel işletmeleri döner, 14 günde bir bildirim satırı düşer. p_current_city çağıran tarafça canonicalCity() ile normalize edilmiş olmalı. Called by: user_location_controller.dart.';
+  'Kullanıcının ev şehri dışında bir ilde olup olmadığını kontrol eder, o ildeki yöresel işletmeleri döner, 14 günde bir bildirim satırı düşer. Şehir karşılaştırması normalize_tr_location_text() üzerinden yapılır (case/diacritic-insensitive) — çağıran taraf ham reverse-geocode metnini gönderebilir. Called by: user_location_controller.dart.';
 ```
 
-**Önemli:** `p_current_city` parametresi `user_profiles.city` ve `regional_cuisine_tags.city`/`businesses.city` ile **birebir aynı yazımda** (aynı `canonicalCity()` normalize fonksiyonundan geçmiş) gelmelidir — RPC düz `=` karşılaştırması yapar, fuzzy matching yoktur (bkz. design doc'taki "Şehir karşılaştırma riski" notu).
+**Not:** Karşılaştırma artık `normalize_tr_location_text()` (proje standardı, `businesses.city_norm`'u besleyen aynı fonksiyon) üzerinden yapıldığı için `p_current_city`'nin admin panelindeki/`user_profiles.city`'deki yazımla birebir aynı olması gerekmiyor — büyük/küçük harf ve Türkçe özel karakter farkları otomatik eşitlenir. Bildirim metninde kullanıcıya gösterilen şehir adı (`v_current_city_raw`) yine de reverse-geocode'dan gelen ham/güzel biçimde kalır.
 
 - [ ] **Step 2: Migration'ı uygula**
 
