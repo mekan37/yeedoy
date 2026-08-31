@@ -48,6 +48,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
 
   const [error, setError]     = useState('');
   const [success, setSuccess] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [isPending, startTransition] = useTransition();
   const [oAuthProvider, setOAuthProvider] = useState<'google' | 'apple' | null>(null);
   const [showPassword, setShowPassword]   = useState(false);
@@ -90,26 +91,56 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
     setOAuthProvider(null);
   }
 
+  function validateField(field: 'firstName' | 'email' | 'password' | 'confirmPassword', values: { firstName: string; email: string; password: string; confirmPassword: string }): string {
+    switch (field) {
+      case 'firstName':
+        return mode === 'kayit' && !values.firstName.trim() ? 'Ad alanı zorunludur.' : '';
+      case 'email':
+        if (!values.email.trim()) return mode === 'giris' ? 'E-posta veya telefon numarası zorunludur.' : 'E-posta adresi zorunludur.';
+        if (mode === 'kayit' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim())) return 'Lütfen geçerli bir e-posta adresi girin.';
+        return '';
+      case 'password':
+        if (!values.password) return 'Şifre zorunludur.';
+        if (mode === 'kayit' && values.password.length < 8) return 'Şifre en az 8 karakter olmalıdır.';
+        return '';
+      case 'confirmPassword':
+        return mode === 'kayit' && values.password !== values.confirmPassword ? 'Şifreler eşleşmiyor.' : '';
+      default:
+        return '';
+    }
+  }
+
+  function handleFieldBlur(field: 'firstName' | 'email' | 'password' | 'confirmPassword') {
+    const msg = validateField(field, { firstName, email, password, confirmPassword });
+    setFieldErrors((prev) => ({ ...prev, [field]: msg }));
+  }
+
+  function clearFieldError(field: string) {
+    setFieldErrors((prev) => (prev[field] ? { ...prev, [field]: '' } : prev));
+  }
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
     setSuccess('');
 
-    if (!email.trim()) {
-      setError(mode === 'giris' ? 'E-posta veya telefon numarası zorunludur.' : 'E-posta adresi zorunludur.');
+    const values = { firstName, email, password, confirmPassword };
+    const fields: Array<'firstName' | 'email' | 'password' | 'confirmPassword'> = mode === 'kayit'
+      ? ['firstName', 'email', 'password', 'confirmPassword']
+      : ['email', 'password'];
+    const errs: Record<string, string> = {};
+    for (const field of fields) {
+      const msg = validateField(field, values);
+      if (msg) errs[field] = msg;
+    }
+    if (Object.keys(errs).length > 0) {
+      setFieldErrors((prev) => ({ ...prev, ...errs }));
+      setError(errs[fields.find((f) => errs[f]) ?? fields[0]]);
       return;
     }
-    if (mode === 'kayit' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setError('Lütfen geçerli bir e-posta adresi girin.');
+    if (mode === 'kayit' && !acceptedTerms) {
+      setError('Devam etmek için Kullanım Şartları ve Gizlilik Politikası\'nı kabul etmelisiniz.');
       return;
-    }
-    if (!password) { setError('Şifre zorunludur.'); return; }
-
-    if (mode === 'kayit') {
-      if (!firstName.trim()) { setError('Ad alanı zorunludur.'); return; }
-      if (password !== confirmPassword) { setError('Şifreler eşleşmiyor.'); return; }
-      if (password.length < 8) { setError('Şifre en az 8 karakter olmalıdır.'); return; }
-      if (!acceptedTerms) { setError('Devam etmek için Kullanım Şartları ve Gizlilik Politikası\'nı kabul etmelisiniz.'); return; }
     }
 
     startTransition(async () => {
@@ -237,11 +268,18 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                       </span>
                       <input
                         id="giris-ad"
-                        type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)}
+                        type="text" value={firstName}
+                        onChange={(e) => { setFirstName(e.target.value); clearFieldError('firstName'); }}
+                        onBlur={() => handleFieldBlur('firstName')}
                         required autoComplete="given-name" placeholder="Adınız" maxLength={40}
-                        className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-3 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                        aria-invalid={!!fieldErrors.firstName}
+                        aria-describedby={fieldErrors.firstName ? 'giris-ad-error' : undefined}
+                        className={`h-12 w-full rounded-2xl border bg-bg pl-10 pr-3 text-sm text-text outline-hidden transition focus:ring-2 ${fieldErrors.firstName ? 'border-danger focus:border-danger focus:ring-danger/10' : 'border-border focus:border-primary focus:ring-primary/10'}`}
                       />
                     </div>
+                    {fieldErrors.firstName && (
+                      <p id="giris-ad-error" role="alert" className="mt-1.5 text-xs font-bold text-danger">{fieldErrors.firstName}</p>
+                    )}
                   </div>
                   <div>
                     <label htmlFor="giris-soyad" className="mb-1.5 block text-sm font-bold text-textStrong">Soyad</label>
@@ -268,12 +306,19 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                   </span>
                   <input
                     id="giris-eposta"
-                    type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                    type="email" value={email}
+                    onChange={(e) => { setEmail(e.target.value); clearFieldError('email'); }}
+                    onBlur={() => handleFieldBlur('email')}
                     required autoComplete="email"
                     placeholder={mode === 'giris' ? 'E-posta adresiniz veya telefon numaranız' : 'ornek@mail.com'}
-                    className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-4 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                    aria-invalid={!!fieldErrors.email}
+                    aria-describedby={fieldErrors.email ? 'giris-eposta-error' : undefined}
+                    className={`h-12 w-full rounded-2xl border bg-bg pl-10 pr-4 text-sm text-text outline-hidden transition focus:ring-2 ${fieldErrors.email ? 'border-danger focus:border-danger focus:ring-danger/10' : 'border-border focus:border-primary focus:ring-primary/10'}`}
                   />
                 </div>
+                {fieldErrors.email && (
+                  <p id="giris-eposta-error" role="alert" className="mt-1.5 text-xs font-bold text-danger">{fieldErrors.email}</p>
+                )}
               </div>
 
               {/* Kayıt — Telefon */}
@@ -344,10 +389,14 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                   <input
                     id="giris-sifre"
                     type={showPassword ? 'text' : 'password'}
-                    value={password} onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    onChange={(e) => { setPassword(e.target.value); clearFieldError('password'); }}
+                    onBlur={() => handleFieldBlur('password')}
                     required autoComplete={mode === 'giris' ? 'current-password' : 'new-password'}
                     placeholder="Şifrenizi girin"
-                    className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-11 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                    aria-invalid={!!fieldErrors.password}
+                    aria-describedby={fieldErrors.password ? 'giris-sifre-error' : undefined}
+                    className={`h-12 w-full rounded-2xl border bg-bg pl-10 pr-11 text-sm text-text outline-hidden transition focus:ring-2 ${fieldErrors.password ? 'border-danger focus:border-danger focus:ring-danger/10' : 'border-border focus:border-primary focus:ring-primary/10'}`}
                   />
                   <button type="button" aria-label={showPassword ? 'Şifreyi gizle' : 'Şifreyi göster'}
                     onClick={() => setShowPassword((v) => !v)}
@@ -358,7 +407,9 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                     }
                   </button>
                 </div>
-                {mode === 'kayit' && (
+                {fieldErrors.password ? (
+                  <p id="giris-sifre-error" role="alert" className="mt-1.5 text-xs font-bold text-danger">{fieldErrors.password}</p>
+                ) : mode === 'kayit' && (
                   <p className="mt-1.5 text-xs text-muted">Şifreniz en az 8 karakter olmalı ve harf, rakam içermelidir.</p>
                 )}
               </div>
@@ -375,11 +426,18 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
                     </span>
                     <input
                       id="giris-sifre-tekrar"
-                      type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
+                      type="password" value={confirmPassword}
+                      onChange={(e) => { setConfirmPassword(e.target.value); clearFieldError('confirmPassword'); }}
+                      onBlur={() => handleFieldBlur('confirmPassword')}
                       required autoComplete="new-password" placeholder="••••••••"
-                      className="h-12 w-full rounded-2xl border border-border bg-bg pl-10 pr-4 text-sm text-text outline-hidden transition focus:border-primary focus:ring-2 focus:ring-primary/10"
+                      aria-invalid={!!fieldErrors.confirmPassword}
+                      aria-describedby={fieldErrors.confirmPassword ? 'giris-sifre-tekrar-error' : undefined}
+                      className={`h-12 w-full rounded-2xl border bg-bg pl-10 pr-4 text-sm text-text outline-hidden transition focus:ring-2 ${fieldErrors.confirmPassword ? 'border-danger focus:border-danger focus:ring-danger/10' : 'border-border focus:border-primary focus:ring-primary/10'}`}
                     />
                   </div>
+                  {fieldErrors.confirmPassword && (
+                    <p id="giris-sifre-tekrar-error" role="alert" className="mt-1.5 text-xs font-bold text-danger">{fieldErrors.confirmPassword}</p>
+                  )}
                 </div>
               )}
 
