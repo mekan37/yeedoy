@@ -471,7 +471,7 @@ class _NotificationDeniedBanner extends StatelessWidget {
           const Expanded(
             child: Text(
               'Bildirimler kapalı. Fiyat değişikliklerini kaçırmamak için bildirimlere izin ver.',
-              style: TextStyle(fontSize: 12, color: AppColors.warning),
+              style: TextStyle(fontSize: 12, color: AppColors.warningText),
             ),
           ),
           const SizedBox(width: 8),
@@ -482,7 +482,7 @@ class _NotificationDeniedBanner extends StatelessWidget {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
-                color: AppColors.warning,
+                color: AppColors.warningText,
                 decoration: TextDecoration.underline,
               ),
             ),

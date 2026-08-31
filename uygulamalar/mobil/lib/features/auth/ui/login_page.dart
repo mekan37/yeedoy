@@ -28,11 +28,30 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final _passCtrl = TextEditingController();
   final _phoneCtrl = TextEditingController();
   final _otpCtrl = TextEditingController();
+  final _emailFocus = FocusNode();
+  final _passFocus = FocusNode();
 
   bool _loading = false;
   bool _passVisible = false;
   bool _rememberMe = false;
   String? _errorMessage;
+  String? _emailError;
+  String? _passError;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailFocus.addListener(() {
+      if (!_emailFocus.hasFocus && mounted) {
+        setState(() => _emailError = _validateEmail(_emailCtrl.text));
+      }
+    });
+    _passFocus.addListener(() {
+      if (!_passFocus.hasFocus && mounted) {
+        setState(() => _passError = _validatePassword(_passCtrl.text));
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -40,7 +59,21 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     _passCtrl.dispose();
     _phoneCtrl.dispose();
     _otpCtrl.dispose();
+    _emailFocus.dispose();
+    _passFocus.dispose();
     super.dispose();
+  }
+
+  // ── Field-level validation ───────────────────────────────────────────────────
+
+  String? _validateEmail(String value) {
+    return value.trim().isEmpty
+        ? 'E-posta veya telefon numarası zorunludur.'
+        : null;
+  }
+
+  String? _validatePassword(String value) {
+    return value.isEmpty ? 'Şifre zorunludur.' : null;
   }
 
   // ── Navigation ───────────────────────────────────────────────────────────────
@@ -57,6 +90,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   // ── Auth actions ─────────────────────────────────────────────────────────────
 
   Future<void> _signIn() async {
+    final emailErr = _validateEmail(_emailCtrl.text);
+    final passErr = _validatePassword(_passCtrl.text);
+    if (emailErr != null || passErr != null) {
+      setState(() {
+        _emailError = emailErr;
+        _passError = passErr;
+      });
+      return;
+    }
     _setLoading(_AuthAction.signIn);
     try {
       await ref
@@ -191,21 +233,35 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     // Email field
                     _AuthTextField(
                       controller: _emailCtrl,
+                      focusNode: _emailFocus,
                       hint: 'E-posta adresiniz',
                       icon: Icons.mail_outline_rounded,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
+                      errorText: _emailError,
+                      onChanged: (_) {
+                        if (_emailError != null) {
+                          setState(() => _emailError = null);
+                        }
+                      },
                     ),
                     const SizedBox(height: 12),
 
                     // Password field
                     _AuthTextField(
                       controller: _passCtrl,
+                      focusNode: _passFocus,
                       hint: 'Şifreniz',
                       icon: Icons.lock_outline_rounded,
                       obscureText: !_passVisible,
                       textInputAction: TextInputAction.done,
                       onSubmitted: (_) => _signIn(),
+                      errorText: _passError,
+                      onChanged: (_) {
+                        if (_passError != null) {
+                          setState(() => _passError = null);
+                        }
+                      },
                       suffixIcon: IconButton(
                         icon: Icon(
                           _passVisible
@@ -392,7 +448,10 @@ class _AuthTextField extends StatelessWidget {
     this.textInputAction,
     this.obscureText = false,
     this.onSubmitted,
+    this.onChanged,
     this.suffixIcon,
+    this.focusNode,
+    this.errorText,
   });
 
   final TextEditingController controller;
@@ -402,48 +461,78 @@ class _AuthTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final bool obscureText;
   final ValueChanged<String>? onSubmitted;
+  final ValueChanged<String>? onChanged;
   final Widget? suffixIcon;
+  final FocusNode? focusNode;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 52,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Row(
-        children: [
-          const SizedBox(width: 14),
-          Icon(icon, color: AppColors.primary, size: 20),
-          const SizedBox(width: 10),
-          Expanded(
-            child: TextField(
-              controller: controller,
-              keyboardType: keyboardType,
-              textInputAction: textInputAction,
-              obscureText: obscureText,
-              onSubmitted: onSubmitted,
-              style: const TextStyle(fontSize: 14, color: AppColors.textStrong),
-              decoration: InputDecoration(
-                hintText: hint,
-                hintStyle: const TextStyle(
-                  color: AppColors.muted,
-                  fontSize: 14,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: 52,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: errorText != null ? AppColors.danger : AppColors.border,
+            ),
+          ),
+          child: Row(
+            children: [
+              const SizedBox(width: 14),
+              Icon(
+                icon,
+                color: errorText != null ? AppColors.danger : AppColors.primary,
+                size: 20,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: TextField(
+                  controller: controller,
+                  focusNode: focusNode,
+                  keyboardType: keyboardType,
+                  textInputAction: textInputAction,
+                  obscureText: obscureText,
+                  onSubmitted: onSubmitted,
+                  onChanged: onChanged,
+                  style: const TextStyle(fontSize: 14, color: AppColors.textStrong),
+                  decoration: InputDecoration(
+                    hintText: hint,
+                    hintStyle: const TextStyle(
+                      color: AppColors.muted,
+                      fontSize: 14,
+                    ),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    filled: false,
+                    isDense: true,
+                    contentPadding: EdgeInsets.zero,
+                  ),
                 ),
-                border: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                filled: false,
-                isDense: true,
-                contentPadding: EdgeInsets.zero,
+              ),
+              if (suffixIcon != null) ...[suffixIcon!, const SizedBox(width: 4)],
+            ],
+          ),
+        ),
+        if (errorText != null) ...[
+          const SizedBox(height: 4),
+          Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: Text(
+              errorText!,
+              style: const TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                color: AppColors.danger,
               ),
             ),
           ),
-          if (suffixIcon != null) ...[suffixIcon!, const SizedBox(width: 4)],
         ],
-      ),
+      ],
     );
   }
 }

@@ -202,18 +202,24 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
                         ? AppColors.primarySoft
                         : AppColors.cardAlt,
                     borderRadius: BorderRadius.circular(tokens.radius12),
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(tokens.radius12),
-                      onTap: () => setState(
-                        () => _showCollectionsPanel = !_showCollectionsPanel,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(14),
-                        child: Icon(
-                          Icons.tune,
-                          color: _showCollectionsPanel
-                              ? AppColors.primary
-                              : AppColors.textStrong,
+                    child: Semantics(
+                      button: true,
+                      label: _showCollectionsPanel
+                          ? 'Koleksiyon panelini kapat'
+                          : 'Koleksiyon panelini aç',
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(tokens.radius12),
+                        onTap: () => setState(
+                          () => _showCollectionsPanel = !_showCollectionsPanel,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(14),
+                          child: Icon(
+                            Icons.tune,
+                            color: _showCollectionsPanel
+                                ? AppColors.primary
+                                : AppColors.textStrong,
+                          ),
                         ),
                       ),
                     ),
@@ -348,15 +354,19 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
                             : Material(
                                 color: Colors.white.withValues(alpha: 0.92),
                                 shape: const CircleBorder(),
-                                child: InkWell(
-                                  customBorder: const CircleBorder(),
-                                  onTap: () => _openCollectionPicker(b),
-                                  child: const Padding(
-                                    padding: EdgeInsets.all(8),
-                                    child: Icon(
-                                      Icons.folder_copy_outlined,
-                                      color: AppColors.muted,
-                                      size: 18,
+                                child: Semantics(
+                                  button: true,
+                                  label: 'Koleksiyona ekle',
+                                  child: InkWell(
+                                    customBorder: const CircleBorder(),
+                                    onTap: () => _openCollectionPicker(b),
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(8),
+                                      child: Icon(
+                                        Icons.folder_copy_outlined,
+                                        color: AppColors.muted,
+                                        size: 18,
+                                      ),
                                     ),
                                   ),
                                 ),

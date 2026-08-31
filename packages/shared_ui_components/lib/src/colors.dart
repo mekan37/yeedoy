@@ -65,6 +65,9 @@ class AppColors {
   static const warningIcon = Color(0xFFD97706); // amber-600 — icon on amber bg
   static const warningBg = Color(0xFFFEF3C7);   // amber-50  — subtle background
   // warningBorder → use AppColors.warning (0xFFF59E0B)
+  // WCAG AA fix: AppPalette.warning (#F59E0B) = 2.17:1 on white (fails badly).
+  // Use warningText whenever warning renders as readable text, not a background/icon fill.
+  static const warningText = Color(0xFFB45309); // amber-700 — 5.03:1 on white ✅
 
   // Danger surface
   static const dangerBg = Color(0xFFFEE2E2);    // red-100   — subtle error background
