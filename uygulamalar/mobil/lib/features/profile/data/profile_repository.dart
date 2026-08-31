@@ -27,7 +27,7 @@ class ProfileRepository {
     try {
       final row = await _supabase
           .from('user_profiles')
-          .select('user_id,display_name,social_links,language_code,birth_date,gender')
+          .select('user_id,display_name,social_links,language_code,birth_date,gender,city')
           .eq('user_id', uid)
           .single();
       final data = (row as Map).cast<String, dynamic>();
@@ -59,6 +59,7 @@ class ProfileRepository {
             ? DateTime.tryParse(data['birth_date'].toString())
             : null,
         gender: data['gender']?.toString(),
+        city: data['city']?.toString(),
       );
     } on PostgrestException catch (e) {
       // No row found => return null, anything else rethrow.
@@ -126,6 +127,13 @@ class ProfileRepository {
       'display_name': (existing?['display_name'] as String?) ?? 'Kullanici',
       'birth_date': birthDate?.toIso8601String().substring(0, 10),
     }, onConflict: 'user_id');
+  }
+
+  /// Sadece city kolonunu günceller; diğer alanları dokunmaz.
+  Future<void> updateCity(String? city) async {
+    final uid = _supabase.auth.currentUser?.id;
+    if (uid == null) return;
+    await _supabase.rpc('ensure_my_profile_v1', params: {'p_city': city});
   }
 
   /// Sadece gender kolonunu günceller; diğer alanları dokunmaz.

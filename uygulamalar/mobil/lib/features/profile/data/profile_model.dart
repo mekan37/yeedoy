@@ -11,6 +11,7 @@ class Profile {
     this.socialLinks = const {},
     this.birthDate,
     this.gender,
+    this.city,
   });
 
   final String id;
@@ -22,6 +23,7 @@ class Profile {
   final Map<String, String> socialLinks;
   final DateTime? birthDate;
   final String? gender;
+  final String? city;
 
   Profile copyWith({
     String? id,
@@ -33,6 +35,7 @@ class Profile {
     Map<String, String>? socialLinks,
     DateTime? birthDate,
     String? gender,
+    String? city,
   }) {
     return Profile(
       id: id ?? this.id,
@@ -44,6 +47,7 @@ class Profile {
       socialLinks: socialLinks ?? this.socialLinks,
       birthDate: birthDate ?? this.birthDate,
       gender: gender ?? this.gender,
+      city: city ?? this.city,
     );
   }
 
@@ -78,6 +82,7 @@ class Profile {
           ? DateTime.tryParse(map['birth_date'].toString())
           : null,
       gender: map['gender']?.toString(),
+      city: map['city']?.toString(),
     );
   }
 
@@ -95,6 +100,7 @@ class Profile {
       if (birthDate != null)
         'birth_date': birthDate!.toIso8601String().substring(0, 10),
       if (gender != null) 'gender': gender,
+      if (city != null) 'city': city,
     };
   }
 }
