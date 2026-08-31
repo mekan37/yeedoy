@@ -8,6 +8,7 @@ import '../../discovery/domain/business_card.dart';
 import '../../discovery/domain/discovery_search_notifier.dart';
 import '../domain/smart_feed_controller.dart';
 import '../domain/smart_feed_models.dart';
+import 'regional_recommendation_banner.dart';
 
 class SmartFeedPage extends ConsumerStatefulWidget {
   const SmartFeedPage({super.key});
@@ -81,6 +82,10 @@ class _SmartFeedPageState extends ConsumerState<SmartFeedPage> {
                 ],
               ),
             ),
+          ),
+
+          SliverToBoxAdapter(
+            child: const RegionalRecommendationBanner(),
           ),
 
           const SliverToBoxAdapter(child: SizedBox(height: 20)),
