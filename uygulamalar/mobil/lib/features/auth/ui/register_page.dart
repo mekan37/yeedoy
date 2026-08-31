@@ -6,9 +6,11 @@ import '../../../app/theme/colors.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/security/route_sanitizer.dart';
+import '../../../core/location/turkiye_illeri.dart';
 import '../../legal/legal_linking.dart';
 import '../../legal/legal_providers.dart';
 import '../../legal/legal_repository.dart';
+import '../../profile/data/profile_repository.dart';
 import '../data/auth_service_provider.dart';
 import 'widgets/auth_segmented_tab_bar.dart';
 import 'widgets/auth_shell_scaffold.dart';
@@ -34,6 +36,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   bool _loading = false;
   String? _errorMessage;
   DateTime? _birthDate;
+  String? _selectedCity;
 
   @override
   void dispose() {
@@ -88,6 +91,15 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         } finally {
           ref.invalidate(legalAcceptanceSnapshotProvider);
         }
+        if (_selectedCity != null) {
+          try {
+            await ref
+                .read(profileRepositoryProvider)
+                .updateCity(_selectedCity);
+          } catch (_) {
+            // Şehir kaydedilemese bile kayıt akışını bloklamaz — profilden sonra eklenebilir.
+          }
+        }
       }
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -134,6 +146,71 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       helpText: 'Doğum tarihinizi seçin',
     );
     if (picked != null) setState(() => _birthDate = picked);
+  }
+
+  Future<void> _pickCity(BuildContext context) async {
+    final searchCtrl = TextEditingController();
+    final picked = await showModalBottomSheet<String>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetContext) {
+        var filter = '';
+        return StatefulBuilder(
+          builder: (context, setSheetState) {
+            final maxHeight = MediaQuery.sizeOf(context).height * 0.72;
+            final filtered = turkiyeIlleri
+                .where((il) => il.toLowerCase().contains(filter.toLowerCase()))
+                .toList();
+            return SafeArea(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: maxHeight),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 12),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Text(
+                        'Yaşadığın Şehir',
+                        style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15),
+                      ),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: searchCtrl,
+                        onChanged: (v) => setSheetState(() => filter = v),
+                        decoration: const InputDecoration(
+                          hintText: 'Şehir ara...',
+                          prefixIcon: Icon(Icons.search_rounded, size: 20),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Flexible(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: filtered.length,
+                          itemBuilder: (context, index) {
+                            final il = filtered[index];
+                            return ListTile(
+                              title: Text(il),
+                              onTap: () => Navigator.of(sheetContext).pop(il),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+    if (picked != null) setState(() => _selectedCity = picked);
   }
 
   Future<void> _openLegalUrl(String url) async {
@@ -313,6 +390,47 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           style: TextStyle(
                             fontSize: 14,
                             color: _birthDate == null
+                                ? AppColors.muted
+                                : AppColors.textStrong,
+                          ),
+                        ),
+                      ),
+                      const Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: AppColors.muted,
+                        size: 22,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              // ── Şehir (opsiyonel) ────────────────────────────────────
+              GestureDetector(
+                onTap: () => _pickCity(context),
+                child: Container(
+                  height: 52,
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: AppColors.border),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.location_city_outlined,
+                        color: AppColors.primary,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          _selectedCity ?? 'Yaşadığın şehir (opsiyonel)',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: _selectedCity == null
                                 ? AppColors.muted
                                 : AppColors.textStrong,
                           ),
