@@ -20,12 +20,14 @@ final regionalRecommendationProvider = NotifierProvider<
 class RegionalRecommendationController
     extends Notifier<RegionalRecommendationState> {
   int _requestId = 0;
+  String? _lastRequestedCity;
 
   @override
   RegionalRecommendationState build() => RegionalRecommendationState.empty;
 
   Future<void> checkCity(String city) async {
-    if (city == state.city) return;
+    if (city == _lastRequestedCity) return;
+    _lastRequestedCity = city;
     final reqId = ++_requestId;
     try {
       final businesses =
