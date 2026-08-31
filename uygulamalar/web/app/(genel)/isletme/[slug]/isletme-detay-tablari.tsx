@@ -306,7 +306,7 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
           {yorum.photos.map((url, i) => (
             <a key={url} href={url} target="_blank" rel="noopener noreferrer" className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-border">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={url} alt={`Yorum fotoğrafı ${i + 1}`} className="h-full w-full object-cover" />
+              <img src={url} alt={`Yorum fotoğrafı ${i + 1}`} loading="lazy" className="h-full w-full object-cover" />
             </a>
           ))}
         </div>

@@ -126,7 +126,7 @@ function AlertCard({ alert: a, fmt }: { alert: AlertRow; fmt: (cents: number, cu
           )}
         </div>
         <div className="flex shrink-0 flex-col items-end gap-3">
-          <AlarmToggle alertId={a.id} isActive={a.is_active} />
+          <AlarmToggle alertId={a.id} isActive={a.is_active} itemName={item?.name} />
           <AlarmSilButonu alertId={a.id} />
         </div>
       </div>

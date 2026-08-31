@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import { PublicShell } from '@/src/ui/acik/yerlesim';
@@ -139,8 +140,7 @@ export default function DiscoverPage() {
                   Kampanyalara Git
                 </Link>
               </div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/promo-burgerkola.webp" alt="" aria-hidden="true" className="absolute -bottom-2 right-0 h-[140px] w-auto object-contain drop-shadow-lg select-none" />
+              <Image src="/promo-burgerkola.webp" alt="" aria-hidden="true" width={1254} height={1254} className="absolute -bottom-2 right-0 h-[140px] w-auto object-contain drop-shadow-lg select-none" />
             </div>
             <div
               className="relative flex min-h-[148px] items-center overflow-hidden rounded-2xl p-5"
@@ -153,8 +153,7 @@ export default function DiscoverPage() {
                   Önerilere Bak
                 </Link>
               </div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/promo-salata.webp" alt="" aria-hidden="true" className="absolute -bottom-2 -right-4 h-[140px] w-auto object-contain drop-shadow-lg select-none" />
+              <Image src="/promo-salata.webp" alt="" aria-hidden="true" width={1254} height={1254} className="absolute -bottom-2 -right-4 h-[140px] w-auto object-contain drop-shadow-lg select-none" />
             </div>
           </div>
 

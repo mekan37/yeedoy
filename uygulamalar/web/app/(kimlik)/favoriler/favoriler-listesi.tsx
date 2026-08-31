@@ -321,7 +321,7 @@ function FavoriKart({ fav, onRemove }: { fav: FavIsletme; onRemove: () => void }
         </div>
 
         {/* Eklenme tarihi */}
-        <p className="mt-1.5 text-[11px] font-bold text-muted/70">
+        <p className="mt-1.5 text-[11px] font-bold text-muted">
           {formatZaman(fav.created_at)} eklendi
         </p>
       </div>
@@ -333,6 +333,7 @@ function FavoriKart({ fav, onRemove }: { fav: FavIsletme; onRemove: () => void }
           onClick={handleRemove}
           disabled={removing}
           title="Favorilerden kaldır"
+          aria-label="Favorilerden kaldır"
           className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-50 text-red-500 transition hover:bg-red-100 disabled:opacity-50">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
@@ -341,6 +342,7 @@ function FavoriKart({ fav, onRemove }: { fav: FavIsletme; onRemove: () => void }
         <button
           type="button"
           title="Seçenekler"
+          aria-label="Seçenekler"
           className="flex h-9 w-9 items-center justify-center rounded-xl border border-border text-muted transition hover:border-primary/30 hover:text-textStrong">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/>

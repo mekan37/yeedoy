@@ -120,7 +120,7 @@ export function SifreSifirlamaFormu() {
                   </svg>
                 </span>
                 <div>
-                  <p className="text-base font-black text-warning">Bağlantı bekleniyor</p>
+                  <p className="text-base font-black text-warningText">Bağlantı bekleniyor</p>
                   <p className="mt-1 text-sm leading-relaxed text-muted">
                     E-postanızdaki sıfırlama bağlantısına tıklayarak bu sayfaya gelmeniz gerekiyor.
                   </p>

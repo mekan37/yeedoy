@@ -27,6 +27,8 @@
 
   --yd-color-success: #15803d;
   --yd-color-warning: #f59e0b;
+  /* WCAG AA text contrast (4.5:1) needs a darker amber than --yd-color-warning; use this whenever warning renders as readable text rather than a background/icon fill. */
+  --yd-color-warning-text: #b45309;
   --yd-color-danger: #b91c1c;
   --yd-color-info: #1d4ed8;
   --yd-color-star: #fbbf24;
@@ -43,6 +45,7 @@
   --yd-color-border-rgb: 229 231 235;
   --yd-color-success-rgb: 21 128 61;
   --yd-color-warning-rgb: 245 158 11;
+  --yd-color-warning-text-rgb: 180 83 9;
   --yd-color-danger-rgb: 185 28 28;
   --yd-color-info-rgb: 29 78 216;
   --yd-color-star-rgb: 251 191 36;

@@ -124,7 +124,7 @@ export function OneriFormu({ userEmail }: { userEmail: string }) {
           className="min-h-[48px] rounded-xl text-sm font-black text-white disabled:opacity-50"
           style={{ background: 'var(--yd-gradient-primary)' }}
         >
-          {pending ? 'Gönderiliyor…' : 'Gönder'}
+          {pending ? 'Gönderiliyor…' : 'Öneriyi Gönder'}
         </button>
       </div>
     </form>

@@ -446,7 +446,7 @@ export default function ProfileSettingsPage() {
                   <div>
                     <div className="mb-1.5 flex items-center justify-between">
                       <FormLabel htmlFor="hakkinda">Hakkımda</FormLabel>
-                      <span className={`text-[11px] font-bold ${hakkinda.length > HAKKINDA_MAX * 0.9 ? 'text-warning' : 'text-muted'}`}>
+                      <span className={`text-[11px] font-bold ${hakkinda.length > HAKKINDA_MAX * 0.9 ? 'text-warningText' : 'text-muted'}`}>
                         {hakkinda.length}/{HAKKINDA_MAX}
                       </span>
                     </div>

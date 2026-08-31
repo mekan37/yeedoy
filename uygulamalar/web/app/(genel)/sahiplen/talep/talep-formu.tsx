@@ -111,7 +111,7 @@ export function TalepFormu({ businessId }: TalepFormuProps) {
       <div className="flex flex-col gap-1.5">
         <label className="text-xs font-extrabold text-muted">
           Sahiplik Kanıtı{' '}
-          <span className="font-normal text-muted/60">(opsiyonel · maks. {MAX_MB} MB)</span>
+          <span className="font-normal text-muted">(opsiyonel · maks. {MAX_MB} MB)</span>
         </label>
         <p className="text-xs text-muted">
           Vergi levhası, kira sözleşmesi veya resmi yazışma. PDF, JPG ya da PNG olarak yükleyin.
@@ -155,7 +155,7 @@ export function TalepFormu({ businessId }: TalepFormuProps) {
 
       <div className="flex flex-col gap-1.5">
         <label className="text-xs font-extrabold text-muted">
-          Ek Not <span className="font-normal text-muted/60">(opsiyonel)</span>
+          Ek Not <span className="font-normal text-muted">(opsiyonel)</span>
         </label>
         <textarea
           value={note}

@@ -117,7 +117,7 @@ export default function SifreDegistirPage() {
                   className="w-full rounded-2xl border border-border bg-bg px-4 py-3 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
                 />
                 {newPassword.length > 0 && !newPasswordValid && (
-                  <p className="mt-1 text-xs text-warning">
+                  <p className="mt-1 text-xs text-warningText">
                     En az {MIN_LENGTH} karakter gerekli ({newPassword.length}/{MIN_LENGTH})
                   </p>
                 )}

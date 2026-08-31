@@ -15,6 +15,7 @@
   --color-muted: rgb(var(--yd-color-muted-rgb));
   --color-success: rgb(var(--yd-color-success-rgb));
   --color-warning: rgb(var(--yd-color-warning-rgb));
+  --color-warningText: rgb(var(--yd-color-warning-text-rgb));
   --color-danger: rgb(var(--yd-color-danger-rgb));
   --color-info: rgb(var(--yd-color-info-rgb));
   --color-star: rgb(var(--yd-color-star-rgb));

@@ -134,7 +134,7 @@ function KampanyaKarti({ k }: { k: Kampanya }) {
       <div className="flex flex-col gap-1.5 p-3">
         <p className="text-base font-black text-textStrong leading-tight">{k.baslik}</p>
         <p className="text-[13px] font-bold text-muted line-clamp-2 leading-snug">{k.aciklama}</p>
-        <p className="text-[11px] font-bold text-muted/70">
+        <p className="text-[11px] font-bold text-muted">
           {[k.name, k.category].filter(Boolean).join(' · ')}
         </p>
 

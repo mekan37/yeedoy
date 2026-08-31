@@ -350,7 +350,7 @@ export function FiyatAnomali({ items }: { items: FiyatAnomaliItem[] }) {
                 <p className="mt-3 text-base font-black text-textStrong">{fiyatStr(item.median_price_cents)}</p>
               )}
               {diff ? (
-                <p className={`mt-1 text-xs font-black ${diff.tone === 'success' ? 'text-success' : 'text-warning'}`}>
+                <p className={`mt-1 text-xs font-black ${diff.tone === 'success' ? 'text-success' : 'text-warningText'}`}>
                   {diff.text}
                 </p>
               ) : null}

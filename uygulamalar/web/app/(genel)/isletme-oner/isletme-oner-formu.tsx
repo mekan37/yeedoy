@@ -242,7 +242,7 @@ function EslesenIsletmelerModal({
                         </span>
                       )}
                       {b.address && (
-                        <span className="text-[12px] font-bold text-muted/70 truncate max-w-[260px]" title={b.address}>
+                        <span className="text-[12px] font-bold text-muted truncate max-w-[260px]" title={b.address}>
                           {b.address}
                         </span>
                       )}
@@ -687,7 +687,7 @@ export function IsletmeOnerFormu() {
                         <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
                       </svg>
                       <p className="text-sm font-extrabold text-muted">Fotoğrafları buraya sürükle veya tıkla</p>
-                      <p className="text-xs font-bold text-muted/70">JPG, PNG, WebP, GIF veya HEIC · en fazla 5 fotoğraf</p>
+                      <p className="text-xs font-bold text-muted">JPG, PNG, WebP, GIF veya HEIC · en fazla 5 fotoğraf</p>
                     </div>
                     <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/heic,image/heif" multiple className="hidden" onChange={(e) => handleFiles(e.target.files)} />
                     {photos.length > 0 && (

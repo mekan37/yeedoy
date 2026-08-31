@@ -5,7 +5,7 @@ import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 
-export function AlarmToggle({ alertId, isActive }: { alertId: string; isActive: boolean }) {
+export function AlarmToggle({ alertId, isActive, itemName }: { alertId: string; isActive: boolean; itemName?: string }) {
   const router = useRouter();
   const [active, setActive] = useState(isActive);
   const [pending, startTransition] = useTransition();
@@ -26,6 +26,7 @@ export function AlarmToggle({ alertId, isActive }: { alertId: string; isActive: 
       disabled={pending}
       className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 disabled:opacity-60 ${active ? 'bg-primary' : 'bg-border'}`}
       aria-checked={active}
+      aria-label={itemName ? `${itemName} için fiyat alarmı` : 'Fiyat alarmı'}
       role="switch"
     >
       <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform duration-200 ${active ? 'translate-x-5' : 'translate-x-0.5'}`} />
