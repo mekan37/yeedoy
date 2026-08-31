@@ -11,6 +11,7 @@ import '../storage/location_prefs.dart';
 import '../analytics/analytics_repository.dart';
 import '../errors/app_error_codes.dart';
 import '../../features/discovery/domain/discovery_search_notifier.dart';
+import '../../features/smart_feed/domain/regional_recommendation_controller.dart';
 import '../../features/smart_feed/domain/smart_feed_controller.dart';
 import 'location_mapping.dart';
 import 'user_location_repository.dart';
@@ -271,6 +272,9 @@ class UserLocationController extends Notifier<UserLocationState> {
     await ref
         .read(smartFeedProvider.notifier)
         .setLocation(city: city, district: district);
+    unawaited(
+      ref.read(regionalRecommendationProvider.notifier).checkCity(city),
+    );
   }
 
   Future<(double lat, double lng)> _getLocation() async {
