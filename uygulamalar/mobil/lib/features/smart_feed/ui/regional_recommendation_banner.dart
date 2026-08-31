@@ -25,12 +25,16 @@ class RegionalRecommendationBanner extends ConsumerWidget {
             children: [
               const Icon(Icons.location_on_rounded, color: AppColors.primary, size: 18),
               const SizedBox(width: 6),
-              Text(
-                '${state.city}\'desin!',
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w900,
-                  color: AppColors.textStrong,
+              Expanded(
+                child: Text(
+                  '${state.city}\'desin!',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.textStrong,
+                  ),
                 ),
               ),
             ],
