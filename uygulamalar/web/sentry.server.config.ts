@@ -7,6 +7,12 @@ import * as Sentry from "@sentry/nextjs";
 Sentry.init({
   dsn: "https://1960d8a51dd860f83af1893a8d29bd0c@o4511903059738624.ingest.de.sentry.io/4511903317491792",
 
+  // Yerel `pnpm dev` istekleri aynı prod projesine gidiyordu (environment=development
+  // tag'i vardı ama filtre yoktu) — hem gerçek prod issue'ları geliştirici HMR/Turbopack
+  // gürültüsüne gömüyordu hem de span kotasını tüketiyordu. `next dev` NODE_ENV'i
+  // "development" bırakır, `next build`/Vercel (preview + production) "production" yapar.
+  enabled: process.env.NODE_ENV === "production",
+
   // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
   tracesSampleRate: 1,
 

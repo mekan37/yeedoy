@@ -13,6 +13,17 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+// Supabase'in PostgrestBuilder'ı thenable ama .catch/.finally uygulamıyor —
+// builder'a doğrudan .catch() zincirlemek "is not a function" ile patlıyordu.
+// Builder'ı await edip try/catch'e almak güvenli yol.
+async function safeRpc<T>(builder: PromiseLike<{ data: T | null }>): Promise<{ data: T | null }> {
+  try {
+    return await builder;
+  } catch {
+    return { data: null };
+  }
+}
+
 async function hasPublishedPricedItems(supabase: any, businessId: string): Promise<boolean> {
   const { data: menus } = await supabase
     .from('menus')
@@ -66,8 +77,8 @@ export default async function OwnerPriceReportPage() {
 
   const sb = supabase as any;
   const [{ data: rows }, { data: competitors }, pricedVar] = await Promise.all([
-    sb.rpc('get_business_price_comparison_v1', { p_business_id: biz.id, p_limit: 50 }).catch(() => ({ data: null })),
-    sb.rpc('get_business_price_competitors_v1', { p_business_id: biz.id, p_limit: 20 }).catch(() => ({ data: null })),
+    safeRpc(sb.rpc('get_business_price_comparison_v1', { p_business_id: biz.id, p_limit: 50 })),
+    safeRpc(sb.rpc('get_business_price_competitors_v1', { p_business_id: biz.id, p_limit: 20 })),
     hasPublishedPricedItems(sb, biz.id),
   ]);
 

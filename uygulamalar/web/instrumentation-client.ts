@@ -7,6 +7,9 @@ import * as Sentry from "@sentry/nextjs";
 Sentry.init({
   dsn: "https://1960d8a51dd860f83af1893a8d29bd0c@o4511903059738624.ingest.de.sentry.io/4511903317491792",
 
+  // Yerel `pnpm dev` istekleri aynı prod projesine gidiyordu — bkz. sentry.server.config.ts.
+  enabled: process.env.NODE_ENV === "production",
+
   // Session Replay entegrasyonu init sırasında EKLENMİYOR — SDK'sı (~150 KiB'lik
   // ayrı bir chunk) PageSpeed'de "Kullanılmayan JavaScript" ve "Uzun ana iş
   // parçacığı görevleri" bulgularının doğrudan kaynağıydı: %10 örnekleme oranına

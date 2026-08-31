@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { Heart, MessageCircle, MapPin, ThumbsUp, Users, Bell } from 'lucide-react';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { ProfilSidebarNav } from '@/src/ui/acik/profil-sidebar-nav';
@@ -69,6 +70,7 @@ function uyeSuresi(iso: string): string {
 export default async function ProfilPage() {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect('/giris?redirect=/profil');
 
   const [profileRes, statsRes, followersRes, followingRes] = await Promise.all([
     (supabase as any).from('user_profiles').select('display_name, avatar_url, bio, city, created_at').eq('user_id', user!.id).maybeSingle() as Promise<{ data: Profile | null }>,
