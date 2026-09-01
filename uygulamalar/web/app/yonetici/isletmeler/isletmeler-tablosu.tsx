@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
 import { IsletmeSatirEylemleri } from './isletme-satir-eylemleri';
+import { IsletmeDuzenleModal } from './isletme-duzenle-modal';
 import { getPublicBusinessHref, type IsletmeSatiri } from './isletmeler-yardimcilari';
 
 async function topluGuncelle(ids: string[], action: 'approve' | 'reject') {
@@ -20,6 +21,7 @@ export function IsletmelerTablosu({ rows }: { rows: IsletmeSatiri[] }) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const [duzenlenen, setDuzenlenen] = useState<{ id: string; name: string } | null>(null);
 
   const hepsiSecili = rows.length > 0 && rows.every((r) => selected.has(r.id));
 
@@ -113,7 +115,17 @@ export function IsletmelerTablosu({ rows }: { rows: IsletmeSatiri[] }) {
                   </td>
                   <td className="px-5 py-3 text-xs text-muted">{new Date(b.created_at).toLocaleDateString('tr-TR')}</td>
                   <td className="px-5 py-3">
-                    <IsletmeSatirEylemleri id={b.id} isActive={b.is_active} publicHref={publicHref} />
+                    <div className="flex items-center justify-end gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => setDuzenlenen({ id: b.id, name: b.name })}
+                        title="Düzenle"
+                        className="flex h-8 w-8 items-center justify-center rounded-lg border border-border text-muted transition-colors hover:border-primary/30 hover:text-primary"
+                      >
+                        <EditIcon />
+                      </button>
+                      <IsletmeSatirEylemleri id={b.id} isActive={b.is_active} publicHref={publicHref} />
+                    </div>
                   </td>
                 </tr>
               );
@@ -121,6 +133,26 @@ export function IsletmelerTablosu({ rows }: { rows: IsletmeSatiri[] }) {
           </tbody>
         </table>
       </div>
+
+      {duzenlenen && (
+        <IsletmeDuzenleModal
+          businessId={duzenlenen.id}
+          businessName={duzenlenen.name}
+          onClose={() => setDuzenlenen(null)}
+          onSaved={() => {
+            setDuzenlenen(null);
+            router.refresh();
+          }}
+        />
+      )}
     </div>
+  );
+}
+
+function EditIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+    </svg>
   );
 }
