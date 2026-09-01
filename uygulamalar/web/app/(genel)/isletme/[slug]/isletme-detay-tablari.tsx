@@ -417,6 +417,17 @@ function MiniKriterSecici({ label, value, onChange }: { label: string; value: nu
 
 const MAKS_FOTOGRAF = 5;
 
+const YORUM_HATA_MESAJLARI: Record<string, string> = {
+  not_authenticated: 'Oturum açmanız gerekiyor.',
+  business_required: 'İşletme bulunamadı.',
+  bad_rating: 'Geçerli bir puan seçin.',
+  content_too_short: 'Yorum en az 8 karakter olmalı.',
+  emoji_spam: 'Çok fazla emoji/özel karakter kullanımı tespit edildi.',
+  review_daily_rate_limited: 'Günlük yorum limitine ulaştınız, yarın tekrar deneyin.',
+  new_account_rate_limited: 'Yeni hesaplar için günlük yorum limiti aşıldı.',
+  same_business_cooldown: 'Bu işletmeye kısa süre önce yorum yaptınız, biraz bekleyin.',
+};
+
 function YorumYapForm({ businessId, businessSlug }: { businessId: string; businessSlug: string }) {
   const router = useRouter();
   const [yildiz, setYildiz] = useState(0);
@@ -452,20 +463,25 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
         window.location.href = `/giris?redirect=${encodeURIComponent(window.location.pathname)}`;
         return;
       }
-      const { data: yeniYorum, error } = await (sb as any).from('reviews').insert({
-        business_id: businessId,
-        user_id: session.user.id,
-        rating: yildiz,
-        content: metin.trim(),
-        taste_rating: kriterler.taste || null,
-        service_speed_rating: kriterler.service || null,
-        price_performance_rating: kriterler.price || null,
-        cleanliness_rating: kriterler.cleanliness || null,
-        atmosphere_rating: kriterler.atmosphere || null,
-      }).select('id').single();
+      const { data, error } = await sb.rpc('submit_review_v3', {
+        p_business_id: businessId,
+        p_overall_rating: yildiz,
+        p_content: metin.trim(),
+        p_taste_rating: kriterler.taste || undefined,
+        p_service_speed_rating: kriterler.service || undefined,
+        p_price_performance_rating: kriterler.price || undefined,
+        p_cleanliness_rating: kriterler.cleanliness || undefined,
+        p_atmosphere_rating: kriterler.atmosphere || undefined,
+      });
       if (error) throw error;
+      const sonuc = data as { ok?: boolean; error?: string; review_id?: string } | null;
+      if (!sonuc?.ok) {
+        const kod = sonuc?.error ?? 'unknown_error';
+        throw new Error(YORUM_HATA_MESAJLARI[kod] ?? 'Yorum gönderilemedi, tekrar deneyin.');
+      }
+      const yeniYorumId = sonuc.review_id;
 
-      if (fotograflar.length > 0 && yeniYorum?.id) {
+      if (fotograflar.length > 0 && yeniYorumId) {
         const yuklenenUrller: string[] = [];
         for (const dosya of fotograflar) {
           const sikistirilmis = await compressToWebP(dosya, 1600).catch(() => dosya);
@@ -479,7 +495,7 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
         if (yuklenenUrller.length > 0) {
           await (sb as any).from('review_photos').insert(
             yuklenenUrller.map((url) => ({
-              review_id: yeniYorum.id,
+              review_id: yeniYorumId,
               business_id: businessId,
               url,
               created_by: session.user.id,
