@@ -10,7 +10,6 @@ class OfflineCachePrefs {
   static const _recentBusinessIdsKey = 'recent_business_ids_v1';
   static const _favoritesIdsKey = 'cached_favorite_ids_v1';
   static const _favoritesBusinessesKey = 'cached_favorite_businesses_v1';
-  static const _categoriesSnapshotKey = 'cached_categories_snapshot_v1';
   static const _maxRecent = 20;
   static const _metaCachedAtField = 'cached_at';
 
@@ -22,8 +21,6 @@ class OfflineCachePrefs {
   static String _menuSectionsKey(String menuId) =>
       'cached_menu_sections_$menuId';
   static String _menuItemsKey(String menuId) => 'cached_menu_items_$menuId';
-  static String _discoveryFeedKey(String cacheId) =>
-      'cached_discovery_feed_$cacheId';
   static String _metaKey(String key) => '${key}_meta';
 
   static Future<void> saveRecentBusiness(Business business) async {
@@ -157,21 +154,6 @@ class OfflineCachePrefs {
     return prefs.getBool(_offlineSavedKey(menuId)) ?? false;
   }
 
-  static Future<void> saveDiscoveryFeed(
-    String cacheId,
-    List<Map<String, dynamic>> rows,
-  ) async {
-    await _saveJson(_discoveryFeedKey(cacheId), rows);
-  }
-
-  static Future<List<Map<String, dynamic>>?> loadDiscoveryFeed(
-    String cacheId,
-  ) async {
-    final map = await _loadJson(_discoveryFeedKey(cacheId));
-    if (map is! List) return null;
-    return map.whereType<Map>().map((e) => e.cast<String, dynamic>()).toList();
-  }
-
   static Future<void> saveFavoriteIds(List<String> ids) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(_favoritesIdsKey, ids);
@@ -196,24 +178,6 @@ class OfflineCachePrefs {
 
   static Future<DateTime?> loadFavoriteBusinessesCachedAt() async {
     return _loadCachedAt(_favoritesBusinessesKey);
-  }
-
-  static Future<void> saveCategoriesSnapshot(List<String> categories) async {
-    final normalized = categories
-        .map((e) => e.trim())
-        .where((e) => e.isNotEmpty)
-        .toSet()
-        .toList();
-    await _saveJson(_categoriesSnapshotKey, normalized);
-  }
-
-  static Future<List<String>> loadCategoriesSnapshot() async {
-    final map = await _loadJson(_categoriesSnapshotKey);
-    if (map is! List) return const <String>[];
-    return map
-        .map((e) => e.toString().trim())
-        .where((e) => e.isNotEmpty)
-        .toList();
   }
 
   static Future<void> _saveJson(String key, Object value) async {

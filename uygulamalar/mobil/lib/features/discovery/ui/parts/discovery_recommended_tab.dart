@@ -144,18 +144,6 @@ class _RecommendedTabState extends ConsumerState<_RecommendedTab>
       _homeCategories.sort(
         (a, b) => (counts[b.id] ?? 0).compareTo(counts[a.id] ?? 0),
       );
-    } else {
-      final cached = await OfflineCachePrefs.loadCategoriesSnapshot();
-      if (cached.isNotEmpty) {
-        final rank = <String, int>{
-          for (var i = 0; i < cached.length; i++) cached[i]: i,
-        };
-        _homeCategories.sort((a, b) {
-          final ra = rank[a.id] ?? 999;
-          final rb = rank[b.id] ?? 999;
-          return ra.compareTo(rb);
-        });
-      }
     }
     if (!mounted) return;
     setState(() {});

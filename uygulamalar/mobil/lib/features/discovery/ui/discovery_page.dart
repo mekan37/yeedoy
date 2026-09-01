@@ -31,7 +31,6 @@ import '../../../core/i18n/formatters.dart';
 import '../../../core/config/feature_flags.dart';
 import '../../../core/location/user_location_controller.dart';
 import '../../../core/storage/category_prefs.dart';
-import '../../../core/storage/offline_cache_prefs.dart';
 import '../../../core/storage/search_prefs.dart';
 
 import '../../auth/domain/auth_providers.dart';
