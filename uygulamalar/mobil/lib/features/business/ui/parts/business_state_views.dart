@@ -368,11 +368,11 @@ int? _parseMinutes(String? value) {
 
 String _menuImageForIndex(int index) {
   const pool = [
-    'assets/images/categories/kebap.png',
-    'assets/images/categories/pizza.png',
-    'assets/images/categories/burger.png',
-    'assets/images/categories/lahmacun.png',
-    'assets/images/categories/tatli.png',
+    'assets/images/categories/kebap.webp',
+    'assets/images/categories/pizza.webp',
+    'assets/images/categories/burger.webp',
+    'assets/images/categories/lahmacun.webp',
+    'assets/images/categories/tatli.webp',
   ];
   return pool[index % pool.length];
 }

@@ -159,7 +159,7 @@ class _DiscoveryCampaignPromoCard extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(tokens.radius16),
                     child: Image.asset(
-                      'assets/images/categories/tatli.png',
+                      'assets/images/categories/tatli.webp',
                       width: 72,
                       height: 72,
                       fit: BoxFit.cover,
