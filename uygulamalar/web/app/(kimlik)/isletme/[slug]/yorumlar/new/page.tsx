@@ -15,6 +15,17 @@ const CRITERIA = [
 
 type CriteriaKey = (typeof CRITERIA)[number]['key'];
 
+const ERROR_MESSAGES: Record<string, string> = {
+  not_authenticated: 'Oturum açmanız gerekiyor.',
+  business_required: 'İşletme bulunamadı.',
+  bad_rating: 'Geçerli bir puan seçin.',
+  content_too_short: 'Yorum en az 8 karakter olmalı.',
+  emoji_spam: 'Çok fazla emoji/özel karakter kullanımı tespit edildi.',
+  review_daily_rate_limited: 'Günlük yorum limitine ulaştınız, yarın tekrar deneyin.',
+  new_account_rate_limited: 'Yeni hesaplar için günlük yorum limiti aşıldı.',
+  same_business_cooldown: 'Bu işletmeye kısa süre önce yorum yaptınız, biraz bekleyin.',
+};
+
 function YildizSatiri({ value, onChange, label }: { value: number; onChange: (v: number) => void; label: string }) {
   const [hover, setHover] = useState(0);
   return (
@@ -83,20 +94,25 @@ export default function YeniYorumSayfasi() {
     setError(null);
     try {
       const supabase = createSupabaseBrowserClient();
-      const payload = {
-        business_id: bizId,
-        user_id: userId,
-        rating,
-        title: title.trim() || null,
-        content,
-        ...(criteria.taste_rating > 0 ? { taste_rating: criteria.taste_rating } : {}),
-        ...(criteria.service_speed_rating > 0 ? { service_speed_rating: criteria.service_speed_rating } : {}),
-        ...(criteria.price_performance_rating > 0 ? { price_performance_rating: criteria.price_performance_rating } : {}),
-        ...(criteria.cleanliness_rating > 0 ? { cleanliness_rating: criteria.cleanliness_rating } : {}),
-        ...(criteria.atmosphere_rating > 0 ? { atmosphere_rating: criteria.atmosphere_rating } : {}),
-      };
-      const { error: err } = await (supabase as any).from('reviews').insert(payload);
+      const sb = supabase as unknown as { rpc: (fn: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }> };
+      const { data, error: err } = await sb.rpc('submit_review_v3', {
+        p_business_id: bizId,
+        p_overall_rating: rating,
+        p_title: title.trim() || null,
+        p_content: content,
+        p_taste_rating: criteria.taste_rating > 0 ? criteria.taste_rating : null,
+        p_service_speed_rating: criteria.service_speed_rating > 0 ? criteria.service_speed_rating : null,
+        p_price_performance_rating: criteria.price_performance_rating > 0 ? criteria.price_performance_rating : null,
+        p_cleanliness_rating: criteria.cleanliness_rating > 0 ? criteria.cleanliness_rating : null,
+        p_atmosphere_rating: criteria.atmosphere_rating > 0 ? criteria.atmosphere_rating : null,
+      });
       if (err) throw err;
+      const sonuc = data as { ok?: boolean; error?: string } | null;
+      if (!sonuc?.ok) {
+        const kod = sonuc?.error ?? 'unknown_error';
+        setError(ERROR_MESSAGES[kod] ?? 'Yorum gönderilemedi, tekrar deneyin.');
+        return;
+      }
       router.push(`/isletme/${slug}/yorumlar`);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Bir hata oluştu');
