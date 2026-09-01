@@ -58,10 +58,10 @@ export async function PATCH(req: Request) {
     if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   } else if (data.type === 'reviews') {
     const newStatus = data.action === 'approve' ? 'approved' : 'rejected';
-    const { error } = await supabaseAny
-      .from('reviews')
-      .update({ status: newStatus })
-      .in('id', data.ids);
+    const { error } = await supabaseAny.rpc('admin_moderate_reviews_v1', {
+      p_ids: data.ids,
+      p_status: newStatus,
+    });
     if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   } else {
     const update =

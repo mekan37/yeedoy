@@ -41,14 +41,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'review_not_found' }, { status: 404 });
   }
 
-  const repliedAt = new Date().toISOString();
-  const { error } = await supabaseAny
-    .from('reviews')
-    .update({
-      owner_reply: parsed.data.reply,
-      owner_replied_at: repliedAt,
-    })
-    .eq('id', parsed.data.reviewId);
+  const { data: repliedAt, error } = await supabaseAny.rpc('owner_reply_review_v1', {
+    p_review_id: parsed.data.reviewId,
+    p_reply: parsed.data.reply,
+  });
 
   if (error) {
     return NextResponse.json({ error: 'internal_error' }, { status: 500 });
@@ -85,10 +81,9 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: 'review_not_found' }, { status: 404 });
   }
 
-  const { error } = await supabaseAny
-    .from('reviews')
-    .update({ owner_reply: null, owner_replied_at: null })
-    .eq('id', parsed.data.reviewId);
+  const { error } = await supabaseAny.rpc('owner_clear_review_reply_v1', {
+    p_review_id: parsed.data.reviewId,
+  });
 
   if (error) {
     return NextResponse.json({ error: 'internal_error' }, { status: 500 });
