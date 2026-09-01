@@ -1,0 +1,18 @@
+-- Task 6 kod kalitesi incelemesi: web'in yorum yazma sayfası submit_review_v3 RPC'sine
+-- bağlandı (moderasyon/rate-limit/strike kontrolü aktifleşti), AMA reviews tablosunun
+-- kendisi hâlâ authenticated rolüne doğrudan INSERT/UPDATE izni veriyordu — RLS
+-- (auth.uid()=user_id) dışında hiçbir kontrol yok. Yani biri UI'ı tamamen atlayıp
+-- doğrudan REST API'ye (PostgREST /rest/v1/reviews) istek atarak profanity/rate-limit/
+-- content-length kontrolünü ve strike kaydını bypass edebilirdi — hangi status ile
+-- kaydedileceğini bile kendisi seçebilirdi.
+--
+-- Doğrulama: hiçbir web/mobil kod yolu .from('reviews').update()/.delete() çağırmıyor
+-- (reviews_update_own/reviews_delete_own RLS policy'leri var ama kullanılmıyor —
+-- "yorumu düzenle/sil" özelliği henüz hiçbir platformda yok). INSERT tarafının tek
+-- kalan gerçek kullanıcısı olan uygulamalar/web/app/(genel)/isletme/[slug]/
+-- isletme-detay-tablari.tsx'teki YorumYapForm da bu migration'dan önce submit_review_v3'e
+-- geçirildi. Bu yüzden bu REVOKE hiçbir mevcut özelliği kırmıyor.
+--
+-- submit_review_v1/v2/v3 SECURITY DEFINER olduğu için (tablo sahibi olarak çalışıyor)
+-- bu REVOKE'tan etkilenmez, yazma yolu olarak çalışmaya devam eder.
+REVOKE INSERT, UPDATE, DELETE ON TABLE public.reviews FROM anon, authenticated;
