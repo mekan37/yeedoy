@@ -67,6 +67,7 @@ export function IsletmeDuzenleModal({
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState<GenelForm>(BOS_FORM);
   const [saatler, setSaatler] = useState<CalismaSaatiSatiri[]>(bosSaatler());
+  const [saatlerDegisti, setSaatlerDegisti] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -74,6 +75,7 @@ export function IsletmeDuzenleModal({
     let iptal = false;
     setLoading(true);
     setError(null);
+    setSaatlerDegisti(false);
     Promise.all([isletmeDetayGetir(businessId), calismaSaatleriGetir(businessId)]).then(([detay, saatVerisi]) => {
       if (iptal) return;
       if (detay) {
@@ -98,10 +100,14 @@ export function IsletmeDuzenleModal({
       } else {
         setError('İşletme bilgileri yüklenemedi.');
       }
-      if (saatVerisi.length === 7) {
-        const byDow = new Map(saatVerisi.map((s) => [s.day_of_week, s]));
-        setSaatler(GUN_SIRASI.map(({ dow }) => byDow.get(dow) ?? { day_of_week: dow, open_time: '09:00', close_time: '22:00', is_closed: false }));
-      }
+      // Her gün kendi getirilen değerini kullanır; yalnızca gerçekten eksik olan
+      // günler için varsayılan değer uygulanır. Eskiden `saatVerisi.length === 7`
+      // ile tüm-ya-da-hiç kontrolü yapılıyordu — bu, kısmi satırı olan (Google
+      // katalog importundan kalma, 1-6 satır) işletmelerde fetch'i tamamen
+      // görmezden gelip bosSaatler() varsayılanlarını state'te bırakıyordu; kaydet()
+      // sonra bu uydurma saatleri gerçek (kısmi) verinin üzerine yazıyordu.
+      const byDow = new Map(saatVerisi.map((s) => [s.day_of_week, s]));
+      setSaatler(GUN_SIRASI.map(({ dow }) => byDow.get(dow) ?? { day_of_week: dow, open_time: '09:00', close_time: '22:00', is_closed: false }));
       setLoading(false);
     });
     return () => { iptal = true; };
@@ -112,6 +118,7 @@ export function IsletmeDuzenleModal({
   }
 
   function saatGuncelle(dow: number, patch: Partial<CalismaSaatiSatiri>) {
+    setSaatlerDegisti(true);
     setSaatler((prev) => prev.map((s) => (s.day_of_week === dow ? { ...s, ...patch } : s)));
   }
 
@@ -144,8 +151,13 @@ export function IsletmeDuzenleModal({
       });
       if (!genelSonuc.ok) { setError(genelSonuc.error); return; }
 
-      const saatSonuc = await isletmeSaatleriGuncelle(businessId, saatler);
-      if (!saatSonuc.ok) { setError(saatSonuc.error); return; }
+      // Saatler sekmesi hiç açılmadıysa / hiçbir saat alanı değiştirilmediyse
+      // admin_upsert_business_hours_v1 hiç çağrılmaz — salt "Genel Bilgiler"
+      // düzenlemesi business_weekly_hours'a asla dokunmaz (fix #1'e ek savunma katmanı).
+      if (saatlerDegisti) {
+        const saatSonuc = await isletmeSaatleriGuncelle(businessId, saatler);
+        if (!saatSonuc.ok) { setError(saatSonuc.error); return; }
+      }
 
       onSaved();
     });
@@ -174,7 +186,7 @@ export function IsletmeDuzenleModal({
 
         <div className="flex gap-1 border-b border-border px-5 pt-3">
           <TabButton active={tab === 'genel'} onClick={() => setTab('genel')}>Genel Bilgiler</TabButton>
-          <TabButton active={tab === 'saatler'} onClick={() => setTab('saatler')}>Çalışma Saatleri</TabButton>
+          <TabButton active={tab === 'saatler'} onClick={() => { setTab('saatler'); setSaatlerDegisti(true); }}>Çalışma Saatleri</TabButton>
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 py-4">
