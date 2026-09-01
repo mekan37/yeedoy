@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useParams } from 'next/navigation';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { getBlacklistTerms, matchesBlacklist } from '@/src/lib/moderasyon/kara-liste-on-kontrol';
 
 const CRITERIA = [
   { key: 'taste_rating', label: 'Lezzet' },
@@ -68,6 +69,19 @@ export default function YeniYorumSayfasi() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [blacklist, setBlacklist] = useState<string[]>([]);
+  const [warnProfanity, setWarnProfanity] = useState(false);
+
+  useEffect(() => {
+    getBlacklistTerms().then(setBlacklist);
+  }, []);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setWarnProfanity(content.trim().length > 0 && matchesBlacklist(content, blacklist));
+    }, 400);
+    return () => clearTimeout(t);
+  }, [content, blacklist]);
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -177,6 +191,11 @@ export default function YeniYorumSayfasi() {
             <p className={`mt-1 text-right text-[11px] ${content.length >= 20 ? 'text-success' : 'text-muted'}`}>
               {content.length} / 20+ karakter
             </p>
+            {warnProfanity && (
+              <p className="mt-1 text-xs font-bold text-danger">
+                Yorumunuzda uygunsuz içerik olabilir — gönderdiğinizde inceleme sırasına alınabilir.
+              </p>
+            )}
           </div>
 
           {error && (
