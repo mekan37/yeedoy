@@ -1,0 +1,47 @@
+-- ============================================================
+-- 20260901070800_drop_orphaned_search_businesses_v1_5arg_overload.sql
+--
+-- Bug: Mobil uygulamada işletmeler hiç yüklenmiyordu (discovery/arama
+-- ekranı boş dönüyordu).
+--
+-- Kök neden: public.search_businesses_v1 için production'da iki ayrı
+-- overload eş zamanlı yaşıyordu:
+--   1) (p_query text, p_city text, p_district text, p_limit int, p_offset int)
+--      — 20260416072511_remote_schema.sql'deki eski/minimal sürüm (sadece
+--      id/name/category/address/city/district/lat/lng/rank döner).
+--   2) (p_query text, p_city text, p_district text, p_lat float8,
+--      p_lng float8, p_radius_km float8, p_limit int, p_offset int)
+--      — 20260507000004_arama_konum_populerite.sql ile eklenen, mobil ve
+--      web'in asıl kullanmak istediği tam sürüm (avg_rating, trust_score,
+--      is_open_now, owner_verified, median_price_cents vb. içeriyor).
+--
+-- 20260507000004 "CREATE OR REPLACE FUNCTION search_businesses_v1(...)"
+-- kullanarak yeni imzayı eklemiş, ama Postgres farklı parametre imzalarını
+-- ayrı fonksiyon olarak görür — CREATE OR REPLACE eski (1) numaralı
+-- overload'ı SİLMEDİ, sadece yanına yenisini ekledi. Kimse eski overload'ı
+-- DROP etmemiş.
+--
+-- Sonuç: uygulamalar/mobil/lib/features/discovery/data/search_repository.dart
+-- RPC'yi sadece {p_query, p_city, p_district, p_limit, p_offset} 5
+-- parametresiyle çağırıyor (p_lat/p_lng/p_radius_km hiç göndermiyor —
+-- text-mode arama konum kullanmaz). Bu parametre seti HEM (1) hem de (2)
+-- numaralı overload için geçerli bir çağrı (2 numaralının p_lat/p_lng/
+-- p_radius_km parametreleri DEFAULT NULL/50). PostgREST hangi overload'ı
+-- çağıracağını seçemiyor ve HTTP 300 + PGRST203 "Could not choose the best
+-- candidate function" hatası dönüyor — doğrulandı (canlı REST endpoint'e
+-- mobilin gönderdiği body ile curl atıldı, aynı hata alındı). Bu da
+-- DiscoverySearchNotifier.loadInitial()'ın state.error'a düşmesine ve
+-- Akıllı Akış / Keşfet ekranlarında hiç işletme görünmemesine yol açıyordu.
+--
+-- Fix: Kullanılmayan/eski 5 parametreli overload'ı DROP et. Kalan 8
+-- parametreli overload zaten mobil test contract'ında (
+-- uygulamalar/mobil/test/core/contracts/discovery_api_contract_test.dart)
+-- beklenen tam kolon setini döndürüyor ve GRANT'ları
+-- 20260609000003_update_search_rpcs_city_alias.sql'de zaten doğru
+-- (anon + authenticated EXECUTE). Bu migration sadece DROP yapıyor, GRANT
+-- değişikliği gerekmiyor.
+-- ============================================================
+
+DROP FUNCTION IF EXISTS public.search_businesses_v1(
+  text, text, text, integer, integer
+);
