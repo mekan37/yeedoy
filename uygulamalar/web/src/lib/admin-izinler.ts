@@ -6,7 +6,7 @@ export type AdminPermissionKey =
   | 'page:fraud-tespiti' | 'page:fotograf-moderasyon' | 'page:feature-flags'
   | 'page:api-anahtarlari' | 'page:roller' | 'page:gozlemlenebilirlik'
   | 'page:gelistirme-araclari' | 'page:kvkk-gdpr' | 'page:gecici-yuklemeler'
-  | 'page:gorsel-kutuphanesi' | 'page:yoresel-mutfak';
+  | 'page:gorsel-kutuphanesi' | 'page:yoresel-mutfak' | 'page:kara-liste';
 
 export interface AdminPermissionInfo {
   key: AdminPermissionKey;
@@ -27,6 +27,7 @@ export const ADMIN_PERMISSIONS: AdminPermissionInfo[] = [
   { key: 'page:kullanicilar', label: 'Kullanıcılar', group: 'Operasyon', href: '/yonetici/kullanicilar' },
   { key: 'page:yorumlar', label: 'Yorumlar', group: 'Operasyon', href: '/yonetici/yorumlar' },
   { key: 'page:itirazlar', label: 'İtirazlar', group: 'Operasyon', href: '/yonetici/itirazlar' },
+  { key: 'page:kara-liste', label: 'Kara Liste', group: 'Operasyon', href: '/yonetici/kara-liste' },
   { key: 'page:fis-basvurulari', label: 'Fiş Başvuruları', group: 'Operasyon', href: '/yonetici/fis-basvurulari' },
   { key: 'page:cop-kutusu', label: 'Silinmiş Menüler', group: 'Operasyon', href: '/yonetici/cop-kutusu' },
   { key: 'page:olaylar', label: 'Olaylar', group: 'Operasyon', href: '/yonetici/olaylar' },

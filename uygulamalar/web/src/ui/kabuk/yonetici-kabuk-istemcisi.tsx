@@ -30,6 +30,7 @@ const adminNavSections: NavSection[] = [
       { href: '/yonetici/konumlar', label: 'Konumlar', icon: <MapPinIcon /> },
       { href: '/yonetici/gorsel-kutuphanesi', label: 'Görsel Kütüphanesi', icon: <ImageIcon /> },
       { href: '/yonetici/yoresel-mutfak', label: 'Yöresel Mutfak', icon: <ImageIcon /> },
+      { href: '/yonetici/kara-liste', label: 'Kara Liste', icon: <AlertIcon /> },
     ],
   },
   {
