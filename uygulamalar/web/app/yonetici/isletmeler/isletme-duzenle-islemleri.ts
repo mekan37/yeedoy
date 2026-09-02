@@ -145,3 +145,107 @@ export async function isletmeSaatleriGuncelle(businessId: string, hours: Calisma
   revalidatePath('/yonetici/isletmeler');
   return { ok: true };
 }
+
+// ── İşletme Birleştirme ──
+// admin_merge_businesses_v1(p_primary_business_id, p_duplicate_business_id, p_admin_note, p_dry_run)
+// "primary" = verisi korunacak (keeper) işletme, "duplicate" = arşivlenecek işletme.
+// Bu ekranda düzenlenmekte olan işletme her zaman "duplicate" rolündedir; admin
+// arama ile onun taşınacağı "primary" (keeper) işletmeyi seçer.
+
+const BIRLESTIRME_HATA_MESAJLARI: Record<string, string> = {
+  missing_business_id: 'İşletme seçimi eksik.',
+  same_business: 'Bir işletme kendisiyle birleştirilemez.',
+  business_not_found: 'Seçilen işletmelerden biri bulunamadı.',
+};
+
+function birlestirmeHatasiCevir(kod: string | undefined): string {
+  if (!kod) return 'Birleştirme işlemi başarısız oldu, tekrar deneyin.';
+  return BIRLESTIRME_HATA_MESAJLARI[kod] ?? 'Birleştirme işlemi başarısız oldu, tekrar deneyin.';
+}
+
+export interface IsletmeAramaOzetiBirlestirme {
+  id: string;
+  name: string;
+  city: string;
+}
+
+export async function isletmeAraBirlestirmeIcin(query: string): Promise<IsletmeAramaOzetiBirlestirme[]> {
+  const guard = await checkAdminAccess();
+  if (!guard.authorized) return [];
+
+  const trimmed = query.trim();
+  if (!trimmed) return [];
+
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from('businesses')
+    .select('id, name, city')
+    .ilike('name', `%${trimmed}%`)
+    .order('name', { ascending: true })
+    .limit(10);
+
+  if (error) {
+    logger.warn('isletmeAraBirlestirmeIcin: sorgu hatası', { error, query: trimmed });
+    return [];
+  }
+
+  return (data ?? []).map((b) => ({ id: b.id, name: b.name, city: b.city ?? '' }));
+}
+
+export type IsletmeBirlestirOnizlemeSonucu =
+  | { ok: true; summary: Record<string, number> }
+  | { ok: false; error: string };
+
+export async function isletmeBirlestirOnizle(primaryId: string, duplicateId: string): Promise<IsletmeBirlestirOnizlemeSonucu> {
+  const guard = await checkAdminAccess();
+  if (!guard.authorized) return { ok: false, error: 'Bu işlem için yetkiniz yok.' };
+  if (!primaryId || !duplicateId) return { ok: false, error: BIRLESTIRME_HATA_MESAJLARI.missing_business_id };
+  if (primaryId === duplicateId) return { ok: false, error: BIRLESTIRME_HATA_MESAJLARI.same_business };
+
+  const supabase = await createSupabaseServerClient();
+  const sb = supabase as unknown as SbRpc;
+
+  const { data, error } = await sb.rpc('admin_merge_businesses_v1', {
+    p_primary_business_id: primaryId,
+    p_duplicate_business_id: duplicateId,
+    p_dry_run: true,
+  });
+
+  if (error) {
+    logger.warn('isletmeBirlestirOnizle: RPC hatası', { error, primaryId, duplicateId });
+    return { ok: false, error: 'Önizleme alınamadı, tekrar deneyin.' };
+  }
+
+  const sonuc = data as { ok?: boolean; error?: string; summary?: Record<string, number> } | null;
+  if (!sonuc?.ok) return { ok: false, error: birlestirmeHatasiCevir(sonuc?.error) };
+
+  return { ok: true, summary: sonuc.summary ?? {} };
+}
+
+export async function isletmeBirlestir(primaryId: string, duplicateId: string, note?: string): Promise<IslemSonucu> {
+  const guard = await checkAdminAccess();
+  if (!guard.authorized) return { ok: false, error: 'Bu işlem için yetkiniz yok.' };
+  if (!primaryId || !duplicateId) return { ok: false, error: BIRLESTIRME_HATA_MESAJLARI.missing_business_id };
+  if (primaryId === duplicateId) return { ok: false, error: BIRLESTIRME_HATA_MESAJLARI.same_business };
+
+  const supabase = await createSupabaseServerClient();
+  const sb = supabase as unknown as SbRpc;
+
+  const { data, error } = await sb.rpc('admin_merge_businesses_v1', {
+    p_primary_business_id: primaryId,
+    p_duplicate_business_id: duplicateId,
+    p_admin_note: note?.trim() || null,
+    p_dry_run: false,
+  });
+
+  if (error) {
+    logger.warn('isletmeBirlestir: RPC hatası', { error, primaryId, duplicateId });
+    return { ok: false, error: 'Birleştirme işlemi başarısız oldu, tekrar deneyin.' };
+  }
+
+  const sonuc = data as { ok?: boolean; error?: string } | null;
+  if (!sonuc?.ok) return { ok: false, error: birlestirmeHatasiCevir(sonuc?.error) };
+
+  revalidatePath('/yonetici/isletmeler');
+  return { ok: true };
+}

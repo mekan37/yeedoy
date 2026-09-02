@@ -9,8 +9,9 @@ import {
   isletmeSaatleriGuncelle,
   type CalismaSaatiSatiri,
 } from './isletme-duzenle-islemleri';
+import { IsletmeBirlestirBolumu } from './isletme-birlestir-bolumu';
 
-type Tab = 'genel' | 'saatler';
+type Tab = 'genel' | 'saatler' | 'birlestir';
 
 interface GenelForm {
   name: string;
@@ -187,6 +188,7 @@ export function IsletmeDuzenleModal({
         <div className="flex gap-1 border-b border-border px-5 pt-3">
           <TabButton active={tab === 'genel'} onClick={() => setTab('genel')}>Genel Bilgiler</TabButton>
           <TabButton active={tab === 'saatler'} onClick={() => { setTab('saatler'); setSaatlerDegisti(true); }}>Çalışma Saatleri</TabButton>
+          <TabButton active={tab === 'birlestir'} onClick={() => setTab('birlestir')}>Birleştir</TabButton>
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 py-4">
@@ -223,7 +225,7 @@ export function IsletmeDuzenleModal({
                 <Field label="Kapak Görseli URL" value={form.coverUrl} onChange={(v) => alanGuncelle('coverUrl', v)} placeholder="https://..." />
               </div>
             </div>
-          ) : (
+          ) : tab === 'saatler' ? (
             <div className="flex flex-col gap-2">
               {GUN_SIRASI.map(({ dow, label }) => {
                 const satir = saatler.find((s) => s.day_of_week === dow);
@@ -259,13 +261,21 @@ export function IsletmeDuzenleModal({
                 );
               })}
             </div>
+          ) : (
+            <IsletmeBirlestirBolumu
+              duplicateId={businessId}
+              duplicateName={businessName}
+              onMerged={onSaved}
+            />
           )}
         </div>
 
         <div className="flex items-center gap-3 border-t border-border px-5 py-4">
-          <PanelActionButton variant="primary" loading={isPending} disabled={loading} onClick={kaydet}>
-            Kaydet
-          </PanelActionButton>
+          {tab !== 'birlestir' && (
+            <PanelActionButton variant="primary" loading={isPending} disabled={loading} onClick={kaydet}>
+              Kaydet
+            </PanelActionButton>
+          )}
           <PanelActionButton variant="secondary" onClick={onClose} disabled={isPending}>
             Vazgeç
           </PanelActionButton>
