@@ -49,23 +49,43 @@ export function IsletmeGorselYukleAlani({
   }
 
   return (
-    <div className="flex items-center gap-2">
-      {currentUrl && (
-        <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-border bg-bg">
-          <Image src={currentUrl} alt={ALAN_ETIKETI[kind]} fill sizes="40px" className="object-cover" unoptimized />
-        </div>
-      )}
-      <label className="inline-flex min-h-9 cursor-pointer items-center rounded-xl border border-border bg-card px-3 py-1.5 text-xs font-extrabold text-textStrong transition-colors hover:bg-black/4">
-        {uploading ? 'Yükleniyor...' : 'Görsel Yükle'}
-        <input
-          type="file"
-          accept="image/png,image/jpeg,image/webp,image/gif,image/heic,image/heif"
-          disabled={uploading}
-          onChange={(e) => dosyaYukle(e.target.files?.[0] ?? null)}
-          className="sr-only"
-        />
-      </label>
-      {error && <p className="text-xs font-bold text-(--yd-color-danger)">{error}</p>}
+    <div className="flex items-start gap-3">
+      <div className="flex shrink-0 flex-col items-center gap-1">
+        {currentUrl ? (
+          <div className="relative h-24 w-24 overflow-hidden rounded-lg border border-border bg-bg">
+            <Image src={currentUrl} alt={ALAN_ETIKETI[kind]} fill sizes="96px" className="object-cover" unoptimized />
+          </div>
+        ) : (
+          <div className="flex h-24 w-24 flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-border bg-black/4 text-center">
+            <ResimYokIcon />
+            <span className="text-[10px] font-bold text-muted">Görsel yok</span>
+          </div>
+        )}
+        <span className="text-[10px] font-bold text-muted">{currentUrl ? 'Mevcut görsel' : 'Görsel yok'}</span>
+      </div>
+      <div className="flex flex-col items-start gap-1.5">
+        <label className="inline-flex min-h-9 cursor-pointer items-center rounded-xl border border-border bg-card px-3 py-1.5 text-xs font-extrabold text-textStrong transition-colors hover:bg-black/4">
+          {uploading ? 'Yükleniyor...' : 'Görsel Yükle'}
+          <input
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif,image/heic,image/heif"
+            disabled={uploading}
+            onChange={(e) => dosyaYukle(e.target.files?.[0] ?? null)}
+            className="sr-only"
+          />
+        </label>
+        {error && <p className="text-xs font-bold text-(--yd-color-danger)">{error}</p>}
+      </div>
     </div>
+  );
+}
+
+function ResimYokIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted">
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <circle cx="9" cy="9" r="2" />
+      <path d="m21 15-5-5L5 21" />
+    </svg>
   );
 }
