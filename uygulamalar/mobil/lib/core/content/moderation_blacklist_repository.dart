@@ -27,6 +27,11 @@ class ModerationBlacklistRepository {
   /// en son önbelleklenen listeyi (süresi geçmiş olsa dahi) döner, o da yoksa
   /// boş liste döner — çağıran taraf bunu "ön-kontrol atlanabilir" olarak
   /// yorumlamalı, hata fırlatılmaz.
+  ///
+  /// Not: Bu metod her çağrıda önce yerel önbelleği okur (RPC round-trip'i
+  /// yalnızca önbellek boş/süresi dolmuşsa yapılır), ama bellek-içi bir
+  /// memoization katmanı YOKTUR — ekran/oturum başına bir kez çağırmak
+  /// (ör. bir controller init'inde), her tuş vuruşunda değil.
   Future<List<String>> fetchTerms() async {
     try {
       final fresh = await _readCache(allowExpired: false);
@@ -45,13 +50,25 @@ class ModerationBlacklistRepository {
         expiresAt: DateTime.now().toUtc().add(_cacheTtl),
       );
       return terms;
-    } catch (_) {
-      try {
-        final stale = await _readCache(allowExpired: true);
-        return stale ?? const [];
-      } catch (_) {
-        return const [];
-      }
+    } on PostgrestException catch (e) {
+      // RPC bulunamadı/yetkisiz vb. — beklenen ama görünür olması gereken hata.
+      _logSafe(
+        'fetchTerms: RPC hatası — code=${e.code} message=${e.message}',
+      );
+      return _fallbackToStaleCache();
+    } catch (e) {
+      _logSafe('fetchTerms: beklenmedik hata: $e');
+      return _fallbackToStaleCache();
+    }
+  }
+
+  Future<List<String>> _fallbackToStaleCache() async {
+    try {
+      final stale = await _readCache(allowExpired: true);
+      return stale ?? const [];
+    } catch (e) {
+      _logSafe('fetchTerms: eski önbellek okunamadı: $e');
+      return const [];
     }
   }
 
@@ -64,5 +81,15 @@ class ModerationBlacklistRepository {
     final terms = record?.payload['terms'];
     if (terms is! List) return null;
     return terms.map((e) => e.toString()).toList(growable: false);
+  }
+
+  void _logSafe(String message) {
+    // Üretimde loglama framework'üne yönlendirilebilir.
+    // Şu an sadece debug modda yazdır.
+    assert(() {
+      // ignore: avoid_print
+      print('[ModerationBlacklistRepository] $message');
+      return true;
+    }());
   }
 }
