@@ -211,6 +211,14 @@ export function IsletmeDuzenleModal({
           >
             Menü Ekle ↗
           </Link>
+          <Link
+            href={`/yonetici/isletmeler/${businessId}/menu-analiz`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-t-lg px-4 py-2 text-sm font-extrabold text-muted transition-colors hover:text-textStrong"
+          >
+            Menü Analiz Et ↗
+          </Link>
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 py-4">
