@@ -146,6 +146,13 @@ export async function isletmeSaatleriGuncelle(businessId: string, hours: Calisma
   return { ok: true };
 }
 
+function silHatasiCevir(mesaj: string | undefined): string {
+  if (!mesaj) return 'İşletme silinemedi, tekrar deneyin.';
+  if (mesaj.includes('not_found')) return 'İşletme bulunamadı, sayfa yenilenmiş olabilir.';
+  if (mesaj.includes('unauthorized')) return 'Bu işlem için yetkiniz yok.';
+  return 'İşletme silinemedi, tekrar deneyin.';
+}
+
 export async function isletmeSil(businessId: string): Promise<IslemSonucu> {
   const guard = await checkAdminAccess();
   if (!guard.authorized) return { ok: false, error: 'Bu işlem için yetkiniz yok.' };
@@ -156,7 +163,8 @@ export async function isletmeSil(businessId: string): Promise<IslemSonucu> {
   const { error } = await sb.rpc('admin_soft_delete_business_v1', { p_business_id: businessId, p_admin_note: null });
   if (error) {
     logger.warn('isletmeSil: RPC hatası', { error, businessId });
-    return { ok: false, error: 'İşletme silinemedi, tekrar deneyin.' };
+    const mesaj = (error as { message?: string } | null)?.message;
+    return { ok: false, error: silHatasiCevir(mesaj) };
   }
 
   revalidatePath('/yonetici/isletmeler');

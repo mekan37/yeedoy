@@ -168,7 +168,7 @@ export function IsletmeDuzenleModal({
   }
 
   function sil() {
-    if (!confirm(`"${businessName}" işletmesini silmek istediğinize emin misiniz? Bu işlem geri alınabilir (is_active kapatılır), ancak işletme hemen listeden/siteden kalkar.`)) return;
+    if (!confirm(`"${businessName}" işletmesini silmek istediğinize emin misiniz? Bu işlem geri alınabilir (is_active kapatılır), ancak işletme sitede yayından kalkar (yönetici listesinde "Pasif" olarak görünmeye devam eder).`)) return;
     setError(null);
     startTransition(async () => {
       const sonuc = await isletmeSil(businessId);
