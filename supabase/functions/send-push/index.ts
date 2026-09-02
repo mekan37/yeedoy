@@ -126,6 +126,7 @@ serve(async (req) => {
     .select("id,fcm_token")
     .eq("user_id", notification.user_id);
   if (devicesErr) {
+    console.error("send-push: devices_lookup_failed", devicesErr.message);
     return json({ ok: false, error: "devices_lookup_failed", detail: devicesErr.message }, 500);
   }
   if (!devices || devices.length === 0) {
@@ -136,10 +137,9 @@ serve(async (req) => {
   try {
     accessToken = await getAccessToken(clientEmail, privateKey);
   } catch (err) {
-    return json(
-      { ok: false, error: "oauth_failed", detail: err instanceof Error ? err.message : "unknown" },
-      502,
-    );
+    const detail = err instanceof Error ? err.message : "unknown";
+    console.error("send-push: oauth_failed", detail);
+    return json({ ok: false, error: "oauth_failed", detail }, 502);
   }
 
   const endpoint = `https://fcm.googleapis.com/v1/projects/${projectId}/messages:send`;
@@ -174,8 +174,11 @@ serve(async (req) => {
           const errBody = (await res.json().catch(() => null)) as
             | { error?: { status?: string } }
             | null;
+          // FCM HTTP v1'de geçersiz/kayıtsız token HTTP 404 + error.status="NOT_FOUND" döner
+          // ("UNREGISTERED" sadece error.details[].errorCode altında görülür, üst seviye
+          // error.status'ta hiç görülmez — bu yüzden burada sadece NOT_FOUND kontrol ediliyor).
           const status = errBody?.error?.status;
-          if (status === "UNREGISTERED" || status === "NOT_FOUND") {
+          if (status === "NOT_FOUND") {
             staleDeviceIds.push(device.id);
           }
         }
