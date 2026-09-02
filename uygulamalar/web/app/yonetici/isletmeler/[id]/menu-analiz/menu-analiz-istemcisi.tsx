@@ -584,10 +584,10 @@ function OgeSatiri({
       <td className="px-3 py-2 text-center">
         <input
           type="checkbox"
-          checked={!oge.excluded && !priceEksik}
-          disabled={priceEksik}
+          checked={!oge.excluded && oge.price_cents != null}
+          disabled={oge.price_cents == null}
           onChange={(e) => onHaricTutDegistir(oge, !e.target.checked)}
-          title={priceEksik ? 'Fiyat girilmeden dahil edilemez' : undefined}
+          title={oge.price_cents == null ? 'Fiyat girilmeden dahil edilemez (önce kaydedin)' : undefined}
           className="h-4 w-4 rounded border-border disabled:opacity-40"
         />
       </td>
