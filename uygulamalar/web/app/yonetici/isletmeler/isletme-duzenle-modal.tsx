@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState, useTransition } from 'react';
 import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
 import {
@@ -7,6 +8,7 @@ import {
   calismaSaatleriGetir,
   isletmeGuncelle,
   isletmeSaatleriGuncelle,
+  isletmeSil,
   type CalismaSaatiSatiri,
 } from './isletme-duzenle-islemleri';
 import { IsletmeBirlestirBolumu } from './isletme-birlestir-bolumu';
@@ -165,6 +167,17 @@ export function IsletmeDuzenleModal({
     });
   }
 
+  function sil() {
+    if (!confirm(`"${businessName}" işletmesini silmek istediğinize emin misiniz? Bu işlem geri alınabilir (is_active kapatılır), ancak işletme hemen listeden/siteden kalkar.`)) return;
+    setError(null);
+    startTransition(async () => {
+      const sonuc = await isletmeSil(businessId);
+      if (!sonuc.ok) { setError(sonuc.error); return; }
+      onSaved();
+      onClose();
+    });
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
       <div
@@ -190,6 +203,14 @@ export function IsletmeDuzenleModal({
           <TabButton active={tab === 'genel'} onClick={() => setTab('genel')}>Genel Bilgiler</TabButton>
           <TabButton active={tab === 'saatler'} onClick={() => { setTab('saatler'); setSaatlerDegisti(true); }}>Çalışma Saatleri</TabButton>
           <TabButton active={tab === 'birlestir'} onClick={() => setTab('birlestir')}>Birleştir</TabButton>
+          <Link
+            href={`/yonetici/isletmeler/${businessId}/menuler/yeni`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-t-lg px-4 py-2 text-sm font-extrabold text-muted transition-colors hover:text-textStrong"
+          >
+            Menü Ekle ↗
+          </Link>
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 py-4">
@@ -297,6 +318,11 @@ export function IsletmeDuzenleModal({
             Vazgeç
           </PanelActionButton>
           {error && <p className="text-xs font-bold text-(--yd-color-danger)">{error}</p>}
+          {!loading && (
+            <PanelActionButton variant="danger" loading={isPending} disabled={isPending} onClick={sil} className="ml-auto">
+              Sil
+            </PanelActionButton>
+          )}
         </div>
       </div>
     </div>
