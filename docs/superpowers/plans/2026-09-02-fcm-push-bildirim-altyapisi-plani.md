@@ -412,3 +412,11 @@ Bu adım otomatikleştirilemez — gerçek bir telefonda mobil uygulama açılı
 - [ ] **Step 7: Sonuç özeti**
 
 Bu adımda kod değişikliği yok — `git log --oneline -5` ile Task 1-2'nin commit edildiğini doğrula.
+
+---
+
+## Uygulama Sonrası Not — Vault'taki service_role anahtarı yanlış formattaydı
+
+İlk uçtan uca test `403 forbidden` döndü. Kök neden: bu proje hem eski (legacy JWT, `eyJhbGci...`) hem yeni (`sb_secret_...`) API anahtarı formatlarına sahip; **edge function runtime'ına `SUPABASE_SERVICE_ROLE_KEY` olarak enjekte edilen değer artık yeni `sb_secret_...` formatı**, eski JWT değil. Ön koşul adımında Vault'a yanlışlıkla legacy JWT kaydedilmişti. `send-push`'a doğrudan iki formatla da test isteği atılarak (`notification_id` rastgele bir UUID, auth geçerse `404 notification_not_found`, geçmezse `403 forbidden` beklenir) doğrulandı: legacy JWT → 403, `sb_secret_...` → 404 (yani auth geçti). Vault kaydı `vault.update_secret(...)` ile `sb_secret_...` değerine güncellendi, tekrar test edildi: `200 {"ok":true,...}`.
+
+**Gelecekte bu anahtar rotasyon/yeniden kurulum gerektirirse:** `supabase projects api-keys --reveal --project-ref wvofyimbjndxtxitsjpd --output json` çıktısında `type: "secret"` olan girdinin `api_key` alanını kullan — `id: "service_role", type: "legacy"` olanı DEĞİL.
