@@ -19,4 +19,12 @@ describe('kara-liste-on-kontrol', () => {
   it('handles an empty blacklist safely', () => {
     expect(matchesBlacklist('herhangi bir metin', [])).toBe(false);
   });
+
+  it('does not flag a short blacklisted term embedded inside a clean word', () => {
+    expect(matchesBlacklist('Tamam, harika bir yer', ['am'])).toBe(false);
+  });
+
+  it('flags a short blacklisted term when it appears as a standalone word', () => {
+    expect(matchesBlacklist('bu tam bir sik', ['sik'])).toBe(true);
+  });
 });

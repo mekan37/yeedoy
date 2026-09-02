@@ -18,9 +18,17 @@ export function matchesBlacklist(text: string, blacklist: string[]): boolean {
   if (blacklist.length === 0) return false;
   const normalizedText = normalizeForModeration(text);
   const compactText = normalizedText.replace(/ /g, '');
+  const tokens = normalizedText.split(' ').filter(Boolean);
   for (const term of blacklist) {
     const normalizedTerm = normalizeForModeration(term);
     if (!normalizedTerm) continue;
+    // Kısa terimler (<=3 karakter) sunucudaki kelime sınırı mantığını
+    // yansıtır: yalnızca bağımsız bir token olarak eşleşirse işaretlenir.
+    // Aksi halde "am" gibi terimler "tamam" içinde yanlış-pozitif üretir.
+    if (normalizedTerm.length <= 3) {
+      if (tokens.includes(normalizedTerm)) return true;
+      continue;
+    }
     if (normalizedText.includes(normalizedTerm)) return true;
     const compactTerm = normalizedTerm.replace(/ /g, '');
     if (compactTerm && compactText.includes(compactTerm)) return true;
