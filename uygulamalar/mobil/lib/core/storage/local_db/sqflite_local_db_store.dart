@@ -11,7 +11,7 @@ class SqfliteLocalDbStore implements LocalDbStore {
     : _fallbackStore = fallbackStore ?? SharedPrefsLocalDbStore();
 
   static const _databaseName = 'yeedoy_local.db';
-  static const _databaseVersion = 1;
+  static const _databaseVersion = 2;
   static const _metaTable = 'local_db_meta';
   static const _sharedPrefsMigratedKey = 'shared_prefs_migrated_v1';
 
@@ -187,6 +187,7 @@ class SqfliteLocalDbStore implements LocalDbStore {
         path,
         version: _databaseVersion,
         onCreate: _onCreate,
+        onUpgrade: _onUpgrade,
       );
       _database = database;
       await _migrateFromSharedPrefs(database);
@@ -207,24 +208,45 @@ class SqfliteLocalDbStore implements LocalDbStore {
     ''');
 
     for (final schema in _schemas) {
-      batch.execute('''
-        CREATE TABLE ${schema.tableName} (
-          ${schema.idColumn} TEXT PRIMARY KEY,
-          record_type TEXT,
-          payload_json TEXT NOT NULL,
-          updated_at_ms INTEGER NOT NULL,
-          expires_at_ms INTEGER
-        )
-      ''');
-      batch.execute(
-        'CREATE INDEX idx_${schema.tableName}_expires_at ON ${schema.tableName}(expires_at_ms)',
-      );
-      batch.execute(
-        'CREATE INDEX idx_${schema.tableName}_record_type ON ${schema.tableName}(record_type)',
-      );
+      _createSchemaTable(batch, schema);
     }
 
     await batch.commit(noResult: true);
+  }
+
+  Future<void> _onUpgrade(
+    Database database,
+    int oldVersion,
+    int newVersion,
+  ) async {
+    final batch = database.batch();
+    if (oldVersion < 2) {
+      _createSchemaTable(
+        batch,
+        _schemas.firstWhere(
+          (schema) => schema.bucket == LocalDbBucket.moderationBlacklist,
+        ),
+      );
+    }
+    await batch.commit(noResult: true);
+  }
+
+  void _createSchemaTable(Batch batch, _LocalDbSchema schema) {
+    batch.execute('''
+      CREATE TABLE IF NOT EXISTS ${schema.tableName} (
+        ${schema.idColumn} TEXT PRIMARY KEY,
+        record_type TEXT,
+        payload_json TEXT NOT NULL,
+        updated_at_ms INTEGER NOT NULL,
+        expires_at_ms INTEGER
+      )
+    ''');
+    batch.execute(
+      'CREATE INDEX IF NOT EXISTS idx_${schema.tableName}_expires_at ON ${schema.tableName}(expires_at_ms)',
+    );
+    batch.execute(
+      'CREATE INDEX IF NOT EXISTS idx_${schema.tableName}_record_type ON ${schema.tableName}(record_type)',
+    );
   }
 
   Future<void> _migrateFromSharedPrefs(Database database) async {
@@ -351,6 +373,11 @@ class SqfliteLocalDbStore implements LocalDbStore {
       bucket: LocalDbBucket.telemetrySnapshot,
       tableName: 'local_telemetry_snapshot',
       idColumn: 'snapshot_key',
+    ),
+    _LocalDbSchema(
+      bucket: LocalDbBucket.moderationBlacklist,
+      tableName: 'local_moderation_blacklist',
+      idColumn: 'cache_key',
     ),
   ];
 }

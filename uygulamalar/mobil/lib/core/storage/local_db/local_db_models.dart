@@ -4,6 +4,7 @@ enum LocalDbBucket {
   menuSnapshot,
   offlineMutationQueue,
   telemetrySnapshot,
+  moderationBlacklist,
 }
 
 extension LocalDbBucketX on LocalDbBucket {
@@ -14,6 +15,7 @@ extension LocalDbBucketX on LocalDbBucket {
       LocalDbBucket.menuSnapshot => 'menu_snapshot',
       LocalDbBucket.offlineMutationQueue => 'offline_mutation_queue',
       LocalDbBucket.telemetrySnapshot => 'telemetry_snapshot',
+      LocalDbBucket.moderationBlacklist => 'moderation_blacklist',
     };
   }
 }
