@@ -146,6 +146,23 @@ export async function isletmeSaatleriGuncelle(businessId: string, hours: Calisma
   return { ok: true };
 }
 
+export async function isletmeSil(businessId: string): Promise<IslemSonucu> {
+  const guard = await checkAdminAccess();
+  if (!guard.authorized) return { ok: false, error: 'Bu işlem için yetkiniz yok.' };
+
+  const supabase = await createSupabaseServerClient();
+  const sb = supabase as unknown as SbRpc;
+
+  const { error } = await sb.rpc('admin_soft_delete_business_v1', { p_business_id: businessId, p_admin_note: null });
+  if (error) {
+    logger.warn('isletmeSil: RPC hatası', { error, businessId });
+    return { ok: false, error: 'İşletme silinemedi, tekrar deneyin.' };
+  }
+
+  revalidatePath('/yonetici/isletmeler');
+  return { ok: true };
+}
+
 // ── İşletme Birleştirme ──
 // admin_merge_businesses_v1(p_primary_business_id, p_duplicate_business_id, p_admin_note, p_dry_run)
 // "primary" = verisi korunacak (keeper) işletme, "duplicate" = arşivlenecek işletme.
