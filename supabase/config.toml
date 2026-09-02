@@ -68,3 +68,8 @@ entrypoint = "./functions/ai-allergen-detect/index.ts"
 enabled = true
 verify_jwt = true
 entrypoint = "./functions/media-upload-user/index.ts"
+
+[functions.send-push]
+enabled = true
+verify_jwt = true
+entrypoint = "./functions/send-push/index.ts"
