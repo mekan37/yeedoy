@@ -90,7 +90,6 @@ flutter:
     - assets/images/delivery/
     - assets/meal_cards/
     - assets/allergens/
-    - assets/json/karaliste.txt
     - assets/json/yemek.v4.json
 
 sentry:
