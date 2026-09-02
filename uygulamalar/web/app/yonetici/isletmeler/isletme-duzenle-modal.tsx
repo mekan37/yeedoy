@@ -10,6 +10,7 @@ import {
   type CalismaSaatiSatiri,
 } from './isletme-duzenle-islemleri';
 import { IsletmeBirlestirBolumu } from './isletme-birlestir-bolumu';
+import { IsletmeGorselYukleAlani } from './isletme-gorsel-yukle-alani';
 
 type Tab = 'genel' | 'saatler' | 'birlestir';
 
@@ -221,8 +222,24 @@ export function IsletmeDuzenleModal({
                 <Field label="Boylam" value={form.lng} onChange={(v) => alanGuncelle('lng', v)} placeholder="28.978400" />
               </div>
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label="Logo URL" value={form.logoUrl} onChange={(v) => alanGuncelle('logoUrl', v)} placeholder="https://..." />
-                <Field label="Kapak Görseli URL" value={form.coverUrl} onChange={(v) => alanGuncelle('coverUrl', v)} placeholder="https://..." />
+                <div className="flex flex-col gap-2">
+                  <Field label="Logo URL" value={form.logoUrl} onChange={(v) => alanGuncelle('logoUrl', v)} placeholder="https://..." />
+                  <IsletmeGorselYukleAlani
+                    businessId={businessId}
+                    kind="logo"
+                    currentUrl={form.logoUrl}
+                    onUploaded={(url) => alanGuncelle('logoUrl', url)}
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Field label="Kapak Görseli URL" value={form.coverUrl} onChange={(v) => alanGuncelle('coverUrl', v)} placeholder="https://..." />
+                  <IsletmeGorselYukleAlani
+                    businessId={businessId}
+                    kind="kapak"
+                    currentUrl={form.coverUrl}
+                    onUploaded={(url) => alanGuncelle('coverUrl', url)}
+                  />
+                </div>
               </div>
             </div>
           ) : tab === 'saatler' ? (
