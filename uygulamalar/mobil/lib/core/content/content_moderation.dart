@@ -74,6 +74,13 @@ class ContentModeration {
     _repository = repository;
   }
 
+  /// Singleton'ın mutable static durumunu (`_repository`, `_blacklistCache`)
+  /// testler arası sızıntıyı önlemek için sıfırlar. Sadece testlerde kullanın.
+  static void resetForTesting() {
+    instance._repository = null;
+    _blacklistCache = null;
+  }
+
   Future<ContentModerationResult?> validateReview({
     required String content,
     String? title,
@@ -192,6 +199,7 @@ class ContentModeration {
   static Future<List<String>>? _blacklistCache;
 
   Future<List<String>> _loadBlacklist() {
+    if (_repository == null) return _fetchBlacklist();
     return _blacklistCache ??= _fetchBlacklist();
   }
 
