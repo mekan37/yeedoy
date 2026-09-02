@@ -12,6 +12,8 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app_mobile/mobile_app.dart';
+import 'core/content/content_moderation.dart';
+import 'core/content/moderation_blacklist_repository.dart';
 import 'core/monitoring/app_telemetry.dart';
 import 'core/monitoring/error_taxonomy.dart';
 import 'core/perf/perf_slo.dart';
@@ -107,6 +109,9 @@ Future<void> main() async {
 
   final rootContainer = ProviderContainer();
   _installFrameDropObserver(rootContainer);
+  ContentModeration.instance.configureRepository(
+    rootContainer.read(moderationBlacklistRepositoryProvider),
+  );
 
   FlutterError.onError = (details) {
     FlutterError.presentError(details);

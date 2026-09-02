@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/services.dart';
-
 import '../errors/app_error_codes.dart';
+import 'moderation_blacklist_repository.dart';
 
 class ContentModerationResult {
   const ContentModerationResult({required this.code, required this.message});
@@ -11,14 +10,69 @@ class ContentModerationResult {
   final String message;
 }
 
+/// Verilen metnin, verilen kara liste terimlerinden herhangi birini içerip
+/// içermediğini kontrol eden saf fonksiyon (I/O yok, doğrudan test edilebilir).
+bool blacklistMatches(String text, List<String> blacklist) {
+  if (blacklist.isEmpty) return false;
+
+  final raw = text.toLowerCase();
+  final normalizedText = _normalizeForSearch(raw);
+  final compactText = normalizedText.replaceAll(' ', '');
+
+  for (final term in blacklist) {
+    if (term.isEmpty) continue;
+
+    final t = term.toLowerCase();
+    if (raw.contains(t)) return true;
+
+    final normalizedTerm = _normalizeForSearch(t);
+    if (normalizedTerm.isEmpty) continue;
+    if (normalizedText.contains(normalizedTerm)) return true;
+
+    final compactTerm = normalizedTerm.replaceAll(' ', '');
+    if (compactTerm.isNotEmpty && compactText.contains(compactTerm)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+String _normalizeForSearch(String text) {
+  var s = text.toLowerCase();
+  s = s
+      .replaceAll('ç', 'c')
+      .replaceAll('ğ', 'g')
+      .replaceAll('ı', 'i')
+      .replaceAll('ö', 'o')
+      .replaceAll('ş', 's')
+      .replaceAll('ü', 'u')
+      .replaceAll('@', 'a')
+      .replaceAll('4', 'a')
+      .replaceAll('0', 'o')
+      .replaceAll('1', 'i')
+      .replaceAll('!', 'i')
+      .replaceAll('5', 's')
+      .replaceAll(r'$', 's')
+      .replaceAll('3', 'e');
+  return s.replaceAll(RegExp(r'[^a-z0-9]+'), ' ').trim();
+}
+
 class ContentModeration {
   ContentModeration._();
 
   static final ContentModeration instance = ContentModeration._();
 
-  static const _blacklistAsset = 'assets/json/karaliste.txt';
   static const _minContentLength = 8;
   static const _maxEmojiCount = 6;
+
+  ModerationBlacklistRepository? _repository;
+
+  /// Test'lerde veya widget ağacı dışında çağrılırken gerçek Supabase client'a
+  /// ihtiyaç duymamak için repository dışarıdan enjekte edilebilir.
+  void configureRepository(ModerationBlacklistRepository repository) {
+    _repository = repository;
+  }
 
   Future<ContentModerationResult?> validateReview({
     required String content,
@@ -70,7 +124,7 @@ class ContentModeration {
     }
 
     if (_containsObfuscatedProfanity(text) ||
-        await _containsBlacklistedTerm(text)) {
+        blacklistMatches(text, await _loadBlacklist())) {
       return const ContentModerationResult(
         code: AppErrorCodes.containsProfanity,
         message: 'Uygunsuz içerik tespit edildi.',
@@ -96,7 +150,7 @@ class ContentModeration {
     final matches = emojiPattern.allMatches(text);
     if (matches.length >= _maxEmojiCount) return true;
 
-    final nonWord = text.replaceAll(RegExp(r'[A-Za-z0-9\s\u00C0-\u017F]'), '');
+    final nonWord = text.replaceAll(RegExp(r'[A-Za-z0-9\sÀ-ſ]'), '');
     return nonWord.length >= 10;
   }
 
@@ -135,70 +189,19 @@ class ContentModeration {
     return false;
   }
 
-  Future<bool> _containsBlacklistedTerm(String text) async {
-    final blacklist = await _loadBlacklist();
-    if (blacklist.isEmpty) return false;
-
-    final raw = text.toLowerCase();
-    final normalizedText = _normalizeForSearch(raw);
-    final compactText = normalizedText.replaceAll(' ', '');
-
-    for (final term in blacklist) {
-      if (term.isEmpty) continue;
-
-      final t = term.toLowerCase();
-      if (raw.contains(t)) return true;
-
-      final normalizedTerm = _normalizeForSearch(t);
-      if (normalizedTerm.isEmpty) continue;
-      if (normalizedText.contains(normalizedTerm)) return true;
-
-      final compactTerm = normalizedTerm.replaceAll(' ', '');
-      if (compactTerm.isNotEmpty && compactText.contains(compactTerm)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  String _normalizeForSearch(String text) {
-    var s = text.toLowerCase();
-    s = s
-        .replaceAll('\u00e7', 'c')
-        .replaceAll('\u011f', 'g')
-        .replaceAll('\u0131', 'i')
-        .replaceAll('\u00f6', 'o')
-        .replaceAll('\u015f', 's')
-        .replaceAll('\u00fc', 'u')
-        .replaceAll('@', 'a')
-        .replaceAll('4', 'a')
-        .replaceAll('0', 'o')
-        .replaceAll('1', 'i')
-        .replaceAll('!', 'i')
-        .replaceAll('5', 's')
-        .replaceAll(r'$', 's')
-        .replaceAll('3', 'e');
-    return s.replaceAll(RegExp(r'[^a-z0-9]+'), ' ').trim();
-  }
-
   static Future<List<String>>? _blacklistCache;
 
   Future<List<String>> _loadBlacklist() {
-    return _blacklistCache ??= _readBlacklist();
+    return _blacklistCache ??= _fetchBlacklist();
   }
 
-  static Future<List<String>> _readBlacklist() async {
+  Future<List<String>> _fetchBlacklist() async {
+    final repo = _repository;
+    if (repo == null) return const [];
     try {
-      final raw = await rootBundle.loadString(_blacklistAsset);
-      return raw
-          .split('\n')
-          .map((line) => line.trim().toLowerCase())
-          .where((line) => line.isNotEmpty)
-          .toList();
+      return await repo.fetchTerms();
     } catch (_) {
       return const [];
     }
   }
 }
-
