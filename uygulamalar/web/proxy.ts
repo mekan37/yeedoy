@@ -92,14 +92,22 @@ const OWNER_LOGIN_PATH = '/giris';
 
 async function guardPanelRoute(request: NextRequest, requestHeaders: Headers): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl;
+  // Path-segment-aware prefix match — a plain pathname.startsWith(SAHIP_PREFIX)
+  // also matches unrelated sibling routes like /sahiplen (string prefix, not
+  // path segment), which incorrectly pulled the public "claim your business"
+  // flow (/sahiplen, /sahiplen/yeni, /sahiplen/ara, /sahiplen/talep) behind
+  // the "must already be an approved owner" guard — a real conversion-killing
+  // bug, since nobody claiming a business for the first time is an owner yet.
+  const startsWithSegment = (path: string, prefix: string) =>
+    path === prefix || path.startsWith(`${prefix}/`);
   // Exclude public owner pages from the auth guard
   const OWNER_PUBLIC_PATHS = [OWNER_LOGIN_PATH, '/sahip'];
   const isOwnerRoute =
-    pathname.startsWith(SAHIP_PREFIX) && !OWNER_PUBLIC_PATHS.includes(pathname);
-  const isAdminRoute = pathname.startsWith(YONETICI_PREFIX);
+    startsWithSegment(pathname, SAHIP_PREFIX) && !OWNER_PUBLIC_PATHS.includes(pathname);
+  const isAdminRoute = startsWithSegment(pathname, YONETICI_PREFIX);
   // /sunucu/yonetici/* sits outside the panel prefix — guard it with the
   // same admin-role logic.
-  const isAdminApiRoute = pathname.startsWith(SUNUCU_YONETICI_PREFIX);
+  const isAdminApiRoute = startsWithSegment(pathname, SUNUCU_YONETICI_PREFIX);
 
   if (!isOwnerRoute && !isAdminRoute && !isAdminApiRoute) return null;
 
