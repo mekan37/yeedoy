@@ -264,7 +264,7 @@ Return ONLY valid JSON, no markdown, with this exact structure:
 
 async function structureWithGemini(apiKey: string, rawText: string): Promise<StructuredItem[]> {
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${apiKey}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -426,7 +426,7 @@ serve(async (req) => {
       confidence: item.confidence,
       requires_review: item.requires_review,
       status: "pending_review",
-      ai_model: "gemini-2.5-flash-lite",
+      ai_model: "gemini-3.5-flash-lite",
     }));
 
     const { error: insertErr } = await adminClient
