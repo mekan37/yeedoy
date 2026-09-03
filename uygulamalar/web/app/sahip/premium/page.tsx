@@ -4,7 +4,7 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { PanelIcerikYuzeyi } from '@/src/ui/yerlesim/panel-section-card';
 import { PremiumIstemcisi } from './premium-istemcisi';
-import type { PlanTierId } from './premium-veri';
+import type { PlanTierId } from '@/src/lib/plan/plan-tanimlari';
 
 export const metadata: Metadata = {
   title: 'Premium | Sahip Paneli',

@@ -3,23 +3,36 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { clsx } from 'clsx';
+import { CheckCircle2, Crown } from 'lucide-react';
 import { PLAN_TANIMLARI, PLAN_OZELLIKLERI, type PlanTierId } from '@/src/lib/plan/plan-tanimlari';
 
-export function PremiumIstemcisi({ currentTier }: { currentTier: PlanTierId | null }) {
+/**
+ * Herkese açık fiyatlandırma karşılaştırma tablosu — `/sahip/premium`'un
+ * (oturum açmış sahip için) genel-kullanıcı karşılığı. Burada "mevcut plan"
+ * kavramı yok; ziyaretçi henüz Yeedoy'a kayıtlı değil.
+ *
+ * Plan seçimi, kayıt akışına `plan` query param'ıyla taşınır. Kayıt/onboarding
+ * tarafı şu an bu parametreyi okumuyor — ileride "seçtiğiniz plan: Standart"
+ * gibi bir bağlam göstermek istenirse burası zaten hazır.
+ */
+export function FiyatlandirmaIstemcisi() {
   const [donem, setDonem] = useState<'ay' | 'yil'>('ay');
 
   return (
     <div className="flex flex-col gap-8">
       <div className="text-center">
         <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-extrabold text-primary">
-          <CrownIcon /> Yeedoy Premium
+          <Crown size={12} aria-hidden="true" /> Yeedoy Premium
         </span>
-        <h1 className="mt-3 text-2xl font-black tracking-tight text-textStrong">İşletmenize uygun kademeyi seçin</h1>
-        <p className="mx-auto mt-1.5 max-w-lg text-sm text-muted">
-          Menü limitini kaldırın, QR filigranını kaldırın, sadakat programı ve haritada öne çıkarma gibi özellikleri açın.
+        <h1 className="mt-3 text-3xl font-black tracking-tight text-textStrong sm:text-4xl">
+          İşletmenize uygun kademeyi seçin
+        </h1>
+        <p className="mx-auto mt-2 max-w-xl text-sm text-muted sm:text-base">
+          Her işletme ücretsiz kademeyle başlar. Menü limitini kaldırmak, QR filigranını kaldırmak, sadakat programı
+          ve haritada öne çıkarma gibi özellikleri açmak isterseniz üç premium kadememiz var.
         </p>
 
-        <div className="mx-auto mt-5 inline-flex items-center gap-1 rounded-full border border-border bg-card p-1">
+        <div className="mx-auto mt-6 inline-flex items-center gap-1 rounded-full border border-border bg-card p-1">
           <button
             type="button"
             onClick={() => setDonem('ay')}
@@ -42,25 +55,19 @@ export function PremiumIstemcisi({ currentTier }: { currentTier: PlanTierId | nu
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {PLAN_TANIMLARI.map((plan) => {
-          const aktif = currentTier === plan.id;
           const fiyat = donem === 'ay' ? plan.monthlyPrice : Math.round(plan.yearlyPrice / 12);
+          const kayitHref = plan.id === 'free' ? '/giris?tab=kayit' : `/giris?tab=kayit&plan=${plan.id}`;
           return (
             <div
               key={plan.id}
               className={clsx(
                 'relative flex flex-col gap-4 rounded-2xl border p-5 transition-all',
                 plan.highlight ? 'border-primary/40 bg-primary/5 shadow-md' : 'border-border bg-card',
-                aktif && 'ring-2 ring-primary',
               )}
             >
               {plan.highlight && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-(--yd-color-primary) px-3 py-1 text-[10px] font-extrabold uppercase tracking-wide text-white">
                   En Popüler
-                </span>
-              )}
-              {aktif && (
-                <span className="absolute -top-3 right-4 rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide text-white">
-                  Mevcut Plan
                 </span>
               )}
 
@@ -95,42 +102,29 @@ export function PremiumIstemcisi({ currentTier }: { currentTier: PlanTierId | nu
                 ))}
               </div>
 
-              {aktif ? (
-                <span className="mt-auto flex min-h-9 items-center justify-center rounded-xl border border-border text-xs font-extrabold text-muted">
-                  Şu anki planınız
-                </span>
-              ) : plan.id === 'free' ? (
-                <span className="mt-auto flex min-h-9 items-center justify-center rounded-xl border border-border text-xs font-extrabold text-muted">
-                  Varsayılan kademe
-                </span>
-              ) : (
-                <Link
-                  href="/sahip/destek"
-                  className={clsx(
-                    'mt-auto flex min-h-9 items-center justify-center rounded-xl px-3 text-xs font-extrabold transition-opacity hover:opacity-90',
-                    plan.highlight ? 'bg-(--yd-color-primary) text-white' : 'border border-border text-textStrong',
-                  )}
-                >
-                  Yükseltme Talebi Oluştur
-                </Link>
-              )}
+              <Link
+                href={kayitHref}
+                className={clsx(
+                  'mt-auto flex min-h-11 items-center justify-center rounded-xl px-3 text-xs font-extrabold transition-opacity hover:opacity-90',
+                  plan.highlight ? 'bg-(--yd-color-primary) text-white' : 'border border-border text-textStrong',
+                )}
+              >
+                {plan.id === 'free' ? 'Ücretsiz Başla' : 'Bu Planla Başla'}
+              </Link>
             </div>
           );
         })}
       </div>
 
-      <p className="text-center text-xs text-muted">
-        Ödeme entegrasyonumuz henüz devrede değil — yükseltme talebiniz destek ekibimize düşer, size dönüş yapılır.
-        Sorularınız için <a href="mailto:destek@yeedoy.com" className="font-bold text-primary hover:underline">destek@yeedoy.com</a>.
-      </p>
+      {/* Dürüstlük bandı — ince baskı değil, görünür bir bilgi kutusu */}
+      <div className="mx-auto flex max-w-2xl items-start gap-3 rounded-2xl border border-border bg-cardAlt p-4 text-left sm:items-center sm:text-center">
+        <CheckCircle2 size={18} className="mt-0.5 shrink-0 text-primary sm:mt-0" aria-hidden="true" />
+        <p className="text-xs leading-relaxed text-muted sm:text-sm">
+          Ödeme entegrasyonumuz henüz devrede değil. Ücretsiz kaydolduktan ve işletmenizi ekledikten sonra panelinizden
+          bir yükseltme talebi oluşturursunuz; destek ekibimiz size dönüş yapar ve kademenizi birlikte etkinleştiririz.
+          Kart bilgisi istemiyoruz, otomatik ödeme başlatmıyoruz.
+        </p>
+      </div>
     </div>
-  );
-}
-
-function CrownIcon() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="m2 20 2-11 5 5 3-8 3 8 5-5 2 11Z" />
-    </svg>
   );
 }

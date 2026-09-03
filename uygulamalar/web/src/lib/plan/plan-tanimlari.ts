@@ -1,5 +1,17 @@
 import { FEATURE_LABELS } from '@/src/lib/plan/plan-sabitleri';
 
+/**
+ * Plan kademe tanımları ve özellik-karşılaştırma matrisi.
+ *
+ * Bu dosya iki tüketicisi olan tek doğru kaynaktır:
+ *  - `app/sahip/premium/` — oturum açmış, onaylı işletme sahibi için "mevcut plan" +
+ *    yükseltme talebi akışı (noindex, panel içi).
+ *  - `app/(genel)/fiyatlandirma/` — herkese açık, oturum gerektirmeyen fiyatlandırma
+ *    sayfası (indexlenir, pazarlama içeriği).
+ *
+ * İkisi de aynı 4 kademeyi ve aynı 12 özellik satırını göstermeli — kademe/özellik
+ * eklenip çıkarıldığında tek yerden güncellenir.
+ */
 export type PlanTierId = 'free' | 'starter' | 'standard' | 'pro';
 
 export interface PlanTanimi {
