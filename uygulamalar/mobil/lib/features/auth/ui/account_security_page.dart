@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../../legal/legal_repository.dart';
 import '../data/auth_service_provider.dart';
@@ -30,12 +31,12 @@ Color _ringColorFor(int score, int total) {
   return AppColors.success;
 }
 
-String _scoreLabelFor(int score, int total) {
+String _scoreLabelFor(AppLocalizations t, int score, int total) {
   if (total == 0) return '…';
   final ratio = score / total;
-  if (ratio < 0.4) return 'Düşük';
-  if (ratio < 0.8) return 'Orta';
-  return 'Yüksek';
+  if (ratio < 0.4) return t.accountSecurityScoreLow;
+  if (ratio < 0.8) return t.accountSecurityScoreMedium;
+  return t.accountSecurityScoreHigh;
 }
 
 // ── Page ─────────────────────────────────────────────────────────────────────
@@ -117,9 +118,9 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
           );
       if (mounted) {
         messenger.showSnackBar(
-          const SnackBar(
+          SnackBar(
             content: Text(
-              'Veri export talebiniz alındı. En kısa sürede e-postanıza iletilecektir.',
+              context.l10n.accountSecurityDataExportRequested,
             ),
           ),
         );
@@ -127,8 +128,8 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
     } catch (_) {
       if (mounted) {
         messenger.showSnackBar(
-          const SnackBar(
-              content: Text('Talep gönderilemedi. Lütfen tekrar deneyin.')),
+          SnackBar(
+              content: Text(context.l10n.accountSecurityRequestFailedGeneric)),
         );
       }
     }
@@ -142,9 +143,9 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
       await launchUrl(uri);
     } else if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text(
-            'E-posta uygulaması açılamadı. destek@yeedoy.com adresine yazın.',
+            context.l10n.accountSecurityMailAppUnavailable,
           ),
         ),
       );
@@ -155,7 +156,7 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     final ringColor = _ringColorFor(_scoreDone, _scoreTotal);
-    final scoreLabel = _scoreLabelFor(_scoreDone, _scoreTotal);
+    final scoreLabel = _scoreLabelFor(context.l10n, _scoreDone, _scoreTotal);
 
     return Scaffold(
       backgroundColor: const Color(0xFFF4F5F7),
@@ -180,21 +181,21 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
                       ),
                     ),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Column(
                       children: [
                         Text(
-                          'Hesap Güvenliği',
-                          style: TextStyle(
+                          context.l10n.accountSecurityPageTitle,
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w900,
                             color: AppColors.textStrong,
                           ),
                         ),
                         Text(
-                          'Hesabınızı koruyun, güvende kalın.',
+                          context.l10n.accountSecurityPageSubtitle,
                           style:
-                              TextStyle(fontSize: 12, color: AppColors.muted),
+                              const TextStyle(fontSize: 12, color: AppColors.muted),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -234,41 +235,41 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
             const SizedBox(height: 24),
 
             // ── Güvenlik Ayarları ─────────────────────────────────────
-            const _SectionLabel('Güvenlik Ayarları'),
+            _SectionLabel(context.l10n.accountSecuritySettingsSectionTitle),
             const SizedBox(height: 10),
             _SecurityGroup(
               items: [
                 _SecurityRow(
                   icon: Icons.lock_outline_rounded,
-                  title: 'Şifre',
-                  subtitle: 'Şifrenizi düzenleyin',
-                  trailing: const _MetaText('Son değişiklik: 15.05.2024'),
+                  title: context.l10n.accountSecurityPasswordTitle,
+                  subtitle: context.l10n.accountSecurityPasswordSubtitle,
+                  trailing: _MetaText(context.l10n.accountSecurityPasswordLastChanged),
                   onTap: () => _showChangePassword(context),
                 ),
                 _SecurityRow(
                   icon: Icons.smartphone_rounded,
-                  title: 'İki Adımlı Doğrulama',
-                  subtitle: 'Hesabınıza ekstra güvenlik katın',
+                  title: context.l10n.accountSecurity2faTitle,
+                  subtitle: context.l10n.accountSecurity2faSubtitle,
                   trailing: const _ActiveBadge(),
                   onTap: () => _show2FASheet(context),
                 ),
                 _SecurityRow(
                   icon: Icons.mail_outline_rounded,
-                  title: 'E-posta Adresi',
-                  subtitle: 'E-posta adresinizi yönetin',
+                  title: context.l10n.accountSecurityEmailTitle,
+                  subtitle: context.l10n.accountSecurityEmailSubtitle,
                   trailing: _MetaText(user?.email ?? ''),
                   onTap: () => _showChangeEmail(context),
                 ),
                 _SecurityRow(
                   icon: Icons.phone_android_rounded,
-                  title: 'Güvenilen Cihazlar',
-                  subtitle: 'Hesabınıza giriş yapan cihazları yönetin',
+                  title: context.l10n.accountSecurityTrustedDevicesTitle,
+                  subtitle: context.l10n.accountSecurityTrustedDevicesSubtitle,
                   onTap: () => _showTrustedDevices(context),
                 ),
                 _SecurityRow(
                   icon: Icons.key_rounded,
-                  title: 'Oturum Yönetimi',
-                  subtitle: 'Açık oturumlarınızı görüntüleyin',
+                  title: context.l10n.accountSecuritySessionsTitle,
+                  subtitle: context.l10n.accountSecuritySessionsSubtitle,
                   onTap: () => _showSessionManagement(context),
                 ),
               ],
@@ -285,7 +286,7 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
             const SizedBox(height: 24),
 
             // ── Hesap İşlemleri ───────────────────────────────────────
-            const _SectionLabel('Hesap İşlemleri'),
+            _SectionLabel(context.l10n.accountSecurityActionsSectionTitle),
             const SizedBox(height: 10),
             _SecurityGroup(
               items: [
@@ -293,17 +294,16 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
                   icon: Icons.download_outlined,
                   iconBgColor: const Color(0xFFF1F5F9),
                   iconColor: AppColors.textStrong,
-                  title: 'Verilerinizi İndirin',
-                  subtitle:
-                      'Hesabınıza ait verilerin bir kopyasını indirin.',
+                  title: context.l10n.accountSecurityDownloadDataTitle,
+                  subtitle: context.l10n.accountSecurityDownloadDataSubtitle,
                   onTap: _downloadData,
                 ),
                 _SecurityRow(
                   icon: Icons.delete_outline_rounded,
                   iconBgColor: const Color(0xFFF1F5F9),
                   iconColor: AppColors.textStrong,
-                  title: 'Hesabımı Sil',
-                  subtitle: 'Hesabınızı kalıcı olarak silin.',
+                  title: context.l10n.accountSecurityDeleteTitle,
+                  subtitle: context.l10n.accountSecurityDeleteSubtitle,
                   onTap: () => _showDeleteAccount(context),
                 ),
               ],
@@ -371,6 +371,7 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
 
   void _showDeleteAccount(BuildContext context) async {
     final messenger = ScaffoldMessenger.of(context);
+    final t = context.l10n;
     final reasonController = TextEditingController();
     final confirmationController = TextEditingController();
 
@@ -382,31 +383,31 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
             final canSubmit =
                 confirmationController.text.trim().toUpperCase() == 'SIL';
             return AlertDialog(
-              title: const Text('Hesabımı Sil'),
+              title: Text(dialogContext.l10n.accountSecurityDeleteTitle),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Bu işlem hesabınıza erişimi kapatır ve silinebilir veriler için silme sürecini başlatır.',
-                    style: TextStyle(color: AppColors.muted, height: 1.5),
+                  Text(
+                    dialogContext.l10n.accountSecurityDeleteDialogBody,
+                    style: const TextStyle(color: AppColors.muted, height: 1.5),
                   ),
                   const SizedBox(height: 12),
                   TextField(
                     controller: reasonController,
                     maxLines: 3,
-                    decoration: const InputDecoration(
-                      labelText: 'Silme nedeni',
-                      hintText: 'İsterseniz nedeninizi paylaşın',
+                    decoration: InputDecoration(
+                      labelText: dialogContext.l10n.accountSecurityDeleteReasonLabel,
+                      hintText: dialogContext.l10n.accountSecurityDeleteReasonHint,
                     ),
                   ),
                   const SizedBox(height: 12),
                   TextField(
                     controller: confirmationController,
                     onChanged: (_) => setDialogState(() {}),
-                    decoration: const InputDecoration(
-                      labelText: 'Onay',
-                      hintText: 'Devam etmek için SIL yazın',
+                    decoration: InputDecoration(
+                      labelText: dialogContext.l10n.accountSecurityDeleteConfirmLabel,
+                      hintText: dialogContext.l10n.accountSecurityDeleteConfirmHint,
                     ),
                   ),
                 ],
@@ -414,7 +415,7 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(dialogContext).pop(false),
-                  child: const Text('Vazgeç'),
+                  child: Text(dialogContext.l10n.accountSecurityCancelButton),
                 ),
                 FilledButton(
                   onPressed: canSubmit
@@ -424,7 +425,7 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
                     backgroundColor: AppColors.danger,
                     foregroundColor: Colors.white,
                   ),
-                  child: const Text('Silme Talebi Oluştur'),
+                  child: Text(dialogContext.l10n.accountSecurityDeleteCreateRequestButton),
                 ),
               ],
             );
@@ -441,13 +442,13 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
           .submitAccountDeletionRequest(reason: reasonController.text.trim());
       if (mounted) {
         messenger.showSnackBar(
-          const SnackBar(content: Text('Silme talebiniz iletildi.')),
+          SnackBar(content: Text(t.accountSecurityDeleteRequestSubmitted)),
         );
       }
     } catch (_) {
       if (mounted) {
         messenger.showSnackBar(
-          const SnackBar(content: Text('Talep gönderilemedi.')),
+          SnackBar(content: Text(t.accountSecurityDeleteRequestFailed)),
         );
       }
     } finally {
@@ -591,7 +592,7 @@ class _SecurityScoreCard extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                         children: [
-                          const TextSpan(text: 'Güvenlik Skorunuz: '),
+                          TextSpan(text: context.l10n.accountSecurityScorePrefix),
                           TextSpan(
                             text: scoreLabel,
                             style: TextStyle(
@@ -603,9 +604,9 @@ class _SecurityScoreCard extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    const Text(
-                      'Hesabınızı korumak için tüm güvenlik önerilerini tamamlayın.',
-                      style: TextStyle(
+                    Text(
+                      context.l10n.accountSecurityScoreDescription,
+                      style: const TextStyle(
                         fontSize: 11,
                         color: AppColors.muted,
                         height: 1.4,
@@ -795,19 +796,19 @@ class _ActiveBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          'Aktif',
-          style: TextStyle(
+          context.l10n.accountSecurityActiveBadge,
+          style: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w700,
             color: AppColors.success,
           ),
         ),
-        SizedBox(width: 4),
-        Icon(Icons.chevron_right_rounded, color: AppColors.muted, size: 20),
+        const SizedBox(width: 4),
+        const Icon(Icons.chevron_right_rounded, color: AppColors.muted, size: 20),
       ],
     );
   }
@@ -847,22 +848,22 @@ class _TipsCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Güvenliğinizi Artırın',
-                        style: TextStyle(
+                        context.l10n.accountSecurityTipsTitle,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 14,
                           color: AppColors.textStrong,
                         ),
                       ),
-                      SizedBox(height: 2),
+                      const SizedBox(height: 2),
                       Text(
-                        'Aşağıdaki önerileri uygulayarak hesabınızı daha da güvenli hale getirin.',
-                        style: TextStyle(
+                        context.l10n.accountSecurityTipsSubtitle,
+                        style: const TextStyle(
                           fontSize: 12,
                           color: AppColors.muted,
                           height: 1.4,
@@ -877,15 +878,15 @@ class _TipsCard extends StatelessWidget {
           const Divider(height: 1, indent: 14, endIndent: 14),
           _TipRow(
             icon: Icons.shield_outlined,
-            title: 'Güçlü bir şifre kullanın',
-            subtitle: 'Tahmin edilmesi zor, güçlü bir şifre seçin.',
+            title: context.l10n.accountSecurityTipStrongPasswordTitle,
+            subtitle: context.l10n.accountSecurityTipStrongPasswordSubtitle,
             onTap: () {},
           ),
           const Divider(height: 1, indent: 56),
           _TipRow(
             icon: Icons.smartphone_outlined,
-            title: 'İki adımlı doğrulamayı etkinleştirin',
-            subtitle: 'Hesabınıza ekstra koruma ekleyin.',
+            title: context.l10n.accountSecurityTip2faTitle,
+            subtitle: context.l10n.accountSecurityTip2faSubtitle,
             onTap: () {},
           ),
         ],
@@ -973,22 +974,22 @@ class _SupportBanner extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Yardıma mı ihtiyacınız var?',
-                  style: TextStyle(
+                  context.l10n.accountSecuritySupportBannerTitle,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w800,
                     fontSize: 13,
                     color: AppColors.textStrong,
                   ),
                 ),
-                SizedBox(height: 2),
+                const SizedBox(height: 2),
                 Text(
-                  'Güvenlik ile ilgili sorularınız için destek ekibimizle iletişim geçin.',
-                  style: TextStyle(
+                  context.l10n.accountSecuritySupportBannerSubtitle,
+                  style: const TextStyle(
                     fontSize: 11,
                     color: AppColors.muted,
                     height: 1.3,
@@ -1010,7 +1011,7 @@ class _SupportBanner extends StatelessWidget {
                 fontSize: 12,
               ),
             ),
-            child: const Text('Destek Al'),
+            child: Text(context.l10n.accountSecuritySupportBannerButton),
           ),
         ],
       ),
@@ -1093,7 +1094,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
       });
     } catch (e) {
       setState(() {
-        _error = 'Kimlik doğrulama uygulaması kurulumu başlatılamadı.';
+        _error = context.l10n.accountSecurity2faEnrollStartError;
         _loading = false;
       });
     }
@@ -1102,7 +1103,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
   Future<void> _verifyAndActivate() async {
     final code = _codeCtrl.text.trim();
     if (code.length != 6) {
-      setState(() => _error = '6 haneli doğrulama kodunu girin.');
+      setState(() => _error = context.l10n.accountSecurity2faCodeRequiredError);
       return;
     }
     setState(() {
@@ -1130,7 +1131,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
       }
     } catch (_) {
       setState(() {
-        _error = 'Kod hatalı veya süresi dolmuş. Yeni kod deneyin.';
+        _error = context.l10n.accountSecurity2faVerifyCodeInvalid;
         _loading = false;
       });
     }
@@ -1139,7 +1140,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
   Future<void> _disableConfirm() async {
     final code = _codeCtrl.text.trim();
     if (code.length != 6) {
-      setState(() => _error = '6 haneli doğrulama kodunu girin.');
+      setState(() => _error = context.l10n.accountSecurity2faCodeRequiredError);
       return;
     }
     setState(() {
@@ -1169,7 +1170,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
       }
     } catch (_) {
       setState(() {
-        _error = 'Kod hatalı veya süresi dolmuş.';
+        _error = context.l10n.accountSecurity2faDisableCodeInvalid;
         _loading = false;
       });
     }
@@ -1197,21 +1198,21 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
                     color: AppColors.primary, size: 20),
               ),
               const SizedBox(width: 12),
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'İki Adımlı Doğrulama',
-                      style: TextStyle(
+                      context.l10n.accountSecurity2faTitle,
+                      style: const TextStyle(
                           fontWeight: FontWeight.w900,
                           fontSize: 16,
                           color: AppColors.textStrong),
                     ),
                     Text(
-                      'Kimlik doğrulama uygulaması (TOTP)',
+                      context.l10n.accountSecurity2faSheetSubtitle,
                       style:
-                          TextStyle(fontSize: 12, color: AppColors.muted),
+                          const TextStyle(fontSize: 12, color: AppColors.muted),
                     ),
                   ],
                 ),
@@ -1245,9 +1246,9 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
               color: const Color(0xFFF1F5F9),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Text(
-              'Google Authenticator, Authy veya benzeri bir kimlik doğrulama uygulamasını kullanarak hesabınıza ekstra güvenlik katmanı ekleyebilirsiniz.',
-              style: TextStyle(
+            child: Text(
+              context.l10n.accountSecurity2faNotEnrolledBody,
+              style: const TextStyle(
                   fontSize: 13, color: AppColors.muted, height: 1.5),
             ),
           ),
@@ -1267,7 +1268,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
                     child: CircularProgressIndicator(
                         strokeWidth: 2, color: Colors.white))
                 : const Icon(Icons.lock_open_rounded, size: 18),
-            label: Text(_loading ? 'Başlatılıyor…' : 'Kurulumu Başlat'),
+            label: Text(_loading ? context.l10n.accountSecurity2faStartingLabel : context.l10n.accountSecurity2faStartSetupButton),
           ),
         ],
       );
@@ -1277,9 +1278,9 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          '1. Kimlik doğrulama uygulamanızı açın ve QR kodu okutun.',
-          style: TextStyle(
+        Text(
+          context.l10n.accountSecurity2faStep1,
+          style: const TextStyle(
               fontSize: 13, color: AppColors.textStrong, height: 1.5),
         ),
         const SizedBox(height: 16),
@@ -1309,14 +1310,14 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
           ),
         if (_totpSecret != null) ...[
           const SizedBox(height: 12),
-          const Text('Gizli anahtar (manuel giriş):',
-              style: TextStyle(fontSize: 12, color: AppColors.muted)),
+          Text(context.l10n.accountSecurity2faSecretLabel,
+              style: const TextStyle(fontSize: 12, color: AppColors.muted)),
           const SizedBox(height: 4),
           GestureDetector(
             onTap: () {
               Clipboard.setData(ClipboardData(text: _totpSecret!));
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Anahtar kopyalandı.')),
+                SnackBar(content: Text(context.l10n.accountSecurity2faSecretCopied)),
               );
             },
             child: Container(
@@ -1346,10 +1347,10 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
           ),
         ],
         const SizedBox(height: 20),
-        const Text(
-          '2. Uygulamanın gösterdiği 6 haneli kodu girin:',
+        Text(
+          context.l10n.accountSecurity2faStep2,
           style:
-              TextStyle(fontSize: 13, color: AppColors.textStrong),
+              const TextStyle(fontSize: 13, color: AppColors.textStrong),
         ),
         const SizedBox(height: 8),
         if (_error != null) ...[
@@ -1379,7 +1380,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
         FilledButton(
           onPressed: _loading ? null : _verifyAndActivate,
           child: Text(
-              _loading ? 'Doğrulanıyor…' : 'Doğrula ve Aktifleştir'),
+              _loading ? context.l10n.accountSecurity2faVerifyingLabel : context.l10n.accountSecurity2faVerifyButton),
         ),
       ],
     );
@@ -1395,14 +1396,14 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
-              children: const [
-                Icon(Icons.check_circle_rounded,
+              children: [
+                const Icon(Icons.check_circle_rounded,
                     color: AppColors.success, size: 22),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'İki adımlı doğrulama aktif. Hesabınız ek güvenlik katmanıyla korunuyor.',
-                    style: TextStyle(
+                    context.l10n.accountSecurity2faEnabledBanner,
+                    style: const TextStyle(
                         fontSize: 13,
                         color: Color(0xFF15803D),
                         height: 1.4),
@@ -1417,8 +1418,8 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
                 setState(() => _state = TfaState.disabling),
             icon: const Icon(Icons.lock_open_rounded,
                 size: 16, color: AppColors.danger),
-            label: const Text('Devre Dışı Bırak',
-                style: TextStyle(color: AppColors.danger)),
+            label: Text(context.l10n.accountSecurity2faDisableButton,
+                style: const TextStyle(color: AppColors.danger)),
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: AppColors.danger),
             ),
@@ -1436,9 +1437,9 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: const Color(0xFFFECACA)),
             ),
-            child: const Text(
-              'Devre dışı bırakmak için kimlik doğrulama uygulamanızdaki kodu girin.',
-              style: TextStyle(
+            child: Text(
+              context.l10n.accountSecurity2faDisablePrompt,
+              style: const TextStyle(
                   fontSize: 13, color: AppColors.muted, height: 1.4),
             ),
           ),
@@ -1473,7 +1474,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
                 backgroundColor: AppColors.danger,
                 foregroundColor: Colors.white),
             child:
-                Text(_loading ? 'İşleniyor…' : 'Devre Dışı Bırak'),
+                Text(_loading ? context.l10n.accountSecurity2faProcessingLabel : context.l10n.accountSecurity2faDisableButton),
           ),
           const SizedBox(height: 8),
           TextButton(
@@ -1482,7 +1483,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
               _error = null;
               _codeCtrl.clear();
             }),
-            child: const Text('Vazgeç'),
+            child: Text(context.l10n.accountSecurityCancelButton),
           ),
         ],
       );
@@ -1534,21 +1535,22 @@ class _TrustedDevicesSheetState extends State<_TrustedDevicesSheet> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Cihaz kaldırılamadı.')));
+            SnackBar(content: Text(context.l10n.accountSecurityDeviceRemoveFailed)));
       }
     }
   }
 
   String _relativeTime(String? raw) {
-    if (raw == null) return 'Bilinmiyor';
+    final t = context.l10n;
+    if (raw == null) return t.accountSecurityUnknown;
     final dt = DateTime.tryParse(raw)?.toLocal();
-    if (dt == null) return 'Bilinmiyor';
+    if (dt == null) return t.accountSecurityUnknown;
     final diff = DateTime.now().difference(dt);
-    if (diff.inMinutes < 2) return 'Az önce';
-    if (diff.inHours < 1) return '${diff.inMinutes} dk önce';
-    if (diff.inDays < 1) return '${diff.inHours} saat önce';
-    if (diff.inDays < 30) return '${diff.inDays} gün önce';
-    return '${(diff.inDays / 30).round()} ay önce';
+    if (diff.inMinutes < 2) return t.accountSecurityTimeJustNow;
+    if (diff.inHours < 1) return t.accountSecurityTimeMinutesAgo(diff.inMinutes);
+    if (diff.inDays < 1) return t.accountSecurityTimeHoursAgo(diff.inHours);
+    if (diff.inDays < 30) return t.accountSecurityTimeDaysAgo(diff.inDays);
+    return t.accountSecurityTimeMonthsAgo((diff.inDays / 30).round());
   }
 
   @override
@@ -1570,17 +1572,17 @@ class _TrustedDevicesSheetState extends State<_TrustedDevicesSheet> {
                     color: AppColors.primary, size: 20),
               ),
               const SizedBox(width: 12),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Güvenilen Cihazlar',
-                      style: TextStyle(
+                  Text(context.l10n.accountSecurityTrustedDevicesTitle,
+                      style: const TextStyle(
                           fontWeight: FontWeight.w900,
                           fontSize: 16,
                           color: AppColors.textStrong)),
-                  Text('Uygulamanın kurulu olduğu cihazlar',
+                  Text(context.l10n.accountSecurityTrustedDevicesSheetSubtitle,
                       style:
-                          TextStyle(fontSize: 12, color: AppColors.muted)),
+                          const TextStyle(fontSize: 12, color: AppColors.muted)),
                 ],
               ),
             ],
@@ -1591,11 +1593,11 @@ class _TrustedDevicesSheetState extends State<_TrustedDevicesSheet> {
                 child:
                     CircularProgressIndicator(color: AppColors.primary))
           else if (_devices.isEmpty)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24),
               child: Center(
-                  child: Text('Kayıtlı cihaz bulunamadı.',
-                      style: TextStyle(color: AppColors.muted))),
+                  child: Text(context.l10n.accountSecurityNoDevicesFound,
+                      style: const TextStyle(color: AppColors.muted))),
             )
           else
             ...List.generate(_devices.length, (i) {
@@ -1629,7 +1631,7 @@ class _TrustedDevicesSheetState extends State<_TrustedDevicesSheet> {
                       ),
                     ),
                     title: Text(
-                      isAndroid ? 'Android Cihaz' : 'iOS Cihaz',
+                      isAndroid ? context.l10n.accountSecurityAndroidDevice : context.l10n.accountSecurityIosDevice,
                       style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 14,
@@ -1648,21 +1650,21 @@ class _TrustedDevicesSheetState extends State<_TrustedDevicesSheet> {
                       onPressed: () async {
                         final ok = await showDialog<bool>(
                           context: context,
-                          builder: (_) => AlertDialog(
-                            title: const Text('Cihazı Kaldır'),
-                            content: const Text(
-                                'Bu cihaz için bildirimler devre dışı bırakılacak. Devam edilsin mi?'),
+                          builder: (dialogContext) => AlertDialog(
+                            title: Text(dialogContext.l10n.accountSecurityRemoveDeviceDialogTitle),
+                            content: Text(
+                                dialogContext.l10n.accountSecurityRemoveDeviceDialogBody),
                             actions: [
                               TextButton(
                                   onPressed: () =>
-                                      Navigator.pop(context, false),
-                                  child: const Text('Vazgeç')),
+                                      Navigator.pop(dialogContext, false),
+                                  child: Text(dialogContext.l10n.accountSecurityCancelButton)),
                               FilledButton(
                                 onPressed: () =>
-                                    Navigator.pop(context, true),
+                                    Navigator.pop(dialogContext, true),
                                 style: FilledButton.styleFrom(
                                     backgroundColor: AppColors.danger),
-                                child: const Text('Kaldır'),
+                                child: Text(dialogContext.l10n.accountSecurityRemoveButton),
                               ),
                             ],
                           ),
@@ -1695,9 +1697,9 @@ class _SessionManagementSheet extends StatelessWidget {
     final createdAt = user?.createdAt;
 
     String fmt(String? raw) {
-      if (raw == null) return 'Bilinmiyor';
+      if (raw == null) return context.l10n.accountSecurityUnknown;
       final dt = DateTime.tryParse(raw)?.toLocal();
-      if (dt == null) return 'Bilinmiyor';
+      if (dt == null) return context.l10n.accountSecurityUnknown;
       return '${dt.day.toString().padLeft(2, '0')}.${dt.month.toString().padLeft(2, '0')}.${dt.year}  ${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
     }
 
@@ -1718,17 +1720,17 @@ class _SessionManagementSheet extends StatelessWidget {
                     color: AppColors.primary, size: 20),
               ),
               const SizedBox(width: 12),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Oturum Yönetimi',
-                      style: TextStyle(
+                  Text(context.l10n.accountSecuritySessionsTitle,
+                      style: const TextStyle(
                           fontWeight: FontWeight.w900,
                           fontSize: 16,
                           color: AppColors.textStrong)),
-                  Text('Aktif oturumunuzu yönetin',
+                  Text(context.l10n.accountSecuritySessionsSheetSubtitle,
                       style:
-                          TextStyle(fontSize: 12, color: AppColors.muted)),
+                          const TextStyle(fontSize: 12, color: AppColors.muted)),
                 ],
               ),
             ],
@@ -1754,8 +1756,8 @@ class _SessionManagementSheet extends StatelessWidget {
                         color: const Color(0xFFDCFCE7),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const Text('Aktif Oturum',
-                          style: TextStyle(
+                      child: Text(context.l10n.accountSecurityActiveSessionBadge,
+                          style: const TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w700,
                               color: Color(0xFF15803D))),
@@ -1763,13 +1765,13 @@ class _SessionManagementSheet extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                _SessionRow(label: 'E-posta', value: email),
+                _SessionRow(label: context.l10n.accountSecuritySessionEmailLabel, value: email),
                 const SizedBox(height: 6),
                 _SessionRow(
-                    label: 'Son giriş', value: fmt(lastSignIn)),
+                    label: context.l10n.accountSecuritySessionLastLoginLabel, value: fmt(lastSignIn)),
                 const SizedBox(height: 6),
                 _SessionRow(
-                    label: 'Hesap oluşturuldu',
+                    label: context.l10n.accountSecuritySessionCreatedLabel,
                     value: fmt(createdAt)),
               ],
             ),
@@ -1782,9 +1784,9 @@ class _SessionManagementSheet extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: const Color(0xFFFEDEAA)),
             ),
-            child: const Text(
-              'Tanımadığınız bir cihazdan giriş yapıldıysa tüm oturumları sonlandırın ve şifrenizi değiştirin.',
-              style: TextStyle(
+            child: Text(
+              context.l10n.accountSecuritySessionWarning,
+              style: const TextStyle(
                   fontSize: 12,
                   color: AppColors.muted,
                   height: 1.45),
@@ -1795,19 +1797,19 @@ class _SessionManagementSheet extends StatelessWidget {
             onPressed: () async {
               final ok = await showDialog<bool>(
                 context: context,
-                builder: (_) => AlertDialog(
-                  title: const Text('Tüm Oturumları Kapat'),
-                  content: const Text(
-                      'Tüm cihazlardaki aktif oturumlarınız sonlandırılacak ve yeniden giriş yapmanız gerekecek.'),
+                builder: (dialogContext) => AlertDialog(
+                  title: Text(dialogContext.l10n.accountSecurityLogoutAllDialogTitle),
+                  content: Text(
+                      dialogContext.l10n.accountSecurityLogoutAllDialogBody),
                   actions: [
                     TextButton(
-                        onPressed: () => Navigator.pop(context, false),
-                        child: const Text('Vazgeç')),
+                        onPressed: () => Navigator.pop(dialogContext, false),
+                        child: Text(dialogContext.l10n.accountSecurityCancelButton)),
                     FilledButton(
-                      onPressed: () => Navigator.pop(context, true),
+                      onPressed: () => Navigator.pop(dialogContext, true),
                       style: FilledButton.styleFrom(
                           backgroundColor: AppColors.danger),
-                      child: const Text('Kapat'),
+                      child: Text(dialogContext.l10n.accountSecurityLogoutAllCloseButton),
                     ),
                   ],
                 ),
@@ -1818,7 +1820,7 @@ class _SessionManagementSheet extends StatelessWidget {
               }
             },
             icon: const Icon(Icons.logout_rounded, size: 18),
-            label: const Text('Tüm Cihazlarda Oturumu Kapat'),
+            label: Text(context.l10n.accountSecurityLogoutAllButton),
             style: FilledButton.styleFrom(
                 backgroundColor: AppColors.danger,
                 foregroundColor: Colors.white),
@@ -1883,11 +1885,11 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
   Future<void> _save() async {
     final pass = _newPassCtrl.text;
     if (pass.length < 6) {
-      setState(() => _error = 'Şifre en az 6 karakter olmalıdır.');
+      setState(() => _error = context.l10n.accountSecurityChangePasswordErrorTooShort);
       return;
     }
     if (pass != _confirmCtrl.text) {
-      setState(() => _error = 'Şifreler eşleşmiyor.');
+      setState(() => _error = context.l10n.accountSecurityChangePasswordErrorMismatch);
       return;
     }
     setState(() {
@@ -1899,7 +1901,7 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
       if (mounted) {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Şifre başarıyla güncellendi.')),
+          SnackBar(content: Text(context.l10n.accountSecurityPasswordUpdated)),
         );
       }
     } catch (e) {
@@ -1922,10 +1924,10 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Şifre Değiştir',
+          Text(
+            context.l10n.accountSecurityChangePasswordTitle,
             style:
-                TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+                const TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
           ),
           const SizedBox(height: 16),
           if (_error != null) ...[
@@ -1940,9 +1942,9 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
             controller: _newPassCtrl,
             obscureText: true,
             textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
-              labelText: 'Yeni şifre',
-              prefixIcon: Icon(Icons.lock_outline),
+            decoration: InputDecoration(
+              labelText: context.l10n.accountSecurityNewPasswordLabel,
+              prefixIcon: const Icon(Icons.lock_outline),
             ),
           ),
           const SizedBox(height: 10),
@@ -1951,16 +1953,16 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
             obscureText: true,
             textInputAction: TextInputAction.done,
             onSubmitted: (_) => _save(),
-            decoration: const InputDecoration(
-              labelText: 'Yeni şifre (tekrar)',
-              prefixIcon: Icon(Icons.lock_outline),
+            decoration: InputDecoration(
+              labelText: context.l10n.accountSecurityNewPasswordConfirmLabel,
+              prefixIcon: const Icon(Icons.lock_outline),
             ),
           ),
           const SizedBox(height: 16),
           FilledButton(
             onPressed: _loading ? null : _save,
             child:
-                Text(_loading ? 'Kaydediliyor…' : 'Şifreyi Güncelle'),
+                Text(_loading ? context.l10n.accountSecuritySavingLabel : context.l10n.accountSecurityUpdatePasswordButton),
           ),
         ],
       ),
@@ -1993,7 +1995,7 @@ class _ChangeEmailSheetState extends State<_ChangeEmailSheet> {
   Future<void> _save() async {
     final email = _emailCtrl.text.trim();
     if (!email.contains('@')) {
-      setState(() => _error = 'Geçerli bir e-posta girin.');
+      setState(() => _error = context.l10n.accountSecurityChangeEmailErrorInvalid);
       return;
     }
     setState(() {
@@ -2030,14 +2032,14 @@ class _ChangeEmailSheetState extends State<_ChangeEmailSheet> {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  '${_emailCtrl.text.trim()} adresine doğrulama e-postası gönderildi. Bağlantıya tıkladıktan sonra e-postanız güncellenecektir.',
+                  context.l10n.accountSecurityChangeEmailSentBody(_emailCtrl.text.trim()),
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 13),
                 ),
                 const SizedBox(height: 16),
                 FilledButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Tamam'),
+                  child: Text(context.l10n.accountSecurityOkButton),
                 ),
               ],
             )
@@ -2045,15 +2047,15 @@ class _ChangeEmailSheetState extends State<_ChangeEmailSheet> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  'E-posta Değiştir',
-                  style: TextStyle(
+                Text(
+                  context.l10n.accountSecurityChangeEmailTitle,
+                  style: const TextStyle(
                       fontWeight: FontWeight.w800, fontSize: 16),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Yeni e-posta adresinize doğrulama bağlantısı gönderilecektir.',
-                  style: TextStyle(
+                Text(
+                  context.l10n.accountSecurityChangeEmailSubtitle,
+                  style: const TextStyle(
                       color: AppColors.muted, fontSize: 13),
                 ),
                 const SizedBox(height: 16),
@@ -2070,9 +2072,9 @@ class _ChangeEmailSheetState extends State<_ChangeEmailSheet> {
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.done,
                   onSubmitted: (_) => _save(),
-                  decoration: const InputDecoration(
-                    labelText: 'Yeni e-posta adresi',
-                    prefixIcon: Icon(Icons.email_outlined),
+                  decoration: InputDecoration(
+                    labelText: context.l10n.accountSecurityNewEmailLabel,
+                    prefixIcon: const Icon(Icons.email_outlined),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -2080,8 +2082,8 @@ class _ChangeEmailSheetState extends State<_ChangeEmailSheet> {
                   onPressed: _loading ? null : _save,
                   child: Text(
                     _loading
-                        ? 'Gönderiliyor…'
-                        : 'Doğrulama Bağlantısı Gönder',
+                        ? context.l10n.accountSecuritySendingLabel
+                        : context.l10n.accountSecuritySendVerificationLinkButton,
                   ),
                 ),
               ],

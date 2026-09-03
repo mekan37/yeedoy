@@ -4088,4 +4088,681 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checkInAlreadyDone => 'You already checked in today.';
+
+  @override
+  String get profileSettingsPrivacyPendingRequest =>
+      'You already have a pending privacy request.';
+
+  @override
+  String get profileSettingsDetailsLabel => 'Details';
+
+  @override
+  String get profileSettingsDetailsHint => 'Briefly describe your request';
+
+  @override
+  String get profileSettingsCancel => 'Cancel';
+
+  @override
+  String get profileSettingsSubmit => 'Submit';
+
+  @override
+  String get profileSettingsRequestSaved => 'Your request has been saved.';
+
+  @override
+  String get profileSettingsPageTitle => 'Settings';
+
+  @override
+  String get profileSettingsPageSubtitle => 'Manage your app preferences.';
+
+  @override
+  String get profileSettingsPromoTitle => 'Personalize your app!';
+
+  @override
+  String get profileSettingsPromoSubtitle =>
+      'From notifications to privacy, favorite cuisines to currency — set it all up here.';
+
+  @override
+  String get profileSettingsAccountSectionTitle => 'Account';
+
+  @override
+  String get profileSettingsAccountInfoTitle => 'Account Information';
+
+  @override
+  String get profileSettingsAccountInfoSubtitle =>
+      'Edit your personal information';
+
+  @override
+  String get profileSettingsSocialAccountsTitle => 'My Social Accounts';
+
+  @override
+  String get profileSettingsSocialAccountsSubtitle =>
+      'Instagram, TikTok, YouTube and more';
+
+  @override
+  String get profileSettingsPrivacyTitle => 'Privacy';
+
+  @override
+  String get profileSettingsPrivacySubtitle =>
+      'Manage your data and privacy settings';
+
+  @override
+  String get profileSettingsPrivacyDialogTitle => 'Privacy Request';
+
+  @override
+  String get profileSettingsPrivacyDialogHelper =>
+      'Submit requests such as correction, objection, or restriction.';
+
+  @override
+  String get profileSettingsSecurityTitle => 'Security';
+
+  @override
+  String get profileSettingsSecuritySubtitle =>
+      'Password, login, and security settings';
+
+  @override
+  String get profileSettingsAppPrefsSectionTitle => 'App Preferences';
+
+  @override
+  String get profileSettingsNotificationsTitle => 'Notification Settings';
+
+  @override
+  String get profileSettingsNotificationsSubtitle =>
+      'Manage your notification preferences';
+
+  @override
+  String get profileSettingsLocationTitle => 'Location Settings';
+
+  @override
+  String get profileSettingsLocationSubtitle =>
+      'Edit your location access and preferences';
+
+  @override
+  String get profileSettingsFavoritesTitle => 'My Favorite Preferences';
+
+  @override
+  String get profileSettingsFavoritesSubtitle =>
+      'Favorite cuisines, dishes, and filters';
+
+  @override
+  String get profileSettingsLanguageTitle => 'Language';
+
+  @override
+  String get profileSettingsLanguageSubtitle => 'Choose the app language';
+
+  @override
+  String get profileSettingsLanguageTurkish => 'Turkish';
+
+  @override
+  String get profileSettingsLanguageEnglish => 'English';
+
+  @override
+  String get profileSettingsOtherSectionTitle => 'Other';
+
+  @override
+  String get profileSettingsHelpTitle => 'Help & Support';
+
+  @override
+  String get profileSettingsHelpSubtitle => 'FAQs and support';
+
+  @override
+  String get profileSettingsLegalTitle => 'Legal';
+
+  @override
+  String get profileSettingsLegalSubtitle =>
+      'Terms of service, privacy, and data protection';
+
+  @override
+  String get profileSettingsLogoutTitle => 'Log Out';
+
+  @override
+  String get profileSettingsLogoutSubtitle => 'Sign out of your account';
+
+  @override
+  String get registerErrorAcceptTerms =>
+      'You must accept the Terms of Service and Privacy Policy to continue.';
+
+  @override
+  String get registerErrorPasswordMismatch => 'Passwords do not match.';
+
+  @override
+  String get registerPasswordRequirementsHint =>
+      'Your password must be at least 8 characters and include letters and numbers.';
+
+  @override
+  String get registerSuccessMessage =>
+      'Your account has been created! Please verify your email.';
+
+  @override
+  String get registerBirthDatePickerHelp => 'Select your date of birth';
+
+  @override
+  String get registerCitySheetTitle => 'Your City';
+
+  @override
+  String get registerCitySearchHint => 'Search for a city...';
+
+  @override
+  String get registerPageTitle => 'Create an account';
+
+  @override
+  String get registerPageSubtitle =>
+      'Sign up now and start enjoying all the features.';
+
+  @override
+  String get registerFirstNameHint => 'First name';
+
+  @override
+  String get registerLastNameHint => 'Last name';
+
+  @override
+  String get registerEmailHint => 'Email address';
+
+  @override
+  String get registerPhoneHint => 'Phone number';
+
+  @override
+  String get registerPasswordHint => 'Password';
+
+  @override
+  String get registerPasswordConfirmHint => 'Password (again)';
+
+  @override
+  String get registerBirthDatePlaceholder => 'Date of birth';
+
+  @override
+  String get registerCityPlaceholder => 'Your city (optional)';
+
+  @override
+  String get registerTermsLinkLabel => 'Terms of Service';
+
+  @override
+  String get registerTermsAndConnector => ' and ';
+
+  @override
+  String get registerPrivacyLinkLabel => 'Privacy Policy';
+
+  @override
+  String get registerTermsAcceptSuffix => ', which I have read and agree to.';
+
+  @override
+  String get registerSubmitButton => 'Sign Up';
+
+  @override
+  String get registerOrDivider => 'or';
+
+  @override
+  String get registerGoogleSignupLabel => 'Sign up with\nGoogle';
+
+  @override
+  String get registerAppleSignupLabel => 'Sign up with\nApple';
+
+  @override
+  String get registerFacebookSignupLabel => 'Sign up with\nFacebook';
+
+  @override
+  String get registerSecureBadgeTitle => 'Secure Signup';
+
+  @override
+  String get registerSecureBadgeSubtitle =>
+      'Your information is protected with 256-bit SSL.';
+
+  @override
+  String get registerCountryCodeSheetTitle => 'Country Code';
+
+  @override
+  String get registerCountryTurkey => '🇹🇷 Turkey';
+
+  @override
+  String get registerCountryUsa => '🇺🇸 USA';
+
+  @override
+  String get registerCountryUk => '🇬🇧 United Kingdom';
+
+  @override
+  String get registerCountryGermany => '🇩🇪 Germany';
+
+  @override
+  String get registerCountryFrance => '🇫🇷 France';
+
+  @override
+  String get registerCountryNetherlands => '🇳🇱 Netherlands';
+
+  @override
+  String get registerCountryAustria => '🇦🇹 Austria';
+
+  @override
+  String get registerCountrySwitzerland => '🇨🇭 Switzerland';
+
+  @override
+  String get loginOtpPhoneLabel => 'Phone number';
+
+  @override
+  String get loginOtpCodeLabel => 'Verification code';
+
+  @override
+  String get loginOtpUseDifferentNumber => 'Use a different number';
+
+  @override
+  String get forgotPasswordPageTitle => 'Reset Password';
+
+  @override
+  String get forgotPasswordErrorInvalidEmail => 'Enter a valid email address.';
+
+  @override
+  String get forgotPasswordFormTitle =>
+      'Enter your email address\nto reset your password';
+
+  @override
+  String get forgotPasswordFormSubtitle =>
+      'We\'ll send you an email with a reset link.';
+
+  @override
+  String get forgotPasswordEmailLabel => 'Email address';
+
+  @override
+  String get forgotPasswordSendingLabel => 'Sending…';
+
+  @override
+  String get forgotPasswordSendButton => 'Send Reset Link';
+
+  @override
+  String get forgotPasswordBackButton => 'Go back';
+
+  @override
+  String get forgotPasswordSuccessTitle => 'Email Sent!';
+
+  @override
+  String forgotPasswordSuccessBody(String email) {
+    return 'A password reset link has been sent to $email.\nPlease check your inbox.';
+  }
+
+  @override
+  String get forgotPasswordBackToLoginButton => 'Back to login';
+
+  @override
+  String get profileMenuAccountSubtitle => 'Edit your personal information';
+
+  @override
+  String get profileMenuDietTitle => 'My Diet Profile';
+
+  @override
+  String get profileMenuDietSubtitle =>
+      'Set your dietary preferences and allergies';
+
+  @override
+  String get profileMenuLoyaltyTitle => 'My Loyalty Cards';
+
+  @override
+  String get profileMenuLoyaltySubtitle => 'View your cards and QR code';
+
+  @override
+  String get profileMenuNotificationsTitle => 'Notification Preferences';
+
+  @override
+  String get profileMenuNotificationsSubtitle =>
+      'Edit your notification settings';
+
+  @override
+  String get profileMenuHelpTitle => 'Help & Support';
+
+  @override
+  String get profileMenuHelpSubtitle => 'FAQs and support';
+
+  @override
+  String get accountSecurityScoreLow => 'Low';
+
+  @override
+  String get accountSecurityScoreMedium => 'Medium';
+
+  @override
+  String get accountSecurityScoreHigh => 'High';
+
+  @override
+  String get accountSecurityPageTitle => 'Account Security';
+
+  @override
+  String get accountSecurityPageSubtitle =>
+      'Protect your account and stay safe.';
+
+  @override
+  String get accountSecuritySettingsSectionTitle => 'Security Settings';
+
+  @override
+  String get accountSecurityPasswordTitle => 'Password';
+
+  @override
+  String get accountSecurityPasswordSubtitle => 'Edit your password';
+
+  @override
+  String get accountSecurityPasswordLastChanged => 'Last changed: 15.05.2024';
+
+  @override
+  String get accountSecurity2faTitle => 'Two-Factor Authentication';
+
+  @override
+  String get accountSecurity2faSubtitle => 'Add extra security to your account';
+
+  @override
+  String get accountSecurityActiveBadge => 'Active';
+
+  @override
+  String get accountSecurityEmailTitle => 'Email Address';
+
+  @override
+  String get accountSecurityEmailSubtitle => 'Manage your email address';
+
+  @override
+  String get accountSecurityTrustedDevicesTitle => 'Trusted Devices';
+
+  @override
+  String get accountSecurityTrustedDevicesSubtitle =>
+      'Manage the devices signed in to your account';
+
+  @override
+  String get accountSecuritySessionsTitle => 'Session Management';
+
+  @override
+  String get accountSecuritySessionsSubtitle => 'View your active sessions';
+
+  @override
+  String get accountSecurityTipsTitle => 'Boost Your Security';
+
+  @override
+  String get accountSecurityTipsSubtitle =>
+      'Follow these tips to make your account even more secure.';
+
+  @override
+  String get accountSecurityTipStrongPasswordTitle => 'Use a strong password';
+
+  @override
+  String get accountSecurityTipStrongPasswordSubtitle =>
+      'Choose a strong password that\'s hard to guess.';
+
+  @override
+  String get accountSecurityTip2faTitle => 'Enable two-factor authentication';
+
+  @override
+  String get accountSecurityTip2faSubtitle =>
+      'Add extra protection to your account.';
+
+  @override
+  String get accountSecurityActionsSectionTitle => 'Account Actions';
+
+  @override
+  String get accountSecurityDownloadDataTitle => 'Download Your Data';
+
+  @override
+  String get accountSecurityDownloadDataSubtitle =>
+      'Download a copy of your account data.';
+
+  @override
+  String get accountSecurityDeleteTitle => 'Delete My Account';
+
+  @override
+  String get accountSecurityDeleteSubtitle =>
+      'Permanently delete your account.';
+
+  @override
+  String get accountSecuritySupportBannerTitle => 'Need help?';
+
+  @override
+  String get accountSecuritySupportBannerSubtitle =>
+      'Contact our support team with any security questions.';
+
+  @override
+  String get accountSecuritySupportBannerButton => 'Get Support';
+
+  @override
+  String get accountSecurityScorePrefix => 'Your Security Score: ';
+
+  @override
+  String get accountSecurityScoreDescription =>
+      'Complete all security recommendations to protect your account.';
+
+  @override
+  String get accountSecurityDataExportRequested =>
+      'Your data export request has been received. It will be sent to your email shortly.';
+
+  @override
+  String get accountSecurityRequestFailedGeneric =>
+      'The request could not be sent. Please try again.';
+
+  @override
+  String get accountSecurityMailAppUnavailable =>
+      'Couldn\'t open your email app. Please write to destek@yeedoy.com.';
+
+  @override
+  String get accountSecurityDeleteDialogBody =>
+      'This will close access to your account and start the deletion process for eligible data.';
+
+  @override
+  String get accountSecurityDeleteReasonLabel => 'Reason for deletion';
+
+  @override
+  String get accountSecurityDeleteReasonHint =>
+      'Share your reason if you\'d like';
+
+  @override
+  String get accountSecurityDeleteConfirmLabel => 'Confirmation';
+
+  @override
+  String get accountSecurityDeleteConfirmHint => 'Type SIL to continue';
+
+  @override
+  String get accountSecurityDeleteCreateRequestButton =>
+      'Create Deletion Request';
+
+  @override
+  String get accountSecurityCancelButton => 'Cancel';
+
+  @override
+  String get accountSecurityDeleteRequestSubmitted =>
+      'Your deletion request has been submitted.';
+
+  @override
+  String get accountSecurityDeleteRequestFailed =>
+      'The request could not be sent.';
+
+  @override
+  String get accountSecurity2faSheetSubtitle => 'Authenticator app (TOTP)';
+
+  @override
+  String get accountSecurity2faNotEnrolledBody =>
+      'You can add an extra layer of security to your account using Google Authenticator, Authy, or a similar authenticator app.';
+
+  @override
+  String get accountSecurity2faStartingLabel => 'Starting…';
+
+  @override
+  String get accountSecurity2faStartSetupButton => 'Start Setup';
+
+  @override
+  String get accountSecurity2faEnrollStartError =>
+      'Couldn\'t start the authenticator app setup.';
+
+  @override
+  String get accountSecurity2faCodeRequiredError =>
+      'Enter the 6-digit verification code.';
+
+  @override
+  String get accountSecurity2faStep1 =>
+      '1. Open your authenticator app and scan the QR code.';
+
+  @override
+  String get accountSecurity2faSecretLabel => 'Secret key (manual entry):';
+
+  @override
+  String get accountSecurity2faSecretCopied => 'Key copied.';
+
+  @override
+  String get accountSecurity2faStep2 =>
+      '2. Enter the 6-digit code shown in the app:';
+
+  @override
+  String get accountSecurity2faVerifyingLabel => 'Verifying…';
+
+  @override
+  String get accountSecurity2faVerifyButton => 'Verify and Activate';
+
+  @override
+  String get accountSecurity2faVerifyCodeInvalid =>
+      'The code is wrong or expired. Try a new code.';
+
+  @override
+  String get accountSecurity2faDisableCodeInvalid =>
+      'The code is wrong or expired.';
+
+  @override
+  String get accountSecurity2faEnabledBanner =>
+      'Two-factor authentication is active. Your account is protected with an extra security layer.';
+
+  @override
+  String get accountSecurity2faDisableButton => 'Turn Off';
+
+  @override
+  String get accountSecurity2faDisablePrompt =>
+      'Enter the code from your authenticator app to turn it off.';
+
+  @override
+  String get accountSecurity2faProcessingLabel => 'Processing…';
+
+  @override
+  String get accountSecurityTrustedDevicesSheetSubtitle =>
+      'Devices where the app is installed';
+
+  @override
+  String get accountSecurityDeviceRemoveFailed =>
+      'Couldn\'t remove the device.';
+
+  @override
+  String get accountSecurityUnknown => 'Unknown';
+
+  @override
+  String get accountSecurityTimeJustNow => 'Just now';
+
+  @override
+  String accountSecurityTimeMinutesAgo(int minutes) {
+    return '$minutes min ago';
+  }
+
+  @override
+  String accountSecurityTimeHoursAgo(int hours) {
+    return '$hours hr ago';
+  }
+
+  @override
+  String accountSecurityTimeDaysAgo(int days) {
+    return '$days days ago';
+  }
+
+  @override
+  String accountSecurityTimeMonthsAgo(int months) {
+    return '$months mo ago';
+  }
+
+  @override
+  String get accountSecurityNoDevicesFound => 'No registered devices found.';
+
+  @override
+  String get accountSecurityAndroidDevice => 'Android Device';
+
+  @override
+  String get accountSecurityIosDevice => 'iOS Device';
+
+  @override
+  String get accountSecurityRemoveDeviceDialogTitle => 'Remove Device';
+
+  @override
+  String get accountSecurityRemoveDeviceDialogBody =>
+      'Notifications for this device will be disabled. Continue?';
+
+  @override
+  String get accountSecurityRemoveButton => 'Remove';
+
+  @override
+  String get accountSecuritySessionsSheetSubtitle =>
+      'Manage your active session';
+
+  @override
+  String get accountSecurityActiveSessionBadge => 'Active Session';
+
+  @override
+  String get accountSecuritySessionEmailLabel => 'Email';
+
+  @override
+  String get accountSecuritySessionLastLoginLabel => 'Last login';
+
+  @override
+  String get accountSecuritySessionCreatedLabel => 'Account created';
+
+  @override
+  String get accountSecuritySessionWarning =>
+      'If you notice a sign-in from a device you don\'t recognize, end all sessions and change your password.';
+
+  @override
+  String get accountSecurityLogoutAllDialogTitle => 'End All Sessions';
+
+  @override
+  String get accountSecurityLogoutAllDialogBody =>
+      'Your active sessions on all devices will be ended and you\'ll need to sign in again.';
+
+  @override
+  String get accountSecurityLogoutAllCloseButton => 'End';
+
+  @override
+  String get accountSecurityLogoutAllButton => 'Sign Out of All Devices';
+
+  @override
+  String get accountSecurityChangePasswordErrorTooShort =>
+      'Password must be at least 6 characters.';
+
+  @override
+  String get accountSecurityChangePasswordErrorMismatch =>
+      'Passwords do not match.';
+
+  @override
+  String get accountSecurityPasswordUpdated => 'Password updated successfully.';
+
+  @override
+  String get accountSecurityChangePasswordTitle => 'Change Password';
+
+  @override
+  String get accountSecurityNewPasswordLabel => 'New password';
+
+  @override
+  String get accountSecurityNewPasswordConfirmLabel => 'New password (again)';
+
+  @override
+  String get accountSecuritySavingLabel => 'Saving…';
+
+  @override
+  String get accountSecurityUpdatePasswordButton => 'Update Password';
+
+  @override
+  String get accountSecurityChangeEmailErrorInvalid => 'Enter a valid email.';
+
+  @override
+  String accountSecurityChangeEmailSentBody(String email) {
+    return 'A verification email has been sent to $email. Your email will be updated once you click the link.';
+  }
+
+  @override
+  String get accountSecurityOkButton => 'OK';
+
+  @override
+  String get accountSecurityChangeEmailTitle => 'Change Email';
+
+  @override
+  String get accountSecurityChangeEmailSubtitle =>
+      'A verification link will be sent to your new email address.';
+
+  @override
+  String get accountSecurityNewEmailLabel => 'New email address';
+
+  @override
+  String get accountSecuritySendingLabel => 'Sending…';
+
+  @override
+  String get accountSecuritySendVerificationLinkButton =>
+      'Send Verification Link';
 }

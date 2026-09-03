@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../data/auth_service_provider.dart';
 
@@ -29,7 +30,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   Future<void> _send() async {
     final email = _emailCtrl.text.trim();
     if (email.isEmpty || !email.contains('@')) {
-      setState(() => _error = 'Geçerli bir e-posta adresi girin.');
+      setState(() => _error = context.l10n.forgotPasswordErrorInvalidEmail);
       return;
     }
     setState(() { _loading = true; _error = null; });
@@ -46,7 +47,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: AppBar(title: const Text('Şifre Sıfırla')),
+      appBar: AppBar(title: Text(context.l10n.forgotPasswordPageTitle)),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: _sent ? _SuccessView(email: _emailCtrl.text.trim()) : _FormView(
@@ -83,15 +84,15 @@ class _FormView extends StatelessWidget {
       children: [
         const Icon(Icons.lock_reset_outlined, size: 48, color: AppColors.primary),
         const SizedBox(height: 16),
-        const Text(
-          'Şifrenizi sıfırlamak için\ne-posta adresinizi girin',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+        Text(
+          context.l10n.forgotPasswordFormTitle,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 8),
-        const Text(
-          'Size sıfırlama bağlantısı içeren bir e-posta göndereceğiz.',
-          style: TextStyle(color: AppColors.muted, fontSize: 13),
+        Text(
+          context.l10n.forgotPasswordFormSubtitle,
+          style: const TextStyle(color: AppColors.muted, fontSize: 13),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 24),
@@ -112,9 +113,9 @@ class _FormView extends StatelessWidget {
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.done,
           onSubmitted: (_) => onSend(),
-          decoration: const InputDecoration(
-            labelText: 'E-posta adresi',
-            prefixIcon: Icon(Icons.email_outlined),
+          decoration: InputDecoration(
+            labelText: context.l10n.forgotPasswordEmailLabel,
+            prefixIcon: const Icon(Icons.email_outlined),
           ),
         ),
         const SizedBox(height: 16),
@@ -123,10 +124,10 @@ class _FormView extends StatelessWidget {
           icon: loading
               ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
               : const Icon(Icons.send_outlined, size: 18),
-          label: Text(loading ? 'Gönderiliyor…' : 'Sıfırlama Linki Gönder'),
+          label: Text(loading ? context.l10n.forgotPasswordSendingLabel : context.l10n.forgotPasswordSendButton),
         ),
         const SizedBox(height: 10),
-        TextButton(onPressed: onBack, child: const Text('Geri dön')),
+        TextButton(onPressed: onBack, child: Text(context.l10n.forgotPasswordBackButton)),
       ],
     );
   }
@@ -144,21 +145,21 @@ class _SuccessView extends StatelessWidget {
       children: [
         const Icon(Icons.mark_email_read_outlined, size: 56, color: AppColors.success),
         const SizedBox(height: 16),
-        const Text(
-          'E-posta Gönderildi!',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+        Text(
+          context.l10n.forgotPasswordSuccessTitle,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 8),
         Text(
-          '$email adresine şifre sıfırlama bağlantısı gönderildi.\nLütfen gelen kutunuzu kontrol edin.',
+          context.l10n.forgotPasswordSuccessBody(email),
           style: const TextStyle(color: AppColors.muted, fontSize: 13),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 24),
         FilledButton(
           onPressed: () => context.go('/login'),
-          child: const Text('Giriş sayfasına dön'),
+          child: Text(context.l10n.forgotPasswordBackToLoginButton),
         ),
       ],
     );

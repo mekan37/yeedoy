@@ -698,7 +698,9 @@
   "@ratingLabel": {
     "description": "Star rating tooltip label",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "atanan": "Atanan",
@@ -5215,81 +5217,404 @@
     }
   },
   "delete": "Sil",
-  "@delete": {"description": "Generic delete action"},
+  "@delete": {
+    "description": "Generic delete action"
+  },
   "remove": "Kaldır",
-  "@remove": {"description": "Generic remove action"},
+  "@remove": {
+    "description": "Generic remove action"
+  },
   "create": "Oluştur",
-  "@create": {"description": "Generic create action"},
+  "@create": {
+    "description": "Generic create action"
+  },
   "required": "Bu alan zorunludur",
-  "@required": {"description": "Validation error for required field"},
+  "@required": {
+    "description": "Validation error for required field"
+  },
   "collabListsTitle": "Ortak Listelerim",
-  "@collabListsTitle": {"description": "Collab lists page title"},
+  "@collabListsTitle": {
+    "description": "Collab lists page title"
+  },
   "collabListCreate": "Liste Oluştur",
-  "@collabListCreate": {"description": "Create collab list button"},
+  "@collabListCreate": {
+    "description": "Create collab list button"
+  },
   "collabListsEmpty": "Henüz liste yok",
-  "@collabListsEmpty": {"description": "Empty state title for collab lists"},
+  "@collabListsEmpty": {
+    "description": "Empty state title for collab lists"
+  },
   "collabListsEmptyDesc": "Arkadaşlarınla ortak listeler oluştur ve favori mekanları birlikte oylayın.",
-  "@collabListsEmptyDesc": {"description": "Empty state description for collab lists"},
+  "@collabListsEmptyDesc": {
+    "description": "Empty state description for collab lists"
+  },
   "collabListNameLabel": "Liste adı",
-  "@collabListNameLabel": {"description": "Collab list name field label"},
+  "@collabListNameLabel": {
+    "description": "Collab list name field label"
+  },
   "collabListDescLabel": "Açıklama (isteğe bağlı)",
-  "@collabListDescLabel": {"description": "Collab list description field label"},
+  "@collabListDescLabel": {
+    "description": "Collab list description field label"
+  },
   "collabListItemsEmpty": "Liste boş",
-  "@collabListItemsEmpty": {"description": "Empty state for items inside a collab list"},
+  "@collabListItemsEmpty": {
+    "description": "Empty state for items inside a collab list"
+  },
   "collabListItemsEmptyDesc": "İşletme sayfasından bu listeye ekleyebilirsin.",
-  "@collabListItemsEmptyDesc": {"description": "Empty state description for collab list items"},
+  "@collabListItemsEmptyDesc": {
+    "description": "Empty state description for collab list items"
+  },
   "collabListShare": "Davet Bağlantısını Kopyala",
-  "@collabListShare": {"description": "Share collab list action"},
+  "@collabListShare": {
+    "description": "Share collab list action"
+  },
   "collabListDelete": "Listeyi Sil",
-  "@collabListDelete": {"description": "Delete collab list action"},
+  "@collabListDelete": {
+    "description": "Delete collab list action"
+  },
   "collabListDeleteConfirm": "Bu listeyi ve tüm içeriğini silmek istediğinden emin misin?",
-  "@collabListDeleteConfirm": {"description": "Delete collab list confirmation"},
+  "@collabListDeleteConfirm": {
+    "description": "Delete collab list confirmation"
+  },
   "collabListLeave": "Listeden Ayrıl",
-  "@collabListLeave": {"description": "Leave collab list action"},
+  "@collabListLeave": {
+    "description": "Leave collab list action"
+  },
   "collabListLeaveConfirm": "Bu listeden ayrılmak istediğinden emin misin?",
-  "@collabListLeaveConfirm": {"description": "Leave collab list confirmation"},
+  "@collabListLeaveConfirm": {
+    "description": "Leave collab list confirmation"
+  },
   "collabListLinkCopied": "Davet bağlantısı kopyalandı",
-  "@collabListLinkCopied": {"description": "Snackbar when invite link is copied"},
+  "@collabListLinkCopied": {
+    "description": "Snackbar when invite link is copied"
+  },
   "collabListJoining": "Listeye katılınıyor...",
-  "@collabListJoining": {"description": "Joining a collab list via invite token"},
+  "@collabListJoining": {
+    "description": "Joining a collab list via invite token"
+  },
   "collabListInvalidInvite": "Geçersiz davet bağlantısı.",
-  "@collabListInvalidInvite": {"description": "Error when invite token is invalid"},
+  "@collabListInvalidInvite": {
+    "description": "Error when invite token is invalid"
+  },
   "goToMyLists": "Listelerime Git",
-  "@goToMyLists": {"description": "Navigate to collab lists page"},
+  "@goToMyLists": {
+    "description": "Navigate to collab lists page"
+  },
   "businessTabGeneral": "Genel",
-  "@businessTabGeneral": {"description": "Business detail page tab: general"},
+  "@businessTabGeneral": {
+    "description": "Business detail page tab: general"
+  },
   "businessTabMenu": "Menü",
-  "@businessTabMenu": {"description": "Business detail page tab: menu"},
+  "@businessTabMenu": {
+    "description": "Business detail page tab: menu"
+  },
   "businessTabReviews": "Yorumlar",
-  "@businessTabReviews": {"description": "Business detail page tab: reviews"},
+  "@businessTabReviews": {
+    "description": "Business detail page tab: reviews"
+  },
   "businessBadgeMenuVerified": "Menü Onaylı",
-  "@businessBadgeMenuVerified": {"description": "Badge shown when the menu source is owner-verified"},
+  "@businessBadgeMenuVerified": {
+    "description": "Badge shown when the menu source is owner-verified"
+  },
   "businessBadgePopular": "Popüler",
-  "@businessBadgePopular": {"description": "Badge shown when the business has trending items"},
+  "@businessBadgePopular": {
+    "description": "Badge shown when the business has trending items"
+  },
   "businessBadgeDelivery": "Paket Servis",
-  "@businessBadgeDelivery": {"description": "Badge shown when business offers delivery"},
+  "@businessBadgeDelivery": {
+    "description": "Badge shown when business offers delivery"
+  },
   "businessBadgeDineIn": "Yerinde Yeme",
-  "@businessBadgeDineIn": {"description": "Badge shown when business offers dine-in seating"},
+  "@businessBadgeDineIn": {
+    "description": "Badge shown when business offers dine-in seating"
+  },
   "featuredSectionTitle": "Öne çıkanlar",
-  "@featuredSectionTitle": {"description": "Business detail Genel tab featured section title"},
+  "@featuredSectionTitle": {
+    "description": "Business detail Genel tab featured section title"
+  },
   "featuredRatingLabel": "Puan",
-  "@featuredRatingLabel": {"description": "Label under the rating value in the featured section"},
+  "@featuredRatingLabel": {
+    "description": "Label under the rating value in the featured section"
+  },
   "featuredMenuVerifiedSubtitle": "Sahibi tarafından güncellendi",
-  "@featuredMenuVerifiedSubtitle": {"description": "Subtitle for the verified-menu featured card"},
+  "@featuredMenuVerifiedSubtitle": {
+    "description": "Subtitle for the verified-menu featured card"
+  },
   "popularDishesTitle": "Popüler lezzetler",
-  "@popularDishesTitle": {"description": "Business detail Genel tab popular dishes section title"},
+  "@popularDishesTitle": {
+    "description": "Business detail Genel tab popular dishes section title"
+  },
   "locationHoursTitle": "Konum ve saatler",
-  "@locationHoursTitle": {"description": "Business detail Genel tab location and hours section title"},
+  "@locationHoursTitle": {
+    "description": "Business detail Genel tab location and hours section title"
+  },
   "directions": "Yol Tarifi",
-  "@directions": {"description": "Bottom action bar directions button"},
+  "@directions": {
+    "description": "Bottom action bar directions button"
+  },
   "viewMenu": "Menüyü Gör",
-  "@viewMenu": {"description": "Bottom action bar view menu button"},
+  "@viewMenu": {
+    "description": "Bottom action bar view menu button"
+  },
   "checkInButton": "Gerçekten Buradayım",
-  "@checkInButton": {"description": "Check-in button label on business detail page"},
+  "@checkInButton": {
+    "description": "Check-in button label on business detail page"
+  },
   "checkedInToday": "Bugün ziyaret edildi",
-  "@checkedInToday": {"description": "Check-in confirmation badge shown when user has already checked in today"},
+  "@checkedInToday": {
+    "description": "Check-in confirmation badge shown when user has already checked in today"
+  },
   "checkInSuccess": "Ziyaretiniz kaydedildi!",
-  "@checkInSuccess": {"description": "Snackbar message shown after successful check-in"},
+  "@checkInSuccess": {
+    "description": "Snackbar message shown after successful check-in"
+  },
   "checkInAlreadyDone": "Bugün zaten ziyaret kaydettiniz.",
-  "@checkInAlreadyDone": {"description": "Snackbar message when user tries to check in again on the same day"}
+  "@checkInAlreadyDone": {
+    "description": "Snackbar message when user tries to check in again on the same day"
+  },
+  "profileSettingsPrivacyPendingRequest": "Bekleyen bir gizlilik başvurunuz zaten var.",
+  "profileSettingsDetailsLabel": "Detaylar",
+  "profileSettingsDetailsHint": "Talebinizi kısaca açıklayın",
+  "profileSettingsCancel": "Vazgeç",
+  "profileSettingsSubmit": "Gönder",
+  "profileSettingsRequestSaved": "Başvurunuz kaydedildi.",
+  "profileSettingsPageTitle": "Ayarlar",
+  "profileSettingsPageSubtitle": "Uygulama tercihlerini yönet.",
+  "profileSettingsPromoTitle": "Uygulamanı kişiselleştir!",
+  "profileSettingsPromoSubtitle": "Bildirimlerden gizliliğe, favori mutfaklardan para birimine kadar her şeyi buradan ayarla.",
+  "profileSettingsAccountSectionTitle": "Hesap",
+  "profileSettingsAccountInfoTitle": "Hesap Bilgileri",
+  "profileSettingsAccountInfoSubtitle": "Kişisel bilgilerini düzenle",
+  "profileSettingsSocialAccountsTitle": "Sosyal Medya Hesaplarım",
+  "profileSettingsSocialAccountsSubtitle": "Instagram, TikTok, YouTube ve daha fazlası",
+  "profileSettingsPrivacyTitle": "Gizlilik",
+  "profileSettingsPrivacySubtitle": "Verilerini ve gizlilik ayarlarını yönet",
+  "profileSettingsPrivacyDialogTitle": "Gizlilik Başvurusu",
+  "profileSettingsPrivacyDialogHelper": "Düzeltme, itiraz veya kısıtlama gibi taleplerinizi gönderin.",
+  "profileSettingsSecurityTitle": "Güvenlik",
+  "profileSettingsSecuritySubtitle": "Şifre, giriş ve güvenlik ayarları",
+  "profileSettingsAppPrefsSectionTitle": "Uygulama Tercihleri",
+  "profileSettingsNotificationsTitle": "Bildirim Ayarları",
+  "profileSettingsNotificationsSubtitle": "Bildirim tercihlerini yönet",
+  "profileSettingsLocationTitle": "Konum Ayarları",
+  "profileSettingsLocationSubtitle": "Konum erişimi ve tercihlerini düzenle",
+  "profileSettingsFavoritesTitle": "Favori Tercihlerim",
+  "profileSettingsFavoritesSubtitle": "Favori mutfaklar, yemekler ve filtreler",
+  "profileSettingsLanguageTitle": "Dil",
+  "profileSettingsLanguageSubtitle": "Uygulama dilini seç",
+  "profileSettingsLanguageTurkish": "Türkçe",
+  "profileSettingsLanguageEnglish": "English",
+  "profileSettingsOtherSectionTitle": "Diğer",
+  "profileSettingsHelpTitle": "Yardım ve Destek",
+  "profileSettingsHelpSubtitle": "Sık sorulan sorular ve destek",
+  "profileSettingsLegalTitle": "Yasal İşlemler",
+  "profileSettingsLegalSubtitle": "Kullanım şartları, gizlilik ve KVKK",
+  "profileSettingsLogoutTitle": "Çıkış Yap",
+  "profileSettingsLogoutSubtitle": "Hesabından çıkış yap",
+  "registerErrorAcceptTerms": "Devam etmek için Kullanım Şartları ve Gizlilik Politikası'nı kabul etmelisiniz.",
+  "registerErrorPasswordMismatch": "Şifreler eşleşmiyor.",
+  "registerPasswordRequirementsHint": "Şifreniz en az 8 karakter olmalı ve harf, rakam içermelidir.",
+  "registerSuccessMessage": "Hesabınız oluşturuldu! E-postanızı doğrulayın.",
+  "registerBirthDatePickerHelp": "Doğum tarihinizi seçin",
+  "registerCitySheetTitle": "Yaşadığın Şehir",
+  "registerCitySearchHint": "Şehir ara...",
+  "registerPageTitle": "Hesap oluşturun",
+  "registerPageSubtitle": "Hemen kaydolun, tüm özelliklerden yararlanmaya başlayın.",
+  "registerFirstNameHint": "Ad",
+  "registerLastNameHint": "Soyad",
+  "registerEmailHint": "E-posta adresi",
+  "registerPhoneHint": "Telefon numarası",
+  "registerPasswordHint": "Şifre",
+  "registerPasswordConfirmHint": "Şifre (Tekrar)",
+  "registerBirthDatePlaceholder": "Doğum tarihi",
+  "registerCityPlaceholder": "Yaşadığın şehir (opsiyonel)",
+  "registerTermsLinkLabel": "Kullanım Şartları",
+  "registerTermsAndConnector": " ve ",
+  "registerPrivacyLinkLabel": "Gizlilik Politikası",
+  "registerTermsAcceptSuffix": "'nı okudum, kabul ediyorum.",
+  "registerSubmitButton": "Kayıt Ol",
+  "registerOrDivider": "veya",
+  "registerGoogleSignupLabel": "Google ile\nkaydol",
+  "registerAppleSignupLabel": "Apple ile\nkaydol",
+  "registerFacebookSignupLabel": "Facebook ile\nkaydol",
+  "registerSecureBadgeTitle": "Güvenli Kayıt",
+  "registerSecureBadgeSubtitle": "Bilgileriniz 256-bit SSL ile korunmaktadır.",
+  "registerCountryCodeSheetTitle": "Ülke Kodu",
+  "registerCountryTurkey": "🇹🇷 Türkiye",
+  "registerCountryUsa": "🇺🇸 ABD",
+  "registerCountryUk": "🇬🇧 Birleşik Krallık",
+  "registerCountryGermany": "🇩🇪 Almanya",
+  "registerCountryFrance": "🇫🇷 Fransa",
+  "registerCountryNetherlands": "🇳🇱 Hollanda",
+  "registerCountryAustria": "🇦🇹 Avusturya",
+  "registerCountrySwitzerland": "🇨🇭 İsviçre",
+  "loginOtpPhoneLabel": "Telefon numarası",
+  "loginOtpCodeLabel": "Doğrulama kodu",
+  "loginOtpUseDifferentNumber": "Farklı numara kullan",
+  "forgotPasswordPageTitle": "Şifre Sıfırla",
+  "forgotPasswordErrorInvalidEmail": "Geçerli bir e-posta adresi girin.",
+  "forgotPasswordFormTitle": "Şifrenizi sıfırlamak için\ne-posta adresinizi girin",
+  "forgotPasswordFormSubtitle": "Size sıfırlama bağlantısı içeren bir e-posta göndereceğiz.",
+  "forgotPasswordEmailLabel": "E-posta adresi",
+  "forgotPasswordSendingLabel": "Gönderiliyor…",
+  "forgotPasswordSendButton": "Sıfırlama Linki Gönder",
+  "forgotPasswordBackButton": "Geri dön",
+  "forgotPasswordSuccessTitle": "E-posta Gönderildi!",
+  "forgotPasswordSuccessBody": "{email} adresine şifre sıfırlama bağlantısı gönderildi.\nLütfen gelen kutunuzu kontrol edin.",
+  "@forgotPasswordSuccessBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "forgotPasswordBackToLoginButton": "Giriş sayfasına dön",
+  "profileMenuAccountSubtitle": "Kişisel bilgilerini düzenle",
+  "profileMenuDietTitle": "Diyet Profilim",
+  "profileMenuDietSubtitle": "Beslenme tercih ve alerjilerini belirt",
+  "profileMenuLoyaltyTitle": "Sadakat Kartlarım",
+  "profileMenuLoyaltySubtitle": "Kartlarını ve QR kodunu gör",
+  "profileMenuNotificationsTitle": "Bildirim Tercihleri",
+  "profileMenuNotificationsSubtitle": "Bildirim ayarlarını düzenle",
+  "profileMenuHelpTitle": "Yardım ve Destek",
+  "profileMenuHelpSubtitle": "Sık sorulan sorular ve destek",
+  "accountSecurityScoreLow": "Düşük",
+  "accountSecurityScoreMedium": "Orta",
+  "accountSecurityScoreHigh": "Yüksek",
+  "accountSecurityPageTitle": "Hesap Güvenliği",
+  "accountSecurityPageSubtitle": "Hesabınızı koruyun, güvende kalın.",
+  "accountSecuritySettingsSectionTitle": "Güvenlik Ayarları",
+  "accountSecurityPasswordTitle": "Şifre",
+  "accountSecurityPasswordSubtitle": "Şifrenizi düzenleyin",
+  "accountSecurityPasswordLastChanged": "Son değişiklik: 15.05.2024",
+  "accountSecurity2faTitle": "İki Adımlı Doğrulama",
+  "accountSecurity2faSubtitle": "Hesabınıza ekstra güvenlik katın",
+  "accountSecurityActiveBadge": "Aktif",
+  "accountSecurityEmailTitle": "E-posta Adresi",
+  "accountSecurityEmailSubtitle": "E-posta adresinizi yönetin",
+  "accountSecurityTrustedDevicesTitle": "Güvenilen Cihazlar",
+  "accountSecurityTrustedDevicesSubtitle": "Hesabınıza giriş yapan cihazları yönetin",
+  "accountSecuritySessionsTitle": "Oturum Yönetimi",
+  "accountSecuritySessionsSubtitle": "Açık oturumlarınızı görüntüleyin",
+  "accountSecurityTipsTitle": "Güvenliğinizi Artırın",
+  "accountSecurityTipsSubtitle": "Aşağıdaki önerileri uygulayarak hesabınızı daha da güvenli hale getirin.",
+  "accountSecurityTipStrongPasswordTitle": "Güçlü bir şifre kullanın",
+  "accountSecurityTipStrongPasswordSubtitle": "Tahmin edilmesi zor, güçlü bir şifre seçin.",
+  "accountSecurityTip2faTitle": "İki adımlı doğrulamayı etkinleştirin",
+  "accountSecurityTip2faSubtitle": "Hesabınıza ekstra koruma ekleyin.",
+  "accountSecurityActionsSectionTitle": "Hesap İşlemleri",
+  "accountSecurityDownloadDataTitle": "Verilerinizi İndirin",
+  "accountSecurityDownloadDataSubtitle": "Hesabınıza ait verilerin bir kopyasını indirin.",
+  "accountSecurityDeleteTitle": "Hesabımı Sil",
+  "accountSecurityDeleteSubtitle": "Hesabınızı kalıcı olarak silin.",
+  "accountSecuritySupportBannerTitle": "Yardıma mı ihtiyacınız var?",
+  "accountSecuritySupportBannerSubtitle": "Güvenlik ile ilgili sorularınız için destek ekibimizle iletişim geçin.",
+  "accountSecuritySupportBannerButton": "Destek Al",
+  "accountSecurityScorePrefix": "Güvenlik Skorunuz: ",
+  "accountSecurityScoreDescription": "Hesabınızı korumak için tüm güvenlik önerilerini tamamlayın.",
+  "accountSecurityDataExportRequested": "Veri export talebiniz alındı. En kısa sürede e-postanıza iletilecektir.",
+  "accountSecurityRequestFailedGeneric": "Talep gönderilemedi. Lütfen tekrar deneyin.",
+  "accountSecurityMailAppUnavailable": "E-posta uygulaması açılamadı. destek@yeedoy.com adresine yazın.",
+  "accountSecurityDeleteDialogBody": "Bu işlem hesabınıza erişimi kapatır ve silinebilir veriler için silme sürecini başlatır.",
+  "accountSecurityDeleteReasonLabel": "Silme nedeni",
+  "accountSecurityDeleteReasonHint": "İsterseniz nedeninizi paylaşın",
+  "accountSecurityDeleteConfirmLabel": "Onay",
+  "accountSecurityDeleteConfirmHint": "Devam etmek için SIL yazın",
+  "accountSecurityDeleteCreateRequestButton": "Silme Talebi Oluştur",
+  "accountSecurityCancelButton": "Vazgeç",
+  "accountSecurityDeleteRequestSubmitted": "Silme talebiniz iletildi.",
+  "accountSecurityDeleteRequestFailed": "Talep gönderilemedi.",
+  "accountSecurity2faSheetSubtitle": "Kimlik doğrulama uygulaması (TOTP)",
+  "accountSecurity2faNotEnrolledBody": "Google Authenticator, Authy veya benzeri bir kimlik doğrulama uygulamasını kullanarak hesabınıza ekstra güvenlik katmanı ekleyebilirsiniz.",
+  "accountSecurity2faStartingLabel": "Başlatılıyor…",
+  "accountSecurity2faStartSetupButton": "Kurulumu Başlat",
+  "accountSecurity2faEnrollStartError": "Kimlik doğrulama uygulaması kurulumu başlatılamadı.",
+  "accountSecurity2faCodeRequiredError": "6 haneli doğrulama kodunu girin.",
+  "accountSecurity2faStep1": "1. Kimlik doğrulama uygulamanızı açın ve QR kodu okutun.",
+  "accountSecurity2faSecretLabel": "Gizli anahtar (manuel giriş):",
+  "accountSecurity2faSecretCopied": "Anahtar kopyalandı.",
+  "accountSecurity2faStep2": "2. Uygulamanın gösterdiği 6 haneli kodu girin:",
+  "accountSecurity2faVerifyingLabel": "Doğrulanıyor…",
+  "accountSecurity2faVerifyButton": "Doğrula ve Aktifleştir",
+  "accountSecurity2faVerifyCodeInvalid": "Kod hatalı veya süresi dolmuş. Yeni kod deneyin.",
+  "accountSecurity2faDisableCodeInvalid": "Kod hatalı veya süresi dolmuş.",
+  "accountSecurity2faEnabledBanner": "İki adımlı doğrulama aktif. Hesabınız ek güvenlik katmanıyla korunuyor.",
+  "accountSecurity2faDisableButton": "Devre Dışı Bırak",
+  "accountSecurity2faDisablePrompt": "Devre dışı bırakmak için kimlik doğrulama uygulamanızdaki kodu girin.",
+  "accountSecurity2faProcessingLabel": "İşleniyor…",
+  "accountSecurityTrustedDevicesSheetSubtitle": "Uygulamanın kurulu olduğu cihazlar",
+  "accountSecurityDeviceRemoveFailed": "Cihaz kaldırılamadı.",
+  "accountSecurityUnknown": "Bilinmiyor",
+  "accountSecurityTimeJustNow": "Az önce",
+  "accountSecurityTimeMinutesAgo": "{minutes} dk önce",
+  "@accountSecurityTimeMinutesAgo": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "accountSecurityTimeHoursAgo": "{hours} saat önce",
+  "@accountSecurityTimeHoursAgo": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "accountSecurityTimeDaysAgo": "{days} gün önce",
+  "@accountSecurityTimeDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "accountSecurityTimeMonthsAgo": "{months} ay önce",
+  "@accountSecurityTimeMonthsAgo": {
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "accountSecurityNoDevicesFound": "Kayıtlı cihaz bulunamadı.",
+  "accountSecurityAndroidDevice": "Android Cihaz",
+  "accountSecurityIosDevice": "iOS Cihaz",
+  "accountSecurityRemoveDeviceDialogTitle": "Cihazı Kaldır",
+  "accountSecurityRemoveDeviceDialogBody": "Bu cihaz için bildirimler devre dışı bırakılacak. Devam edilsin mi?",
+  "accountSecurityRemoveButton": "Kaldır",
+  "accountSecuritySessionsSheetSubtitle": "Aktif oturumunuzu yönetin",
+  "accountSecurityActiveSessionBadge": "Aktif Oturum",
+  "accountSecuritySessionEmailLabel": "E-posta",
+  "accountSecuritySessionLastLoginLabel": "Son giriş",
+  "accountSecuritySessionCreatedLabel": "Hesap oluşturuldu",
+  "accountSecuritySessionWarning": "Tanımadığınız bir cihazdan giriş yapıldıysa tüm oturumları sonlandırın ve şifrenizi değiştirin.",
+  "accountSecurityLogoutAllDialogTitle": "Tüm Oturumları Kapat",
+  "accountSecurityLogoutAllDialogBody": "Tüm cihazlardaki aktif oturumlarınız sonlandırılacak ve yeniden giriş yapmanız gerekecek.",
+  "accountSecurityLogoutAllCloseButton": "Kapat",
+  "accountSecurityLogoutAllButton": "Tüm Cihazlarda Oturumu Kapat",
+  "accountSecurityChangePasswordErrorTooShort": "Şifre en az 6 karakter olmalıdır.",
+  "accountSecurityChangePasswordErrorMismatch": "Şifreler eşleşmiyor.",
+  "accountSecurityPasswordUpdated": "Şifre başarıyla güncellendi.",
+  "accountSecurityChangePasswordTitle": "Şifre Değiştir",
+  "accountSecurityNewPasswordLabel": "Yeni şifre",
+  "accountSecurityNewPasswordConfirmLabel": "Yeni şifre (tekrar)",
+  "accountSecuritySavingLabel": "Kaydediliyor…",
+  "accountSecurityUpdatePasswordButton": "Şifreyi Güncelle",
+  "accountSecurityChangeEmailErrorInvalid": "Geçerli bir e-posta girin.",
+  "accountSecurityChangeEmailSentBody": "{email} adresine doğrulama e-postası gönderildi. Bağlantıya tıkladıktan sonra e-postanız güncellenecektir.",
+  "@accountSecurityChangeEmailSentBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "accountSecurityOkButton": "Tamam",
+  "accountSecurityChangeEmailTitle": "E-posta Değiştir",
+  "accountSecurityChangeEmailSubtitle": "Yeni e-posta adresinize doğrulama bağlantısı gönderilecektir.",
+  "accountSecurityNewEmailLabel": "Yeni e-posta adresi",
+  "accountSecuritySendingLabel": "Gönderiliyor…",
+  "accountSecuritySendVerificationLinkButton": "Doğrulama Bağlantısı Gönder"
 }

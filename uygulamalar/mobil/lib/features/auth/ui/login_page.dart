@@ -873,10 +873,10 @@ class _PhoneOtpForm extends StatelessWidget {
               FilteringTextInputFormatter.allow(RegExp(r'[0-9+\s\-()]')),
             ],
             onSubmitted: (_) => onSendOtp(),
-            decoration: const InputDecoration(
-              labelText: 'Telefon numarası',
+            decoration: InputDecoration(
+              labelText: context.l10n.loginOtpPhoneLabel,
               hintText: '05XX XXX XX XX',
-              prefixIcon: Icon(Icons.phone_outlined),
+              prefixIcon: const Icon(Icons.phone_outlined),
             ),
           ),
           const SizedBox(height: 16),
@@ -896,8 +896,8 @@ class _PhoneOtpForm extends StatelessWidget {
           maxLength: 6,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           onSubmitted: (_) => onVerifyOtp(),
-          decoration: const InputDecoration(
-            labelText: 'Doğrulama kodu',
+          decoration: InputDecoration(
+            labelText: context.l10n.loginOtpCodeLabel,
             hintText: '000000',
             counterText: '',
           ),
@@ -909,7 +909,7 @@ class _PhoneOtpForm extends StatelessWidget {
         ),
         TextButton(
           onPressed: loading ? null : onBack,
-          child: const Text('Farklı numara kullan'),
+          child: Text(context.l10n.loginOtpUseDifferentNumber),
         ),
       ],
     );

@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../core/security/route_sanitizer.dart';
 import '../../../core/location/turkiye_illeri.dart';
 import '../../legal/legal_linking.dart';
@@ -56,19 +57,17 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   Future<void> _signUp() async {
     if (!_accepted) {
       setState(() {
-        _errorMessage =
-            'Devam etmek için Kullanım Şartları ve Gizlilik Politikası\'nı kabul etmelisiniz.';
+        _errorMessage = context.l10n.registerErrorAcceptTerms;
       });
       return;
     }
     if (_passCtrl.text != _passConfirmCtrl.text) {
-      setState(() => _errorMessage = 'Şifreler eşleşmiyor.');
+      setState(() => _errorMessage = context.l10n.registerErrorPasswordMismatch);
       return;
     }
     if (_passCtrl.text.length < 8) {
       setState(
-        () => _errorMessage =
-            'Şifreniz en az 8 karakter olmalı ve harf, rakam içermelidir.',
+        () => _errorMessage = context.l10n.registerPasswordRequirementsHint,
       );
       return;
     }
@@ -104,8 +103,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       }
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Hesabınız oluşturuldu! E-postanızı doğrulayın.'),
+        SnackBar(
+          content: Text(context.l10n.registerSuccessMessage),
         ),
       );
       context.go('/discover');
@@ -144,7 +143,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       initialDate: _birthDate ?? DateTime(now.year - 18, now.month, now.day),
       firstDate: DateTime(1920),
       lastDate: DateTime(now.year - 13, now.month, now.day),
-      helpText: 'Doğum tarihinizi seçin',
+      helpText: context.l10n.registerBirthDatePickerHelp,
     );
     if (picked != null) setState(() => _birthDate = picked);
   }
@@ -175,17 +174,17 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const Text(
-                        'Yaşadığın Şehir',
-                        style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15),
+                      Text(
+                        context.l10n.registerCitySheetTitle,
+                        style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 15),
                       ),
                       const SizedBox(height: 8),
                       TextField(
                         controller: searchCtrl,
                         onChanged: (v) => setSheetState(() => filter = v),
-                        decoration: const InputDecoration(
-                          hintText: 'Şehir ara...',
-                          prefixIcon: Icon(Icons.search_rounded, size: 20),
+                        decoration: InputDecoration(
+                          hintText: context.l10n.registerCitySearchHint,
+                          prefixIcon: const Icon(Icons.search_rounded, size: 20),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -243,20 +242,20 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               const SizedBox(height: 24),
 
               // ── Başlık ───────────────────────────────────────────────
-              const Text(
-                'Hesap oluşturun',
+              Text(
+                context.l10n.registerPageTitle,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w900,
                   color: AppColors.textStrong,
                 ),
               ),
               const SizedBox(height: 8),
-              const Text(
-                'Hemen kaydolun, tüm özelliklerden yararlanmaya başlayın.',
+              Text(
+                context.l10n.registerPageSubtitle,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 13,
                   color: AppColors.muted,
                   height: 1.4,
@@ -279,7 +278,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   Expanded(
                     child: _RegField(
                       controller: _firstNameCtrl,
-                      hint: 'Ad',
+                      hint: context.l10n.registerFirstNameHint,
                       icon: Icons.person_outline_rounded,
                       textInputAction: TextInputAction.next,
                     ),
@@ -288,7 +287,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   Expanded(
                     child: _RegField(
                       controller: _lastNameCtrl,
-                      hint: 'Soyad',
+                      hint: context.l10n.registerLastNameHint,
                       icon: Icons.person_outline_rounded,
                       textInputAction: TextInputAction.next,
                     ),
@@ -300,7 +299,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               // ── E-posta ──────────────────────────────────────────────
               _RegField(
                 controller: _emailCtrl,
-                hint: 'E-posta adresi',
+                hint: context.l10n.registerEmailHint,
                 icon: Icons.mail_outline_rounded,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
@@ -314,7 +313,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               // ── Şifre ────────────────────────────────────────────────
               _RegField(
                 controller: _passCtrl,
-                hint: 'Şifre',
+                hint: context.l10n.registerPasswordHint,
                 icon: Icons.lock_outline_rounded,
                 obscureText: !_passVisible,
                 textInputAction: TextInputAction.next,
@@ -330,11 +329,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 ),
               ),
               const SizedBox(height: 6),
-              const Padding(
-                padding: EdgeInsets.only(left: 4),
+              Padding(
+                padding: const EdgeInsets.only(left: 4),
                 child: Text(
-                  'Şifreniz en az 8 karakter olmalı ve harf, rakam içermelidir.',
-                  style: TextStyle(
+                  context.l10n.registerPasswordRequirementsHint,
+                  style: const TextStyle(
                     fontSize: 11,
                     color: AppColors.muted,
                     height: 1.4,
@@ -346,7 +345,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
               // ── Şifre (Tekrar) ───────────────────────────────────────
               _RegField(
                 controller: _passConfirmCtrl,
-                hint: 'Şifre (Tekrar)',
+                hint: context.l10n.registerPasswordConfirmHint,
                 icon: Icons.lock_outline_rounded,
                 obscureText: !_passConfirmVisible,
                 textInputAction: TextInputAction.next,
@@ -387,7 +386,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       Expanded(
                         child: Text(
                           _birthDate == null
-                              ? 'Doğum tarihi'
+                              ? context.l10n.registerBirthDatePlaceholder
                               : '${_birthDate!.day.toString().padLeft(2, '0')}.${_birthDate!.month.toString().padLeft(2, '0')}.${_birthDate!.year}',
                           style: TextStyle(
                             fontSize: 14,
@@ -429,7 +428,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
-                          _selectedCity ?? 'Yaşadığın şehir (opsiyonel)',
+                          _selectedCity ?? context.l10n.registerCityPlaceholder,
                           style: TextStyle(
                             fontSize: 14,
                             color: _selectedCity == null
@@ -478,9 +477,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           WidgetSpan(
                             child: GestureDetector(
                               onTap: () => _openLegalUrl(AppConfig.termsUrl),
-                              child: const Text(
-                                'Kullanım Şartları',
-                                style: TextStyle(
+                              child: Text(
+                                context.l10n.registerTermsLinkLabel,
+                                style: const TextStyle(
                                   fontSize: 12,
                                   color: AppColors.primary,
                                   fontWeight: FontWeight.w700,
@@ -489,14 +488,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               ),
                             ),
                           ),
-                          const TextSpan(text: ' ve '),
+                          TextSpan(text: context.l10n.registerTermsAndConnector),
                           WidgetSpan(
                             child: GestureDetector(
                               onTap: () =>
                                   _openLegalUrl(AppConfig.privacyPolicyUrl),
-                              child: const Text(
-                                'Gizlilik Politikası',
-                                style: TextStyle(
+                              child: Text(
+                                context.l10n.registerPrivacyLinkLabel,
+                                style: const TextStyle(
                                   fontSize: 12,
                                   color: AppColors.primary,
                                   fontWeight: FontWeight.w700,
@@ -505,7 +504,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               ),
                             ),
                           ),
-                          const TextSpan(text: '\'nı okudum, kabul ediyorum.'),
+                          TextSpan(text: context.l10n.registerTermsAcceptSuffix),
                         ],
                       ),
                     ),
@@ -534,9 +533,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             color: Colors.white,
                           ),
                         )
-                      : const Text(
-                          'Kayıt Ol',
-                          style: TextStyle(
+                      : Text(
+                          context.l10n.registerSubmitButton,
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w800,
                             color: Colors.white,
@@ -556,7 +555,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   Expanded(
                     child: _SocialIconButton(
                       icon: const _GoogleIcon(),
-                      label: 'Google ile\nkaydol',
+                      label: context.l10n.registerGoogleSignupLabel,
                       onTap: _loading ? null : _signInWithGoogle,
                     ),
                   ),
@@ -568,7 +567,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         size: 26,
                         color: Colors.black,
                       ),
-                      label: 'Apple ile\nkaydol',
+                      label: context.l10n.registerAppleSignupLabel,
                       onTap: null,
                     ),
                   ),
@@ -576,7 +575,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   Expanded(
                     child: _SocialIconButton(
                       icon: const _FacebookIcon(),
-                      label: 'Facebook ile\nkaydol',
+                      label: context.l10n.registerFacebookSignupLabel,
                       onTap: null,
                     ),
                   ),
@@ -610,21 +609,21 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Güvenli Kayıt',
-                          style: TextStyle(
+                          context.l10n.registerSecureBadgeTitle,
+                          style: const TextStyle(
                             fontWeight: FontWeight.w800,
                             fontSize: 13,
                             color: AppColors.textStrong,
                           ),
                         ),
-                        SizedBox(height: 2),
+                        const SizedBox(height: 2),
                         Text(
-                          'Bilgileriniz 256-bit SSL ile korunmaktadır.',
-                          style: TextStyle(
+                          context.l10n.registerSecureBadgeSubtitle,
+                          style: const TextStyle(
                             fontSize: 12,
                             color: AppColors.muted,
                           ),
@@ -763,9 +762,9 @@ class _PhoneFieldState extends State<_PhoneField> {
               keyboardType: TextInputType.phone,
               textInputAction: TextInputAction.next,
               style: const TextStyle(fontSize: 14, color: AppColors.textStrong),
-              decoration: const InputDecoration(
-                hintText: 'Telefon numarası',
-                hintStyle: TextStyle(color: AppColors.muted, fontSize: 14),
+              decoration: InputDecoration(
+                hintText: context.l10n.registerPhoneHint,
+                hintStyle: const TextStyle(color: AppColors.muted, fontSize: 14),
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
@@ -781,15 +780,15 @@ class _PhoneFieldState extends State<_PhoneField> {
   }
 
   void _showCodePicker() {
-    const entries = [
-      ('+90', '🇹🇷 Türkiye'),
-      ('+1', '🇺🇸 ABD'),
-      ('+44', '🇬🇧 Birleşik Krallık'),
-      ('+49', '🇩🇪 Almanya'),
-      ('+33', '🇫🇷 Fransa'),
-      ('+31', '🇳🇱 Hollanda'),
-      ('+43', '🇦🇹 Avusturya'),
-      ('+41', '🇨🇭 İsviçre'),
+    final entries = [
+      ('+90', context.l10n.registerCountryTurkey),
+      ('+1', context.l10n.registerCountryUsa),
+      ('+44', context.l10n.registerCountryUk),
+      ('+49', context.l10n.registerCountryGermany),
+      ('+33', context.l10n.registerCountryFrance),
+      ('+31', context.l10n.registerCountryNetherlands),
+      ('+43', context.l10n.registerCountryAustria),
+      ('+41', context.l10n.registerCountrySwitzerland),
     ];
 
     showModalBottomSheet<String>(
@@ -818,9 +817,9 @@ class _PhoneFieldState extends State<_PhoneField> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'Ülke Kodu',
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 15),
+                Text(
+                  context.l10n.registerCountryCodeSheetTitle,
+                  style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 15),
                 ),
                 const Divider(),
                 Flexible(
@@ -907,21 +906,21 @@ class _OrDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       children: [
-        Expanded(child: Divider(color: AppColors.border)),
+        const Expanded(child: Divider(color: AppColors.border)),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 14),
           child: Text(
-            'veya',
-            style: TextStyle(
+            context.l10n.registerOrDivider,
+            style: const TextStyle(
               color: AppColors.muted,
               fontSize: 13,
               fontWeight: FontWeight.w500,
             ),
           ),
         ),
-        Expanded(child: Divider(color: AppColors.border)),
+        const Expanded(child: Divider(color: AppColors.border)),
       ],
     );
   }

@@ -7400,6 +7400,1224 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bugün zaten ziyaret kaydettiniz.'**
   String get checkInAlreadyDone;
+
+  /// No description provided for @profileSettingsPrivacyPendingRequest.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bekleyen bir gizlilik başvurunuz zaten var.'**
+  String get profileSettingsPrivacyPendingRequest;
+
+  /// No description provided for @profileSettingsDetailsLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Detaylar'**
+  String get profileSettingsDetailsLabel;
+
+  /// No description provided for @profileSettingsDetailsHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Talebinizi kısaca açıklayın'**
+  String get profileSettingsDetailsHint;
+
+  /// No description provided for @profileSettingsCancel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vazgeç'**
+  String get profileSettingsCancel;
+
+  /// No description provided for @profileSettingsSubmit.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönder'**
+  String get profileSettingsSubmit;
+
+  /// No description provided for @profileSettingsRequestSaved.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başvurunuz kaydedildi.'**
+  String get profileSettingsRequestSaved;
+
+  /// No description provided for @profileSettingsPageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ayarlar'**
+  String get profileSettingsPageTitle;
+
+  /// No description provided for @profileSettingsPageSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama tercihlerini yönet.'**
+  String get profileSettingsPageSubtitle;
+
+  /// No description provided for @profileSettingsPromoTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulamanı kişiselleştir!'**
+  String get profileSettingsPromoTitle;
+
+  /// No description provided for @profileSettingsPromoSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirimlerden gizliliğe, favori mutfaklardan para birimine kadar her şeyi buradan ayarla.'**
+  String get profileSettingsPromoSubtitle;
+
+  /// No description provided for @profileSettingsAccountSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap'**
+  String get profileSettingsAccountSectionTitle;
+
+  /// No description provided for @profileSettingsAccountInfoTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap Bilgileri'**
+  String get profileSettingsAccountInfoTitle;
+
+  /// No description provided for @profileSettingsAccountInfoSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişisel bilgilerini düzenle'**
+  String get profileSettingsAccountInfoSubtitle;
+
+  /// No description provided for @profileSettingsSocialAccountsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sosyal Medya Hesaplarım'**
+  String get profileSettingsSocialAccountsTitle;
+
+  /// No description provided for @profileSettingsSocialAccountsSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Instagram, TikTok, YouTube ve daha fazlası'**
+  String get profileSettingsSocialAccountsSubtitle;
+
+  /// No description provided for @profileSettingsPrivacyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gizlilik'**
+  String get profileSettingsPrivacyTitle;
+
+  /// No description provided for @profileSettingsPrivacySubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Verilerini ve gizlilik ayarlarını yönet'**
+  String get profileSettingsPrivacySubtitle;
+
+  /// No description provided for @profileSettingsPrivacyDialogTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gizlilik Başvurusu'**
+  String get profileSettingsPrivacyDialogTitle;
+
+  /// No description provided for @profileSettingsPrivacyDialogHelper.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düzeltme, itiraz veya kısıtlama gibi taleplerinizi gönderin.'**
+  String get profileSettingsPrivacyDialogHelper;
+
+  /// No description provided for @profileSettingsSecurityTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güvenlik'**
+  String get profileSettingsSecurityTitle;
+
+  /// No description provided for @profileSettingsSecuritySubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre, giriş ve güvenlik ayarları'**
+  String get profileSettingsSecuritySubtitle;
+
+  /// No description provided for @profileSettingsAppPrefsSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama Tercihleri'**
+  String get profileSettingsAppPrefsSectionTitle;
+
+  /// No description provided for @profileSettingsNotificationsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirim Ayarları'**
+  String get profileSettingsNotificationsTitle;
+
+  /// No description provided for @profileSettingsNotificationsSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirim tercihlerini yönet'**
+  String get profileSettingsNotificationsSubtitle;
+
+  /// No description provided for @profileSettingsLocationTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum Ayarları'**
+  String get profileSettingsLocationTitle;
+
+  /// No description provided for @profileSettingsLocationSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum erişimi ve tercihlerini düzenle'**
+  String get profileSettingsLocationSubtitle;
+
+  /// No description provided for @profileSettingsFavoritesTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Favori Tercihlerim'**
+  String get profileSettingsFavoritesTitle;
+
+  /// No description provided for @profileSettingsFavoritesSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Favori mutfaklar, yemekler ve filtreler'**
+  String get profileSettingsFavoritesSubtitle;
+
+  /// No description provided for @profileSettingsLanguageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dil'**
+  String get profileSettingsLanguageTitle;
+
+  /// No description provided for @profileSettingsLanguageSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama dilini seç'**
+  String get profileSettingsLanguageSubtitle;
+
+  /// No description provided for @profileSettingsLanguageTurkish.
+  ///
+  /// In tr, this message translates to:
+  /// **'Türkçe'**
+  String get profileSettingsLanguageTurkish;
+
+  /// No description provided for @profileSettingsLanguageEnglish.
+  ///
+  /// In tr, this message translates to:
+  /// **'English'**
+  String get profileSettingsLanguageEnglish;
+
+  /// No description provided for @profileSettingsOtherSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diğer'**
+  String get profileSettingsOtherSectionTitle;
+
+  /// No description provided for @profileSettingsHelpTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yardım ve Destek'**
+  String get profileSettingsHelpTitle;
+
+  /// No description provided for @profileSettingsHelpSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sık sorulan sorular ve destek'**
+  String get profileSettingsHelpSubtitle;
+
+  /// No description provided for @profileSettingsLegalTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yasal İşlemler'**
+  String get profileSettingsLegalTitle;
+
+  /// No description provided for @profileSettingsLegalSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanım şartları, gizlilik ve KVKK'**
+  String get profileSettingsLegalSubtitle;
+
+  /// No description provided for @profileSettingsLogoutTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çıkış Yap'**
+  String get profileSettingsLogoutTitle;
+
+  /// No description provided for @profileSettingsLogoutSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabından çıkış yap'**
+  String get profileSettingsLogoutSubtitle;
+
+  /// No description provided for @registerErrorAcceptTerms.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam etmek için Kullanım Şartları ve Gizlilik Politikası\'nı kabul etmelisiniz.'**
+  String get registerErrorAcceptTerms;
+
+  /// No description provided for @registerErrorPasswordMismatch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreler eşleşmiyor.'**
+  String get registerErrorPasswordMismatch;
+
+  /// No description provided for @registerPasswordRequirementsHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreniz en az 8 karakter olmalı ve harf, rakam içermelidir.'**
+  String get registerPasswordRequirementsHint;
+
+  /// No description provided for @registerSuccessMessage.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabınız oluşturuldu! E-postanızı doğrulayın.'**
+  String get registerSuccessMessage;
+
+  /// No description provided for @registerBirthDatePickerHelp.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğum tarihinizi seçin'**
+  String get registerBirthDatePickerHelp;
+
+  /// No description provided for @registerCitySheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaşadığın Şehir'**
+  String get registerCitySheetTitle;
+
+  /// No description provided for @registerCitySearchHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şehir ara...'**
+  String get registerCitySearchHint;
+
+  /// No description provided for @registerPageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap oluşturun'**
+  String get registerPageTitle;
+
+  /// No description provided for @registerPageSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hemen kaydolun, tüm özelliklerden yararlanmaya başlayın.'**
+  String get registerPageSubtitle;
+
+  /// No description provided for @registerFirstNameHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ad'**
+  String get registerFirstNameHint;
+
+  /// No description provided for @registerLastNameHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Soyad'**
+  String get registerLastNameHint;
+
+  /// No description provided for @registerEmailHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta adresi'**
+  String get registerEmailHint;
+
+  /// No description provided for @registerPhoneHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefon numarası'**
+  String get registerPhoneHint;
+
+  /// No description provided for @registerPasswordHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre'**
+  String get registerPasswordHint;
+
+  /// No description provided for @registerPasswordConfirmHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre (Tekrar)'**
+  String get registerPasswordConfirmHint;
+
+  /// No description provided for @registerBirthDatePlaceholder.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğum tarihi'**
+  String get registerBirthDatePlaceholder;
+
+  /// No description provided for @registerCityPlaceholder.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaşadığın şehir (opsiyonel)'**
+  String get registerCityPlaceholder;
+
+  /// No description provided for @registerTermsLinkLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanım Şartları'**
+  String get registerTermsLinkLabel;
+
+  /// No description provided for @registerTermsAndConnector.
+  ///
+  /// In tr, this message translates to:
+  /// **' ve '**
+  String get registerTermsAndConnector;
+
+  /// No description provided for @registerPrivacyLinkLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gizlilik Politikası'**
+  String get registerPrivacyLinkLabel;
+
+  /// No description provided for @registerTermsAcceptSuffix.
+  ///
+  /// In tr, this message translates to:
+  /// **'\'nı okudum, kabul ediyorum.'**
+  String get registerTermsAcceptSuffix;
+
+  /// No description provided for @registerSubmitButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt Ol'**
+  String get registerSubmitButton;
+
+  /// No description provided for @registerOrDivider.
+  ///
+  /// In tr, this message translates to:
+  /// **'veya'**
+  String get registerOrDivider;
+
+  /// No description provided for @registerGoogleSignupLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Google ile\nkaydol'**
+  String get registerGoogleSignupLabel;
+
+  /// No description provided for @registerAppleSignupLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Apple ile\nkaydol'**
+  String get registerAppleSignupLabel;
+
+  /// No description provided for @registerFacebookSignupLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Facebook ile\nkaydol'**
+  String get registerFacebookSignupLabel;
+
+  /// No description provided for @registerSecureBadgeTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güvenli Kayıt'**
+  String get registerSecureBadgeTitle;
+
+  /// No description provided for @registerSecureBadgeSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilgileriniz 256-bit SSL ile korunmaktadır.'**
+  String get registerSecureBadgeSubtitle;
+
+  /// No description provided for @registerCountryCodeSheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ülke Kodu'**
+  String get registerCountryCodeSheetTitle;
+
+  /// No description provided for @registerCountryTurkey.
+  ///
+  /// In tr, this message translates to:
+  /// **'🇹🇷 Türkiye'**
+  String get registerCountryTurkey;
+
+  /// No description provided for @registerCountryUsa.
+  ///
+  /// In tr, this message translates to:
+  /// **'🇺🇸 ABD'**
+  String get registerCountryUsa;
+
+  /// No description provided for @registerCountryUk.
+  ///
+  /// In tr, this message translates to:
+  /// **'🇬🇧 Birleşik Krallık'**
+  String get registerCountryUk;
+
+  /// No description provided for @registerCountryGermany.
+  ///
+  /// In tr, this message translates to:
+  /// **'🇩🇪 Almanya'**
+  String get registerCountryGermany;
+
+  /// No description provided for @registerCountryFrance.
+  ///
+  /// In tr, this message translates to:
+  /// **'🇫🇷 Fransa'**
+  String get registerCountryFrance;
+
+  /// No description provided for @registerCountryNetherlands.
+  ///
+  /// In tr, this message translates to:
+  /// **'🇳🇱 Hollanda'**
+  String get registerCountryNetherlands;
+
+  /// No description provided for @registerCountryAustria.
+  ///
+  /// In tr, this message translates to:
+  /// **'🇦🇹 Avusturya'**
+  String get registerCountryAustria;
+
+  /// No description provided for @registerCountrySwitzerland.
+  ///
+  /// In tr, this message translates to:
+  /// **'🇨🇭 İsviçre'**
+  String get registerCountrySwitzerland;
+
+  /// No description provided for @loginOtpPhoneLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefon numarası'**
+  String get loginOtpPhoneLabel;
+
+  /// No description provided for @loginOtpCodeLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulama kodu'**
+  String get loginOtpCodeLabel;
+
+  /// No description provided for @loginOtpUseDifferentNumber.
+  ///
+  /// In tr, this message translates to:
+  /// **'Farklı numara kullan'**
+  String get loginOtpUseDifferentNumber;
+
+  /// No description provided for @forgotPasswordPageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre Sıfırla'**
+  String get forgotPasswordPageTitle;
+
+  /// No description provided for @forgotPasswordErrorInvalidEmail.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçerli bir e-posta adresi girin.'**
+  String get forgotPasswordErrorInvalidEmail;
+
+  /// No description provided for @forgotPasswordFormTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifrenizi sıfırlamak için\ne-posta adresinizi girin'**
+  String get forgotPasswordFormTitle;
+
+  /// No description provided for @forgotPasswordFormSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Size sıfırlama bağlantısı içeren bir e-posta göndereceğiz.'**
+  String get forgotPasswordFormSubtitle;
+
+  /// No description provided for @forgotPasswordEmailLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta adresi'**
+  String get forgotPasswordEmailLabel;
+
+  /// No description provided for @forgotPasswordSendingLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönderiliyor…'**
+  String get forgotPasswordSendingLabel;
+
+  /// No description provided for @forgotPasswordSendButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sıfırlama Linki Gönder'**
+  String get forgotPasswordSendButton;
+
+  /// No description provided for @forgotPasswordBackButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geri dön'**
+  String get forgotPasswordBackButton;
+
+  /// No description provided for @forgotPasswordSuccessTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta Gönderildi!'**
+  String get forgotPasswordSuccessTitle;
+
+  /// No description provided for @forgotPasswordSuccessBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'{email} adresine şifre sıfırlama bağlantısı gönderildi.\nLütfen gelen kutunuzu kontrol edin.'**
+  String forgotPasswordSuccessBody(String email);
+
+  /// No description provided for @forgotPasswordBackToLoginButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Giriş sayfasına dön'**
+  String get forgotPasswordBackToLoginButton;
+
+  /// No description provided for @profileMenuAccountSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişisel bilgilerini düzenle'**
+  String get profileMenuAccountSubtitle;
+
+  /// No description provided for @profileMenuDietTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diyet Profilim'**
+  String get profileMenuDietTitle;
+
+  /// No description provided for @profileMenuDietSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Beslenme tercih ve alerjilerini belirt'**
+  String get profileMenuDietSubtitle;
+
+  /// No description provided for @profileMenuLoyaltyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sadakat Kartlarım'**
+  String get profileMenuLoyaltyTitle;
+
+  /// No description provided for @profileMenuLoyaltySubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kartlarını ve QR kodunu gör'**
+  String get profileMenuLoyaltySubtitle;
+
+  /// No description provided for @profileMenuNotificationsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirim Tercihleri'**
+  String get profileMenuNotificationsTitle;
+
+  /// No description provided for @profileMenuNotificationsSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirim ayarlarını düzenle'**
+  String get profileMenuNotificationsSubtitle;
+
+  /// No description provided for @profileMenuHelpTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yardım ve Destek'**
+  String get profileMenuHelpTitle;
+
+  /// No description provided for @profileMenuHelpSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sık sorulan sorular ve destek'**
+  String get profileMenuHelpSubtitle;
+
+  /// No description provided for @accountSecurityScoreLow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düşük'**
+  String get accountSecurityScoreLow;
+
+  /// No description provided for @accountSecurityScoreMedium.
+  ///
+  /// In tr, this message translates to:
+  /// **'Orta'**
+  String get accountSecurityScoreMedium;
+
+  /// No description provided for @accountSecurityScoreHigh.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yüksek'**
+  String get accountSecurityScoreHigh;
+
+  /// No description provided for @accountSecurityPageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap Güvenliği'**
+  String get accountSecurityPageTitle;
+
+  /// No description provided for @accountSecurityPageSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabınızı koruyun, güvende kalın.'**
+  String get accountSecurityPageSubtitle;
+
+  /// No description provided for @accountSecuritySettingsSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güvenlik Ayarları'**
+  String get accountSecuritySettingsSectionTitle;
+
+  /// No description provided for @accountSecurityPasswordTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre'**
+  String get accountSecurityPasswordTitle;
+
+  /// No description provided for @accountSecurityPasswordSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifrenizi düzenleyin'**
+  String get accountSecurityPasswordSubtitle;
+
+  /// No description provided for @accountSecurityPasswordLastChanged.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son değişiklik: 15.05.2024'**
+  String get accountSecurityPasswordLastChanged;
+
+  /// No description provided for @accountSecurity2faTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İki Adımlı Doğrulama'**
+  String get accountSecurity2faTitle;
+
+  /// No description provided for @accountSecurity2faSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabınıza ekstra güvenlik katın'**
+  String get accountSecurity2faSubtitle;
+
+  /// No description provided for @accountSecurityActiveBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif'**
+  String get accountSecurityActiveBadge;
+
+  /// No description provided for @accountSecurityEmailTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta Adresi'**
+  String get accountSecurityEmailTitle;
+
+  /// No description provided for @accountSecurityEmailSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta adresinizi yönetin'**
+  String get accountSecurityEmailSubtitle;
+
+  /// No description provided for @accountSecurityTrustedDevicesTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güvenilen Cihazlar'**
+  String get accountSecurityTrustedDevicesTitle;
+
+  /// No description provided for @accountSecurityTrustedDevicesSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabınıza giriş yapan cihazları yönetin'**
+  String get accountSecurityTrustedDevicesSubtitle;
+
+  /// No description provided for @accountSecuritySessionsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oturum Yönetimi'**
+  String get accountSecuritySessionsTitle;
+
+  /// No description provided for @accountSecuritySessionsSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açık oturumlarınızı görüntüleyin'**
+  String get accountSecuritySessionsSubtitle;
+
+  /// No description provided for @accountSecurityTipsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güvenliğinizi Artırın'**
+  String get accountSecurityTipsTitle;
+
+  /// No description provided for @accountSecurityTipsSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aşağıdaki önerileri uygulayarak hesabınızı daha da güvenli hale getirin.'**
+  String get accountSecurityTipsSubtitle;
+
+  /// No description provided for @accountSecurityTipStrongPasswordTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güçlü bir şifre kullanın'**
+  String get accountSecurityTipStrongPasswordTitle;
+
+  /// No description provided for @accountSecurityTipStrongPasswordSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tahmin edilmesi zor, güçlü bir şifre seçin.'**
+  String get accountSecurityTipStrongPasswordSubtitle;
+
+  /// No description provided for @accountSecurityTip2faTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İki adımlı doğrulamayı etkinleştirin'**
+  String get accountSecurityTip2faTitle;
+
+  /// No description provided for @accountSecurityTip2faSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabınıza ekstra koruma ekleyin.'**
+  String get accountSecurityTip2faSubtitle;
+
+  /// No description provided for @accountSecurityActionsSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap İşlemleri'**
+  String get accountSecurityActionsSectionTitle;
+
+  /// No description provided for @accountSecurityDownloadDataTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Verilerinizi İndirin'**
+  String get accountSecurityDownloadDataTitle;
+
+  /// No description provided for @accountSecurityDownloadDataSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabınıza ait verilerin bir kopyasını indirin.'**
+  String get accountSecurityDownloadDataSubtitle;
+
+  /// No description provided for @accountSecurityDeleteTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabımı Sil'**
+  String get accountSecurityDeleteTitle;
+
+  /// No description provided for @accountSecurityDeleteSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabınızı kalıcı olarak silin.'**
+  String get accountSecurityDeleteSubtitle;
+
+  /// No description provided for @accountSecuritySupportBannerTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yardıma mı ihtiyacınız var?'**
+  String get accountSecuritySupportBannerTitle;
+
+  /// No description provided for @accountSecuritySupportBannerSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güvenlik ile ilgili sorularınız için destek ekibimizle iletişim geçin.'**
+  String get accountSecuritySupportBannerSubtitle;
+
+  /// No description provided for @accountSecuritySupportBannerButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Destek Al'**
+  String get accountSecuritySupportBannerButton;
+
+  /// No description provided for @accountSecurityScorePrefix.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güvenlik Skorunuz: '**
+  String get accountSecurityScorePrefix;
+
+  /// No description provided for @accountSecurityScoreDescription.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabınızı korumak için tüm güvenlik önerilerini tamamlayın.'**
+  String get accountSecurityScoreDescription;
+
+  /// No description provided for @accountSecurityDataExportRequested.
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri export talebiniz alındı. En kısa sürede e-postanıza iletilecektir.'**
+  String get accountSecurityDataExportRequested;
+
+  /// No description provided for @accountSecurityRequestFailedGeneric.
+  ///
+  /// In tr, this message translates to:
+  /// **'Talep gönderilemedi. Lütfen tekrar deneyin.'**
+  String get accountSecurityRequestFailedGeneric;
+
+  /// No description provided for @accountSecurityMailAppUnavailable.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta uygulaması açılamadı. destek@yeedoy.com adresine yazın.'**
+  String get accountSecurityMailAppUnavailable;
+
+  /// No description provided for @accountSecurityDeleteDialogBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu işlem hesabınıza erişimi kapatır ve silinebilir veriler için silme sürecini başlatır.'**
+  String get accountSecurityDeleteDialogBody;
+
+  /// No description provided for @accountSecurityDeleteReasonLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Silme nedeni'**
+  String get accountSecurityDeleteReasonLabel;
+
+  /// No description provided for @accountSecurityDeleteReasonHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'İsterseniz nedeninizi paylaşın'**
+  String get accountSecurityDeleteReasonHint;
+
+  /// No description provided for @accountSecurityDeleteConfirmLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onay'**
+  String get accountSecurityDeleteConfirmLabel;
+
+  /// No description provided for @accountSecurityDeleteConfirmHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam etmek için SIL yazın'**
+  String get accountSecurityDeleteConfirmHint;
+
+  /// No description provided for @accountSecurityDeleteCreateRequestButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Silme Talebi Oluştur'**
+  String get accountSecurityDeleteCreateRequestButton;
+
+  /// No description provided for @accountSecurityCancelButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vazgeç'**
+  String get accountSecurityCancelButton;
+
+  /// No description provided for @accountSecurityDeleteRequestSubmitted.
+  ///
+  /// In tr, this message translates to:
+  /// **'Silme talebiniz iletildi.'**
+  String get accountSecurityDeleteRequestSubmitted;
+
+  /// No description provided for @accountSecurityDeleteRequestFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Talep gönderilemedi.'**
+  String get accountSecurityDeleteRequestFailed;
+
+  /// No description provided for @accountSecurity2faSheetSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kimlik doğrulama uygulaması (TOTP)'**
+  String get accountSecurity2faSheetSubtitle;
+
+  /// No description provided for @accountSecurity2faNotEnrolledBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Google Authenticator, Authy veya benzeri bir kimlik doğrulama uygulamasını kullanarak hesabınıza ekstra güvenlik katmanı ekleyebilirsiniz.'**
+  String get accountSecurity2faNotEnrolledBody;
+
+  /// No description provided for @accountSecurity2faStartingLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başlatılıyor…'**
+  String get accountSecurity2faStartingLabel;
+
+  /// No description provided for @accountSecurity2faStartSetupButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kurulumu Başlat'**
+  String get accountSecurity2faStartSetupButton;
+
+  /// No description provided for @accountSecurity2faEnrollStartError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kimlik doğrulama uygulaması kurulumu başlatılamadı.'**
+  String get accountSecurity2faEnrollStartError;
+
+  /// No description provided for @accountSecurity2faCodeRequiredError.
+  ///
+  /// In tr, this message translates to:
+  /// **'6 haneli doğrulama kodunu girin.'**
+  String get accountSecurity2faCodeRequiredError;
+
+  /// No description provided for @accountSecurity2faStep1.
+  ///
+  /// In tr, this message translates to:
+  /// **'1. Kimlik doğrulama uygulamanızı açın ve QR kodu okutun.'**
+  String get accountSecurity2faStep1;
+
+  /// No description provided for @accountSecurity2faSecretLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gizli anahtar (manuel giriş):'**
+  String get accountSecurity2faSecretLabel;
+
+  /// No description provided for @accountSecurity2faSecretCopied.
+  ///
+  /// In tr, this message translates to:
+  /// **'Anahtar kopyalandı.'**
+  String get accountSecurity2faSecretCopied;
+
+  /// No description provided for @accountSecurity2faStep2.
+  ///
+  /// In tr, this message translates to:
+  /// **'2. Uygulamanın gösterdiği 6 haneli kodu girin:'**
+  String get accountSecurity2faStep2;
+
+  /// No description provided for @accountSecurity2faVerifyingLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulanıyor…'**
+  String get accountSecurity2faVerifyingLabel;
+
+  /// No description provided for @accountSecurity2faVerifyButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrula ve Aktifleştir'**
+  String get accountSecurity2faVerifyButton;
+
+  /// No description provided for @accountSecurity2faVerifyCodeInvalid.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kod hatalı veya süresi dolmuş. Yeni kod deneyin.'**
+  String get accountSecurity2faVerifyCodeInvalid;
+
+  /// No description provided for @accountSecurity2faDisableCodeInvalid.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kod hatalı veya süresi dolmuş.'**
+  String get accountSecurity2faDisableCodeInvalid;
+
+  /// No description provided for @accountSecurity2faEnabledBanner.
+  ///
+  /// In tr, this message translates to:
+  /// **'İki adımlı doğrulama aktif. Hesabınız ek güvenlik katmanıyla korunuyor.'**
+  String get accountSecurity2faEnabledBanner;
+
+  /// No description provided for @accountSecurity2faDisableButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devre Dışı Bırak'**
+  String get accountSecurity2faDisableButton;
+
+  /// No description provided for @accountSecurity2faDisablePrompt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devre dışı bırakmak için kimlik doğrulama uygulamanızdaki kodu girin.'**
+  String get accountSecurity2faDisablePrompt;
+
+  /// No description provided for @accountSecurity2faProcessingLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşleniyor…'**
+  String get accountSecurity2faProcessingLabel;
+
+  /// No description provided for @accountSecurityTrustedDevicesSheetSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulamanın kurulu olduğu cihazlar'**
+  String get accountSecurityTrustedDevicesSheetSubtitle;
+
+  /// No description provided for @accountSecurityDeviceRemoveFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Cihaz kaldırılamadı.'**
+  String get accountSecurityDeviceRemoveFailed;
+
+  /// No description provided for @accountSecurityUnknown.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilinmiyor'**
+  String get accountSecurityUnknown;
+
+  /// No description provided for @accountSecurityTimeJustNow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Az önce'**
+  String get accountSecurityTimeJustNow;
+
+  /// No description provided for @accountSecurityTimeMinutesAgo.
+  ///
+  /// In tr, this message translates to:
+  /// **'{minutes} dk önce'**
+  String accountSecurityTimeMinutesAgo(int minutes);
+
+  /// No description provided for @accountSecurityTimeHoursAgo.
+  ///
+  /// In tr, this message translates to:
+  /// **'{hours} saat önce'**
+  String accountSecurityTimeHoursAgo(int hours);
+
+  /// No description provided for @accountSecurityTimeDaysAgo.
+  ///
+  /// In tr, this message translates to:
+  /// **'{days} gün önce'**
+  String accountSecurityTimeDaysAgo(int days);
+
+  /// No description provided for @accountSecurityTimeMonthsAgo.
+  ///
+  /// In tr, this message translates to:
+  /// **'{months} ay önce'**
+  String accountSecurityTimeMonthsAgo(int months);
+
+  /// No description provided for @accountSecurityNoDevicesFound.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıtlı cihaz bulunamadı.'**
+  String get accountSecurityNoDevicesFound;
+
+  /// No description provided for @accountSecurityAndroidDevice.
+  ///
+  /// In tr, this message translates to:
+  /// **'Android Cihaz'**
+  String get accountSecurityAndroidDevice;
+
+  /// No description provided for @accountSecurityIosDevice.
+  ///
+  /// In tr, this message translates to:
+  /// **'iOS Cihaz'**
+  String get accountSecurityIosDevice;
+
+  /// No description provided for @accountSecurityRemoveDeviceDialogTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Cihazı Kaldır'**
+  String get accountSecurityRemoveDeviceDialogTitle;
+
+  /// No description provided for @accountSecurityRemoveDeviceDialogBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu cihaz için bildirimler devre dışı bırakılacak. Devam edilsin mi?'**
+  String get accountSecurityRemoveDeviceDialogBody;
+
+  /// No description provided for @accountSecurityRemoveButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaldır'**
+  String get accountSecurityRemoveButton;
+
+  /// No description provided for @accountSecuritySessionsSheetSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif oturumunuzu yönetin'**
+  String get accountSecuritySessionsSheetSubtitle;
+
+  /// No description provided for @accountSecurityActiveSessionBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif Oturum'**
+  String get accountSecurityActiveSessionBadge;
+
+  /// No description provided for @accountSecuritySessionEmailLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta'**
+  String get accountSecuritySessionEmailLabel;
+
+  /// No description provided for @accountSecuritySessionLastLoginLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son giriş'**
+  String get accountSecuritySessionLastLoginLabel;
+
+  /// No description provided for @accountSecuritySessionCreatedLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap oluşturuldu'**
+  String get accountSecuritySessionCreatedLabel;
+
+  /// No description provided for @accountSecuritySessionWarning.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tanımadığınız bir cihazdan giriş yapıldıysa tüm oturumları sonlandırın ve şifrenizi değiştirin.'**
+  String get accountSecuritySessionWarning;
+
+  /// No description provided for @accountSecurityLogoutAllDialogTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm Oturumları Kapat'**
+  String get accountSecurityLogoutAllDialogTitle;
+
+  /// No description provided for @accountSecurityLogoutAllDialogBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm cihazlardaki aktif oturumlarınız sonlandırılacak ve yeniden giriş yapmanız gerekecek.'**
+  String get accountSecurityLogoutAllDialogBody;
+
+  /// No description provided for @accountSecurityLogoutAllCloseButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapat'**
+  String get accountSecurityLogoutAllCloseButton;
+
+  /// No description provided for @accountSecurityLogoutAllButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm Cihazlarda Oturumu Kapat'**
+  String get accountSecurityLogoutAllButton;
+
+  /// No description provided for @accountSecurityChangePasswordErrorTooShort.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre en az 6 karakter olmalıdır.'**
+  String get accountSecurityChangePasswordErrorTooShort;
+
+  /// No description provided for @accountSecurityChangePasswordErrorMismatch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreler eşleşmiyor.'**
+  String get accountSecurityChangePasswordErrorMismatch;
+
+  /// No description provided for @accountSecurityPasswordUpdated.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre başarıyla güncellendi.'**
+  String get accountSecurityPasswordUpdated;
+
+  /// No description provided for @accountSecurityChangePasswordTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre Değiştir'**
+  String get accountSecurityChangePasswordTitle;
+
+  /// No description provided for @accountSecurityNewPasswordLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni şifre'**
+  String get accountSecurityNewPasswordLabel;
+
+  /// No description provided for @accountSecurityNewPasswordConfirmLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni şifre (tekrar)'**
+  String get accountSecurityNewPasswordConfirmLabel;
+
+  /// No description provided for @accountSecuritySavingLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydediliyor…'**
+  String get accountSecuritySavingLabel;
+
+  /// No description provided for @accountSecurityUpdatePasswordButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreyi Güncelle'**
+  String get accountSecurityUpdatePasswordButton;
+
+  /// No description provided for @accountSecurityChangeEmailErrorInvalid.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçerli bir e-posta girin.'**
+  String get accountSecurityChangeEmailErrorInvalid;
+
+  /// No description provided for @accountSecurityChangeEmailSentBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'{email} adresine doğrulama e-postası gönderildi. Bağlantıya tıkladıktan sonra e-postanız güncellenecektir.'**
+  String accountSecurityChangeEmailSentBody(String email);
+
+  /// No description provided for @accountSecurityOkButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tamam'**
+  String get accountSecurityOkButton;
+
+  /// No description provided for @accountSecurityChangeEmailTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta Değiştir'**
+  String get accountSecurityChangeEmailTitle;
+
+  /// No description provided for @accountSecurityChangeEmailSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni e-posta adresinize doğrulama bağlantısı gönderilecektir.'**
+  String get accountSecurityChangeEmailSubtitle;
+
+  /// No description provided for @accountSecurityNewEmailLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni e-posta adresi'**
+  String get accountSecurityNewEmailLabel;
+
+  /// No description provided for @accountSecuritySendingLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönderiliyor…'**
+  String get accountSecuritySendingLabel;
+
+  /// No description provided for @accountSecuritySendVerificationLinkButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulama Bağlantısı Gönder'**
+  String get accountSecuritySendVerificationLinkButton;
 }
 
 class _AppLocalizationsDelegate

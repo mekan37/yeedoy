@@ -1011,7 +1011,9 @@
   "@ratingLabel": {
     "description": "Star rating tooltip label",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "atanan": "Assigned",
@@ -5248,81 +5250,404 @@
     }
   },
   "delete": "Delete",
-  "@delete": {"description": "Generic delete action"},
+  "@delete": {
+    "description": "Generic delete action"
+  },
   "remove": "Remove",
-  "@remove": {"description": "Generic remove action"},
+  "@remove": {
+    "description": "Generic remove action"
+  },
   "create": "Create",
-  "@create": {"description": "Generic create action"},
+  "@create": {
+    "description": "Generic create action"
+  },
   "required": "This field is required",
-  "@required": {"description": "Validation error for required field"},
+  "@required": {
+    "description": "Validation error for required field"
+  },
   "collabListsTitle": "My Shared Lists",
-  "@collabListsTitle": {"description": "Collab lists page title"},
+  "@collabListsTitle": {
+    "description": "Collab lists page title"
+  },
   "collabListCreate": "Create List",
-  "@collabListCreate": {"description": "Create collab list button"},
+  "@collabListCreate": {
+    "description": "Create collab list button"
+  },
   "collabListsEmpty": "No lists yet",
-  "@collabListsEmpty": {"description": "Empty state title for collab lists"},
+  "@collabListsEmpty": {
+    "description": "Empty state title for collab lists"
+  },
   "collabListsEmptyDesc": "Create shared lists with friends and vote on favorite spots together.",
-  "@collabListsEmptyDesc": {"description": "Empty state description for collab lists"},
+  "@collabListsEmptyDesc": {
+    "description": "Empty state description for collab lists"
+  },
   "collabListNameLabel": "List name",
-  "@collabListNameLabel": {"description": "Collab list name field label"},
+  "@collabListNameLabel": {
+    "description": "Collab list name field label"
+  },
   "collabListDescLabel": "Description (optional)",
-  "@collabListDescLabel": {"description": "Collab list description field label"},
+  "@collabListDescLabel": {
+    "description": "Collab list description field label"
+  },
   "collabListItemsEmpty": "List is empty",
-  "@collabListItemsEmpty": {"description": "Empty state for items inside a collab list"},
+  "@collabListItemsEmpty": {
+    "description": "Empty state for items inside a collab list"
+  },
   "collabListItemsEmptyDesc": "Add businesses from their page to this list.",
-  "@collabListItemsEmptyDesc": {"description": "Empty state description for collab list items"},
+  "@collabListItemsEmptyDesc": {
+    "description": "Empty state description for collab list items"
+  },
   "collabListShare": "Copy Invite Link",
-  "@collabListShare": {"description": "Share collab list action"},
+  "@collabListShare": {
+    "description": "Share collab list action"
+  },
   "collabListDelete": "Delete List",
-  "@collabListDelete": {"description": "Delete collab list action"},
+  "@collabListDelete": {
+    "description": "Delete collab list action"
+  },
   "collabListDeleteConfirm": "Are you sure you want to delete this list and all its content?",
-  "@collabListDeleteConfirm": {"description": "Delete collab list confirmation"},
+  "@collabListDeleteConfirm": {
+    "description": "Delete collab list confirmation"
+  },
   "collabListLeave": "Leave List",
-  "@collabListLeave": {"description": "Leave collab list action"},
+  "@collabListLeave": {
+    "description": "Leave collab list action"
+  },
   "collabListLeaveConfirm": "Are you sure you want to leave this list?",
-  "@collabListLeaveConfirm": {"description": "Leave collab list confirmation"},
+  "@collabListLeaveConfirm": {
+    "description": "Leave collab list confirmation"
+  },
   "collabListLinkCopied": "Invite link copied",
-  "@collabListLinkCopied": {"description": "Snackbar when invite link is copied"},
+  "@collabListLinkCopied": {
+    "description": "Snackbar when invite link is copied"
+  },
   "collabListJoining": "Joining list...",
-  "@collabListJoining": {"description": "Joining a collab list via invite token"},
+  "@collabListJoining": {
+    "description": "Joining a collab list via invite token"
+  },
   "collabListInvalidInvite": "Invalid invite link.",
-  "@collabListInvalidInvite": {"description": "Error when invite token is invalid"},
+  "@collabListInvalidInvite": {
+    "description": "Error when invite token is invalid"
+  },
   "goToMyLists": "Go to My Lists",
-  "@goToMyLists": {"description": "Navigate to collab lists page"},
+  "@goToMyLists": {
+    "description": "Navigate to collab lists page"
+  },
   "businessTabGeneral": "General",
-  "@businessTabGeneral": {"description": "Business detail page tab: general"},
+  "@businessTabGeneral": {
+    "description": "Business detail page tab: general"
+  },
   "businessTabMenu": "Menu",
-  "@businessTabMenu": {"description": "Business detail page tab: menu"},
+  "@businessTabMenu": {
+    "description": "Business detail page tab: menu"
+  },
   "businessTabReviews": "Reviews",
-  "@businessTabReviews": {"description": "Business detail page tab: reviews"},
+  "@businessTabReviews": {
+    "description": "Business detail page tab: reviews"
+  },
   "businessBadgeMenuVerified": "Verified Menu",
-  "@businessBadgeMenuVerified": {"description": "Badge shown when the menu source is owner-verified"},
+  "@businessBadgeMenuVerified": {
+    "description": "Badge shown when the menu source is owner-verified"
+  },
   "businessBadgePopular": "Popular",
-  "@businessBadgePopular": {"description": "Badge shown when the business has trending items"},
+  "@businessBadgePopular": {
+    "description": "Badge shown when the business has trending items"
+  },
   "businessBadgeDelivery": "Delivery",
-  "@businessBadgeDelivery": {"description": "Badge shown when business offers delivery"},
+  "@businessBadgeDelivery": {
+    "description": "Badge shown when business offers delivery"
+  },
   "businessBadgeDineIn": "Dine In",
-  "@businessBadgeDineIn": {"description": "Badge shown when business offers dine-in seating"},
+  "@businessBadgeDineIn": {
+    "description": "Badge shown when business offers dine-in seating"
+  },
   "featuredSectionTitle": "Featured",
-  "@featuredSectionTitle": {"description": "Business detail Genel tab featured section title"},
+  "@featuredSectionTitle": {
+    "description": "Business detail Genel tab featured section title"
+  },
   "featuredRatingLabel": "Rating",
-  "@featuredRatingLabel": {"description": "Label under the rating value in the featured section"},
+  "@featuredRatingLabel": {
+    "description": "Label under the rating value in the featured section"
+  },
   "featuredMenuVerifiedSubtitle": "Updated by the owner",
-  "@featuredMenuVerifiedSubtitle": {"description": "Subtitle for the verified-menu featured card"},
+  "@featuredMenuVerifiedSubtitle": {
+    "description": "Subtitle for the verified-menu featured card"
+  },
   "popularDishesTitle": "Popular dishes",
-  "@popularDishesTitle": {"description": "Business detail Genel tab popular dishes section title"},
+  "@popularDishesTitle": {
+    "description": "Business detail Genel tab popular dishes section title"
+  },
   "locationHoursTitle": "Location & hours",
-  "@locationHoursTitle": {"description": "Business detail Genel tab location and hours section title"},
+  "@locationHoursTitle": {
+    "description": "Business detail Genel tab location and hours section title"
+  },
   "directions": "Directions",
-  "@directions": {"description": "Bottom action bar directions button"},
+  "@directions": {
+    "description": "Bottom action bar directions button"
+  },
   "viewMenu": "View Menu",
-  "@viewMenu": {"description": "Bottom action bar view menu button"},
+  "@viewMenu": {
+    "description": "Bottom action bar view menu button"
+  },
   "checkInButton": "I'm Really Here",
-  "@checkInButton": {"description": "Check-in button label on business detail page"},
+  "@checkInButton": {
+    "description": "Check-in button label on business detail page"
+  },
   "checkedInToday": "Visited today",
-  "@checkedInToday": {"description": "Check-in confirmation badge shown when user has already checked in today"},
+  "@checkedInToday": {
+    "description": "Check-in confirmation badge shown when user has already checked in today"
+  },
   "checkInSuccess": "Visit recorded!",
-  "@checkInSuccess": {"description": "Snackbar message shown after successful check-in"},
+  "@checkInSuccess": {
+    "description": "Snackbar message shown after successful check-in"
+  },
   "checkInAlreadyDone": "You already checked in today.",
-  "@checkInAlreadyDone": {"description": "Snackbar message when user tries to check in again on the same day"}
+  "@checkInAlreadyDone": {
+    "description": "Snackbar message when user tries to check in again on the same day"
+  },
+  "profileSettingsPrivacyPendingRequest": "You already have a pending privacy request.",
+  "profileSettingsDetailsLabel": "Details",
+  "profileSettingsDetailsHint": "Briefly describe your request",
+  "profileSettingsCancel": "Cancel",
+  "profileSettingsSubmit": "Submit",
+  "profileSettingsRequestSaved": "Your request has been saved.",
+  "profileSettingsPageTitle": "Settings",
+  "profileSettingsPageSubtitle": "Manage your app preferences.",
+  "profileSettingsPromoTitle": "Personalize your app!",
+  "profileSettingsPromoSubtitle": "From notifications to privacy, favorite cuisines to currency — set it all up here.",
+  "profileSettingsAccountSectionTitle": "Account",
+  "profileSettingsAccountInfoTitle": "Account Information",
+  "profileSettingsAccountInfoSubtitle": "Edit your personal information",
+  "profileSettingsSocialAccountsTitle": "My Social Accounts",
+  "profileSettingsSocialAccountsSubtitle": "Instagram, TikTok, YouTube and more",
+  "profileSettingsPrivacyTitle": "Privacy",
+  "profileSettingsPrivacySubtitle": "Manage your data and privacy settings",
+  "profileSettingsPrivacyDialogTitle": "Privacy Request",
+  "profileSettingsPrivacyDialogHelper": "Submit requests such as correction, objection, or restriction.",
+  "profileSettingsSecurityTitle": "Security",
+  "profileSettingsSecuritySubtitle": "Password, login, and security settings",
+  "profileSettingsAppPrefsSectionTitle": "App Preferences",
+  "profileSettingsNotificationsTitle": "Notification Settings",
+  "profileSettingsNotificationsSubtitle": "Manage your notification preferences",
+  "profileSettingsLocationTitle": "Location Settings",
+  "profileSettingsLocationSubtitle": "Edit your location access and preferences",
+  "profileSettingsFavoritesTitle": "My Favorite Preferences",
+  "profileSettingsFavoritesSubtitle": "Favorite cuisines, dishes, and filters",
+  "profileSettingsLanguageTitle": "Language",
+  "profileSettingsLanguageSubtitle": "Choose the app language",
+  "profileSettingsLanguageTurkish": "Turkish",
+  "profileSettingsLanguageEnglish": "English",
+  "profileSettingsOtherSectionTitle": "Other",
+  "profileSettingsHelpTitle": "Help & Support",
+  "profileSettingsHelpSubtitle": "FAQs and support",
+  "profileSettingsLegalTitle": "Legal",
+  "profileSettingsLegalSubtitle": "Terms of service, privacy, and data protection",
+  "profileSettingsLogoutTitle": "Log Out",
+  "profileSettingsLogoutSubtitle": "Sign out of your account",
+  "registerErrorAcceptTerms": "You must accept the Terms of Service and Privacy Policy to continue.",
+  "registerErrorPasswordMismatch": "Passwords do not match.",
+  "registerPasswordRequirementsHint": "Your password must be at least 8 characters and include letters and numbers.",
+  "registerSuccessMessage": "Your account has been created! Please verify your email.",
+  "registerBirthDatePickerHelp": "Select your date of birth",
+  "registerCitySheetTitle": "Your City",
+  "registerCitySearchHint": "Search for a city...",
+  "registerPageTitle": "Create an account",
+  "registerPageSubtitle": "Sign up now and start enjoying all the features.",
+  "registerFirstNameHint": "First name",
+  "registerLastNameHint": "Last name",
+  "registerEmailHint": "Email address",
+  "registerPhoneHint": "Phone number",
+  "registerPasswordHint": "Password",
+  "registerPasswordConfirmHint": "Password (again)",
+  "registerBirthDatePlaceholder": "Date of birth",
+  "registerCityPlaceholder": "Your city (optional)",
+  "registerTermsLinkLabel": "Terms of Service",
+  "registerTermsAndConnector": " and ",
+  "registerPrivacyLinkLabel": "Privacy Policy",
+  "registerTermsAcceptSuffix": ", which I have read and agree to.",
+  "registerSubmitButton": "Sign Up",
+  "registerOrDivider": "or",
+  "registerGoogleSignupLabel": "Sign up with\nGoogle",
+  "registerAppleSignupLabel": "Sign up with\nApple",
+  "registerFacebookSignupLabel": "Sign up with\nFacebook",
+  "registerSecureBadgeTitle": "Secure Signup",
+  "registerSecureBadgeSubtitle": "Your information is protected with 256-bit SSL.",
+  "registerCountryCodeSheetTitle": "Country Code",
+  "registerCountryTurkey": "🇹🇷 Turkey",
+  "registerCountryUsa": "🇺🇸 USA",
+  "registerCountryUk": "🇬🇧 United Kingdom",
+  "registerCountryGermany": "🇩🇪 Germany",
+  "registerCountryFrance": "🇫🇷 France",
+  "registerCountryNetherlands": "🇳🇱 Netherlands",
+  "registerCountryAustria": "🇦🇹 Austria",
+  "registerCountrySwitzerland": "🇨🇭 Switzerland",
+  "loginOtpPhoneLabel": "Phone number",
+  "loginOtpCodeLabel": "Verification code",
+  "loginOtpUseDifferentNumber": "Use a different number",
+  "forgotPasswordPageTitle": "Reset Password",
+  "forgotPasswordErrorInvalidEmail": "Enter a valid email address.",
+  "forgotPasswordFormTitle": "Enter your email address\nto reset your password",
+  "forgotPasswordFormSubtitle": "We'll send you an email with a reset link.",
+  "forgotPasswordEmailLabel": "Email address",
+  "forgotPasswordSendingLabel": "Sending…",
+  "forgotPasswordSendButton": "Send Reset Link",
+  "forgotPasswordBackButton": "Go back",
+  "forgotPasswordSuccessTitle": "Email Sent!",
+  "forgotPasswordSuccessBody": "A password reset link has been sent to {email}.\nPlease check your inbox.",
+  "@forgotPasswordSuccessBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "forgotPasswordBackToLoginButton": "Back to login",
+  "profileMenuAccountSubtitle": "Edit your personal information",
+  "profileMenuDietTitle": "My Diet Profile",
+  "profileMenuDietSubtitle": "Set your dietary preferences and allergies",
+  "profileMenuLoyaltyTitle": "My Loyalty Cards",
+  "profileMenuLoyaltySubtitle": "View your cards and QR code",
+  "profileMenuNotificationsTitle": "Notification Preferences",
+  "profileMenuNotificationsSubtitle": "Edit your notification settings",
+  "profileMenuHelpTitle": "Help & Support",
+  "profileMenuHelpSubtitle": "FAQs and support",
+  "accountSecurityScoreLow": "Low",
+  "accountSecurityScoreMedium": "Medium",
+  "accountSecurityScoreHigh": "High",
+  "accountSecurityPageTitle": "Account Security",
+  "accountSecurityPageSubtitle": "Protect your account and stay safe.",
+  "accountSecuritySettingsSectionTitle": "Security Settings",
+  "accountSecurityPasswordTitle": "Password",
+  "accountSecurityPasswordSubtitle": "Edit your password",
+  "accountSecurityPasswordLastChanged": "Last changed: 15.05.2024",
+  "accountSecurity2faTitle": "Two-Factor Authentication",
+  "accountSecurity2faSubtitle": "Add extra security to your account",
+  "accountSecurityActiveBadge": "Active",
+  "accountSecurityEmailTitle": "Email Address",
+  "accountSecurityEmailSubtitle": "Manage your email address",
+  "accountSecurityTrustedDevicesTitle": "Trusted Devices",
+  "accountSecurityTrustedDevicesSubtitle": "Manage the devices signed in to your account",
+  "accountSecuritySessionsTitle": "Session Management",
+  "accountSecuritySessionsSubtitle": "View your active sessions",
+  "accountSecurityTipsTitle": "Boost Your Security",
+  "accountSecurityTipsSubtitle": "Follow these tips to make your account even more secure.",
+  "accountSecurityTipStrongPasswordTitle": "Use a strong password",
+  "accountSecurityTipStrongPasswordSubtitle": "Choose a strong password that's hard to guess.",
+  "accountSecurityTip2faTitle": "Enable two-factor authentication",
+  "accountSecurityTip2faSubtitle": "Add extra protection to your account.",
+  "accountSecurityActionsSectionTitle": "Account Actions",
+  "accountSecurityDownloadDataTitle": "Download Your Data",
+  "accountSecurityDownloadDataSubtitle": "Download a copy of your account data.",
+  "accountSecurityDeleteTitle": "Delete My Account",
+  "accountSecurityDeleteSubtitle": "Permanently delete your account.",
+  "accountSecuritySupportBannerTitle": "Need help?",
+  "accountSecuritySupportBannerSubtitle": "Contact our support team with any security questions.",
+  "accountSecuritySupportBannerButton": "Get Support",
+  "accountSecurityScorePrefix": "Your Security Score: ",
+  "accountSecurityScoreDescription": "Complete all security recommendations to protect your account.",
+  "accountSecurityDataExportRequested": "Your data export request has been received. It will be sent to your email shortly.",
+  "accountSecurityRequestFailedGeneric": "The request could not be sent. Please try again.",
+  "accountSecurityMailAppUnavailable": "Couldn't open your email app. Please write to destek@yeedoy.com.",
+  "accountSecurityDeleteDialogBody": "This will close access to your account and start the deletion process for eligible data.",
+  "accountSecurityDeleteReasonLabel": "Reason for deletion",
+  "accountSecurityDeleteReasonHint": "Share your reason if you'd like",
+  "accountSecurityDeleteConfirmLabel": "Confirmation",
+  "accountSecurityDeleteConfirmHint": "Type SIL to continue",
+  "accountSecurityDeleteCreateRequestButton": "Create Deletion Request",
+  "accountSecurityCancelButton": "Cancel",
+  "accountSecurityDeleteRequestSubmitted": "Your deletion request has been submitted.",
+  "accountSecurityDeleteRequestFailed": "The request could not be sent.",
+  "accountSecurity2faSheetSubtitle": "Authenticator app (TOTP)",
+  "accountSecurity2faNotEnrolledBody": "You can add an extra layer of security to your account using Google Authenticator, Authy, or a similar authenticator app.",
+  "accountSecurity2faStartingLabel": "Starting…",
+  "accountSecurity2faStartSetupButton": "Start Setup",
+  "accountSecurity2faEnrollStartError": "Couldn't start the authenticator app setup.",
+  "accountSecurity2faCodeRequiredError": "Enter the 6-digit verification code.",
+  "accountSecurity2faStep1": "1. Open your authenticator app and scan the QR code.",
+  "accountSecurity2faSecretLabel": "Secret key (manual entry):",
+  "accountSecurity2faSecretCopied": "Key copied.",
+  "accountSecurity2faStep2": "2. Enter the 6-digit code shown in the app:",
+  "accountSecurity2faVerifyingLabel": "Verifying…",
+  "accountSecurity2faVerifyButton": "Verify and Activate",
+  "accountSecurity2faVerifyCodeInvalid": "The code is wrong or expired. Try a new code.",
+  "accountSecurity2faDisableCodeInvalid": "The code is wrong or expired.",
+  "accountSecurity2faEnabledBanner": "Two-factor authentication is active. Your account is protected with an extra security layer.",
+  "accountSecurity2faDisableButton": "Turn Off",
+  "accountSecurity2faDisablePrompt": "Enter the code from your authenticator app to turn it off.",
+  "accountSecurity2faProcessingLabel": "Processing…",
+  "accountSecurityTrustedDevicesSheetSubtitle": "Devices where the app is installed",
+  "accountSecurityDeviceRemoveFailed": "Couldn't remove the device.",
+  "accountSecurityUnknown": "Unknown",
+  "accountSecurityTimeJustNow": "Just now",
+  "accountSecurityTimeMinutesAgo": "{minutes} min ago",
+  "@accountSecurityTimeMinutesAgo": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "accountSecurityTimeHoursAgo": "{hours} hr ago",
+  "@accountSecurityTimeHoursAgo": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "accountSecurityTimeDaysAgo": "{days} days ago",
+  "@accountSecurityTimeDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "accountSecurityTimeMonthsAgo": "{months} mo ago",
+  "@accountSecurityTimeMonthsAgo": {
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "accountSecurityNoDevicesFound": "No registered devices found.",
+  "accountSecurityAndroidDevice": "Android Device",
+  "accountSecurityIosDevice": "iOS Device",
+  "accountSecurityRemoveDeviceDialogTitle": "Remove Device",
+  "accountSecurityRemoveDeviceDialogBody": "Notifications for this device will be disabled. Continue?",
+  "accountSecurityRemoveButton": "Remove",
+  "accountSecuritySessionsSheetSubtitle": "Manage your active session",
+  "accountSecurityActiveSessionBadge": "Active Session",
+  "accountSecuritySessionEmailLabel": "Email",
+  "accountSecuritySessionLastLoginLabel": "Last login",
+  "accountSecuritySessionCreatedLabel": "Account created",
+  "accountSecuritySessionWarning": "If you notice a sign-in from a device you don't recognize, end all sessions and change your password.",
+  "accountSecurityLogoutAllDialogTitle": "End All Sessions",
+  "accountSecurityLogoutAllDialogBody": "Your active sessions on all devices will be ended and you'll need to sign in again.",
+  "accountSecurityLogoutAllCloseButton": "End",
+  "accountSecurityLogoutAllButton": "Sign Out of All Devices",
+  "accountSecurityChangePasswordErrorTooShort": "Password must be at least 6 characters.",
+  "accountSecurityChangePasswordErrorMismatch": "Passwords do not match.",
+  "accountSecurityPasswordUpdated": "Password updated successfully.",
+  "accountSecurityChangePasswordTitle": "Change Password",
+  "accountSecurityNewPasswordLabel": "New password",
+  "accountSecurityNewPasswordConfirmLabel": "New password (again)",
+  "accountSecuritySavingLabel": "Saving…",
+  "accountSecurityUpdatePasswordButton": "Update Password",
+  "accountSecurityChangeEmailErrorInvalid": "Enter a valid email.",
+  "accountSecurityChangeEmailSentBody": "A verification email has been sent to {email}. Your email will be updated once you click the link.",
+  "@accountSecurityChangeEmailSentBody": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "accountSecurityOkButton": "OK",
+  "accountSecurityChangeEmailTitle": "Change Email",
+  "accountSecurityChangeEmailSubtitle": "A verification link will be sent to your new email address.",
+  "accountSecurityNewEmailLabel": "New email address",
+  "accountSecuritySendingLabel": "Sending…",
+  "accountSecuritySendVerificationLinkButton": "Send Verification Link"
 }

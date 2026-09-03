@@ -4068,4 +4068,682 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get checkInAlreadyDone => 'Bugün zaten ziyaret kaydettiniz.';
+
+  @override
+  String get profileSettingsPrivacyPendingRequest =>
+      'Bekleyen bir gizlilik başvurunuz zaten var.';
+
+  @override
+  String get profileSettingsDetailsLabel => 'Detaylar';
+
+  @override
+  String get profileSettingsDetailsHint => 'Talebinizi kısaca açıklayın';
+
+  @override
+  String get profileSettingsCancel => 'Vazgeç';
+
+  @override
+  String get profileSettingsSubmit => 'Gönder';
+
+  @override
+  String get profileSettingsRequestSaved => 'Başvurunuz kaydedildi.';
+
+  @override
+  String get profileSettingsPageTitle => 'Ayarlar';
+
+  @override
+  String get profileSettingsPageSubtitle => 'Uygulama tercihlerini yönet.';
+
+  @override
+  String get profileSettingsPromoTitle => 'Uygulamanı kişiselleştir!';
+
+  @override
+  String get profileSettingsPromoSubtitle =>
+      'Bildirimlerden gizliliğe, favori mutfaklardan para birimine kadar her şeyi buradan ayarla.';
+
+  @override
+  String get profileSettingsAccountSectionTitle => 'Hesap';
+
+  @override
+  String get profileSettingsAccountInfoTitle => 'Hesap Bilgileri';
+
+  @override
+  String get profileSettingsAccountInfoSubtitle =>
+      'Kişisel bilgilerini düzenle';
+
+  @override
+  String get profileSettingsSocialAccountsTitle => 'Sosyal Medya Hesaplarım';
+
+  @override
+  String get profileSettingsSocialAccountsSubtitle =>
+      'Instagram, TikTok, YouTube ve daha fazlası';
+
+  @override
+  String get profileSettingsPrivacyTitle => 'Gizlilik';
+
+  @override
+  String get profileSettingsPrivacySubtitle =>
+      'Verilerini ve gizlilik ayarlarını yönet';
+
+  @override
+  String get profileSettingsPrivacyDialogTitle => 'Gizlilik Başvurusu';
+
+  @override
+  String get profileSettingsPrivacyDialogHelper =>
+      'Düzeltme, itiraz veya kısıtlama gibi taleplerinizi gönderin.';
+
+  @override
+  String get profileSettingsSecurityTitle => 'Güvenlik';
+
+  @override
+  String get profileSettingsSecuritySubtitle =>
+      'Şifre, giriş ve güvenlik ayarları';
+
+  @override
+  String get profileSettingsAppPrefsSectionTitle => 'Uygulama Tercihleri';
+
+  @override
+  String get profileSettingsNotificationsTitle => 'Bildirim Ayarları';
+
+  @override
+  String get profileSettingsNotificationsSubtitle =>
+      'Bildirim tercihlerini yönet';
+
+  @override
+  String get profileSettingsLocationTitle => 'Konum Ayarları';
+
+  @override
+  String get profileSettingsLocationSubtitle =>
+      'Konum erişimi ve tercihlerini düzenle';
+
+  @override
+  String get profileSettingsFavoritesTitle => 'Favori Tercihlerim';
+
+  @override
+  String get profileSettingsFavoritesSubtitle =>
+      'Favori mutfaklar, yemekler ve filtreler';
+
+  @override
+  String get profileSettingsLanguageTitle => 'Dil';
+
+  @override
+  String get profileSettingsLanguageSubtitle => 'Uygulama dilini seç';
+
+  @override
+  String get profileSettingsLanguageTurkish => 'Türkçe';
+
+  @override
+  String get profileSettingsLanguageEnglish => 'English';
+
+  @override
+  String get profileSettingsOtherSectionTitle => 'Diğer';
+
+  @override
+  String get profileSettingsHelpTitle => 'Yardım ve Destek';
+
+  @override
+  String get profileSettingsHelpSubtitle => 'Sık sorulan sorular ve destek';
+
+  @override
+  String get profileSettingsLegalTitle => 'Yasal İşlemler';
+
+  @override
+  String get profileSettingsLegalSubtitle =>
+      'Kullanım şartları, gizlilik ve KVKK';
+
+  @override
+  String get profileSettingsLogoutTitle => 'Çıkış Yap';
+
+  @override
+  String get profileSettingsLogoutSubtitle => 'Hesabından çıkış yap';
+
+  @override
+  String get registerErrorAcceptTerms =>
+      'Devam etmek için Kullanım Şartları ve Gizlilik Politikası\'nı kabul etmelisiniz.';
+
+  @override
+  String get registerErrorPasswordMismatch => 'Şifreler eşleşmiyor.';
+
+  @override
+  String get registerPasswordRequirementsHint =>
+      'Şifreniz en az 8 karakter olmalı ve harf, rakam içermelidir.';
+
+  @override
+  String get registerSuccessMessage =>
+      'Hesabınız oluşturuldu! E-postanızı doğrulayın.';
+
+  @override
+  String get registerBirthDatePickerHelp => 'Doğum tarihinizi seçin';
+
+  @override
+  String get registerCitySheetTitle => 'Yaşadığın Şehir';
+
+  @override
+  String get registerCitySearchHint => 'Şehir ara...';
+
+  @override
+  String get registerPageTitle => 'Hesap oluşturun';
+
+  @override
+  String get registerPageSubtitle =>
+      'Hemen kaydolun, tüm özelliklerden yararlanmaya başlayın.';
+
+  @override
+  String get registerFirstNameHint => 'Ad';
+
+  @override
+  String get registerLastNameHint => 'Soyad';
+
+  @override
+  String get registerEmailHint => 'E-posta adresi';
+
+  @override
+  String get registerPhoneHint => 'Telefon numarası';
+
+  @override
+  String get registerPasswordHint => 'Şifre';
+
+  @override
+  String get registerPasswordConfirmHint => 'Şifre (Tekrar)';
+
+  @override
+  String get registerBirthDatePlaceholder => 'Doğum tarihi';
+
+  @override
+  String get registerCityPlaceholder => 'Yaşadığın şehir (opsiyonel)';
+
+  @override
+  String get registerTermsLinkLabel => 'Kullanım Şartları';
+
+  @override
+  String get registerTermsAndConnector => ' ve ';
+
+  @override
+  String get registerPrivacyLinkLabel => 'Gizlilik Politikası';
+
+  @override
+  String get registerTermsAcceptSuffix => '\'nı okudum, kabul ediyorum.';
+
+  @override
+  String get registerSubmitButton => 'Kayıt Ol';
+
+  @override
+  String get registerOrDivider => 'veya';
+
+  @override
+  String get registerGoogleSignupLabel => 'Google ile\nkaydol';
+
+  @override
+  String get registerAppleSignupLabel => 'Apple ile\nkaydol';
+
+  @override
+  String get registerFacebookSignupLabel => 'Facebook ile\nkaydol';
+
+  @override
+  String get registerSecureBadgeTitle => 'Güvenli Kayıt';
+
+  @override
+  String get registerSecureBadgeSubtitle =>
+      'Bilgileriniz 256-bit SSL ile korunmaktadır.';
+
+  @override
+  String get registerCountryCodeSheetTitle => 'Ülke Kodu';
+
+  @override
+  String get registerCountryTurkey => '🇹🇷 Türkiye';
+
+  @override
+  String get registerCountryUsa => '🇺🇸 ABD';
+
+  @override
+  String get registerCountryUk => '🇬🇧 Birleşik Krallık';
+
+  @override
+  String get registerCountryGermany => '🇩🇪 Almanya';
+
+  @override
+  String get registerCountryFrance => '🇫🇷 Fransa';
+
+  @override
+  String get registerCountryNetherlands => '🇳🇱 Hollanda';
+
+  @override
+  String get registerCountryAustria => '🇦🇹 Avusturya';
+
+  @override
+  String get registerCountrySwitzerland => '🇨🇭 İsviçre';
+
+  @override
+  String get loginOtpPhoneLabel => 'Telefon numarası';
+
+  @override
+  String get loginOtpCodeLabel => 'Doğrulama kodu';
+
+  @override
+  String get loginOtpUseDifferentNumber => 'Farklı numara kullan';
+
+  @override
+  String get forgotPasswordPageTitle => 'Şifre Sıfırla';
+
+  @override
+  String get forgotPasswordErrorInvalidEmail =>
+      'Geçerli bir e-posta adresi girin.';
+
+  @override
+  String get forgotPasswordFormTitle =>
+      'Şifrenizi sıfırlamak için\ne-posta adresinizi girin';
+
+  @override
+  String get forgotPasswordFormSubtitle =>
+      'Size sıfırlama bağlantısı içeren bir e-posta göndereceğiz.';
+
+  @override
+  String get forgotPasswordEmailLabel => 'E-posta adresi';
+
+  @override
+  String get forgotPasswordSendingLabel => 'Gönderiliyor…';
+
+  @override
+  String get forgotPasswordSendButton => 'Sıfırlama Linki Gönder';
+
+  @override
+  String get forgotPasswordBackButton => 'Geri dön';
+
+  @override
+  String get forgotPasswordSuccessTitle => 'E-posta Gönderildi!';
+
+  @override
+  String forgotPasswordSuccessBody(String email) {
+    return '$email adresine şifre sıfırlama bağlantısı gönderildi.\nLütfen gelen kutunuzu kontrol edin.';
+  }
+
+  @override
+  String get forgotPasswordBackToLoginButton => 'Giriş sayfasına dön';
+
+  @override
+  String get profileMenuAccountSubtitle => 'Kişisel bilgilerini düzenle';
+
+  @override
+  String get profileMenuDietTitle => 'Diyet Profilim';
+
+  @override
+  String get profileMenuDietSubtitle =>
+      'Beslenme tercih ve alerjilerini belirt';
+
+  @override
+  String get profileMenuLoyaltyTitle => 'Sadakat Kartlarım';
+
+  @override
+  String get profileMenuLoyaltySubtitle => 'Kartlarını ve QR kodunu gör';
+
+  @override
+  String get profileMenuNotificationsTitle => 'Bildirim Tercihleri';
+
+  @override
+  String get profileMenuNotificationsSubtitle => 'Bildirim ayarlarını düzenle';
+
+  @override
+  String get profileMenuHelpTitle => 'Yardım ve Destek';
+
+  @override
+  String get profileMenuHelpSubtitle => 'Sık sorulan sorular ve destek';
+
+  @override
+  String get accountSecurityScoreLow => 'Düşük';
+
+  @override
+  String get accountSecurityScoreMedium => 'Orta';
+
+  @override
+  String get accountSecurityScoreHigh => 'Yüksek';
+
+  @override
+  String get accountSecurityPageTitle => 'Hesap Güvenliği';
+
+  @override
+  String get accountSecurityPageSubtitle =>
+      'Hesabınızı koruyun, güvende kalın.';
+
+  @override
+  String get accountSecuritySettingsSectionTitle => 'Güvenlik Ayarları';
+
+  @override
+  String get accountSecurityPasswordTitle => 'Şifre';
+
+  @override
+  String get accountSecurityPasswordSubtitle => 'Şifrenizi düzenleyin';
+
+  @override
+  String get accountSecurityPasswordLastChanged => 'Son değişiklik: 15.05.2024';
+
+  @override
+  String get accountSecurity2faTitle => 'İki Adımlı Doğrulama';
+
+  @override
+  String get accountSecurity2faSubtitle => 'Hesabınıza ekstra güvenlik katın';
+
+  @override
+  String get accountSecurityActiveBadge => 'Aktif';
+
+  @override
+  String get accountSecurityEmailTitle => 'E-posta Adresi';
+
+  @override
+  String get accountSecurityEmailSubtitle => 'E-posta adresinizi yönetin';
+
+  @override
+  String get accountSecurityTrustedDevicesTitle => 'Güvenilen Cihazlar';
+
+  @override
+  String get accountSecurityTrustedDevicesSubtitle =>
+      'Hesabınıza giriş yapan cihazları yönetin';
+
+  @override
+  String get accountSecuritySessionsTitle => 'Oturum Yönetimi';
+
+  @override
+  String get accountSecuritySessionsSubtitle =>
+      'Açık oturumlarınızı görüntüleyin';
+
+  @override
+  String get accountSecurityTipsTitle => 'Güvenliğinizi Artırın';
+
+  @override
+  String get accountSecurityTipsSubtitle =>
+      'Aşağıdaki önerileri uygulayarak hesabınızı daha da güvenli hale getirin.';
+
+  @override
+  String get accountSecurityTipStrongPasswordTitle =>
+      'Güçlü bir şifre kullanın';
+
+  @override
+  String get accountSecurityTipStrongPasswordSubtitle =>
+      'Tahmin edilmesi zor, güçlü bir şifre seçin.';
+
+  @override
+  String get accountSecurityTip2faTitle =>
+      'İki adımlı doğrulamayı etkinleştirin';
+
+  @override
+  String get accountSecurityTip2faSubtitle =>
+      'Hesabınıza ekstra koruma ekleyin.';
+
+  @override
+  String get accountSecurityActionsSectionTitle => 'Hesap İşlemleri';
+
+  @override
+  String get accountSecurityDownloadDataTitle => 'Verilerinizi İndirin';
+
+  @override
+  String get accountSecurityDownloadDataSubtitle =>
+      'Hesabınıza ait verilerin bir kopyasını indirin.';
+
+  @override
+  String get accountSecurityDeleteTitle => 'Hesabımı Sil';
+
+  @override
+  String get accountSecurityDeleteSubtitle => 'Hesabınızı kalıcı olarak silin.';
+
+  @override
+  String get accountSecuritySupportBannerTitle => 'Yardıma mı ihtiyacınız var?';
+
+  @override
+  String get accountSecuritySupportBannerSubtitle =>
+      'Güvenlik ile ilgili sorularınız için destek ekibimizle iletişim geçin.';
+
+  @override
+  String get accountSecuritySupportBannerButton => 'Destek Al';
+
+  @override
+  String get accountSecurityScorePrefix => 'Güvenlik Skorunuz: ';
+
+  @override
+  String get accountSecurityScoreDescription =>
+      'Hesabınızı korumak için tüm güvenlik önerilerini tamamlayın.';
+
+  @override
+  String get accountSecurityDataExportRequested =>
+      'Veri export talebiniz alındı. En kısa sürede e-postanıza iletilecektir.';
+
+  @override
+  String get accountSecurityRequestFailedGeneric =>
+      'Talep gönderilemedi. Lütfen tekrar deneyin.';
+
+  @override
+  String get accountSecurityMailAppUnavailable =>
+      'E-posta uygulaması açılamadı. destek@yeedoy.com adresine yazın.';
+
+  @override
+  String get accountSecurityDeleteDialogBody =>
+      'Bu işlem hesabınıza erişimi kapatır ve silinebilir veriler için silme sürecini başlatır.';
+
+  @override
+  String get accountSecurityDeleteReasonLabel => 'Silme nedeni';
+
+  @override
+  String get accountSecurityDeleteReasonHint =>
+      'İsterseniz nedeninizi paylaşın';
+
+  @override
+  String get accountSecurityDeleteConfirmLabel => 'Onay';
+
+  @override
+  String get accountSecurityDeleteConfirmHint => 'Devam etmek için SIL yazın';
+
+  @override
+  String get accountSecurityDeleteCreateRequestButton => 'Silme Talebi Oluştur';
+
+  @override
+  String get accountSecurityCancelButton => 'Vazgeç';
+
+  @override
+  String get accountSecurityDeleteRequestSubmitted =>
+      'Silme talebiniz iletildi.';
+
+  @override
+  String get accountSecurityDeleteRequestFailed => 'Talep gönderilemedi.';
+
+  @override
+  String get accountSecurity2faSheetSubtitle =>
+      'Kimlik doğrulama uygulaması (TOTP)';
+
+  @override
+  String get accountSecurity2faNotEnrolledBody =>
+      'Google Authenticator, Authy veya benzeri bir kimlik doğrulama uygulamasını kullanarak hesabınıza ekstra güvenlik katmanı ekleyebilirsiniz.';
+
+  @override
+  String get accountSecurity2faStartingLabel => 'Başlatılıyor…';
+
+  @override
+  String get accountSecurity2faStartSetupButton => 'Kurulumu Başlat';
+
+  @override
+  String get accountSecurity2faEnrollStartError =>
+      'Kimlik doğrulama uygulaması kurulumu başlatılamadı.';
+
+  @override
+  String get accountSecurity2faCodeRequiredError =>
+      '6 haneli doğrulama kodunu girin.';
+
+  @override
+  String get accountSecurity2faStep1 =>
+      '1. Kimlik doğrulama uygulamanızı açın ve QR kodu okutun.';
+
+  @override
+  String get accountSecurity2faSecretLabel => 'Gizli anahtar (manuel giriş):';
+
+  @override
+  String get accountSecurity2faSecretCopied => 'Anahtar kopyalandı.';
+
+  @override
+  String get accountSecurity2faStep2 =>
+      '2. Uygulamanın gösterdiği 6 haneli kodu girin:';
+
+  @override
+  String get accountSecurity2faVerifyingLabel => 'Doğrulanıyor…';
+
+  @override
+  String get accountSecurity2faVerifyButton => 'Doğrula ve Aktifleştir';
+
+  @override
+  String get accountSecurity2faVerifyCodeInvalid =>
+      'Kod hatalı veya süresi dolmuş. Yeni kod deneyin.';
+
+  @override
+  String get accountSecurity2faDisableCodeInvalid =>
+      'Kod hatalı veya süresi dolmuş.';
+
+  @override
+  String get accountSecurity2faEnabledBanner =>
+      'İki adımlı doğrulama aktif. Hesabınız ek güvenlik katmanıyla korunuyor.';
+
+  @override
+  String get accountSecurity2faDisableButton => 'Devre Dışı Bırak';
+
+  @override
+  String get accountSecurity2faDisablePrompt =>
+      'Devre dışı bırakmak için kimlik doğrulama uygulamanızdaki kodu girin.';
+
+  @override
+  String get accountSecurity2faProcessingLabel => 'İşleniyor…';
+
+  @override
+  String get accountSecurityTrustedDevicesSheetSubtitle =>
+      'Uygulamanın kurulu olduğu cihazlar';
+
+  @override
+  String get accountSecurityDeviceRemoveFailed => 'Cihaz kaldırılamadı.';
+
+  @override
+  String get accountSecurityUnknown => 'Bilinmiyor';
+
+  @override
+  String get accountSecurityTimeJustNow => 'Az önce';
+
+  @override
+  String accountSecurityTimeMinutesAgo(int minutes) {
+    return '$minutes dk önce';
+  }
+
+  @override
+  String accountSecurityTimeHoursAgo(int hours) {
+    return '$hours saat önce';
+  }
+
+  @override
+  String accountSecurityTimeDaysAgo(int days) {
+    return '$days gün önce';
+  }
+
+  @override
+  String accountSecurityTimeMonthsAgo(int months) {
+    return '$months ay önce';
+  }
+
+  @override
+  String get accountSecurityNoDevicesFound => 'Kayıtlı cihaz bulunamadı.';
+
+  @override
+  String get accountSecurityAndroidDevice => 'Android Cihaz';
+
+  @override
+  String get accountSecurityIosDevice => 'iOS Cihaz';
+
+  @override
+  String get accountSecurityRemoveDeviceDialogTitle => 'Cihazı Kaldır';
+
+  @override
+  String get accountSecurityRemoveDeviceDialogBody =>
+      'Bu cihaz için bildirimler devre dışı bırakılacak. Devam edilsin mi?';
+
+  @override
+  String get accountSecurityRemoveButton => 'Kaldır';
+
+  @override
+  String get accountSecuritySessionsSheetSubtitle =>
+      'Aktif oturumunuzu yönetin';
+
+  @override
+  String get accountSecurityActiveSessionBadge => 'Aktif Oturum';
+
+  @override
+  String get accountSecuritySessionEmailLabel => 'E-posta';
+
+  @override
+  String get accountSecuritySessionLastLoginLabel => 'Son giriş';
+
+  @override
+  String get accountSecuritySessionCreatedLabel => 'Hesap oluşturuldu';
+
+  @override
+  String get accountSecuritySessionWarning =>
+      'Tanımadığınız bir cihazdan giriş yapıldıysa tüm oturumları sonlandırın ve şifrenizi değiştirin.';
+
+  @override
+  String get accountSecurityLogoutAllDialogTitle => 'Tüm Oturumları Kapat';
+
+  @override
+  String get accountSecurityLogoutAllDialogBody =>
+      'Tüm cihazlardaki aktif oturumlarınız sonlandırılacak ve yeniden giriş yapmanız gerekecek.';
+
+  @override
+  String get accountSecurityLogoutAllCloseButton => 'Kapat';
+
+  @override
+  String get accountSecurityLogoutAllButton => 'Tüm Cihazlarda Oturumu Kapat';
+
+  @override
+  String get accountSecurityChangePasswordErrorTooShort =>
+      'Şifre en az 6 karakter olmalıdır.';
+
+  @override
+  String get accountSecurityChangePasswordErrorMismatch =>
+      'Şifreler eşleşmiyor.';
+
+  @override
+  String get accountSecurityPasswordUpdated => 'Şifre başarıyla güncellendi.';
+
+  @override
+  String get accountSecurityChangePasswordTitle => 'Şifre Değiştir';
+
+  @override
+  String get accountSecurityNewPasswordLabel => 'Yeni şifre';
+
+  @override
+  String get accountSecurityNewPasswordConfirmLabel => 'Yeni şifre (tekrar)';
+
+  @override
+  String get accountSecuritySavingLabel => 'Kaydediliyor…';
+
+  @override
+  String get accountSecurityUpdatePasswordButton => 'Şifreyi Güncelle';
+
+  @override
+  String get accountSecurityChangeEmailErrorInvalid =>
+      'Geçerli bir e-posta girin.';
+
+  @override
+  String accountSecurityChangeEmailSentBody(String email) {
+    return '$email adresine doğrulama e-postası gönderildi. Bağlantıya tıkladıktan sonra e-postanız güncellenecektir.';
+  }
+
+  @override
+  String get accountSecurityOkButton => 'Tamam';
+
+  @override
+  String get accountSecurityChangeEmailTitle => 'E-posta Değiştir';
+
+  @override
+  String get accountSecurityChangeEmailSubtitle =>
+      'Yeni e-posta adresinize doğrulama bağlantısı gönderilecektir.';
+
+  @override
+  String get accountSecurityNewEmailLabel => 'Yeni e-posta adresi';
+
+  @override
+  String get accountSecuritySendingLabel => 'Gönderiliyor…';
+
+  @override
+  String get accountSecuritySendVerificationLinkButton =>
+      'Doğrulama Bağlantısı Gönder';
 }

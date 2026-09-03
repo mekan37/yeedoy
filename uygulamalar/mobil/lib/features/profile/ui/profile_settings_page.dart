@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../core/i18n/locale_controller.dart';
 import '../../legal/legal_providers.dart';
 import '../../legal/legal_repository.dart';
@@ -68,8 +69,8 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
     final overview = ref.read(legalRequestOverviewProvider).asData?.value;
     if (overview?.hasOpenPrivacyRequest ?? false) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Bekleyen bir gizlilik başvurunuz zaten var.'),
+        SnackBar(
+          content: Text(context.l10n.profileSettingsPrivacyPendingRequest),
         ),
       );
       return;
@@ -91,9 +92,9 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                 TextField(
                   controller: controller,
                   maxLines: 4,
-                  decoration: const InputDecoration(
-                    labelText: 'Detaylar',
-                    hintText: 'Talebinizi kısaca açıklayın',
+                  decoration: InputDecoration(
+                    labelText: dialogContext.l10n.profileSettingsDetailsLabel,
+                    hintText: dialogContext.l10n.profileSettingsDetailsHint,
                   ),
                 ),
               ],
@@ -101,11 +102,11 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(dialogContext).pop(false),
-                child: const Text('Vazgeç'),
+                child: Text(dialogContext.l10n.profileSettingsCancel),
               ),
               FilledButton(
                 onPressed: () => Navigator.of(dialogContext).pop(true),
-                child: const Text('Gönder'),
+                child: Text(dialogContext.l10n.profileSettingsSubmit),
               ),
             ],
           );
@@ -120,9 +121,9 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
           );
       ref.invalidate(legalRequestOverviewProvider);
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Başvurunuz kaydedildi.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.l10n.profileSettingsRequestSaved)),
+      );
     } catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(
@@ -170,16 +171,16 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                                 ),
                               ),
                               Text(
-                                'Ayarlar',
+                                context.l10n.profileSettingsPageTitle,
                                 style: Theme.of(
                                   context,
                                 ).textTheme.headlineSmall?.copyWith(
                                   fontWeight: FontWeight.w900,
                                 ),
                               ),
-                              const Text(
-                                'Uygulama tercihlerini yönet.',
-                                style: TextStyle(
+                              Text(
+                                context.l10n.profileSettingsPageSubtitle,
+                                style: const TextStyle(
                                   fontSize: 13,
                                   color: AppColors.muted,
                                 ),
@@ -222,22 +223,22 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                               ),
                             ),
                             const SizedBox(width: 12),
-                            const Expanded(
+                            Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Uygulamanı kişiselleştir!',
-                                    style: TextStyle(
+                                    context.l10n.profileSettingsPromoTitle,
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w800,
                                       color: AppColors.textStrong,
                                       fontSize: 14,
                                     ),
                                   ),
-                                  SizedBox(height: 4),
+                                  const SizedBox(height: 4),
                                   Text(
-                                    'Bildirimlerden gizliliğe, favori mutfaklardan para birimine kadar her şeyi buradan ayarla.',
-                                    style: TextStyle(
+                                    context.l10n.profileSettingsPromoSubtitle,
+                                    style: const TextStyle(
                                       fontSize: 12,
                                       color: AppColors.muted,
                                       height: 1.4,
@@ -258,37 +259,36 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                   const SizedBox(height: 24),
 
                   // ── Hesap ────────────────────────────────────────────
-                  _SettingsSectionTitle('Hesap'),
+                  _SettingsSectionTitle(context.l10n.profileSettingsAccountSectionTitle),
                   const SizedBox(height: 8),
                   _SettingsGroup(
                     items: [
                       _SettingsTile(
                         icon: Icons.person_outline,
-                        title: 'Hesap Bilgileri',
-                        subtitle: 'Kişisel bilgilerini düzenle',
+                        title: context.l10n.profileSettingsAccountInfoTitle,
+                        subtitle: context.l10n.profileSettingsAccountInfoSubtitle,
                         onTap: () => context.push('/account-info'),
                       ),
                       _SettingsTile(
                         icon: Icons.share_outlined,
-                        title: 'Sosyal Medya Hesaplarım',
-                        subtitle: 'Instagram, TikTok, YouTube ve daha fazlası',
+                        title: context.l10n.profileSettingsSocialAccountsTitle,
+                        subtitle: context.l10n.profileSettingsSocialAccountsSubtitle,
                         onTap: () => context.push('/social-accounts'),
                       ),
                       _SettingsTile(
                         icon: Icons.lock_outline,
-                        title: 'Gizlilik',
-                        subtitle: 'Verilerini ve gizlilik ayarlarını yönet',
+                        title: context.l10n.profileSettingsPrivacyTitle,
+                        subtitle: context.l10n.profileSettingsPrivacySubtitle,
                         onTap: () => _showPrivacyRequestDialog(
-                          title: 'Gizlilik Başvurusu',
+                          title: context.l10n.profileSettingsPrivacyDialogTitle,
                           requestType: 'privacy_application',
-                          helper:
-                              'Düzeltme, itiraz veya kısıtlama gibi taleplerinizi gönderin.',
+                          helper: context.l10n.profileSettingsPrivacyDialogHelper,
                         ),
                       ),
                       _SettingsTile(
                         icon: Icons.shield_outlined,
-                        title: 'Güvenlik',
-                        subtitle: 'Şifre, giriş ve güvenlik ayarları',
+                        title: context.l10n.profileSettingsSecurityTitle,
+                        subtitle: context.l10n.profileSettingsSecuritySubtitle,
                         onTap: () => context.push('/account-security'),
                       ),
                     ],
@@ -296,26 +296,26 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                   const SizedBox(height: 20),
 
                   // ── Uygulama Tercihleri ──────────────────────────────
-                  _SettingsSectionTitle('Uygulama Tercihleri'),
+                  _SettingsSectionTitle(context.l10n.profileSettingsAppPrefsSectionTitle),
                   const SizedBox(height: 8),
                   _SettingsGroup(
                     items: [
                       _SettingsTile(
                         icon: Icons.notifications_outlined,
-                        title: 'Bildirim Ayarları',
-                        subtitle: 'Bildirim tercihlerini yönet',
+                        title: context.l10n.profileSettingsNotificationsTitle,
+                        subtitle: context.l10n.profileSettingsNotificationsSubtitle,
                         onTap: () => context.push('/notification-preferences'),
                       ),
                       _SettingsTile(
                         icon: Icons.location_on_outlined,
-                        title: 'Konum Ayarları',
-                        subtitle: 'Konum erişimi ve tercihlerini düzenle',
+                        title: context.l10n.profileSettingsLocationTitle,
+                        subtitle: context.l10n.profileSettingsLocationSubtitle,
                         onTap: () => context.push('/location-picker'),
                       ),
                       _SettingsTile(
                         icon: Icons.favorite_outline,
-                        title: 'Favori Tercihlerim',
-                        subtitle: 'Favori mutfaklar, yemekler ve filtreler',
+                        title: context.l10n.profileSettingsFavoritesTitle,
+                        subtitle: context.l10n.profileSettingsFavoritesSubtitle,
                         onTap: () {
                           Navigator.of(context).pop();
                           context.go('/favorites');
@@ -338,16 +338,16 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                         Icons.language_outlined,
                         color: AppColors.textStrong,
                       ),
-                      title: const Text(
-                        'Dil',
-                        style: TextStyle(
+                      title: Text(
+                        context.l10n.profileSettingsLanguageTitle,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           color: AppColors.textStrong,
                         ),
                       ),
-                      subtitle: const Text(
-                        'Uygulama dilini seç',
-                        style: TextStyle(color: AppColors.muted, fontSize: 12),
+                      subtitle: Text(
+                        context.l10n.profileSettingsLanguageSubtitle,
+                        style: const TextStyle(color: AppColors.muted, fontSize: 12),
                       ),
                       trailing: Container(
                         padding: const EdgeInsets.symmetric(
@@ -368,14 +368,14 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                             fontSize: 13,
                             fontWeight: FontWeight.w700,
                           ),
-                          items: const [
+                          items: [
                             DropdownMenuItem<String?>(
                               value: 'tr',
-                              child: Text('Türkçe'),
+                              child: Text(context.l10n.profileSettingsLanguageTurkish),
                             ),
                             DropdownMenuItem<String?>(
                               value: 'en',
-                              child: Text('English'),
+                              child: Text(context.l10n.profileSettingsLanguageEnglish),
                             ),
                           ],
                           onChanged: (v) async {
@@ -391,26 +391,26 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
                   const SizedBox(height: 20),
 
                   // ── Diğer ────────────────────────────────────────────
-                  _SettingsSectionTitle('Diğer'),
+                  _SettingsSectionTitle(context.l10n.profileSettingsOtherSectionTitle),
                   const SizedBox(height: 8),
                   _SettingsGroup(
                     items: [
                       _SettingsTile(
                         icon: Icons.help_outline_rounded,
-                        title: 'Yardım ve Destek',
-                        subtitle: 'Sık sorulan sorular ve destek',
+                        title: context.l10n.profileSettingsHelpTitle,
+                        subtitle: context.l10n.profileSettingsHelpSubtitle,
                         onTap: () => context.push('/help-support'),
                       ),
                       _SettingsTile(
                         icon: Icons.gavel_rounded,
-                        title: 'Yasal İşlemler',
-                        subtitle: 'Kullanım şartları, gizlilik ve KVKK',
+                        title: context.l10n.profileSettingsLegalTitle,
+                        subtitle: context.l10n.profileSettingsLegalSubtitle,
                         onTap: () => context.push('/legal'),
                       ),
                       _SettingsTile(
                         icon: Icons.logout_rounded,
-                        title: 'Çıkış Yap',
-                        subtitle: 'Hesabından çıkış yap',
+                        title: context.l10n.profileSettingsLogoutTitle,
+                        subtitle: context.l10n.profileSettingsLogoutSubtitle,
                         titleColor: AppColors.primary,
                         onTap: _logout,
                       ),
