@@ -39,11 +39,15 @@ export async function zincirAra(query: string): Promise<ZincirAramaSonucu[]> {
 }
 
 function zincirHatasiCevir(mesaj: string | undefined): string {
+  // RPC istisna mesajları her zaman hata koduyla BAŞLAR (bkz. rpc-and-route-handler-standards
+  // skill'i) — startsWith kullanmak, işletme/zincir adı "unauthorized" gibi bir alt dize
+  // içerdiğinde yanlış eşleşmeyi engeller (mesaj.includes() bunu güvenli yapmaz, çünkü
+  // çakışma mesajı gerçek işletme adlarını mesajın içine gömer).
   if (!mesaj) return 'İşlem başarısız oldu, tekrar deneyin.';
-  if (mesaj.includes('unauthorized')) return 'Bu işlem için yetkiniz yok.';
-  if (mesaj.includes('not_found')) return 'Zincir bulunamadı.';
-  if (mesaj.includes('validation_error: en az bir işletme')) return 'En az bir işletme seçmelisiniz.';
-  if (mesaj.includes('validation_error: şu işletmeler zaten başka bir zincirde:')) {
+  if (mesaj.startsWith('unauthorized')) return 'Bu işlem için yetkiniz yok.';
+  if (mesaj.startsWith('not_found')) return 'Zincir bulunamadı.';
+  if (mesaj.startsWith('validation_error: en az bir işletme')) return 'En az bir işletme seçmelisiniz.';
+  if (mesaj.startsWith('validation_error: şu işletmeler zaten başka bir zincirde:')) {
     return mesaj.split('validation_error: ')[1] ?? mesaj;
   }
   return 'İşlem başarısız oldu, tekrar deneyin.';
