@@ -215,19 +215,21 @@ export function MenuDuzen({
                   </span>
                 )}
                 <div className="flex items-center gap-1 text-xs font-black">
-                  <a
+                  <Link
                     href={langSwitchHrefTr}
+                    aria-current={lang === 'tr' ? 'page' : undefined}
                     className={lang === 'tr' ? 'text-primary underline' : 'text-muted hover:text-primary'}
                   >
                     TR
-                  </a>
+                  </Link>
                   <span className="text-muted" aria-hidden="true">|</span>
-                  <a
+                  <Link
                     href={langSwitchHrefEn}
+                    aria-current={lang === 'en' ? 'page' : undefined}
                     className={lang === 'en' ? 'text-primary underline' : 'text-muted hover:text-primary'}
                   >
                     EN
-                  </a>
+                  </Link>
                 </div>
               </div>
 
