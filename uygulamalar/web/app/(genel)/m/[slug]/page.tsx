@@ -5,6 +5,7 @@ import MenuNotFound from './not-found';
 import { MenuDuzen } from '@/src/ui/bolumler/menu-sayfasi/menu-duzen';
 import { type BrandTheme } from '@/src/lib/marka-temasi';
 import { getPublicMenuPageData, getTranslationValue } from '@/src/lib/acik-menu-sayfasi';
+import { copy } from '@/src/lib/ceviri';
 import { getBusinessBySlugOrId, getBusinessHoursInfo, type BusinessHoursInfo } from '@/src/lib/veri/menu-okuma';
 import { getMarketplaceBusinesses } from '@/src/lib/veri/pazar-okuma';
 import { appConfig } from '@/src/lib/ayarlar';
@@ -212,6 +213,26 @@ export async function renderPublicMenuRoute(input: {
       fallback: data.business.name,
     }) ?? data.business.name;
 
+  const labels = copy[normalized.lang];
+  const langSwitchHrefTr = buildBusinessMenuHref({
+    business: data.business,
+    categoryId: input.selectedCategoryId,
+    itemId: input.selectedItemId,
+    lang: 'tr',
+    theme: normalized.theme,
+    src: normalized.src,
+    preview: normalized.preview,
+  });
+  const langSwitchHrefEn = buildBusinessMenuHref({
+    business: data.business,
+    categoryId: input.selectedCategoryId,
+    itemId: input.selectedItemId,
+    lang: 'en',
+    theme: normalized.theme,
+    src: normalized.src,
+    preview: normalized.preview,
+  });
+
   const _schemaDow = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'] as const;
   const openingHoursSpecification = hoursInfo.weekly
     .filter((h) => !h.is_closed)
@@ -307,6 +328,10 @@ export async function renderPublicMenuRoute(input: {
         isOpenNow={isOpenNow}
         todayHours={todayHours}
         businessName={businessName}
+        lang={normalized.lang}
+        labels={labels}
+        langSwitchHrefTr={langSwitchHrefTr}
+        langSwitchHrefEn={langSwitchHrefEn}
       />
       {/* QR menü CTA — B2B viral */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
