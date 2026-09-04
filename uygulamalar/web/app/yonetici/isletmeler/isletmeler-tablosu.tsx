@@ -57,7 +57,7 @@ export function IsletmelerTablosu({ rows }: { rows: IsletmeSatiri[] }) {
           <p className="text-xs font-extrabold text-textStrong">{selected.size} işletme seçildi</p>
           <div className="flex items-center gap-2">
             {error && <span className="text-[10px] font-bold text-red-600">{error}</span>}
-            <PanelActionButton variant="secondary" loading={isPending} onClick={() => setZincirlemeAcik(true)} className="py-1 text-xs">Zincire Bağla</PanelActionButton>
+            <PanelActionButton variant="secondary" onClick={() => setZincirlemeAcik(true)} className="py-1 text-xs">Zincire Bağla</PanelActionButton>
             <PanelActionButton variant="secondary" loading={isPending} onClick={() => bulkAction('approve')} className="py-1 text-xs">Toplu Aktif Et</PanelActionButton>
             <PanelActionButton variant="danger" loading={isPending} onClick={() => bulkAction('reject')} className="py-1 text-xs">Toplu Pasif Et</PanelActionButton>
           </div>
