@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
 import {
   zincirAra,
@@ -31,7 +31,40 @@ export function IsletmeZincireBaglaModal({
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const requestIdRef = useRef(0);
 
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      requestIdRef.current += 1;
+    };
+  }, []);
+
   const businessIds = businesses.map((b) => b.id);
+  const businessNames = businesses.map((b) => b.name).join(', ');
+  const businessSummary =
+    businesses.length > 3
+      ? `${businesses.slice(0, 3).map((b) => b.name).join(', ')} +${businesses.length - 3} tane daha`
+      : businessNames;
+
+  function handleClose() {
+    if (submitting) return;
+    onClose();
+  }
+
+  function handleTabChange(next: Sekme) {
+    setSekme(next);
+    setError(null);
+    setSelectedChain(null);
+    setQuery('');
+    setResults([]);
+    setSearching(false);
+  }
+
+  function handleSelectChain(c: ZincirAramaSonucu) {
+    setSelectedChain(c);
+    setQuery('');
+    setResults([]);
+    setError(null);
+  }
 
   function handleSearch(q: string) {
     setQuery(q);
@@ -85,26 +118,31 @@ export function IsletmeZincireBaglaModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={handleClose}>
       <div
         className="flex max-h-[85vh] w-full max-w-md flex-col gap-4 overflow-y-auto rounded-2xl border border-border bg-card p-5 shadow-yd2"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
           <h2 className="text-base font-black text-textStrong">Zincire Bağla</h2>
-          <button type="button" onClick={onClose} className="text-xs font-bold text-muted hover:underline">
+          <button
+            type="button"
+            onClick={handleClose}
+            disabled={submitting}
+            className="text-xs font-bold text-muted hover:underline disabled:opacity-50"
+          >
             Kapat
           </button>
         </div>
 
-        <p className="text-xs font-bold text-muted">
-          {businesses.length} işletme: {businesses.map((b) => b.name).join(', ')}
+        <p className="text-xs font-bold text-muted" title={businessNames}>
+          {businesses.length} işletme: {businessSummary}
         </p>
 
         <div className="flex gap-1 rounded-xl border border-border bg-bg p-1">
           <button
             type="button"
-            onClick={() => setSekme('mevcut')}
+            onClick={() => handleTabChange('mevcut')}
             className={`flex-1 rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
               sekme === 'mevcut' ? 'bg-card text-textStrong shadow-yd' : 'text-muted'
             }`}
@@ -113,7 +151,7 @@ export function IsletmeZincireBaglaModal({
           </button>
           <button
             type="button"
-            onClick={() => setSekme('yeni')}
+            onClick={() => handleTabChange('yeni')}
             className={`flex-1 rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
               sekme === 'yeni' ? 'bg-card text-textStrong shadow-yd' : 'text-muted'
             }`}
@@ -139,7 +177,7 @@ export function IsletmeZincireBaglaModal({
                       <button
                         key={c.id}
                         type="button"
-                        onClick={() => setSelectedChain(c)}
+                        onClick={() => handleSelectChain(c)}
                         className="flex items-center justify-between rounded-lg px-3 py-2 text-left text-sm hover:bg-black/4"
                       >
                         <span className="font-bold text-textStrong">{c.name}</span>
