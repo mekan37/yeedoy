@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
 import { IsletmeSatirEylemleri } from './isletme-satir-eylemleri';
 import { IsletmeDuzenleModal } from './isletme-duzenle-modal';
+import { IsletmeZincireBaglaModal } from './isletme-zincire-bagla-modal';
 import { getPublicBusinessHref, type IsletmeSatiri } from './isletmeler-yardimcilari';
 
 async function topluGuncelle(ids: string[], action: 'approve' | 'reject') {
@@ -22,6 +23,7 @@ export function IsletmelerTablosu({ rows }: { rows: IsletmeSatiri[] }) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [duzenlenen, setDuzenlenen] = useState<{ id: string; name: string } | null>(null);
+  const [zincirlemeAcik, setZincirlemeAcik] = useState(false);
 
   const hepsiSecili = rows.length > 0 && rows.every((r) => selected.has(r.id));
 
@@ -55,6 +57,7 @@ export function IsletmelerTablosu({ rows }: { rows: IsletmeSatiri[] }) {
           <p className="text-xs font-extrabold text-textStrong">{selected.size} işletme seçildi</p>
           <div className="flex items-center gap-2">
             {error && <span className="text-[10px] font-bold text-red-600">{error}</span>}
+            <PanelActionButton variant="secondary" loading={isPending} onClick={() => setZincirlemeAcik(true)} className="py-1 text-xs">Zincire Bağla</PanelActionButton>
             <PanelActionButton variant="secondary" loading={isPending} onClick={() => bulkAction('approve')} className="py-1 text-xs">Toplu Aktif Et</PanelActionButton>
             <PanelActionButton variant="danger" loading={isPending} onClick={() => bulkAction('reject')} className="py-1 text-xs">Toplu Pasif Et</PanelActionButton>
           </div>
@@ -141,6 +144,18 @@ export function IsletmelerTablosu({ rows }: { rows: IsletmeSatiri[] }) {
           onClose={() => setDuzenlenen(null)}
           onSaved={() => {
             setDuzenlenen(null);
+            router.refresh();
+          }}
+        />
+      )}
+
+      {zincirlemeAcik && (
+        <IsletmeZincireBaglaModal
+          businesses={rows.filter((r) => selected.has(r.id)).map((r) => ({ id: r.id, name: r.name }))}
+          onClose={() => setZincirlemeAcik(false)}
+          onDone={() => {
+            setZincirlemeAcik(false);
+            setSelected(new Set());
             router.refresh();
           }}
         />
