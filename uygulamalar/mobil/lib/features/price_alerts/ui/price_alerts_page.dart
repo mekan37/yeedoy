@@ -53,9 +53,9 @@ class _PriceAlertsPageState extends ConsumerState<PriceAlertsPage> {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    const Text(
-                      'Uygun fiyatları kaçırma, alarm kur!',
-                      style: TextStyle(fontSize: 13, color: AppColors.muted),
+                    Text(
+                      t.priceAlertsPageSubtitle,
+                      style: const TextStyle(fontSize: 13, color: AppColors.muted),
                     ),
                     const SizedBox(height: 20),
 
@@ -118,16 +118,16 @@ class _PriceAlertsPageState extends ConsumerState<PriceAlertsPage> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Alarmı sil'),
-        content: const Text('Bu alarm silinecek. Emin misin?'),
+        title: Text(ctx.l10n.priceAlertsDeleteDialogTitle),
+        content: Text(ctx.l10n.priceAlertsDeleteDialogBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('İptal'),
+            child: Text(ctx.l10n.priceAlertsCancelButton),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Sil'),
+            child: Text(ctx.l10n.priceAlertsDeleteButton),
           ),
         ],
       ),
@@ -175,22 +175,22 @@ class _PromoBanner extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Fiyat düşünce haberin olsun!',
-                  style: TextStyle(
+                  context.l10n.priceAlertsPromoBannerTitle,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w800,
                     fontSize: 13,
                     color: AppColors.textStrong,
                   ),
                 ),
-                SizedBox(height: 2),
+                const SizedBox(height: 2),
                 Text(
-                  'Alarmlarını ayarla, fırsatları ilk sen yakala.',
-                  style: TextStyle(fontSize: 12, color: AppColors.muted),
+                  context.l10n.priceAlertsPromoBannerBody,
+                  style: const TextStyle(fontSize: 12, color: AppColors.muted),
                 ),
               ],
             ),
@@ -206,9 +206,9 @@ class _PromoBanner extends StatelessWidget {
               ),
             ),
             icon: const Icon(Icons.add, size: 16),
-            label: const Text(
-              'Alarm Kur',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800),
+            label: Text(
+              context.l10n.priceAlertsSetAlarmButton,
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800),
             ),
           ),
         ],
@@ -236,17 +236,17 @@ class _TabBar extends StatelessWidget {
       child: Row(
         children: [
           _TabPill(
-            label: 'Aktif Alarmlar',
+            label: context.l10n.priceAlertsActiveTab,
             selected: selected == _AlertTab.active,
             onTap: () => onChanged(_AlertTab.active),
           ),
           _TabPill(
-            label: 'Tetiklenenler',
+            label: context.l10n.priceAlertsTriggeredTab,
             selected: selected == _AlertTab.triggered,
             onTap: () => onChanged(_AlertTab.triggered),
           ),
           _TabPill(
-            label: 'Pasif Alarmlar',
+            label: context.l10n.priceAlertsPausedTab,
             selected: selected == _AlertTab.paused,
             onTap: () => onChanged(_AlertTab.paused),
           ),
@@ -337,11 +337,11 @@ class _AlertsSliver extends ConsumerWidget {
               child: AppEmptyState(
                 icon: Icons.notifications_off_outlined,
                 title: tab == _AlertTab.active
-                    ? 'Aktif alarm yok'
-                    : 'Pasif alarm yok',
+                    ? context.l10n.priceAlertsNoActiveTitle
+                    : context.l10n.priceAlertsNoPausedTitle,
                 description: tab == _AlertTab.active
-                    ? 'Alarm kur ve fiyat düşünce bildirim al.'
-                    : 'Duraklatılmış alarm bulunmuyor.',
+                    ? context.l10n.priceAlertsNoActiveDescription
+                    : context.l10n.priceAlertsNoPausedDescription,
               ),
             ),
           );
@@ -449,13 +449,13 @@ class _AlertCard extends StatelessWidget {
                         color: AppColors.muted,
                       ),
                       itemBuilder: (_) => [
-                        const PopupMenuItem(
+                        PopupMenuItem(
                           value: 'delete',
                           child: Row(
                             children: [
-                              Icon(Icons.delete_outline, size: 18),
-                              SizedBox(width: 8),
-                              Text('Sil'),
+                              const Icon(Icons.delete_outline, size: 18),
+                              const SizedBox(width: 8),
+                              Text(context.l10n.priceAlertsDeleteButton),
                             ],
                           ),
                         ),
@@ -489,9 +489,9 @@ class _AlertCard extends StatelessWidget {
                       color: AppColors.primary,
                     ),
                     const SizedBox(width: 4),
-                    const Text(
-                      'Hedef Fiyat',
-                      style: TextStyle(fontSize: 12, color: AppColors.muted),
+                    Text(
+                      context.l10n.priceAlertsTargetPriceLabel,
+                      style: const TextStyle(fontSize: 12, color: AppColors.muted),
                     ),
                     const SizedBox(width: 6),
                     Text(
@@ -554,7 +554,9 @@ class _AlertCard extends StatelessWidget {
                         size: 16,
                       ),
                       label: Text(
-                        alert.isActive ? 'Duraklat' : 'Aktifleştir',
+                        alert.isActive
+                            ? context.l10n.priceAlertsPauseButton
+                            : context.l10n.priceAlertsActivateButton,
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
@@ -598,13 +600,13 @@ class _TriggeredSliver extends ConsumerWidget {
       ),
       data: (items) {
         if (items.isEmpty) {
-          return const SliverToBoxAdapter(
+          return SliverToBoxAdapter(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 32),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
               child: AppEmptyState(
                 icon: Icons.notifications_active_outlined,
-                title: 'Henüz tetiklenen alarm yok',
-                description: 'Fiyat hedefine ulaşınca burada görünecek.',
+                title: context.l10n.priceAlertsNoTriggeredTitle,
+                description: context.l10n.priceAlertsNoTriggeredDescription,
               ),
             ),
           );
@@ -678,9 +680,9 @@ class _TriggeredCard extends StatelessWidget {
                       color: AppColors.muted,
                     ),
                     const SizedBox(width: 4),
-                    const Text(
-                      'Eşleşen Fiyat',
-                      style: TextStyle(fontSize: 12, color: AppColors.muted),
+                    Text(
+                      context.l10n.priceAlertsMatchedPriceLabel,
+                      style: const TextStyle(fontSize: 12, color: AppColors.muted),
                     ),
                     const SizedBox(width: 6),
                     Text(
@@ -703,9 +705,9 @@ class _TriggeredCard extends StatelessWidget {
                         color: AppColors.primary,
                       ),
                       const SizedBox(width: 4),
-                      const Text(
-                        'Önceki Fiyat',
-                        style: TextStyle(fontSize: 12, color: AppColors.muted),
+                      Text(
+                        context.l10n.priceAlertsPreviousPriceLabel,
+                        style: const TextStyle(fontSize: 12, color: AppColors.muted),
                       ),
                       const SizedBox(width: 6),
                       Text(
@@ -731,7 +733,7 @@ class _TriggeredCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      '%$pctDrop düştü',
+                      context.l10n.priceAlertsPercentDropLabel(pctDrop),
                       style: const TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
@@ -776,22 +778,22 @@ class _TipBanner extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Fiyatlar değişiyor, fırsatlar kaçmasın!',
-                  style: TextStyle(
+                  context.l10n.priceAlertsTipBannerTitle,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w800,
                     fontSize: 13,
                     color: AppColors.textStrong,
                   ),
                 ),
-                SizedBox(height: 2),
+                const SizedBox(height: 2),
                 Text(
-                  'Alarmlarını düzenli kontrol etmeyi unutma.',
-                  style: TextStyle(fontSize: 12, color: AppColors.muted),
+                  context.l10n.priceAlertsTipBannerBody,
+                  style: const TextStyle(fontSize: 12, color: AppColors.muted),
                 ),
               ],
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../features/collab_lists/data/collab_list_repository.dart';
 import '../../../features/shared/ui/components/app_appbar.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
@@ -162,7 +163,7 @@ class _OyVerSayfasiState extends ConsumerState<OyVerSayfasi> {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: AppAppBar(
-        title: Text(_state?.listAdi ?? 'Grup Oyu'),
+        title: Text(_state?.listAdi ?? context.l10n.oyVerDefaultTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh_outlined),
@@ -184,7 +185,7 @@ class _OyVerSayfasiState extends ConsumerState<OyVerSayfasi> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Liste bulunamadı',
+                    context.l10n.oyVerListNotFoundTitle,
                     style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       color: AppColors.textStrong,
@@ -192,7 +193,7 @@ class _OyVerSayfasiState extends ConsumerState<OyVerSayfasi> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Token geçersiz olabilir.',
+                    context.l10n.oyVerInvalidTokenBody,
                     style: const TextStyle(
                       color: AppColors.muted,
                       fontSize: 13,
@@ -202,7 +203,7 @@ class _OyVerSayfasiState extends ConsumerState<OyVerSayfasi> {
               ),
             )
           : _state!.items.isEmpty
-          ? const Center(child: Text('Bu listede henüz işletme yok.'))
+          ? Center(child: Text(context.l10n.oyVerEmptyListMessage))
           : ListView(
               padding: const EdgeInsets.all(16),
               children: [
@@ -225,7 +226,7 @@ class _OyVerSayfasiState extends ConsumerState<OyVerSayfasi> {
                   const SizedBox(height: 16),
                 ],
                 Text(
-                  '${_state!.items.length} seçenek — beğenin veya beğenmeyin',
+                  context.l10n.oyVerOptionsCountLabel(_state!.items.length),
                   style: const TextStyle(color: AppColors.muted, fontSize: 12),
                 ),
                 const SizedBox(height: 12),
@@ -327,7 +328,7 @@ class _OyKarti extends StatelessWidget {
                           ? AppColors.success
                           : AppColors.muted,
                     ),
-                    label: const Text('Gidelim'),
+                    label: Text(context.l10n.oyVerYesButton),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: item.userVote == 1
                           ? AppColors.success
@@ -351,7 +352,7 @@ class _OyKarti extends StatelessWidget {
                           ? AppColors.danger
                           : AppColors.muted,
                     ),
-                    label: const Text('Hayır'),
+                    label: Text(context.l10n.oyVerNoButton),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: item.userVote == -1
                           ? AppColors.danger

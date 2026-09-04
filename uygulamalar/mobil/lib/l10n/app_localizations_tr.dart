@@ -3519,7 +3519,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get ok => 'Tamam';
 
   @override
-  String get suggestBusinessPageTitle => 'İşletme Ekle';
+  String get suggestBusinessPageTitle => 'İşletme Öner';
 
   @override
   String get suggestBusinessPageSubtitle =>
@@ -4746,4 +4746,1382 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get accountSecuritySendVerificationLinkButton =>
       'Doğrulama Bağlantısı Gönder';
+
+  @override
+  String get accountInfoPhotoUpdateError => 'Fotoğraf güncellenemedi.';
+
+  @override
+  String get accountInfoGenderMale => 'Erkek';
+
+  @override
+  String get accountInfoGenderFemale => 'Kadın';
+
+  @override
+  String get accountInfoGenderOther => 'Diğer';
+
+  @override
+  String get accountInfoGenderPreferNotToSay => 'Belirtmek İstemiyorum';
+
+  @override
+  String get accountInfoAddPlaceholder => 'Ekle';
+
+  @override
+  String get accountInfoDeleteAccountDialogTitle => 'Hesabımı sil';
+
+  @override
+  String get accountInfoDeleteAccountDialogBody =>
+      'Bu işlem hesabınıza erişimi kapatır ve silinebilir veriler için silme sürecini başlatır.';
+
+  @override
+  String get accountInfoDeleteReasonLabel => 'Silme nedeni';
+
+  @override
+  String get accountInfoDeleteReasonHint => 'İsterseniz nedeninizi paylaşın';
+
+  @override
+  String get accountInfoDeleteConfirmLabel => 'Onay';
+
+  @override
+  String get accountInfoDeleteConfirmHint => 'Devam etmek için SIL yazın';
+
+  @override
+  String get accountInfoDeleteCreateRequestButton => 'Silme Talebi Oluştur';
+
+  @override
+  String get accountInfoCancelButton => 'Vazgeç';
+
+  @override
+  String get accountInfoDeleteRequestSubmitted => 'Silme talebiniz iletildi.';
+
+  @override
+  String get accountInfoDeleteRequestFailed => 'Talep gönderilemedi.';
+
+  @override
+  String get accountInfoPageTitle => 'Hesap Bilgileri';
+
+  @override
+  String get accountInfoPageSubtitle =>
+      'Hesap bilgilerinizi görüntüleyin ve güncelleyin.';
+
+  @override
+  String get accountInfoDefaultUserName => 'Kullanıcı';
+
+  @override
+  String get accountInfoChangePhotoButton => 'Fotoğraf Değiştir';
+
+  @override
+  String get accountInfoPersonalInfoSectionTitle => 'Kişisel Bilgiler';
+
+  @override
+  String get accountInfoFullNameLabel => 'Ad Soyad';
+
+  @override
+  String get accountInfoEmailLabel => 'E-posta Adresi';
+
+  @override
+  String get accountInfoPhoneLabel => 'Telefon Numarası';
+
+  @override
+  String get accountInfoBirthDateLabel => 'Doğum Tarihi';
+
+  @override
+  String get accountInfoCityLabel => 'Yaşadığın Şehir';
+
+  @override
+  String get accountInfoGenderLabel => 'Cinsiyet';
+
+  @override
+  String get accountInfoAccountSettingsSectionTitle => 'Hesap Ayarları';
+
+  @override
+  String get accountInfoChangePasswordTitle => 'Şifre Değiştir';
+
+  @override
+  String get accountInfoChangePasswordSubtitle => 'Hesap şifrenizi düzenleyin';
+
+  @override
+  String get accountInfoNotificationPreferencesTitle => 'Bildirim Tercihleri';
+
+  @override
+  String get accountInfoNotificationPreferencesSubtitle =>
+      'Bildirim ayarlarınızı yönetin';
+
+  @override
+  String get accountInfoSecuritySettingsTitle => 'Güvenlik Ayarları';
+
+  @override
+  String get accountInfoSecuritySettingsSubtitle =>
+      'Hesabınızın güvenliğini artırın';
+
+  @override
+  String get accountInfoLanguagePreferenceTitle => 'Dil Tercihi';
+
+  @override
+  String get accountInfoChangeBadge => 'Değiştir';
+
+  @override
+  String get accountInfoDeleteAccountTitle => 'Hesabı Sil';
+
+  @override
+  String get accountInfoDeleteAccountSubtitle =>
+      'Hesabınızı kalıcı olarak silmek isterseniz buradan işlem yapabilirsiniz.';
+
+  @override
+  String get accountInfoLanguageSystemDefault => 'Sistem Varsayılanı';
+
+  @override
+  String get accountInfoLanguageTurkish => 'Türkçe';
+
+  @override
+  String get accountInfoLanguageEnglish => 'English';
+
+  @override
+  String get accountInfoGenericSaveError => 'Kaydedilemedi.';
+
+  @override
+  String get accountInfoEditNameSheetTitle => 'Ad Soyad Düzenle';
+
+  @override
+  String get accountInfoFirstNameLabel => 'Ad';
+
+  @override
+  String get accountInfoFirstNameRequiredError => 'Zorunlu';
+
+  @override
+  String get accountInfoLastNameLabel => 'Soyad';
+
+  @override
+  String get accountInfoSavingLabel => 'Kaydediliyor…';
+
+  @override
+  String get accountInfoSaveButton => 'Kaydet';
+
+  @override
+  String get accountInfoPhoneInvalidError =>
+      'Geçerli bir telefon numarası girin (ör: +905XXXXXXXXX).';
+
+  @override
+  String get accountInfoOtpSendError =>
+      'OTP gönderilemedi. Telefon numarasını ve SMS ayarlarını kontrol edin.';
+
+  @override
+  String get accountInfoOtpCodeLengthError => '6 haneli kodu girin.';
+
+  @override
+  String get accountInfoOtpInvalidError => 'Kod hatalı veya süresi dolmuş.';
+
+  @override
+  String get accountInfoPhoneSheetOtpSentSubtitle =>
+      'Telefon numaranıza gönderilen 6 haneli kodu girin.';
+
+  @override
+  String get accountInfoPhoneSheetEnterNumberSubtitle =>
+      'Yeni telefon numaranızı E.164 formatında girin (ör: +905XXXXXXXXX).';
+
+  @override
+  String get accountInfoPhoneHint => '+905XXXXXXXXX';
+
+  @override
+  String get accountInfoOtpHint => '000000';
+
+  @override
+  String get accountInfoSendOtpButton => 'Doğrulama Kodu Gönder';
+
+  @override
+  String get accountInfoSendingLabel => 'Gönderiliyor…';
+
+  @override
+  String get accountInfoVerifyingLabel => 'Doğrulanıyor…';
+
+  @override
+  String get accountInfoConfirmButton => 'Onayla';
+
+  @override
+  String get accountInfoChangeNumberButton => 'Numarayı Değiştir';
+
+  @override
+  String get accountInfoBirthDatePickerHelpText => 'Doğum tarihinizi seçin';
+
+  @override
+  String get accountInfoBirthDateNotSelected => 'Seçilmedi';
+
+  @override
+  String get accountInfoRemoveDateButton => 'Tarihi Kaldır';
+
+  @override
+  String get accountInfoGenderSheetSubtitle =>
+      'Bu bilgi yalnızca size özel içerik önerileri için kullanılır.';
+
+  @override
+  String get accountInfoCitySheetSubtitle =>
+      'Farklı bir şehirdeyken sana o şehrin yöresel lezzetlerini önerebilmemiz için kullanılır.';
+
+  @override
+  String get accountInfoCitySearchHint => 'Şehir ara...';
+
+  @override
+  String get socialAccountsSaveError => 'Kaydedilemedi, tekrar deneyin.';
+
+  @override
+  String socialAccountsDisconnectDialogTitle(String platform) {
+    return '$platform bağlantısını kaldır';
+  }
+
+  @override
+  String get socialAccountsDisconnectDialogBody =>
+      'Bu hesabın bağlantısını kaldırmak istiyor musunuz?';
+
+  @override
+  String get socialAccountsCancelButton => 'Vazgeç';
+
+  @override
+  String get socialAccountsRemoveButton => 'Kaldır';
+
+  @override
+  String get socialAccountsPageTitle => 'Sosyal Medya Hesapları';
+
+  @override
+  String get socialAccountsPageSubtitle =>
+      'Hesabınıza sosyal medya hesaplarınızı\nekleyin ve kolayca yönetin.';
+
+  @override
+  String get socialAccountsSecureConnectionTitle => 'Güvenli Bağlantı';
+
+  @override
+  String get socialAccountsSecureConnectionBody =>
+      'Sosyal medya hesaplarınız 256-bit SSL ile korunur. Bilgileriniz bizimle paylaşılmaz.';
+
+  @override
+  String get socialAccountsAddAccountSectionTitle => 'Hesap Ekle';
+
+  @override
+  String get socialAccountsConnectedLabel => 'Hesabınız başarıyla bağlandı.';
+
+  @override
+  String get socialAccountsWhyAddTitle => 'Neden hesap eklemelisiniz?';
+
+  @override
+  String get socialAccountsWhyAddBody =>
+      'Sosyal medya hesaplarınızı bağlayarak içerikleri kolayca paylaşabilir ve etkileşimlerinizi tek yerden yönetebilirsiniz.';
+
+  @override
+  String get socialAccountsInfoSheetTitle => 'Neden Sosyal Hesap Eklemeliyim?';
+
+  @override
+  String get socialAccountsInfoSheetBody =>
+      'Sosyal medya hesaplarınızı Yeedoy\'a bağlayarak:\n\n• Yorum ve fotoğraflarınızı tek tıkla sosyal medyada paylaşabilirsiniz.\n• Profiliniz daha güvenilir görünür ve topluluk puanınız artar.\n• Hesabınız 256-bit SSL şifrelemesi ile korunur.\n• Bilgileriniz asla üçüncü taraflarla paylaşılmaz.';
+
+  @override
+  String get socialAccountsConnectedBadge => 'Bağlandı';
+
+  @override
+  String get socialAccountsConnectButton => 'Bağla';
+
+  @override
+  String get socialAccountsEditUrlAction => 'URL\'yi Düzenle';
+
+  @override
+  String get socialAccountsRemoveLinkAction => 'Bağlantıyı Kaldır';
+
+  @override
+  String get socialAccountsLinkDialogPrompt =>
+      'Profil URL\'nizi veya kullanıcı adınızı girin:';
+
+  @override
+  String get socialAccountsInstagramLabel => 'Instagram';
+
+  @override
+  String get socialAccountsInstagramDescription =>
+      'Fotoğraf ve video paylaşımlarınızı bağlayın.';
+
+  @override
+  String get socialAccountsInstagramHint =>
+      'https://instagram.com/kullanici_adi';
+
+  @override
+  String get socialAccountsFacebookLabel => 'Facebook';
+
+  @override
+  String get socialAccountsFacebookDescription =>
+      'Hesabınızı bağlayarak içeriklerinizi paylaşın.';
+
+  @override
+  String get socialAccountsFacebookHint => 'https://facebook.com/kullanici_adi';
+
+  @override
+  String get socialAccountsXLabel => 'X (Twitter)';
+
+  @override
+  String get socialAccountsXDescription =>
+      'Tweetlerinizi ve etkileşimlerinizi senkronize edin.';
+
+  @override
+  String get socialAccountsXHint => 'https://x.com/kullanici_adi';
+
+  @override
+  String get socialAccountsLinkedinLabel => 'LinkedIn';
+
+  @override
+  String get socialAccountsLinkedinDescription =>
+      'Profesyonel profilinizi bağlayın.';
+
+  @override
+  String get socialAccountsLinkedinHint =>
+      'https://linkedin.com/in/kullanici_adi';
+
+  @override
+  String get socialAccountsYoutubeLabel => 'YouTube';
+
+  @override
+  String get socialAccountsYoutubeDescription =>
+      'Kanalınızı bağlayın ve içeriklerinizi yönetin.';
+
+  @override
+  String get socialAccountsYoutubeHint => 'https://youtube.com/@kanal_adi';
+
+  @override
+  String get socialAccountsTiktokLabel => 'TikTok';
+
+  @override
+  String get socialAccountsTiktokDescription =>
+      'Kısa video içeriklerinizi bağlayın.';
+
+  @override
+  String get socialAccountsTiktokHint => 'https://tiktok.com/@kullanici_adi';
+
+  @override
+  String get suggestBusinessCategoryRestaurant => 'Restoran';
+
+  @override
+  String get suggestBusinessCategoryCafe => 'Kafe';
+
+  @override
+  String get suggestBusinessCategoryFish => 'Balık & Et';
+
+  @override
+  String get suggestBusinessCategoryBakery => 'Pastane & Fırın';
+
+  @override
+  String get suggestBusinessCategoryFastfood => 'Fast Food';
+
+  @override
+  String get suggestBusinessCategoryOther => 'Diğer';
+
+  @override
+  String get suggestBusinessReasonTasty => 'Lezzetli yemekleri var';
+
+  @override
+  String get suggestBusinessReasonAtmosphere => 'Harika atmosferi var';
+
+  @override
+  String get suggestBusinessReasonAffordable => 'Uygun fiyatlı';
+
+  @override
+  String get suggestBusinessReasonRecommend =>
+      'Arkadaşlarıma tavsiye etmek istiyorum';
+
+  @override
+  String get suggestBusinessReasonNotOnYeedoy => 'Henüz Yeedoy\'da yok';
+
+  @override
+  String get suggestBusinessReasonOther => 'Diğer';
+
+  @override
+  String get suggestBusinessLoginRequired =>
+      'Öneri göndermek için giriş yapmanız gerekiyor.';
+
+  @override
+  String get suggestBusinessNameRequired => 'İşletme adı zorunludur.';
+
+  @override
+  String get suggestBusinessCategoryRequired => 'Lütfen bir kategori seçin.';
+
+  @override
+  String get suggestBusinessInfoSectionTitle => 'İşletme Bilgileri';
+
+  @override
+  String get suggestBusinessReasonSectionTitle => 'Öneri Nedeni';
+
+  @override
+  String get suggestBusinessPhotoSectionTitle => 'Fotoğraf';
+
+  @override
+  String get suggestBusinessOptionalSuffix => '(İsteğe Bağlı)';
+
+  @override
+  String get suggestBusinessContactSectionTitle => 'İletişim Bilgileri';
+
+  @override
+  String get suggestBusinessPhotoSectionBody =>
+      'İşletmeye ait fotoğraflar ekleyerek önerinizi güçlendirin.';
+
+  @override
+  String get suggestBusinessContactSectionBody =>
+      'Sizinle iletişime geçebilmemiz için bilgilerinizi bırakabilirsiniz.';
+
+  @override
+  String get suggestBusinessNameHint => 'İşletme Adı';
+
+  @override
+  String get suggestBusinessEmailHint => 'E-posta adresiniz';
+
+  @override
+  String get suggestBusinessPhoneHint => 'Telefon numaranız';
+
+  @override
+  String get suggestBusinessCategoryHint => 'İşletme Kategorisi';
+
+  @override
+  String get suggestBusinessAddressHint => 'İşletme Adresi';
+
+  @override
+  String get suggestBusinessNotesHint => 'İşletme Hakkında';
+
+  @override
+  String get suggestBusinessReasonHint => 'Neden bu işletmeyi öneriyorsunuz?';
+
+  @override
+  String get suggestBusinessSubmitButton => 'Öneriyi Gönder';
+
+  @override
+  String get suggestBusinessHeroTitle => 'Şehrine değer kat!';
+
+  @override
+  String get suggestBusinessHeroBody =>
+      'Beğendiğin bir işletmeyi mi bulamıyorsun? Bize öner, değerlendirelim. Topluluğumuzun önerileriyle daha iyi bir deneyim sunalım.';
+
+  @override
+  String get suggestBusinessPhotoAddLabel => 'Fotoğraf Ekle';
+
+  @override
+  String get suggestBusinessPhotoFormatHint => 'PNG, JPG (Maks. 5MB)';
+
+  @override
+  String get suggestBusinessFeedbackNotice =>
+      'Öneriniz değerlendirildikten sonra size geri dönüş sağlayacağız.';
+
+  @override
+  String get suggestBusinessSimilarBusinessesFound =>
+      'Benzer işletmeler mevcut';
+
+  @override
+  String get suggestBusinessReviewButton => 'İncele';
+
+  @override
+  String get suggestBusinessHelpSheetTitle => 'Öneri Süreci Nasıl İşler?';
+
+  @override
+  String get suggestBusinessHelpStep1Title => 'Öneriyi gönderiyorsunuz';
+
+  @override
+  String get suggestBusinessHelpStep1Body =>
+      'İşletme adı ve kategori zorunlu. Adres, not ve öneri nedeninizi eklerseniz değerlendirme daha hızlı olur.';
+
+  @override
+  String get suggestBusinessHelpStep2Title => 'Ekibimiz inceliyor';
+
+  @override
+  String get suggestBusinessHelpStep2Body =>
+      'Gönderdiğiniz öneri yönetim paneline düşer. Ekibimiz tekrar eden ya da uygunsuz önerileri ayıklar.';
+
+  @override
+  String get suggestBusinessHelpStep3Title => 'İşletme platforma eklenir';
+
+  @override
+  String get suggestBusinessHelpStep3Body =>
+      'Onaylanan işletme Yeedoy\'a eklenir. Öneri durumunu \"Önerilerim\" ekranından takip edebilirsiniz.';
+
+  @override
+  String get suggestBusinessHelpLoginNotice =>
+      'Giriş yapmış olmanız gerekiyor. Önerilerinizi takip etmek için hesabınıza giriş yapın.';
+
+  @override
+  String get suggestBusinessPickLocationHint =>
+      'Haritadan Konum Seç (İsteğe Bağlı)';
+
+  @override
+  String get suggestBusinessLocationSheetTitle => 'Konum Seç';
+
+  @override
+  String get suggestBusinessCurrentLocationTooltip => 'Mevcut konumum';
+
+  @override
+  String get suggestBusinessLocationSheetHint =>
+      'Haritaya dokunarak işletmenin konumunu işaretleyin.';
+
+  @override
+  String get suggestBusinessPickLocationButton => 'Haritadan Konum Seçin';
+
+  @override
+  String get suggestBusinessUseThisLocationButton => 'Bu Konumu Kullan';
+
+  @override
+  String get helpSupportTopic1Question => 'Fiyat değişikliği nasıl bildirilir?';
+
+  @override
+  String get helpSupportTopic1Answer =>
+      'Bir işletmeyi ziyaret ettikten sonra \"Fiyat Bildir\" butonuna tıklayarak güncel fiyatı girebilirsiniz. Katkınız için puan kazanırsınız.';
+
+  @override
+  String get helpSupportTopic2Question => 'QR Menü nasıl taranır?';
+
+  @override
+  String get helpSupportTopic2Answer =>
+      'Ana ekranda sağ üstteki QR simgesine dokunun ve kamerayı masadaki QR koda tutun. Menü otomatik açılır.';
+
+  @override
+  String get helpSupportTopic3Question => 'Hesabımı nasıl güvene alırım?';
+
+  @override
+  String get helpSupportTopic3Answer =>
+      'Güçlü bir şifre kullanın ve iki adımlı doğrulamayı etkinleştirin. Hesap Güvenliği sayfasından tüm ayarları yönetebilirsiniz.';
+
+  @override
+  String get helpSupportTopic4Question =>
+      'Katkı yap ve puan kazanma nasıl çalışır?';
+
+  @override
+  String get helpSupportTopic4Answer =>
+      'Fiyat bildirimi, yorum ve fotoğraf ekleme gibi katkılarla puan kazanırsınız. Puanlarınızı profilinizden takip edebilirsiniz.';
+
+  @override
+  String get helpSupportTopic5Question =>
+      'Konum ve bölge ayarlarını nasıl değiştiririm?';
+
+  @override
+  String get helpSupportTopic5Answer =>
+      'Ayarlar → Uygulama Tercihleri → Konum Ayarları yolunu izleyerek konumunuzu ve bölgenizi güncelleyebilirsiniz.';
+
+  @override
+  String get helpSupportPageTitle => 'Yardım & Destek';
+
+  @override
+  String get helpSupportHeaderSubtitle => 'Size nasıl yardımcı olabiliriz?';
+
+  @override
+  String get helpSupportSearchHint =>
+      'Sorununuzu yazın, çözüme birlikte ulaşalım...';
+
+  @override
+  String get helpSupportLiveChatTitle => 'Canlı Destek';
+
+  @override
+  String get helpSupportLiveChatSubtitle => 'Ekibimizle anında görüşün';
+
+  @override
+  String get helpSupportLiveChatBadge => 'Çevrimiçi';
+
+  @override
+  String get helpSupportEmailTitle => 'E-posta Gönder';
+
+  @override
+  String get helpSupportEmailSubtitle => 'Bize e-posta ile ulaşın';
+
+  @override
+  String get helpSupportEmailBadge => '24 Saat İçinde Yanıt';
+
+  @override
+  String get helpSupportMailtoSubject => 'Yeedoy Destek Talebi';
+
+  @override
+  String get helpSupportFaqTitle => 'S.S.S.';
+
+  @override
+  String get helpSupportFaqSubtitle => 'Sık sorulan sorulara göz atın';
+
+  @override
+  String get helpSupportFaqBadge => 'Hızlı Çözümler';
+
+  @override
+  String get helpSupportGuideTitle => 'Kullanım Rehberi';
+
+  @override
+  String get helpSupportGuideSubtitle => 'Uygulamayı daha iyi öğrenin';
+
+  @override
+  String get helpSupportGuideBadge => 'Rehbere Git';
+
+  @override
+  String get helpSupportPopularTopicsTitle => 'Popüler Konular';
+
+  @override
+  String get helpSupportSeeAllButton => 'Tümünü Gör';
+
+  @override
+  String get helpSupportNoResults => 'Sonuç bulunamadı.';
+
+  @override
+  String get helpSupportHelpCenterTitle => 'Yardım Merkezi';
+
+  @override
+  String get helpSupportAccountOpsTitle => 'Hesap İşlemleri';
+
+  @override
+  String get helpSupportAccountOpsSubtitle =>
+      'Hesap, giriş, şifre ve profil işlemleri';
+
+  @override
+  String get helpSupportContributionsTitle => 'Katkı ve Puanlar';
+
+  @override
+  String get helpSupportContributionsSubtitle =>
+      'Katkı yapma, puan kazanma ve ödüller';
+
+  @override
+  String get helpSupportAppUsageTitle => 'Uygulama Kullanımı';
+
+  @override
+  String get helpSupportAppUsageSubtitle => 'Uygulama özellikleri ve kullanımı';
+
+  @override
+  String get helpSupportLegalPrivacyTitle => 'Yasal & Gizlilik';
+
+  @override
+  String get helpSupportLegalPrivacySubtitle =>
+      'Gizlilik, güvenlik ve yasal konular';
+
+  @override
+  String get helpSupportContactTitle => 'Bizimle İletişime Geçin';
+
+  @override
+  String get helpSupportContactBody =>
+      'Her türlü soru, öneri veya şikayetinizi bizimle paylaşabilirsiniz.';
+
+  @override
+  String get helpSupportContactHours => 'Hafta içi 09:00 - 18:00';
+
+  @override
+  String get helpSupportResolvedQuestion => 'Sorununuz çözüldü mü?';
+
+  @override
+  String get helpSupportThanksSnackbar => 'Teşekkürler! 👍';
+
+  @override
+  String get helpSupportYesResolvedButton => 'Evet, çözüldü';
+
+  @override
+  String get helpSupportNoContinueButton => 'Hayır, devam ediyor';
+
+  @override
+  String get faqCategoryAccountLabel => 'Hesap İşlemleri';
+
+  @override
+  String get faqCategorySecurityLabel => 'Güvenlik';
+
+  @override
+  String get faqCategoryPaymentsLabel => 'Ödemeler';
+
+  @override
+  String get faqCategoryCampaignsLabel => 'Kampanya ve Fırsatlar';
+
+  @override
+  String get faqCategoryAppUsageLabel => 'Uygulama Kullanımı';
+
+  @override
+  String get faqQ1Question => 'Hesabıma nasıl giriş yapıyım?';
+
+  @override
+  String get faqQ1Answer =>
+      'Uygulama açıldığında \"Giriş Yap\" seçeneğine dokunun. E-posta adresinizi ve şifrenizi girerek hesabınıza erişebilirsiniz.';
+
+  @override
+  String get faqQ2Question => 'Şifremi unuttum, ne yapmalıyım?';
+
+  @override
+  String get faqQ2Answer =>
+      'Giriş ekranındaki \"Şifremi Unuttum\" seçeneğine tıklayarak şifrenizi sıfırlayabilirsiniz. Kayıtlı e-posta adresinize bağlantı gönderilir.';
+
+  @override
+  String get faqQ3Question => 'E-posta adresimi nasıl değiştiririm?';
+
+  @override
+  String get faqQ3Answer =>
+      'Hesap Bilgileri > E-posta alanından e-posta adresinizi değiştirebilirsiniz. Yeni adresinize onay e-postası gönderilecektir.';
+
+  @override
+  String get faqQ4Question => 'Hesabımı nasıl silebilirim?';
+
+  @override
+  String get faqQ4Answer =>
+      'Ayarlar > Hesap Güvenliği > Hesabı Sil seçeneğinden hesabınızı kalıcı olarak silebilirsiniz. Bu işlem geri alınamaz.';
+
+  @override
+  String get faqQ5Question => 'Profilime nasıl fotoğraf eklerim?';
+
+  @override
+  String get faqQ5Answer =>
+      'Profil sayfanızda avatarınıza dokunun ve galerinizden veya kameranızdan fotoğraf seçin.';
+
+  @override
+  String get faqQ6Question => 'İki adımlı doğrulamayı nasıl etkinleştiririm?';
+
+  @override
+  String get faqQ6Answer =>
+      'Hesap Güvenliği sayfasında \"İki Adımlı Doğrulama\" seçeneğini açarak telefonunuza SMS kodu gönderilmesini sağlayabilirsiniz.';
+
+  @override
+  String get faqQ7Question =>
+      'Hesabımda şüpheli bir etkinlik var, ne yapmalıyım?';
+
+  @override
+  String get faqQ7Answer =>
+      'Hemen \"Şifremi Değiştir\" seçeneğini kullanın ve aktif oturumları sonlandırın. Ardından destek ekibimizle iletişime geçin.';
+
+  @override
+  String get faqQ8Question => 'Verilerim güvende mi?';
+
+  @override
+  String get faqQ8Answer =>
+      'Tüm verileriniz 256-bit SSL sertifikası ile şifrelenerek korunmaktadır. KVKK kapsamında kişisel verileriniz işlenmektedir.';
+
+  @override
+  String get faqQ9Question => 'Oturumu kapatmayı unutursam ne olur?';
+
+  @override
+  String get faqQ9Answer =>
+      'Hesap Güvenliği sayfasından tüm aktif oturumlarınızı uzaktan sonlandırabilirsiniz.';
+
+  @override
+  String get faqQ10Question => 'Ödemelerimi görüntüleyebilir miyim?';
+
+  @override
+  String get faqQ10Answer =>
+      'Evet. Tüm ödeme geçmişiniz 256-bit SSL sertifikası ile korunmakta olup Ödemeler ekranından takip edebilirsiniz.';
+
+  @override
+  String get faqQ11Question => 'İade işlemi nasıl yapılır?';
+
+  @override
+  String get faqQ11Answer =>
+      'Sipariş sayfanızdan ilgili siparişi seçerek iade talep edebilirsiniz. İşlem 3-5 iş günü içinde tamamlanır.';
+
+  @override
+  String get faqQ12Question => 'Hangi ödeme yöntemleri desteklenmektedir?';
+
+  @override
+  String get faqQ12Answer =>
+      'Kredi kartı, banka kartı ve havale/EFT ile ödeme yapabilirsiniz. Apple Pay ve Google Pay desteği yakında eklenecektir.';
+
+  @override
+  String get faqQ13Question => 'Kampanyalardan nasıl haberdar olabilirim?';
+
+  @override
+  String get faqQ13Answer =>
+      'Bildirim tercihlerinizde \"Kampanya ve Fırsatlar\" bildirimlerini açarsanız yeni fırsatlarda anlık bildirim alırsınız.';
+
+  @override
+  String get faqQ14Question => 'Kupon kodumu nasıl kullanırım?';
+
+  @override
+  String get faqQ14Answer =>
+      'Ödeme ekranında \"Kupon Kodu\" alanına kodunuzu girebilirsiniz. İndirim tutarı otomatik uygulanır.';
+
+  @override
+  String get faqQ15Question => 'QR menü nasıl taranır?';
+
+  @override
+  String get faqQ15Answer =>
+      'Ana ekranda sağ üstteki QR simgesine dokunun ve kamerayı masadaki QR koda tutun. Menü otomatik açılır.';
+
+  @override
+  String get faqQ16Question => 'Fiyat değişikliği nasıl bildirilir?';
+
+  @override
+  String get faqQ16Answer =>
+      'Bir işletmeyi ziyaret ettikten sonra \"Fiyat Bildir\" butonuna tıklayarak güncel fiyatı girebilirsiniz. Katkınız için puan kazanırsınız.';
+
+  @override
+  String get faqQ17Question => 'Karanlık mod var mı?';
+
+  @override
+  String get faqQ17Answer =>
+      'Evet. Ayarlar > Uygulama Tercihleri > Tema bölümünden karanlık modu etkinleştirebilirsiniz.';
+
+  @override
+  String get faqQ18Question => 'Konum iznini nasıl veririm?';
+
+  @override
+  String get faqQ18Answer =>
+      'Cihazınızın Ayarlar > Uygulamalar > Yeedoy > İzinler menüsünden konum iznini aktif edebilirsiniz.';
+
+  @override
+  String get faqPageTitle => 'Sıkça Sorulan Sorular';
+
+  @override
+  String get faqSearchHint => 'Soru veya konu ara...';
+
+  @override
+  String get faqCategoriesSectionTitle => 'Kategoriler';
+
+  @override
+  String faqQuestionCount(int count) {
+    return '$count Soru';
+  }
+
+  @override
+  String get faqListSectionTitle => 'Sık Sorulan Sorular';
+
+  @override
+  String get faqNoResultsInCategory => 'Bu kategoride sonuç bulunamadı.';
+
+  @override
+  String get faqSupportBannerTitle => 'Aradığınız cevabı bulamadınız mı?';
+
+  @override
+  String get faqSupportBannerBody =>
+      'Destek ekibimiz size yardımcı olmaktan mutluluk duyar.';
+
+  @override
+  String get faqSupportBannerButton => 'Canlı Destek';
+
+  @override
+  String get faqBottomHelpfulQuestion => 'Bu sayfa size yardımcı oldu mu?';
+
+  @override
+  String get faqThanksSnackbar => 'Teşekkürler! 👍';
+
+  @override
+  String get faqYesHelpfulButton => 'Evet, yardımcı oldu';
+
+  @override
+  String get faqNoHelpfulButton => 'Hayır, olmadı';
+
+  @override
+  String get yemekGunluguPageTitle => 'Yemek Günlüğüm';
+
+  @override
+  String get yemekGunluguReminderTooltip => 'Hatırlatıcı Ayarla';
+
+  @override
+  String get yemekGunluguRetryButton => 'Tekrar Dene';
+
+  @override
+  String get yemekGunluguEmptyTitle => 'Yemek günlüğün boş';
+
+  @override
+  String get yemekGunluguEmptyDescription =>
+      'Henüz check-in kaydın yok. Bir işletmeye gittiğinde check-in yap!';
+
+  @override
+  String yemekGunluguReminderSetSnackbar(String time) {
+    return 'Hatırlatıcı $time için ayarlandı';
+  }
+
+  @override
+  String get yemekGunluguReminderOffSnackbar => 'Hatırlatıcı kapatıldı';
+
+  @override
+  String get yemekGunluguToday => 'Bugün';
+
+  @override
+  String get yemekGunluguYesterday => 'Dün';
+
+  @override
+  String get yemekGunluguMonthJanuary => 'Ocak';
+
+  @override
+  String get yemekGunluguMonthFebruary => 'Şubat';
+
+  @override
+  String get yemekGunluguMonthMarch => 'Mart';
+
+  @override
+  String get yemekGunluguMonthApril => 'Nisan';
+
+  @override
+  String get yemekGunluguMonthMay => 'Mayıs';
+
+  @override
+  String get yemekGunluguMonthJune => 'Haziran';
+
+  @override
+  String get yemekGunluguMonthJuly => 'Temmuz';
+
+  @override
+  String get yemekGunluguMonthAugust => 'Ağustos';
+
+  @override
+  String get yemekGunluguMonthSeptember => 'Eylül';
+
+  @override
+  String get yemekGunluguMonthOctober => 'Ekim';
+
+  @override
+  String get yemekGunluguMonthNovember => 'Kasım';
+
+  @override
+  String get yemekGunluguMonthDecember => 'Aralık';
+
+  @override
+  String get yemekGunluguEditLabel => 'Düzenle';
+
+  @override
+  String get yemekGunluguAmountPaidLabel => 'Ödenen tutar';
+
+  @override
+  String get yemekGunluguAmountHint => '0.00';
+
+  @override
+  String get yemekGunluguNoteLabel => 'Notunuz';
+
+  @override
+  String get yemekGunluguNoteHint => 'Deneyiminizi yazın...';
+
+  @override
+  String get yemekGunluguRatingLabel => 'Puanınız';
+
+  @override
+  String get yemekGunluguSaveButton => 'Kaydet';
+
+  @override
+  String get yemekGunluguReminderSheetTitle => 'Yemek Günlüğü Hatırlatıcısı';
+
+  @override
+  String get yemekGunluguReminderSheetSubtitle =>
+      'Her gün belirlediğin saatte check-in hatırlatması gönderilir.';
+
+  @override
+  String get yemekGunluguDailyReminderTitle => 'Günlük Hatırlatıcı';
+
+  @override
+  String get yemekGunluguDailyReminderSubtitle =>
+      'Her gün seçilen saatte bildirim gönder';
+
+  @override
+  String get yemekGunluguReminderTimeLabel => 'Hatırlatma Saati';
+
+  @override
+  String get yemekGunluguHourLabel => 'Saat';
+
+  @override
+  String get yemekGunluguMinuteLabel => 'Dakika';
+
+  @override
+  String get searchFilterAllOption => 'Tümü';
+
+  @override
+  String get searchFilterCategoryRestaurant => 'Restoran';
+
+  @override
+  String get searchFilterCategoryCafe => 'Kafe';
+
+  @override
+  String get searchFilterCategoryFastFood => 'Fast Food';
+
+  @override
+  String get searchFilterCategoryBakery => 'Pastane';
+
+  @override
+  String get searchFilterCategoryBreakfast => 'Kahvaltı';
+
+  @override
+  String get searchFilterCategoryFishMeat => 'Balık/Et';
+
+  @override
+  String get searchFilterCategoryVenue => 'Mekan';
+
+  @override
+  String get searchFilterCuisineTurkish => 'Türk Mutfağı';
+
+  @override
+  String get searchFilterCuisineItalian => 'İtalyan';
+
+  @override
+  String get searchFilterCuisineFarEast => 'Uzakdoğu';
+
+  @override
+  String get searchFilterCuisineHamburger => 'Hamburger';
+
+  @override
+  String get searchFilterCuisineVegetarian => 'Vejetar';
+
+  @override
+  String get searchFilterCuisineChinese => 'Çin';
+
+  @override
+  String get searchFilterCuisineMexican => 'Meksika';
+
+  @override
+  String get searchFilterCuisineIndian => 'Hint';
+
+  @override
+  String get searchFilterCuisineJapanese => 'Japon';
+
+  @override
+  String get searchFilterPageTitle => 'Arama & Filtrele';
+
+  @override
+  String get searchFilterClearButton => 'Temizle';
+
+  @override
+  String get searchFilterSearchHint => 'İşletme, mutfak veya menü ara...';
+
+  @override
+  String get searchFilterLocationSectionTitle => 'Konum';
+
+  @override
+  String get searchFilterChangeButton => 'Değiştir';
+
+  @override
+  String get searchFilterLocationNotSelected => 'Konum seçilmedi';
+
+  @override
+  String get searchFilterCategoriesSectionTitle => 'Kategoriler';
+
+  @override
+  String get searchFilterCuisineSectionTitle => 'Mutfak Türü';
+
+  @override
+  String get searchFilterPriceRangeSectionTitle => 'Fiyat Aralığı';
+
+  @override
+  String get searchFilterEnterRangeButton => 'Aralığı gir';
+
+  @override
+  String get searchFilterRatingSectionTitle => 'Puan';
+
+  @override
+  String get searchFilterOpenClosedSectionTitle => 'Açık / Kapalı';
+
+  @override
+  String get searchFilterOpenOnly => 'Açık Olanlar';
+
+  @override
+  String get searchFilterOpenNow => 'Şu An Açık';
+
+  @override
+  String get searchFilterClosedOnly => 'Kapalılar';
+
+  @override
+  String get searchFilterOtherFiltersSectionTitle => 'Diğer Filtreler';
+
+  @override
+  String get searchFilterOffersTitle => 'Fırsatları Olanlar';
+
+  @override
+  String get searchFilterOffersSubtitle =>
+      'İndirim veya fırsat sunan işletmeler';
+
+  @override
+  String get searchFilterPriceAlertTitle => 'Fiyat Alarmı Kurduğum İşletmeler';
+
+  @override
+  String get searchFilterPriceAlertSubtitle =>
+      'Alarm kurduğun işletmeleri göster';
+
+  @override
+  String get searchFilterFavoritesTitle => 'Favorilerim';
+
+  @override
+  String get searchFilterFavoritesSubtitle =>
+      'Favorilerine eklediğin işletmeler';
+
+  @override
+  String searchFilterShowResultsButton(int count) {
+    return 'Sonuçları Göster ($count)';
+  }
+
+  @override
+  String get searchFilterPriceDialogTitle => 'Fiyat Aralığı Gir';
+
+  @override
+  String get searchFilterMinPriceLabel => 'Min ₺';
+
+  @override
+  String get searchFilterMaxPriceLabel => 'Max ₺';
+
+  @override
+  String get searchFilterMaxPriceHint => '1000+';
+
+  @override
+  String get searchFilterCancelButton => 'İptal';
+
+  @override
+  String get searchFilterApplyButton => 'Uygula';
+
+  @override
+  String get reservationNameTooShortError =>
+      'Ad Soyad en az 2 karakter olmalıdır.';
+
+  @override
+  String get reservationPhoneTooShortError =>
+      'Telefon numarası en az 10 karakter olmalıdır.';
+
+  @override
+  String get reservationDateRequiredError => 'Lütfen bir tarih seçin.';
+
+  @override
+  String reservationPartySizeRangeError(int min, int max) {
+    return 'Kişi sayısı $min ile $max arasında olmalıdır.';
+  }
+
+  @override
+  String get reservationPageTitle => 'Rezervasyon Yap';
+
+  @override
+  String get reservationCloseTooltip => 'Kapat';
+
+  @override
+  String get reservationNameLabel => 'Ad Soyad *';
+
+  @override
+  String get reservationNameHint => 'Adınız ve soyadınız';
+
+  @override
+  String get reservationPhoneLabel => 'Telefon *';
+
+  @override
+  String get reservationPhoneHint => '0555 000 00 00';
+
+  @override
+  String get reservationEmailLabel => 'E-posta';
+
+  @override
+  String get reservationEmailHint => 'ornek@email.com';
+
+  @override
+  String get reservationDateLabel => 'Tarih *';
+
+  @override
+  String get reservationDatePickHint => 'Tarih seçin';
+
+  @override
+  String get reservationTimeLabel => 'Saat *';
+
+  @override
+  String get reservationTimePickHint => 'Saat seçin';
+
+  @override
+  String get reservationPartySizeLabel => 'Kişi Sayısı *';
+
+  @override
+  String reservationPartySizeRangeHint(int min, int max) {
+    return '($min–$max kişi)';
+  }
+
+  @override
+  String get reservationSpecialRequestLabel => 'Özel İstek';
+
+  @override
+  String get reservationSpecialRequestHint => 'Doğum günü, pencere kenarı, vb.';
+
+  @override
+  String get reservationSuccessTitle => 'Rezervasyon Talebiniz Alındı!';
+
+  @override
+  String get reservationSuccessSubtitle =>
+      'İşletme en kısa sürede sizinle iletişime geçecektir.';
+
+  @override
+  String get reservationNumberLabel => 'Rezervasyon No';
+
+  @override
+  String get reservationOkButton => 'Tamam';
+
+  @override
+  String get contributePageTitle => 'Katkı Yap';
+
+  @override
+  String get contributePageSubtitle =>
+      'Topluluğa katkı sağlayarak menüleri ve fiyatları güncel tut.';
+
+  @override
+  String get contributeHeroTitle => 'Katkıların değerli!';
+
+  @override
+  String get contributeHeroSubtitle =>
+      'Doğrulanan katkılarla puan ve rozet kazan.';
+
+  @override
+  String get contributeQrScanTitle => 'QR Menü Tara';
+
+  @override
+  String get contributeQrScanSubtitle => 'Mekanın QR menüsünü hızlıca tara';
+
+  @override
+  String get contributePhotoUploadTitle => 'Fotoğraf Yükle';
+
+  @override
+  String get contributePhotoUploadSubtitle =>
+      'Menü, mekan veya yemek fotoğrafı ekle';
+
+  @override
+  String get contributePriceVerifyTitle => 'Fiyat Değişimi Doğrula';
+
+  @override
+  String get contributePriceVerifySubtitle => 'Güncel fiyat bilgisini onayla';
+
+  @override
+  String get contributeRecentSectionTitle => 'Son katkıların';
+
+  @override
+  String get contributeSeeAllButton => 'Tümünü gör';
+
+  @override
+  String get contributeEmptyState =>
+      'Henüz katkın yok.\nYukarıdan bir katkı türü seçerek başlayabilirsin!';
+
+  @override
+  String get contributeScoreLabel => 'Katkı puanın';
+
+  @override
+  String get contributeThisWeekLabel => 'Bu hafta';
+
+  @override
+  String contributeWeeklyCountLabel(int count) {
+    return '$count katkı yaptın';
+  }
+
+  @override
+  String get contributeQrScannedSnackbar =>
+      'QR kod okundu, incelemeye gönderildi.';
+
+  @override
+  String get contributeVisitBusinessSnackbar =>
+      'Katkı yapmak için bir işletme sayfasını ziyaret edin.';
+
+  @override
+  String get contributeTypePriceLabel => 'Fiyat doğrulaması';
+
+  @override
+  String get contributeTypeMenuLabel => 'Menü katkısı';
+
+  @override
+  String get contributeTypeBusinessLabel => 'İşletme önerisi';
+
+  @override
+  String get contributeStatusApproved => 'Onaylandı';
+
+  @override
+  String get contributeStatusRejected => 'Reddedildi';
+
+  @override
+  String get contributeStatusUnderReview => 'İnceleniyor';
+
+  @override
+  String get contributeStatusPending => 'Beklemede';
+
+  @override
+  String contributeMinutesAgo(int count) {
+    return '$count dakika önce';
+  }
+
+  @override
+  String contributeHoursAgo(int count) {
+    return '$count saat önce';
+  }
+
+  @override
+  String get contributeOneDayAgo => '1 gün önce';
+
+  @override
+  String contributeDaysAgo(int count) {
+    return '$count gün önce';
+  }
+
+  @override
+  String get oyVerDefaultTitle => 'Grup Oyu';
+
+  @override
+  String get oyVerListNotFoundTitle => 'Liste bulunamadı';
+
+  @override
+  String get oyVerInvalidTokenBody => 'Token geçersiz olabilir.';
+
+  @override
+  String get oyVerEmptyListMessage => 'Bu listede henüz işletme yok.';
+
+  @override
+  String oyVerOptionsCountLabel(int count) {
+    return '$count seçenek — beğenin veya beğenmeyin';
+  }
+
+  @override
+  String get oyVerYesButton => 'Gidelim';
+
+  @override
+  String get oyVerNoButton => 'Hayır';
+
+  @override
+  String get priceAlertsPageSubtitle => 'Uygun fiyatları kaçırma, alarm kur!';
+
+  @override
+  String get priceAlertsDeleteDialogTitle => 'Alarmı sil';
+
+  @override
+  String get priceAlertsDeleteDialogBody => 'Bu alarm silinecek. Emin misin?';
+
+  @override
+  String get priceAlertsCancelButton => 'İptal';
+
+  @override
+  String get priceAlertsDeleteButton => 'Sil';
+
+  @override
+  String get priceAlertsPromoBannerTitle => 'Fiyat düşünce haberin olsun!';
+
+  @override
+  String get priceAlertsPromoBannerBody =>
+      'Alarmlarını ayarla, fırsatları ilk sen yakala.';
+
+  @override
+  String get priceAlertsSetAlarmButton => 'Alarm Kur';
+
+  @override
+  String get priceAlertsActiveTab => 'Aktif Alarmlar';
+
+  @override
+  String get priceAlertsTriggeredTab => 'Tetiklenenler';
+
+  @override
+  String get priceAlertsPausedTab => 'Pasif Alarmlar';
+
+  @override
+  String get priceAlertsNoActiveTitle => 'Aktif alarm yok';
+
+  @override
+  String get priceAlertsNoPausedTitle => 'Pasif alarm yok';
+
+  @override
+  String get priceAlertsNoActiveDescription =>
+      'Alarm kur ve fiyat düşünce bildirim al.';
+
+  @override
+  String get priceAlertsNoPausedDescription =>
+      'Duraklatılmış alarm bulunmuyor.';
+
+  @override
+  String get priceAlertsTargetPriceLabel => 'Hedef Fiyat';
+
+  @override
+  String get priceAlertsPauseButton => 'Duraklat';
+
+  @override
+  String get priceAlertsActivateButton => 'Aktifleştir';
+
+  @override
+  String get priceAlertsNoTriggeredTitle => 'Henüz tetiklenen alarm yok';
+
+  @override
+  String get priceAlertsNoTriggeredDescription =>
+      'Fiyat hedefine ulaşınca burada görünecek.';
+
+  @override
+  String get priceAlertsMatchedPriceLabel => 'Eşleşen Fiyat';
+
+  @override
+  String get priceAlertsPreviousPriceLabel => 'Önceki Fiyat';
+
+  @override
+  String priceAlertsPercentDropLabel(int percent) {
+    return '%$percent düştü';
+  }
+
+  @override
+  String get priceAlertsTipBannerTitle =>
+      'Fiyatlar değişiyor, fırsatlar kaçmasın!';
+
+  @override
+  String get priceAlertsTipBannerBody =>
+      'Alarmlarını düzenli kontrol etmeyi unutma.';
 }

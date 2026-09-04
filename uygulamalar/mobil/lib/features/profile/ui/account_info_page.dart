@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../core/i18n/locale_controller.dart';
 import '../../../core/media/app_image_cache_manager.dart';
 import '../../../core/media/app_network_image.dart';
@@ -43,7 +44,7 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Fotoğraf güncellenemedi.')),
+          SnackBar(content: Text(context.l10n.accountInfoPhotoUpdateError)),
         );
       }
     } finally {
@@ -69,12 +70,12 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
   static String _formatDate(DateTime dt) =>
       '${dt.day.toString().padLeft(2, '0')}.${dt.month.toString().padLeft(2, '0')}.${dt.year}';
 
-  static String _genderLabel(String? g) => switch (g) {
-        'male' => 'Erkek',
-        'female' => 'Kadın',
-        'other' => 'Diğer',
-        'prefer_not_to_say' => 'Belirtmek İstemiyorum',
-        _ => 'Ekle',
+  static String _genderLabel(BuildContext context, String? g) => switch (g) {
+        'male' => context.l10n.accountInfoGenderMale,
+        'female' => context.l10n.accountInfoGenderFemale,
+        'other' => context.l10n.accountInfoGenderOther,
+        'prefer_not_to_say' => context.l10n.accountInfoGenderPreferNotToSay,
+        _ => context.l10n.accountInfoAddPlaceholder,
       };
 
   void _showPhoneSheet(BuildContext context) {
@@ -137,31 +138,31 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
             final canSubmit =
                 confirmationController.text.trim().toUpperCase() == 'SIL';
             return AlertDialog(
-              title: const Text('Hesabımı sil'),
+              title: Text(dialogContext.l10n.accountInfoDeleteAccountDialogTitle),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Bu işlem hesabınıza erişimi kapatır ve silinebilir veriler için silme sürecini başlatır.',
-                    style: TextStyle(color: AppColors.muted, height: 1.5),
+                  Text(
+                    dialogContext.l10n.accountInfoDeleteAccountDialogBody,
+                    style: const TextStyle(color: AppColors.muted, height: 1.5),
                   ),
                   const SizedBox(height: 12),
                   TextField(
                     controller: reasonController,
                     maxLines: 3,
-                    decoration: const InputDecoration(
-                      labelText: 'Silme nedeni',
-                      hintText: 'İsterseniz nedeninizi paylaşın',
+                    decoration: InputDecoration(
+                      labelText: dialogContext.l10n.accountInfoDeleteReasonLabel,
+                      hintText: dialogContext.l10n.accountInfoDeleteReasonHint,
                     ),
                   ),
                   const SizedBox(height: 12),
                   TextField(
                     controller: confirmationController,
                     onChanged: (_) => setDialogState(() {}),
-                    decoration: const InputDecoration(
-                      labelText: 'Onay',
-                      hintText: 'Devam etmek için SIL yazın',
+                    decoration: InputDecoration(
+                      labelText: dialogContext.l10n.accountInfoDeleteConfirmLabel,
+                      hintText: dialogContext.l10n.accountInfoDeleteConfirmHint,
                     ),
                   ),
                 ],
@@ -169,7 +170,7 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(dialogContext).pop(false),
-                  child: const Text('Vazgeç'),
+                  child: Text(dialogContext.l10n.accountInfoCancelButton),
                 ),
                 FilledButton(
                   onPressed: canSubmit
@@ -179,7 +180,7 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                     backgroundColor: AppColors.danger,
                     foregroundColor: Colors.white,
                   ),
-                  child: const Text('Silme Talebi Oluştur'),
+                  child: Text(dialogContext.l10n.accountInfoDeleteCreateRequestButton),
                 ),
               ],
             );
@@ -196,13 +197,13 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
       );
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Silme talebiniz iletildi.')),
+          SnackBar(content: Text(context.l10n.accountInfoDeleteRequestSubmitted)),
         );
       }
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Talep gönderilemedi.')),
+          SnackBar(content: Text(context.l10n.accountInfoDeleteRequestFailed)),
         );
       }
     }
@@ -248,20 +249,20 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                       ),
                     ),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Column(
                       children: [
                         Text(
-                          'Hesap Bilgileri',
-                          style: TextStyle(
+                          context.l10n.accountInfoPageTitle,
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w900,
                             color: AppColors.textStrong,
                           ),
                         ),
                         Text(
-                          'Hesap bilgilerinizi görüntüleyin ve güncelleyin.',
-                          style: TextStyle(
+                          context.l10n.accountInfoPageSubtitle,
+                          style: const TextStyle(
                             fontSize: 12,
                             color: AppColors.muted,
                           ),
@@ -358,7 +359,7 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                                 child: Text(
                                   displayName.isNotEmpty
                                       ? displayName
-                                      : 'Kullanıcı',
+                                      : context.l10n.accountInfoDefaultUserName,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w900,
                                     fontSize: 16,
@@ -405,9 +406,9 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                         size: 15,
                         color: AppColors.primary,
                       ),
-                      label: const Text(
-                        'Fotoğraf Değiştir',
-                        style: TextStyle(
+                      label: Text(
+                        context.l10n.accountInfoChangePhotoButton,
+                        style: const TextStyle(
                           fontSize: 11,
                           color: AppColors.primary,
                           fontWeight: FontWeight.w700,
@@ -432,29 +433,31 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
             const SizedBox(height: 24),
 
             // ── Kişisel Bilgiler ──────────────────────────────────────
-            _SectionLabel('Kişisel Bilgiler'),
+            _SectionLabel(context.l10n.accountInfoPersonalInfoSectionTitle),
             const SizedBox(height: 10),
             _InfoGroup(
               items: [
                 _InfoRow(
                   icon: Icons.person_outline_rounded,
-                  title: 'Ad Soyad',
-                  value: displayName.isNotEmpty ? displayName : 'Ekle',
+                  title: context.l10n.accountInfoFullNameLabel,
+                  value: displayName.isNotEmpty
+                      ? displayName
+                      : context.l10n.accountInfoAddPlaceholder,
                   valueColor: displayName.isEmpty ? AppColors.primary : null,
                   onTap: _showEditNameSheet,
                 ),
                 _InfoRow(
                   icon: Icons.mail_outline_rounded,
-                  title: 'E-posta Adresi',
+                  title: context.l10n.accountInfoEmailLabel,
                   value: user?.email ?? '—',
                   onTap: () {},
                 ),
                 _InfoRow(
                   icon: Icons.phone_outlined,
-                  title: 'Telefon Numarası',
+                  title: context.l10n.accountInfoPhoneLabel,
                   value: (user?.phone?.isNotEmpty == true)
                       ? user!.phone!
-                      : 'Ekle',
+                      : context.l10n.accountInfoAddPlaceholder,
                   valueColor: (user?.phone?.isEmpty != false)
                       ? AppColors.primary
                       : null,
@@ -462,22 +465,24 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                 ),
                 _InfoRow(
                   icon: Icons.calendar_today_outlined,
-                  title: 'Doğum Tarihi',
-                  value: birthDate != null ? _formatDate(birthDate) : 'Ekle',
+                  title: context.l10n.accountInfoBirthDateLabel,
+                  value: birthDate != null
+                      ? _formatDate(birthDate)
+                      : context.l10n.accountInfoAddPlaceholder,
                   valueColor: birthDate == null ? AppColors.primary : null,
                   onTap: () => _showBirthDateSheet(context, birthDate),
                 ),
                 _InfoRow(
                   icon: Icons.location_city_outlined,
-                  title: 'Yaşadığın Şehir',
-                  value: city ?? 'Ekle',
+                  title: context.l10n.accountInfoCityLabel,
+                  value: city ?? context.l10n.accountInfoAddPlaceholder,
                   valueColor: city == null ? AppColors.primary : null,
                   onTap: () => _showCitySheet(context, city),
                 ),
                 _InfoRow(
                   icon: Icons.people_outline_rounded,
-                  title: 'Cinsiyet',
-                  value: _genderLabel(gender),
+                  title: context.l10n.accountInfoGenderLabel,
+                  value: _genderLabel(context, gender),
                   valueColor: gender == null ? AppColors.primary : null,
                   onTap: () => _showGenderSheet(context, gender),
                   isLast: true,
@@ -488,33 +493,33 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
             const SizedBox(height: 24),
 
             // ── Hesap Ayarları ────────────────────────────────────────
-            _SectionLabel('Hesap Ayarları'),
+            _SectionLabel(context.l10n.accountInfoAccountSettingsSectionTitle),
             const SizedBox(height: 10),
             _InfoGroup(
               items: [
                 _InfoRow(
                   icon: Icons.lock_outline_rounded,
-                  title: 'Şifre Değiştir',
-                  subtitle: 'Hesap şifrenizi düzenleyin',
+                  title: context.l10n.accountInfoChangePasswordTitle,
+                  subtitle: context.l10n.accountInfoChangePasswordSubtitle,
                   onTap: () => context.push('/account-security'),
                 ),
                 _InfoRow(
                   icon: Icons.notifications_outlined,
-                  title: 'Bildirim Tercihleri',
-                  subtitle: 'Bildirim ayarlarınızı yönetin',
+                  title: context.l10n.accountInfoNotificationPreferencesTitle,
+                  subtitle: context.l10n.accountInfoNotificationPreferencesSubtitle,
                   onTap: () => context.push('/notification-preferences'),
                 ),
                 _InfoRow(
                   icon: Icons.shield_outlined,
-                  title: 'Güvenlik Ayarları',
-                  subtitle: 'Hesabınızın güvenliğini artırın',
+                  title: context.l10n.accountInfoSecuritySettingsTitle,
+                  subtitle: context.l10n.accountInfoSecuritySettingsSubtitle,
                   onTap: () => context.push('/account-security'),
                 ),
                 _InfoRow(
                   icon: Icons.language_rounded,
-                  title: 'Dil Tercihi',
-                  value: _langLabel(langCode),
-                  trailing: _ActionBadge('Değiştir'),
+                  title: context.l10n.accountInfoLanguagePreferenceTitle,
+                  value: _langLabel(context, langCode),
+                  trailing: _ActionBadge(context.l10n.accountInfoChangeBadge),
                   onTap: () => _showLanguageSheet(context, langCode),
                 ),
               ],
@@ -546,16 +551,16 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                       size: 18,
                     ),
                   ),
-                  title: const Text(
-                    'Hesabı Sil',
-                    style: TextStyle(
+                  title: Text(
+                    context.l10n.accountInfoDeleteAccountTitle,
+                    style: const TextStyle(
                       color: AppColors.danger,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  subtitle: const Text(
-                    'Hesabınızı kalıcı olarak silmek isterseniz buradan işlem yapabilirsiniz.',
-                    style: TextStyle(fontSize: 12, color: AppColors.muted),
+                  subtitle: Text(
+                    context.l10n.accountInfoDeleteAccountSubtitle,
+                    style: const TextStyle(fontSize: 12, color: AppColors.muted),
                   ),
                   trailing: const Icon(
                     Icons.chevron_right_rounded,
@@ -580,17 +585,17 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
               child: Text(
-                'Dil Tercihi',
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+                context.l10n.accountInfoLanguagePreferenceTitle,
+                style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
               ),
             ),
             for (final (code, label) in [
-              (null, 'Sistem Varsayılanı'),
-              ('tr', 'Türkçe'),
-              ('en', 'English'),
+              (null, context.l10n.accountInfoLanguageSystemDefault),
+              ('tr', context.l10n.accountInfoLanguageTurkish),
+              ('en', context.l10n.accountInfoLanguageEnglish),
             ])
               ListTile(
                 title: Text(label),
@@ -611,10 +616,10 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
     );
   }
 
-  static String _langLabel(String? code) => switch (code) {
-        'tr' => 'Türkçe',
-        'en' => 'English',
-        _ => 'Sistem Varsayılanı',
+  static String _langLabel(BuildContext context, String? code) => switch (code) {
+        'tr' => context.l10n.accountInfoLanguageTurkish,
+        'en' => context.l10n.accountInfoLanguageEnglish,
+        _ => context.l10n.accountInfoLanguageSystemDefault,
       };
 
 }
@@ -824,7 +829,7 @@ class _EditNameSheetState extends ConsumerState<_EditNameSheet> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Kaydedilemedi.')),
+          SnackBar(content: Text(context.l10n.accountInfoGenericSaveError)),
         );
       }
     } finally {
@@ -863,9 +868,9 @@ class _EditNameSheetState extends ConsumerState<_EditNameSheet> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      const Text(
-                        'Ad Soyad Düzenle',
-                        style: TextStyle(
+                      Text(
+                        context.l10n.accountInfoEditNameSheetTitle,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w900,
                           fontSize: 17,
                           color: AppColors.textStrong,
@@ -874,21 +879,26 @@ class _EditNameSheetState extends ConsumerState<_EditNameSheet> {
                       const SizedBox(height: 16),
                       TextFormField(
                         controller: _firstCtrl,
-                        decoration: const InputDecoration(labelText: 'Ad'),
-                        validator: (v) =>
-                            (v?.trim().isEmpty == true) ? 'Zorunlu' : null,
+                        decoration: InputDecoration(
+                            labelText: context.l10n.accountInfoFirstNameLabel),
+                        validator: (v) => (v?.trim().isEmpty == true)
+                            ? context.l10n.accountInfoFirstNameRequiredError
+                            : null,
                       ),
                       const SizedBox(height: 12),
                       TextFormField(
                         controller: _lastCtrl,
-                        decoration: const InputDecoration(labelText: 'Soyad'),
+                        decoration: InputDecoration(
+                            labelText: context.l10n.accountInfoLastNameLabel),
                       ),
                       const SizedBox(height: 20),
                       SizedBox(
                         width: double.infinity,
                         child: FilledButton(
                           onPressed: _saving ? null : _save,
-                          child: Text(_saving ? 'Kaydediliyor…' : 'Kaydet'),
+                          child: Text(_saving
+                              ? context.l10n.accountInfoSavingLabel
+                              : context.l10n.accountInfoSaveButton),
                         ),
                       ),
                     ],
@@ -927,7 +937,7 @@ class _EditPhoneSheetState extends State<_EditPhoneSheet> {
   Future<void> _sendOtp() async {
     final phone = _phoneCtrl.text.trim();
     if (phone.length < 10) {
-      setState(() => _error = 'Geçerli bir telefon numarası girin (ör: +905XXXXXXXXX).');
+      setState(() => _error = context.l10n.accountInfoPhoneInvalidError);
       return;
     }
     setState(() { _loading = true; _error = null; });
@@ -937,7 +947,7 @@ class _EditPhoneSheetState extends State<_EditPhoneSheet> {
     } catch (e) {
       if (mounted) {
         setState(() {
-          _error = 'OTP gönderilemedi. Telefon numarasını ve SMS ayarlarını kontrol edin.';
+          _error = context.l10n.accountInfoOtpSendError;
           _loading = false;
         });
       }
@@ -947,7 +957,7 @@ class _EditPhoneSheetState extends State<_EditPhoneSheet> {
   Future<void> _verifyOtp() async {
     final code = _otpCtrl.text.trim();
     if (code.length != 6) {
-      setState(() => _error = '6 haneli kodu girin.');
+      setState(() => _error = context.l10n.accountInfoOtpCodeLengthError);
       return;
     }
     setState(() { _loading = true; _error = null; });
@@ -960,7 +970,7 @@ class _EditPhoneSheetState extends State<_EditPhoneSheet> {
     } catch (_) {
       if (mounted) {
         setState(() {
-          _error = 'Kod hatalı veya süresi dolmuş.';
+          _error = context.l10n.accountInfoOtpInvalidError;
           _loading = false;
         });
       }
@@ -976,15 +986,15 @@ class _EditPhoneSheetState extends State<_EditPhoneSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Telefon Numarası',
-            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+          Text(
+            context.l10n.accountInfoPhoneLabel,
+            style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
           ),
           const SizedBox(height: 4),
           Text(
             _otpSent
-                ? 'Telefon numaranıza gönderilen 6 haneli kodu girin.'
-                : 'Yeni telefon numaranızı E.164 formatında girin (ör: +905XXXXXXXXX).',
+                ? context.l10n.accountInfoPhoneSheetOtpSentSubtitle
+                : context.l10n.accountInfoPhoneSheetEnterNumberSubtitle,
             style: const TextStyle(fontSize: 13, color: AppColors.muted),
           ),
           const SizedBox(height: 16),
@@ -997,16 +1007,18 @@ class _EditPhoneSheetState extends State<_EditPhoneSheet> {
               controller: _phoneCtrl,
               keyboardType: TextInputType.phone,
               inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[+\d]'))],
-              decoration: const InputDecoration(
-                labelText: 'Telefon Numarası',
-                hintText: '+905XXXXXXXXX',
-                prefixIcon: Icon(Icons.phone_outlined),
+              decoration: InputDecoration(
+                labelText: context.l10n.accountInfoPhoneLabel,
+                hintText: context.l10n.accountInfoPhoneHint,
+                prefixIcon: const Icon(Icons.phone_outlined),
               ),
             ),
             const SizedBox(height: 16),
             FilledButton(
               onPressed: _loading ? null : _sendOtp,
-              child: Text(_loading ? 'Gönderiliyor…' : 'Doğrulama Kodu Gönder'),
+              child: Text(_loading
+                  ? context.l10n.accountInfoSendingLabel
+                  : context.l10n.accountInfoSendOtpButton),
             ),
           ] else ...[
             TextField(
@@ -1016,21 +1028,23 @@ class _EditPhoneSheetState extends State<_EditPhoneSheet> {
               textAlign: TextAlign.center,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, letterSpacing: 8),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 counterText: '',
-                hintText: '000000',
-                hintStyle: TextStyle(color: AppColors.muted, letterSpacing: 8),
+                hintText: context.l10n.accountInfoOtpHint,
+                hintStyle: const TextStyle(color: AppColors.muted, letterSpacing: 8),
               ),
             ),
             const SizedBox(height: 16),
             FilledButton(
               onPressed: _loading ? null : _verifyOtp,
-              child: Text(_loading ? 'Doğrulanıyor…' : 'Onayla'),
+              child: Text(_loading
+                  ? context.l10n.accountInfoVerifyingLabel
+                  : context.l10n.accountInfoConfirmButton),
             ),
             const SizedBox(height: 8),
             TextButton(
               onPressed: () => setState(() { _otpSent = false; _error = null; _otpCtrl.clear(); }),
-              child: const Text('Numarayı Değiştir'),
+              child: Text(context.l10n.accountInfoChangeNumberButton),
             ),
           ],
         ],
@@ -1072,7 +1086,7 @@ class _EditBirthDateSheetState extends State<_EditBirthDateSheet> {
       initialDate: _selected ?? DateTime(now.year - 25),
       firstDate: DateTime(1920),
       lastDate: DateTime(now.year - 5),
-      helpText: 'Doğum tarihinizi seçin',
+      helpText: context.l10n.accountInfoBirthDatePickerHelpText,
     );
     if (picked != null && mounted) setState(() => _selected = picked);
   }
@@ -1098,7 +1112,7 @@ class _EditBirthDateSheetState extends State<_EditBirthDateSheet> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Kaydedilemedi.')),
+          SnackBar(content: Text(context.l10n.accountInfoGenericSaveError)),
         );
       }
     } finally {
@@ -1110,7 +1124,7 @@ class _EditBirthDateSheetState extends State<_EditBirthDateSheet> {
   Widget build(BuildContext context) {
     final label = _selected != null
         ? '${_selected!.day.toString().padLeft(2, '0')}.${_selected!.month.toString().padLeft(2, '0')}.${_selected!.year}'
-        : 'Seçilmedi';
+        : context.l10n.accountInfoBirthDateNotSelected;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
@@ -1118,9 +1132,9 @@ class _EditBirthDateSheetState extends State<_EditBirthDateSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Doğum Tarihi',
-            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+          Text(
+            context.l10n.accountInfoBirthDateLabel,
+            style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
           ),
           const SizedBox(height: 16),
           GestureDetector(
@@ -1158,14 +1172,16 @@ class _EditBirthDateSheetState extends State<_EditBirthDateSheet> {
           const SizedBox(height: 20),
           FilledButton(
             onPressed: (_saving || _selected == null) ? null : _save,
-            child: Text(_saving ? 'Kaydediliyor…' : 'Kaydet'),
+            child: Text(_saving
+                ? context.l10n.accountInfoSavingLabel
+                : context.l10n.accountInfoSaveButton),
           ),
           if (widget.current != null) ...[
             const SizedBox(height: 8),
             TextButton(
               onPressed: _saving ? null : _clearDate,
-              child: const Text('Tarihi Kaldır',
-                  style: TextStyle(color: AppColors.muted)),
+              child: Text(context.l10n.accountInfoRemoveDateButton,
+                  style: const TextStyle(color: AppColors.muted)),
             ),
           ],
         ],
@@ -1194,11 +1210,12 @@ class _EditGenderSheetState extends State<_EditGenderSheet> {
   late String? _selected;
   bool _saving = false;
 
-  static const _options = [
-    ('male', 'Erkek', Icons.male_rounded),
-    ('female', 'Kadın', Icons.female_rounded),
-    ('other', 'Diğer', Icons.transgender_rounded),
-    ('prefer_not_to_say', 'Belirtmek İstemiyorum', Icons.do_not_disturb_alt_rounded),
+  List<(String, String, IconData)> _options(BuildContext context) => [
+    ('male', context.l10n.accountInfoGenderMale, Icons.male_rounded),
+    ('female', context.l10n.accountInfoGenderFemale, Icons.female_rounded),
+    ('other', context.l10n.accountInfoGenderOther, Icons.transgender_rounded),
+    ('prefer_not_to_say', context.l10n.accountInfoGenderPreferNotToSay,
+        Icons.do_not_disturb_alt_rounded),
   ];
 
   @override
@@ -1216,7 +1233,7 @@ class _EditGenderSheetState extends State<_EditGenderSheet> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Kaydedilemedi.')),
+          SnackBar(content: Text(context.l10n.accountInfoGenericSaveError)),
         );
       }
     } finally {
@@ -1226,24 +1243,25 @@ class _EditGenderSheetState extends State<_EditGenderSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final options = _options(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(
-            'Cinsiyet',
-            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+          Text(
+            context.l10n.accountInfoGenderLabel,
+            style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
           ),
           const SizedBox(height: 4),
-          const Text(
-            'Bu bilgi yalnızca size özel içerik önerileri için kullanılır.',
-            style: TextStyle(fontSize: 12, color: AppColors.muted),
+          Text(
+            context.l10n.accountInfoGenderSheetSubtitle,
+            style: const TextStyle(fontSize: 12, color: AppColors.muted),
           ),
           const SizedBox(height: 16),
-          ...List.generate(_options.length, (i) {
-            final (value, label, icon) = _options[i];
+          ...List.generate(options.length, (i) {
+            final (value, label, icon) = options[i];
             final isSelected = _selected == value;
             return Padding(
               padding: const EdgeInsets.only(bottom: 8),
@@ -1294,7 +1312,9 @@ class _EditGenderSheetState extends State<_EditGenderSheet> {
           const SizedBox(height: 8),
           FilledButton(
             onPressed: (_saving || _selected == null) ? null : _save,
-            child: Text(_saving ? 'Kaydediliyor…' : 'Kaydet'),
+            child: Text(_saving
+                ? context.l10n.accountInfoSavingLabel
+                : context.l10n.accountInfoSaveButton),
           ),
         ],
       ),
@@ -1338,7 +1358,7 @@ class _EditCitySheetState extends State<_EditCitySheet> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Kaydedilemedi.')),
+          SnackBar(content: Text(context.l10n.accountInfoGenericSaveError)),
         );
       }
     } finally {
@@ -1362,22 +1382,22 @@ class _EditCitySheetState extends State<_EditCitySheet> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                'Yaşadığın Şehir',
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+              Text(
+                context.l10n.accountInfoCityLabel,
+                style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
               ),
               const SizedBox(height: 4),
-              const Text(
-                'Farklı bir şehirdeyken sana o şehrin yöresel lezzetlerini önerebilmemiz için kullanılır.',
-                style: TextStyle(fontSize: 12, color: AppColors.muted),
+              Text(
+                context.l10n.accountInfoCitySheetSubtitle,
+                style: const TextStyle(fontSize: 12, color: AppColors.muted),
               ),
               const SizedBox(height: 12),
               TextField(
                 controller: _searchCtrl,
                 onChanged: (v) => setState(() => _filter = v),
-                decoration: const InputDecoration(
-                  hintText: 'Şehir ara...',
-                  prefixIcon: Icon(Icons.search_rounded, size: 20),
+                decoration: InputDecoration(
+                  hintText: context.l10n.accountInfoCitySearchHint,
+                  prefixIcon: const Icon(Icons.search_rounded, size: 20),
                 ),
               ),
               const SizedBox(height: 8),

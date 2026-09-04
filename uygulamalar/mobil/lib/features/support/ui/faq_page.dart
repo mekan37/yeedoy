@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/i18n/app_localizations.dart';
 
 // ── Models ────────────────────────────────────────────────────────────────────
 
@@ -29,147 +30,129 @@ class _FaqEntry {
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
-const _kCategories = <_Category>[
+List<_Category> _kCategories(BuildContext context) => <_Category>[
   _Category(
     icon: Icons.person_outline_rounded,
-    label: 'Hesap İşlemleri',
+    label: context.l10n.faqCategoryAccountLabel,
     count: 10,
   ),
   _Category(
     icon: Icons.shield_outlined,
-    label: 'Güvenlik',
+    label: context.l10n.faqCategorySecurityLabel,
     count: 10,
   ),
   _Category(
     icon: Icons.credit_card_outlined,
-    label: 'Ödemeler',
+    label: context.l10n.faqCategoryPaymentsLabel,
     count: 10,
   ),
   _Category(
     icon: Icons.local_offer_outlined,
-    label: 'Kampanya ve Fırsatlar',
+    label: context.l10n.faqCategoryCampaignsLabel,
     count: 5,
   ),
   _Category(
     icon: Icons.smartphone_outlined,
-    label: 'Uygulama Kullanımı',
+    label: context.l10n.faqCategoryAppUsageLabel,
     count: 15,
   ),
 ];
 
-const _kFaqs = <_FaqEntry>[
+List<_FaqEntry> _kFaqs(BuildContext context) => <_FaqEntry>[
   // Hesap İşlemleri (0)
   _FaqEntry(
     catIndex: 0,
-    question: 'Hesabıma nasıl giriş yapıyım?',
-    answer:
-        'Uygulama açıldığında "Giriş Yap" seçeneğine dokunun. E-posta adresinizi ve şifrenizi girerek hesabınıza erişebilirsiniz.',
+    question: context.l10n.faqQ1Question,
+    answer: context.l10n.faqQ1Answer,
   ),
   _FaqEntry(
     catIndex: 0,
-    question: 'Şifremi unuttum, ne yapmalıyım?',
-    answer:
-        'Giriş ekranındaki "Şifremi Unuttum" seçeneğine tıklayarak şifrenizi sıfırlayabilirsiniz. Kayıtlı e-posta adresinize bağlantı gönderilir.',
+    question: context.l10n.faqQ2Question,
+    answer: context.l10n.faqQ2Answer,
   ),
   _FaqEntry(
     catIndex: 0,
-    question: 'E-posta adresimi nasıl değiştiririm?',
-    answer:
-        'Hesap Bilgileri > E-posta alanından e-posta adresinizi değiştirebilirsiniz. Yeni adresinize onay e-postası gönderilecektir.',
+    question: context.l10n.faqQ3Question,
+    answer: context.l10n.faqQ3Answer,
   ),
   _FaqEntry(
     catIndex: 0,
-    question: 'Hesabımı nasıl silebilirim?',
-    answer:
-        'Ayarlar > Hesap Güvenliği > Hesabı Sil seçeneğinden hesabınızı kalıcı olarak silebilirsiniz. Bu işlem geri alınamaz.',
+    question: context.l10n.faqQ4Question,
+    answer: context.l10n.faqQ4Answer,
   ),
   _FaqEntry(
     catIndex: 0,
-    question: 'Profilime nasıl fotoğraf eklerim?',
-    answer:
-        'Profil sayfanızda avatarınıza dokunun ve galerinizden veya kameranızdan fotoğraf seçin.',
+    question: context.l10n.faqQ5Question,
+    answer: context.l10n.faqQ5Answer,
   ),
   // Güvenlik (1)
   _FaqEntry(
     catIndex: 1,
-    question: 'İki adımlı doğrulamayı nasıl etkinleştiririm?',
-    answer:
-        'Hesap Güvenliği sayfasında "İki Adımlı Doğrulama" seçeneğini açarak telefonunuza SMS kodu gönderilmesini sağlayabilirsiniz.',
+    question: context.l10n.faqQ6Question,
+    answer: context.l10n.faqQ6Answer,
   ),
   _FaqEntry(
     catIndex: 1,
-    question: 'Hesabımda şüpheli bir etkinlik var, ne yapmalıyım?',
-    answer:
-        'Hemen "Şifremi Değiştir" seçeneğini kullanın ve aktif oturumları sonlandırın. Ardından destek ekibimizle iletişime geçin.',
+    question: context.l10n.faqQ7Question,
+    answer: context.l10n.faqQ7Answer,
   ),
   _FaqEntry(
     catIndex: 1,
-    question: 'Verilerim güvende mi?',
-    answer:
-        'Tüm verileriniz 256-bit SSL sertifikası ile şifrelenerek korunmaktadır. KVKK kapsamında kişisel verileriniz işlenmektedir.',
+    question: context.l10n.faqQ8Question,
+    answer: context.l10n.faqQ8Answer,
   ),
   _FaqEntry(
     catIndex: 1,
-    question: 'Oturumu kapatmayı unutursam ne olur?',
-    answer:
-        'Hesap Güvenliği sayfasından tüm aktif oturumlarınızı uzaktan sonlandırabilirsiniz.',
+    question: context.l10n.faqQ9Question,
+    answer: context.l10n.faqQ9Answer,
   ),
   // Ödemeler (2)
   _FaqEntry(
     catIndex: 2,
-    question: 'Ödemelerimi görüntüleyebilir miyim?',
-    answer:
-        'Evet. Tüm ödeme geçmişiniz 256-bit SSL sertifikası ile korunmakta olup Ödemeler ekranından takip edebilirsiniz.',
+    question: context.l10n.faqQ10Question,
+    answer: context.l10n.faqQ10Answer,
   ),
   _FaqEntry(
     catIndex: 2,
-    question: 'İade işlemi nasıl yapılır?',
-    answer:
-        'Sipariş sayfanızdan ilgili siparişi seçerek iade talep edebilirsiniz. İşlem 3-5 iş günü içinde tamamlanır.',
+    question: context.l10n.faqQ11Question,
+    answer: context.l10n.faqQ11Answer,
   ),
   _FaqEntry(
     catIndex: 2,
-    question: 'Hangi ödeme yöntemleri desteklenmektedir?',
-    answer:
-        'Kredi kartı, banka kartı ve havale/EFT ile ödeme yapabilirsiniz. Apple Pay ve Google Pay desteği yakında eklenecektir.',
+    question: context.l10n.faqQ12Question,
+    answer: context.l10n.faqQ12Answer,
   ),
   // Kampanya ve Fırsatlar (3)
   _FaqEntry(
     catIndex: 3,
-    question: 'Kampanyalardan nasıl haberdar olabilirim?',
-    answer:
-        'Bildirim tercihlerinizde "Kampanya ve Fırsatlar" bildirimlerini açarsanız yeni fırsatlarda anlık bildirim alırsınız.',
+    question: context.l10n.faqQ13Question,
+    answer: context.l10n.faqQ13Answer,
   ),
   _FaqEntry(
     catIndex: 3,
-    question: 'Kupon kodumu nasıl kullanırım?',
-    answer:
-        'Ödeme ekranında "Kupon Kodu" alanına kodunuzu girebilirsiniz. İndirim tutarı otomatik uygulanır.',
+    question: context.l10n.faqQ14Question,
+    answer: context.l10n.faqQ14Answer,
   ),
   // Uygulama Kullanımı (4)
   _FaqEntry(
     catIndex: 4,
-    question: 'QR menü nasıl taranır?',
-    answer:
-        'Ana ekranda sağ üstteki QR simgesine dokunun ve kamerayı masadaki QR koda tutun. Menü otomatik açılır.',
+    question: context.l10n.faqQ15Question,
+    answer: context.l10n.faqQ15Answer,
   ),
   _FaqEntry(
     catIndex: 4,
-    question: 'Fiyat değişikliği nasıl bildirilir?',
-    answer:
-        'Bir işletmeyi ziyaret ettikten sonra "Fiyat Bildir" butonuna tıklayarak güncel fiyatı girebilirsiniz. Katkınız için puan kazanırsınız.',
+    question: context.l10n.faqQ16Question,
+    answer: context.l10n.faqQ16Answer,
   ),
   _FaqEntry(
     catIndex: 4,
-    question: 'Karanlık mod var mı?',
-    answer:
-        'Evet. Ayarlar > Uygulama Tercihleri > Tema bölümünden karanlık modu etkinleştirebilirsiniz.',
+    question: context.l10n.faqQ17Question,
+    answer: context.l10n.faqQ17Answer,
   ),
   _FaqEntry(
     catIndex: 4,
-    question: 'Konum iznini nasıl veririm?',
-    answer:
-        'Cihazınızın Ayarlar > Uygulamalar > Yeedoy > İzinler menüsünden konum iznini aktif edebilirsiniz.',
+    question: context.l10n.faqQ18Question,
+    answer: context.l10n.faqQ18Answer,
   ),
 ];
 
@@ -196,7 +179,7 @@ class _FaqPageState extends State<FaqPage> {
 
   List<_FaqEntry> get _filtered {
     final catItems =
-        _kFaqs.where((f) => f.catIndex == _selectedCat).toList();
+        _kFaqs(context).where((f) => f.catIndex == _selectedCat).toList();
     if (_query.isEmpty) return catItems;
     final q = _query.toLowerCase();
     return catItems.where((f) => f.question.toLowerCase().contains(q)).toList();
@@ -249,11 +232,11 @@ class _FaqPageState extends State<FaqPage> {
               ),
             ),
           ),
-          const Expanded(
+          Expanded(
             child: Text(
-              'Sıkça Sorulan Sorular',
+              context.l10n.faqPageTitle,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w900,
                 color: AppColors.textStrong,
@@ -304,10 +287,10 @@ class _FaqPageState extends State<FaqPage> {
                     _expandedIndex = null;
                   });
                 },
-                decoration: const InputDecoration(
-                  hintText: 'Soru veya konu ara...',
+                decoration: InputDecoration(
+                  hintText: context.l10n.faqSearchHint,
                   hintStyle:
-                      TextStyle(color: AppColors.muted, fontSize: 13),
+                      const TextStyle(color: AppColors.muted, fontSize: 13),
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
@@ -329,14 +312,15 @@ class _FaqPageState extends State<FaqPage> {
   // ── Categories ───────────────────────────────────────────────────────────────
 
   Widget _buildCategories() {
+    final categories = _kCategories(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.fromLTRB(16, 0, 16, 10),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
           child: Text(
-            'Kategoriler',
-            style: TextStyle(
+            context.l10n.faqCategoriesSectionTitle,
+            style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w900,
               color: AppColors.textStrong,
@@ -348,9 +332,9 @@ class _FaqPageState extends State<FaqPage> {
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            itemCount: _kCategories.length,
+            itemCount: categories.length,
             itemBuilder: (_, i) {
-              final cat = _kCategories[i];
+              final cat = categories[i];
               final selected = i == _selectedCat;
               return GestureDetector(
                 onTap: () {
@@ -410,7 +394,7 @@ class _FaqPageState extends State<FaqPage> {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        '${cat.count} Soru',
+                        context.l10n.faqQuestionCount(cat.count),
                         style: TextStyle(
                           fontSize: 8,
                           color: selected
@@ -434,11 +418,11 @@ class _FaqPageState extends State<FaqPage> {
   // ── FAQ header ────────────────────────────────────────────────────────────────
 
   Widget _buildFaqHeader() {
-    return const Padding(
-      padding: EdgeInsets.fromLTRB(16, 0, 16, 10),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
       child: Text(
-        'Sık Sorulan Sorular',
-        style: TextStyle(
+        context.l10n.faqListSectionTitle,
+        style: const TextStyle(
           fontSize: 15,
           fontWeight: FontWeight.w900,
           color: AppColors.textStrong,
@@ -462,10 +446,10 @@ class _FaqPageState extends State<FaqPage> {
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: AppColors.border),
             ),
-            child: const Center(
+            child: Center(
               child: Text(
-                'Bu kategoride sonuç bulunamadı.',
-                style: TextStyle(color: AppColors.muted, fontSize: 13),
+                context.l10n.faqNoResultsInCategory,
+                style: const TextStyle(color: AppColors.muted, fontSize: 13),
               ),
             ),
           ),
@@ -531,22 +515,22 @@ class _FaqPageState extends State<FaqPage> {
               ),
             ),
             const SizedBox(width: 12),
-            const Expanded(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Aradığınız cevabı bulamadınız mı?',
-                    style: TextStyle(
+                    context.l10n.faqSupportBannerTitle,
+                    style: const TextStyle(
                       fontWeight: FontWeight.w800,
                       fontSize: 13,
                       color: AppColors.textStrong,
                     ),
                   ),
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   Text(
-                    'Destek ekibimiz size yardımcı olmaktan mutluluk duyar.',
-                    style: TextStyle(
+                    context.l10n.faqSupportBannerBody,
+                    style: const TextStyle(
                       fontSize: 11,
                       color: AppColors.muted,
                       height: 1.4,
@@ -572,7 +556,7 @@ class _FaqPageState extends State<FaqPage> {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              child: const Text('Canlı Destek'),
+              child: Text(context.l10n.faqSupportBannerButton),
             ),
           ],
         ),
@@ -592,9 +576,9 @@ class _FaqPageState extends State<FaqPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            'Bu sayfa size yardımcı oldu mu?',
-            style: TextStyle(
+          Text(
+            context.l10n.faqBottomHelpfulQuestion,
+            style: const TextStyle(
               fontSize: 13,
               color: AppColors.muted,
               fontWeight: FontWeight.w600,
@@ -607,7 +591,7 @@ class _FaqPageState extends State<FaqPage> {
                 child: OutlinedButton.icon(
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Teşekkürler! 👍')),
+                      SnackBar(content: Text(context.l10n.faqThanksSnackbar)),
                     );
                   },
                   style: OutlinedButton.styleFrom(
@@ -621,7 +605,7 @@ class _FaqPageState extends State<FaqPage> {
                     ),
                   ),
                   icon: const Icon(Icons.thumb_up_outlined, size: 15),
-                  label: const Text('Evet, yardımcı oldu'),
+                  label: Text(context.l10n.faqYesHelpfulButton),
                 ),
               ),
               const SizedBox(width: 10),
@@ -639,7 +623,7 @@ class _FaqPageState extends State<FaqPage> {
                     ),
                   ),
                   icon: const Icon(Icons.thumb_down_outlined, size: 15),
-                  label: const Text('Hayır, olmadı'),
+                  label: Text(context.l10n.faqNoHelpfulButton),
                 ),
               ),
             ],

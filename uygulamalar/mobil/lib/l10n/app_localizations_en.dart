@@ -3538,7 +3538,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ok => 'OK';
 
   @override
-  String get suggestBusinessPageTitle => 'Add Business';
+  String get suggestBusinessPageTitle => 'Suggest a Business';
 
   @override
   String get suggestBusinessPageSubtitle =>
@@ -4765,4 +4765,1394 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get accountSecuritySendVerificationLinkButton =>
       'Send Verification Link';
+
+  @override
+  String get accountInfoPhotoUpdateError => 'Couldn\'t update the photo.';
+
+  @override
+  String get accountInfoGenderMale => 'Male';
+
+  @override
+  String get accountInfoGenderFemale => 'Female';
+
+  @override
+  String get accountInfoGenderOther => 'Other';
+
+  @override
+  String get accountInfoGenderPreferNotToSay => 'Prefer not to say';
+
+  @override
+  String get accountInfoAddPlaceholder => 'Add';
+
+  @override
+  String get accountInfoDeleteAccountDialogTitle => 'Delete my account';
+
+  @override
+  String get accountInfoDeleteAccountDialogBody =>
+      'This closes access to your account and starts the deletion process for erasable data.';
+
+  @override
+  String get accountInfoDeleteReasonLabel => 'Reason for deletion';
+
+  @override
+  String get accountInfoDeleteReasonHint => 'Share your reason if you\'d like';
+
+  @override
+  String get accountInfoDeleteConfirmLabel => 'Confirmation';
+
+  @override
+  String get accountInfoDeleteConfirmHint => 'Type SIL to continue';
+
+  @override
+  String get accountInfoDeleteCreateRequestButton => 'Create Deletion Request';
+
+  @override
+  String get accountInfoCancelButton => 'Cancel';
+
+  @override
+  String get accountInfoDeleteRequestSubmitted =>
+      'Your deletion request has been submitted.';
+
+  @override
+  String get accountInfoDeleteRequestFailed => 'Couldn\'t send the request.';
+
+  @override
+  String get accountInfoPageTitle => 'Account Information';
+
+  @override
+  String get accountInfoPageSubtitle =>
+      'View and update your account information.';
+
+  @override
+  String get accountInfoDefaultUserName => 'User';
+
+  @override
+  String get accountInfoChangePhotoButton => 'Change Photo';
+
+  @override
+  String get accountInfoPersonalInfoSectionTitle => 'Personal Information';
+
+  @override
+  String get accountInfoFullNameLabel => 'Full Name';
+
+  @override
+  String get accountInfoEmailLabel => 'Email Address';
+
+  @override
+  String get accountInfoPhoneLabel => 'Phone Number';
+
+  @override
+  String get accountInfoBirthDateLabel => 'Date of Birth';
+
+  @override
+  String get accountInfoCityLabel => 'City You Live In';
+
+  @override
+  String get accountInfoGenderLabel => 'Gender';
+
+  @override
+  String get accountInfoAccountSettingsSectionTitle => 'Account Settings';
+
+  @override
+  String get accountInfoChangePasswordTitle => 'Change Password';
+
+  @override
+  String get accountInfoChangePasswordSubtitle =>
+      'Update your account password';
+
+  @override
+  String get accountInfoNotificationPreferencesTitle =>
+      'Notification Preferences';
+
+  @override
+  String get accountInfoNotificationPreferencesSubtitle =>
+      'Manage your notification settings';
+
+  @override
+  String get accountInfoSecuritySettingsTitle => 'Security Settings';
+
+  @override
+  String get accountInfoSecuritySettingsSubtitle =>
+      'Strengthen your account\'s security';
+
+  @override
+  String get accountInfoLanguagePreferenceTitle => 'Language Preference';
+
+  @override
+  String get accountInfoChangeBadge => 'Change';
+
+  @override
+  String get accountInfoDeleteAccountTitle => 'Delete Account';
+
+  @override
+  String get accountInfoDeleteAccountSubtitle =>
+      'If you want to permanently delete your account, you can do it here.';
+
+  @override
+  String get accountInfoLanguageSystemDefault => 'System Default';
+
+  @override
+  String get accountInfoLanguageTurkish => 'Turkish';
+
+  @override
+  String get accountInfoLanguageEnglish => 'English';
+
+  @override
+  String get accountInfoGenericSaveError => 'Couldn\'t save.';
+
+  @override
+  String get accountInfoEditNameSheetTitle => 'Edit Full Name';
+
+  @override
+  String get accountInfoFirstNameLabel => 'First Name';
+
+  @override
+  String get accountInfoFirstNameRequiredError => 'Required';
+
+  @override
+  String get accountInfoLastNameLabel => 'Last Name';
+
+  @override
+  String get accountInfoSavingLabel => 'Saving…';
+
+  @override
+  String get accountInfoSaveButton => 'Save';
+
+  @override
+  String get accountInfoPhoneInvalidError =>
+      'Enter a valid phone number (e.g. +905XXXXXXXXX).';
+
+  @override
+  String get accountInfoOtpSendError =>
+      'Couldn\'t send the OTP. Check the phone number and SMS settings.';
+
+  @override
+  String get accountInfoOtpCodeLengthError => 'Enter the 6-digit code.';
+
+  @override
+  String get accountInfoOtpInvalidError =>
+      'The code is incorrect or has expired.';
+
+  @override
+  String get accountInfoPhoneSheetOtpSentSubtitle =>
+      'Enter the 6-digit code sent to your phone number.';
+
+  @override
+  String get accountInfoPhoneSheetEnterNumberSubtitle =>
+      'Enter your new phone number in E.164 format (e.g. +905XXXXXXXXX).';
+
+  @override
+  String get accountInfoPhoneHint => '+905XXXXXXXXX';
+
+  @override
+  String get accountInfoOtpHint => '000000';
+
+  @override
+  String get accountInfoSendOtpButton => 'Send Verification Code';
+
+  @override
+  String get accountInfoSendingLabel => 'Sending…';
+
+  @override
+  String get accountInfoVerifyingLabel => 'Verifying…';
+
+  @override
+  String get accountInfoConfirmButton => 'Confirm';
+
+  @override
+  String get accountInfoChangeNumberButton => 'Change Number';
+
+  @override
+  String get accountInfoBirthDatePickerHelpText => 'Select your date of birth';
+
+  @override
+  String get accountInfoBirthDateNotSelected => 'Not selected';
+
+  @override
+  String get accountInfoRemoveDateButton => 'Remove Date';
+
+  @override
+  String get accountInfoGenderSheetSubtitle =>
+      'This information is only used to personalize content recommendations for you.';
+
+  @override
+  String get accountInfoCitySheetSubtitle =>
+      'Used so we can suggest local specialties when you\'re in a different city.';
+
+  @override
+  String get accountInfoCitySearchHint => 'Search city...';
+
+  @override
+  String get socialAccountsSaveError => 'Couldn\'t save, please try again.';
+
+  @override
+  String socialAccountsDisconnectDialogTitle(String platform) {
+    return 'Remove $platform connection';
+  }
+
+  @override
+  String get socialAccountsDisconnectDialogBody =>
+      'Do you want to remove this account\'s connection?';
+
+  @override
+  String get socialAccountsCancelButton => 'Cancel';
+
+  @override
+  String get socialAccountsRemoveButton => 'Remove';
+
+  @override
+  String get socialAccountsPageTitle => 'Social Media Accounts';
+
+  @override
+  String get socialAccountsPageSubtitle =>
+      'Add your social media accounts to your\naccount and manage them with ease.';
+
+  @override
+  String get socialAccountsSecureConnectionTitle => 'Secure Connection';
+
+  @override
+  String get socialAccountsSecureConnectionBody =>
+      'Your social media accounts are protected with 256-bit SSL. Your information is never shared with us.';
+
+  @override
+  String get socialAccountsAddAccountSectionTitle => 'Add Account';
+
+  @override
+  String get socialAccountsConnectedLabel =>
+      'Your account is successfully connected.';
+
+  @override
+  String get socialAccountsWhyAddTitle => 'Why should you add an account?';
+
+  @override
+  String get socialAccountsWhyAddBody =>
+      'By connecting your social media accounts, you can easily share content and manage your interactions from one place.';
+
+  @override
+  String get socialAccountsInfoSheetTitle =>
+      'Why Should I Add a Social Account?';
+
+  @override
+  String get socialAccountsInfoSheetBody =>
+      'By connecting your social media accounts to Yeedoy:\n\n• You can share your reviews and photos on social media with one tap.\n• Your profile looks more trustworthy and your community score increases.\n• Your account is protected with 256-bit SSL encryption.\n• Your information is never shared with third parties.';
+
+  @override
+  String get socialAccountsConnectedBadge => 'Connected';
+
+  @override
+  String get socialAccountsConnectButton => 'Connect';
+
+  @override
+  String get socialAccountsEditUrlAction => 'Edit URL';
+
+  @override
+  String get socialAccountsRemoveLinkAction => 'Remove Link';
+
+  @override
+  String get socialAccountsLinkDialogPrompt =>
+      'Enter your profile URL or username:';
+
+  @override
+  String get socialAccountsInstagramLabel => 'Instagram';
+
+  @override
+  String get socialAccountsInstagramDescription =>
+      'Connect your photo and video posts.';
+
+  @override
+  String get socialAccountsInstagramHint => 'https://instagram.com/username';
+
+  @override
+  String get socialAccountsFacebookLabel => 'Facebook';
+
+  @override
+  String get socialAccountsFacebookDescription =>
+      'Connect your account to share your content.';
+
+  @override
+  String get socialAccountsFacebookHint => 'https://facebook.com/username';
+
+  @override
+  String get socialAccountsXLabel => 'X (Twitter)';
+
+  @override
+  String get socialAccountsXDescription => 'Sync your tweets and interactions.';
+
+  @override
+  String get socialAccountsXHint => 'https://x.com/username';
+
+  @override
+  String get socialAccountsLinkedinLabel => 'LinkedIn';
+
+  @override
+  String get socialAccountsLinkedinDescription =>
+      'Connect your professional profile.';
+
+  @override
+  String get socialAccountsLinkedinHint => 'https://linkedin.com/in/username';
+
+  @override
+  String get socialAccountsYoutubeLabel => 'YouTube';
+
+  @override
+  String get socialAccountsYoutubeDescription =>
+      'Connect your channel and manage your content.';
+
+  @override
+  String get socialAccountsYoutubeHint => 'https://youtube.com/@channel_name';
+
+  @override
+  String get socialAccountsTiktokLabel => 'TikTok';
+
+  @override
+  String get socialAccountsTiktokDescription =>
+      'Connect your short video content.';
+
+  @override
+  String get socialAccountsTiktokHint => 'https://tiktok.com/@username';
+
+  @override
+  String get suggestBusinessCategoryRestaurant => 'Restaurant';
+
+  @override
+  String get suggestBusinessCategoryCafe => 'Cafe';
+
+  @override
+  String get suggestBusinessCategoryFish => 'Fish & Meat';
+
+  @override
+  String get suggestBusinessCategoryBakery => 'Bakery & Pastry';
+
+  @override
+  String get suggestBusinessCategoryFastfood => 'Fast Food';
+
+  @override
+  String get suggestBusinessCategoryOther => 'Other';
+
+  @override
+  String get suggestBusinessReasonTasty => 'Has delicious food';
+
+  @override
+  String get suggestBusinessReasonAtmosphere => 'Has a great atmosphere';
+
+  @override
+  String get suggestBusinessReasonAffordable => 'Affordable';
+
+  @override
+  String get suggestBusinessReasonRecommend =>
+      'I want to recommend it to my friends';
+
+  @override
+  String get suggestBusinessReasonNotOnYeedoy => 'Not on Yeedoy yet';
+
+  @override
+  String get suggestBusinessReasonOther => 'Other';
+
+  @override
+  String get suggestBusinessLoginRequired =>
+      'You need to sign in to submit a suggestion.';
+
+  @override
+  String get suggestBusinessNameRequired => 'Business name is required.';
+
+  @override
+  String get suggestBusinessCategoryRequired => 'Please select a category.';
+
+  @override
+  String get suggestBusinessInfoSectionTitle => 'Business Information';
+
+  @override
+  String get suggestBusinessReasonSectionTitle => 'Reason for Suggestion';
+
+  @override
+  String get suggestBusinessPhotoSectionTitle => 'Photo';
+
+  @override
+  String get suggestBusinessOptionalSuffix => '(Optional)';
+
+  @override
+  String get suggestBusinessContactSectionTitle => 'Contact Information';
+
+  @override
+  String get suggestBusinessPhotoSectionBody =>
+      'Strengthen your suggestion by adding photos of the business.';
+
+  @override
+  String get suggestBusinessContactSectionBody =>
+      'You can leave your details so we can get in touch with you.';
+
+  @override
+  String get suggestBusinessNameHint => 'Business Name';
+
+  @override
+  String get suggestBusinessEmailHint => 'Your email address';
+
+  @override
+  String get suggestBusinessPhoneHint => 'Your phone number';
+
+  @override
+  String get suggestBusinessCategoryHint => 'Business Category';
+
+  @override
+  String get suggestBusinessAddressHint => 'Business Address';
+
+  @override
+  String get suggestBusinessNotesHint => 'About the Business';
+
+  @override
+  String get suggestBusinessReasonHint =>
+      'Why are you suggesting this business?';
+
+  @override
+  String get suggestBusinessSubmitButton => 'Submit Suggestion';
+
+  @override
+  String get suggestBusinessHeroTitle => 'Add value to your city!';
+
+  @override
+  String get suggestBusinessHeroBody =>
+      'Can\'t find a business you like? Suggest it to us and we\'ll take a look. Let\'s create a better experience together with our community\'s suggestions.';
+
+  @override
+  String get suggestBusinessPhotoAddLabel => 'Add Photo';
+
+  @override
+  String get suggestBusinessPhotoFormatHint => 'PNG, JPG (Max. 5MB)';
+
+  @override
+  String get suggestBusinessFeedbackNotice =>
+      'We\'ll get back to you once your suggestion has been reviewed.';
+
+  @override
+  String get suggestBusinessSimilarBusinessesFound =>
+      'Similar businesses found';
+
+  @override
+  String get suggestBusinessReviewButton => 'Review';
+
+  @override
+  String get suggestBusinessHelpSheetTitle =>
+      'How Does the Suggestion Process Work?';
+
+  @override
+  String get suggestBusinessHelpStep1Title => 'You submit the suggestion';
+
+  @override
+  String get suggestBusinessHelpStep1Body =>
+      'Business name and category are required. Adding an address, notes, and your reason speeds up the review.';
+
+  @override
+  String get suggestBusinessHelpStep2Title => 'Our team reviews it';
+
+  @override
+  String get suggestBusinessHelpStep2Body =>
+      'Your suggestion lands in the admin panel. Our team filters out duplicate or inappropriate suggestions.';
+
+  @override
+  String get suggestBusinessHelpStep3Title =>
+      'The business is added to the platform';
+
+  @override
+  String get suggestBusinessHelpStep3Body =>
+      'The approved business is added to Yeedoy. You can track your suggestion\'s status from the \"My Suggestions\" screen.';
+
+  @override
+  String get suggestBusinessHelpLoginNotice =>
+      'You need to be signed in. Sign in to your account to track your suggestions.';
+
+  @override
+  String get suggestBusinessPickLocationHint =>
+      'Pick Location from Map (Optional)';
+
+  @override
+  String get suggestBusinessLocationSheetTitle => 'Select Location';
+
+  @override
+  String get suggestBusinessCurrentLocationTooltip => 'My current location';
+
+  @override
+  String get suggestBusinessLocationSheetHint =>
+      'Tap the map to mark the business\'s location.';
+
+  @override
+  String get suggestBusinessPickLocationButton => 'Select Location from Map';
+
+  @override
+  String get suggestBusinessUseThisLocationButton => 'Use This Location';
+
+  @override
+  String get helpSupportTopic1Question => 'How do I report a price change?';
+
+  @override
+  String get helpSupportTopic1Answer =>
+      'After visiting a business, you can enter the current price by tapping the \"Report Price\" button. You earn points for your contribution.';
+
+  @override
+  String get helpSupportTopic2Question => 'How do I scan a QR menu?';
+
+  @override
+  String get helpSupportTopic2Answer =>
+      'Tap the QR icon in the top right of the home screen and point your camera at the QR code on the table. The menu opens automatically.';
+
+  @override
+  String get helpSupportTopic3Question => 'How do I secure my account?';
+
+  @override
+  String get helpSupportTopic3Answer =>
+      'Use a strong password and enable two-factor authentication. You can manage all settings from the Account Security page.';
+
+  @override
+  String get helpSupportTopic4Question =>
+      'How does contributing and earning points work?';
+
+  @override
+  String get helpSupportTopic4Answer =>
+      'You earn points for contributions like reporting prices, writing reviews, and adding photos. You can track your points from your profile.';
+
+  @override
+  String get helpSupportTopic5Question =>
+      'How do I change my location and region settings?';
+
+  @override
+  String get helpSupportTopic5Answer =>
+      'Follow Settings → App Preferences → Location Settings to update your location and region.';
+
+  @override
+  String get helpSupportPageTitle => 'Help & Support';
+
+  @override
+  String get helpSupportHeaderSubtitle => 'How can we help you?';
+
+  @override
+  String get helpSupportSearchHint =>
+      'Describe your issue and let\'s find a solution together...';
+
+  @override
+  String get helpSupportLiveChatTitle => 'Live Support';
+
+  @override
+  String get helpSupportLiveChatSubtitle => 'Chat with our team instantly';
+
+  @override
+  String get helpSupportLiveChatBadge => 'Online';
+
+  @override
+  String get helpSupportEmailTitle => 'Send Email';
+
+  @override
+  String get helpSupportEmailSubtitle => 'Reach us by email';
+
+  @override
+  String get helpSupportEmailBadge => 'Reply Within 24 Hours';
+
+  @override
+  String get helpSupportMailtoSubject => 'Yeedoy Support Request';
+
+  @override
+  String get helpSupportFaqTitle => 'FAQ';
+
+  @override
+  String get helpSupportFaqSubtitle => 'Browse frequently asked questions';
+
+  @override
+  String get helpSupportFaqBadge => 'Quick Solutions';
+
+  @override
+  String get helpSupportGuideTitle => 'User Guide';
+
+  @override
+  String get helpSupportGuideSubtitle => 'Learn the app better';
+
+  @override
+  String get helpSupportGuideBadge => 'Go to Guide';
+
+  @override
+  String get helpSupportPopularTopicsTitle => 'Popular Topics';
+
+  @override
+  String get helpSupportSeeAllButton => 'See All';
+
+  @override
+  String get helpSupportNoResults => 'No results found.';
+
+  @override
+  String get helpSupportHelpCenterTitle => 'Help Center';
+
+  @override
+  String get helpSupportAccountOpsTitle => 'Account';
+
+  @override
+  String get helpSupportAccountOpsSubtitle =>
+      'Account, sign-in, password, and profile';
+
+  @override
+  String get helpSupportContributionsTitle => 'Contributions & Points';
+
+  @override
+  String get helpSupportContributionsSubtitle =>
+      'Contributing, earning points, and rewards';
+
+  @override
+  String get helpSupportAppUsageTitle => 'Using the App';
+
+  @override
+  String get helpSupportAppUsageSubtitle => 'App features and usage';
+
+  @override
+  String get helpSupportLegalPrivacyTitle => 'Legal & Privacy';
+
+  @override
+  String get helpSupportLegalPrivacySubtitle =>
+      'Privacy, security, and legal matters';
+
+  @override
+  String get helpSupportContactTitle => 'Get in Touch With Us';
+
+  @override
+  String get helpSupportContactBody =>
+      'You can share any questions, suggestions, or complaints with us.';
+
+  @override
+  String get helpSupportContactHours => 'Weekdays 09:00 - 18:00';
+
+  @override
+  String get helpSupportResolvedQuestion => 'Was your issue resolved?';
+
+  @override
+  String get helpSupportThanksSnackbar => 'Thank you! 👍';
+
+  @override
+  String get helpSupportYesResolvedButton => 'Yes, resolved';
+
+  @override
+  String get helpSupportNoContinueButton => 'No, still ongoing';
+
+  @override
+  String get faqCategoryAccountLabel => 'Account';
+
+  @override
+  String get faqCategorySecurityLabel => 'Security';
+
+  @override
+  String get faqCategoryPaymentsLabel => 'Payments';
+
+  @override
+  String get faqCategoryCampaignsLabel => 'Deals & Promotions';
+
+  @override
+  String get faqCategoryAppUsageLabel => 'Using the App';
+
+  @override
+  String get faqQ1Question => 'How do I sign in to my account?';
+
+  @override
+  String get faqQ1Answer =>
+      'Tap \"Sign In\" when the app opens. You can access your account by entering your email address and password.';
+
+  @override
+  String get faqQ2Question => 'I forgot my password, what should I do?';
+
+  @override
+  String get faqQ2Answer =>
+      'Tap \"Forgot Password\" on the sign-in screen to reset your password. A link will be sent to your registered email address.';
+
+  @override
+  String get faqQ3Question => 'How do I change my email address?';
+
+  @override
+  String get faqQ3Answer =>
+      'You can change your email address from Account Information > Email. A confirmation email will be sent to your new address.';
+
+  @override
+  String get faqQ4Question => 'How do I delete my account?';
+
+  @override
+  String get faqQ4Answer =>
+      'You can permanently delete your account from Settings > Account Security > Delete Account. This action cannot be undone.';
+
+  @override
+  String get faqQ5Question => 'How do I add a photo to my profile?';
+
+  @override
+  String get faqQ5Answer =>
+      'Tap your avatar on your profile page and choose a photo from your gallery or camera.';
+
+  @override
+  String get faqQ6Question => 'How do I enable two-factor authentication?';
+
+  @override
+  String get faqQ6Answer =>
+      'On the Account Security page, turn on \"Two-Factor Authentication\" to have an SMS code sent to your phone.';
+
+  @override
+  String get faqQ7Question =>
+      'There\'s suspicious activity on my account, what should I do?';
+
+  @override
+  String get faqQ7Answer =>
+      'Use \"Change Password\" right away and end all active sessions. Then get in touch with our support team.';
+
+  @override
+  String get faqQ8Question => 'Is my data safe?';
+
+  @override
+  String get faqQ8Answer =>
+      'All your data is protected with 256-bit SSL encryption. Your personal data is processed in accordance with data protection law.';
+
+  @override
+  String get faqQ9Question => 'What happens if I forget to sign out?';
+
+  @override
+  String get faqQ9Answer =>
+      'You can remotely end all your active sessions from the Account Security page.';
+
+  @override
+  String get faqQ10Question => 'Can I view my payments?';
+
+  @override
+  String get faqQ10Answer =>
+      'Yes. Your entire payment history is protected with 256-bit SSL encryption and can be tracked from the Payments screen.';
+
+  @override
+  String get faqQ11Question => 'How do I request a refund?';
+
+  @override
+  String get faqQ11Answer =>
+      'You can request a refund by selecting the relevant order from your orders page. The process completes within 3-5 business days.';
+
+  @override
+  String get faqQ12Question => 'Which payment methods are supported?';
+
+  @override
+  String get faqQ12Answer =>
+      'You can pay by credit card, debit card, and bank transfer/EFT. Apple Pay and Google Pay support is coming soon.';
+
+  @override
+  String get faqQ13Question => 'How do I stay informed about promotions?';
+
+  @override
+  String get faqQ13Answer =>
+      'Turn on \"Deals & Promotions\" notifications in your notification preferences to get instant alerts about new offers.';
+
+  @override
+  String get faqQ14Question => 'How do I use my coupon code?';
+
+  @override
+  String get faqQ14Answer =>
+      'You can enter your code in the \"Coupon Code\" field on the checkout screen. The discount is applied automatically.';
+
+  @override
+  String get faqQ15Question => 'How do I scan a QR menu?';
+
+  @override
+  String get faqQ15Answer =>
+      'Tap the QR icon in the top right of the home screen and point your camera at the QR code on the table. The menu opens automatically.';
+
+  @override
+  String get faqQ16Question => 'How do I report a price change?';
+
+  @override
+  String get faqQ16Answer =>
+      'After visiting a business, you can enter the current price by tapping the \"Report Price\" button. You earn points for your contribution.';
+
+  @override
+  String get faqQ17Question => 'Is there a dark mode?';
+
+  @override
+  String get faqQ17Answer =>
+      'Yes. You can enable dark mode from Settings > App Preferences > Theme.';
+
+  @override
+  String get faqQ18Question => 'How do I grant location permission?';
+
+  @override
+  String get faqQ18Answer =>
+      'You can enable location permission from your device\'s Settings > Apps > Yeedoy > Permissions menu.';
+
+  @override
+  String get faqPageTitle => 'Frequently Asked Questions';
+
+  @override
+  String get faqSearchHint => 'Search for a question or topic...';
+
+  @override
+  String get faqCategoriesSectionTitle => 'Categories';
+
+  @override
+  String faqQuestionCount(int count) {
+    return '$count Questions';
+  }
+
+  @override
+  String get faqListSectionTitle => 'Frequently Asked Questions';
+
+  @override
+  String get faqNoResultsInCategory => 'No results found in this category.';
+
+  @override
+  String get faqSupportBannerTitle =>
+      'Can\'t find the answer you\'re looking for?';
+
+  @override
+  String get faqSupportBannerBody => 'Our support team is happy to help you.';
+
+  @override
+  String get faqSupportBannerButton => 'Live Support';
+
+  @override
+  String get faqBottomHelpfulQuestion => 'Was this page helpful?';
+
+  @override
+  String get faqThanksSnackbar => 'Thank you! 👍';
+
+  @override
+  String get faqYesHelpfulButton => 'Yes, it helped';
+
+  @override
+  String get faqNoHelpfulButton => 'No, it didn\'t';
+
+  @override
+  String get yemekGunluguPageTitle => 'My Food Diary';
+
+  @override
+  String get yemekGunluguReminderTooltip => 'Set Reminder';
+
+  @override
+  String get yemekGunluguRetryButton => 'Try Again';
+
+  @override
+  String get yemekGunluguEmptyTitle => 'Your food diary is empty';
+
+  @override
+  String get yemekGunluguEmptyDescription =>
+      'You don\'t have any check-ins yet. Check in when you visit a business!';
+
+  @override
+  String yemekGunluguReminderSetSnackbar(String time) {
+    return 'Reminder set for $time';
+  }
+
+  @override
+  String get yemekGunluguReminderOffSnackbar => 'Reminder turned off';
+
+  @override
+  String get yemekGunluguToday => 'Today';
+
+  @override
+  String get yemekGunluguYesterday => 'Yesterday';
+
+  @override
+  String get yemekGunluguMonthJanuary => 'January';
+
+  @override
+  String get yemekGunluguMonthFebruary => 'February';
+
+  @override
+  String get yemekGunluguMonthMarch => 'March';
+
+  @override
+  String get yemekGunluguMonthApril => 'April';
+
+  @override
+  String get yemekGunluguMonthMay => 'May';
+
+  @override
+  String get yemekGunluguMonthJune => 'June';
+
+  @override
+  String get yemekGunluguMonthJuly => 'July';
+
+  @override
+  String get yemekGunluguMonthAugust => 'August';
+
+  @override
+  String get yemekGunluguMonthSeptember => 'September';
+
+  @override
+  String get yemekGunluguMonthOctober => 'October';
+
+  @override
+  String get yemekGunluguMonthNovember => 'November';
+
+  @override
+  String get yemekGunluguMonthDecember => 'December';
+
+  @override
+  String get yemekGunluguEditLabel => 'Edit';
+
+  @override
+  String get yemekGunluguAmountPaidLabel => 'Amount paid';
+
+  @override
+  String get yemekGunluguAmountHint => '0.00';
+
+  @override
+  String get yemekGunluguNoteLabel => 'Your note';
+
+  @override
+  String get yemekGunluguNoteHint => 'Write about your experience...';
+
+  @override
+  String get yemekGunluguRatingLabel => 'Your Rating';
+
+  @override
+  String get yemekGunluguSaveButton => 'Save';
+
+  @override
+  String get yemekGunluguReminderSheetTitle => 'Food Diary Reminder';
+
+  @override
+  String get yemekGunluguReminderSheetSubtitle =>
+      'A check-in reminder is sent every day at the time you set.';
+
+  @override
+  String get yemekGunluguDailyReminderTitle => 'Daily Reminder';
+
+  @override
+  String get yemekGunluguDailyReminderSubtitle =>
+      'Send a notification every day at the selected time';
+
+  @override
+  String get yemekGunluguReminderTimeLabel => 'Reminder Time';
+
+  @override
+  String get yemekGunluguHourLabel => 'Hour';
+
+  @override
+  String get yemekGunluguMinuteLabel => 'Minute';
+
+  @override
+  String get searchFilterAllOption => 'All';
+
+  @override
+  String get searchFilterCategoryRestaurant => 'Restaurant';
+
+  @override
+  String get searchFilterCategoryCafe => 'Cafe';
+
+  @override
+  String get searchFilterCategoryFastFood => 'Fast Food';
+
+  @override
+  String get searchFilterCategoryBakery => 'Bakery';
+
+  @override
+  String get searchFilterCategoryBreakfast => 'Breakfast';
+
+  @override
+  String get searchFilterCategoryFishMeat => 'Fish/Meat';
+
+  @override
+  String get searchFilterCategoryVenue => 'Venue';
+
+  @override
+  String get searchFilterCuisineTurkish => 'Turkish Cuisine';
+
+  @override
+  String get searchFilterCuisineItalian => 'Italian';
+
+  @override
+  String get searchFilterCuisineFarEast => 'Far East';
+
+  @override
+  String get searchFilterCuisineHamburger => 'Hamburger';
+
+  @override
+  String get searchFilterCuisineVegetarian => 'Vegetarian';
+
+  @override
+  String get searchFilterCuisineChinese => 'Chinese';
+
+  @override
+  String get searchFilterCuisineMexican => 'Mexican';
+
+  @override
+  String get searchFilterCuisineIndian => 'Indian';
+
+  @override
+  String get searchFilterCuisineJapanese => 'Japanese';
+
+  @override
+  String get searchFilterPageTitle => 'Search & Filter';
+
+  @override
+  String get searchFilterClearButton => 'Clear';
+
+  @override
+  String get searchFilterSearchHint =>
+      'Search for a business, cuisine, or menu item...';
+
+  @override
+  String get searchFilterLocationSectionTitle => 'Location';
+
+  @override
+  String get searchFilterChangeButton => 'Change';
+
+  @override
+  String get searchFilterLocationNotSelected => 'No location selected';
+
+  @override
+  String get searchFilterCategoriesSectionTitle => 'Categories';
+
+  @override
+  String get searchFilterCuisineSectionTitle => 'Cuisine Type';
+
+  @override
+  String get searchFilterPriceRangeSectionTitle => 'Price Range';
+
+  @override
+  String get searchFilterEnterRangeButton => 'Enter range';
+
+  @override
+  String get searchFilterRatingSectionTitle => 'Rating';
+
+  @override
+  String get searchFilterOpenClosedSectionTitle => 'Open / Closed';
+
+  @override
+  String get searchFilterOpenOnly => 'Open';
+
+  @override
+  String get searchFilterOpenNow => 'Open Now';
+
+  @override
+  String get searchFilterClosedOnly => 'Closed';
+
+  @override
+  String get searchFilterOtherFiltersSectionTitle => 'Other Filters';
+
+  @override
+  String get searchFilterOffersTitle => 'Has Offers';
+
+  @override
+  String get searchFilterOffersSubtitle =>
+      'Businesses offering discounts or deals';
+
+  @override
+  String get searchFilterPriceAlertTitle =>
+      'Businesses I\'ve Set Price Alerts For';
+
+  @override
+  String get searchFilterPriceAlertSubtitle =>
+      'Show businesses you\'ve set an alert for';
+
+  @override
+  String get searchFilterFavoritesTitle => 'My Favorites';
+
+  @override
+  String get searchFilterFavoritesSubtitle =>
+      'Businesses you\'ve added to favorites';
+
+  @override
+  String searchFilterShowResultsButton(int count) {
+    return 'Show Results ($count)';
+  }
+
+  @override
+  String get searchFilterPriceDialogTitle => 'Enter Price Range';
+
+  @override
+  String get searchFilterMinPriceLabel => 'Min ₺';
+
+  @override
+  String get searchFilterMaxPriceLabel => 'Max ₺';
+
+  @override
+  String get searchFilterMaxPriceHint => '1000+';
+
+  @override
+  String get searchFilterCancelButton => 'Cancel';
+
+  @override
+  String get searchFilterApplyButton => 'Apply';
+
+  @override
+  String get reservationNameTooShortError =>
+      'Full name must be at least 2 characters.';
+
+  @override
+  String get reservationPhoneTooShortError =>
+      'Phone number must be at least 10 characters.';
+
+  @override
+  String get reservationDateRequiredError => 'Please select a date.';
+
+  @override
+  String reservationPartySizeRangeError(int min, int max) {
+    return 'Party size must be between $min and $max.';
+  }
+
+  @override
+  String get reservationPageTitle => 'Make a Reservation';
+
+  @override
+  String get reservationCloseTooltip => 'Close';
+
+  @override
+  String get reservationNameLabel => 'Full Name *';
+
+  @override
+  String get reservationNameHint => 'Your first and last name';
+
+  @override
+  String get reservationPhoneLabel => 'Phone *';
+
+  @override
+  String get reservationPhoneHint => '0555 000 00 00';
+
+  @override
+  String get reservationEmailLabel => 'Email';
+
+  @override
+  String get reservationEmailHint => 'example@email.com';
+
+  @override
+  String get reservationDateLabel => 'Date *';
+
+  @override
+  String get reservationDatePickHint => 'Select date';
+
+  @override
+  String get reservationTimeLabel => 'Time *';
+
+  @override
+  String get reservationTimePickHint => 'Select time';
+
+  @override
+  String get reservationPartySizeLabel => 'Party Size *';
+
+  @override
+  String reservationPartySizeRangeHint(int min, int max) {
+    return '($min–$max people)';
+  }
+
+  @override
+  String get reservationSpecialRequestLabel => 'Special Request';
+
+  @override
+  String get reservationSpecialRequestHint => 'Birthday, window seat, etc.';
+
+  @override
+  String get reservationSuccessTitle =>
+      'Your Reservation Request Has Been Received!';
+
+  @override
+  String get reservationSuccessSubtitle =>
+      'The business will get in touch with you shortly.';
+
+  @override
+  String get reservationNumberLabel => 'Reservation No';
+
+  @override
+  String get reservationOkButton => 'OK';
+
+  @override
+  String get contributePageTitle => 'Contribute';
+
+  @override
+  String get contributePageSubtitle =>
+      'Help keep menus and prices up to date by contributing to the community.';
+
+  @override
+  String get contributeHeroTitle => 'Your contributions matter!';
+
+  @override
+  String get contributeHeroSubtitle =>
+      'Earn points and badges for verified contributions.';
+
+  @override
+  String get contributeQrScanTitle => 'Scan QR Menu';
+
+  @override
+  String get contributeQrScanSubtitle => 'Quickly scan the venue\'s QR menu';
+
+  @override
+  String get contributePhotoUploadTitle => 'Upload Photo';
+
+  @override
+  String get contributePhotoUploadSubtitle =>
+      'Add a photo of the menu, venue, or food';
+
+  @override
+  String get contributePriceVerifyTitle => 'Verify Price Change';
+
+  @override
+  String get contributePriceVerifySubtitle =>
+      'Confirm the current price information';
+
+  @override
+  String get contributeRecentSectionTitle => 'Your recent contributions';
+
+  @override
+  String get contributeSeeAllButton => 'See all';
+
+  @override
+  String get contributeEmptyState =>
+      'No contributions yet.\nYou can get started by picking a contribution type above!';
+
+  @override
+  String get contributeScoreLabel => 'Your contribution score';
+
+  @override
+  String get contributeThisWeekLabel => 'This week';
+
+  @override
+  String contributeWeeklyCountLabel(int count) {
+    return '$count contributions made';
+  }
+
+  @override
+  String get contributeQrScannedSnackbar => 'QR code scanned, sent for review.';
+
+  @override
+  String get contributeVisitBusinessSnackbar =>
+      'Visit a business page to make a contribution.';
+
+  @override
+  String get contributeTypePriceLabel => 'Price verification';
+
+  @override
+  String get contributeTypeMenuLabel => 'Menu contribution';
+
+  @override
+  String get contributeTypeBusinessLabel => 'Business suggestion';
+
+  @override
+  String get contributeStatusApproved => 'Approved';
+
+  @override
+  String get contributeStatusRejected => 'Rejected';
+
+  @override
+  String get contributeStatusUnderReview => 'Under Review';
+
+  @override
+  String get contributeStatusPending => 'Pending';
+
+  @override
+  String contributeMinutesAgo(int count) {
+    return '$count minutes ago';
+  }
+
+  @override
+  String contributeHoursAgo(int count) {
+    return '$count hours ago';
+  }
+
+  @override
+  String get contributeOneDayAgo => '1 day ago';
+
+  @override
+  String contributeDaysAgo(int count) {
+    return '$count days ago';
+  }
+
+  @override
+  String get oyVerDefaultTitle => 'Group Vote';
+
+  @override
+  String get oyVerListNotFoundTitle => 'List not found';
+
+  @override
+  String get oyVerInvalidTokenBody => 'The token may be invalid.';
+
+  @override
+  String get oyVerEmptyListMessage =>
+      'There are no businesses in this list yet.';
+
+  @override
+  String oyVerOptionsCountLabel(int count) {
+    return '$count options — vote up or down';
+  }
+
+  @override
+  String get oyVerYesButton => 'Let\'s go';
+
+  @override
+  String get oyVerNoButton => 'No';
+
+  @override
+  String get priceAlertsPageSubtitle =>
+      'Don\'t miss a good price — set an alert!';
+
+  @override
+  String get priceAlertsDeleteDialogTitle => 'Delete alert';
+
+  @override
+  String get priceAlertsDeleteDialogBody =>
+      'This alert will be deleted. Are you sure?';
+
+  @override
+  String get priceAlertsCancelButton => 'Cancel';
+
+  @override
+  String get priceAlertsDeleteButton => 'Delete';
+
+  @override
+  String get priceAlertsPromoBannerTitle =>
+      'Get notified when the price drops!';
+
+  @override
+  String get priceAlertsPromoBannerBody =>
+      'Set your alerts and be the first to catch a deal.';
+
+  @override
+  String get priceAlertsSetAlarmButton => 'Set Alert';
+
+  @override
+  String get priceAlertsActiveTab => 'Active Alerts';
+
+  @override
+  String get priceAlertsTriggeredTab => 'Triggered';
+
+  @override
+  String get priceAlertsPausedTab => 'Paused Alerts';
+
+  @override
+  String get priceAlertsNoActiveTitle => 'No active alerts';
+
+  @override
+  String get priceAlertsNoPausedTitle => 'No paused alerts';
+
+  @override
+  String get priceAlertsNoActiveDescription =>
+      'Set an alert and get notified when the price drops.';
+
+  @override
+  String get priceAlertsNoPausedDescription => 'There are no paused alerts.';
+
+  @override
+  String get priceAlertsTargetPriceLabel => 'Target Price';
+
+  @override
+  String get priceAlertsPauseButton => 'Pause';
+
+  @override
+  String get priceAlertsActivateButton => 'Activate';
+
+  @override
+  String get priceAlertsNoTriggeredTitle => 'No triggered alerts yet';
+
+  @override
+  String get priceAlertsNoTriggeredDescription =>
+      'It\'ll show up here once the price hits your target.';
+
+  @override
+  String get priceAlertsMatchedPriceLabel => 'Matched Price';
+
+  @override
+  String get priceAlertsPreviousPriceLabel => 'Previous Price';
+
+  @override
+  String priceAlertsPercentDropLabel(int percent) {
+    return '$percent% off';
+  }
+
+  @override
+  String get priceAlertsTipBannerTitle =>
+      'Prices change — don\'t miss out on deals!';
+
+  @override
+  String get priceAlertsTipBannerBody =>
+      'Remember to check your alerts regularly.';
 }

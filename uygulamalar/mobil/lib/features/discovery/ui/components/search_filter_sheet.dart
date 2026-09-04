@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../app/theme/colors.dart';
+import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/location/user_location_controller.dart';
 import '../../domain/discovery_search_notifier.dart';
 import '../../domain/discovery_search_state.dart';
@@ -35,27 +36,27 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
   bool _hasPriceAlert = false;
   bool _favoritesOnly = false;
 
-  static const _categories = <(String, String)>[
-    ('', 'Tümü'),
-    ('Restoran', 'Restoran'),
-    ('Kafe', 'Kafe'),
-    ('Fast Food', 'Fast Food'),
-    ('Tatlı / Pastane', 'Pastane'),
-    ('Kahvaltı', 'Kahvaltı'),
-    ('Balık / Et', 'Balık/Et'),
-    ('Mekan', 'Mekan'),
+  List<(String, String)> _categories(BuildContext context) => [
+    ('', context.l10n.searchFilterAllOption),
+    ('Restoran', context.l10n.searchFilterCategoryRestaurant),
+    ('Kafe', context.l10n.searchFilterCategoryCafe),
+    ('Fast Food', context.l10n.searchFilterCategoryFastFood),
+    ('Tatlı / Pastane', context.l10n.searchFilterCategoryBakery),
+    ('Kahvaltı', context.l10n.searchFilterCategoryBreakfast),
+    ('Balık / Et', context.l10n.searchFilterCategoryFishMeat),
+    ('Mekan', context.l10n.searchFilterCategoryVenue),
   ];
 
-  static const _cuisines = <String>[
-    'Türk Mutfağı',
-    'İtalyan',
-    'Uzakdoğu',
-    'Hamburger',
-    'Vejetar',
-    'Çin',
-    'Meksika',
-    'Hint',
-    'Japon',
+  List<(String, String)> _cuisines(BuildContext context) => [
+    ('Türk Mutfağı', context.l10n.searchFilterCuisineTurkish),
+    ('İtalyan', context.l10n.searchFilterCuisineItalian),
+    ('Uzakdoğu', context.l10n.searchFilterCuisineFarEast),
+    ('Hamburger', context.l10n.searchFilterCuisineHamburger),
+    ('Vejetar', context.l10n.searchFilterCuisineVegetarian),
+    ('Çin', context.l10n.searchFilterCuisineChinese),
+    ('Meksika', context.l10n.searchFilterCuisineMexican),
+    ('Hint', context.l10n.searchFilterCuisineIndian),
+    ('Japon', context.l10n.searchFilterCuisineJapanese),
   ];
 
   @override
@@ -156,11 +157,11 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                   icon: const Icon(Icons.close_rounded),
                   color: AppColors.textStrong,
                 ),
-                const Expanded(
+                Expanded(
                   child: Text(
-                    'Arama & Filtrele',
+                    context.l10n.searchFilterPageTitle,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w900,
                       color: AppColors.textStrong,
@@ -169,9 +170,9 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                 ),
                 TextButton(
                   onPressed: _reset,
-                  child: const Text(
-                    'Temizle',
-                    style: TextStyle(
+                  child: Text(
+                    context.l10n.searchFilterClearButton,
+                    style: const TextStyle(
                       color: AppColors.primary,
                       fontWeight: FontWeight.w700,
                     ),
@@ -194,7 +195,7 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                     child: TextField(
                       controller: _queryCtrl,
                       decoration: InputDecoration(
-                        hintText: 'İşletme, mutfak veya menü ara...',
+                        hintText: context.l10n.searchFilterSearchHint,
                         prefixIcon: const Icon(Icons.search_rounded),
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 16,
@@ -223,15 +224,15 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                   // ── Konum ─────────────────────────────────────────────────
                   _SectionHeader(
                     icon: Icons.location_on_outlined,
-                    title: 'Konum',
+                    title: context.l10n.searchFilterLocationSectionTitle,
                     trailing: GestureDetector(
                       onTap: () {
                         Navigator.of(context).pop();
                         context.push('/location-picker');
                       },
-                      child: const Text(
-                        'Değiştir',
-                        style: TextStyle(
+                      child: Text(
+                        context.l10n.searchFilterChangeButton,
+                        style: const TextStyle(
                           color: AppColors.primary,
                           fontWeight: FontWeight.w700,
                           fontSize: 14,
@@ -264,7 +265,7 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                             child: Text(
                               locationLabel.isNotEmpty
                                   ? locationLabel
-                                  : 'Konum seçilmedi',
+                                  : context.l10n.searchFilterLocationNotSelected,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.textStrong,
@@ -283,9 +284,9 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                   const Divider(height: 1, indent: 16, endIndent: 16),
                   const SizedBox(height: 20),
                   // ── Kategoriler ───────────────────────────────────────────
-                  const _SectionHeader(
+                  _SectionHeader(
                     icon: Icons.apps_rounded,
-                    title: 'Kategoriler',
+                    title: context.l10n.searchFilterCategoriesSectionTitle,
                   ),
                   const SizedBox(height: 12),
                   SingleChildScrollView(
@@ -293,7 +294,7 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
                       children: [
-                        for (final (value, label) in _categories) ...[
+                        for (final (value, label) in _categories(context)) ...[
                           _FilterChip(
                             label: label,
                             selected: _category == value && _cuisine.isEmpty,
@@ -313,7 +314,7 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                   // ── Mutfak Türü ───────────────────────────────────────────
                   _SectionHeader(
                     icon: Icons.ramen_dining_outlined,
-                    title: 'Mutfak Türü',
+                    title: context.l10n.searchFilterCuisineSectionTitle,
                     trailing: GestureDetector(
                       onTap: () =>
                           setState(() => _cuisineExpanded = !_cuisineExpanded),
@@ -333,12 +334,12 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                         spacing: 8,
                         runSpacing: 8,
                         children: [
-                          for (final c in _cuisines)
+                          for (final (value, label) in _cuisines(context))
                             _FilterChip(
-                              label: c,
-                              selected: _cuisine == c,
+                              label: label,
+                              selected: _cuisine == value,
                               onTap: () => setState(() {
-                                _cuisine = _cuisine == c ? '' : c;
+                                _cuisine = _cuisine == value ? '' : value;
                                 if (_cuisine.isNotEmpty) _category = '';
                               }),
                             ),
@@ -352,12 +353,12 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                   // ── Fiyat Aralığı ─────────────────────────────────────────
                   _SectionHeader(
                     icon: Icons.sell_outlined,
-                    title: 'Fiyat Aralığı',
+                    title: context.l10n.searchFilterPriceRangeSectionTitle,
                     trailing: GestureDetector(
                       onTap: _showPriceInput,
-                      child: const Text(
-                        'Aralığı gir',
-                        style: TextStyle(
+                      child: Text(
+                        context.l10n.searchFilterEnterRangeButton,
+                        style: const TextStyle(
                           color: AppColors.primary,
                           fontWeight: FontWeight.w700,
                           fontSize: 14,
@@ -413,9 +414,9 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                   const Divider(height: 1, indent: 16, endIndent: 16),
                   const SizedBox(height: 20),
                   // ── Puan ─────────────────────────────────────────────────
-                  const _SectionHeader(
+                  _SectionHeader(
                     icon: Icons.star_outline_rounded,
-                    title: 'Puan',
+                    title: context.l10n.searchFilterRatingSectionTitle,
                   ),
                   const SizedBox(height: 12),
                   SingleChildScrollView(
@@ -424,7 +425,7 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                     child: Row(
                       children: [
                         _FilterChip(
-                          label: 'Tümü',
+                          label: context.l10n.searchFilterAllOption,
                           selected: _ratingIdx == 0,
                           onTap: () => setState(() => _ratingIdx = 0),
                         ),
@@ -449,9 +450,9 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                   const Divider(height: 1, indent: 16, endIndent: 16),
                   const SizedBox(height: 20),
                   // ── Açık / Kapalı ─────────────────────────────────────────
-                  const _SectionHeader(
+                  _SectionHeader(
                     icon: Icons.schedule_outlined,
-                    title: 'Açık / Kapalı',
+                    title: context.l10n.searchFilterOpenClosedSectionTitle,
                   ),
                   const SizedBox(height: 12),
                   SingleChildScrollView(
@@ -460,13 +461,13 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                     child: Row(
                       children: [
                         _FilterChip(
-                          label: 'Tümü',
+                          label: context.l10n.searchFilterAllOption,
                           selected: _openStatus == 0,
                           onTap: () => setState(() => _openStatus = 0),
                         ),
                         const SizedBox(width: 8),
                         _FilterChip(
-                          label: 'Açık Olanlar',
+                          label: context.l10n.searchFilterOpenOnly,
                           leading: Container(
                             width: 8,
                             height: 8,
@@ -480,7 +481,7 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                         ),
                         const SizedBox(width: 8),
                         _FilterChip(
-                          label: 'Şu An Açık',
+                          label: context.l10n.searchFilterOpenNow,
                           leading: Container(
                             width: 8,
                             height: 8,
@@ -494,7 +495,7 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                         ),
                         const SizedBox(width: 8),
                         _FilterChip(
-                          label: 'Kapalılar',
+                          label: context.l10n.searchFilterClosedOnly,
                           leading: Container(
                             width: 8,
                             height: 8,
@@ -513,29 +514,29 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                   const Divider(height: 1, indent: 16, endIndent: 16),
                   const SizedBox(height: 20),
                   // ── Diğer Filtreler ───────────────────────────────────────
-                  const _SectionHeader(
+                  _SectionHeader(
                     icon: Icons.tune_rounded,
-                    title: 'Diğer Filtreler',
+                    title: context.l10n.searchFilterOtherFiltersSectionTitle,
                   ),
                   const SizedBox(height: 8),
                   _ToggleRow(
                     icon: Icons.local_offer_outlined,
-                    title: 'Fırsatları Olanlar',
-                    subtitle: 'İndirim veya fırsat sunan işletmeler',
+                    title: context.l10n.searchFilterOffersTitle,
+                    subtitle: context.l10n.searchFilterOffersSubtitle,
                     value: _hasOffers,
                     onChanged: (v) => setState(() => _hasOffers = v),
                   ),
                   _ToggleRow(
                     icon: Icons.notifications_outlined,
-                    title: 'Fiyat Alarmı Kurduğum İşletmeler',
-                    subtitle: 'Alarm kurduğun işletmeleri göster',
+                    title: context.l10n.searchFilterPriceAlertTitle,
+                    subtitle: context.l10n.searchFilterPriceAlertSubtitle,
                     value: _hasPriceAlert,
                     onChanged: (v) => setState(() => _hasPriceAlert = v),
                   ),
                   _ToggleRow(
                     icon: Icons.favorite_outline,
-                    title: 'Favorilerim',
-                    subtitle: 'Favorilerine eklediğin işletmeler',
+                    title: context.l10n.searchFilterFavoritesTitle,
+                    subtitle: context.l10n.searchFilterFavoritesSubtitle,
                     value: _favoritesOnly,
                     onChanged: (v) => setState(() => _favoritesOnly = v),
                   ),
@@ -563,7 +564,7 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
                   ),
                 ),
                 child: Text(
-                  'Sonuçları Göster ($itemCount)',
+                  context.l10n.searchFilterShowResultsButton(itemCount),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
@@ -588,16 +589,16 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
     showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Fiyat Aralığı Gir'),
+        title: Text(ctx.l10n.searchFilterPriceDialogTitle),
         content: Row(
           children: [
             Expanded(
               child: TextField(
                 controller: minCtrl,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Min ₺',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: ctx.l10n.searchFilterMinPriceLabel,
+                  border: const OutlineInputBorder(),
                 ),
               ),
             ),
@@ -609,10 +610,10 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
               child: TextField(
                 controller: maxCtrl,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Max ₺',
-                  hintText: '1000+',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: ctx.l10n.searchFilterMaxPriceLabel,
+                  hintText: ctx.l10n.searchFilterMaxPriceHint,
+                  border: const OutlineInputBorder(),
                 ),
               ),
             ),
@@ -621,7 +622,7 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('İptal'),
+            child: Text(ctx.l10n.searchFilterCancelButton),
           ),
           FilledButton(
             onPressed: () {
@@ -635,7 +636,7 @@ class _SearchFilterSheetState extends ConsumerState<SearchFilterSheet> {
               });
               Navigator.pop(ctx);
             },
-            child: const Text('Uygula'),
+            child: Text(ctx.l10n.searchFilterApplyButton),
           ),
         ],
       ),

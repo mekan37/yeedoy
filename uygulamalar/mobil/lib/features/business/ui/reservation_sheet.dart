@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/theme/app_tokens.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../app/theme/colors.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../data/reservation_repository.dart';
 import '../domain/business.dart';
 
@@ -75,28 +76,28 @@ class _ReservationController extends Notifier<_ReservationFormState> {
     state = fn(state);
   }
 
-  Future<void> submit(Business business) async {
+  Future<void> submit(BuildContext context, Business business) async {
     final s = state;
+    final t = context.l10n;
 
     // ── Validation ────────────────────────────────────────────────────────────
     if (s.name.trim().length < 2) {
-      state = state.copyWith(error: 'Ad Soyad en az 2 karakter olmalıdır.');
+      state = state.copyWith(error: t.reservationNameTooShortError);
       return;
     }
     if (s.phone.trim().length < 10) {
-      state = state.copyWith(
-          error: 'Telefon numarası en az 10 karakter olmalıdır.');
+      state = state.copyWith(error: t.reservationPhoneTooShortError);
       return;
     }
     if (s.date == null) {
-      state = state.copyWith(error: 'Lütfen bir tarih seçin.');
+      state = state.copyWith(error: t.reservationDateRequiredError);
       return;
     }
     final minParty = business.reservationMinParty;
     final maxParty = business.reservationMaxParty;
     if (s.partySize < minParty || s.partySize > maxParty) {
       state = state.copyWith(
-        error: 'Kişi sayısı $minParty ile $maxParty arasında olmalıdır.',
+        error: t.reservationPartySizeRangeError(minParty, maxParty),
       );
       return;
     }
@@ -220,7 +221,7 @@ class _ReservationSheet extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Rezervasyon Yap',
+                  context.l10n.reservationPageTitle,
                   style: context.sectionTitleStyle,
                 ),
                 const SizedBox(height: 2),
@@ -236,7 +237,7 @@ class _ReservationSheet extends ConsumerWidget {
           IconButton(
             onPressed: () => Navigator.of(context).pop(),
             icon: const Icon(Icons.close),
-            tooltip: 'Kapat',
+            tooltip: context.l10n.reservationCloseTooltip,
             style: IconButton.styleFrom(
               minimumSize: const Size(44, 44),
             ),
@@ -266,40 +267,40 @@ class _ReservationSheet extends ConsumerWidget {
       children: [
         // Ad Soyad
         _FormField(
-          label: 'Ad Soyad *',
+          label: context.l10n.reservationNameLabel,
           child: TextField(
             onChanged: (v) => ctrl.update((s) => s.copyWith(name: v)),
             textCapitalization: TextCapitalization.words,
-            decoration: const InputDecoration(hintText: 'Adınız ve soyadınız'),
+            decoration: InputDecoration(hintText: context.l10n.reservationNameHint),
           ),
         ),
         SizedBox(height: tok.space12),
 
         // Telefon
         _FormField(
-          label: 'Telefon *',
+          label: context.l10n.reservationPhoneLabel,
           child: TextField(
             onChanged: (v) => ctrl.update((s) => s.copyWith(phone: v)),
             keyboardType: TextInputType.phone,
-            decoration: const InputDecoration(hintText: '0555 000 00 00'),
+            decoration: InputDecoration(hintText: context.l10n.reservationPhoneHint),
           ),
         ),
         SizedBox(height: tok.space12),
 
         // E-posta
         _FormField(
-          label: 'E-posta',
+          label: context.l10n.reservationEmailLabel,
           child: TextField(
             onChanged: (v) => ctrl.update((s) => s.copyWith(email: v)),
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(hintText: 'ornek@email.com'),
+            decoration: InputDecoration(hintText: context.l10n.reservationEmailHint),
           ),
         ),
         SizedBox(height: tok.space12),
 
         // Tarih
         _FormField(
-          label: 'Tarih *',
+          label: context.l10n.reservationDateLabel,
           child: InkWell(
             onTap: () async {
               final picked = await showDatePicker(
@@ -320,7 +321,7 @@ class _ReservationSheet extends ConsumerWidget {
                       '${state.date!.month.toString().padLeft(2, '0')}.'
                       '${state.date!.year}'
                   : null,
-              hint: 'Tarih seçin',
+              hint: context.l10n.reservationDatePickHint,
               icon: Icons.calendar_today_outlined,
             ),
           ),
@@ -329,7 +330,7 @@ class _ReservationSheet extends ConsumerWidget {
 
         // Saat
         _FormField(
-          label: 'Saat *',
+          label: context.l10n.reservationTimeLabel,
           child: InkWell(
             onTap: () async {
               final picked = await showTimePicker(
@@ -348,7 +349,7 @@ class _ReservationSheet extends ConsumerWidget {
             borderRadius: BorderRadius.circular(16),
             child: _DateTimeDisplay(
               value: state.time,
-              hint: 'Saat seçin',
+              hint: context.l10n.reservationTimePickHint,
               icon: Icons.access_time_outlined,
             ),
           ),
@@ -357,7 +358,7 @@ class _ReservationSheet extends ConsumerWidget {
 
         // Kişi Sayısı
         _FormField(
-          label: 'Kişi Sayısı *',
+          label: context.l10n.reservationPartySizeLabel,
           child: Row(
             children: [
               _StepButton(
@@ -386,7 +387,10 @@ class _ReservationSheet extends ConsumerWidget {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  '(${business.reservationMinParty}–${business.reservationMaxParty} kişi)',
+                  context.l10n.reservationPartySizeRangeHint(
+                    business.reservationMinParty,
+                    business.reservationMaxParty,
+                  ),
                   style: context.captionStyle,
                 ),
               ),
@@ -397,13 +401,13 @@ class _ReservationSheet extends ConsumerWidget {
 
         // Özel İstek
         _FormField(
-          label: 'Özel İstek',
+          label: context.l10n.reservationSpecialRequestLabel,
           child: TextField(
             onChanged: (v) => ctrl.update((s) => s.copyWith(specialRequest: v)),
             maxLines: 3,
             maxLength: 500,
-            decoration: const InputDecoration(
-              hintText: 'Doğum günü, pencere kenarı, vb.',
+            decoration: InputDecoration(
+              hintText: context.l10n.reservationSpecialRequestHint,
               alignLabelWithHint: true,
             ),
           ),
@@ -464,7 +468,8 @@ class _ReservationSheet extends ConsumerWidget {
         width: double.infinity,
         height: 52,
         child: FilledButton(
-          onPressed: state.pending ? null : () => ctrl.submit(business),
+          onPressed:
+              state.pending ? null : () => ctrl.submit(context, business),
           child: state.pending
               ? const SizedBox(
                   width: 22,
@@ -476,7 +481,7 @@ class _ReservationSheet extends ConsumerWidget {
                   ),
                 )
               : Text(
-                  'Rezervasyon Yap',
+                  context.l10n.reservationPageTitle,
                   style: context.appText.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w800,
                   ),
@@ -523,13 +528,13 @@ class _ReservationSheet extends ConsumerWidget {
                 ),
                 SizedBox(height: tok.space16),
                 Text(
-                  'Rezervasyon Talebiniz Alındı!',
+                  context.l10n.reservationSuccessTitle,
                   style: context.sectionTitleStyle,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: tok.space8),
                 Text(
-                  'İşletme en kısa sürede sizinle iletişime geçecektir.',
+                  context.l10n.reservationSuccessSubtitle,
                   style: context.subtitleStyle,
                   textAlign: TextAlign.center,
                 ),
@@ -550,7 +555,7 @@ class _ReservationSheet extends ConsumerWidget {
                   child: Column(
                     children: [
                       Text(
-                        'Rezervasyon No',
+                        context.l10n.reservationNumberLabel,
                         style: context.captionStyle,
                       ),
                       const SizedBox(height: 6),
@@ -571,9 +576,9 @@ class _ReservationSheet extends ConsumerWidget {
                   height: 52,
                   child: FilledButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: const Text(
-                      'Tamam',
-                      style: TextStyle(
+                    child: Text(
+                      context.l10n.reservationOkButton,
+                      style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w800,
                       ),

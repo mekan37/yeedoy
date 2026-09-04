@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../features/shared/ui/components/app_appbar.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../../features/shared/ui/design_system.dart';
@@ -19,11 +20,11 @@ class YemekGunluguSayfasi extends ConsumerWidget {
     final journalAsync = ref.watch(yemekGunluguProvider);
     return AppScaffold(
       appBar: AppAppBar(
-        title: const Text('Yemek Günlüğüm'),
+        title: Text(context.l10n.yemekGunluguPageTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications_outlined),
-            tooltip: 'Hatırlatıcı Ayarla',
+            tooltip: context.l10n.yemekGunluguReminderTooltip,
             onPressed: () => _showHatirlaticiSheet(context),
           ),
         ],
@@ -44,21 +45,20 @@ class YemekGunluguSayfasi extends ConsumerWidget {
                 onPressed: () =>
                     ref.read(yemekGunluguProvider.notifier).refresh(),
                 icon: const Icon(Icons.refresh),
-                label: const Text('Tekrar Dene'),
+                label: Text(context.l10n.yemekGunluguRetryButton),
               ),
             ],
           ),
         ),
         data: (entries) {
           if (entries.isEmpty) {
-            return const AppEmptyState(
+            return AppEmptyState(
               icon: Icons.restaurant_menu_rounded,
-              title: 'Yemek günlüğün boş',
-              description:
-                  'Henüz check-in kaydın yok. Bir işletmeye gittiğinde check-in yap!',
+              title: context.l10n.yemekGunluguEmptyTitle,
+              description: context.l10n.yemekGunluguEmptyDescription,
             );
           }
-          final grouped = _groupByDate(entries);
+          final grouped = _groupByDate(context, entries);
           return RefreshIndicator(
             onRefresh: () => ref.read(yemekGunluguProvider.notifier).refresh(),
             child: ListView.builder(
@@ -107,8 +107,10 @@ class YemekGunluguSayfasi extends ConsumerWidget {
               SnackBar(
                 content: Text(
                   en
-                      ? 'Hatırlatıcı ${s.toString().padLeft(2, '0')}:${d.toString().padLeft(2, '0')} için ayarlandı'
-                      : 'Hatırlatıcı kapatıldı',
+                      ? ctx.l10n.yemekGunluguReminderSetSnackbar(
+                          '${s.toString().padLeft(2, '0')}:${d.toString().padLeft(2, '0')}',
+                        )
+                      : ctx.l10n.yemekGunluguReminderOffSnackbar,
                 ),
               ),
             );
@@ -118,11 +120,14 @@ class YemekGunluguSayfasi extends ConsumerWidget {
     );
   }
 
-  List<_DateGroupData> _groupByDate(List<YemekGunluguKaydi> entries) {
+  List<_DateGroupData> _groupByDate(
+    BuildContext context,
+    List<YemekGunluguKaydi> entries,
+  ) {
     final map = <String, List<YemekGunluguKaydi>>{};
     final order = <String>[];
     for (final e in entries) {
-      final label = _formatDate(e.checkedInAt);
+      final label = _formatDate(context, e.checkedInAt);
       if (!map.containsKey(label)) {
         map[label] = [];
         order.add(label);
@@ -134,26 +139,26 @@ class YemekGunluguSayfasi extends ConsumerWidget {
         .toList();
   }
 
-  String _formatDate(DateTime dt) {
+  String _formatDate(BuildContext context, DateTime dt) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final d = DateTime(dt.year, dt.month, dt.day);
     final diff = today.difference(d).inDays;
-    if (diff == 0) return 'Bugün';
-    if (diff == 1) return 'Dün';
+    if (diff == 0) return context.l10n.yemekGunluguToday;
+    if (diff == 1) return context.l10n.yemekGunluguYesterday;
     final months = [
-      'Ocak',
-      'Şubat',
-      'Mart',
-      'Nisan',
-      'Mayıs',
-      'Haziran',
-      'Temmuz',
-      'Ağustos',
-      'Eylül',
-      'Ekim',
-      'Kasım',
-      'Aralık',
+      context.l10n.yemekGunluguMonthJanuary,
+      context.l10n.yemekGunluguMonthFebruary,
+      context.l10n.yemekGunluguMonthMarch,
+      context.l10n.yemekGunluguMonthApril,
+      context.l10n.yemekGunluguMonthMay,
+      context.l10n.yemekGunluguMonthJune,
+      context.l10n.yemekGunluguMonthJuly,
+      context.l10n.yemekGunluguMonthAugust,
+      context.l10n.yemekGunluguMonthSeptember,
+      context.l10n.yemekGunluguMonthOctober,
+      context.l10n.yemekGunluguMonthNovember,
+      context.l10n.yemekGunluguMonthDecember,
     ];
     return '${dt.day} ${months[dt.month - 1]} ${dt.year}';
   }
@@ -305,7 +310,7 @@ class _JournalEntryTile extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: Text(
-              'Düzenle',
+              context.l10n.yemekGunluguEditLabel,
               style: TextStyle(
                 color: AppColors.primary,
                 fontSize: 11,
@@ -420,28 +425,28 @@ class _EditSheetState extends State<_EditSheet> {
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'[0-9,.]')),
             ],
-            decoration: const InputDecoration(
-              labelText: 'Ödenen tutar',
-              hintText: '0.00',
+            decoration: InputDecoration(
+              labelText: context.l10n.yemekGunluguAmountPaidLabel,
+              hintText: context.l10n.yemekGunluguAmountHint,
               suffixText: '₺',
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
             ),
           ),
           const SizedBox(height: 16),
           TextField(
             controller: _noteCtrl,
             maxLines: 3,
-            decoration: const InputDecoration(
-              labelText: 'Notunuz',
-              hintText: 'Deneyiminizi yazın...',
-              border: OutlineInputBorder(),
+            decoration: InputDecoration(
+              labelText: context.l10n.yemekGunluguNoteLabel,
+              hintText: context.l10n.yemekGunluguNoteHint,
+              border: const OutlineInputBorder(),
               alignLabelWithHint: true,
             ),
           ),
           const SizedBox(height: 16),
-          const Text(
-            'Puanınız',
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+          Text(
+            context.l10n.yemekGunluguRatingLabel,
+            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
           ),
           const SizedBox(height: 8),
           Row(
@@ -475,7 +480,7 @@ class _EditSheetState extends State<_EditSheet> {
                         color: Colors.white,
                       ),
                     )
-                  : const Text('Kaydet'),
+                  : Text(context.l10n.yemekGunluguSaveButton),
             ),
           ),
         ],
@@ -570,18 +575,18 @@ class _HatirlaticiSheetState extends State<_HatirlaticiSheet> {
               ),
             ),
           ),
-          const Text(
-            'Yemek Günlüğü Hatırlatıcısı',
-            style: TextStyle(
+          Text(
+            context.l10n.yemekGunluguReminderSheetTitle,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w900,
               color: AppColors.textStrong,
             ),
           ),
           const SizedBox(height: 4),
-          const Text(
-            'Her gün belirlediğin saatte check-in hatırlatması gönderilir.',
-            style: TextStyle(color: AppColors.muted, fontSize: 13),
+          Text(
+            context.l10n.yemekGunluguReminderSheetSubtitle,
+            style: const TextStyle(color: AppColors.muted, fontSize: 13),
           ),
           const SizedBox(height: 20),
 
@@ -593,11 +598,11 @@ class _HatirlaticiSheetState extends State<_HatirlaticiSheet> {
               border: Border.all(color: AppColors.border),
             ),
             child: SwitchListTile.adaptive(
-              title: const Text(
-                'Günlük Hatırlatıcı',
-                style: TextStyle(fontWeight: FontWeight.w700),
+              title: Text(
+                context.l10n.yemekGunluguDailyReminderTitle,
+                style: const TextStyle(fontWeight: FontWeight.w700),
               ),
-              subtitle: const Text('Her gün seçilen saatte bildirim gönder'),
+              subtitle: Text(context.l10n.yemekGunluguDailyReminderSubtitle),
               value: _enabled,
               onChanged: (v) => setState(() => _enabled = v),
             ),
@@ -605,9 +610,9 @@ class _HatirlaticiSheetState extends State<_HatirlaticiSheet> {
 
           if (_enabled) ...[
             const SizedBox(height: 16),
-            const Text(
-              'Hatırlatma Saati',
-              style: TextStyle(
+            Text(
+              context.l10n.yemekGunluguReminderTimeLabel,
+              style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textStrong,
@@ -622,9 +627,9 @@ class _HatirlaticiSheetState extends State<_HatirlaticiSheet> {
                 Expanded(
                   child: Column(
                     children: [
-                      const Text(
-                        'Saat',
-                        style: TextStyle(color: AppColors.muted, fontSize: 11),
+                      Text(
+                        context.l10n.yemekGunluguHourLabel,
+                        style: const TextStyle(color: AppColors.muted, fontSize: 11),
                       ),
                       const SizedBox(height: 4),
                       Container(
@@ -669,9 +674,9 @@ class _HatirlaticiSheetState extends State<_HatirlaticiSheet> {
                 Expanded(
                   child: Column(
                     children: [
-                      const Text(
-                        'Dakika',
-                        style: TextStyle(color: AppColors.muted, fontSize: 11),
+                      Text(
+                        context.l10n.yemekGunluguMinuteLabel,
+                        style: const TextStyle(color: AppColors.muted, fontSize: 11),
                       ),
                       const SizedBox(height: 4),
                       Container(
@@ -740,7 +745,7 @@ class _HatirlaticiSheetState extends State<_HatirlaticiSheet> {
             width: double.infinity,
             child: FilledButton(
               onPressed: () => widget.onSave(_enabled, _saat, _dakika),
-              child: const Text('Kaydet'),
+              child: Text(context.l10n.yemekGunluguSaveButton),
             ),
           ),
         ],

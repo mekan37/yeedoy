@@ -16,22 +16,22 @@ import '../data/suggestions_repository.dart';
 
 // ── Category & reason constants ───────────────────────────────────────────────
 
-const _kCategories = [
-  ('restaurant', 'Restoran'),
-  ('cafe', 'Kafe'),
-  ('fish', 'Balık & Et'),
-  ('bakery', 'Pastane & Fırın'),
-  ('fastfood', 'Fast Food'),
-  ('other', 'Diğer'),
+List<(String, String)> _kCategories(BuildContext context) => [
+  ('restaurant', context.l10n.suggestBusinessCategoryRestaurant),
+  ('cafe', context.l10n.suggestBusinessCategoryCafe),
+  ('fish', context.l10n.suggestBusinessCategoryFish),
+  ('bakery', context.l10n.suggestBusinessCategoryBakery),
+  ('fastfood', context.l10n.suggestBusinessCategoryFastfood),
+  ('other', context.l10n.suggestBusinessCategoryOther),
 ];
 
-const _kReasons = [
-  'Lezzetli yemekleri var',
-  'Harika atmosferi var',
-  'Uygun fiyatlı',
-  'Arkadaşlarıma tavsiye etmek istiyorum',
-  'Henüz Yeedoy\'da yok',
-  'Diğer',
+List<String> _kReasons(BuildContext context) => [
+  context.l10n.suggestBusinessReasonTasty,
+  context.l10n.suggestBusinessReasonAtmosphere,
+  context.l10n.suggestBusinessReasonAffordable,
+  context.l10n.suggestBusinessReasonRecommend,
+  context.l10n.suggestBusinessReasonNotOnYeedoy,
+  context.l10n.suggestBusinessReasonOther,
 ];
 
 // ── Page ─────────────────────────────────────────────────────────────────────
@@ -99,8 +99,8 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
     final user = ref.read(userProvider);
     if (user == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Öneri göndermek için giriş yapmanız gerekiyor.'),
+        SnackBar(
+          content: Text(t.suggestBusinessLoginRequired),
         ),
       );
       context.go('/login?redirect=/suggest-business');
@@ -109,13 +109,13 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
 
     if (_nameCtrl.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('İşletme adı zorunludur.')),
+        SnackBar(content: Text(t.suggestBusinessNameRequired)),
       );
       return;
     }
     if (_category == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Lütfen bir kategori seçin.')),
+        SnackBar(content: Text(t.suggestBusinessCategoryRequired)),
       );
       return;
     }
@@ -271,11 +271,11 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
                       size: 20,
                     ),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      'İşletme Öner',
+                      context.l10n.suggestBusinessPageTitle,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w900,
                         color: AppColors.textStrong,
@@ -310,11 +310,11 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
                   const SizedBox(height: 24),
 
                   // ── İşletme Bilgileri ────────────────────────────────────
-                  _SectionTitle('İşletme Bilgileri'),
+                  _SectionTitle(context.l10n.suggestBusinessInfoSectionTitle),
                   const SizedBox(height: 10),
                   _InputBox(
                     icon: Icons.storefront_outlined,
-                    hint: 'İşletme Adı',
+                    hint: context.l10n.suggestBusinessNameHint,
                     ctrl: _nameCtrl,
                     onChanged: (_) => _scheduleDuplicateCheck(),
                   ),
@@ -364,7 +364,7 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
                   const SizedBox(height: 24),
 
                   // ── Öneri Nedeni ─────────────────────────────────────────
-                  _SectionTitle('Öneri Nedeni'),
+                  _SectionTitle(context.l10n.suggestBusinessReasonSectionTitle),
                   const SizedBox(height: 10),
                   _ReasonBox(
                     value: _reason,
@@ -374,14 +374,14 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
                   const SizedBox(height: 24),
 
                   // ── Fotoğraf ─────────────────────────────────────────────
-                  const _OptionalSectionTitle(
-                    title: 'Fotoğraf',
-                    subtitle: '(İsteğe Bağlı)',
+                  _OptionalSectionTitle(
+                    title: context.l10n.suggestBusinessPhotoSectionTitle,
+                    subtitle: context.l10n.suggestBusinessOptionalSuffix,
                   ),
                   const SizedBox(height: 4),
-                  const Text(
-                    'İşletmeye ait fotoğraflar ekleyerek önerinizi güçlendirin.',
-                    style: TextStyle(fontSize: 12, color: AppColors.muted),
+                  Text(
+                    context.l10n.suggestBusinessPhotoSectionBody,
+                    style: const TextStyle(fontSize: 12, color: AppColors.muted),
                   ),
                   const SizedBox(height: 10),
                   _PhotoBox(),
@@ -389,26 +389,26 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
                   const SizedBox(height: 24),
 
                   // ── İletişim Bilgileri ───────────────────────────────────
-                  const _OptionalSectionTitle(
-                    title: 'İletişim Bilgileri',
-                    subtitle: '(İsteğe Bağlı)',
+                  _OptionalSectionTitle(
+                    title: context.l10n.suggestBusinessContactSectionTitle,
+                    subtitle: context.l10n.suggestBusinessOptionalSuffix,
                   ),
                   const SizedBox(height: 4),
-                  const Text(
-                    'Sizinle iletişime geçebilmemiz için bilgilerinizi bırakabilirsiniz.',
-                    style: TextStyle(fontSize: 12, color: AppColors.muted),
+                  Text(
+                    context.l10n.suggestBusinessContactSectionBody,
+                    style: const TextStyle(fontSize: 12, color: AppColors.muted),
                   ),
                   const SizedBox(height: 10),
                   _InputBox(
                     icon: Icons.mail_outline_rounded,
-                    hint: 'E-posta adresiniz',
+                    hint: context.l10n.suggestBusinessEmailHint,
                     ctrl: _emailCtrl,
                     keyboardType: TextInputType.emailAddress,
                   ),
                   const SizedBox(height: 8),
                   _InputBox(
                     icon: Icons.phone_outlined,
-                    hint: 'Telefon numaranız',
+                    hint: context.l10n.suggestBusinessPhoneHint,
                     ctrl: _phoneCtrl,
                     keyboardType: TextInputType.phone,
                   ),
@@ -445,9 +445,9 @@ class _SuggestBusinessPageState extends ConsumerState<SuggestBusinessPage> {
                               color: Colors.white,
                               size: 18,
                             ),
-                      label: const Text(
-                        'Öneriyi Gönder',
-                        style: TextStyle(
+                      label: Text(
+                        context.l10n.suggestBusinessSubmitButton,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: Colors.white,
@@ -518,22 +518,22 @@ class _HeroCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 16),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Şehrine değer kat!',
-                  style: TextStyle(
+                  context.l10n.suggestBusinessHeroTitle,
+                  style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w800,
                     color: AppColors.textStrong,
                   ),
                 ),
-                SizedBox(height: 6),
+                const SizedBox(height: 6),
                 Text(
-                  'Beğendiğin bir işletmeyi mi bulamıyorsun? Bize öner, değerlendirelim. Topluluğumuzun önerileriyle daha iyi bir deneyim sunalım.',
-                  style: TextStyle(
+                  context.l10n.suggestBusinessHeroBody,
+                  style: const TextStyle(
                     fontSize: 12,
                     color: AppColors.muted,
                     height: 1.5,
@@ -636,9 +636,9 @@ class _CategoryBox extends StatelessWidget {
                 value: value,
                 isDense: true,
                 isExpanded: true,
-                hint: const Text(
-                  'İşletme Kategorisi',
-                  style: TextStyle(color: AppColors.muted, fontSize: 13),
+                hint: Text(
+                  context.l10n.suggestBusinessCategoryHint,
+                  style: const TextStyle(color: AppColors.muted, fontSize: 13),
                 ),
                 icon: const Icon(
                   Icons.keyboard_arrow_down_rounded,
@@ -649,7 +649,7 @@ class _CategoryBox extends StatelessWidget {
                   fontSize: 13,
                   color: AppColors.textStrong,
                 ),
-                items: _kCategories
+                items: _kCategories(context)
                     .map(
                       (c) => DropdownMenuItem(
                         value: c.$1,
@@ -694,15 +694,15 @@ class _AddressBox extends StatelessWidget {
               controller: ctrl,
               onChanged: onChanged,
               style: const TextStyle(fontSize: 13, color: AppColors.textStrong),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 filled: false,
-                hintText: 'İşletme Adresi',
-                hintStyle: TextStyle(color: AppColors.muted, fontSize: 13),
+                hintText: context.l10n.suggestBusinessAddressHint,
+                hintStyle: const TextStyle(color: AppColors.muted, fontSize: 13),
                 isDense: true,
-                contentPadding: EdgeInsets.symmetric(vertical: 14),
+                contentPadding: const EdgeInsets.symmetric(vertical: 14),
               ),
             ),
           ),
@@ -754,15 +754,15 @@ class _NotesBox extends StatelessWidget {
                       (_, {required currentLength, required isFocused, maxLength}) =>
                           null,
                   style: const TextStyle(fontSize: 13, color: AppColors.textStrong),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     filled: false,
-                    hintText: 'İşletme Hakkında',
-                    hintStyle: TextStyle(color: AppColors.muted, fontSize: 13),
+                    hintText: context.l10n.suggestBusinessNotesHint,
+                    hintStyle: const TextStyle(color: AppColors.muted, fontSize: 13),
                     isDense: true,
-                    contentPadding: EdgeInsets.symmetric(vertical: 14),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                 ),
               ),
@@ -809,9 +809,9 @@ class _ReasonBox extends StatelessWidget {
                 value: value,
                 isDense: true,
                 isExpanded: true,
-                hint: const Text(
-                  'Neden bu işletmeyi öneriyorsunuz?',
-                  style: TextStyle(color: AppColors.muted, fontSize: 13),
+                hint: Text(
+                  context.l10n.suggestBusinessReasonHint,
+                  style: const TextStyle(color: AppColors.muted, fontSize: 13),
                 ),
                 icon: const Icon(
                   Icons.keyboard_arrow_down_rounded,
@@ -822,7 +822,7 @@ class _ReasonBox extends StatelessWidget {
                   fontSize: 13,
                   color: AppColors.textStrong,
                 ),
-                items: _kReasons
+                items: _kReasons(context)
                     .map((r) => DropdownMenuItem(value: r, child: Text(r)))
                     .toList(),
                 onChanged: onChanged,
@@ -871,18 +871,18 @@ class _PhotoBox extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            const Text(
-              'Fotoğraf Ekle',
-              style: TextStyle(
+            Text(
+              context.l10n.suggestBusinessPhotoAddLabel,
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textStrong,
               ),
             ),
             const SizedBox(height: 2),
-            const Text(
-              'PNG, JPG (Maks. 5MB)',
-              style: TextStyle(fontSize: 12, color: AppColors.muted),
+            Text(
+              context.l10n.suggestBusinessPhotoFormatHint,
+              style: const TextStyle(fontSize: 12, color: AppColors.muted),
             ),
           ],
         ),
@@ -902,14 +902,14 @@ class _FeedbackInfoCard extends StatelessWidget {
         color: const Color(0xFFE8F0FE),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: const Row(
+      child: Row(
         children: [
-          Icon(Icons.info_outline_rounded, color: AppColors.info, size: 18),
-          SizedBox(width: 10),
+          const Icon(Icons.info_outline_rounded, color: AppColors.info, size: 18),
+          const SizedBox(width: 10),
           Expanded(
             child: Text(
-              'Öneriniz değerlendirildikten sonra size geri dönüş sağlayacağız.',
-              style: TextStyle(
+              context.l10n.suggestBusinessFeedbackNotice,
+              style: const TextStyle(
                 fontSize: 12,
                 color: AppColors.info,
                 height: 1.4,
@@ -942,13 +942,13 @@ class _DuplicateWarning extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.warning_amber_rounded, color: AppColors.warning, size: 16),
-              SizedBox(width: 6),
+              const Icon(Icons.warning_amber_rounded, color: AppColors.warning, size: 16),
+              const SizedBox(width: 6),
               Text(
-                'Benzer işletmeler mevcut',
-                style: TextStyle(
+                context.l10n.suggestBusinessSimilarBusinessesFound,
+                style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 13,
                   color: AppColors.textStrong,
@@ -973,9 +973,9 @@ class _DuplicateWarning extends StatelessWidget {
                     minimumSize: Size.zero,
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
-                  child: const Text(
-                    'İncele',
-                    style: TextStyle(
+                  child: Text(
+                    context.l10n.suggestBusinessReviewButton,
+                    style: const TextStyle(
                       fontSize: 12,
                       color: AppColors.primary,
                       fontWeight: FontWeight.w700,
@@ -1062,13 +1062,13 @@ class _HelpSheet extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            const Row(
+            Row(
               children: [
-                Icon(Icons.help_outline_rounded, color: AppColors.primary, size: 22),
-                SizedBox(width: 8),
+                const Icon(Icons.help_outline_rounded, color: AppColors.primary, size: 22),
+                const SizedBox(width: 8),
                 Text(
-                  'Öneri Süreci Nasıl İşler?',
-                  style: TextStyle(
+                  context.l10n.suggestBusinessHelpSheetTitle,
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w900,
                     color: AppColors.textStrong,
@@ -1079,18 +1079,18 @@ class _HelpSheet extends StatelessWidget {
             const SizedBox(height: 20),
             _HelpStep(
               number: '1',
-              title: 'Öneriyi gönderiyorsunuz',
-              body: 'İşletme adı ve kategori zorunlu. Adres, not ve öneri nedeninizi eklerseniz değerlendirme daha hızlı olur.',
+              title: context.l10n.suggestBusinessHelpStep1Title,
+              body: context.l10n.suggestBusinessHelpStep1Body,
             ),
             _HelpStep(
               number: '2',
-              title: 'Ekibimiz inceliyor',
-              body: 'Gönderdiğiniz öneri yönetim paneline düşer. Ekibimiz tekrar eden ya da uygunsuz önerileri ayıklar.',
+              title: context.l10n.suggestBusinessHelpStep2Title,
+              body: context.l10n.suggestBusinessHelpStep2Body,
             ),
             _HelpStep(
               number: '3',
-              title: 'İşletme platforma eklenir',
-              body: 'Onaylanan işletme Yeedoy\'a eklenir. Öneri durumunu "Önerilerim" ekranından takip edebilirsiniz.',
+              title: context.l10n.suggestBusinessHelpStep3Title,
+              body: context.l10n.suggestBusinessHelpStep3Body,
             ),
             const SizedBox(height: 16),
             Container(
@@ -1099,14 +1099,14 @@ class _HelpSheet extends StatelessWidget {
                 color: const Color(0xFFE8F0FE),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Row(
+              child: Row(
                 children: [
-                  Icon(Icons.info_outline_rounded, color: AppColors.info, size: 16),
-                  SizedBox(width: 10),
+                  const Icon(Icons.info_outline_rounded, color: AppColors.info, size: 16),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      'Giriş yapmış olmanız gerekiyor. Önerilerinizi takip etmek için hesabınıza giriş yapın.',
-                      style: TextStyle(fontSize: 12, color: AppColors.info, height: 1.4),
+                      context.l10n.suggestBusinessHelpLoginNotice,
+                      style: const TextStyle(fontSize: 12, color: AppColors.info, height: 1.4),
                     ),
                   ),
                 ],
@@ -1225,7 +1225,7 @@ class _LocationPickerCard extends StatelessWidget {
               child: Text(
                 hasLocation
                     ? '${lat!.toStringAsFixed(5)}, ${lng!.toStringAsFixed(5)}'
-                    : 'Haritadan Konum Seç (İsteğe Bağlı)',
+                    : context.l10n.suggestBusinessPickLocationHint,
                 style: TextStyle(
                   fontSize: 13,
                   color: hasLocation ? AppColors.textStrong : AppColors.muted,
@@ -1323,10 +1323,10 @@ class _LocationPickerSheetState extends State<_LocationPickerSheet> {
             padding: const EdgeInsets.fromLTRB(16, 0, 8, 8),
             child: Row(
               children: [
-                const Expanded(
+                Expanded(
                   child: Text(
-                    'Konum Seç',
-                    style: TextStyle(
+                    context.l10n.suggestBusinessLocationSheetTitle,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w900,
                       color: AppColors.textStrong,
@@ -1335,7 +1335,7 @@ class _LocationPickerSheetState extends State<_LocationPickerSheet> {
                 ),
                 IconButton(
                   onPressed: _gettingGps ? null : _useGps,
-                  tooltip: 'Mevcut konumum',
+                  tooltip: context.l10n.suggestBusinessCurrentLocationTooltip,
                   icon: Icon(
                     _gettingGps
                         ? Icons.hourglass_top_rounded
@@ -1352,11 +1352,11 @@ class _LocationPickerSheetState extends State<_LocationPickerSheet> {
           ),
 
           // İpucu
-          const Padding(
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
             child: Text(
-              'Haritaya dokunarak işletmenin konumunu işaretleyin.',
-              style: TextStyle(fontSize: 12, color: AppColors.muted),
+              context.l10n.suggestBusinessLocationSheetHint,
+              style: const TextStyle(fontSize: 12, color: AppColors.muted),
             ),
           ),
 
@@ -1461,8 +1461,8 @@ class _LocationPickerSheetState extends State<_LocationPickerSheet> {
                     ),
                     child: Text(
                       _selected == null
-                          ? 'Haritadan Konum Seçin'
-                          : 'Bu Konumu Kullan',
+                          ? context.l10n.suggestBusinessPickLocationButton
+                          : context.l10n.suggestBusinessUseThisLocationButton,
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/i18n/app_localizations.dart';
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
@@ -13,36 +14,31 @@ class _Topic {
   final String answer;
 }
 
-const List<_Topic> _kTopics = [
+List<_Topic> _kTopics(BuildContext context) => [
   _Topic(
     icon: Icons.help_outline_rounded,
-    question: 'Fiyat değişikliği nasıl bildirilir?',
-    answer:
-        'Bir işletmeyi ziyaret ettikten sonra "Fiyat Bildir" butonuna tıklayarak güncel fiyatı girebilirsiniz. Katkınız için puan kazanırsınız.',
+    question: context.l10n.helpSupportTopic1Question,
+    answer: context.l10n.helpSupportTopic1Answer,
   ),
   _Topic(
     icon: Icons.qr_code_2_rounded,
-    question: 'QR Menü nasıl taranır?',
-    answer:
-        'Ana ekranda sağ üstteki QR simgesine dokunun ve kamerayı masadaki QR koda tutun. Menü otomatik açılır.',
+    question: context.l10n.helpSupportTopic2Question,
+    answer: context.l10n.helpSupportTopic2Answer,
   ),
   _Topic(
     icon: Icons.shield_outlined,
-    question: 'Hesabımı nasıl güvene alırım?',
-    answer:
-        'Güçlü bir şifre kullanın ve iki adımlı doğrulamayı etkinleştirin. Hesap Güvenliği sayfasından tüm ayarları yönetebilirsiniz.',
+    question: context.l10n.helpSupportTopic3Question,
+    answer: context.l10n.helpSupportTopic3Answer,
   ),
   _Topic(
     icon: Icons.star_outline_rounded,
-    question: 'Katkı yap ve puan kazanma nasıl çalışır?',
-    answer:
-        'Fiyat bildirimi, yorum ve fotoğraf ekleme gibi katkılarla puan kazanırsınız. Puanlarınızı profilinizden takip edebilirsiniz.',
+    question: context.l10n.helpSupportTopic4Question,
+    answer: context.l10n.helpSupportTopic4Answer,
   ),
   _Topic(
     icon: Icons.location_on_outlined,
-    question: 'Konum ve bölge ayarlarını nasıl değiştiririm?',
-    answer:
-        'Ayarlar → Uygulama Tercihleri → Konum Ayarları yolunu izleyerek konumunuzu ve bölgenizi güncelleyebilirsiniz.',
+    question: context.l10n.helpSupportTopic5Question,
+    answer: context.l10n.helpSupportTopic5Answer,
   ),
 ];
 
@@ -66,9 +62,10 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
   }
 
   List<_Topic> get _filteredTopics {
-    if (_query.isEmpty) return _kTopics;
+    final topics = _kTopics(context);
+    if (_query.isEmpty) return topics;
     final q = _query.toLowerCase();
-    return _kTopics
+    return topics
         .where((t) => t.question.toLowerCase().contains(q))
         .toList();
   }
@@ -129,11 +126,11 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                   ),
                 ),
               ),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Yardım & Destek',
+                  context.l10n.helpSupportPageTitle,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w900,
                     color: AppColors.textStrong,
@@ -158,9 +155,9 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
             ],
           ),
           const SizedBox(height: 6),
-          const Text(
-            'Size nasıl yardımcı olabiliriz?',
-            style: TextStyle(fontSize: 13, color: AppColors.muted),
+          Text(
+            context.l10n.helpSupportHeaderSubtitle,
+            style: const TextStyle(fontSize: 13, color: AppColors.muted),
           ),
         ],
       ),
@@ -188,9 +185,9 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
               child: TextField(
                 controller: _searchCtrl,
                 onChanged: (v) => setState(() => _query = v),
-                decoration: const InputDecoration(
-                  hintText: 'Sorununuzu yazın, çözüme birlikte ulaşalım...',
-                  hintStyle: TextStyle(color: AppColors.muted, fontSize: 13),
+                decoration: InputDecoration(
+                  hintText: context.l10n.helpSupportSearchHint,
+                  hintStyle: const TextStyle(color: AppColors.muted, fontSize: 13),
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
@@ -222,9 +219,9 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
             Expanded(
               child: _QuickCard(
                 icon: Icons.chat_bubble_outline_rounded,
-                title: 'Canlı Destek',
-                subtitle: 'Ekibimizle anında görüşün',
-                badgeLabel: 'Çevrimiçi',
+                title: context.l10n.helpSupportLiveChatTitle,
+                subtitle: context.l10n.helpSupportLiveChatSubtitle,
+                badgeLabel: context.l10n.helpSupportLiveChatBadge,
                 badgeColor: AppColors.success,
                 badgeBg: const Color(0xFFDCFCE7),
                 onTap: () => context.push('/live-support'),
@@ -234,15 +231,17 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
             Expanded(
               child: _QuickCard(
                 icon: Icons.mail_outline_rounded,
-                title: 'E-posta Gönder',
-                subtitle: 'Bize e-posta ile ulaşın',
-                badgeLabel: '24 Saat İçinde Yanıt',
+                title: context.l10n.helpSupportEmailTitle,
+                subtitle: context.l10n.helpSupportEmailSubtitle,
+                badgeLabel: context.l10n.helpSupportEmailBadge,
                 badgeColor: const Color(0xFF3B82F6),
                 badgeBg: const Color(0xFFDBEAFE),
                 onTap: () => launchUrl(Uri(
                   scheme: 'mailto',
                   path: 'destek@yeedoy.com',
-                  queryParameters: {'subject': 'Yeedoy Destek Talebi'},
+                  queryParameters: {
+                    'subject': context.l10n.helpSupportMailtoSubject,
+                  },
                 )),
               ),
             ),
@@ -250,9 +249,9 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
             Expanded(
               child: _QuickCard(
                 icon: Icons.quiz_outlined,
-                title: 'S.S.S.',
-                subtitle: 'Sık sorulan sorulara göz atın',
-                badgeLabel: 'Hızlı Çözümler',
+                title: context.l10n.helpSupportFaqTitle,
+                subtitle: context.l10n.helpSupportFaqSubtitle,
+                badgeLabel: context.l10n.helpSupportFaqBadge,
                 badgeColor: const Color(0xFF8B5CF6),
                 badgeBg: const Color(0xFFEDE9FE),
                 onTap: () => context.push('/faq'),
@@ -262,9 +261,9 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
             Expanded(
               child: _QuickCard(
                 icon: Icons.menu_book_outlined,
-                title: 'Kullanım Rehberi',
-                subtitle: 'Uygulamayı daha iyi öğrenin',
-                badgeLabel: 'Rehbere Git',
+                title: context.l10n.helpSupportGuideTitle,
+                subtitle: context.l10n.helpSupportGuideSubtitle,
+                badgeLabel: context.l10n.helpSupportGuideBadge,
                 badgeColor: const Color(0xFFF59E0B),
                 badgeBg: const Color(0xFFFEF3C7),
                 onTap: () => context.push('/faq'),
@@ -287,10 +286,10 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
         children: [
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Popüler Konular',
-                  style: TextStyle(
+                  context.l10n.helpSupportPopularTopicsTitle,
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w900,
                     color: AppColors.textStrong,
@@ -307,12 +306,12 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Tümünü Gör'),
-                    SizedBox(width: 2),
-                    Icon(Icons.arrow_forward_rounded, size: 14),
+                    Text(context.l10n.helpSupportSeeAllButton),
+                    const SizedBox(width: 2),
+                    const Icon(Icons.arrow_forward_rounded, size: 14),
                   ],
                 ),
               ),
@@ -326,12 +325,12 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
               border: Border.all(color: AppColors.border),
             ),
             child: topics.isEmpty
-                ? const Padding(
-                    padding: EdgeInsets.all(20),
+                ? Padding(
+                    padding: const EdgeInsets.all(20),
                     child: Center(
                       child: Text(
-                        'Sonuç bulunamadı.',
-                        style: TextStyle(color: AppColors.muted, fontSize: 13),
+                        context.l10n.helpSupportNoResults,
+                        style: const TextStyle(color: AppColors.muted, fontSize: 13),
                       ),
                     ),
                   )
@@ -357,9 +356,9 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Yardım Merkezi',
-            style: TextStyle(
+          Text(
+            context.l10n.helpSupportHelpCenterTitle,
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w900,
               color: AppColors.textStrong,
@@ -380,32 +379,32 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                   Expanded(
                     child: _HelpCenterTile(
                       icon: Icons.person_outline_rounded,
-                      title: 'Hesap İşlemleri',
-                      subtitle: 'Hesap, giriş, şifre ve profil işlemleri',
+                      title: context.l10n.helpSupportAccountOpsTitle,
+                      subtitle: context.l10n.helpSupportAccountOpsSubtitle,
                       onTap: () => context.push('/faq'),
                     ),
                   ),
                   Expanded(
                     child: _HelpCenterTile(
                       icon: Icons.star_outline_rounded,
-                      title: 'Katkı ve Puanlar',
-                      subtitle: 'Katkı yapma, puan kazanma ve ödüller',
+                      title: context.l10n.helpSupportContributionsTitle,
+                      subtitle: context.l10n.helpSupportContributionsSubtitle,
                       onTap: () => context.push('/faq'),
                     ),
                   ),
                   Expanded(
                     child: _HelpCenterTile(
                       icon: Icons.smartphone_outlined,
-                      title: 'Uygulama Kullanımı',
-                      subtitle: 'Uygulama özellikleri ve kullanımı',
+                      title: context.l10n.helpSupportAppUsageTitle,
+                      subtitle: context.l10n.helpSupportAppUsageSubtitle,
                       onTap: () => context.push('/faq'),
                     ),
                   ),
                   Expanded(
                     child: _HelpCenterTile(
                       icon: Icons.shield_outlined,
-                      title: 'Yasal & Gizlilik',
-                      subtitle: 'Gizlilik, güvenlik ve yasal konular',
+                      title: context.l10n.helpSupportLegalPrivacyTitle,
+                      subtitle: context.l10n.helpSupportLegalPrivacySubtitle,
                       onTap: () => context.push('/faq'),
                     ),
                   ),
@@ -433,23 +432,23 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Expanded(
+            Expanded(
               flex: 5,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Bizimle İletişime Geçin',
-                    style: TextStyle(
+                    context.l10n.helpSupportContactTitle,
+                    style: const TextStyle(
                       fontWeight: FontWeight.w900,
                       fontSize: 14,
                       color: AppColors.textStrong,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
-                    'Her türlü soru, öneri veya şikayetinizi bizimle paylaşabilirsiniz.',
-                    style: TextStyle(
+                    context.l10n.helpSupportContactBody,
+                    style: const TextStyle(
                       fontSize: 12,
                       color: AppColors.muted,
                       height: 1.4,
@@ -463,15 +462,15 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
               flex: 6,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  _ContactRow(
+                children: [
+                  const _ContactRow(
                     icon: Icons.mail_outline_rounded,
                     text: 'destek@yeedoy.com',
                   ),
-                  SizedBox(height: 6),
+                  const SizedBox(height: 6),
                   _ContactRow(
                     icon: Icons.access_time_outlined,
-                    text: 'Hafta içi 09:00 - 18:00',
+                    text: context.l10n.helpSupportContactHours,
                   ),
                 ],
               ),
@@ -494,9 +493,9 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            'Sorununuz çözüldü mü?',
-            style: TextStyle(
+          Text(
+            context.l10n.helpSupportResolvedQuestion,
+            style: const TextStyle(
               fontSize: 13,
               color: AppColors.muted,
               fontWeight: FontWeight.w600,
@@ -509,7 +508,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                 child: OutlinedButton.icon(
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Teşekkürler! 👍')),
+                      SnackBar(content: Text(context.l10n.helpSupportThanksSnackbar)),
                     );
                   },
                   style: OutlinedButton.styleFrom(
@@ -523,7 +522,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                     ),
                   ),
                   icon: const Icon(Icons.thumb_up_outlined, size: 16),
-                  label: const Text('Evet, çözüldü'),
+                  label: Text(context.l10n.helpSupportYesResolvedButton),
                 ),
               ),
               const SizedBox(width: 10),
@@ -541,7 +540,7 @@ class _HelpSupportPageState extends State<HelpSupportPage> {
                     ),
                   ),
                   icon: const Icon(Icons.thumb_down_outlined, size: 16),
-                  label: const Text('Hayır, devam ediyor'),
+                  label: Text(context.l10n.helpSupportNoContinueButton),
                 ),
               ),
             ],

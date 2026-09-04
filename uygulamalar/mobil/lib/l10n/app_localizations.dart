@@ -6416,7 +6416,7 @@ abstract class AppLocalizations {
   /// Auto metadata for suggestBusinessPageTitle
   ///
   /// In tr, this message translates to:
-  /// **'İşletme Ekle'**
+  /// **'İşletme Öner'**
   String get suggestBusinessPageTitle;
 
   /// Auto metadata for suggestBusinessPageSubtitle
@@ -8618,6 +8618,2532 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Doğrulama Bağlantısı Gönder'**
   String get accountSecuritySendVerificationLinkButton;
+
+  /// No description provided for @accountInfoPhotoUpdateError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fotoğraf güncellenemedi.'**
+  String get accountInfoPhotoUpdateError;
+
+  /// No description provided for @accountInfoGenderMale.
+  ///
+  /// In tr, this message translates to:
+  /// **'Erkek'**
+  String get accountInfoGenderMale;
+
+  /// No description provided for @accountInfoGenderFemale.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kadın'**
+  String get accountInfoGenderFemale;
+
+  /// No description provided for @accountInfoGenderOther.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diğer'**
+  String get accountInfoGenderOther;
+
+  /// No description provided for @accountInfoGenderPreferNotToSay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Belirtmek İstemiyorum'**
+  String get accountInfoGenderPreferNotToSay;
+
+  /// No description provided for @accountInfoAddPlaceholder.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekle'**
+  String get accountInfoAddPlaceholder;
+
+  /// No description provided for @accountInfoDeleteAccountDialogTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabımı sil'**
+  String get accountInfoDeleteAccountDialogTitle;
+
+  /// No description provided for @accountInfoDeleteAccountDialogBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu işlem hesabınıza erişimi kapatır ve silinebilir veriler için silme sürecini başlatır.'**
+  String get accountInfoDeleteAccountDialogBody;
+
+  /// No description provided for @accountInfoDeleteReasonLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Silme nedeni'**
+  String get accountInfoDeleteReasonLabel;
+
+  /// No description provided for @accountInfoDeleteReasonHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'İsterseniz nedeninizi paylaşın'**
+  String get accountInfoDeleteReasonHint;
+
+  /// No description provided for @accountInfoDeleteConfirmLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onay'**
+  String get accountInfoDeleteConfirmLabel;
+
+  /// No description provided for @accountInfoDeleteConfirmHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam etmek için SIL yazın'**
+  String get accountInfoDeleteConfirmHint;
+
+  /// No description provided for @accountInfoDeleteCreateRequestButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Silme Talebi Oluştur'**
+  String get accountInfoDeleteCreateRequestButton;
+
+  /// No description provided for @accountInfoCancelButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vazgeç'**
+  String get accountInfoCancelButton;
+
+  /// No description provided for @accountInfoDeleteRequestSubmitted.
+  ///
+  /// In tr, this message translates to:
+  /// **'Silme talebiniz iletildi.'**
+  String get accountInfoDeleteRequestSubmitted;
+
+  /// No description provided for @accountInfoDeleteRequestFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Talep gönderilemedi.'**
+  String get accountInfoDeleteRequestFailed;
+
+  /// No description provided for @accountInfoPageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap Bilgileri'**
+  String get accountInfoPageTitle;
+
+  /// No description provided for @accountInfoPageSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap bilgilerinizi görüntüleyin ve güncelleyin.'**
+  String get accountInfoPageSubtitle;
+
+  /// No description provided for @accountInfoDefaultUserName.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcı'**
+  String get accountInfoDefaultUserName;
+
+  /// No description provided for @accountInfoChangePhotoButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fotoğraf Değiştir'**
+  String get accountInfoChangePhotoButton;
+
+  /// No description provided for @accountInfoPersonalInfoSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişisel Bilgiler'**
+  String get accountInfoPersonalInfoSectionTitle;
+
+  /// No description provided for @accountInfoFullNameLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ad Soyad'**
+  String get accountInfoFullNameLabel;
+
+  /// No description provided for @accountInfoEmailLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta Adresi'**
+  String get accountInfoEmailLabel;
+
+  /// No description provided for @accountInfoPhoneLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefon Numarası'**
+  String get accountInfoPhoneLabel;
+
+  /// No description provided for @accountInfoBirthDateLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğum Tarihi'**
+  String get accountInfoBirthDateLabel;
+
+  /// No description provided for @accountInfoCityLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yaşadığın Şehir'**
+  String get accountInfoCityLabel;
+
+  /// No description provided for @accountInfoGenderLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Cinsiyet'**
+  String get accountInfoGenderLabel;
+
+  /// No description provided for @accountInfoAccountSettingsSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap Ayarları'**
+  String get accountInfoAccountSettingsSectionTitle;
+
+  /// No description provided for @accountInfoChangePasswordTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre Değiştir'**
+  String get accountInfoChangePasswordTitle;
+
+  /// No description provided for @accountInfoChangePasswordSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap şifrenizi düzenleyin'**
+  String get accountInfoChangePasswordSubtitle;
+
+  /// No description provided for @accountInfoNotificationPreferencesTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirim Tercihleri'**
+  String get accountInfoNotificationPreferencesTitle;
+
+  /// No description provided for @accountInfoNotificationPreferencesSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirim ayarlarınızı yönetin'**
+  String get accountInfoNotificationPreferencesSubtitle;
+
+  /// No description provided for @accountInfoSecuritySettingsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güvenlik Ayarları'**
+  String get accountInfoSecuritySettingsTitle;
+
+  /// No description provided for @accountInfoSecuritySettingsSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabınızın güvenliğini artırın'**
+  String get accountInfoSecuritySettingsSubtitle;
+
+  /// No description provided for @accountInfoLanguagePreferenceTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dil Tercihi'**
+  String get accountInfoLanguagePreferenceTitle;
+
+  /// No description provided for @accountInfoChangeBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Değiştir'**
+  String get accountInfoChangeBadge;
+
+  /// No description provided for @accountInfoDeleteAccountTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabı Sil'**
+  String get accountInfoDeleteAccountTitle;
+
+  /// No description provided for @accountInfoDeleteAccountSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabınızı kalıcı olarak silmek isterseniz buradan işlem yapabilirsiniz.'**
+  String get accountInfoDeleteAccountSubtitle;
+
+  /// No description provided for @accountInfoLanguageSystemDefault.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sistem Varsayılanı'**
+  String get accountInfoLanguageSystemDefault;
+
+  /// No description provided for @accountInfoLanguageTurkish.
+  ///
+  /// In tr, this message translates to:
+  /// **'Türkçe'**
+  String get accountInfoLanguageTurkish;
+
+  /// No description provided for @accountInfoLanguageEnglish.
+  ///
+  /// In tr, this message translates to:
+  /// **'English'**
+  String get accountInfoLanguageEnglish;
+
+  /// No description provided for @accountInfoGenericSaveError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydedilemedi.'**
+  String get accountInfoGenericSaveError;
+
+  /// No description provided for @accountInfoEditNameSheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ad Soyad Düzenle'**
+  String get accountInfoEditNameSheetTitle;
+
+  /// No description provided for @accountInfoFirstNameLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ad'**
+  String get accountInfoFirstNameLabel;
+
+  /// No description provided for @accountInfoFirstNameRequiredError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zorunlu'**
+  String get accountInfoFirstNameRequiredError;
+
+  /// No description provided for @accountInfoLastNameLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Soyad'**
+  String get accountInfoLastNameLabel;
+
+  /// No description provided for @accountInfoSavingLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydediliyor…'**
+  String get accountInfoSavingLabel;
+
+  /// No description provided for @accountInfoSaveButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydet'**
+  String get accountInfoSaveButton;
+
+  /// No description provided for @accountInfoPhoneInvalidError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçerli bir telefon numarası girin (ör: +905XXXXXXXXX).'**
+  String get accountInfoPhoneInvalidError;
+
+  /// No description provided for @accountInfoOtpSendError.
+  ///
+  /// In tr, this message translates to:
+  /// **'OTP gönderilemedi. Telefon numarasını ve SMS ayarlarını kontrol edin.'**
+  String get accountInfoOtpSendError;
+
+  /// No description provided for @accountInfoOtpCodeLengthError.
+  ///
+  /// In tr, this message translates to:
+  /// **'6 haneli kodu girin.'**
+  String get accountInfoOtpCodeLengthError;
+
+  /// No description provided for @accountInfoOtpInvalidError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kod hatalı veya süresi dolmuş.'**
+  String get accountInfoOtpInvalidError;
+
+  /// No description provided for @accountInfoPhoneSheetOtpSentSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefon numaranıza gönderilen 6 haneli kodu girin.'**
+  String get accountInfoPhoneSheetOtpSentSubtitle;
+
+  /// No description provided for @accountInfoPhoneSheetEnterNumberSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni telefon numaranızı E.164 formatında girin (ör: +905XXXXXXXXX).'**
+  String get accountInfoPhoneSheetEnterNumberSubtitle;
+
+  /// No description provided for @accountInfoPhoneHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'+905XXXXXXXXX'**
+  String get accountInfoPhoneHint;
+
+  /// No description provided for @accountInfoOtpHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'000000'**
+  String get accountInfoOtpHint;
+
+  /// No description provided for @accountInfoSendOtpButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulama Kodu Gönder'**
+  String get accountInfoSendOtpButton;
+
+  /// No description provided for @accountInfoSendingLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönderiliyor…'**
+  String get accountInfoSendingLabel;
+
+  /// No description provided for @accountInfoVerifyingLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulanıyor…'**
+  String get accountInfoVerifyingLabel;
+
+  /// No description provided for @accountInfoConfirmButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onayla'**
+  String get accountInfoConfirmButton;
+
+  /// No description provided for @accountInfoChangeNumberButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Numarayı Değiştir'**
+  String get accountInfoChangeNumberButton;
+
+  /// No description provided for @accountInfoBirthDatePickerHelpText.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğum tarihinizi seçin'**
+  String get accountInfoBirthDatePickerHelpText;
+
+  /// No description provided for @accountInfoBirthDateNotSelected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Seçilmedi'**
+  String get accountInfoBirthDateNotSelected;
+
+  /// No description provided for @accountInfoRemoveDateButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tarihi Kaldır'**
+  String get accountInfoRemoveDateButton;
+
+  /// No description provided for @accountInfoGenderSheetSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu bilgi yalnızca size özel içerik önerileri için kullanılır.'**
+  String get accountInfoGenderSheetSubtitle;
+
+  /// No description provided for @accountInfoCitySheetSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Farklı bir şehirdeyken sana o şehrin yöresel lezzetlerini önerebilmemiz için kullanılır.'**
+  String get accountInfoCitySheetSubtitle;
+
+  /// No description provided for @accountInfoCitySearchHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şehir ara...'**
+  String get accountInfoCitySearchHint;
+
+  /// No description provided for @socialAccountsSaveError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydedilemedi, tekrar deneyin.'**
+  String get socialAccountsSaveError;
+
+  /// No description provided for @socialAccountsDisconnectDialogTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'{platform} bağlantısını kaldır'**
+  String socialAccountsDisconnectDialogTitle(String platform);
+
+  /// No description provided for @socialAccountsDisconnectDialogBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hesabın bağlantısını kaldırmak istiyor musunuz?'**
+  String get socialAccountsDisconnectDialogBody;
+
+  /// No description provided for @socialAccountsCancelButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vazgeç'**
+  String get socialAccountsCancelButton;
+
+  /// No description provided for @socialAccountsRemoveButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaldır'**
+  String get socialAccountsRemoveButton;
+
+  /// No description provided for @socialAccountsPageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sosyal Medya Hesapları'**
+  String get socialAccountsPageTitle;
+
+  /// No description provided for @socialAccountsPageSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabınıza sosyal medya hesaplarınızı\nekleyin ve kolayca yönetin.'**
+  String get socialAccountsPageSubtitle;
+
+  /// No description provided for @socialAccountsSecureConnectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güvenli Bağlantı'**
+  String get socialAccountsSecureConnectionTitle;
+
+  /// No description provided for @socialAccountsSecureConnectionBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sosyal medya hesaplarınız 256-bit SSL ile korunur. Bilgileriniz bizimle paylaşılmaz.'**
+  String get socialAccountsSecureConnectionBody;
+
+  /// No description provided for @socialAccountsAddAccountSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap Ekle'**
+  String get socialAccountsAddAccountSectionTitle;
+
+  /// No description provided for @socialAccountsConnectedLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabınız başarıyla bağlandı.'**
+  String get socialAccountsConnectedLabel;
+
+  /// No description provided for @socialAccountsWhyAddTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Neden hesap eklemelisiniz?'**
+  String get socialAccountsWhyAddTitle;
+
+  /// No description provided for @socialAccountsWhyAddBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sosyal medya hesaplarınızı bağlayarak içerikleri kolayca paylaşabilir ve etkileşimlerinizi tek yerden yönetebilirsiniz.'**
+  String get socialAccountsWhyAddBody;
+
+  /// No description provided for @socialAccountsInfoSheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Neden Sosyal Hesap Eklemeliyim?'**
+  String get socialAccountsInfoSheetTitle;
+
+  /// No description provided for @socialAccountsInfoSheetBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sosyal medya hesaplarınızı Yeedoy\'a bağlayarak:\n\n• Yorum ve fotoğraflarınızı tek tıkla sosyal medyada paylaşabilirsiniz.\n• Profiliniz daha güvenilir görünür ve topluluk puanınız artar.\n• Hesabınız 256-bit SSL şifrelemesi ile korunur.\n• Bilgileriniz asla üçüncü taraflarla paylaşılmaz.'**
+  String get socialAccountsInfoSheetBody;
+
+  /// No description provided for @socialAccountsConnectedBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlandı'**
+  String get socialAccountsConnectedBadge;
+
+  /// No description provided for @socialAccountsConnectButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağla'**
+  String get socialAccountsConnectButton;
+
+  /// No description provided for @socialAccountsEditUrlAction.
+  ///
+  /// In tr, this message translates to:
+  /// **'URL\'yi Düzenle'**
+  String get socialAccountsEditUrlAction;
+
+  /// No description provided for @socialAccountsRemoveLinkAction.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bağlantıyı Kaldır'**
+  String get socialAccountsRemoveLinkAction;
+
+  /// No description provided for @socialAccountsLinkDialogPrompt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profil URL\'nizi veya kullanıcı adınızı girin:'**
+  String get socialAccountsLinkDialogPrompt;
+
+  /// No description provided for @socialAccountsInstagramLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Instagram'**
+  String get socialAccountsInstagramLabel;
+
+  /// No description provided for @socialAccountsInstagramDescription.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fotoğraf ve video paylaşımlarınızı bağlayın.'**
+  String get socialAccountsInstagramDescription;
+
+  /// No description provided for @socialAccountsInstagramHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'https://instagram.com/kullanici_adi'**
+  String get socialAccountsInstagramHint;
+
+  /// No description provided for @socialAccountsFacebookLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Facebook'**
+  String get socialAccountsFacebookLabel;
+
+  /// No description provided for @socialAccountsFacebookDescription.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabınızı bağlayarak içeriklerinizi paylaşın.'**
+  String get socialAccountsFacebookDescription;
+
+  /// No description provided for @socialAccountsFacebookHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'https://facebook.com/kullanici_adi'**
+  String get socialAccountsFacebookHint;
+
+  /// No description provided for @socialAccountsXLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'X (Twitter)'**
+  String get socialAccountsXLabel;
+
+  /// No description provided for @socialAccountsXDescription.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tweetlerinizi ve etkileşimlerinizi senkronize edin.'**
+  String get socialAccountsXDescription;
+
+  /// No description provided for @socialAccountsXHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'https://x.com/kullanici_adi'**
+  String get socialAccountsXHint;
+
+  /// No description provided for @socialAccountsLinkedinLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'LinkedIn'**
+  String get socialAccountsLinkedinLabel;
+
+  /// No description provided for @socialAccountsLinkedinDescription.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profesyonel profilinizi bağlayın.'**
+  String get socialAccountsLinkedinDescription;
+
+  /// No description provided for @socialAccountsLinkedinHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'https://linkedin.com/in/kullanici_adi'**
+  String get socialAccountsLinkedinHint;
+
+  /// No description provided for @socialAccountsYoutubeLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'YouTube'**
+  String get socialAccountsYoutubeLabel;
+
+  /// No description provided for @socialAccountsYoutubeDescription.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kanalınızı bağlayın ve içeriklerinizi yönetin.'**
+  String get socialAccountsYoutubeDescription;
+
+  /// No description provided for @socialAccountsYoutubeHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'https://youtube.com/@kanal_adi'**
+  String get socialAccountsYoutubeHint;
+
+  /// No description provided for @socialAccountsTiktokLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'TikTok'**
+  String get socialAccountsTiktokLabel;
+
+  /// No description provided for @socialAccountsTiktokDescription.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kısa video içeriklerinizi bağlayın.'**
+  String get socialAccountsTiktokDescription;
+
+  /// No description provided for @socialAccountsTiktokHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'https://tiktok.com/@kullanici_adi'**
+  String get socialAccountsTiktokHint;
+
+  /// No description provided for @suggestBusinessCategoryRestaurant.
+  ///
+  /// In tr, this message translates to:
+  /// **'Restoran'**
+  String get suggestBusinessCategoryRestaurant;
+
+  /// No description provided for @suggestBusinessCategoryCafe.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kafe'**
+  String get suggestBusinessCategoryCafe;
+
+  /// No description provided for @suggestBusinessCategoryFish.
+  ///
+  /// In tr, this message translates to:
+  /// **'Balık & Et'**
+  String get suggestBusinessCategoryFish;
+
+  /// No description provided for @suggestBusinessCategoryBakery.
+  ///
+  /// In tr, this message translates to:
+  /// **'Pastane & Fırın'**
+  String get suggestBusinessCategoryBakery;
+
+  /// No description provided for @suggestBusinessCategoryFastfood.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fast Food'**
+  String get suggestBusinessCategoryFastfood;
+
+  /// No description provided for @suggestBusinessCategoryOther.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diğer'**
+  String get suggestBusinessCategoryOther;
+
+  /// No description provided for @suggestBusinessReasonTasty.
+  ///
+  /// In tr, this message translates to:
+  /// **'Lezzetli yemekleri var'**
+  String get suggestBusinessReasonTasty;
+
+  /// No description provided for @suggestBusinessReasonAtmosphere.
+  ///
+  /// In tr, this message translates to:
+  /// **'Harika atmosferi var'**
+  String get suggestBusinessReasonAtmosphere;
+
+  /// No description provided for @suggestBusinessReasonAffordable.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygun fiyatlı'**
+  String get suggestBusinessReasonAffordable;
+
+  /// No description provided for @suggestBusinessReasonRecommend.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arkadaşlarıma tavsiye etmek istiyorum'**
+  String get suggestBusinessReasonRecommend;
+
+  /// No description provided for @suggestBusinessReasonNotOnYeedoy.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz Yeedoy\'da yok'**
+  String get suggestBusinessReasonNotOnYeedoy;
+
+  /// No description provided for @suggestBusinessReasonOther.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diğer'**
+  String get suggestBusinessReasonOther;
+
+  /// No description provided for @suggestBusinessLoginRequired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öneri göndermek için giriş yapmanız gerekiyor.'**
+  String get suggestBusinessLoginRequired;
+
+  /// No description provided for @suggestBusinessNameRequired.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme adı zorunludur.'**
+  String get suggestBusinessNameRequired;
+
+  /// No description provided for @suggestBusinessCategoryRequired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Lütfen bir kategori seçin.'**
+  String get suggestBusinessCategoryRequired;
+
+  /// No description provided for @suggestBusinessInfoSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme Bilgileri'**
+  String get suggestBusinessInfoSectionTitle;
+
+  /// No description provided for @suggestBusinessReasonSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öneri Nedeni'**
+  String get suggestBusinessReasonSectionTitle;
+
+  /// No description provided for @suggestBusinessPhotoSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fotoğraf'**
+  String get suggestBusinessPhotoSectionTitle;
+
+  /// No description provided for @suggestBusinessOptionalSuffix.
+  ///
+  /// In tr, this message translates to:
+  /// **'(İsteğe Bağlı)'**
+  String get suggestBusinessOptionalSuffix;
+
+  /// No description provided for @suggestBusinessContactSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İletişim Bilgileri'**
+  String get suggestBusinessContactSectionTitle;
+
+  /// No description provided for @suggestBusinessPhotoSectionBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletmeye ait fotoğraflar ekleyerek önerinizi güçlendirin.'**
+  String get suggestBusinessPhotoSectionBody;
+
+  /// No description provided for @suggestBusinessContactSectionBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sizinle iletişime geçebilmemiz için bilgilerinizi bırakabilirsiniz.'**
+  String get suggestBusinessContactSectionBody;
+
+  /// No description provided for @suggestBusinessNameHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme Adı'**
+  String get suggestBusinessNameHint;
+
+  /// No description provided for @suggestBusinessEmailHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta adresiniz'**
+  String get suggestBusinessEmailHint;
+
+  /// No description provided for @suggestBusinessPhoneHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefon numaranız'**
+  String get suggestBusinessPhoneHint;
+
+  /// No description provided for @suggestBusinessCategoryHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme Kategorisi'**
+  String get suggestBusinessCategoryHint;
+
+  /// No description provided for @suggestBusinessAddressHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme Adresi'**
+  String get suggestBusinessAddressHint;
+
+  /// No description provided for @suggestBusinessNotesHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme Hakkında'**
+  String get suggestBusinessNotesHint;
+
+  /// No description provided for @suggestBusinessReasonHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Neden bu işletmeyi öneriyorsunuz?'**
+  String get suggestBusinessReasonHint;
+
+  /// No description provided for @suggestBusinessSubmitButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öneriyi Gönder'**
+  String get suggestBusinessSubmitButton;
+
+  /// No description provided for @suggestBusinessHeroTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şehrine değer kat!'**
+  String get suggestBusinessHeroTitle;
+
+  /// No description provided for @suggestBusinessHeroBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Beğendiğin bir işletmeyi mi bulamıyorsun? Bize öner, değerlendirelim. Topluluğumuzun önerileriyle daha iyi bir deneyim sunalım.'**
+  String get suggestBusinessHeroBody;
+
+  /// No description provided for @suggestBusinessPhotoAddLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fotoğraf Ekle'**
+  String get suggestBusinessPhotoAddLabel;
+
+  /// No description provided for @suggestBusinessPhotoFormatHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'PNG, JPG (Maks. 5MB)'**
+  String get suggestBusinessPhotoFormatHint;
+
+  /// No description provided for @suggestBusinessFeedbackNotice.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öneriniz değerlendirildikten sonra size geri dönüş sağlayacağız.'**
+  String get suggestBusinessFeedbackNotice;
+
+  /// No description provided for @suggestBusinessSimilarBusinessesFound.
+  ///
+  /// In tr, this message translates to:
+  /// **'Benzer işletmeler mevcut'**
+  String get suggestBusinessSimilarBusinessesFound;
+
+  /// No description provided for @suggestBusinessReviewButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'İncele'**
+  String get suggestBusinessReviewButton;
+
+  /// No description provided for @suggestBusinessHelpSheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öneri Süreci Nasıl İşler?'**
+  String get suggestBusinessHelpSheetTitle;
+
+  /// No description provided for @suggestBusinessHelpStep1Title.
+  ///
+  /// In tr, this message translates to:
+  /// **'Öneriyi gönderiyorsunuz'**
+  String get suggestBusinessHelpStep1Title;
+
+  /// No description provided for @suggestBusinessHelpStep1Body.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme adı ve kategori zorunlu. Adres, not ve öneri nedeninizi eklerseniz değerlendirme daha hızlı olur.'**
+  String get suggestBusinessHelpStep1Body;
+
+  /// No description provided for @suggestBusinessHelpStep2Title.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekibimiz inceliyor'**
+  String get suggestBusinessHelpStep2Title;
+
+  /// No description provided for @suggestBusinessHelpStep2Body.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönderdiğiniz öneri yönetim paneline düşer. Ekibimiz tekrar eden ya da uygunsuz önerileri ayıklar.'**
+  String get suggestBusinessHelpStep2Body;
+
+  /// No description provided for @suggestBusinessHelpStep3Title.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme platforma eklenir'**
+  String get suggestBusinessHelpStep3Title;
+
+  /// No description provided for @suggestBusinessHelpStep3Body.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onaylanan işletme Yeedoy\'a eklenir. Öneri durumunu \"Önerilerim\" ekranından takip edebilirsiniz.'**
+  String get suggestBusinessHelpStep3Body;
+
+  /// No description provided for @suggestBusinessHelpLoginNotice.
+  ///
+  /// In tr, this message translates to:
+  /// **'Giriş yapmış olmanız gerekiyor. Önerilerinizi takip etmek için hesabınıza giriş yapın.'**
+  String get suggestBusinessHelpLoginNotice;
+
+  /// No description provided for @suggestBusinessPickLocationHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haritadan Konum Seç (İsteğe Bağlı)'**
+  String get suggestBusinessPickLocationHint;
+
+  /// No description provided for @suggestBusinessLocationSheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum Seç'**
+  String get suggestBusinessLocationSheetTitle;
+
+  /// No description provided for @suggestBusinessCurrentLocationTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut konumum'**
+  String get suggestBusinessCurrentLocationTooltip;
+
+  /// No description provided for @suggestBusinessLocationSheetHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haritaya dokunarak işletmenin konumunu işaretleyin.'**
+  String get suggestBusinessLocationSheetHint;
+
+  /// No description provided for @suggestBusinessPickLocationButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haritadan Konum Seçin'**
+  String get suggestBusinessPickLocationButton;
+
+  /// No description provided for @suggestBusinessUseThisLocationButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu Konumu Kullan'**
+  String get suggestBusinessUseThisLocationButton;
+
+  /// No description provided for @helpSupportTopic1Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat değişikliği nasıl bildirilir?'**
+  String get helpSupportTopic1Question;
+
+  /// No description provided for @helpSupportTopic1Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir işletmeyi ziyaret ettikten sonra \"Fiyat Bildir\" butonuna tıklayarak güncel fiyatı girebilirsiniz. Katkınız için puan kazanırsınız.'**
+  String get helpSupportTopic1Answer;
+
+  /// No description provided for @helpSupportTopic2Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'QR Menü nasıl taranır?'**
+  String get helpSupportTopic2Question;
+
+  /// No description provided for @helpSupportTopic2Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana ekranda sağ üstteki QR simgesine dokunun ve kamerayı masadaki QR koda tutun. Menü otomatik açılır.'**
+  String get helpSupportTopic2Answer;
+
+  /// No description provided for @helpSupportTopic3Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabımı nasıl güvene alırım?'**
+  String get helpSupportTopic3Question;
+
+  /// No description provided for @helpSupportTopic3Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güçlü bir şifre kullanın ve iki adımlı doğrulamayı etkinleştirin. Hesap Güvenliği sayfasından tüm ayarları yönetebilirsiniz.'**
+  String get helpSupportTopic3Answer;
+
+  /// No description provided for @helpSupportTopic4Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katkı yap ve puan kazanma nasıl çalışır?'**
+  String get helpSupportTopic4Question;
+
+  /// No description provided for @helpSupportTopic4Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat bildirimi, yorum ve fotoğraf ekleme gibi katkılarla puan kazanırsınız. Puanlarınızı profilinizden takip edebilirsiniz.'**
+  String get helpSupportTopic4Answer;
+
+  /// No description provided for @helpSupportTopic5Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum ve bölge ayarlarını nasıl değiştiririm?'**
+  String get helpSupportTopic5Question;
+
+  /// No description provided for @helpSupportTopic5Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ayarlar → Uygulama Tercihleri → Konum Ayarları yolunu izleyerek konumunuzu ve bölgenizi güncelleyebilirsiniz.'**
+  String get helpSupportTopic5Answer;
+
+  /// No description provided for @helpSupportPageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yardım & Destek'**
+  String get helpSupportPageTitle;
+
+  /// No description provided for @helpSupportHeaderSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Size nasıl yardımcı olabiliriz?'**
+  String get helpSupportHeaderSubtitle;
+
+  /// No description provided for @helpSupportSearchHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sorununuzu yazın, çözüme birlikte ulaşalım...'**
+  String get helpSupportSearchHint;
+
+  /// No description provided for @helpSupportLiveChatTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Canlı Destek'**
+  String get helpSupportLiveChatTitle;
+
+  /// No description provided for @helpSupportLiveChatSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekibimizle anında görüşün'**
+  String get helpSupportLiveChatSubtitle;
+
+  /// No description provided for @helpSupportLiveChatBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çevrimiçi'**
+  String get helpSupportLiveChatBadge;
+
+  /// No description provided for @helpSupportEmailTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta Gönder'**
+  String get helpSupportEmailTitle;
+
+  /// No description provided for @helpSupportEmailSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bize e-posta ile ulaşın'**
+  String get helpSupportEmailSubtitle;
+
+  /// No description provided for @helpSupportEmailBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'24 Saat İçinde Yanıt'**
+  String get helpSupportEmailBadge;
+
+  /// No description provided for @helpSupportMailtoSubject.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeedoy Destek Talebi'**
+  String get helpSupportMailtoSubject;
+
+  /// No description provided for @helpSupportFaqTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'S.S.S.'**
+  String get helpSupportFaqTitle;
+
+  /// No description provided for @helpSupportFaqSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sık sorulan sorulara göz atın'**
+  String get helpSupportFaqSubtitle;
+
+  /// No description provided for @helpSupportFaqBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hızlı Çözümler'**
+  String get helpSupportFaqBadge;
+
+  /// No description provided for @helpSupportGuideTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanım Rehberi'**
+  String get helpSupportGuideTitle;
+
+  /// No description provided for @helpSupportGuideSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulamayı daha iyi öğrenin'**
+  String get helpSupportGuideSubtitle;
+
+  /// No description provided for @helpSupportGuideBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rehbere Git'**
+  String get helpSupportGuideBadge;
+
+  /// No description provided for @helpSupportPopularTopicsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Popüler Konular'**
+  String get helpSupportPopularTopicsTitle;
+
+  /// No description provided for @helpSupportSeeAllButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tümünü Gör'**
+  String get helpSupportSeeAllButton;
+
+  /// No description provided for @helpSupportNoResults.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sonuç bulunamadı.'**
+  String get helpSupportNoResults;
+
+  /// No description provided for @helpSupportHelpCenterTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yardım Merkezi'**
+  String get helpSupportHelpCenterTitle;
+
+  /// No description provided for @helpSupportAccountOpsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap İşlemleri'**
+  String get helpSupportAccountOpsTitle;
+
+  /// No description provided for @helpSupportAccountOpsSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap, giriş, şifre ve profil işlemleri'**
+  String get helpSupportAccountOpsSubtitle;
+
+  /// No description provided for @helpSupportContributionsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katkı ve Puanlar'**
+  String get helpSupportContributionsTitle;
+
+  /// No description provided for @helpSupportContributionsSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katkı yapma, puan kazanma ve ödüller'**
+  String get helpSupportContributionsSubtitle;
+
+  /// No description provided for @helpSupportAppUsageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama Kullanımı'**
+  String get helpSupportAppUsageTitle;
+
+  /// No description provided for @helpSupportAppUsageSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama özellikleri ve kullanımı'**
+  String get helpSupportAppUsageSubtitle;
+
+  /// No description provided for @helpSupportLegalPrivacyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yasal & Gizlilik'**
+  String get helpSupportLegalPrivacyTitle;
+
+  /// No description provided for @helpSupportLegalPrivacySubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gizlilik, güvenlik ve yasal konular'**
+  String get helpSupportLegalPrivacySubtitle;
+
+  /// No description provided for @helpSupportContactTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bizimle İletişime Geçin'**
+  String get helpSupportContactTitle;
+
+  /// No description provided for @helpSupportContactBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her türlü soru, öneri veya şikayetinizi bizimle paylaşabilirsiniz.'**
+  String get helpSupportContactBody;
+
+  /// No description provided for @helpSupportContactHours.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hafta içi 09:00 - 18:00'**
+  String get helpSupportContactHours;
+
+  /// No description provided for @helpSupportResolvedQuestion.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sorununuz çözüldü mü?'**
+  String get helpSupportResolvedQuestion;
+
+  /// No description provided for @helpSupportThanksSnackbar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Teşekkürler! 👍'**
+  String get helpSupportThanksSnackbar;
+
+  /// No description provided for @helpSupportYesResolvedButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Evet, çözüldü'**
+  String get helpSupportYesResolvedButton;
+
+  /// No description provided for @helpSupportNoContinueButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hayır, devam ediyor'**
+  String get helpSupportNoContinueButton;
+
+  /// No description provided for @faqCategoryAccountLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap İşlemleri'**
+  String get faqCategoryAccountLabel;
+
+  /// No description provided for @faqCategorySecurityLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güvenlik'**
+  String get faqCategorySecurityLabel;
+
+  /// No description provided for @faqCategoryPaymentsLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ödemeler'**
+  String get faqCategoryPaymentsLabel;
+
+  /// No description provided for @faqCategoryCampaignsLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kampanya ve Fırsatlar'**
+  String get faqCategoryCampaignsLabel;
+
+  /// No description provided for @faqCategoryAppUsageLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama Kullanımı'**
+  String get faqCategoryAppUsageLabel;
+
+  /// No description provided for @faqQ1Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabıma nasıl giriş yapıyım?'**
+  String get faqQ1Question;
+
+  /// No description provided for @faqQ1Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygulama açıldığında \"Giriş Yap\" seçeneğine dokunun. E-posta adresinizi ve şifrenizi girerek hesabınıza erişebilirsiniz.'**
+  String get faqQ1Answer;
+
+  /// No description provided for @faqQ2Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifremi unuttum, ne yapmalıyım?'**
+  String get faqQ2Question;
+
+  /// No description provided for @faqQ2Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Giriş ekranındaki \"Şifremi Unuttum\" seçeneğine tıklayarak şifrenizi sıfırlayabilirsiniz. Kayıtlı e-posta adresinize bağlantı gönderilir.'**
+  String get faqQ2Answer;
+
+  /// No description provided for @faqQ3Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta adresimi nasıl değiştiririm?'**
+  String get faqQ3Question;
+
+  /// No description provided for @faqQ3Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap Bilgileri > E-posta alanından e-posta adresinizi değiştirebilirsiniz. Yeni adresinize onay e-postası gönderilecektir.'**
+  String get faqQ3Answer;
+
+  /// No description provided for @faqQ4Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabımı nasıl silebilirim?'**
+  String get faqQ4Question;
+
+  /// No description provided for @faqQ4Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ayarlar > Hesap Güvenliği > Hesabı Sil seçeneğinden hesabınızı kalıcı olarak silebilirsiniz. Bu işlem geri alınamaz.'**
+  String get faqQ4Answer;
+
+  /// No description provided for @faqQ5Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profilime nasıl fotoğraf eklerim?'**
+  String get faqQ5Question;
+
+  /// No description provided for @faqQ5Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profil sayfanızda avatarınıza dokunun ve galerinizden veya kameranızdan fotoğraf seçin.'**
+  String get faqQ5Answer;
+
+  /// No description provided for @faqQ6Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'İki adımlı doğrulamayı nasıl etkinleştiririm?'**
+  String get faqQ6Question;
+
+  /// No description provided for @faqQ6Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap Güvenliği sayfasında \"İki Adımlı Doğrulama\" seçeneğini açarak telefonunuza SMS kodu gönderilmesini sağlayabilirsiniz.'**
+  String get faqQ6Answer;
+
+  /// No description provided for @faqQ7Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabımda şüpheli bir etkinlik var, ne yapmalıyım?'**
+  String get faqQ7Question;
+
+  /// No description provided for @faqQ7Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hemen \"Şifremi Değiştir\" seçeneğini kullanın ve aktif oturumları sonlandırın. Ardından destek ekibimizle iletişime geçin.'**
+  String get faqQ7Answer;
+
+  /// No description provided for @faqQ8Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Verilerim güvende mi?'**
+  String get faqQ8Question;
+
+  /// No description provided for @faqQ8Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm verileriniz 256-bit SSL sertifikası ile şifrelenerek korunmaktadır. KVKK kapsamında kişisel verileriniz işlenmektedir.'**
+  String get faqQ8Answer;
+
+  /// No description provided for @faqQ9Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oturumu kapatmayı unutursam ne olur?'**
+  String get faqQ9Question;
+
+  /// No description provided for @faqQ9Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap Güvenliği sayfasından tüm aktif oturumlarınızı uzaktan sonlandırabilirsiniz.'**
+  String get faqQ9Answer;
+
+  /// No description provided for @faqQ10Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ödemelerimi görüntüleyebilir miyim?'**
+  String get faqQ10Question;
+
+  /// No description provided for @faqQ10Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Evet. Tüm ödeme geçmişiniz 256-bit SSL sertifikası ile korunmakta olup Ödemeler ekranından takip edebilirsiniz.'**
+  String get faqQ10Answer;
+
+  /// No description provided for @faqQ11Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'İade işlemi nasıl yapılır?'**
+  String get faqQ11Question;
+
+  /// No description provided for @faqQ11Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sipariş sayfanızdan ilgili siparişi seçerek iade talep edebilirsiniz. İşlem 3-5 iş günü içinde tamamlanır.'**
+  String get faqQ11Answer;
+
+  /// No description provided for @faqQ12Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hangi ödeme yöntemleri desteklenmektedir?'**
+  String get faqQ12Question;
+
+  /// No description provided for @faqQ12Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kredi kartı, banka kartı ve havale/EFT ile ödeme yapabilirsiniz. Apple Pay ve Google Pay desteği yakında eklenecektir.'**
+  String get faqQ12Answer;
+
+  /// No description provided for @faqQ13Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kampanyalardan nasıl haberdar olabilirim?'**
+  String get faqQ13Question;
+
+  /// No description provided for @faqQ13Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bildirim tercihlerinizde \"Kampanya ve Fırsatlar\" bildirimlerini açarsanız yeni fırsatlarda anlık bildirim alırsınız.'**
+  String get faqQ13Answer;
+
+  /// No description provided for @faqQ14Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kupon kodumu nasıl kullanırım?'**
+  String get faqQ14Question;
+
+  /// No description provided for @faqQ14Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ödeme ekranında \"Kupon Kodu\" alanına kodunuzu girebilirsiniz. İndirim tutarı otomatik uygulanır.'**
+  String get faqQ14Answer;
+
+  /// No description provided for @faqQ15Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'QR menü nasıl taranır?'**
+  String get faqQ15Question;
+
+  /// No description provided for @faqQ15Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana ekranda sağ üstteki QR simgesine dokunun ve kamerayı masadaki QR koda tutun. Menü otomatik açılır.'**
+  String get faqQ15Answer;
+
+  /// No description provided for @faqQ16Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat değişikliği nasıl bildirilir?'**
+  String get faqQ16Question;
+
+  /// No description provided for @faqQ16Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir işletmeyi ziyaret ettikten sonra \"Fiyat Bildir\" butonuna tıklayarak güncel fiyatı girebilirsiniz. Katkınız için puan kazanırsınız.'**
+  String get faqQ16Answer;
+
+  /// No description provided for @faqQ17Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Karanlık mod var mı?'**
+  String get faqQ17Question;
+
+  /// No description provided for @faqQ17Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Evet. Ayarlar > Uygulama Tercihleri > Tema bölümünden karanlık modu etkinleştirebilirsiniz.'**
+  String get faqQ17Answer;
+
+  /// No description provided for @faqQ18Question.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum iznini nasıl veririm?'**
+  String get faqQ18Question;
+
+  /// No description provided for @faqQ18Answer.
+  ///
+  /// In tr, this message translates to:
+  /// **'Cihazınızın Ayarlar > Uygulamalar > Yeedoy > İzinler menüsünden konum iznini aktif edebilirsiniz.'**
+  String get faqQ18Answer;
+
+  /// No description provided for @faqPageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sıkça Sorulan Sorular'**
+  String get faqPageTitle;
+
+  /// No description provided for @faqSearchHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Soru veya konu ara...'**
+  String get faqSearchHint;
+
+  /// No description provided for @faqCategoriesSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategoriler'**
+  String get faqCategoriesSectionTitle;
+
+  /// No description provided for @faqQuestionCount.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} Soru'**
+  String faqQuestionCount(int count);
+
+  /// No description provided for @faqListSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sık Sorulan Sorular'**
+  String get faqListSectionTitle;
+
+  /// No description provided for @faqNoResultsInCategory.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu kategoride sonuç bulunamadı.'**
+  String get faqNoResultsInCategory;
+
+  /// No description provided for @faqSupportBannerTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aradığınız cevabı bulamadınız mı?'**
+  String get faqSupportBannerTitle;
+
+  /// No description provided for @faqSupportBannerBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Destek ekibimiz size yardımcı olmaktan mutluluk duyar.'**
+  String get faqSupportBannerBody;
+
+  /// No description provided for @faqSupportBannerButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Canlı Destek'**
+  String get faqSupportBannerButton;
+
+  /// No description provided for @faqBottomHelpfulQuestion.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu sayfa size yardımcı oldu mu?'**
+  String get faqBottomHelpfulQuestion;
+
+  /// No description provided for @faqThanksSnackbar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Teşekkürler! 👍'**
+  String get faqThanksSnackbar;
+
+  /// No description provided for @faqYesHelpfulButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Evet, yardımcı oldu'**
+  String get faqYesHelpfulButton;
+
+  /// No description provided for @faqNoHelpfulButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hayır, olmadı'**
+  String get faqNoHelpfulButton;
+
+  /// No description provided for @yemekGunluguPageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yemek Günlüğüm'**
+  String get yemekGunluguPageTitle;
+
+  /// No description provided for @yemekGunluguReminderTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hatırlatıcı Ayarla'**
+  String get yemekGunluguReminderTooltip;
+
+  /// No description provided for @yemekGunluguRetryButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar Dene'**
+  String get yemekGunluguRetryButton;
+
+  /// No description provided for @yemekGunluguEmptyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yemek günlüğün boş'**
+  String get yemekGunluguEmptyTitle;
+
+  /// No description provided for @yemekGunluguEmptyDescription.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz check-in kaydın yok. Bir işletmeye gittiğinde check-in yap!'**
+  String get yemekGunluguEmptyDescription;
+
+  /// No description provided for @yemekGunluguReminderSetSnackbar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hatırlatıcı {time} için ayarlandı'**
+  String yemekGunluguReminderSetSnackbar(String time);
+
+  /// No description provided for @yemekGunluguReminderOffSnackbar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hatırlatıcı kapatıldı'**
+  String get yemekGunluguReminderOffSnackbar;
+
+  /// No description provided for @yemekGunluguToday.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün'**
+  String get yemekGunluguToday;
+
+  /// No description provided for @yemekGunluguYesterday.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dün'**
+  String get yemekGunluguYesterday;
+
+  /// No description provided for @yemekGunluguMonthJanuary.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ocak'**
+  String get yemekGunluguMonthJanuary;
+
+  /// No description provided for @yemekGunluguMonthFebruary.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şubat'**
+  String get yemekGunluguMonthFebruary;
+
+  /// No description provided for @yemekGunluguMonthMarch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mart'**
+  String get yemekGunluguMonthMarch;
+
+  /// No description provided for @yemekGunluguMonthApril.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nisan'**
+  String get yemekGunluguMonthApril;
+
+  /// No description provided for @yemekGunluguMonthMay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mayıs'**
+  String get yemekGunluguMonthMay;
+
+  /// No description provided for @yemekGunluguMonthJune.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haziran'**
+  String get yemekGunluguMonthJune;
+
+  /// No description provided for @yemekGunluguMonthJuly.
+  ///
+  /// In tr, this message translates to:
+  /// **'Temmuz'**
+  String get yemekGunluguMonthJuly;
+
+  /// No description provided for @yemekGunluguMonthAugust.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ağustos'**
+  String get yemekGunluguMonthAugust;
+
+  /// No description provided for @yemekGunluguMonthSeptember.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eylül'**
+  String get yemekGunluguMonthSeptember;
+
+  /// No description provided for @yemekGunluguMonthOctober.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekim'**
+  String get yemekGunluguMonthOctober;
+
+  /// No description provided for @yemekGunluguMonthNovember.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kasım'**
+  String get yemekGunluguMonthNovember;
+
+  /// No description provided for @yemekGunluguMonthDecember.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aralık'**
+  String get yemekGunluguMonthDecember;
+
+  /// No description provided for @yemekGunluguEditLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düzenle'**
+  String get yemekGunluguEditLabel;
+
+  /// No description provided for @yemekGunluguAmountPaidLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ödenen tutar'**
+  String get yemekGunluguAmountPaidLabel;
+
+  /// No description provided for @yemekGunluguAmountHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'0.00'**
+  String get yemekGunluguAmountHint;
+
+  /// No description provided for @yemekGunluguNoteLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Notunuz'**
+  String get yemekGunluguNoteLabel;
+
+  /// No description provided for @yemekGunluguNoteHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Deneyiminizi yazın...'**
+  String get yemekGunluguNoteHint;
+
+  /// No description provided for @yemekGunluguRatingLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Puanınız'**
+  String get yemekGunluguRatingLabel;
+
+  /// No description provided for @yemekGunluguSaveButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydet'**
+  String get yemekGunluguSaveButton;
+
+  /// No description provided for @yemekGunluguReminderSheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yemek Günlüğü Hatırlatıcısı'**
+  String get yemekGunluguReminderSheetTitle;
+
+  /// No description provided for @yemekGunluguReminderSheetSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her gün belirlediğin saatte check-in hatırlatması gönderilir.'**
+  String get yemekGunluguReminderSheetSubtitle;
+
+  /// No description provided for @yemekGunluguDailyReminderTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük Hatırlatıcı'**
+  String get yemekGunluguDailyReminderTitle;
+
+  /// No description provided for @yemekGunluguDailyReminderSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Her gün seçilen saatte bildirim gönder'**
+  String get yemekGunluguDailyReminderSubtitle;
+
+  /// No description provided for @yemekGunluguReminderTimeLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hatırlatma Saati'**
+  String get yemekGunluguReminderTimeLabel;
+
+  /// No description provided for @yemekGunluguHourLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saat'**
+  String get yemekGunluguHourLabel;
+
+  /// No description provided for @yemekGunluguMinuteLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dakika'**
+  String get yemekGunluguMinuteLabel;
+
+  /// No description provided for @searchFilterAllOption.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tümü'**
+  String get searchFilterAllOption;
+
+  /// No description provided for @searchFilterCategoryRestaurant.
+  ///
+  /// In tr, this message translates to:
+  /// **'Restoran'**
+  String get searchFilterCategoryRestaurant;
+
+  /// No description provided for @searchFilterCategoryCafe.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kafe'**
+  String get searchFilterCategoryCafe;
+
+  /// No description provided for @searchFilterCategoryFastFood.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fast Food'**
+  String get searchFilterCategoryFastFood;
+
+  /// No description provided for @searchFilterCategoryBakery.
+  ///
+  /// In tr, this message translates to:
+  /// **'Pastane'**
+  String get searchFilterCategoryBakery;
+
+  /// No description provided for @searchFilterCategoryBreakfast.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kahvaltı'**
+  String get searchFilterCategoryBreakfast;
+
+  /// No description provided for @searchFilterCategoryFishMeat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Balık/Et'**
+  String get searchFilterCategoryFishMeat;
+
+  /// No description provided for @searchFilterCategoryVenue.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mekan'**
+  String get searchFilterCategoryVenue;
+
+  /// No description provided for @searchFilterCuisineTurkish.
+  ///
+  /// In tr, this message translates to:
+  /// **'Türk Mutfağı'**
+  String get searchFilterCuisineTurkish;
+
+  /// No description provided for @searchFilterCuisineItalian.
+  ///
+  /// In tr, this message translates to:
+  /// **'İtalyan'**
+  String get searchFilterCuisineItalian;
+
+  /// No description provided for @searchFilterCuisineFarEast.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uzakdoğu'**
+  String get searchFilterCuisineFarEast;
+
+  /// No description provided for @searchFilterCuisineHamburger.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hamburger'**
+  String get searchFilterCuisineHamburger;
+
+  /// No description provided for @searchFilterCuisineVegetarian.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vejetar'**
+  String get searchFilterCuisineVegetarian;
+
+  /// No description provided for @searchFilterCuisineChinese.
+  ///
+  /// In tr, this message translates to:
+  /// **'Çin'**
+  String get searchFilterCuisineChinese;
+
+  /// No description provided for @searchFilterCuisineMexican.
+  ///
+  /// In tr, this message translates to:
+  /// **'Meksika'**
+  String get searchFilterCuisineMexican;
+
+  /// No description provided for @searchFilterCuisineIndian.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hint'**
+  String get searchFilterCuisineIndian;
+
+  /// No description provided for @searchFilterCuisineJapanese.
+  ///
+  /// In tr, this message translates to:
+  /// **'Japon'**
+  String get searchFilterCuisineJapanese;
+
+  /// No description provided for @searchFilterPageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arama & Filtrele'**
+  String get searchFilterPageTitle;
+
+  /// No description provided for @searchFilterClearButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Temizle'**
+  String get searchFilterClearButton;
+
+  /// No description provided for @searchFilterSearchHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme, mutfak veya menü ara...'**
+  String get searchFilterSearchHint;
+
+  /// No description provided for @searchFilterLocationSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum'**
+  String get searchFilterLocationSectionTitle;
+
+  /// No description provided for @searchFilterChangeButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Değiştir'**
+  String get searchFilterChangeButton;
+
+  /// No description provided for @searchFilterLocationNotSelected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum seçilmedi'**
+  String get searchFilterLocationNotSelected;
+
+  /// No description provided for @searchFilterCategoriesSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategoriler'**
+  String get searchFilterCategoriesSectionTitle;
+
+  /// No description provided for @searchFilterCuisineSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mutfak Türü'**
+  String get searchFilterCuisineSectionTitle;
+
+  /// No description provided for @searchFilterPriceRangeSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat Aralığı'**
+  String get searchFilterPriceRangeSectionTitle;
+
+  /// No description provided for @searchFilterEnterRangeButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aralığı gir'**
+  String get searchFilterEnterRangeButton;
+
+  /// No description provided for @searchFilterRatingSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Puan'**
+  String get searchFilterRatingSectionTitle;
+
+  /// No description provided for @searchFilterOpenClosedSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açık / Kapalı'**
+  String get searchFilterOpenClosedSectionTitle;
+
+  /// No description provided for @searchFilterOpenOnly.
+  ///
+  /// In tr, this message translates to:
+  /// **'Açık Olanlar'**
+  String get searchFilterOpenOnly;
+
+  /// No description provided for @searchFilterOpenNow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şu An Açık'**
+  String get searchFilterOpenNow;
+
+  /// No description provided for @searchFilterClosedOnly.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapalılar'**
+  String get searchFilterClosedOnly;
+
+  /// No description provided for @searchFilterOtherFiltersSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diğer Filtreler'**
+  String get searchFilterOtherFiltersSectionTitle;
+
+  /// No description provided for @searchFilterOffersTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fırsatları Olanlar'**
+  String get searchFilterOffersTitle;
+
+  /// No description provided for @searchFilterOffersSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İndirim veya fırsat sunan işletmeler'**
+  String get searchFilterOffersSubtitle;
+
+  /// No description provided for @searchFilterPriceAlertTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat Alarmı Kurduğum İşletmeler'**
+  String get searchFilterPriceAlertTitle;
+
+  /// No description provided for @searchFilterPriceAlertSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alarm kurduğun işletmeleri göster'**
+  String get searchFilterPriceAlertSubtitle;
+
+  /// No description provided for @searchFilterFavoritesTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Favorilerim'**
+  String get searchFilterFavoritesTitle;
+
+  /// No description provided for @searchFilterFavoritesSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Favorilerine eklediğin işletmeler'**
+  String get searchFilterFavoritesSubtitle;
+
+  /// No description provided for @searchFilterShowResultsButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sonuçları Göster ({count})'**
+  String searchFilterShowResultsButton(int count);
+
+  /// No description provided for @searchFilterPriceDialogTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat Aralığı Gir'**
+  String get searchFilterPriceDialogTitle;
+
+  /// No description provided for @searchFilterMinPriceLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Min ₺'**
+  String get searchFilterMinPriceLabel;
+
+  /// No description provided for @searchFilterMaxPriceLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Max ₺'**
+  String get searchFilterMaxPriceLabel;
+
+  /// No description provided for @searchFilterMaxPriceHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'1000+'**
+  String get searchFilterMaxPriceHint;
+
+  /// No description provided for @searchFilterCancelButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'İptal'**
+  String get searchFilterCancelButton;
+
+  /// No description provided for @searchFilterApplyButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygula'**
+  String get searchFilterApplyButton;
+
+  /// No description provided for @reservationNameTooShortError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ad Soyad en az 2 karakter olmalıdır.'**
+  String get reservationNameTooShortError;
+
+  /// No description provided for @reservationPhoneTooShortError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefon numarası en az 10 karakter olmalıdır.'**
+  String get reservationPhoneTooShortError;
+
+  /// No description provided for @reservationDateRequiredError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Lütfen bir tarih seçin.'**
+  String get reservationDateRequiredError;
+
+  /// No description provided for @reservationPartySizeRangeError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişi sayısı {min} ile {max} arasında olmalıdır.'**
+  String reservationPartySizeRangeError(int min, int max);
+
+  /// No description provided for @reservationPageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rezervasyon Yap'**
+  String get reservationPageTitle;
+
+  /// No description provided for @reservationCloseTooltip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapat'**
+  String get reservationCloseTooltip;
+
+  /// No description provided for @reservationNameLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ad Soyad *'**
+  String get reservationNameLabel;
+
+  /// No description provided for @reservationNameHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Adınız ve soyadınız'**
+  String get reservationNameHint;
+
+  /// No description provided for @reservationPhoneLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Telefon *'**
+  String get reservationPhoneLabel;
+
+  /// No description provided for @reservationPhoneHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'0555 000 00 00'**
+  String get reservationPhoneHint;
+
+  /// No description provided for @reservationEmailLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta'**
+  String get reservationEmailLabel;
+
+  /// No description provided for @reservationEmailHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'ornek@email.com'**
+  String get reservationEmailHint;
+
+  /// No description provided for @reservationDateLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tarih *'**
+  String get reservationDateLabel;
+
+  /// No description provided for @reservationDatePickHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tarih seçin'**
+  String get reservationDatePickHint;
+
+  /// No description provided for @reservationTimeLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saat *'**
+  String get reservationTimeLabel;
+
+  /// No description provided for @reservationTimePickHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Saat seçin'**
+  String get reservationTimePickHint;
+
+  /// No description provided for @reservationPartySizeLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişi Sayısı *'**
+  String get reservationPartySizeLabel;
+
+  /// No description provided for @reservationPartySizeRangeHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'({min}–{max} kişi)'**
+  String reservationPartySizeRangeHint(int min, int max);
+
+  /// No description provided for @reservationSpecialRequestLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Özel İstek'**
+  String get reservationSpecialRequestLabel;
+
+  /// No description provided for @reservationSpecialRequestHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğum günü, pencere kenarı, vb.'**
+  String get reservationSpecialRequestHint;
+
+  /// No description provided for @reservationSuccessTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rezervasyon Talebiniz Alındı!'**
+  String get reservationSuccessTitle;
+
+  /// No description provided for @reservationSuccessSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme en kısa sürede sizinle iletişime geçecektir.'**
+  String get reservationSuccessSubtitle;
+
+  /// No description provided for @reservationNumberLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Rezervasyon No'**
+  String get reservationNumberLabel;
+
+  /// No description provided for @reservationOkButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tamam'**
+  String get reservationOkButton;
+
+  /// No description provided for @contributePageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katkı Yap'**
+  String get contributePageTitle;
+
+  /// No description provided for @contributePageSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluğa katkı sağlayarak menüleri ve fiyatları güncel tut.'**
+  String get contributePageSubtitle;
+
+  /// No description provided for @contributeHeroTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katkıların değerli!'**
+  String get contributeHeroTitle;
+
+  /// No description provided for @contributeHeroSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğrulanan katkılarla puan ve rozet kazan.'**
+  String get contributeHeroSubtitle;
+
+  /// No description provided for @contributeQrScanTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'QR Menü Tara'**
+  String get contributeQrScanTitle;
+
+  /// No description provided for @contributeQrScanSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mekanın QR menüsünü hızlıca tara'**
+  String get contributeQrScanSubtitle;
+
+  /// No description provided for @contributePhotoUploadTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fotoğraf Yükle'**
+  String get contributePhotoUploadTitle;
+
+  /// No description provided for @contributePhotoUploadSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Menü, mekan veya yemek fotoğrafı ekle'**
+  String get contributePhotoUploadSubtitle;
+
+  /// No description provided for @contributePriceVerifyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat Değişimi Doğrula'**
+  String get contributePriceVerifyTitle;
+
+  /// No description provided for @contributePriceVerifySubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Güncel fiyat bilgisini onayla'**
+  String get contributePriceVerifySubtitle;
+
+  /// No description provided for @contributeRecentSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son katkıların'**
+  String get contributeRecentSectionTitle;
+
+  /// No description provided for @contributeSeeAllButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tümünü gör'**
+  String get contributeSeeAllButton;
+
+  /// No description provided for @contributeEmptyState.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz katkın yok.\nYukarıdan bir katkı türü seçerek başlayabilirsin!'**
+  String get contributeEmptyState;
+
+  /// No description provided for @contributeScoreLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katkı puanın'**
+  String get contributeScoreLabel;
+
+  /// No description provided for @contributeThisWeekLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hafta'**
+  String get contributeThisWeekLabel;
+
+  /// No description provided for @contributeWeeklyCountLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} katkı yaptın'**
+  String contributeWeeklyCountLabel(int count);
+
+  /// No description provided for @contributeQrScannedSnackbar.
+  ///
+  /// In tr, this message translates to:
+  /// **'QR kod okundu, incelemeye gönderildi.'**
+  String get contributeQrScannedSnackbar;
+
+  /// No description provided for @contributeVisitBusinessSnackbar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katkı yapmak için bir işletme sayfasını ziyaret edin.'**
+  String get contributeVisitBusinessSnackbar;
+
+  /// No description provided for @contributeTypePriceLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat doğrulaması'**
+  String get contributeTypePriceLabel;
+
+  /// No description provided for @contributeTypeMenuLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Menü katkısı'**
+  String get contributeTypeMenuLabel;
+
+  /// No description provided for @contributeTypeBusinessLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme önerisi'**
+  String get contributeTypeBusinessLabel;
+
+  /// No description provided for @contributeStatusApproved.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onaylandı'**
+  String get contributeStatusApproved;
+
+  /// No description provided for @contributeStatusRejected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Reddedildi'**
+  String get contributeStatusRejected;
+
+  /// No description provided for @contributeStatusUnderReview.
+  ///
+  /// In tr, this message translates to:
+  /// **'İnceleniyor'**
+  String get contributeStatusUnderReview;
+
+  /// No description provided for @contributeStatusPending.
+  ///
+  /// In tr, this message translates to:
+  /// **'Beklemede'**
+  String get contributeStatusPending;
+
+  /// No description provided for @contributeMinutesAgo.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} dakika önce'**
+  String contributeMinutesAgo(int count);
+
+  /// No description provided for @contributeHoursAgo.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} saat önce'**
+  String contributeHoursAgo(int count);
+
+  /// No description provided for @contributeOneDayAgo.
+  ///
+  /// In tr, this message translates to:
+  /// **'1 gün önce'**
+  String get contributeOneDayAgo;
+
+  /// No description provided for @contributeDaysAgo.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} gün önce'**
+  String contributeDaysAgo(int count);
+
+  /// No description provided for @oyVerDefaultTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Grup Oyu'**
+  String get oyVerDefaultTitle;
+
+  /// No description provided for @oyVerListNotFoundTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Liste bulunamadı'**
+  String get oyVerListNotFoundTitle;
+
+  /// No description provided for @oyVerInvalidTokenBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Token geçersiz olabilir.'**
+  String get oyVerInvalidTokenBody;
+
+  /// No description provided for @oyVerEmptyListMessage.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu listede henüz işletme yok.'**
+  String get oyVerEmptyListMessage;
+
+  /// No description provided for @oyVerOptionsCountLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} seçenek — beğenin veya beğenmeyin'**
+  String oyVerOptionsCountLabel(int count);
+
+  /// No description provided for @oyVerYesButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gidelim'**
+  String get oyVerYesButton;
+
+  /// No description provided for @oyVerNoButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hayır'**
+  String get oyVerNoButton;
+
+  /// No description provided for @priceAlertsPageSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygun fiyatları kaçırma, alarm kur!'**
+  String get priceAlertsPageSubtitle;
+
+  /// No description provided for @priceAlertsDeleteDialogTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alarmı sil'**
+  String get priceAlertsDeleteDialogTitle;
+
+  /// No description provided for @priceAlertsDeleteDialogBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu alarm silinecek. Emin misin?'**
+  String get priceAlertsDeleteDialogBody;
+
+  /// No description provided for @priceAlertsCancelButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'İptal'**
+  String get priceAlertsCancelButton;
+
+  /// No description provided for @priceAlertsDeleteButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sil'**
+  String get priceAlertsDeleteButton;
+
+  /// No description provided for @priceAlertsPromoBannerTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat düşünce haberin olsun!'**
+  String get priceAlertsPromoBannerTitle;
+
+  /// No description provided for @priceAlertsPromoBannerBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alarmlarını ayarla, fırsatları ilk sen yakala.'**
+  String get priceAlertsPromoBannerBody;
+
+  /// No description provided for @priceAlertsSetAlarmButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alarm Kur'**
+  String get priceAlertsSetAlarmButton;
+
+  /// No description provided for @priceAlertsActiveTab.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif Alarmlar'**
+  String get priceAlertsActiveTab;
+
+  /// No description provided for @priceAlertsTriggeredTab.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tetiklenenler'**
+  String get priceAlertsTriggeredTab;
+
+  /// No description provided for @priceAlertsPausedTab.
+  ///
+  /// In tr, this message translates to:
+  /// **'Pasif Alarmlar'**
+  String get priceAlertsPausedTab;
+
+  /// No description provided for @priceAlertsNoActiveTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif alarm yok'**
+  String get priceAlertsNoActiveTitle;
+
+  /// No description provided for @priceAlertsNoPausedTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Pasif alarm yok'**
+  String get priceAlertsNoPausedTitle;
+
+  /// No description provided for @priceAlertsNoActiveDescription.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alarm kur ve fiyat düşünce bildirim al.'**
+  String get priceAlertsNoActiveDescription;
+
+  /// No description provided for @priceAlertsNoPausedDescription.
+  ///
+  /// In tr, this message translates to:
+  /// **'Duraklatılmış alarm bulunmuyor.'**
+  String get priceAlertsNoPausedDescription;
+
+  /// No description provided for @priceAlertsTargetPriceLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef Fiyat'**
+  String get priceAlertsTargetPriceLabel;
+
+  /// No description provided for @priceAlertsPauseButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Duraklat'**
+  String get priceAlertsPauseButton;
+
+  /// No description provided for @priceAlertsActivateButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktifleştir'**
+  String get priceAlertsActivateButton;
+
+  /// No description provided for @priceAlertsNoTriggeredTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz tetiklenen alarm yok'**
+  String get priceAlertsNoTriggeredTitle;
+
+  /// No description provided for @priceAlertsNoTriggeredDescription.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat hedefine ulaşınca burada görünecek.'**
+  String get priceAlertsNoTriggeredDescription;
+
+  /// No description provided for @priceAlertsMatchedPriceLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eşleşen Fiyat'**
+  String get priceAlertsMatchedPriceLabel;
+
+  /// No description provided for @priceAlertsPreviousPriceLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önceki Fiyat'**
+  String get priceAlertsPreviousPriceLabel;
+
+  /// No description provided for @priceAlertsPercentDropLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'%{percent} düştü'**
+  String priceAlertsPercentDropLabel(int percent);
+
+  /// No description provided for @priceAlertsTipBannerTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyatlar değişiyor, fırsatlar kaçmasın!'**
+  String get priceAlertsTipBannerTitle;
+
+  /// No description provided for @priceAlertsTipBannerBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alarmlarını düzenli kontrol etmeyi unutma.'**
+  String get priceAlertsTipBannerBody;
 }
 
 class _AppLocalizationsDelegate

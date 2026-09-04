@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../core/linking/yeedoy_route_resolver.dart';
 import '../../../core/utils/greeting_utils.dart';
 import '../../../features/profile/domain/contribution_history.dart';
@@ -58,6 +59,7 @@ class _ContributePageState extends ConsumerState<ContributePage> {
                           ))
                       .length;
                   return _buildStatsCard(
+                    context,
                     score: stats.contributionScore,
                     weeklyCount: thisWeek,
                   );
@@ -88,18 +90,18 @@ class _ContributePageState extends ConsumerState<ContributePage> {
                   style: const TextStyle(fontSize: 13, color: AppColors.muted),
                 ),
                 const SizedBox(height: 2),
-                const Text(
-                  'Katkı Yap',
-                  style: TextStyle(
+                Text(
+                  context.l10n.contributePageTitle,
+                  style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w900,
                     color: AppColors.textStrong,
                   ),
                 ),
                 const SizedBox(height: 4),
-                const Text(
-                  'Topluluğa katkı sağlayarak menüleri ve fiyatları güncel tut.',
-                  style: TextStyle(
+                Text(
+                  context.l10n.contributePageSubtitle,
+                  style: const TextStyle(
                     fontSize: 13,
                     color: AppColors.muted,
                     height: 1.4,
@@ -187,22 +189,22 @@ class _ContributePageState extends ConsumerState<ContributePage> {
               ),
             ),
             const SizedBox(width: 14),
-            const Expanded(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Katkıların değerli!',
-                    style: TextStyle(
+                    context.l10n.contributeHeroTitle,
+                    style: const TextStyle(
                       fontWeight: FontWeight.w900,
                       fontSize: 16,
                       color: AppColors.textStrong,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
-                    'Doğrulanan katkılarla puan ve rozet kazan.',
-                    style: TextStyle(
+                    context.l10n.contributeHeroSubtitle,
+                    style: const TextStyle(
                       fontSize: 13,
                       color: AppColors.muted,
                       height: 1.4,
@@ -243,22 +245,22 @@ class _ContributePageState extends ConsumerState<ContributePage> {
         children: [
           _ActionTile(
             icon: Icons.qr_code_2_rounded,
-            title: 'QR Menü Tara',
-            subtitle: 'Mekanın QR menüsünü hızlıca tara',
+            title: context.l10n.contributeQrScanTitle,
+            subtitle: context.l10n.contributeQrScanSubtitle,
             onTap: () => _startQrScan(context),
           ),
           const SizedBox(height: 10),
           _ActionTile(
             icon: Icons.camera_alt_outlined,
-            title: 'Fotoğraf Yükle',
-            subtitle: 'Menü, mekan veya yemek fotoğrafı ekle',
+            title: context.l10n.contributePhotoUploadTitle,
+            subtitle: context.l10n.contributePhotoUploadSubtitle,
             onTap: () => _openContributeSheet(context),
           ),
           const SizedBox(height: 10),
           _ActionTile(
             icon: Icons.local_offer_outlined,
-            title: 'Fiyat Değişimi Doğrula',
-            subtitle: 'Güncel fiyat bilgisini onayla',
+            title: context.l10n.contributePriceVerifyTitle,
+            subtitle: context.l10n.contributePriceVerifySubtitle,
             onTap: () => _openContributeSheet(context),
           ),
         ],
@@ -276,10 +278,10 @@ class _ContributePageState extends ConsumerState<ContributePage> {
         children: [
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Son katkıların',
-                  style: TextStyle(
+                  context.l10n.contributeRecentSectionTitle,
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w900,
                     color: AppColors.textStrong,
@@ -296,12 +298,12 @@ class _ContributePageState extends ConsumerState<ContributePage> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Tümünü gör'),
-                    SizedBox(width: 2),
-                    Icon(Icons.chevron_right_rounded, size: 16),
+                    Text(context.l10n.contributeSeeAllButton),
+                    const SizedBox(width: 2),
+                    const Icon(Icons.chevron_right_rounded, size: 16),
                   ],
                 ),
               ),
@@ -314,14 +316,14 @@ class _ContributePageState extends ConsumerState<ContributePage> {
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: const Color(0xFFE5E7EB)),
             ),
-            child: _buildRecentList(history),
+            child: _buildRecentList(context, history),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildRecentList(ContributionHistory? history) {
+  Widget _buildRecentList(BuildContext context, ContributionHistory? history) {
     if (history == null) {
       return Column(
         children: List.generate(3, (i) {
@@ -342,13 +344,13 @@ class _ContributePageState extends ConsumerState<ContributePage> {
     final items = history.recentItems.take(3).toList();
 
     if (items.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.all(24),
+      return Padding(
+        padding: const EdgeInsets.all(24),
         child: Center(
           child: Text(
-            'Henüz katkın yok.\nYukarıdan bir katkı türü seçerek başlayabilirsin!',
+            context.l10n.contributeEmptyState,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 13, color: AppColors.muted, height: 1.5),
+            style: const TextStyle(fontSize: 13, color: AppColors.muted, height: 1.5),
           ),
         ),
       );
@@ -366,7 +368,11 @@ class _ContributePageState extends ConsumerState<ContributePage> {
 
   // ── Stats card ────────────────────────────────────────────────────────────
 
-  Widget _buildStatsCard({required int score, required int weeklyCount}) {
+  Widget _buildStatsCard(
+    BuildContext context, {
+    required int score,
+    required int weeklyCount,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
@@ -404,9 +410,9 @@ class _ContributePageState extends ConsumerState<ContributePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Katkı puanın',
-                    style: TextStyle(fontSize: 12, color: AppColors.muted),
+                  Text(
+                    context.l10n.contributeScoreLabel,
+                    style: const TextStyle(fontSize: 12, color: AppColors.muted),
                   ),
                   Text(
                     '$score',
@@ -431,12 +437,12 @@ class _ContributePageState extends ConsumerState<ContributePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Bu hafta',
-                    style: TextStyle(fontSize: 12, color: AppColors.muted),
+                  Text(
+                    context.l10n.contributeThisWeekLabel,
+                    style: const TextStyle(fontSize: 12, color: AppColors.muted),
                   ),
                   Text(
-                    '$weeklyCount katkı yaptın',
+                    context.l10n.contributeWeeklyCountLabel(weeklyCount),
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w800,
@@ -471,6 +477,7 @@ class _ContributePageState extends ConsumerState<ContributePage> {
   Future<void> _startQrScan(BuildContext context) async {
     final router = GoRouter.of(context);
     final messenger = ScaffoldMessenger.of(context);
+    final t = context.l10n;
 
     final file = await _picker.pickImage(
       source: ImageSource.camera,
@@ -500,7 +507,7 @@ class _ContributePageState extends ConsumerState<ContributePage> {
         }
       }
       messenger.showSnackBar(
-        const SnackBar(content: Text('QR kod okundu, incelemeye gönderildi.')),
+        SnackBar(content: Text(t.contributeQrScannedSnackbar)),
       );
     } finally {
       await scanner.close();
@@ -509,9 +516,9 @@ class _ContributePageState extends ConsumerState<ContributePage> {
 
   void _openContributeSheet(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
+      SnackBar(
         content: Text(
-          'Katkı yapmak için bir işletme sayfasını ziyaret edin.',
+          context.l10n.contributeVisitBusinessSnackbar,
         ),
       ),
     );
@@ -638,12 +645,12 @@ class _RecentItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  _typeLabel(item.type),
+                  _typeLabel(context, item.type),
                   style: const TextStyle(fontSize: 12, color: AppColors.muted),
                 ),
                 const SizedBox(height: 1),
                 Text(
-                  _timeAgo(item.createdAt),
+                  _timeAgo(context, item.createdAt),
                   style: const TextStyle(fontSize: 11, color: AppColors.muted),
                 ),
               ],
@@ -668,10 +675,10 @@ class _RecentItem extends StatelessWidget {
         _ => Icons.storefront_outlined,
       };
 
-  String _typeLabel(String type) => switch (type) {
-        'price' => 'Fiyat doğrulaması',
-        'menu' => 'Menü katkısı',
-        _ => 'İşletme önerisi',
+  String _typeLabel(BuildContext context, String type) => switch (type) {
+        'price' => context.l10n.contributeTypePriceLabel,
+        'menu' => context.l10n.contributeTypeMenuLabel,
+        _ => context.l10n.contributeTypeBusinessLabel,
       };
 }
 
@@ -686,28 +693,28 @@ class _StatusBadge extends StatelessWidget {
     return switch (status) {
       'approved' => _Chip(
           icon: Icons.check_circle_outline_rounded,
-          label: 'Onaylandı',
+          label: context.l10n.contributeStatusApproved,
           iconColor: const Color(0xFF16A34A),
           bg: const Color(0xFFDCFCE7),
           text: const Color(0xFF16A34A),
         ),
       'rejected' => _Chip(
           icon: Icons.cancel_outlined,
-          label: 'Reddedildi',
+          label: context.l10n.contributeStatusRejected,
           iconColor: AppColors.danger,
           bg: const Color(0xFFFEE2E2),
           text: AppColors.danger,
         ),
       'under_review' => _Chip(
           icon: Icons.visibility_outlined,
-          label: 'İnceleniyor',
+          label: context.l10n.contributeStatusUnderReview,
           iconColor: const Color(0xFF3B82F6),
           bg: const Color(0xFFDBEAFE),
           text: const Color(0xFF3B82F6),
         ),
       _ => _Chip(
           icon: Icons.hourglass_bottom_rounded,
-          label: 'Beklemede',
+          label: context.l10n.contributeStatusPending,
           iconColor: const Color(0xFFD97706),
           bg: const Color(0xFFFEF3C7),
           text: const Color(0xFFD97706),
@@ -760,10 +767,12 @@ class _Chip extends StatelessWidget {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-String _timeAgo(DateTime dt) {
+String _timeAgo(BuildContext context, DateTime dt) {
   final diff = DateTime.now().difference(dt);
-  if (diff.inMinutes < 60) return '${diff.inMinutes} dakika önce';
-  if (diff.inHours < 24) return '${diff.inHours} saat önce';
-  if (diff.inDays == 1) return '1 gün önce';
-  return '${diff.inDays} gün önce';
+  if (diff.inMinutes < 60) {
+    return context.l10n.contributeMinutesAgo(diff.inMinutes);
+  }
+  if (diff.inHours < 24) return context.l10n.contributeHoursAgo(diff.inHours);
+  if (diff.inDays == 1) return context.l10n.contributeOneDayAgo;
+  return context.l10n.contributeDaysAgo(diff.inDays);
 }

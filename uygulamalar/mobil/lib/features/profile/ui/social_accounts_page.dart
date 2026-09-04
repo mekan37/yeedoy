@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../data/profile_repository.dart';
 
 // ── Platform definitions ──────────────────────────────────────────────────────
@@ -29,66 +30,66 @@ class _PlatformDef {
   final String hintText;
 }
 
-const _kPlatforms = <_PlatformDef>[
+List<_PlatformDef> _platformDefs(BuildContext context) => <_PlatformDef>[
   _PlatformDef(
     key: 'instagram',
-    label: 'Instagram',
-    description: 'Fotoğraf ve video paylaşımlarınızı bağlayın.',
+    label: context.l10n.socialAccountsInstagramLabel,
+    description: context.l10n.socialAccountsInstagramDescription,
     icon: FontAwesomeIcons.instagram,
-    iconColor: Color(0xFFE1306C),
-    iconBg: Color(0xFFFCE4EC),
-    buttonColor: Color(0xFFE1306C),
-    hintText: 'https://instagram.com/kullanici_adi',
+    iconColor: const Color(0xFFE1306C),
+    iconBg: const Color(0xFFFCE4EC),
+    buttonColor: const Color(0xFFE1306C),
+    hintText: context.l10n.socialAccountsInstagramHint,
   ),
   _PlatformDef(
     key: 'facebook',
-    label: 'Facebook',
-    description: 'Hesabınızı bağlayarak içeriklerinizi paylaşın.',
+    label: context.l10n.socialAccountsFacebookLabel,
+    description: context.l10n.socialAccountsFacebookDescription,
     icon: FontAwesomeIcons.facebookF,
-    iconColor: Color(0xFF1877F2),
-    iconBg: Color(0xFFE3F2FD),
-    buttonColor: Color(0xFF1877F2),
-    hintText: 'https://facebook.com/kullanici_adi',
+    iconColor: const Color(0xFF1877F2),
+    iconBg: const Color(0xFFE3F2FD),
+    buttonColor: const Color(0xFF1877F2),
+    hintText: context.l10n.socialAccountsFacebookHint,
   ),
   _PlatformDef(
     key: 'x',
-    label: 'X (Twitter)',
-    description: 'Tweetlerinizi ve etkileşimlerinizi senkronize edin.',
+    label: context.l10n.socialAccountsXLabel,
+    description: context.l10n.socialAccountsXDescription,
     icon: FontAwesomeIcons.xTwitter,
-    iconColor: Color(0xFF000000),
-    iconBg: Color(0xFFF3F4F6),
-    buttonColor: Color(0xFF000000),
-    hintText: 'https://x.com/kullanici_adi',
+    iconColor: const Color(0xFF000000),
+    iconBg: const Color(0xFFF3F4F6),
+    buttonColor: const Color(0xFF000000),
+    hintText: context.l10n.socialAccountsXHint,
   ),
   _PlatformDef(
     key: 'linkedin',
-    label: 'LinkedIn',
-    description: 'Profesyonel profilinizi bağlayın.',
+    label: context.l10n.socialAccountsLinkedinLabel,
+    description: context.l10n.socialAccountsLinkedinDescription,
     icon: FontAwesomeIcons.linkedinIn,
-    iconColor: Color(0xFF0A66C2),
-    iconBg: Color(0xFFE8F0FB),
-    buttonColor: Color(0xFF0A66C2),
-    hintText: 'https://linkedin.com/in/kullanici_adi',
+    iconColor: const Color(0xFF0A66C2),
+    iconBg: const Color(0xFFE8F0FB),
+    buttonColor: const Color(0xFF0A66C2),
+    hintText: context.l10n.socialAccountsLinkedinHint,
   ),
   _PlatformDef(
     key: 'youtube',
-    label: 'YouTube',
-    description: 'Kanalınızı bağlayın ve içeriklerinizi yönetin.',
+    label: context.l10n.socialAccountsYoutubeLabel,
+    description: context.l10n.socialAccountsYoutubeDescription,
     icon: FontAwesomeIcons.youtube,
-    iconColor: Color(0xFFFF0000),
-    iconBg: Color(0xFFFFEBEE),
-    buttonColor: Color(0xFFFF0000),
-    hintText: 'https://youtube.com/@kanal_adi',
+    iconColor: const Color(0xFFFF0000),
+    iconBg: const Color(0xFFFFEBEE),
+    buttonColor: const Color(0xFFFF0000),
+    hintText: context.l10n.socialAccountsYoutubeHint,
   ),
   _PlatformDef(
     key: 'tiktok',
-    label: 'TikTok',
-    description: 'Kısa video içeriklerinizi bağlayın.',
+    label: context.l10n.socialAccountsTiktokLabel,
+    description: context.l10n.socialAccountsTiktokDescription,
     icon: FontAwesomeIcons.tiktok,
-    iconColor: Color(0xFF000000),
-    iconBg: Color(0xFFF3F4F6),
-    buttonColor: Color(0xFF000000),
-    hintText: 'https://tiktok.com/@kullanici_adi',
+    iconColor: const Color(0xFF000000),
+    iconBg: const Color(0xFFF3F4F6),
+    buttonColor: const Color(0xFF000000),
+    hintText: context.l10n.socialAccountsTiktokHint,
   ),
 ];
 
@@ -132,7 +133,7 @@ class _SocialAccountsPageState extends ConsumerState<SocialAccountsPage> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Kaydedilemedi, tekrar deneyin.')),
+          SnackBar(content: Text(context.l10n.socialAccountsSaveError)),
         );
       }
     }
@@ -162,17 +163,17 @@ class _SocialAccountsPageState extends ConsumerState<SocialAccountsPage> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('${platform.label} bağlantısını kaldır'),
-        content: const Text('Bu hesabın bağlantısını kaldırmak istiyor musunuz?'),
+        title: Text(ctx.l10n.socialAccountsDisconnectDialogTitle(platform.label)),
+        content: Text(ctx.l10n.socialAccountsDisconnectDialogBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Vazgeç'),
+            child: Text(ctx.l10n.socialAccountsCancelButton),
           ),
           FilledButton(
             style: FilledButton.styleFrom(backgroundColor: AppColors.danger),
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Kaldır'),
+            child: Text(ctx.l10n.socialAccountsRemoveButton),
           ),
         ],
       ),
@@ -184,6 +185,7 @@ class _SocialAccountsPageState extends ConsumerState<SocialAccountsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final platforms = _platformDefs(context);
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: SafeArea(
@@ -208,9 +210,9 @@ class _SocialAccountsPageState extends ConsumerState<SocialAccountsPage> {
                         Expanded(
                           child: Column(
                             children: [
-                              const Text(
-                                'Sosyal Medya Hesapları',
-                                style: TextStyle(
+                              Text(
+                                context.l10n.socialAccountsPageTitle,
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w900,
                                   color: AppColors.textStrong,
@@ -218,7 +220,7 @@ class _SocialAccountsPageState extends ConsumerState<SocialAccountsPage> {
                               ),
                               const SizedBox(height: 2),
                               Text(
-                                'Hesabınıza sosyal medya hesaplarınızı\nekleyin ve kolayca yönetin.',
+                                context.l10n.socialAccountsPageSubtitle,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: 12,
@@ -278,22 +280,22 @@ class _SocialAccountsPageState extends ConsumerState<SocialAccountsPage> {
                             ),
                           ),
                           const SizedBox(width: 12),
-                          const Expanded(
+                          Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Güvenli Bağlantı',
-                                  style: TextStyle(
+                                  context.l10n.socialAccountsSecureConnectionTitle,
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w800,
                                     fontSize: 14,
                                     color: AppColors.textStrong,
                                   ),
                                 ),
-                                SizedBox(height: 4),
+                                const SizedBox(height: 4),
                                 Text(
-                                  'Sosyal medya hesaplarınız 256-bit SSL ile korunur. Bilgileriniz bizimle paylaşılmaz.',
-                                  style: TextStyle(
+                                  context.l10n.socialAccountsSecureConnectionBody,
+                                  style: const TextStyle(
                                     fontSize: 12,
                                     color: AppColors.muted,
                                     height: 1.4,
@@ -329,11 +331,11 @@ class _SocialAccountsPageState extends ConsumerState<SocialAccountsPage> {
                   const SizedBox(height: 24),
 
                   // ── Hesap Ekle başlık ─────────────────────────────────
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
-                      'Hesap Ekle',
-                      style: TextStyle(
+                      context.l10n.socialAccountsAddAccountSectionTitle,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w900,
                         color: AppColors.textStrong,
@@ -353,16 +355,16 @@ class _SocialAccountsPageState extends ConsumerState<SocialAccountsPage> {
                       ),
                       child: Column(
                         children: [
-                          for (int i = 0; i < _kPlatforms.length; i++) ...[
+                          for (int i = 0; i < platforms.length; i++) ...[
                             if (i > 0)
                               const Divider(height: 1, color: AppColors.border),
                             _PlatformRow(
-                              platform: _kPlatforms[i],
-                              connectedUrl: _links[_kPlatforms[i].key],
+                              platform: platforms[i],
+                              connectedUrl: _links[platforms[i].key],
                               onConnect: () =>
-                                  _connectPlatform(_kPlatforms[i]),
+                                  _connectPlatform(platforms[i]),
                               onDisconnect: () =>
-                                  _disconnectPlatform(_kPlatforms[i]),
+                                  _disconnectPlatform(platforms[i]),
                             ),
                           ],
                         ],
@@ -406,22 +408,22 @@ class _SocialAccountsPageState extends ConsumerState<SocialAccountsPage> {
                               ),
                             ),
                             const SizedBox(width: 12),
-                            const Expanded(
+                            Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Neden hesap eklemelisiniz?',
-                                    style: TextStyle(
+                                    context.l10n.socialAccountsWhyAddTitle,
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w800,
                                       fontSize: 13,
                                       color: AppColors.textStrong,
                                     ),
                                   ),
-                                  SizedBox(height: 2),
+                                  const SizedBox(height: 2),
                                   Text(
-                                    'Sosyal medya hesaplarınızı bağlayarak içerikleri kolayca paylaşabilir ve etkileşimlerinizi tek yerden yönetebilirsiniz.',
-                                    style: TextStyle(
+                                    context.l10n.socialAccountsWhyAddBody,
+                                    style: const TextStyle(
                                       fontSize: 11,
                                       color: AppColors.muted,
                                       height: 1.4,
@@ -452,35 +454,31 @@ class _SocialAccountsPageState extends ConsumerState<SocialAccountsPage> {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) => Container(
+      builder: (sheetContext) => Container(
         margin: const EdgeInsets.all(16),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
         ),
-        child: const Column(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Neden Sosyal Hesap Eklemeliyim?',
-              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+              sheetContext.l10n.socialAccountsInfoSheetTitle,
+              style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
-              'Sosyal medya hesaplarınızı Yeedoy\'a bağlayarak:\n\n'
-              '• Yorum ve fotoğraflarınızı tek tıkla sosyal medyada paylaşabilirsiniz.\n'
-              '• Profiliniz daha güvenilir görünür ve topluluk puanınız artar.\n'
-              '• Hesabınız 256-bit SSL şifrelemesi ile korunur.\n'
-              '• Bilgileriniz asla üçüncü taraflarla paylaşılmaz.',
-              style: TextStyle(
+              sheetContext.l10n.socialAccountsInfoSheetBody,
+              style: const TextStyle(
                 fontSize: 13,
                 color: AppColors.muted,
                 height: 1.6,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
           ],
         ),
       ),
@@ -539,7 +537,9 @@ class _PlatformRow extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  _isConnected ? 'Hesabınız başarıyla bağlandı.' : platform.description,
+                  _isConnected
+                      ? context.l10n.socialAccountsConnectedLabel
+                      : platform.description,
                   style: const TextStyle(fontSize: 12, color: AppColors.muted),
                 ),
               ],
@@ -561,7 +561,7 @@ class _PlatformRow extends StatelessWidget {
                   Icon(Icons.check_rounded, size: 14, color: AppColors.success),
                   const SizedBox(width: 4),
                   Text(
-                    'Bağlandı',
+                    context.l10n.socialAccountsConnectedBadge,
                     style: TextStyle(
                       color: AppColors.success,
                       fontSize: 12,
@@ -601,9 +601,9 @@ class _PlatformRow extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              child: const Text(
-                'Bağla',
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 13),
+              child: Text(
+                context.l10n.socialAccountsConnectButton,
+                style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13),
               ),
             ),
         ],
@@ -615,7 +615,7 @@ class _PlatformRow extends StatelessWidget {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) => Container(
+      builder: (sheetContext) => Container(
         margin: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -637,9 +637,9 @@ class _PlatformRow extends StatelessWidget {
               const SizedBox(height: 16),
               ListTile(
                 leading: const Icon(Icons.edit_outlined),
-                title: const Text('URL\'yi Düzenle'),
+                title: Text(sheetContext.l10n.socialAccountsEditUrlAction),
                 onTap: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(sheetContext).pop();
                   onConnect();
                 },
               ),
@@ -647,11 +647,11 @@ class _PlatformRow extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.link_off_rounded, color: AppColors.danger),
                 title: Text(
-                  'Bağlantıyı Kaldır',
-                  style: TextStyle(color: AppColors.danger),
+                  sheetContext.l10n.socialAccountsRemoveLinkAction,
+                  style: const TextStyle(color: AppColors.danger),
                 ),
                 onTap: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(sheetContext).pop();
                   onDisconnect();
                 },
               ),
@@ -692,7 +692,7 @@ class _LinkDialogState extends State<_LinkDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Profil URL\'nizi veya kullanıcı adınızı girin:',
+            context.l10n.socialAccountsLinkDialogPrompt,
             style: const TextStyle(color: AppColors.muted, fontSize: 13),
           ),
           const SizedBox(height: 10),
@@ -710,12 +710,12 @@ class _LinkDialogState extends State<_LinkDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(null),
-          child: const Text('Vazgeç'),
+          child: Text(context.l10n.socialAccountsCancelButton),
         ),
         FilledButton(
           style: FilledButton.styleFrom(backgroundColor: AppColors.primary),
           onPressed: _submit,
-          child: const Text('Bağla'),
+          child: Text(context.l10n.socialAccountsConnectButton),
         ),
       ],
     );
