@@ -4,7 +4,7 @@ import { createServerClient } from '@supabase/ssr';
 import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/rate-limit';
 import { resolveBrandTheme } from '@/src/lib/brand-theme';
 import { isBusinessMenuPathKey, isUuid } from '@/src/lib/business-path';
-import { resolveLang } from '@/src/lib/i18n';
+import { resolveLang } from '@/src/lib/ceviri';
 
 // ── CSP nonce ──────────────────────────────────────────────────────────────────
 // Her istekte taze bir nonce üretilir. Next.js bunu CSP response header'ından
