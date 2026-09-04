@@ -15,28 +15,12 @@ import { getStokYemekKutuphanesi } from '@/src/lib/menu/stok-yemek-kutuphanesi';
 import { getTranslationValue } from '@/src/lib/acik-menu-sayfasi';
 import type { PublicMenuPageData } from '@/src/lib/acik-menu-sayfasi';
 import type { MenuItemRecord } from '@/src/lib/veri/menu-okuma';
+import { allergenLabels, type AppLang, type MenuCopy } from '@/src/lib/ceviri';
 
 // ── Sabitler ─────────────────────────────────────────────────────────────────
 
 const FEATURED_ID = '__featured__';
 const INITIAL_SHOW = 5;
-
-const ALLERGEN_LABEL: Record<string, string> = {
-  gluten: 'Gluten',
-  milk: 'Süt',
-  eggs: 'Yumurta',
-  fish: 'Balık',
-  shellfish: 'Kabuklu',
-  peanuts: 'Yer Fıstığı',
-  treenuts: 'Kuruyemiş',
-  soy: 'Soya',
-  celery: 'Kereviz',
-  mustard: 'Hardal',
-  sesame: 'Susam',
-  sulphites: 'Sülfitler',
-  lupin: 'Acı Bakla',
-  molluscs: 'Yumuşakça',
-};
 
 const ALLERGEN_EMOJI: Record<string, string> = {
   gluten: '🌾',
@@ -77,8 +61,8 @@ function kategoriIkonu(name: string): LucideIcon {
   return Utensils;
 }
 
-function fiyat(cents: number | null): string {
-  if (cents == null) return 'Fiyata sorunuz';
+function fiyat(cents: number | null, priceOnRequest: string): string {
+  if (cents == null) return priceOnRequest;
   return `₺${(cents / 100).toFixed(0)}`;
 }
 
@@ -97,11 +81,17 @@ export type MenuDuzenProps = {
   isOpenNow: boolean | null;
   todayHours: string | null;
   businessName: string;
+  lang: AppLang;
+  labels: MenuCopy;
+  langSwitchHrefTr: string;
+  langSwitchHrefEn: string;
 };
 
 // ── Ana bileşen ───────────────────────────────────────────────────────────────
 
-export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuzenProps) {
+export function MenuDuzen({
+  data, isOpenNow, todayHours, businessName, lang, labels, langSwitchHrefTr, langSwitchHrefEn,
+}: MenuDuzenProps) {
   const { business, categories, items, media } = data;
 
   const [activeCatId, setActiveCatId] = useState<string>(FEATURED_ID);
@@ -121,7 +111,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
         translations: data.translations,
         entityType: 'category',
         entityId: cat.id,
-        locale: 'tr',
+        locale: lang,
         field: 'name',
         fallback: `Kategori ${index + 1}`,
       }) ?? `Kategori ${index + 1}`,
@@ -161,7 +151,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
   ].filter((x): x is { label: string; url: string; emoji: string } => x !== null);
 
   const sidebarCats = [
-    { id: FEATURED_ID, name: 'Öne Çıkanlar', icon: Flame },
+    { id: FEATURED_ID, name: labels.featuredCategoryLabel, icon: Flame },
     ...categories.map((c) => {
       const name = catNameMap.get(c.id) ?? 'Kategori';
       return { id: c.id, name, icon: kategoriIkonu(name) };
@@ -180,15 +170,15 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
 
           {/* Breadcrumb */}
           <nav className="mb-4 flex items-center gap-1 text-xs font-bold text-muted" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-primary transition-colors">Keşfet</Link>
+            <Link href="/" className="hover:text-primary transition-colors">{labels.breadcrumbDiscover}</Link>
             <ChevronRight />
-            <Link href="/kesif" className="hover:text-primary transition-colors">Restoranlar</Link>
+            <Link href="/kesif" className="hover:text-primary transition-colors">{labels.breadcrumbRestaurants}</Link>
             <ChevronRight />
             <Link href={`/isletme/${business.public_slug ?? business.slug ?? business.id}`} className="hover:text-primary transition-colors">
               {businessName}
             </Link>
             <ChevronRight />
-            <span className="text-textStrong" aria-current="page">Menü</span>
+            <span className="text-textStrong" aria-current="page">{labels.breadcrumbMenu}</span>
           </nav>
 
           {/* İşletme kartı */}
@@ -216,14 +206,29 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
                 {business.is_verified && (
                   <span
                     className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary text-white"
-                    title="Doğrulanmış İşletme"
-                    aria-label="Doğrulanmış işletme"
+                    title={labels.verifiedBusinessLabel}
+                    aria-label={labels.verifiedBusinessLabel}
                   >
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                       <path d="M2 6l2.5 2.5L10 3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </span>
                 )}
+                <div className="flex items-center gap-1 text-xs font-black">
+                  <a
+                    href={langSwitchHrefTr}
+                    className={lang === 'tr' ? 'text-primary underline' : 'text-muted hover:text-primary'}
+                  >
+                    TR
+                  </a>
+                  <span className="text-muted" aria-hidden="true">|</span>
+                  <a
+                    href={langSwitchHrefEn}
+                    className={lang === 'en' ? 'text-primary underline' : 'text-muted hover:text-primary'}
+                  >
+                    EN
+                  </a>
+                </div>
               </div>
 
               {/* Kategori ve konum etiketleri */}
@@ -277,25 +282,25 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
                 <button
                   type="button"
                   className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-card px-4 text-xs font-black text-textStrong hover:border-danger hover:text-danger transition-colors"
-                  aria-label="Favorilere ekle"
+                  aria-label={labels.favoriteButtonAria}
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
                   </svg>
-                  Favori
+                  {labels.favoriteButton}
                 </button>
 
                 <button
                   type="button"
                   className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-card px-4 text-xs font-black text-textStrong hover:border-primary hover:text-primary transition-colors"
                   onClick={() => { if (navigator.share) navigator.share({ title: businessName, url: window.location.href }); }}
-                  aria-label="Paylaş"
+                  aria-label={labels.shareButtonAria}
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
                     <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
                     <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" /><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
                   </svg>
-                  Paylaş
+                  {labels.shareButton}
                 </button>
 
                 {business.reservation_url && (
@@ -305,7 +310,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
                     rel="noopener noreferrer"
                     className="inline-flex min-h-9 items-center gap-1.5 rounded-2xl bg-primary px-4 text-xs font-black text-white hover:bg-primary/90 transition-colors"
                   >
-                    🪑 Masa Ayırt
+                    🪑 {labels.reserveTableButton}
                   </Link>
                 )}
 
@@ -333,7 +338,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
         <aside className="hidden lg:block w-52 shrink-0 sticky top-20 self-start">
           <div className="overflow-hidden rounded-2xl border border-border bg-card py-3">
             <p className="px-4 pb-2 pt-1 text-[11px] font-black uppercase tracking-widest text-muted">
-              Menü Kategorileri
+              {labels.menuCategoriesTitle}
             </p>
 
             {sidebarCats.map((cat) => {
@@ -356,8 +361,8 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
             })}
 
             <div className="mx-3 mt-4 rounded-2xl bg-primary/5 p-3">
-              <p className="text-xs font-black text-primary">Lezzetli fırsatlar seni bekliyor! 🎉</p>
-              <p className="mt-0.5 text-[11px] font-bold text-muted">En iyi kampanyaları kaçırma.</p>
+              <p className="text-xs font-black text-primary">{labels.promoBannerTitle} 🎉</p>
+              <p className="mt-0.5 text-[11px] font-bold text-muted">{labels.promoBannerBody}</p>
             </div>
           </div>
         </aside>
@@ -374,7 +379,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
             </span>
             <input
               type="search"
-              placeholder="Menüde ara..."
+              placeholder={labels.searchPlaceholder}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="h-11 w-full rounded-2xl border border-border bg-card pl-11 pr-4 text-sm font-bold text-textStrong placeholder:text-muted focus:border-primary focus:outline-hidden transition-colors"
@@ -387,14 +392,14 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
               <div className="mb-4 flex items-baseline justify-between">
                 <div>
                   <h2 className="text-lg font-black text-textStrong">
-                    <span aria-hidden="true">🔥 </span>Öne Çıkanlar
+                    <span aria-hidden="true">🔥 </span>{labels.featuredItems}
                   </h2>
-                  <p className="mt-0.5 text-xs font-bold text-muted">En çok tercih edilen lezzetler</p>
+                  <p className="mt-0.5 text-xs font-bold text-muted">{labels.featuredItemsSubtitle}</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {featuredItems.filter(matches).map((item) => (
-                  <UrunKarti key={item.id} item={item} />
+                  <UrunKarti key={item.id} item={item} translations={data.translations} lang={lang} labels={labels} />
                 ))}
               </div>
             </section>
@@ -435,7 +440,14 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
                   <>
                     <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
                       {visibleItems.map((item) => (
-                        <UrunSatiri key={item.id} item={item} stokKutuphanesi={stokKutuphanesi} />
+                        <UrunSatiri
+                          key={item.id}
+                          item={item}
+                          stokKutuphanesi={stokKutuphanesi}
+                          translations={data.translations}
+                          lang={lang}
+                          labels={labels}
+                        />
                       ))}
                     </div>
 
@@ -445,7 +457,7 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
                         onClick={() => setShowMoreMap((p) => ({ ...p, [cat.id]: true }))}
                         className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-2xl border border-border bg-card py-2.5 text-sm font-black text-textStrong hover:bg-surface transition-colors"
                       >
-                        Daha fazla göster
+                        {labels.showMoreButton}
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
                           <path d="m6 9 6 6 6-6" />
                         </svg>
@@ -464,9 +476,9 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
               <div className="rounded-2xl border border-border bg-card px-6 py-12 text-center">
                 <p className="text-3xl" aria-hidden="true">🔍</p>
                 <p className="mt-3 text-sm font-black text-textStrong">
-                  &ldquo;{query}&rdquo; için sonuç bulunamadı
+                  {labels.noSearchResultsPrefix} &ldquo;{query}&rdquo; {labels.noSearchResultsSuffix}
                 </p>
-                <p className="mt-1 text-xs font-bold text-muted">Farklı bir arama terimi deneyin</p>
+                <p className="mt-1 text-xs font-bold text-muted">{labels.noSearchResultsHint}</p>
               </div>
             )}
         </div>
@@ -477,10 +489,23 @@ export function MenuDuzen({ data, isOpenNow, todayHours, businessName }: MenuDuz
 
 // ── Ürün kartı (grid — görselli) ─────────────────────────────────────────────
 
-function UrunKarti({ item }: { item: MenuItemRecord }) {
+function UrunKarti({
+  item, translations, lang, labels,
+}: {
+  item: MenuItemRecord;
+  translations: PublicMenuPageData['translations'];
+  lang: AppLang;
+  labels: MenuCopy;
+}) {
   const imgUrl = buildMenuImageUrl(item.image_url ?? null, { width: 300, quality: 80 });
   const isAvailable = item.is_available !== false;
   const kcal = kalori(item);
+  const name = getTranslationValue({
+    translations, entityType: 'item', entityId: item.id, locale: lang, field: 'name', fallback: item.name,
+  }) ?? item.name;
+  const description = getTranslationValue({
+    translations, entityType: 'item', entityId: item.id, locale: lang, field: 'description', fallback: item.description,
+  }) ?? item.description;
 
   return (
     <div
@@ -493,7 +518,7 @@ function UrunKarti({ item }: { item: MenuItemRecord }) {
         {imgUrl ? (
           <Image
             src={imgUrl}
-            alt={item.name}
+            alt={name}
             fill
             sizes="(max-width:640px) 50vw, 25vw"
             className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -505,16 +530,16 @@ function UrunKarti({ item }: { item: MenuItemRecord }) {
         )}
         {!isAvailable && (
           <div className="absolute inset-0 flex items-center justify-center bg-card/60">
-            <span className="rounded-xl bg-card px-2 py-1 text-[11px] font-black text-muted">Tükendi</span>
+            <span className="rounded-xl bg-card px-2 py-1 text-[11px] font-black text-muted">{labels.soldOut}</span>
           </div>
         )}
       </div>
 
       {/* Bilgi */}
       <div className="flex flex-1 flex-col p-3">
-        <p className="text-sm font-black text-textStrong line-clamp-1">{item.name}</p>
-        {item.description && (
-          <p className="mt-0.5 text-[11px] font-bold text-muted line-clamp-2">{item.description}</p>
+        <p className="text-sm font-black text-textStrong line-clamp-1">{name}</p>
+        {description && (
+          <p className="mt-0.5 text-[11px] font-bold text-muted line-clamp-2">{description}</p>
         )}
 
         {/* Kalori etiketi */}
@@ -524,7 +549,7 @@ function UrunKarti({ item }: { item: MenuItemRecord }) {
 
         <div className="mt-auto pt-2">
           {isAvailable ? (
-            <span className="text-sm font-black text-textStrong">{fiyat(item.price_cents)}</span>
+            <span className="text-sm font-black text-textStrong">{fiyat(item.price_cents, labels.priceOnRequest)}</span>
           ) : (
             <span className="text-xs font-extrabold text-muted">—</span>
           )}
@@ -536,19 +561,34 @@ function UrunKarti({ item }: { item: MenuItemRecord }) {
 
 // ── Ürün satırı (yatay liste) ────────────────────────────────────────────────
 
-function UrunSatiri({ item, stokKutuphanesi }: { item: MenuItemRecord; stokKutuphanesi: StockDishImage[] }) {
+function UrunSatiri({
+  item, stokKutuphanesi, translations, lang, labels,
+}: {
+  item: MenuItemRecord;
+  stokKutuphanesi: StockDishImage[];
+  translations: PublicMenuPageData['translations'];
+  lang: AppLang;
+  labels: MenuCopy;
+}) {
   const varsayilanUrl = item.image_url ? null : bulVarsayilanYemekGorseli(item.name, stokKutuphanesi);
   const imgUrl = buildMenuImageUrl(item.image_url ?? varsayilanUrl, { width: 200, quality: 80 });
   const isAvailable = item.is_available !== false;
   const kcal = kalori(item);
   const allergens = item.allergens ?? [];
+  const allergenLabelsForLang = allergenLabels[lang];
+  const name = getTranslationValue({
+    translations, entityType: 'item', entityId: item.id, locale: lang, field: 'name', fallback: item.name,
+  }) ?? item.name;
+  const description = getTranslationValue({
+    translations, entityType: 'item', entityId: item.id, locale: lang, field: 'description', fallback: item.description,
+  }) ?? item.description;
 
   return (
     <div className={`flex items-start gap-3 p-4 ${!isAvailable ? 'opacity-60' : ''}`}>
       {/* Görsel */}
       {imgUrl ? (
         <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl">
-          <Image src={imgUrl} alt={item.name} fill sizes="80px" className="object-cover" />
+          <Image src={imgUrl} alt={name} fill sizes="80px" className="object-cover" />
         </div>
       ) : (
         <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl bg-surface text-2xl" aria-hidden="true">
@@ -558,9 +598,9 @@ function UrunSatiri({ item, stokKutuphanesi }: { item: MenuItemRecord; stokKutup
 
       {/* Metin */}
       <div className="flex flex-1 min-w-0 flex-col gap-0.5">
-        <p className="text-sm font-black text-textStrong line-clamp-1">{item.name}</p>
-        {item.description && (
-          <p className="text-xs font-bold text-muted line-clamp-2">{item.description}</p>
+        <p className="text-sm font-black text-textStrong line-clamp-1">{name}</p>
+        {description && (
+          <p className="text-xs font-bold text-muted line-clamp-2">{description}</p>
         )}
 
         {/* Kalori + etiketler */}
@@ -584,10 +624,10 @@ function UrunSatiri({ item, stokKutuphanesi }: { item: MenuItemRecord; stokKutup
               <span
                 key={a}
                 className="inline-flex items-center gap-0.5 rounded-full bg-amber-50 px-1.5 py-0.5 text-[10px] font-extrabold text-amber-700 ring-1 ring-amber-200"
-                title={`Alerjen: ${ALLERGEN_LABEL[a] ?? a}`}
+                title={`${labels.allergenPrefix}: ${allergenLabelsForLang[a as keyof typeof allergenLabelsForLang] ?? a}`}
               >
                 <span aria-hidden="true">{ALLERGEN_EMOJI[a] ?? '⚠️'}</span>
-                {ALLERGEN_LABEL[a] ?? a}
+                {allergenLabelsForLang[a as keyof typeof allergenLabelsForLang] ?? a}
               </span>
             ))}
           </div>
@@ -597,10 +637,10 @@ function UrunSatiri({ item, stokKutuphanesi }: { item: MenuItemRecord; stokKutup
       {/* Sağ: fiyat */}
       <div className="ml-2 shrink-0 text-right">
         {isAvailable ? (
-          <span className="text-sm font-black text-textStrong">{fiyat(item.price_cents)}</span>
+          <span className="text-sm font-black text-textStrong">{fiyat(item.price_cents, labels.priceOnRequest)}</span>
         ) : (
           <span className="rounded-xl border border-border px-2 py-1 text-[11px] font-extrabold text-muted">
-            Tükendi
+            {labels.soldOut}
           </span>
         )}
       </div>
