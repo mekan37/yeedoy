@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../core/media/app_network_image.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../domain/my_review_entry.dart';
@@ -63,7 +64,7 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
                         OutlinedButton(
                           onPressed: () =>
                               ref.invalidate(myReviewsProvider(user.id)),
-                          child: const Text('Tekrar Dene'),
+                          child: Text(context.l10n.myReviewsRetryButton),
                         ),
                       ],
                     ),
@@ -99,11 +100,11 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
                     ? context.pop()
                     : context.go('/profile'),
               ),
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Yorumlarım',
+                  context.l10n.myReviewsPageTitle,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w900,
                     color: AppColors.textStrong,
@@ -117,9 +118,9 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
             ],
           ),
           const SizedBox(height: 4),
-          const Text(
-            'Deneyimlerini paylaştığın mekanlar',
-            style: TextStyle(fontSize: 13, color: AppColors.muted),
+          Text(
+            context.l10n.myReviewsPageSubtitle,
+            style: const TextStyle(fontSize: 13, color: AppColors.muted),
           ),
           const SizedBox(height: 12),
         ],
@@ -147,7 +148,7 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
           child: Container(
             color: Colors.white,
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-            child: _buildTabBar(all.length, publishedCount, pendingCount),
+            child: _buildTabBar(context, all.length, publishedCount, pendingCount),
           ),
         ),
 
@@ -156,7 +157,7 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: _buildHeroCard(),
+            child: _buildHeroCard(context),
           ),
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 12)),
@@ -165,7 +166,7 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
         if (filtered.isEmpty)
           SliverFillRemaining(
             hasScrollBody: false,
-            child: _buildEmptyState(),
+            child: _buildEmptyState(context),
           )
         else ...[
           SliverPadding(
@@ -192,11 +193,12 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
 
   // ── Tab bar ──────────────────────────────────────────────────────────────────
 
-  Widget _buildTabBar(int total, int published, int pending) {
+  Widget _buildTabBar(
+      BuildContext context, int total, int published, int pending) {
     return Row(
       children: [
         _TabChip(
-          label: 'Tümü',
+          label: context.l10n.myReviewsTabAll,
           count: total,
           icon: Icons.chat_bubble_outline_rounded,
           selected: _tab == _Tab.all,
@@ -205,7 +207,7 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
         ),
         const SizedBox(width: 8),
         _TabChip(
-          label: 'Yayınlanan',
+          label: context.l10n.myReviewsTabPublished,
           count: published,
           icon: Icons.check_circle_outline_rounded,
           selected: _tab == _Tab.published,
@@ -214,7 +216,7 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
         ),
         const SizedBox(width: 8),
         _TabChip(
-          label: 'Bekleyen',
+          label: context.l10n.myReviewsTabPending,
           count: pending,
           icon: Icons.access_time_rounded,
           selected: _tab == _Tab.pending,
@@ -227,7 +229,7 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
 
   // ── Hero card ─────────────────────────────────────────────────────────────────
 
-  Widget _buildHeroCard() {
+  Widget _buildHeroCard(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.primarySoft,
@@ -240,19 +242,19 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
-                    'Yorumların değerli!',
-                    style: TextStyle(
+                    context.l10n.myReviewsHeroTitle,
+                    style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w900,
                       color: AppColors.textStrong,
                     ),
                   ),
-                  SizedBox(height: 6),
+                  const SizedBox(height: 6),
                   Text(
-                    'Deneyimlerin diğer kullanıcılara yol gösteriyor. Teşekkür ederiz.',
-                    style: TextStyle(
+                    context.l10n.myReviewsHeroSubtitle,
+                    style: const TextStyle(
                       fontSize: 12,
                       color: AppColors.muted,
                       height: 1.4,
@@ -331,22 +333,22 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
               ),
             ),
             const SizedBox(width: 12),
-            const Expanded(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Yorumların bizim için önemli',
-                    style: TextStyle(
+                    context.l10n.myReviewsGuidelinesTitle,
+                    style: const TextStyle(
                       fontWeight: FontWeight.w800,
                       fontSize: 13,
                       color: AppColors.textStrong,
                     ),
                   ),
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   Text(
-                    'Topluluk kurallarımıza uygun yapılan yorumlar yayınlanır. Detaylı bilgi için tıkla.',
-                    style: TextStyle(
+                    context.l10n.myReviewsGuidelinesSubtitle,
+                    style: const TextStyle(
                       fontSize: 11,
                       color: AppColors.muted,
                       height: 1.4,
@@ -369,11 +371,11 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
 
   // ── Empty state ───────────────────────────────────────────────────────────────
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(BuildContext context) {
     final label = switch (_tab) {
-      _Tab.published => 'Yayınlanmış yorumun yok.',
-      _Tab.pending => 'Onay bekleyen yorumun yok.',
-      _Tab.all => 'Henüz yorum yapmadın.',
+      _Tab.published => context.l10n.myReviewsEmptyPublished,
+      _Tab.pending => context.l10n.myReviewsEmptyPending,
+      _Tab.all => context.l10n.myReviewsEmptyAll,
     };
     return Center(
       child: Padding(
@@ -422,9 +424,9 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
                       color: AppColors.muted,
                     ),
                     const SizedBox(height: 14),
-                    const Text(
-                      'Yorumlarını görmek için giriş yap.',
-                      style: TextStyle(color: AppColors.muted),
+                    Text(
+                      context.l10n.myReviewsLoginPrompt,
+                      style: const TextStyle(color: AppColors.muted),
                     ),
                     const SizedBox(height: 16),
                     FilledButton(
@@ -433,7 +435,7 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
                       ),
                       onPressed: () =>
                           context.go('/login?redirect=/my-reviews'),
-                      child: const Text('Giriş Yap'),
+                      child: Text(context.l10n.myReviewsLoginButton),
                     ),
                   ],
                 ),
@@ -597,7 +599,7 @@ class _ReviewCard extends ConsumerWidget {
                         ),
                         const SizedBox(width: 6),
                         Text(
-                          _timeAgo(entry.createdAt),
+                          _timeAgo(context, entry.createdAt),
                           style: const TextStyle(
                             fontSize: 12,
                             color: AppColors.muted,
@@ -693,14 +695,22 @@ class _ReviewCard extends ConsumerWidget {
     });
   }
 
-  String _timeAgo(DateTime dt) {
+  String _timeAgo(BuildContext context, DateTime dt) {
     final diff = DateTime.now().difference(dt);
-    if (diff.inMinutes < 60) return 'Az önce';
-    if (diff.inHours < 24) return '${diff.inHours} saat önce';
-    if (diff.inDays < 7) return '${diff.inDays} gün önce';
-    if (diff.inDays < 30) return '${(diff.inDays / 7).floor()} hafta önce';
-    if (diff.inDays < 365) return '${(diff.inDays / 30).floor()} ay önce';
-    return '${(diff.inDays / 365).floor()} yıl önce';
+    if (diff.inMinutes < 60) return context.l10n.myReviewsTimeJustNow;
+    if (diff.inHours < 24) {
+      return context.l10n.myReviewsTimeHoursAgo(diff.inHours);
+    }
+    if (diff.inDays < 7) {
+      return context.l10n.myReviewsTimeDaysAgo(diff.inDays);
+    }
+    if (diff.inDays < 30) {
+      return context.l10n.myReviewsTimeWeeksAgo((diff.inDays / 7).floor());
+    }
+    if (diff.inDays < 365) {
+      return context.l10n.myReviewsTimeMonthsAgo((diff.inDays / 30).floor());
+    }
+    return context.l10n.myReviewsTimeYearsAgo((diff.inDays / 365).floor());
   }
 }
 
@@ -748,19 +758,19 @@ class _StatusBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final (label, icon, color, bg) = switch (status) {
       'approved' => (
-          'Yayınlandı',
+          context.l10n.myReviewsStatusPublished,
           Icons.check_rounded,
           const Color(0xFF16A34A),
           const Color(0xFFDCFCE7),
         ),
       'pending' => (
-          'Onay Bekliyor',
+          context.l10n.myReviewsStatusPending,
           Icons.access_time_rounded,
           const Color(0xFFD97706),
           const Color(0xFFFEF3C7),
         ),
       _ => (
-          'Reddedildi',
+          context.l10n.myReviewsStatusRejected,
           Icons.close_rounded,
           const Color(0xFFDC2626),
           const Color(0xFFFEE2E2),
@@ -810,23 +820,23 @@ class _MenuButton extends StatelessWidget {
       padding: EdgeInsets.zero,
       constraints: const BoxConstraints(),
       itemBuilder: (_) => [
-        const PopupMenuItem(
+        PopupMenuItem(
           value: 'edit',
           child: Row(
             children: [
-              Icon(Icons.edit_outlined, size: 16),
-              SizedBox(width: 8),
-              Text('Düzenle'),
+              const Icon(Icons.edit_outlined, size: 16),
+              const SizedBox(width: 8),
+              Text(context.l10n.myReviewsMenuEdit),
             ],
           ),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: 'delete',
           child: Row(
             children: [
-              Icon(Icons.delete_outline_rounded, size: 16, color: AppColors.danger),
-              SizedBox(width: 8),
-              Text('Sil', style: TextStyle(color: AppColors.danger)),
+              const Icon(Icons.delete_outline_rounded, size: 16, color: AppColors.danger),
+              const SizedBox(width: 8),
+              Text(context.l10n.myReviewsMenuDelete, style: const TextStyle(color: AppColors.danger)),
             ],
           ),
         ),

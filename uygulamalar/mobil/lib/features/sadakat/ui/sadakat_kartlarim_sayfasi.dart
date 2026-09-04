@@ -5,6 +5,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../features/shared/ui/components/app_appbar.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../../features/shared/ui/design_system.dart';
@@ -19,7 +20,7 @@ class SadakatKartlarimSayfasi extends ConsumerWidget {
     final qrData = ref.watch(myLoyaltyQrDataProvider);
 
     return AppScaffold(
-      appBar: const AppAppBar(title: Text('Sadakat Kartlarım')),
+      appBar: AppAppBar(title: Text(context.l10n.sadakatKartlarimAppBarTitle)),
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(myLoyaltyCardsProvider),
         child: ListView(
@@ -44,7 +45,7 @@ class SadakatKartlarimSayfasi extends ConsumerWidget {
                       OutlinedButton.icon(
                         onPressed: () => ref.invalidate(myLoyaltyCardsProvider),
                         icon: const Icon(Icons.refresh),
-                        label: const Text('Tekrar Dene'),
+                        label: Text(context.l10n.sadakatKartlarimRetryButton),
                       ),
                     ],
                   ),
@@ -52,11 +53,10 @@ class SadakatKartlarimSayfasi extends ConsumerWidget {
               ),
               data: (cards) {
                 if (cards.isEmpty) {
-                  return const AppEmptyState(
+                  return AppEmptyState(
                     icon: Icons.loyalty_rounded,
-                    title: 'Henüz sadakat kartın yok',
-                    description:
-                        'Katıldığın işletmelerin sadakat programları burada görünecek.',
+                    title: context.l10n.sadakatKartlarimEmptyTitle,
+                    description: context.l10n.sadakatKartlarimEmptyDescription,
                   );
                 }
                 return Column(
@@ -87,7 +87,7 @@ class _QrKartim extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Damga/puan kazanmak için işletmede bu kodu gösterin.',
+            context.l10n.sadakatKartlarimQrHint,
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 13, color: AppColors.muted),
           ),
@@ -115,14 +115,14 @@ class _QrKartim extends StatelessWidget {
               ),
             )
           else
-            const Text(
-              'Kodunuzu görmek için giriş yapın.',
-              style: TextStyle(fontSize: 13, color: AppColors.muted),
+            Text(
+              context.l10n.sadakatKartlarimLoginToSeeCode,
+              style: const TextStyle(fontSize: 13, color: AppColors.muted),
             ),
           const SizedBox(height: 10),
-          const Text(
-            'Bu kod size özeldir, paylaşmayın.',
-            style: TextStyle(fontSize: 11, color: AppColors.muted),
+          Text(
+            context.l10n.sadakatKartlarimCodePrivateNotice,
+            style: const TextStyle(fontSize: 11, color: AppColors.muted),
           ),
         ],
       ),

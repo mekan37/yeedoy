@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../core/location/location_mapping.dart';
 import '../../../core/location/user_location_controller.dart';
 import '../../discovery/domain/city_districts_provider.dart';
@@ -70,7 +71,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
   Future<void> _save() async {
     if (_city == null || _district == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Lütfen il ve ilçe seçin.')),
+        SnackBar(content: Text(context.l10n.locationPickerRequiredSnackbar)),
       );
       return;
     }
@@ -103,7 +104,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
   void _pickCity(List<String> cities) {
     _showPickerSheet(
       context: context,
-      title: 'İl Seçin',
+      title: context.l10n.locationPickerCityLabel,
       items: cities,
       selected: _city,
       onSelected: (v) => setState(() {
@@ -118,7 +119,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
     if (districts.isEmpty) return;
     _showPickerSheet(
       context: context,
-      title: 'İlçe Seçin',
+      title: context.l10n.locationPickerDistrictLabel,
       items: districts,
       selected: _district,
       onSelected: (v) => setState(() {
@@ -133,7 +134,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
     if (hoods.isEmpty) return;
     _showPickerSheet(
       context: context,
-      title: 'Mahalle Seçin',
+      title: context.l10n.locationPickerNeighborhoodSheetTitle,
       items: hoods,
       selected: _neighborhood,
       onSelected: (v) => setState(() => _neighborhood = v),
@@ -202,34 +203,34 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
         const SizedBox(height: 4),
         _buildInfoCard(),
         const SizedBox(height: 24),
-        _buildSectionLabel('İl Seçin'),
+        _buildSectionLabel(context.l10n.locationPickerCityLabel),
         const SizedBox(height: 8),
         _buildDropdown(
           icon: Icons.location_on_outlined,
-          value: _city ?? 'Seçiniz',
+          value: _city ?? context.l10n.locationPickerPlaceholderSelect,
           onTap: cities.isEmpty ? null : () => _pickCity(cities),
         ),
         const SizedBox(height: 6),
-        _buildHint('Bulunduğunuz şehirdeki işletmeleri ve fiyatları göreceksiniz.'),
+        _buildHint(context.l10n.locationPickerCityHint),
         const SizedBox(height: 24),
-        _buildSectionLabel('İlçe Seçin'),
+        _buildSectionLabel(context.l10n.locationPickerDistrictLabel),
         const SizedBox(height: 8),
         _buildDropdown(
           icon: Icons.map_outlined,
-          value: _district ?? 'Seçiniz',
+          value: _district ?? context.l10n.locationPickerPlaceholderSelect,
           onTap: (_city == null || districts.isEmpty)
               ? null
               : () => _pickDistrict(districts),
           disabled: _city == null,
         ),
         const SizedBox(height: 6),
-        _buildHint('Daha doğru sonuçlar için ilçenizi seçin.'),
+        _buildHint(context.l10n.locationPickerDistrictHint),
         const SizedBox(height: 24),
-        _buildSectionLabelOptional('Mahalle'),
+        _buildSectionLabelOptional(context.l10n.locationPickerNeighborhoodLabel),
         const SizedBox(height: 8),
         _buildDropdown(
           icon: Icons.home_outlined,
-          value: _neighborhood ?? 'Seçiniz (isteğe bağlı)',
+          value: _neighborhood ?? context.l10n.locationPickerOptionalPlaceholder,
           onTap: (_district == null || neighborhoods.isEmpty)
               ? null
               : _pickNeighborhood,
@@ -237,7 +238,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
           isOptional: true,
         ),
         const SizedBox(height: 6),
-        _buildHint('Mahalle seçerek çok daha yerel sonuçlar alabilirsiniz.'),
+        _buildHint(context.l10n.locationPickerNeighborhoodHint),
         const SizedBox(height: 20),
         _buildSelectedCard(),
         const SizedBox(height: 20),
@@ -272,11 +273,11 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
               ),
             ),
           ),
-          const Expanded(
+          Expanded(
             child: Text(
-              'Konum Seç',
+              context.l10n.locationPickerPageTitle,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w900,
                 color: AppColors.textStrong,
@@ -323,12 +324,12 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
   }
 
   Widget _buildSubtitle() {
-    return const Padding(
-      padding: EdgeInsets.fromLTRB(20, 0, 20, 12),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
       child: Text(
-        'Size özel öneriler ve fiyat alarmları için konumunuzu seçin.',
+        context.l10n.locationPickerSubtitle,
         textAlign: TextAlign.center,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 13,
           color: AppColors.muted,
           height: 1.4,
@@ -366,22 +367,22 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
               ),
             ),
             const SizedBox(width: 12),
-            const Expanded(
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Neden konum seçmeliyim?',
-                    style: TextStyle(
+                    context.l10n.locationPickerInfoCardTitle,
+                    style: const TextStyle(
                       fontWeight: FontWeight.w800,
                       fontSize: 13,
                       color: AppColors.textStrong,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
-                    'Bulunduğunuz konuma göre işletmeleri, fiyatları ve fırsatları en doğru şekilde gösteriyoruz.',
-                    style: TextStyle(
+                    context.l10n.locationPickerInfoCardSubtitle,
+                    style: const TextStyle(
                       fontSize: 12,
                       color: AppColors.muted,
                       height: 1.4,
@@ -422,19 +423,19 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: RichText(
-        text: const TextSpan(
+        text: TextSpan(
           children: [
             TextSpan(
-              text: 'Mahalle',
-              style: TextStyle(
+              text: label,
+              style: const TextStyle(
                 fontWeight: FontWeight.w800,
                 fontSize: 16,
                 color: AppColors.textStrong,
               ),
             ),
             TextSpan(
-              text: '  (isteğe bağlı)',
-              style: TextStyle(
+              text: context.l10n.locationPickerOptionalSuffix,
+              style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 13,
                 color: AppColors.muted,
@@ -455,8 +456,8 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
     bool disabled = false,
     bool isOptional = false,
   }) {
-    final isPlaceholder =
-        disabled || (isOptional && value == 'Seçiniz (isteğe bağlı)');
+    final isPlaceholder = disabled ||
+        (isOptional && value == context.l10n.locationPickerOptionalPlaceholder);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: GestureDetector(
@@ -540,9 +541,9 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Seçilen Konumunuz',
-              style: TextStyle(
+            Text(
+              context.l10n.locationPickerSelectedCardTitle,
+              style: const TextStyle(
                 fontWeight: FontWeight.w800,
                 fontSize: 14,
                 color: AppColors.textStrong,
@@ -570,7 +571,9 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        hasLoc ? '$_city / $_district' : 'Henüz konum seçilmedi',
+                        hasLoc
+                            ? '$_city / $_district'
+                            : context.l10n.locationPickerNoLocationSelected,
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 14,
@@ -580,7 +583,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                       if (_neighborhood != null) ...[
                         const SizedBox(height: 2),
                         Text(
-                          '$_neighborhood Mahallesi',
+                          context.l10n.locationPickerNeighborhoodSuffix(_neighborhood!),
                           style: const TextStyle(
                             fontSize: 12,
                             color: AppColors.muted,
@@ -617,7 +620,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                           ),
                         ),
                         icon: const Icon(Icons.my_location_rounded, size: 14),
-                        label: const Text('Konumumu Kullan'),
+                        label: Text(context.l10n.locationPickerUseGpsButton),
                       ),
               ],
             ),
@@ -635,9 +638,9 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Konum Ayarları',
-            style: TextStyle(
+          Text(
+            context.l10n.locationPickerSettingsTitle,
+            style: const TextStyle(
               fontWeight: FontWeight.w800,
               fontSize: 16,
               color: AppColors.textStrong,
@@ -667,22 +670,22 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                   size: 22,
                 ),
                 const SizedBox(width: 12),
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Arka planda konum izni',
-                        style: TextStyle(
+                        context.l10n.locationPickerBgPermissionTitle,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 14,
                           color: AppColors.textStrong,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
-                        'Fiyat alarmları ve fırsat bildirimleri için konum erişimi sağlanır.',
-                        style: TextStyle(
+                        context.l10n.locationPickerBgPermissionSubtitle,
+                        style: const TextStyle(
                           fontSize: 12,
                           color: AppColors.muted,
                           height: 1.4,
@@ -739,7 +742,7 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                     color: Colors.white,
                   ),
                 )
-              : const Text('Kaydet'),
+              : Text(context.l10n.locationPickerSaveButton),
         ),
       ),
     );
@@ -858,10 +861,10 @@ class _PickerSheetState extends State<_PickerSheet> {
                       child: TextField(
                         controller: _ctrl,
                         onChanged: (v) => setState(() => _query = v),
-                        decoration: const InputDecoration(
-                          hintText: 'Ara...',
-                          hintStyle:
-                              TextStyle(color: AppColors.muted, fontSize: 13),
+                        decoration: InputDecoration(
+                          hintText: context.l10n.locationPickerSearchHint,
+                          hintStyle: const TextStyle(
+                              color: AppColors.muted, fontSize: 13),
                           border: InputBorder.none,
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,

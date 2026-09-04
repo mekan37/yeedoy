@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../domain/diet_profile.dart';
 import '../domain/diet_profile_controller.dart';
 
@@ -31,6 +32,23 @@ const _kAllAllergens = [
   'Susam',
   'Buğday',
 ];
+
+// Internal identity for allergen/sensitivity entries stays on the (untranslated)
+// Turkish literal above so saved-profile matching (`lactoseFree`, `halal`) keeps
+// working regardless of the active app locale. Only the displayed label is
+// localized.
+String _allergenLabel(AppLocalizations t, String key) => switch (key) {
+      'Süt ve süt ürünleri' => t.dietProfileAllergenMilk,
+      'Fındık' => t.dietProfileAllergenNuts,
+      'Yumurta' => t.dietProfileAllergenEgg,
+      'Deniz ürünleri' => t.dietProfileAllergenSeafood,
+      'Glüten' => t.dietProfileAllergenGluten,
+      'Soya' => t.dietProfileAllergenSoy,
+      'Susam' => t.dietProfileAllergenSesame,
+      'Buğday' => t.dietProfileAllergenWheat,
+      'Helal' => t.dietProfileAllergenHalal,
+      _ => key,
+    };
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
@@ -89,7 +107,9 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
       await ref.read(dietProfileProvider.notifier).save(profile);
       if (mounted) setState(() => _saved = true);
     } catch (_) {
-      if (mounted) setState(() => _error = 'Kaydedilirken bir hata oluştu.');
+      if (mounted) {
+        setState(() => _error = context.l10n.dietProfileSaveError);
+      }
     } finally {
       if (mounted) setState(() => _saving = false);
     }
@@ -145,11 +165,11 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
           child: Column(
             children: [
               _buildHeader(context),
-              const Expanded(
+              Expanded(
                 child: Center(
                   child: Text(
-                    'Profil yüklenemedi. Lütfen tekrar deneyin.',
-                    style: TextStyle(color: AppColors.muted),
+                    context.l10n.dietProfileLoadError,
+                    style: const TextStyle(color: AppColors.muted),
                   ),
                 ),
               ),
@@ -172,8 +192,8 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
                   _buildHeroCard(),
                   const SizedBox(height: 24),
                   _buildSectionTitle(
-                    'Diyet tercihin',
-                    'Sana en uygun beslenme şeklini seç veya birden fazlasını işaretle.',
+                    context.l10n.dietProfileDietSectionTitle,
+                    context.l10n.dietProfileDietSectionSubtitle,
                   ),
                   const SizedBox(height: 12),
                   _buildDietGrid(),
@@ -181,8 +201,8 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
                   _buildOtherDietRow(),
                   const SizedBox(height: 24),
                   _buildSectionTitle(
-                    'Hedefin',
-                    'Sana daha doğru öneriler sunabilmemiz için hedefini belirt.',
+                    context.l10n.dietProfileGoalSectionTitle,
+                    context.l10n.dietProfileGoalSectionSubtitle,
                   ),
                   const SizedBox(height: 12),
                   _buildGoalRow(),
@@ -218,11 +238,11 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
             onTap: () =>
                 context.canPop() ? context.pop() : context.go('/profile'),
           ),
-          const Expanded(
+          Expanded(
             child: Text(
-              'Diyet Profili',
+              context.l10n.dietProfilePageTitle,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w900,
                 color: AppColors.textStrong,
@@ -250,22 +270,21 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             Text(
-              'Diyet Profili Nedir?',
-              style: TextStyle(
+              context.l10n.dietProfileHelpSheetTitle,
+              style: const TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w900,
                 color: AppColors.textStrong,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
-              'Diyet profilin, yemek önerilerini ve menü filtrelerini kişiselleştirmek için kullanılır. '
-              'Tercihlerini kaydederek sana en uygun işletmeleri ve yemekleri önerebiliriz.',
-              style: TextStyle(fontSize: 14, color: AppColors.muted, height: 1.5),
+              context.l10n.dietProfileHelpSheetBody,
+              style: const TextStyle(fontSize: 14, color: AppColors.muted, height: 1.5),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
           ],
         ),
       ),
@@ -288,18 +307,18 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Sana özel lezzetler',
-                  style: TextStyle(
+                Text(
+                  context.l10n.dietProfileHeroTitle,
+                  style: const TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w900,
                     color: AppColors.primary,
                   ),
                 ),
                 const SizedBox(height: 6),
-                const Text(
-                  'Diyet tercihlerine göre sana uygun mekanları ve yemekleri önerelim.',
-                  style: TextStyle(
+                Text(
+                  context.l10n.dietProfileHeroSubtitle,
+                  style: const TextStyle(
                     fontSize: 12,
                     color: AppColors.muted,
                     height: 1.4,
@@ -307,12 +326,12 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
                 ),
                 const SizedBox(height: 14),
                 Row(
-                  children: const [
-                    _HeroFeature(icon: Icons.eco_outlined, label: 'Kişiselleştirilmiş\nöneriler'),
-                    SizedBox(width: 12),
-                    _HeroFeature(icon: Icons.favorite_outline_rounded, label: 'Daha sağlıklı\nseçimler'),
-                    SizedBox(width: 12),
-                    _HeroFeature(icon: Icons.star_outline_rounded, label: 'Zamanını\ntasarruf et'),
+                  children: [
+                    _HeroFeature(icon: Icons.eco_outlined, label: context.l10n.dietProfileHeroFeaturePersonalized),
+                    const SizedBox(width: 12),
+                    _HeroFeature(icon: Icons.favorite_outline_rounded, label: context.l10n.dietProfileHeroFeatureHealthier),
+                    const SizedBox(width: 12),
+                    _HeroFeature(icon: Icons.star_outline_rounded, label: context.l10n.dietProfileHeroFeatureSaveTime),
                   ],
                 ),
               ],
@@ -358,48 +377,48 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
     final options = [
       _DietOption(
         type: _DietType.balanced,
-        label: 'Dengeli Beslenme',
-        desc: 'Tüm besin gruplarını dengeli tüketiyorum.',
+        label: context.l10n.dietProfileDietBalancedLabel,
+        desc: context.l10n.dietProfileDietBalancedDesc,
         icon: Icons.restaurant_outlined,
         iconColor: AppColors.primary,
         iconBg: AppColors.primarySoft,
       ),
       _DietOption(
         type: _DietType.vegetarian,
-        label: 'Vejetaryen',
-        desc: 'Et ve et ürünleri tüketmiyorum.',
+        label: context.l10n.dietProfileDietVegetarianLabel,
+        desc: context.l10n.dietProfileDietVegetarianDesc,
         icon: Icons.eco_outlined,
         iconColor: const Color(0xFF15803D),
         iconBg: const Color(0xFFDCFCE7),
       ),
       _DietOption(
         type: _DietType.vegan,
-        label: 'Vegan',
-        desc: 'Hiçbir hayvansal ürün tüketmiyorum.',
+        label: context.l10n.dietProfileDietVeganLabel,
+        desc: context.l10n.dietProfileDietVeganDesc,
         icon: Icons.spa_outlined,
         iconColor: const Color(0xFF0F766E),
         iconBg: const Color(0xFFCCFBF1),
       ),
       _DietOption(
         type: _DietType.glutenFree,
-        label: 'Glutensiz',
-        desc: 'Glüten içeren besinleri tüketmiyorum.',
+        label: context.l10n.dietProfileDietGlutenFreeLabel,
+        desc: context.l10n.dietProfileDietGlutenFreeDesc,
         icon: Icons.grain_outlined,
         iconColor: const Color(0xFFD97706),
         iconBg: const Color(0xFFFEF3C7),
       ),
       _DietOption(
         type: _DietType.ketogenic,
-        label: 'Ketojenik',
-        desc: 'Düşük karbonhidrat, yüksek yağ.',
+        label: context.l10n.dietProfileDietKetogenicLabel,
+        desc: context.l10n.dietProfileDietKetogenicDesc,
         icon: Icons.local_fire_department_outlined,
         iconColor: const Color(0xFF15803D),
         iconBg: const Color(0xFFDCFCE7),
       ),
       _DietOption(
         type: _DietType.mediterranean,
-        label: 'Akdeniz Diyeti',
-        desc: 'Zeytinyağı, sebze ve balık odaklı besleniyorum.',
+        label: context.l10n.dietProfileDietMediterraneanLabel,
+        desc: context.l10n.dietProfileDietMediterraneanDesc,
         icon: Icons.waves_outlined,
         iconColor: const Color(0xFF7C3AED),
         iconBg: const Color(0xFFEDE9FE),
@@ -451,10 +470,10 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
               child: const Icon(Icons.add_rounded, color: AppColors.primary, size: 18),
             ),
             const SizedBox(width: 12),
-            const Expanded(
+            Expanded(
               child: Text(
-                'Diğer diyet tercihlerim var',
-                style: TextStyle(
+                context.l10n.dietProfileOtherDietRow,
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
                   color: AppColors.textStrong,
@@ -472,10 +491,10 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
 
   Widget _buildGoalRow() {
     final goals = [
-      _GoalOption(goal: _Goal.loseWeight, label: 'Kilo vermek', icon: Icons.trending_down_rounded),
-      _GoalOption(goal: _Goal.gainWeight, label: 'Kilo almak', icon: Icons.trending_up_rounded),
-      _GoalOption(goal: _Goal.maintain, label: 'Kilo korumak', icon: Icons.remove_rounded),
-      _GoalOption(goal: _Goal.healthyEating, label: 'Daha sağlıklı beslenmek', icon: Icons.favorite_outline_rounded),
+      _GoalOption(goal: _Goal.loseWeight, label: context.l10n.dietProfileGoalLoseWeight, icon: Icons.trending_down_rounded),
+      _GoalOption(goal: _Goal.gainWeight, label: context.l10n.dietProfileGoalGainWeight, icon: Icons.trending_up_rounded),
+      _GoalOption(goal: _Goal.maintain, label: context.l10n.dietProfileGoalMaintain, icon: Icons.remove_rounded),
+      _GoalOption(goal: _Goal.healthyEating, label: context.l10n.dietProfileGoalHealthyEating, icon: Icons.favorite_outline_rounded),
     ];
 
     return Row(
@@ -531,10 +550,10 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
       children: [
         Row(
           children: [
-            const Expanded(
+            Expanded(
               child: Text(
-                'Alerjiler ve hassasiyetler',
-                style: TextStyle(
+                context.l10n.dietProfileAllergenSectionTitle,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w900,
                   color: AppColors.textStrong,
@@ -544,7 +563,7 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
             TextButton.icon(
               onPressed: _showAllergenPicker,
               icon: const Icon(Icons.add_rounded, size: 16),
-              label: const Text('Ekle'),
+              label: Text(context.l10n.dietProfileAddButton),
               style: TextButton.styleFrom(
                 foregroundColor: AppColors.primary,
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -557,9 +576,9 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
           ],
         ),
         const SizedBox(height: 2),
-        const Text(
-          'Alerjinin veya hassasiyetin olan besinleri seç.',
-          style: TextStyle(fontSize: 12, color: AppColors.muted, height: 1.4),
+        Text(
+          context.l10n.dietProfileAllergenSectionSubtitle,
+          style: const TextStyle(fontSize: 12, color: AppColors.muted, height: 1.4),
         ),
         const SizedBox(height: 12),
         if (_allergens.isEmpty)
@@ -576,10 +595,10 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
                   style: BorderStyle.solid,
                 ),
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
-                  'Alerji veya hassasiyet ekle',
-                  style: TextStyle(
+                  context.l10n.dietProfileAllergenEmptyPrompt,
+                  style: const TextStyle(
                     fontSize: 13,
                     color: AppColors.muted,
                     fontWeight: FontWeight.w500,
@@ -593,7 +612,7 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
             spacing: 8,
             runSpacing: 8,
             children: _allergens.map((a) => _AllergenChip(
-              label: a,
+              label: _allergenLabel(context.l10n, a),
               onRemove: () => setState(() => _allergens.remove(a)),
             )).toList(),
           ),
@@ -627,22 +646,22 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
             ),
           ),
           const SizedBox(width: 12),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Profilin kaydedildi',
-                  style: TextStyle(
+                  context.l10n.dietProfileSavedBannerTitle,
+                  style: const TextStyle(
                     fontWeight: FontWeight.w800,
                     fontSize: 13,
                     color: Color(0xFF15803D),
                   ),
                 ),
-                SizedBox(height: 2),
+                const SizedBox(height: 2),
                 Text(
-                  'Tercihlerine göre sana özel öneriler sunacağız.',
-                  style: TextStyle(
+                  context.l10n.dietProfileSavedBannerSubtitle,
+                  style: const TextStyle(
                     fontSize: 11,
                     color: Color(0xFF16A34A),
                     height: 1.4,
@@ -661,12 +680,12 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Düzenle'),
-                SizedBox(width: 2),
-                Icon(Icons.chevron_right_rounded, size: 16),
+                Text(context.l10n.dietProfileEditButton),
+                const SizedBox(width: 2),
+                const Icon(Icons.chevron_right_rounded, size: 16),
               ],
             ),
           ),
@@ -723,7 +742,7 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
                   ),
                 )
               : const Icon(Icons.assignment_outlined, size: 20),
-          label: const Text('Profili Kaydet'),
+          label: Text(context.l10n.dietProfileSaveButton),
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF7F1D1D),
             foregroundColor: Colors.white,
@@ -1027,29 +1046,29 @@ class _AllergenPickerSheetState extends State<_AllergenPickerSheet> {
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(16, 8, 16, 4),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
             child: Text(
-              'Alerji veya hassasiyet seç',
-              style: TextStyle(
+              context.l10n.dietProfileAllergenPickerTitle,
+              style: const TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w900,
                 color: AppColors.textStrong,
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
             child: Text(
-              'Birden fazla seçebilirsin.',
-              style: TextStyle(fontSize: 12, color: AppColors.muted),
+              context.l10n.dietProfileAllergenPickerSubtitle,
+              style: const TextStyle(fontSize: 12, color: AppColors.muted),
             ),
           ),
           const Divider(height: 1),
           for (final allergen in _kAllAllergens)
             ListTile(
               title: Text(
-                allergen,
+                _allergenLabel(context.l10n, allergen),
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: _local.contains(allergen)
@@ -1094,7 +1113,7 @@ class _AllergenPickerSheetState extends State<_AllergenPickerSheet> {
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                child: const Text('Uygula'),
+                child: Text(context.l10n.dietProfileApplyButton),
               ),
             ),
           ),

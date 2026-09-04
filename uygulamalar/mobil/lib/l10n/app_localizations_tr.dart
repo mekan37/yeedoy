@@ -6124,4 +6124,663 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get priceAlertsTipBannerBody =>
       'Alarmlarını düzenli kontrol etmeyi unutma.';
+
+  @override
+  String get myReviewsRetryButton => 'Tekrar Dene';
+
+  @override
+  String get myReviewsPageTitle => 'Yorumlarım';
+
+  @override
+  String get myReviewsPageSubtitle => 'Deneyimlerini paylaştığın mekanlar';
+
+  @override
+  String get myReviewsTabAll => 'Tümü';
+
+  @override
+  String get myReviewsTabPublished => 'Yayınlanan';
+
+  @override
+  String get myReviewsTabPending => 'Bekleyen';
+
+  @override
+  String get myReviewsHeroTitle => 'Yorumların değerli!';
+
+  @override
+  String get myReviewsHeroSubtitle =>
+      'Deneyimlerin diğer kullanıcılara yol gösteriyor. Teşekkür ederiz.';
+
+  @override
+  String get myReviewsGuidelinesTitle => 'Yorumların bizim için önemli';
+
+  @override
+  String get myReviewsGuidelinesSubtitle =>
+      'Topluluk kurallarımıza uygun yapılan yorumlar yayınlanır. Detaylı bilgi için tıkla.';
+
+  @override
+  String get myReviewsEmptyPublished => 'Yayınlanmış yorumun yok.';
+
+  @override
+  String get myReviewsEmptyPending => 'Onay bekleyen yorumun yok.';
+
+  @override
+  String get myReviewsEmptyAll => 'Henüz yorum yapmadın.';
+
+  @override
+  String get myReviewsLoginPrompt => 'Yorumlarını görmek için giriş yap.';
+
+  @override
+  String get myReviewsLoginButton => 'Giriş Yap';
+
+  @override
+  String get myReviewsTimeJustNow => 'Az önce';
+
+  @override
+  String myReviewsTimeHoursAgo(int hours) {
+    return '$hours saat önce';
+  }
+
+  @override
+  String myReviewsTimeDaysAgo(int days) {
+    return '$days gün önce';
+  }
+
+  @override
+  String myReviewsTimeWeeksAgo(int weeks) {
+    return '$weeks hafta önce';
+  }
+
+  @override
+  String myReviewsTimeMonthsAgo(int months) {
+    return '$months ay önce';
+  }
+
+  @override
+  String myReviewsTimeYearsAgo(int years) {
+    return '$years yıl önce';
+  }
+
+  @override
+  String get myReviewsStatusPublished => 'Yayınlandı';
+
+  @override
+  String get myReviewsStatusPending => 'Onay Bekliyor';
+
+  @override
+  String get myReviewsStatusRejected => 'Reddedildi';
+
+  @override
+  String get myReviewsMenuEdit => 'Düzenle';
+
+  @override
+  String get myReviewsMenuDelete => 'Sil';
+
+  @override
+  String get mySuggestionsTabSent => 'Gönderilen Öneriler';
+
+  @override
+  String get mySuggestionsTabAnswered => 'Cevaplananlar';
+
+  @override
+  String get mySuggestionsTabRejected => 'Reddedilenler';
+
+  @override
+  String get mySuggestionsPageTitle => 'Önerimlerim';
+
+  @override
+  String get mySuggestionsPageSubtitle =>
+      'İşletmelere gönderdiğin fiyat önerilerini buradan takip edebilirsin.';
+
+  @override
+  String get mySuggestionsInfoBannerTitle =>
+      'Fiyatını sen belirle, fırsatı yakala!';
+
+  @override
+  String get mySuggestionsInfoBannerSubtitle =>
+      'İşletmelerin sana özel teklif vermesini bekle.';
+
+  @override
+  String get mySuggestionsTipCardTitle => 'İpucu';
+
+  @override
+  String get mySuggestionsTipCardBody =>
+      'Önerini makul aralıkta tutarsan, onaylanma şansın artar!';
+
+  @override
+  String get mySuggestionsViewDetailsButton => 'Detayları Gör';
+
+  @override
+  String get mySuggestionsStatusApproved => 'Onaylandı';
+
+  @override
+  String get mySuggestionsStatusRejected => 'Reddedildi';
+
+  @override
+  String get mySuggestionsStatusPending => 'Beklemede';
+
+  @override
+  String get mySuggestionsEmptySentTitle => 'Gönderilen öneri yok';
+
+  @override
+  String get mySuggestionsEmptySentBody =>
+      'Henüz bir fiyat önerisi göndermedin.';
+
+  @override
+  String get mySuggestionsEmptyAnsweredTitle => 'Cevaplanan öneri yok';
+
+  @override
+  String get mySuggestionsEmptyAnsweredBody => 'Önerilerin henüz cevaplanmadı.';
+
+  @override
+  String get mySuggestionsEmptyRejectedTitle => 'Reddedilen öneri yok';
+
+  @override
+  String get mySuggestionsEmptyRejectedBody => 'Hiçbir önerin reddedilmedi.';
+
+  @override
+  String get mySuggestionsRefreshButton => 'Yenile';
+
+  @override
+  String get mySuggestionsNoLocation => 'Konum yok';
+
+  @override
+  String get mySuggestionsMonthJanuary => 'Ocak';
+
+  @override
+  String get mySuggestionsMonthFebruary => 'Şubat';
+
+  @override
+  String get mySuggestionsMonthMarch => 'Mart';
+
+  @override
+  String get mySuggestionsMonthApril => 'Nisan';
+
+  @override
+  String get mySuggestionsMonthMay => 'Mayıs';
+
+  @override
+  String get mySuggestionsMonthJune => 'Haziran';
+
+  @override
+  String get mySuggestionsMonthJuly => 'Temmuz';
+
+  @override
+  String get mySuggestionsMonthAugust => 'Ağustos';
+
+  @override
+  String get mySuggestionsMonthSeptember => 'Eylül';
+
+  @override
+  String get mySuggestionsMonthOctober => 'Ekim';
+
+  @override
+  String get mySuggestionsMonthNovember => 'Kasım';
+
+  @override
+  String get mySuggestionsMonthDecember => 'Aralık';
+
+  @override
+  String get businessDetailMealCardsTitle => 'Geçerli Yemek Kartları';
+
+  @override
+  String get businessDetailMealCardsSubtitle =>
+      'Bu işletmede kabul edilen kartlar aşağıda listelenir.';
+
+  @override
+  String get businessDetailSeeAllButton => 'Tümünü gör';
+
+  @override
+  String get businessDetailCommunityPhotosTitle => 'Topluluk Fotoğrafları';
+
+  @override
+  String businessDetailPhotoViewerTitle(int current, int total) {
+    return 'Fotoğraf $current / $total';
+  }
+
+  @override
+  String get businessDetailFrequentlyMentionedTitle => 'Sıkça Bahsedilen';
+
+  @override
+  String businessBadgeCertificateShareText(String businessName) {
+    return '$businessName — Yeedoy Başarım Sertifikası 🏆';
+  }
+
+  @override
+  String get businessBadgeCertificateShareFailed => 'Paylaşım başarısız oldu.';
+
+  @override
+  String get businessBadgeCertificateSharing => 'Paylaşılıyor...';
+
+  @override
+  String get businessBadgeCertificateShareButton => 'Sertifikayı Paylaş';
+
+  @override
+  String get businessBadgeCertificateSubtitle => 'Başarım Sertifikası';
+
+  @override
+  String get dietProfileAllergenMilk => 'Süt ve süt ürünleri';
+
+  @override
+  String get dietProfileAllergenNuts => 'Fındık';
+
+  @override
+  String get dietProfileAllergenEgg => 'Yumurta';
+
+  @override
+  String get dietProfileAllergenSeafood => 'Deniz ürünleri';
+
+  @override
+  String get dietProfileAllergenGluten => 'Glüten';
+
+  @override
+  String get dietProfileAllergenSoy => 'Soya';
+
+  @override
+  String get dietProfileAllergenSesame => 'Susam';
+
+  @override
+  String get dietProfileAllergenWheat => 'Buğday';
+
+  @override
+  String get dietProfileAllergenHalal => 'Helal';
+
+  @override
+  String get dietProfileSaveError => 'Kaydedilirken bir hata oluştu.';
+
+  @override
+  String get dietProfileLoadError =>
+      'Profil yüklenemedi. Lütfen tekrar deneyin.';
+
+  @override
+  String get dietProfileDietSectionTitle => 'Diyet tercihin';
+
+  @override
+  String get dietProfileDietSectionSubtitle =>
+      'Sana en uygun beslenme şeklini seç veya birden fazlasını işaretle.';
+
+  @override
+  String get dietProfileGoalSectionTitle => 'Hedefin';
+
+  @override
+  String get dietProfileGoalSectionSubtitle =>
+      'Sana daha doğru öneriler sunabilmemiz için hedefini belirt.';
+
+  @override
+  String get dietProfilePageTitle => 'Diyet Profili';
+
+  @override
+  String get dietProfileHelpSheetTitle => 'Diyet Profili Nedir?';
+
+  @override
+  String get dietProfileHelpSheetBody =>
+      'Diyet profilin, yemek önerilerini ve menü filtrelerini kişiselleştirmek için kullanılır. Tercihlerini kaydederek sana en uygun işletmeleri ve yemekleri önerebiliriz.';
+
+  @override
+  String get dietProfileHeroTitle => 'Sana özel lezzetler';
+
+  @override
+  String get dietProfileHeroSubtitle =>
+      'Diyet tercihlerine göre sana uygun mekanları ve yemekleri önerelim.';
+
+  @override
+  String get dietProfileHeroFeaturePersonalized =>
+      'Kişiselleştirilmiş\nöneriler';
+
+  @override
+  String get dietProfileHeroFeatureHealthier => 'Daha sağlıklı\nseçimler';
+
+  @override
+  String get dietProfileHeroFeatureSaveTime => 'Zamanını\ntasarruf et';
+
+  @override
+  String get dietProfileDietBalancedLabel => 'Dengeli Beslenme';
+
+  @override
+  String get dietProfileDietBalancedDesc =>
+      'Tüm besin gruplarını dengeli tüketiyorum.';
+
+  @override
+  String get dietProfileDietVegetarianLabel => 'Vejetaryen';
+
+  @override
+  String get dietProfileDietVegetarianDesc => 'Et ve et ürünleri tüketmiyorum.';
+
+  @override
+  String get dietProfileDietVeganLabel => 'Vegan';
+
+  @override
+  String get dietProfileDietVeganDesc => 'Hiçbir hayvansal ürün tüketmiyorum.';
+
+  @override
+  String get dietProfileDietGlutenFreeLabel => 'Glutensiz';
+
+  @override
+  String get dietProfileDietGlutenFreeDesc =>
+      'Glüten içeren besinleri tüketmiyorum.';
+
+  @override
+  String get dietProfileDietKetogenicLabel => 'Ketojenik';
+
+  @override
+  String get dietProfileDietKetogenicDesc => 'Düşük karbonhidrat, yüksek yağ.';
+
+  @override
+  String get dietProfileDietMediterraneanLabel => 'Akdeniz Diyeti';
+
+  @override
+  String get dietProfileDietMediterraneanDesc =>
+      'Zeytinyağı, sebze ve balık odaklı besleniyorum.';
+
+  @override
+  String get dietProfileOtherDietRow => 'Diğer diyet tercihlerim var';
+
+  @override
+  String get dietProfileGoalLoseWeight => 'Kilo vermek';
+
+  @override
+  String get dietProfileGoalGainWeight => 'Kilo almak';
+
+  @override
+  String get dietProfileGoalMaintain => 'Kilo korumak';
+
+  @override
+  String get dietProfileGoalHealthyEating => 'Daha sağlıklı beslenmek';
+
+  @override
+  String get dietProfileAllergenSectionTitle => 'Alerjiler ve hassasiyetler';
+
+  @override
+  String get dietProfileAddButton => 'Ekle';
+
+  @override
+  String get dietProfileAllergenSectionSubtitle =>
+      'Alerjinin veya hassasiyetin olan besinleri seç.';
+
+  @override
+  String get dietProfileAllergenEmptyPrompt => 'Alerji veya hassasiyet ekle';
+
+  @override
+  String get dietProfileSavedBannerTitle => 'Profilin kaydedildi';
+
+  @override
+  String get dietProfileSavedBannerSubtitle =>
+      'Tercihlerine göre sana özel öneriler sunacağız.';
+
+  @override
+  String get dietProfileEditButton => 'Düzenle';
+
+  @override
+  String get dietProfileSaveButton => 'Profili Kaydet';
+
+  @override
+  String get dietProfileAllergenPickerTitle => 'Alerji veya hassasiyet seç';
+
+  @override
+  String get dietProfileAllergenPickerSubtitle => 'Birden fazla seçebilirsin.';
+
+  @override
+  String get dietProfileApplyButton => 'Uygula';
+
+  @override
+  String get locationPickerRequiredSnackbar => 'Lütfen il ve ilçe seçin.';
+
+  @override
+  String get locationPickerCityLabel => 'İl Seçin';
+
+  @override
+  String get locationPickerDistrictLabel => 'İlçe Seçin';
+
+  @override
+  String get locationPickerNeighborhoodSheetTitle => 'Mahalle Seçin';
+
+  @override
+  String get locationPickerPlaceholderSelect => 'Seçiniz';
+
+  @override
+  String get locationPickerCityHint =>
+      'Bulunduğunuz şehirdeki işletmeleri ve fiyatları göreceksiniz.';
+
+  @override
+  String get locationPickerDistrictHint =>
+      'Daha doğru sonuçlar için ilçenizi seçin.';
+
+  @override
+  String get locationPickerNeighborhoodLabel => 'Mahalle';
+
+  @override
+  String get locationPickerOptionalSuffix => '  (isteğe bağlı)';
+
+  @override
+  String get locationPickerOptionalPlaceholder => 'Seçiniz (isteğe bağlı)';
+
+  @override
+  String get locationPickerNeighborhoodHint =>
+      'Mahalle seçerek çok daha yerel sonuçlar alabilirsiniz.';
+
+  @override
+  String get locationPickerPageTitle => 'Konum Seç';
+
+  @override
+  String get locationPickerSubtitle =>
+      'Size özel öneriler ve fiyat alarmları için konumunuzu seçin.';
+
+  @override
+  String get locationPickerInfoCardTitle => 'Neden konum seçmeliyim?';
+
+  @override
+  String get locationPickerInfoCardSubtitle =>
+      'Bulunduğunuz konuma göre işletmeleri, fiyatları ve fırsatları en doğru şekilde gösteriyoruz.';
+
+  @override
+  String get locationPickerSelectedCardTitle => 'Seçilen Konumunuz';
+
+  @override
+  String get locationPickerNoLocationSelected => 'Henüz konum seçilmedi';
+
+  @override
+  String locationPickerNeighborhoodSuffix(String neighborhood) {
+    return '$neighborhood Mahallesi';
+  }
+
+  @override
+  String get locationPickerUseGpsButton => 'Konumumu Kullan';
+
+  @override
+  String get locationPickerSettingsTitle => 'Konum Ayarları';
+
+  @override
+  String get locationPickerBgPermissionTitle => 'Arka planda konum izni';
+
+  @override
+  String get locationPickerBgPermissionSubtitle =>
+      'Fiyat alarmları ve fırsat bildirimleri için konum erişimi sağlanır.';
+
+  @override
+  String get locationPickerSaveButton => 'Kaydet';
+
+  @override
+  String get locationPickerSearchHint => 'Ara...';
+
+  @override
+  String get businessLocationUpdateSuccess => 'Konum başarıyla güncellendi.';
+
+  @override
+  String get businessLocationSaveError =>
+      'Konum kaydedilemedi. Tekrar deneyin.';
+
+  @override
+  String get businessLocationTapHint => 'Haritaya dokunarak konum seçin';
+
+  @override
+  String get businessLocationPanelTitle => 'İşletme Konumu';
+
+  @override
+  String get businessLocationPanelSubtitle =>
+      'Haritaya dokunarak yeni konumu seçin, ardından kaydedin.';
+
+  @override
+  String get businessLocationNoLocationSelected => 'Henüz konum seçilmedi';
+
+  @override
+  String get businessLocationSaveButton => 'Bu Konumu Kaydet';
+
+  @override
+  String perksAppBarTitle(String businessName) {
+    return '$businessName – Ayrıcalıklar';
+  }
+
+  @override
+  String get perksEmptyTitle => 'Aktif ayrıcalık yok';
+
+  @override
+  String get perksEmptySubtitle =>
+      'Bu işletme henüz aktif bir kampanya sunmuyor.';
+
+  @override
+  String get perksRetryButton => 'Tekrar dene';
+
+  @override
+  String get perksNewBadge => 'YENİ';
+
+  @override
+  String perksExpiringBadge(int days) {
+    return 'Son $days gün';
+  }
+
+  @override
+  String get perksRequiresCheckin => 'Check-in gerektirir';
+
+  @override
+  String perksStartsLabel(String date) {
+    return 'Başlangıç: $date';
+  }
+
+  @override
+  String perksEndsLabel(String date) {
+    return 'Bitiş: $date';
+  }
+
+  @override
+  String get sadakatKartlarimAppBarTitle => 'Sadakat Kartlarım';
+
+  @override
+  String get sadakatKartlarimRetryButton => 'Tekrar Dene';
+
+  @override
+  String get sadakatKartlarimEmptyTitle => 'Henüz sadakat kartın yok';
+
+  @override
+  String get sadakatKartlarimEmptyDescription =>
+      'Katıldığın işletmelerin sadakat programları burada görünecek.';
+
+  @override
+  String get sadakatKartlarimQrHint =>
+      'Damga/puan kazanmak için işletmede bu kodu gösterin.';
+
+  @override
+  String get sadakatKartlarimLoginToSeeCode =>
+      'Kodunuzu görmek için giriş yapın.';
+
+  @override
+  String get sadakatKartlarimCodePrivateNotice =>
+      'Bu kod size özeldir, paylaşmayın.';
+
+  @override
+  String get legalAcceptancePageTitle => 'Yasal Kabul';
+
+  @override
+  String get legalAcceptanceRetryButton => 'Tekrar dene';
+
+  @override
+  String get legalAcceptanceHeading =>
+      'Devam etmek için güncel sözleşmeleri onaylayın.';
+
+  @override
+  String get legalAcceptanceIntro =>
+      'Yeedoy, kullanım şartları ve gizlilik politikası sürümlerini kullanıcı bazında kaydeder. Yeni sürüm yayınlandığında uygulamaya devam etmeden önce tekrar onay istenir.';
+
+  @override
+  String legalAcceptancePendingVersionsChip(int count) {
+    return '$count zorunlu sürüm';
+  }
+
+  @override
+  String get legalAcceptanceSourceChip => 'Kaynak: yeedoy.com/legal';
+
+  @override
+  String get legalAcceptanceConsentHelperText =>
+      'Bu onay verilmeden uygulama oturumu açılmış olsa bile içerik yüzeylerine geçilmez.';
+
+  @override
+  String get legalAcceptanceOptionalPrefsTitle => 'İsteğe bağlı tercihler';
+
+  @override
+  String get legalAcceptanceMarketingOptInTitle =>
+      'Kampanya ve bildirim izinleri';
+
+  @override
+  String get legalAcceptanceAnalyticsOptInTitle =>
+      'Ürün analitiği iyileştirme izni';
+
+  @override
+  String get legalAcceptanceOptionalPrefsNote =>
+      'Bu tercihler zorunlu sözleşme kabulünden ayrı tutulur ve daha sonra profil ayarlarından güncellenebilir.';
+
+  @override
+  String get legalAcceptanceSavingButton => 'Kaydediliyor...';
+
+  @override
+  String get legalAcceptanceAcceptButton => 'Kabul Et ve Devam Et';
+
+  @override
+  String get legalAcceptanceRequiredSnackbar =>
+      'Devam etmek için gerekli sözleşmeleri kabul etmelisiniz.';
+
+  @override
+  String get legalAcceptanceMarketingSaveFailed =>
+      'Pazarlama e-posta tercihiniz kaydedilemedi. Bildirim ayarlarından tekrar değiştirebilirsiniz.';
+
+  @override
+  String legalAcceptanceVersionDateLine(String versionLabel, String date) {
+    return '$versionLabel • $date';
+  }
+
+  @override
+  String get legalAcceptanceMonthJanuary => 'Ocak';
+
+  @override
+  String get legalAcceptanceMonthFebruary => 'Şubat';
+
+  @override
+  String get legalAcceptanceMonthMarch => 'Mart';
+
+  @override
+  String get legalAcceptanceMonthApril => 'Nisan';
+
+  @override
+  String get legalAcceptanceMonthMay => 'Mayıs';
+
+  @override
+  String get legalAcceptanceMonthJune => 'Haziran';
+
+  @override
+  String get legalAcceptanceMonthJuly => 'Temmuz';
+
+  @override
+  String get legalAcceptanceMonthAugust => 'Ağustos';
+
+  @override
+  String get legalAcceptanceMonthSeptember => 'Eylül';
+
+  @override
+  String get legalAcceptanceMonthOctober => 'Ekim';
+
+  @override
+  String get legalAcceptanceMonthNovember => 'Kasım';
+
+  @override
+  String get legalAcceptanceMonthDecember => 'Aralık';
+
+  @override
+  String get collabListGroupVoteButton => 'Grup Oyuna Geç';
 }

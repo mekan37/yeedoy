@@ -6161,5 +6161,306 @@
     }
   },
   "priceAlertsTipBannerTitle": "Prices change — don't miss out on deals!",
-  "priceAlertsTipBannerBody": "Remember to check your alerts regularly."
+  "priceAlertsTipBannerBody": "Remember to check your alerts regularly.",
+  "myReviewsRetryButton": "Try Again",
+  "myReviewsPageTitle": "My Reviews",
+  "myReviewsPageSubtitle": "Places you've shared your experiences about",
+  "myReviewsTabAll": "All",
+  "myReviewsTabPublished": "Published",
+  "myReviewsTabPending": "Pending",
+  "myReviewsHeroTitle": "Your reviews matter!",
+  "myReviewsHeroSubtitle": "Your experiences guide other users. Thank you.",
+  "myReviewsGuidelinesTitle": "Your reviews matter to us",
+  "myReviewsGuidelinesSubtitle": "Reviews that follow our community guidelines get published. Tap for details.",
+  "myReviewsEmptyPublished": "You have no published reviews.",
+  "myReviewsEmptyPending": "You have no reviews awaiting approval.",
+  "myReviewsEmptyAll": "You haven't written a review yet.",
+  "myReviewsLoginPrompt": "Log in to see your reviews.",
+  "myReviewsLoginButton": "Log In",
+  "myReviewsTimeJustNow": "Just now",
+  "myReviewsTimeHoursAgo": "{hours}h ago",
+  "@myReviewsTimeHoursAgo": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "myReviewsTimeDaysAgo": "{days}d ago",
+  "@myReviewsTimeDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "myReviewsTimeWeeksAgo": "{weeks}w ago",
+  "@myReviewsTimeWeeksAgo": {
+    "placeholders": {
+      "weeks": {
+        "type": "int"
+      }
+    }
+  },
+  "myReviewsTimeMonthsAgo": "{months}mo ago",
+  "@myReviewsTimeMonthsAgo": {
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "myReviewsTimeYearsAgo": "{years}y ago",
+  "@myReviewsTimeYearsAgo": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "myReviewsStatusPublished": "Published",
+  "myReviewsStatusPending": "Awaiting Approval",
+  "myReviewsStatusRejected": "Rejected",
+  "myReviewsMenuEdit": "Edit",
+  "myReviewsMenuDelete": "Delete",
+  "mySuggestionsTabSent": "Sent Suggestions",
+  "mySuggestionsTabAnswered": "Answered",
+  "mySuggestionsTabRejected": "Rejected",
+  "mySuggestionsPageTitle": "My Suggestions",
+  "mySuggestionsPageSubtitle": "Track the price suggestions you've sent to businesses here.",
+  "mySuggestionsInfoBannerTitle": "Set your own price, catch the deal!",
+  "mySuggestionsInfoBannerSubtitle": "Wait for businesses to make you a special offer.",
+  "mySuggestionsTipCardTitle": "Tip",
+  "mySuggestionsTipCardBody": "Keep your suggestion within a reasonable range to boost your chances of approval!",
+  "mySuggestionsViewDetailsButton": "View Details",
+  "mySuggestionsStatusApproved": "Approved",
+  "mySuggestionsStatusRejected": "Rejected",
+  "mySuggestionsStatusPending": "Pending",
+  "mySuggestionsEmptySentTitle": "No sent suggestions",
+  "mySuggestionsEmptySentBody": "You haven't sent a price suggestion yet.",
+  "mySuggestionsEmptyAnsweredTitle": "No answered suggestions",
+  "mySuggestionsEmptyAnsweredBody": "Your suggestions haven't been answered yet.",
+  "mySuggestionsEmptyRejectedTitle": "No rejected suggestions",
+  "mySuggestionsEmptyRejectedBody": "None of your suggestions have been rejected.",
+  "mySuggestionsRefreshButton": "Refresh",
+  "mySuggestionsNoLocation": "No location",
+  "mySuggestionsMonthJanuary": "January",
+  "mySuggestionsMonthFebruary": "February",
+  "mySuggestionsMonthMarch": "March",
+  "mySuggestionsMonthApril": "April",
+  "mySuggestionsMonthMay": "May",
+  "mySuggestionsMonthJune": "June",
+  "mySuggestionsMonthJuly": "July",
+  "mySuggestionsMonthAugust": "August",
+  "mySuggestionsMonthSeptember": "September",
+  "mySuggestionsMonthOctober": "October",
+  "mySuggestionsMonthNovember": "November",
+  "mySuggestionsMonthDecember": "December",
+  "businessDetailMealCardsTitle": "Valid Meal Cards",
+  "businessDetailMealCardsSubtitle": "Cards accepted at this business are listed below.",
+  "businessDetailSeeAllButton": "See all",
+  "businessDetailCommunityPhotosTitle": "Community Photos",
+  "businessDetailPhotoViewerTitle": "Photo {current} / {total}",
+  "@businessDetailPhotoViewerTitle": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "businessDetailFrequentlyMentionedTitle": "Frequently Mentioned",
+  "businessBadgeCertificateShareText": "{businessName} — Yeedoy Achievement Certificate 🏆",
+  "@businessBadgeCertificateShareText": {
+    "placeholders": {
+      "businessName": {
+        "type": "String"
+      }
+    }
+  },
+  "businessBadgeCertificateShareFailed": "Sharing failed.",
+  "businessBadgeCertificateSharing": "Sharing...",
+  "businessBadgeCertificateShareButton": "Share Certificate",
+  "businessBadgeCertificateSubtitle": "Achievement Certificate",
+  "dietProfileAllergenMilk": "Milk and dairy products",
+  "dietProfileAllergenNuts": "Nuts",
+  "dietProfileAllergenEgg": "Egg",
+  "dietProfileAllergenSeafood": "Seafood",
+  "dietProfileAllergenGluten": "Gluten",
+  "dietProfileAllergenSoy": "Soy",
+  "dietProfileAllergenSesame": "Sesame",
+  "dietProfileAllergenWheat": "Wheat",
+  "dietProfileAllergenHalal": "Halal",
+  "dietProfileSaveError": "Something went wrong while saving.",
+  "dietProfileLoadError": "Couldn't load profile. Please try again.",
+  "dietProfileDietSectionTitle": "Your diet preference",
+  "dietProfileDietSectionSubtitle": "Pick the eating style that suits you best, or select more than one.",
+  "dietProfileGoalSectionTitle": "Your goal",
+  "dietProfileGoalSectionSubtitle": "Tell us your goal so we can give you more accurate suggestions.",
+  "dietProfilePageTitle": "Diet Profile",
+  "dietProfileHelpSheetTitle": "What Is a Diet Profile?",
+  "dietProfileHelpSheetBody": "Your diet profile is used to personalize food suggestions and menu filters. By saving your preferences, we can recommend the businesses and dishes that suit you best.",
+  "dietProfileHeroTitle": "Flavors picked for you",
+  "dietProfileHeroSubtitle": "Let us recommend places and dishes based on your diet preferences.",
+  "dietProfileHeroFeaturePersonalized": "Personalized\nsuggestions",
+  "dietProfileHeroFeatureHealthier": "Healthier\nchoices",
+  "dietProfileHeroFeatureSaveTime": "Save\ntime",
+  "dietProfileDietBalancedLabel": "Balanced Diet",
+  "dietProfileDietBalancedDesc": "I eat a balanced mix of all food groups.",
+  "dietProfileDietVegetarianLabel": "Vegetarian",
+  "dietProfileDietVegetarianDesc": "I don't eat meat or meat products.",
+  "dietProfileDietVeganLabel": "Vegan",
+  "dietProfileDietVeganDesc": "I don't consume any animal products.",
+  "dietProfileDietGlutenFreeLabel": "Gluten-Free",
+  "dietProfileDietGlutenFreeDesc": "I don't eat foods containing gluten.",
+  "dietProfileDietKetogenicLabel": "Ketogenic",
+  "dietProfileDietKetogenicDesc": "Low carb, high fat.",
+  "dietProfileDietMediterraneanLabel": "Mediterranean Diet",
+  "dietProfileDietMediterraneanDesc": "I focus on olive oil, vegetables, and fish.",
+  "dietProfileOtherDietRow": "I have other diet preferences",
+  "dietProfileGoalLoseWeight": "Lose weight",
+  "dietProfileGoalGainWeight": "Gain weight",
+  "dietProfileGoalMaintain": "Maintain weight",
+  "dietProfileGoalHealthyEating": "Eat healthier",
+  "dietProfileAllergenSectionTitle": "Allergies and sensitivities",
+  "dietProfileAddButton": "Add",
+  "dietProfileAllergenSectionSubtitle": "Select the foods you're allergic or sensitive to.",
+  "dietProfileAllergenEmptyPrompt": "Add an allergy or sensitivity",
+  "dietProfileSavedBannerTitle": "Your profile is saved",
+  "dietProfileSavedBannerSubtitle": "We'll offer you suggestions tailored to your preferences.",
+  "dietProfileEditButton": "Edit",
+  "dietProfileSaveButton": "Save Profile",
+  "dietProfileAllergenPickerTitle": "Select an allergy or sensitivity",
+  "dietProfileAllergenPickerSubtitle": "You can select more than one.",
+  "dietProfileApplyButton": "Apply",
+  "locationPickerRequiredSnackbar": "Please select a city and district.",
+  "locationPickerCityLabel": "Select City",
+  "locationPickerDistrictLabel": "Select District",
+  "locationPickerNeighborhoodSheetTitle": "Select Neighborhood",
+  "locationPickerPlaceholderSelect": "Select",
+  "locationPickerCityHint": "You'll see businesses and prices in your selected city.",
+  "locationPickerDistrictHint": "Select your district for more accurate results.",
+  "locationPickerNeighborhoodLabel": "Neighborhood",
+  "locationPickerOptionalSuffix": "  (optional)",
+  "locationPickerOptionalPlaceholder": "Select (optional)",
+  "locationPickerNeighborhoodHint": "Select a neighborhood for even more local results.",
+  "locationPickerPageTitle": "Select Location",
+  "locationPickerSubtitle": "Select your location for personalized suggestions and price alerts.",
+  "locationPickerInfoCardTitle": "Why should I select a location?",
+  "locationPickerInfoCardSubtitle": "We show businesses, prices, and deals most accurately based on your location.",
+  "locationPickerSelectedCardTitle": "Your Selected Location",
+  "locationPickerNoLocationSelected": "No location selected yet",
+  "locationPickerNeighborhoodSuffix": "{neighborhood} Neighborhood",
+  "@locationPickerNeighborhoodSuffix": {
+    "placeholders": {
+      "neighborhood": {
+        "type": "String"
+      }
+    }
+  },
+  "locationPickerUseGpsButton": "Use My Location",
+  "locationPickerSettingsTitle": "Location Settings",
+  "locationPickerBgPermissionTitle": "Background location permission",
+  "locationPickerBgPermissionSubtitle": "Location access is used for price alerts and deal notifications.",
+  "locationPickerSaveButton": "Save",
+  "locationPickerSearchHint": "Search...",
+  "businessLocationUpdateSuccess": "Location updated successfully.",
+  "businessLocationSaveError": "Couldn't save location. Please try again.",
+  "businessLocationTapHint": "Tap the map to select a location",
+  "businessLocationPanelTitle": "Business Location",
+  "businessLocationPanelSubtitle": "Tap the map to select a new location, then save it.",
+  "businessLocationNoLocationSelected": "No location selected yet",
+  "businessLocationSaveButton": "Save This Location",
+  "perksAppBarTitle": "{businessName} – Perks",
+  "@perksAppBarTitle": {
+    "placeholders": {
+      "businessName": {
+        "type": "String"
+      }
+    }
+  },
+  "perksEmptyTitle": "No active perks",
+  "perksEmptySubtitle": "This business doesn't have an active campaign yet.",
+  "perksRetryButton": "Try again",
+  "perksNewBadge": "NEW",
+  "perksExpiringBadge": "{days} days left",
+  "@perksExpiringBadge": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "perksRequiresCheckin": "Requires check-in",
+  "perksStartsLabel": "Starts: {date}",
+  "@perksStartsLabel": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "perksEndsLabel": "Ends: {date}",
+  "@perksEndsLabel": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "sadakatKartlarimAppBarTitle": "My Loyalty Cards",
+  "sadakatKartlarimRetryButton": "Try Again",
+  "sadakatKartlarimEmptyTitle": "You don't have a loyalty card yet",
+  "sadakatKartlarimEmptyDescription": "Loyalty programs from businesses you join will appear here.",
+  "sadakatKartlarimQrHint": "Show this code at the business to earn stamps or points.",
+  "sadakatKartlarimLoginToSeeCode": "Log in to see your code.",
+  "sadakatKartlarimCodePrivateNotice": "This code is personal to you — don't share it.",
+  "legalAcceptancePageTitle": "Legal Acceptance",
+  "legalAcceptanceRetryButton": "Try again",
+  "legalAcceptanceHeading": "Accept the current agreements to continue.",
+  "legalAcceptanceIntro": "Yeedoy records terms of use and privacy policy versions per user. When a new version is published, you'll be asked to accept it again before continuing to use the app.",
+  "legalAcceptancePendingVersionsChip": "{count} required version(s)",
+  "@legalAcceptancePendingVersionsChip": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "legalAcceptanceSourceChip": "Source: yeedoy.com/legal",
+  "legalAcceptanceConsentHelperText": "Without this consent, you won't be able to access content surfaces even if you're already signed in.",
+  "legalAcceptanceOptionalPrefsTitle": "Optional preferences",
+  "legalAcceptanceMarketingOptInTitle": "Campaign and notification permissions",
+  "legalAcceptanceAnalyticsOptInTitle": "Product analytics improvement permission",
+  "legalAcceptanceOptionalPrefsNote": "These preferences are separate from the required agreement acceptance and can be updated later from profile settings.",
+  "legalAcceptanceSavingButton": "Saving...",
+  "legalAcceptanceAcceptButton": "Accept and Continue",
+  "legalAcceptanceRequiredSnackbar": "You must accept the required agreements to continue.",
+  "legalAcceptanceMarketingSaveFailed": "We couldn't save your marketing email preference. You can change it again from notification settings.",
+  "legalAcceptanceVersionDateLine": "{versionLabel} • {date}",
+  "@legalAcceptanceVersionDateLine": {
+    "placeholders": {
+      "versionLabel": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalAcceptanceMonthJanuary": "January",
+  "legalAcceptanceMonthFebruary": "February",
+  "legalAcceptanceMonthMarch": "March",
+  "legalAcceptanceMonthApril": "April",
+  "legalAcceptanceMonthMay": "May",
+  "legalAcceptanceMonthJune": "June",
+  "legalAcceptanceMonthJuly": "July",
+  "legalAcceptanceMonthAugust": "August",
+  "legalAcceptanceMonthSeptember": "September",
+  "legalAcceptanceMonthOctober": "October",
+  "legalAcceptanceMonthNovember": "November",
+  "legalAcceptanceMonthDecember": "December",
+  "collabListGroupVoteButton": "Start Group Vote"
 }

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../domain/perk_models.dart';
 import '../domain/perk_providers.dart';
@@ -24,7 +25,7 @@ class PerksPage extends ConsumerWidget {
 
     return AppScaffold(
       appBar: AppBar(
-        title: Text('$businessName – Ayrıcalıklar'),
+        title: Text(context.l10n.perksAppBarTitle(businessName)),
       ),
       body: perksAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -53,14 +54,14 @@ class _EmptyView extends StatelessWidget {
         children: [
           const Icon(Icons.card_giftcard_outlined, size: 56, color: AppColors.muted),
           const SizedBox(height: 12),
-          const Text(
-            'Aktif ayrıcalık yok',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.muted),
+          Text(
+            context.l10n.perksEmptyTitle,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.muted),
           ),
           const SizedBox(height: 4),
-          const Text(
-            'Bu işletme henüz aktif bir kampanya sunmuyor.',
-            style: TextStyle(fontSize: 13, color: AppColors.muted),
+          Text(
+            context.l10n.perksEmptySubtitle,
+            style: const TextStyle(fontSize: 13, color: AppColors.muted),
             textAlign: TextAlign.center,
           ),
         ],
@@ -90,7 +91,7 @@ class _ErrorView extends StatelessWidget {
             FilledButton.icon(
               onPressed: onRetry,
               icon: const Icon(Icons.refresh, size: 18),
-              label: const Text('Tekrar dene'),
+              label: Text(context.l10n.perksRetryButton),
             ),
           ],
         ),
@@ -158,11 +159,11 @@ class _PerkCard extends StatelessWidget {
                           ),
                           if (isNew) ...[
                             const SizedBox(width: 6),
-                            _Badge(label: 'YENİ', color: AppColors.success),
+                            _Badge(label: context.l10n.perksNewBadge, color: AppColors.success),
                           ],
                           if (isExpiringSoon) ...[
                             const SizedBox(width: 6),
-                            _Badge(label: 'Son $daysLeft gün', color: AppColors.warning),
+                            _Badge(label: context.l10n.perksExpiringBadge(daysLeft), color: AppColors.warning),
                           ],
                         ],
                       ),
@@ -187,17 +188,17 @@ class _PerkCard extends StatelessWidget {
                   if (perk.requiresCheckin)
                     _InfoChip(
                       icon: Icons.location_on_outlined,
-                      label: 'Check-in gerektirir',
+                      label: context.l10n.perksRequiresCheckin,
                     ),
                   if (perk.startsAt != null)
                     _InfoChip(
                       icon: Icons.calendar_today_outlined,
-                      label: 'Başlangıç: ${_fmt(perk.startsAt!)}',
+                      label: context.l10n.perksStartsLabel(_fmt(perk.startsAt!)),
                     ),
                   if (perk.endsAt != null)
                     _InfoChip(
                       icon: Icons.timer_outlined,
-                      label: 'Bitiş: ${_fmt(perk.endsAt!)}',
+                      label: context.l10n.perksEndsLabel(_fmt(perk.endsAt!)),
                       highlighted: isExpiringSoon,
                     ),
                 ],

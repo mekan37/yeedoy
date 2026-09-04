@@ -15,9 +15,9 @@ enum _Tab { sent, answered, rejected }
 
 extension _TabX on _Tab {
   String label(AppLocalizations t) => switch (this) {
-        _Tab.sent => 'Gönderilen Öneriler',
-        _Tab.answered => 'Cevaplananlar',
-        _Tab.rejected => 'Reddedilenler',
+        _Tab.sent => t.mySuggestionsTabSent,
+        _Tab.answered => t.mySuggestionsTabAnswered,
+        _Tab.rejected => t.mySuggestionsTabRejected,
       };
 
   bool matches(String status) => switch (this) {
@@ -75,7 +75,7 @@ class _MySuggestionsPageState extends ConsumerState<MySuggestionsPage> {
             children: [
               _buildHeader(context),
               _buildTabBar(),
-              _buildInfoBanner(),
+              _buildInfoBanner(context),
               const SizedBox(height: 4),
 
               if (st.error != null)
@@ -89,7 +89,7 @@ class _MySuggestionsPageState extends ConsumerState<MySuggestionsPage> {
               if (st.isLoading && st.items.isEmpty)
                 const _Skeleton()
               else if (filtered.isEmpty)
-                _EmptyState(tab: _tab)
+                _EmptyState(tab: _tab, l10n: context.l10n)
               else ...[
                 for (final s in filtered) ...[
                   Padding(
@@ -112,7 +112,7 @@ class _MySuggestionsPageState extends ConsumerState<MySuggestionsPage> {
                   ),
                 ),
 
-              _buildTipCard(),
+              _buildTipCard(context),
               const SizedBox(height: 24),
             ],
           ),
@@ -138,18 +138,18 @@ class _MySuggestionsPageState extends ConsumerState<MySuggestionsPage> {
                   style: const TextStyle(fontSize: 13, color: AppColors.muted),
                 ),
                 const SizedBox(height: 2),
-                const Text(
-                  'Önerimlerim',
-                  style: TextStyle(
+                Text(
+                  context.l10n.mySuggestionsPageTitle,
+                  style: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w900,
                     color: AppColors.textStrong,
                   ),
                 ),
                 const SizedBox(height: 4),
-                const Text(
-                  'İşletmelere gönderdiğin fiyat önerilerini buradan takip edebilirsin.',
-                  style: TextStyle(
+                Text(
+                  context.l10n.mySuggestionsPageSubtitle,
+                  style: const TextStyle(
                     fontSize: 13,
                     color: AppColors.muted,
                     height: 1.4,
@@ -237,7 +237,7 @@ class _MySuggestionsPageState extends ConsumerState<MySuggestionsPage> {
 
   // ── Info banner ──────────────────────────────────────────────────────────────
 
-  Widget _buildInfoBanner() {
+  Widget _buildInfoBanner(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
       child: GestureDetector(
@@ -265,22 +265,22 @@ class _MySuggestionsPageState extends ConsumerState<MySuggestionsPage> {
                 ),
               ),
               const SizedBox(width: 12),
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Fiyatını sen belirle, fırsatı yakala!',
-                      style: TextStyle(
+                      context.l10n.mySuggestionsInfoBannerTitle,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 13,
                         color: AppColors.textStrong,
                       ),
                     ),
-                    SizedBox(height: 2),
+                    const SizedBox(height: 2),
                     Text(
-                      'İşletmelerin sana özel teklif vermesini bekle.',
-                      style: TextStyle(fontSize: 12, color: AppColors.muted),
+                      context.l10n.mySuggestionsInfoBannerSubtitle,
+                      style: const TextStyle(fontSize: 12, color: AppColors.muted),
                     ),
                   ],
                 ),
@@ -299,7 +299,7 @@ class _MySuggestionsPageState extends ConsumerState<MySuggestionsPage> {
 
   // ── Tip card ─────────────────────────────────────────────────────────────────
 
-  Widget _buildTipCard() {
+  Widget _buildTipCard(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
       child: GestureDetector(
@@ -327,22 +327,22 @@ class _MySuggestionsPageState extends ConsumerState<MySuggestionsPage> {
                 ),
               ),
               const SizedBox(width: 12),
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'İpucu',
-                      style: TextStyle(
+                      context.l10n.mySuggestionsTipCardTitle,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: 13,
                         color: AppColors.textStrong,
                       ),
                     ),
-                    SizedBox(height: 2),
+                    const SizedBox(height: 2),
                     Text(
-                      'Önerini makul aralıkta tutarsan, onaylanma şansın artar!',
-                      style: TextStyle(fontSize: 12, color: AppColors.muted),
+                      context.l10n.mySuggestionsTipCardBody,
+                      style: const TextStyle(fontSize: 12, color: AppColors.muted),
                     ),
                   ],
                 ),
@@ -426,7 +426,7 @@ class _SuggestionCard extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 8),
-                          _StatusBadge(status: suggestion.status),
+                          _StatusBadge(status: suggestion.status, l10n: context.l10n),
                         ],
                       ),
                       const SizedBox(height: 4),
@@ -447,7 +447,7 @@ class _SuggestionCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 3),
                           Text(
-                            _locText(suggestion.district, suggestion.city),
+                            _locText(context.l10n, suggestion.district, suggestion.city),
                             style: const TextStyle(
                               fontSize: 12,
                               color: AppColors.muted,
@@ -497,7 +497,7 @@ class _SuggestionCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 5),
                 Text(
-                  _fmtDate(suggestion.createdAt),
+                  _fmtDate(context.l10n, suggestion.createdAt),
                   style: const TextStyle(
                     fontSize: 12,
                     color: AppColors.muted,
@@ -520,7 +520,7 @@ class _SuggestionCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text('Detayları Gör'),
+                    child: Text(context.l10n.mySuggestionsViewDetailsButton),
                   )
                 else
                   OutlinedButton(
@@ -538,7 +538,7 @@ class _SuggestionCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text('Detayları Gör'),
+                    child: Text(context.l10n.mySuggestionsViewDetailsButton),
                   ),
                 const SizedBox(width: 6),
                 Container(
@@ -563,29 +563,30 @@ class _SuggestionCard extends StatelessWidget {
 // ── Status badge ──────────────────────────────────────────────────────────────
 
 class _StatusBadge extends StatelessWidget {
-  const _StatusBadge({required this.status});
+  const _StatusBadge({required this.status, required this.l10n});
   final String status;
+  final AppLocalizations l10n;
 
   @override
   Widget build(BuildContext context) {
     return switch (status) {
       'approved' => _Badge(
           icon: Icons.check_circle_outline_rounded,
-          label: 'Onaylandı',
+          label: l10n.mySuggestionsStatusApproved,
           iconColor: AppColors.success,
           bg: const Color(0xFFDCFCE7),
           textColor: AppColors.success,
         ),
       'rejected' => _Badge(
           icon: Icons.cancel_outlined,
-          label: 'Reddedildi',
+          label: l10n.mySuggestionsStatusRejected,
           iconColor: AppColors.danger,
           bg: const Color(0xFFFEE2E2),
           textColor: AppColors.danger,
         ),
       _ => _Badge(
           icon: Icons.schedule_rounded,
-          label: 'Beklemede',
+          label: l10n.mySuggestionsStatusPending,
           iconColor: const Color(0xFFD97706),
           bg: const Color(0xFFFEF3C7),
           textColor: const Color(0xFFD97706),
@@ -663,26 +664,27 @@ class _Skeleton extends StatelessWidget {
 // ── Empty state ───────────────────────────────────────────────────────────────
 
 class _EmptyState extends StatelessWidget {
-  const _EmptyState({required this.tab});
+  const _EmptyState({required this.tab, required this.l10n});
   final _Tab tab;
+  final AppLocalizations l10n;
 
   @override
   Widget build(BuildContext context) {
     final (icon, title, sub) = switch (tab) {
       _Tab.sent => (
           Icons.send_outlined,
-          'Gönderilen öneri yok',
-          'Henüz bir fiyat önerisi göndermedin.',
+          l10n.mySuggestionsEmptySentTitle,
+          l10n.mySuggestionsEmptySentBody,
         ),
       _Tab.answered => (
           Icons.check_circle_outline_rounded,
-          'Cevaplanan öneri yok',
-          'Önerilerin henüz cevaplanmadı.',
+          l10n.mySuggestionsEmptyAnsweredTitle,
+          l10n.mySuggestionsEmptyAnsweredBody,
         ),
       _Tab.rejected => (
           Icons.cancel_outlined,
-          'Reddedilen öneri yok',
-          'Hiçbir önerin reddedilmedi.',
+          l10n.mySuggestionsEmptyRejectedTitle,
+          l10n.mySuggestionsEmptyRejectedBody,
         ),
     };
 
@@ -753,7 +755,7 @@ class _ErrorBanner extends StatelessWidget {
             TextButton(
               onPressed: onRetry,
               style: TextButton.styleFrom(foregroundColor: AppColors.danger),
-              child: const Text('Yenile'),
+              child: Text(context.l10n.mySuggestionsRefreshButton),
             ),
           ],
         ),
@@ -764,19 +766,30 @@ class _ErrorBanner extends StatelessWidget {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-String _locText(String? district, String? city) {
+String _locText(AppLocalizations l10n, String? district, String? city) {
   final d = (district ?? '').trim();
   final c = (city ?? '').trim();
-  if (d.isEmpty && c.isEmpty) return 'Konum yok';
+  if (d.isEmpty && c.isEmpty) return l10n.mySuggestionsNoLocation;
   if (d.isEmpty) return c;
   if (c.isEmpty) return d;
   return '$d • $c';
 }
 
-String _fmtDate(DateTime d) {
-  const months = [
-    '', 'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
-    'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
+String _fmtDate(AppLocalizations l10n, DateTime d) {
+  final months = [
+    '',
+    l10n.mySuggestionsMonthJanuary,
+    l10n.mySuggestionsMonthFebruary,
+    l10n.mySuggestionsMonthMarch,
+    l10n.mySuggestionsMonthApril,
+    l10n.mySuggestionsMonthMay,
+    l10n.mySuggestionsMonthJune,
+    l10n.mySuggestionsMonthJuly,
+    l10n.mySuggestionsMonthAugust,
+    l10n.mySuggestionsMonthSeptember,
+    l10n.mySuggestionsMonthOctober,
+    l10n.mySuggestionsMonthNovember,
+    l10n.mySuggestionsMonthDecember,
   ];
   return '${d.day} ${months[d.month]} ${d.year}';
 }

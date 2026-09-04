@@ -6128,5 +6128,306 @@
     }
   },
   "priceAlertsTipBannerTitle": "Fiyatlar değişiyor, fırsatlar kaçmasın!",
-  "priceAlertsTipBannerBody": "Alarmlarını düzenli kontrol etmeyi unutma."
+  "priceAlertsTipBannerBody": "Alarmlarını düzenli kontrol etmeyi unutma.",
+  "myReviewsRetryButton": "Tekrar Dene",
+  "myReviewsPageTitle": "Yorumlarım",
+  "myReviewsPageSubtitle": "Deneyimlerini paylaştığın mekanlar",
+  "myReviewsTabAll": "Tümü",
+  "myReviewsTabPublished": "Yayınlanan",
+  "myReviewsTabPending": "Bekleyen",
+  "myReviewsHeroTitle": "Yorumların değerli!",
+  "myReviewsHeroSubtitle": "Deneyimlerin diğer kullanıcılara yol gösteriyor. Teşekkür ederiz.",
+  "myReviewsGuidelinesTitle": "Yorumların bizim için önemli",
+  "myReviewsGuidelinesSubtitle": "Topluluk kurallarımıza uygun yapılan yorumlar yayınlanır. Detaylı bilgi için tıkla.",
+  "myReviewsEmptyPublished": "Yayınlanmış yorumun yok.",
+  "myReviewsEmptyPending": "Onay bekleyen yorumun yok.",
+  "myReviewsEmptyAll": "Henüz yorum yapmadın.",
+  "myReviewsLoginPrompt": "Yorumlarını görmek için giriş yap.",
+  "myReviewsLoginButton": "Giriş Yap",
+  "myReviewsTimeJustNow": "Az önce",
+  "myReviewsTimeHoursAgo": "{hours} saat önce",
+  "@myReviewsTimeHoursAgo": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "myReviewsTimeDaysAgo": "{days} gün önce",
+  "@myReviewsTimeDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "myReviewsTimeWeeksAgo": "{weeks} hafta önce",
+  "@myReviewsTimeWeeksAgo": {
+    "placeholders": {
+      "weeks": {
+        "type": "int"
+      }
+    }
+  },
+  "myReviewsTimeMonthsAgo": "{months} ay önce",
+  "@myReviewsTimeMonthsAgo": {
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "myReviewsTimeYearsAgo": "{years} yıl önce",
+  "@myReviewsTimeYearsAgo": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "myReviewsStatusPublished": "Yayınlandı",
+  "myReviewsStatusPending": "Onay Bekliyor",
+  "myReviewsStatusRejected": "Reddedildi",
+  "myReviewsMenuEdit": "Düzenle",
+  "myReviewsMenuDelete": "Sil",
+  "mySuggestionsTabSent": "Gönderilen Öneriler",
+  "mySuggestionsTabAnswered": "Cevaplananlar",
+  "mySuggestionsTabRejected": "Reddedilenler",
+  "mySuggestionsPageTitle": "Önerimlerim",
+  "mySuggestionsPageSubtitle": "İşletmelere gönderdiğin fiyat önerilerini buradan takip edebilirsin.",
+  "mySuggestionsInfoBannerTitle": "Fiyatını sen belirle, fırsatı yakala!",
+  "mySuggestionsInfoBannerSubtitle": "İşletmelerin sana özel teklif vermesini bekle.",
+  "mySuggestionsTipCardTitle": "İpucu",
+  "mySuggestionsTipCardBody": "Önerini makul aralıkta tutarsan, onaylanma şansın artar!",
+  "mySuggestionsViewDetailsButton": "Detayları Gör",
+  "mySuggestionsStatusApproved": "Onaylandı",
+  "mySuggestionsStatusRejected": "Reddedildi",
+  "mySuggestionsStatusPending": "Beklemede",
+  "mySuggestionsEmptySentTitle": "Gönderilen öneri yok",
+  "mySuggestionsEmptySentBody": "Henüz bir fiyat önerisi göndermedin.",
+  "mySuggestionsEmptyAnsweredTitle": "Cevaplanan öneri yok",
+  "mySuggestionsEmptyAnsweredBody": "Önerilerin henüz cevaplanmadı.",
+  "mySuggestionsEmptyRejectedTitle": "Reddedilen öneri yok",
+  "mySuggestionsEmptyRejectedBody": "Hiçbir önerin reddedilmedi.",
+  "mySuggestionsRefreshButton": "Yenile",
+  "mySuggestionsNoLocation": "Konum yok",
+  "mySuggestionsMonthJanuary": "Ocak",
+  "mySuggestionsMonthFebruary": "Şubat",
+  "mySuggestionsMonthMarch": "Mart",
+  "mySuggestionsMonthApril": "Nisan",
+  "mySuggestionsMonthMay": "Mayıs",
+  "mySuggestionsMonthJune": "Haziran",
+  "mySuggestionsMonthJuly": "Temmuz",
+  "mySuggestionsMonthAugust": "Ağustos",
+  "mySuggestionsMonthSeptember": "Eylül",
+  "mySuggestionsMonthOctober": "Ekim",
+  "mySuggestionsMonthNovember": "Kasım",
+  "mySuggestionsMonthDecember": "Aralık",
+  "businessDetailMealCardsTitle": "Geçerli Yemek Kartları",
+  "businessDetailMealCardsSubtitle": "Bu işletmede kabul edilen kartlar aşağıda listelenir.",
+  "businessDetailSeeAllButton": "Tümünü gör",
+  "businessDetailCommunityPhotosTitle": "Topluluk Fotoğrafları",
+  "businessDetailPhotoViewerTitle": "Fotoğraf {current} / {total}",
+  "@businessDetailPhotoViewerTitle": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "businessDetailFrequentlyMentionedTitle": "Sıkça Bahsedilen",
+  "businessBadgeCertificateShareText": "{businessName} — Yeedoy Başarım Sertifikası 🏆",
+  "@businessBadgeCertificateShareText": {
+    "placeholders": {
+      "businessName": {
+        "type": "String"
+      }
+    }
+  },
+  "businessBadgeCertificateShareFailed": "Paylaşım başarısız oldu.",
+  "businessBadgeCertificateSharing": "Paylaşılıyor...",
+  "businessBadgeCertificateShareButton": "Sertifikayı Paylaş",
+  "businessBadgeCertificateSubtitle": "Başarım Sertifikası",
+  "dietProfileAllergenMilk": "Süt ve süt ürünleri",
+  "dietProfileAllergenNuts": "Fındık",
+  "dietProfileAllergenEgg": "Yumurta",
+  "dietProfileAllergenSeafood": "Deniz ürünleri",
+  "dietProfileAllergenGluten": "Glüten",
+  "dietProfileAllergenSoy": "Soya",
+  "dietProfileAllergenSesame": "Susam",
+  "dietProfileAllergenWheat": "Buğday",
+  "dietProfileAllergenHalal": "Helal",
+  "dietProfileSaveError": "Kaydedilirken bir hata oluştu.",
+  "dietProfileLoadError": "Profil yüklenemedi. Lütfen tekrar deneyin.",
+  "dietProfileDietSectionTitle": "Diyet tercihin",
+  "dietProfileDietSectionSubtitle": "Sana en uygun beslenme şeklini seç veya birden fazlasını işaretle.",
+  "dietProfileGoalSectionTitle": "Hedefin",
+  "dietProfileGoalSectionSubtitle": "Sana daha doğru öneriler sunabilmemiz için hedefini belirt.",
+  "dietProfilePageTitle": "Diyet Profili",
+  "dietProfileHelpSheetTitle": "Diyet Profili Nedir?",
+  "dietProfileHelpSheetBody": "Diyet profilin, yemek önerilerini ve menü filtrelerini kişiselleştirmek için kullanılır. Tercihlerini kaydederek sana en uygun işletmeleri ve yemekleri önerebiliriz.",
+  "dietProfileHeroTitle": "Sana özel lezzetler",
+  "dietProfileHeroSubtitle": "Diyet tercihlerine göre sana uygun mekanları ve yemekleri önerelim.",
+  "dietProfileHeroFeaturePersonalized": "Kişiselleştirilmiş\nöneriler",
+  "dietProfileHeroFeatureHealthier": "Daha sağlıklı\nseçimler",
+  "dietProfileHeroFeatureSaveTime": "Zamanını\ntasarruf et",
+  "dietProfileDietBalancedLabel": "Dengeli Beslenme",
+  "dietProfileDietBalancedDesc": "Tüm besin gruplarını dengeli tüketiyorum.",
+  "dietProfileDietVegetarianLabel": "Vejetaryen",
+  "dietProfileDietVegetarianDesc": "Et ve et ürünleri tüketmiyorum.",
+  "dietProfileDietVeganLabel": "Vegan",
+  "dietProfileDietVeganDesc": "Hiçbir hayvansal ürün tüketmiyorum.",
+  "dietProfileDietGlutenFreeLabel": "Glutensiz",
+  "dietProfileDietGlutenFreeDesc": "Glüten içeren besinleri tüketmiyorum.",
+  "dietProfileDietKetogenicLabel": "Ketojenik",
+  "dietProfileDietKetogenicDesc": "Düşük karbonhidrat, yüksek yağ.",
+  "dietProfileDietMediterraneanLabel": "Akdeniz Diyeti",
+  "dietProfileDietMediterraneanDesc": "Zeytinyağı, sebze ve balık odaklı besleniyorum.",
+  "dietProfileOtherDietRow": "Diğer diyet tercihlerim var",
+  "dietProfileGoalLoseWeight": "Kilo vermek",
+  "dietProfileGoalGainWeight": "Kilo almak",
+  "dietProfileGoalMaintain": "Kilo korumak",
+  "dietProfileGoalHealthyEating": "Daha sağlıklı beslenmek",
+  "dietProfileAllergenSectionTitle": "Alerjiler ve hassasiyetler",
+  "dietProfileAddButton": "Ekle",
+  "dietProfileAllergenSectionSubtitle": "Alerjinin veya hassasiyetin olan besinleri seç.",
+  "dietProfileAllergenEmptyPrompt": "Alerji veya hassasiyet ekle",
+  "dietProfileSavedBannerTitle": "Profilin kaydedildi",
+  "dietProfileSavedBannerSubtitle": "Tercihlerine göre sana özel öneriler sunacağız.",
+  "dietProfileEditButton": "Düzenle",
+  "dietProfileSaveButton": "Profili Kaydet",
+  "dietProfileAllergenPickerTitle": "Alerji veya hassasiyet seç",
+  "dietProfileAllergenPickerSubtitle": "Birden fazla seçebilirsin.",
+  "dietProfileApplyButton": "Uygula",
+  "locationPickerRequiredSnackbar": "Lütfen il ve ilçe seçin.",
+  "locationPickerCityLabel": "İl Seçin",
+  "locationPickerDistrictLabel": "İlçe Seçin",
+  "locationPickerNeighborhoodSheetTitle": "Mahalle Seçin",
+  "locationPickerPlaceholderSelect": "Seçiniz",
+  "locationPickerCityHint": "Bulunduğunuz şehirdeki işletmeleri ve fiyatları göreceksiniz.",
+  "locationPickerDistrictHint": "Daha doğru sonuçlar için ilçenizi seçin.",
+  "locationPickerNeighborhoodLabel": "Mahalle",
+  "locationPickerOptionalSuffix": "  (isteğe bağlı)",
+  "locationPickerOptionalPlaceholder": "Seçiniz (isteğe bağlı)",
+  "locationPickerNeighborhoodHint": "Mahalle seçerek çok daha yerel sonuçlar alabilirsiniz.",
+  "locationPickerPageTitle": "Konum Seç",
+  "locationPickerSubtitle": "Size özel öneriler ve fiyat alarmları için konumunuzu seçin.",
+  "locationPickerInfoCardTitle": "Neden konum seçmeliyim?",
+  "locationPickerInfoCardSubtitle": "Bulunduğunuz konuma göre işletmeleri, fiyatları ve fırsatları en doğru şekilde gösteriyoruz.",
+  "locationPickerSelectedCardTitle": "Seçilen Konumunuz",
+  "locationPickerNoLocationSelected": "Henüz konum seçilmedi",
+  "locationPickerNeighborhoodSuffix": "{neighborhood} Mahallesi",
+  "@locationPickerNeighborhoodSuffix": {
+    "placeholders": {
+      "neighborhood": {
+        "type": "String"
+      }
+    }
+  },
+  "locationPickerUseGpsButton": "Konumumu Kullan",
+  "locationPickerSettingsTitle": "Konum Ayarları",
+  "locationPickerBgPermissionTitle": "Arka planda konum izni",
+  "locationPickerBgPermissionSubtitle": "Fiyat alarmları ve fırsat bildirimleri için konum erişimi sağlanır.",
+  "locationPickerSaveButton": "Kaydet",
+  "locationPickerSearchHint": "Ara...",
+  "businessLocationUpdateSuccess": "Konum başarıyla güncellendi.",
+  "businessLocationSaveError": "Konum kaydedilemedi. Tekrar deneyin.",
+  "businessLocationTapHint": "Haritaya dokunarak konum seçin",
+  "businessLocationPanelTitle": "İşletme Konumu",
+  "businessLocationPanelSubtitle": "Haritaya dokunarak yeni konumu seçin, ardından kaydedin.",
+  "businessLocationNoLocationSelected": "Henüz konum seçilmedi",
+  "businessLocationSaveButton": "Bu Konumu Kaydet",
+  "perksAppBarTitle": "{businessName} – Ayrıcalıklar",
+  "@perksAppBarTitle": {
+    "placeholders": {
+      "businessName": {
+        "type": "String"
+      }
+    }
+  },
+  "perksEmptyTitle": "Aktif ayrıcalık yok",
+  "perksEmptySubtitle": "Bu işletme henüz aktif bir kampanya sunmuyor.",
+  "perksRetryButton": "Tekrar dene",
+  "perksNewBadge": "YENİ",
+  "perksExpiringBadge": "Son {days} gün",
+  "@perksExpiringBadge": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "perksRequiresCheckin": "Check-in gerektirir",
+  "perksStartsLabel": "Başlangıç: {date}",
+  "@perksStartsLabel": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "perksEndsLabel": "Bitiş: {date}",
+  "@perksEndsLabel": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "sadakatKartlarimAppBarTitle": "Sadakat Kartlarım",
+  "sadakatKartlarimRetryButton": "Tekrar Dene",
+  "sadakatKartlarimEmptyTitle": "Henüz sadakat kartın yok",
+  "sadakatKartlarimEmptyDescription": "Katıldığın işletmelerin sadakat programları burada görünecek.",
+  "sadakatKartlarimQrHint": "Damga/puan kazanmak için işletmede bu kodu gösterin.",
+  "sadakatKartlarimLoginToSeeCode": "Kodunuzu görmek için giriş yapın.",
+  "sadakatKartlarimCodePrivateNotice": "Bu kod size özeldir, paylaşmayın.",
+  "legalAcceptancePageTitle": "Yasal Kabul",
+  "legalAcceptanceRetryButton": "Tekrar dene",
+  "legalAcceptanceHeading": "Devam etmek için güncel sözleşmeleri onaylayın.",
+  "legalAcceptanceIntro": "Yeedoy, kullanım şartları ve gizlilik politikası sürümlerini kullanıcı bazında kaydeder. Yeni sürüm yayınlandığında uygulamaya devam etmeden önce tekrar onay istenir.",
+  "legalAcceptancePendingVersionsChip": "{count} zorunlu sürüm",
+  "@legalAcceptancePendingVersionsChip": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "legalAcceptanceSourceChip": "Kaynak: yeedoy.com/legal",
+  "legalAcceptanceConsentHelperText": "Bu onay verilmeden uygulama oturumu açılmış olsa bile içerik yüzeylerine geçilmez.",
+  "legalAcceptanceOptionalPrefsTitle": "İsteğe bağlı tercihler",
+  "legalAcceptanceMarketingOptInTitle": "Kampanya ve bildirim izinleri",
+  "legalAcceptanceAnalyticsOptInTitle": "Ürün analitiği iyileştirme izni",
+  "legalAcceptanceOptionalPrefsNote": "Bu tercihler zorunlu sözleşme kabulünden ayrı tutulur ve daha sonra profil ayarlarından güncellenebilir.",
+  "legalAcceptanceSavingButton": "Kaydediliyor...",
+  "legalAcceptanceAcceptButton": "Kabul Et ve Devam Et",
+  "legalAcceptanceRequiredSnackbar": "Devam etmek için gerekli sözleşmeleri kabul etmelisiniz.",
+  "legalAcceptanceMarketingSaveFailed": "Pazarlama e-posta tercihiniz kaydedilemedi. Bildirim ayarlarından tekrar değiştirebilirsiniz.",
+  "legalAcceptanceVersionDateLine": "{versionLabel} • {date}",
+  "@legalAcceptanceVersionDateLine": {
+    "placeholders": {
+      "versionLabel": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "legalAcceptanceMonthJanuary": "Ocak",
+  "legalAcceptanceMonthFebruary": "Şubat",
+  "legalAcceptanceMonthMarch": "Mart",
+  "legalAcceptanceMonthApril": "Nisan",
+  "legalAcceptanceMonthMay": "Mayıs",
+  "legalAcceptanceMonthJune": "Haziran",
+  "legalAcceptanceMonthJuly": "Temmuz",
+  "legalAcceptanceMonthAugust": "Ağustos",
+  "legalAcceptanceMonthSeptember": "Eylül",
+  "legalAcceptanceMonthOctober": "Ekim",
+  "legalAcceptanceMonthNovember": "Kasım",
+  "legalAcceptanceMonthDecember": "Aralık",
+  "collabListGroupVoteButton": "Grup Oyuna Geç"
 }

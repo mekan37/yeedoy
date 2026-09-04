@@ -70,6 +70,7 @@ class BusinessMealCardsSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context);
     final providersAsync = ref.watch(
       businessMealCardProvidersProvider(businessId),
     );
@@ -81,12 +82,12 @@ class BusinessMealCardsSection extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Geçerli Yemek Kartları',
+                t.businessDetailMealCardsTitle,
                 style: context.sectionTitleStyle,
               ),
               const SizedBox(height: 6),
               Text(
-                'Bu işletmede kabul edilen kartlar aşağıda listelenir.',
+                t.businessDetailMealCardsSubtitle,
                 style: context.captionStyle,
               ),
               const SizedBox(height: 10),
@@ -137,7 +138,7 @@ class BusinessPerksSection extends ConsumerWidget {
                         queryParameters: {'name': businessName},
                       ).toString(),
                     ),
-                    child: const Text('Tümünü gör'),
+                    child: Text(t.businessDetailSeeAllButton),
                   ),
                 ],
               ),
@@ -253,7 +254,6 @@ class BusinessReviewPhotosSection extends ConsumerWidget {
       data: (urls) {
         if (urls.isEmpty) return const SizedBox.shrink();
         final t = AppLocalizations.of(context);
-        final isLocTr = t.localeName.startsWith('tr');
         return AppCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,7 +262,7 @@ class BusinessReviewPhotosSection extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      isLocTr ? 'Topluluk Fotoğrafları' : 'Community Photos',
+                      t.businessDetailCommunityPhotosTitle,
                       style: const TextStyle(fontWeight: FontWeight.w900),
                     ),
                   ),
@@ -270,7 +270,7 @@ class BusinessReviewPhotosSection extends ConsumerWidget {
                     TextButton(
                       onPressed: () => _openAllPhotos(context, urls),
                       child: Text(
-                        isLocTr ? 'Tümünü gör' : 'See all',
+                        t.businessDetailSeeAllButton,
                         style: const TextStyle(fontSize: 13),
                       ),
                     ),
@@ -346,16 +346,14 @@ class _BusinessPhotosViewerState extends State<_BusinessPhotosViewer> {
 
   @override
   Widget build(BuildContext context) {
-    final isLocTr = AppLocalizations.of(context).localeName.startsWith('tr');
+    final t = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         title: Text(
-          isLocTr
-              ? 'Fotoğraf ${_current + 1} / ${widget.urls.length}'
-              : 'Photo ${_current + 1} / ${widget.urls.length}',
+          t.businessDetailPhotoViewerTitle(_current + 1, widget.urls.length),
           style: const TextStyle(color: Colors.white),
         ),
       ),
@@ -388,13 +386,12 @@ class BusinessFrequentTagsSection extends ConsumerWidget {
       data: (tags) {
         if (tags.isEmpty) return const SizedBox.shrink();
         final t = AppLocalizations.of(context);
-        final isLocTr = t.localeName.startsWith('tr');
         return AppCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                isLocTr ? 'Sıkça Bahsedilen' : 'Frequently Mentioned',
+                t.businessDetailFrequentlyMentionedTitle,
                 style: const TextStyle(
                   fontWeight: FontWeight.w900,
                   color: AppColors.textStrong,

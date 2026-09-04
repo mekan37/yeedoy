@@ -6155,4 +6155,670 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get priceAlertsTipBannerBody =>
       'Remember to check your alerts regularly.';
+
+  @override
+  String get myReviewsRetryButton => 'Try Again';
+
+  @override
+  String get myReviewsPageTitle => 'My Reviews';
+
+  @override
+  String get myReviewsPageSubtitle =>
+      'Places you\'ve shared your experiences about';
+
+  @override
+  String get myReviewsTabAll => 'All';
+
+  @override
+  String get myReviewsTabPublished => 'Published';
+
+  @override
+  String get myReviewsTabPending => 'Pending';
+
+  @override
+  String get myReviewsHeroTitle => 'Your reviews matter!';
+
+  @override
+  String get myReviewsHeroSubtitle =>
+      'Your experiences guide other users. Thank you.';
+
+  @override
+  String get myReviewsGuidelinesTitle => 'Your reviews matter to us';
+
+  @override
+  String get myReviewsGuidelinesSubtitle =>
+      'Reviews that follow our community guidelines get published. Tap for details.';
+
+  @override
+  String get myReviewsEmptyPublished => 'You have no published reviews.';
+
+  @override
+  String get myReviewsEmptyPending => 'You have no reviews awaiting approval.';
+
+  @override
+  String get myReviewsEmptyAll => 'You haven\'t written a review yet.';
+
+  @override
+  String get myReviewsLoginPrompt => 'Log in to see your reviews.';
+
+  @override
+  String get myReviewsLoginButton => 'Log In';
+
+  @override
+  String get myReviewsTimeJustNow => 'Just now';
+
+  @override
+  String myReviewsTimeHoursAgo(int hours) {
+    return '${hours}h ago';
+  }
+
+  @override
+  String myReviewsTimeDaysAgo(int days) {
+    return '${days}d ago';
+  }
+
+  @override
+  String myReviewsTimeWeeksAgo(int weeks) {
+    return '${weeks}w ago';
+  }
+
+  @override
+  String myReviewsTimeMonthsAgo(int months) {
+    return '${months}mo ago';
+  }
+
+  @override
+  String myReviewsTimeYearsAgo(int years) {
+    return '${years}y ago';
+  }
+
+  @override
+  String get myReviewsStatusPublished => 'Published';
+
+  @override
+  String get myReviewsStatusPending => 'Awaiting Approval';
+
+  @override
+  String get myReviewsStatusRejected => 'Rejected';
+
+  @override
+  String get myReviewsMenuEdit => 'Edit';
+
+  @override
+  String get myReviewsMenuDelete => 'Delete';
+
+  @override
+  String get mySuggestionsTabSent => 'Sent Suggestions';
+
+  @override
+  String get mySuggestionsTabAnswered => 'Answered';
+
+  @override
+  String get mySuggestionsTabRejected => 'Rejected';
+
+  @override
+  String get mySuggestionsPageTitle => 'My Suggestions';
+
+  @override
+  String get mySuggestionsPageSubtitle =>
+      'Track the price suggestions you\'ve sent to businesses here.';
+
+  @override
+  String get mySuggestionsInfoBannerTitle =>
+      'Set your own price, catch the deal!';
+
+  @override
+  String get mySuggestionsInfoBannerSubtitle =>
+      'Wait for businesses to make you a special offer.';
+
+  @override
+  String get mySuggestionsTipCardTitle => 'Tip';
+
+  @override
+  String get mySuggestionsTipCardBody =>
+      'Keep your suggestion within a reasonable range to boost your chances of approval!';
+
+  @override
+  String get mySuggestionsViewDetailsButton => 'View Details';
+
+  @override
+  String get mySuggestionsStatusApproved => 'Approved';
+
+  @override
+  String get mySuggestionsStatusRejected => 'Rejected';
+
+  @override
+  String get mySuggestionsStatusPending => 'Pending';
+
+  @override
+  String get mySuggestionsEmptySentTitle => 'No sent suggestions';
+
+  @override
+  String get mySuggestionsEmptySentBody =>
+      'You haven\'t sent a price suggestion yet.';
+
+  @override
+  String get mySuggestionsEmptyAnsweredTitle => 'No answered suggestions';
+
+  @override
+  String get mySuggestionsEmptyAnsweredBody =>
+      'Your suggestions haven\'t been answered yet.';
+
+  @override
+  String get mySuggestionsEmptyRejectedTitle => 'No rejected suggestions';
+
+  @override
+  String get mySuggestionsEmptyRejectedBody =>
+      'None of your suggestions have been rejected.';
+
+  @override
+  String get mySuggestionsRefreshButton => 'Refresh';
+
+  @override
+  String get mySuggestionsNoLocation => 'No location';
+
+  @override
+  String get mySuggestionsMonthJanuary => 'January';
+
+  @override
+  String get mySuggestionsMonthFebruary => 'February';
+
+  @override
+  String get mySuggestionsMonthMarch => 'March';
+
+  @override
+  String get mySuggestionsMonthApril => 'April';
+
+  @override
+  String get mySuggestionsMonthMay => 'May';
+
+  @override
+  String get mySuggestionsMonthJune => 'June';
+
+  @override
+  String get mySuggestionsMonthJuly => 'July';
+
+  @override
+  String get mySuggestionsMonthAugust => 'August';
+
+  @override
+  String get mySuggestionsMonthSeptember => 'September';
+
+  @override
+  String get mySuggestionsMonthOctober => 'October';
+
+  @override
+  String get mySuggestionsMonthNovember => 'November';
+
+  @override
+  String get mySuggestionsMonthDecember => 'December';
+
+  @override
+  String get businessDetailMealCardsTitle => 'Valid Meal Cards';
+
+  @override
+  String get businessDetailMealCardsSubtitle =>
+      'Cards accepted at this business are listed below.';
+
+  @override
+  String get businessDetailSeeAllButton => 'See all';
+
+  @override
+  String get businessDetailCommunityPhotosTitle => 'Community Photos';
+
+  @override
+  String businessDetailPhotoViewerTitle(int current, int total) {
+    return 'Photo $current / $total';
+  }
+
+  @override
+  String get businessDetailFrequentlyMentionedTitle => 'Frequently Mentioned';
+
+  @override
+  String businessBadgeCertificateShareText(String businessName) {
+    return '$businessName — Yeedoy Achievement Certificate 🏆';
+  }
+
+  @override
+  String get businessBadgeCertificateShareFailed => 'Sharing failed.';
+
+  @override
+  String get businessBadgeCertificateSharing => 'Sharing...';
+
+  @override
+  String get businessBadgeCertificateShareButton => 'Share Certificate';
+
+  @override
+  String get businessBadgeCertificateSubtitle => 'Achievement Certificate';
+
+  @override
+  String get dietProfileAllergenMilk => 'Milk and dairy products';
+
+  @override
+  String get dietProfileAllergenNuts => 'Nuts';
+
+  @override
+  String get dietProfileAllergenEgg => 'Egg';
+
+  @override
+  String get dietProfileAllergenSeafood => 'Seafood';
+
+  @override
+  String get dietProfileAllergenGluten => 'Gluten';
+
+  @override
+  String get dietProfileAllergenSoy => 'Soy';
+
+  @override
+  String get dietProfileAllergenSesame => 'Sesame';
+
+  @override
+  String get dietProfileAllergenWheat => 'Wheat';
+
+  @override
+  String get dietProfileAllergenHalal => 'Halal';
+
+  @override
+  String get dietProfileSaveError => 'Something went wrong while saving.';
+
+  @override
+  String get dietProfileLoadError =>
+      'Couldn\'t load profile. Please try again.';
+
+  @override
+  String get dietProfileDietSectionTitle => 'Your diet preference';
+
+  @override
+  String get dietProfileDietSectionSubtitle =>
+      'Pick the eating style that suits you best, or select more than one.';
+
+  @override
+  String get dietProfileGoalSectionTitle => 'Your goal';
+
+  @override
+  String get dietProfileGoalSectionSubtitle =>
+      'Tell us your goal so we can give you more accurate suggestions.';
+
+  @override
+  String get dietProfilePageTitle => 'Diet Profile';
+
+  @override
+  String get dietProfileHelpSheetTitle => 'What Is a Diet Profile?';
+
+  @override
+  String get dietProfileHelpSheetBody =>
+      'Your diet profile is used to personalize food suggestions and menu filters. By saving your preferences, we can recommend the businesses and dishes that suit you best.';
+
+  @override
+  String get dietProfileHeroTitle => 'Flavors picked for you';
+
+  @override
+  String get dietProfileHeroSubtitle =>
+      'Let us recommend places and dishes based on your diet preferences.';
+
+  @override
+  String get dietProfileHeroFeaturePersonalized => 'Personalized\nsuggestions';
+
+  @override
+  String get dietProfileHeroFeatureHealthier => 'Healthier\nchoices';
+
+  @override
+  String get dietProfileHeroFeatureSaveTime => 'Save\ntime';
+
+  @override
+  String get dietProfileDietBalancedLabel => 'Balanced Diet';
+
+  @override
+  String get dietProfileDietBalancedDesc =>
+      'I eat a balanced mix of all food groups.';
+
+  @override
+  String get dietProfileDietVegetarianLabel => 'Vegetarian';
+
+  @override
+  String get dietProfileDietVegetarianDesc =>
+      'I don\'t eat meat or meat products.';
+
+  @override
+  String get dietProfileDietVeganLabel => 'Vegan';
+
+  @override
+  String get dietProfileDietVeganDesc =>
+      'I don\'t consume any animal products.';
+
+  @override
+  String get dietProfileDietGlutenFreeLabel => 'Gluten-Free';
+
+  @override
+  String get dietProfileDietGlutenFreeDesc =>
+      'I don\'t eat foods containing gluten.';
+
+  @override
+  String get dietProfileDietKetogenicLabel => 'Ketogenic';
+
+  @override
+  String get dietProfileDietKetogenicDesc => 'Low carb, high fat.';
+
+  @override
+  String get dietProfileDietMediterraneanLabel => 'Mediterranean Diet';
+
+  @override
+  String get dietProfileDietMediterraneanDesc =>
+      'I focus on olive oil, vegetables, and fish.';
+
+  @override
+  String get dietProfileOtherDietRow => 'I have other diet preferences';
+
+  @override
+  String get dietProfileGoalLoseWeight => 'Lose weight';
+
+  @override
+  String get dietProfileGoalGainWeight => 'Gain weight';
+
+  @override
+  String get dietProfileGoalMaintain => 'Maintain weight';
+
+  @override
+  String get dietProfileGoalHealthyEating => 'Eat healthier';
+
+  @override
+  String get dietProfileAllergenSectionTitle => 'Allergies and sensitivities';
+
+  @override
+  String get dietProfileAddButton => 'Add';
+
+  @override
+  String get dietProfileAllergenSectionSubtitle =>
+      'Select the foods you\'re allergic or sensitive to.';
+
+  @override
+  String get dietProfileAllergenEmptyPrompt => 'Add an allergy or sensitivity';
+
+  @override
+  String get dietProfileSavedBannerTitle => 'Your profile is saved';
+
+  @override
+  String get dietProfileSavedBannerSubtitle =>
+      'We\'ll offer you suggestions tailored to your preferences.';
+
+  @override
+  String get dietProfileEditButton => 'Edit';
+
+  @override
+  String get dietProfileSaveButton => 'Save Profile';
+
+  @override
+  String get dietProfileAllergenPickerTitle =>
+      'Select an allergy or sensitivity';
+
+  @override
+  String get dietProfileAllergenPickerSubtitle =>
+      'You can select more than one.';
+
+  @override
+  String get dietProfileApplyButton => 'Apply';
+
+  @override
+  String get locationPickerRequiredSnackbar =>
+      'Please select a city and district.';
+
+  @override
+  String get locationPickerCityLabel => 'Select City';
+
+  @override
+  String get locationPickerDistrictLabel => 'Select District';
+
+  @override
+  String get locationPickerNeighborhoodSheetTitle => 'Select Neighborhood';
+
+  @override
+  String get locationPickerPlaceholderSelect => 'Select';
+
+  @override
+  String get locationPickerCityHint =>
+      'You\'ll see businesses and prices in your selected city.';
+
+  @override
+  String get locationPickerDistrictHint =>
+      'Select your district for more accurate results.';
+
+  @override
+  String get locationPickerNeighborhoodLabel => 'Neighborhood';
+
+  @override
+  String get locationPickerOptionalSuffix => '  (optional)';
+
+  @override
+  String get locationPickerOptionalPlaceholder => 'Select (optional)';
+
+  @override
+  String get locationPickerNeighborhoodHint =>
+      'Select a neighborhood for even more local results.';
+
+  @override
+  String get locationPickerPageTitle => 'Select Location';
+
+  @override
+  String get locationPickerSubtitle =>
+      'Select your location for personalized suggestions and price alerts.';
+
+  @override
+  String get locationPickerInfoCardTitle => 'Why should I select a location?';
+
+  @override
+  String get locationPickerInfoCardSubtitle =>
+      'We show businesses, prices, and deals most accurately based on your location.';
+
+  @override
+  String get locationPickerSelectedCardTitle => 'Your Selected Location';
+
+  @override
+  String get locationPickerNoLocationSelected => 'No location selected yet';
+
+  @override
+  String locationPickerNeighborhoodSuffix(String neighborhood) {
+    return '$neighborhood Neighborhood';
+  }
+
+  @override
+  String get locationPickerUseGpsButton => 'Use My Location';
+
+  @override
+  String get locationPickerSettingsTitle => 'Location Settings';
+
+  @override
+  String get locationPickerBgPermissionTitle =>
+      'Background location permission';
+
+  @override
+  String get locationPickerBgPermissionSubtitle =>
+      'Location access is used for price alerts and deal notifications.';
+
+  @override
+  String get locationPickerSaveButton => 'Save';
+
+  @override
+  String get locationPickerSearchHint => 'Search...';
+
+  @override
+  String get businessLocationUpdateSuccess => 'Location updated successfully.';
+
+  @override
+  String get businessLocationSaveError =>
+      'Couldn\'t save location. Please try again.';
+
+  @override
+  String get businessLocationTapHint => 'Tap the map to select a location';
+
+  @override
+  String get businessLocationPanelTitle => 'Business Location';
+
+  @override
+  String get businessLocationPanelSubtitle =>
+      'Tap the map to select a new location, then save it.';
+
+  @override
+  String get businessLocationNoLocationSelected => 'No location selected yet';
+
+  @override
+  String get businessLocationSaveButton => 'Save This Location';
+
+  @override
+  String perksAppBarTitle(String businessName) {
+    return '$businessName – Perks';
+  }
+
+  @override
+  String get perksEmptyTitle => 'No active perks';
+
+  @override
+  String get perksEmptySubtitle =>
+      'This business doesn\'t have an active campaign yet.';
+
+  @override
+  String get perksRetryButton => 'Try again';
+
+  @override
+  String get perksNewBadge => 'NEW';
+
+  @override
+  String perksExpiringBadge(int days) {
+    return '$days days left';
+  }
+
+  @override
+  String get perksRequiresCheckin => 'Requires check-in';
+
+  @override
+  String perksStartsLabel(String date) {
+    return 'Starts: $date';
+  }
+
+  @override
+  String perksEndsLabel(String date) {
+    return 'Ends: $date';
+  }
+
+  @override
+  String get sadakatKartlarimAppBarTitle => 'My Loyalty Cards';
+
+  @override
+  String get sadakatKartlarimRetryButton => 'Try Again';
+
+  @override
+  String get sadakatKartlarimEmptyTitle => 'You don\'t have a loyalty card yet';
+
+  @override
+  String get sadakatKartlarimEmptyDescription =>
+      'Loyalty programs from businesses you join will appear here.';
+
+  @override
+  String get sadakatKartlarimQrHint =>
+      'Show this code at the business to earn stamps or points.';
+
+  @override
+  String get sadakatKartlarimLoginToSeeCode => 'Log in to see your code.';
+
+  @override
+  String get sadakatKartlarimCodePrivateNotice =>
+      'This code is personal to you — don\'t share it.';
+
+  @override
+  String get legalAcceptancePageTitle => 'Legal Acceptance';
+
+  @override
+  String get legalAcceptanceRetryButton => 'Try again';
+
+  @override
+  String get legalAcceptanceHeading =>
+      'Accept the current agreements to continue.';
+
+  @override
+  String get legalAcceptanceIntro =>
+      'Yeedoy records terms of use and privacy policy versions per user. When a new version is published, you\'ll be asked to accept it again before continuing to use the app.';
+
+  @override
+  String legalAcceptancePendingVersionsChip(int count) {
+    return '$count required version(s)';
+  }
+
+  @override
+  String get legalAcceptanceSourceChip => 'Source: yeedoy.com/legal';
+
+  @override
+  String get legalAcceptanceConsentHelperText =>
+      'Without this consent, you won\'t be able to access content surfaces even if you\'re already signed in.';
+
+  @override
+  String get legalAcceptanceOptionalPrefsTitle => 'Optional preferences';
+
+  @override
+  String get legalAcceptanceMarketingOptInTitle =>
+      'Campaign and notification permissions';
+
+  @override
+  String get legalAcceptanceAnalyticsOptInTitle =>
+      'Product analytics improvement permission';
+
+  @override
+  String get legalAcceptanceOptionalPrefsNote =>
+      'These preferences are separate from the required agreement acceptance and can be updated later from profile settings.';
+
+  @override
+  String get legalAcceptanceSavingButton => 'Saving...';
+
+  @override
+  String get legalAcceptanceAcceptButton => 'Accept and Continue';
+
+  @override
+  String get legalAcceptanceRequiredSnackbar =>
+      'You must accept the required agreements to continue.';
+
+  @override
+  String get legalAcceptanceMarketingSaveFailed =>
+      'We couldn\'t save your marketing email preference. You can change it again from notification settings.';
+
+  @override
+  String legalAcceptanceVersionDateLine(String versionLabel, String date) {
+    return '$versionLabel • $date';
+  }
+
+  @override
+  String get legalAcceptanceMonthJanuary => 'January';
+
+  @override
+  String get legalAcceptanceMonthFebruary => 'February';
+
+  @override
+  String get legalAcceptanceMonthMarch => 'March';
+
+  @override
+  String get legalAcceptanceMonthApril => 'April';
+
+  @override
+  String get legalAcceptanceMonthMay => 'May';
+
+  @override
+  String get legalAcceptanceMonthJune => 'June';
+
+  @override
+  String get legalAcceptanceMonthJuly => 'July';
+
+  @override
+  String get legalAcceptanceMonthAugust => 'August';
+
+  @override
+  String get legalAcceptanceMonthSeptember => 'September';
+
+  @override
+  String get legalAcceptanceMonthOctober => 'October';
+
+  @override
+  String get legalAcceptanceMonthNovember => 'November';
+
+  @override
+  String get legalAcceptanceMonthDecember => 'December';
+
+  @override
+  String get collabListGroupVoteButton => 'Start Group Vote';
 }

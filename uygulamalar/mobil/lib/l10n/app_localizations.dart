@@ -11144,6 +11144,1188 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Alarmlarını düzenli kontrol etmeyi unutma.'**
   String get priceAlertsTipBannerBody;
+
+  /// No description provided for @myReviewsRetryButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar Dene'**
+  String get myReviewsRetryButton;
+
+  /// No description provided for @myReviewsPageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorumlarım'**
+  String get myReviewsPageTitle;
+
+  /// No description provided for @myReviewsPageSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Deneyimlerini paylaştığın mekanlar'**
+  String get myReviewsPageSubtitle;
+
+  /// No description provided for @myReviewsTabAll.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tümü'**
+  String get myReviewsTabAll;
+
+  /// No description provided for @myReviewsTabPublished.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yayınlanan'**
+  String get myReviewsTabPublished;
+
+  /// No description provided for @myReviewsTabPending.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bekleyen'**
+  String get myReviewsTabPending;
+
+  /// No description provided for @myReviewsHeroTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorumların değerli!'**
+  String get myReviewsHeroTitle;
+
+  /// No description provided for @myReviewsHeroSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Deneyimlerin diğer kullanıcılara yol gösteriyor. Teşekkür ederiz.'**
+  String get myReviewsHeroSubtitle;
+
+  /// No description provided for @myReviewsGuidelinesTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorumların bizim için önemli'**
+  String get myReviewsGuidelinesTitle;
+
+  /// No description provided for @myReviewsGuidelinesSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk kurallarımıza uygun yapılan yorumlar yayınlanır. Detaylı bilgi için tıkla.'**
+  String get myReviewsGuidelinesSubtitle;
+
+  /// No description provided for @myReviewsEmptyPublished.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yayınlanmış yorumun yok.'**
+  String get myReviewsEmptyPublished;
+
+  /// No description provided for @myReviewsEmptyPending.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onay bekleyen yorumun yok.'**
+  String get myReviewsEmptyPending;
+
+  /// No description provided for @myReviewsEmptyAll.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz yorum yapmadın.'**
+  String get myReviewsEmptyAll;
+
+  /// No description provided for @myReviewsLoginPrompt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorumlarını görmek için giriş yap.'**
+  String get myReviewsLoginPrompt;
+
+  /// No description provided for @myReviewsLoginButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Giriş Yap'**
+  String get myReviewsLoginButton;
+
+  /// No description provided for @myReviewsTimeJustNow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Az önce'**
+  String get myReviewsTimeJustNow;
+
+  /// No description provided for @myReviewsTimeHoursAgo.
+  ///
+  /// In tr, this message translates to:
+  /// **'{hours} saat önce'**
+  String myReviewsTimeHoursAgo(int hours);
+
+  /// No description provided for @myReviewsTimeDaysAgo.
+  ///
+  /// In tr, this message translates to:
+  /// **'{days} gün önce'**
+  String myReviewsTimeDaysAgo(int days);
+
+  /// No description provided for @myReviewsTimeWeeksAgo.
+  ///
+  /// In tr, this message translates to:
+  /// **'{weeks} hafta önce'**
+  String myReviewsTimeWeeksAgo(int weeks);
+
+  /// No description provided for @myReviewsTimeMonthsAgo.
+  ///
+  /// In tr, this message translates to:
+  /// **'{months} ay önce'**
+  String myReviewsTimeMonthsAgo(int months);
+
+  /// No description provided for @myReviewsTimeYearsAgo.
+  ///
+  /// In tr, this message translates to:
+  /// **'{years} yıl önce'**
+  String myReviewsTimeYearsAgo(int years);
+
+  /// No description provided for @myReviewsStatusPublished.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yayınlandı'**
+  String get myReviewsStatusPublished;
+
+  /// No description provided for @myReviewsStatusPending.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onay Bekliyor'**
+  String get myReviewsStatusPending;
+
+  /// No description provided for @myReviewsStatusRejected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Reddedildi'**
+  String get myReviewsStatusRejected;
+
+  /// No description provided for @myReviewsMenuEdit.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düzenle'**
+  String get myReviewsMenuEdit;
+
+  /// No description provided for @myReviewsMenuDelete.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sil'**
+  String get myReviewsMenuDelete;
+
+  /// No description provided for @mySuggestionsTabSent.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönderilen Öneriler'**
+  String get mySuggestionsTabSent;
+
+  /// No description provided for @mySuggestionsTabAnswered.
+  ///
+  /// In tr, this message translates to:
+  /// **'Cevaplananlar'**
+  String get mySuggestionsTabAnswered;
+
+  /// No description provided for @mySuggestionsTabRejected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Reddedilenler'**
+  String get mySuggestionsTabRejected;
+
+  /// No description provided for @mySuggestionsPageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önerimlerim'**
+  String get mySuggestionsPageTitle;
+
+  /// No description provided for @mySuggestionsPageSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletmelere gönderdiğin fiyat önerilerini buradan takip edebilirsin.'**
+  String get mySuggestionsPageSubtitle;
+
+  /// No description provided for @mySuggestionsInfoBannerTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyatını sen belirle, fırsatı yakala!'**
+  String get mySuggestionsInfoBannerTitle;
+
+  /// No description provided for @mySuggestionsInfoBannerSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletmelerin sana özel teklif vermesini bekle.'**
+  String get mySuggestionsInfoBannerSubtitle;
+
+  /// No description provided for @mySuggestionsTipCardTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İpucu'**
+  String get mySuggestionsTipCardTitle;
+
+  /// No description provided for @mySuggestionsTipCardBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önerini makul aralıkta tutarsan, onaylanma şansın artar!'**
+  String get mySuggestionsTipCardBody;
+
+  /// No description provided for @mySuggestionsViewDetailsButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Detayları Gör'**
+  String get mySuggestionsViewDetailsButton;
+
+  /// No description provided for @mySuggestionsStatusApproved.
+  ///
+  /// In tr, this message translates to:
+  /// **'Onaylandı'**
+  String get mySuggestionsStatusApproved;
+
+  /// No description provided for @mySuggestionsStatusRejected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Reddedildi'**
+  String get mySuggestionsStatusRejected;
+
+  /// No description provided for @mySuggestionsStatusPending.
+  ///
+  /// In tr, this message translates to:
+  /// **'Beklemede'**
+  String get mySuggestionsStatusPending;
+
+  /// No description provided for @mySuggestionsEmptySentTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Gönderilen öneri yok'**
+  String get mySuggestionsEmptySentTitle;
+
+  /// No description provided for @mySuggestionsEmptySentBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz bir fiyat önerisi göndermedin.'**
+  String get mySuggestionsEmptySentBody;
+
+  /// No description provided for @mySuggestionsEmptyAnsweredTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Cevaplanan öneri yok'**
+  String get mySuggestionsEmptyAnsweredTitle;
+
+  /// No description provided for @mySuggestionsEmptyAnsweredBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Önerilerin henüz cevaplanmadı.'**
+  String get mySuggestionsEmptyAnsweredBody;
+
+  /// No description provided for @mySuggestionsEmptyRejectedTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Reddedilen öneri yok'**
+  String get mySuggestionsEmptyRejectedTitle;
+
+  /// No description provided for @mySuggestionsEmptyRejectedBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hiçbir önerin reddedilmedi.'**
+  String get mySuggestionsEmptyRejectedBody;
+
+  /// No description provided for @mySuggestionsRefreshButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yenile'**
+  String get mySuggestionsRefreshButton;
+
+  /// No description provided for @mySuggestionsNoLocation.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum yok'**
+  String get mySuggestionsNoLocation;
+
+  /// No description provided for @mySuggestionsMonthJanuary.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ocak'**
+  String get mySuggestionsMonthJanuary;
+
+  /// No description provided for @mySuggestionsMonthFebruary.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şubat'**
+  String get mySuggestionsMonthFebruary;
+
+  /// No description provided for @mySuggestionsMonthMarch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mart'**
+  String get mySuggestionsMonthMarch;
+
+  /// No description provided for @mySuggestionsMonthApril.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nisan'**
+  String get mySuggestionsMonthApril;
+
+  /// No description provided for @mySuggestionsMonthMay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mayıs'**
+  String get mySuggestionsMonthMay;
+
+  /// No description provided for @mySuggestionsMonthJune.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haziran'**
+  String get mySuggestionsMonthJune;
+
+  /// No description provided for @mySuggestionsMonthJuly.
+  ///
+  /// In tr, this message translates to:
+  /// **'Temmuz'**
+  String get mySuggestionsMonthJuly;
+
+  /// No description provided for @mySuggestionsMonthAugust.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ağustos'**
+  String get mySuggestionsMonthAugust;
+
+  /// No description provided for @mySuggestionsMonthSeptember.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eylül'**
+  String get mySuggestionsMonthSeptember;
+
+  /// No description provided for @mySuggestionsMonthOctober.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekim'**
+  String get mySuggestionsMonthOctober;
+
+  /// No description provided for @mySuggestionsMonthNovember.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kasım'**
+  String get mySuggestionsMonthNovember;
+
+  /// No description provided for @mySuggestionsMonthDecember.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aralık'**
+  String get mySuggestionsMonthDecember;
+
+  /// No description provided for @businessDetailMealCardsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçerli Yemek Kartları'**
+  String get businessDetailMealCardsTitle;
+
+  /// No description provided for @businessDetailMealCardsSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu işletmede kabul edilen kartlar aşağıda listelenir.'**
+  String get businessDetailMealCardsSubtitle;
+
+  /// No description provided for @businessDetailSeeAllButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tümünü gör'**
+  String get businessDetailSeeAllButton;
+
+  /// No description provided for @businessDetailCommunityPhotosTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Topluluk Fotoğrafları'**
+  String get businessDetailCommunityPhotosTitle;
+
+  /// No description provided for @businessDetailPhotoViewerTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fotoğraf {current} / {total}'**
+  String businessDetailPhotoViewerTitle(int current, int total);
+
+  /// No description provided for @businessDetailFrequentlyMentionedTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sıkça Bahsedilen'**
+  String get businessDetailFrequentlyMentionedTitle;
+
+  /// No description provided for @businessBadgeCertificateShareText.
+  ///
+  /// In tr, this message translates to:
+  /// **'{businessName} — Yeedoy Başarım Sertifikası 🏆'**
+  String businessBadgeCertificateShareText(String businessName);
+
+  /// No description provided for @businessBadgeCertificateShareFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaşım başarısız oldu.'**
+  String get businessBadgeCertificateShareFailed;
+
+  /// No description provided for @businessBadgeCertificateSharing.
+  ///
+  /// In tr, this message translates to:
+  /// **'Paylaşılıyor...'**
+  String get businessBadgeCertificateSharing;
+
+  /// No description provided for @businessBadgeCertificateShareButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sertifikayı Paylaş'**
+  String get businessBadgeCertificateShareButton;
+
+  /// No description provided for @businessBadgeCertificateSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başarım Sertifikası'**
+  String get businessBadgeCertificateSubtitle;
+
+  /// No description provided for @dietProfileAllergenMilk.
+  ///
+  /// In tr, this message translates to:
+  /// **'Süt ve süt ürünleri'**
+  String get dietProfileAllergenMilk;
+
+  /// No description provided for @dietProfileAllergenNuts.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fındık'**
+  String get dietProfileAllergenNuts;
+
+  /// No description provided for @dietProfileAllergenEgg.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yumurta'**
+  String get dietProfileAllergenEgg;
+
+  /// No description provided for @dietProfileAllergenSeafood.
+  ///
+  /// In tr, this message translates to:
+  /// **'Deniz ürünleri'**
+  String get dietProfileAllergenSeafood;
+
+  /// No description provided for @dietProfileAllergenGluten.
+  ///
+  /// In tr, this message translates to:
+  /// **'Glüten'**
+  String get dietProfileAllergenGluten;
+
+  /// No description provided for @dietProfileAllergenSoy.
+  ///
+  /// In tr, this message translates to:
+  /// **'Soya'**
+  String get dietProfileAllergenSoy;
+
+  /// No description provided for @dietProfileAllergenSesame.
+  ///
+  /// In tr, this message translates to:
+  /// **'Susam'**
+  String get dietProfileAllergenSesame;
+
+  /// No description provided for @dietProfileAllergenWheat.
+  ///
+  /// In tr, this message translates to:
+  /// **'Buğday'**
+  String get dietProfileAllergenWheat;
+
+  /// No description provided for @dietProfileAllergenHalal.
+  ///
+  /// In tr, this message translates to:
+  /// **'Helal'**
+  String get dietProfileAllergenHalal;
+
+  /// No description provided for @dietProfileSaveError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydedilirken bir hata oluştu.'**
+  String get dietProfileSaveError;
+
+  /// No description provided for @dietProfileLoadError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profil yüklenemedi. Lütfen tekrar deneyin.'**
+  String get dietProfileLoadError;
+
+  /// No description provided for @dietProfileDietSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diyet tercihin'**
+  String get dietProfileDietSectionTitle;
+
+  /// No description provided for @dietProfileDietSectionSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sana en uygun beslenme şeklini seç veya birden fazlasını işaretle.'**
+  String get dietProfileDietSectionSubtitle;
+
+  /// No description provided for @dietProfileGoalSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedefin'**
+  String get dietProfileGoalSectionTitle;
+
+  /// No description provided for @dietProfileGoalSectionSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sana daha doğru öneriler sunabilmemiz için hedefini belirt.'**
+  String get dietProfileGoalSectionSubtitle;
+
+  /// No description provided for @dietProfilePageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diyet Profili'**
+  String get dietProfilePageTitle;
+
+  /// No description provided for @dietProfileHelpSheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diyet Profili Nedir?'**
+  String get dietProfileHelpSheetTitle;
+
+  /// No description provided for @dietProfileHelpSheetBody.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diyet profilin, yemek önerilerini ve menü filtrelerini kişiselleştirmek için kullanılır. Tercihlerini kaydederek sana en uygun işletmeleri ve yemekleri önerebiliriz.'**
+  String get dietProfileHelpSheetBody;
+
+  /// No description provided for @dietProfileHeroTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sana özel lezzetler'**
+  String get dietProfileHeroTitle;
+
+  /// No description provided for @dietProfileHeroSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diyet tercihlerine göre sana uygun mekanları ve yemekleri önerelim.'**
+  String get dietProfileHeroSubtitle;
+
+  /// No description provided for @dietProfileHeroFeaturePersonalized.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişiselleştirilmiş\nöneriler'**
+  String get dietProfileHeroFeaturePersonalized;
+
+  /// No description provided for @dietProfileHeroFeatureHealthier.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daha sağlıklı\nseçimler'**
+  String get dietProfileHeroFeatureHealthier;
+
+  /// No description provided for @dietProfileHeroFeatureSaveTime.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zamanını\ntasarruf et'**
+  String get dietProfileHeroFeatureSaveTime;
+
+  /// No description provided for @dietProfileDietBalancedLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Dengeli Beslenme'**
+  String get dietProfileDietBalancedLabel;
+
+  /// No description provided for @dietProfileDietBalancedDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm besin gruplarını dengeli tüketiyorum.'**
+  String get dietProfileDietBalancedDesc;
+
+  /// No description provided for @dietProfileDietVegetarianLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vejetaryen'**
+  String get dietProfileDietVegetarianLabel;
+
+  /// No description provided for @dietProfileDietVegetarianDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Et ve et ürünleri tüketmiyorum.'**
+  String get dietProfileDietVegetarianDesc;
+
+  /// No description provided for @dietProfileDietVeganLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Vegan'**
+  String get dietProfileDietVeganLabel;
+
+  /// No description provided for @dietProfileDietVeganDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Hiçbir hayvansal ürün tüketmiyorum.'**
+  String get dietProfileDietVeganDesc;
+
+  /// No description provided for @dietProfileDietGlutenFreeLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Glutensiz'**
+  String get dietProfileDietGlutenFreeLabel;
+
+  /// No description provided for @dietProfileDietGlutenFreeDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Glüten içeren besinleri tüketmiyorum.'**
+  String get dietProfileDietGlutenFreeDesc;
+
+  /// No description provided for @dietProfileDietKetogenicLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ketojenik'**
+  String get dietProfileDietKetogenicLabel;
+
+  /// No description provided for @dietProfileDietKetogenicDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düşük karbonhidrat, yüksek yağ.'**
+  String get dietProfileDietKetogenicDesc;
+
+  /// No description provided for @dietProfileDietMediterraneanLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Akdeniz Diyeti'**
+  String get dietProfileDietMediterraneanLabel;
+
+  /// No description provided for @dietProfileDietMediterraneanDesc.
+  ///
+  /// In tr, this message translates to:
+  /// **'Zeytinyağı, sebze ve balık odaklı besleniyorum.'**
+  String get dietProfileDietMediterraneanDesc;
+
+  /// No description provided for @dietProfileOtherDietRow.
+  ///
+  /// In tr, this message translates to:
+  /// **'Diğer diyet tercihlerim var'**
+  String get dietProfileOtherDietRow;
+
+  /// No description provided for @dietProfileGoalLoseWeight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kilo vermek'**
+  String get dietProfileGoalLoseWeight;
+
+  /// No description provided for @dietProfileGoalGainWeight.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kilo almak'**
+  String get dietProfileGoalGainWeight;
+
+  /// No description provided for @dietProfileGoalMaintain.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kilo korumak'**
+  String get dietProfileGoalMaintain;
+
+  /// No description provided for @dietProfileGoalHealthyEating.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daha sağlıklı beslenmek'**
+  String get dietProfileGoalHealthyEating;
+
+  /// No description provided for @dietProfileAllergenSectionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alerjiler ve hassasiyetler'**
+  String get dietProfileAllergenSectionTitle;
+
+  /// No description provided for @dietProfileAddButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekle'**
+  String get dietProfileAddButton;
+
+  /// No description provided for @dietProfileAllergenSectionSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alerjinin veya hassasiyetin olan besinleri seç.'**
+  String get dietProfileAllergenSectionSubtitle;
+
+  /// No description provided for @dietProfileAllergenEmptyPrompt.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alerji veya hassasiyet ekle'**
+  String get dietProfileAllergenEmptyPrompt;
+
+  /// No description provided for @dietProfileSavedBannerTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profilin kaydedildi'**
+  String get dietProfileSavedBannerTitle;
+
+  /// No description provided for @dietProfileSavedBannerSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tercihlerine göre sana özel öneriler sunacağız.'**
+  String get dietProfileSavedBannerSubtitle;
+
+  /// No description provided for @dietProfileEditButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Düzenle'**
+  String get dietProfileEditButton;
+
+  /// No description provided for @dietProfileSaveButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Profili Kaydet'**
+  String get dietProfileSaveButton;
+
+  /// No description provided for @dietProfileAllergenPickerTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Alerji veya hassasiyet seç'**
+  String get dietProfileAllergenPickerTitle;
+
+  /// No description provided for @dietProfileAllergenPickerSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Birden fazla seçebilirsin.'**
+  String get dietProfileAllergenPickerSubtitle;
+
+  /// No description provided for @dietProfileApplyButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Uygula'**
+  String get dietProfileApplyButton;
+
+  /// No description provided for @locationPickerRequiredSnackbar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Lütfen il ve ilçe seçin.'**
+  String get locationPickerRequiredSnackbar;
+
+  /// No description provided for @locationPickerCityLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'İl Seçin'**
+  String get locationPickerCityLabel;
+
+  /// No description provided for @locationPickerDistrictLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'İlçe Seçin'**
+  String get locationPickerDistrictLabel;
+
+  /// No description provided for @locationPickerNeighborhoodSheetTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mahalle Seçin'**
+  String get locationPickerNeighborhoodSheetTitle;
+
+  /// No description provided for @locationPickerPlaceholderSelect.
+  ///
+  /// In tr, this message translates to:
+  /// **'Seçiniz'**
+  String get locationPickerPlaceholderSelect;
+
+  /// No description provided for @locationPickerCityHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bulunduğunuz şehirdeki işletmeleri ve fiyatları göreceksiniz.'**
+  String get locationPickerCityHint;
+
+  /// No description provided for @locationPickerDistrictHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Daha doğru sonuçlar için ilçenizi seçin.'**
+  String get locationPickerDistrictHint;
+
+  /// No description provided for @locationPickerNeighborhoodLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mahalle'**
+  String get locationPickerNeighborhoodLabel;
+
+  /// No description provided for @locationPickerOptionalSuffix.
+  ///
+  /// In tr, this message translates to:
+  /// **'  (isteğe bağlı)'**
+  String get locationPickerOptionalSuffix;
+
+  /// No description provided for @locationPickerOptionalPlaceholder.
+  ///
+  /// In tr, this message translates to:
+  /// **'Seçiniz (isteğe bağlı)'**
+  String get locationPickerOptionalPlaceholder;
+
+  /// No description provided for @locationPickerNeighborhoodHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mahalle seçerek çok daha yerel sonuçlar alabilirsiniz.'**
+  String get locationPickerNeighborhoodHint;
+
+  /// No description provided for @locationPickerPageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum Seç'**
+  String get locationPickerPageTitle;
+
+  /// No description provided for @locationPickerSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Size özel öneriler ve fiyat alarmları için konumunuzu seçin.'**
+  String get locationPickerSubtitle;
+
+  /// No description provided for @locationPickerInfoCardTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Neden konum seçmeliyim?'**
+  String get locationPickerInfoCardTitle;
+
+  /// No description provided for @locationPickerInfoCardSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bulunduğunuz konuma göre işletmeleri, fiyatları ve fırsatları en doğru şekilde gösteriyoruz.'**
+  String get locationPickerInfoCardSubtitle;
+
+  /// No description provided for @locationPickerSelectedCardTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Seçilen Konumunuz'**
+  String get locationPickerSelectedCardTitle;
+
+  /// No description provided for @locationPickerNoLocationSelected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz konum seçilmedi'**
+  String get locationPickerNoLocationSelected;
+
+  /// No description provided for @locationPickerNeighborhoodSuffix.
+  ///
+  /// In tr, this message translates to:
+  /// **'{neighborhood} Mahallesi'**
+  String locationPickerNeighborhoodSuffix(String neighborhood);
+
+  /// No description provided for @locationPickerUseGpsButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konumumu Kullan'**
+  String get locationPickerUseGpsButton;
+
+  /// No description provided for @locationPickerSettingsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum Ayarları'**
+  String get locationPickerSettingsTitle;
+
+  /// No description provided for @locationPickerBgPermissionTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Arka planda konum izni'**
+  String get locationPickerBgPermissionTitle;
+
+  /// No description provided for @locationPickerBgPermissionSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat alarmları ve fırsat bildirimleri için konum erişimi sağlanır.'**
+  String get locationPickerBgPermissionSubtitle;
+
+  /// No description provided for @locationPickerSaveButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydet'**
+  String get locationPickerSaveButton;
+
+  /// No description provided for @locationPickerSearchHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ara...'**
+  String get locationPickerSearchHint;
+
+  /// No description provided for @businessLocationUpdateSuccess.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum başarıyla güncellendi.'**
+  String get businessLocationUpdateSuccess;
+
+  /// No description provided for @businessLocationSaveError.
+  ///
+  /// In tr, this message translates to:
+  /// **'Konum kaydedilemedi. Tekrar deneyin.'**
+  String get businessLocationSaveError;
+
+  /// No description provided for @businessLocationTapHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haritaya dokunarak konum seçin'**
+  String get businessLocationTapHint;
+
+  /// No description provided for @businessLocationPanelTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İşletme Konumu'**
+  String get businessLocationPanelTitle;
+
+  /// No description provided for @businessLocationPanelSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haritaya dokunarak yeni konumu seçin, ardından kaydedin.'**
+  String get businessLocationPanelSubtitle;
+
+  /// No description provided for @businessLocationNoLocationSelected.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz konum seçilmedi'**
+  String get businessLocationNoLocationSelected;
+
+  /// No description provided for @businessLocationSaveButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu Konumu Kaydet'**
+  String get businessLocationSaveButton;
+
+  /// No description provided for @perksAppBarTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'{businessName} – Ayrıcalıklar'**
+  String perksAppBarTitle(String businessName);
+
+  /// No description provided for @perksEmptyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aktif ayrıcalık yok'**
+  String get perksEmptyTitle;
+
+  /// No description provided for @perksEmptySubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu işletme henüz aktif bir kampanya sunmuyor.'**
+  String get perksEmptySubtitle;
+
+  /// No description provided for @perksRetryButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar dene'**
+  String get perksRetryButton;
+
+  /// No description provided for @perksNewBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'YENİ'**
+  String get perksNewBadge;
+
+  /// No description provided for @perksExpiringBadge.
+  ///
+  /// In tr, this message translates to:
+  /// **'Son {days} gün'**
+  String perksExpiringBadge(int days);
+
+  /// No description provided for @perksRequiresCheckin.
+  ///
+  /// In tr, this message translates to:
+  /// **'Check-in gerektirir'**
+  String get perksRequiresCheckin;
+
+  /// No description provided for @perksStartsLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Başlangıç: {date}'**
+  String perksStartsLabel(String date);
+
+  /// No description provided for @perksEndsLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bitiş: {date}'**
+  String perksEndsLabel(String date);
+
+  /// No description provided for @sadakatKartlarimAppBarTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sadakat Kartlarım'**
+  String get sadakatKartlarimAppBarTitle;
+
+  /// No description provided for @sadakatKartlarimRetryButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar Dene'**
+  String get sadakatKartlarimRetryButton;
+
+  /// No description provided for @sadakatKartlarimEmptyTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz sadakat kartın yok'**
+  String get sadakatKartlarimEmptyTitle;
+
+  /// No description provided for @sadakatKartlarimEmptyDescription.
+  ///
+  /// In tr, this message translates to:
+  /// **'Katıldığın işletmelerin sadakat programları burada görünecek.'**
+  String get sadakatKartlarimEmptyDescription;
+
+  /// No description provided for @sadakatKartlarimQrHint.
+  ///
+  /// In tr, this message translates to:
+  /// **'Damga/puan kazanmak için işletmede bu kodu gösterin.'**
+  String get sadakatKartlarimQrHint;
+
+  /// No description provided for @sadakatKartlarimLoginToSeeCode.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kodunuzu görmek için giriş yapın.'**
+  String get sadakatKartlarimLoginToSeeCode;
+
+  /// No description provided for @sadakatKartlarimCodePrivateNotice.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu kod size özeldir, paylaşmayın.'**
+  String get sadakatKartlarimCodePrivateNotice;
+
+  /// No description provided for @legalAcceptancePageTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yasal Kabul'**
+  String get legalAcceptancePageTitle;
+
+  /// No description provided for @legalAcceptanceRetryButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar dene'**
+  String get legalAcceptanceRetryButton;
+
+  /// No description provided for @legalAcceptanceHeading.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam etmek için güncel sözleşmeleri onaylayın.'**
+  String get legalAcceptanceHeading;
+
+  /// No description provided for @legalAcceptanceIntro.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeedoy, kullanım şartları ve gizlilik politikası sürümlerini kullanıcı bazında kaydeder. Yeni sürüm yayınlandığında uygulamaya devam etmeden önce tekrar onay istenir.'**
+  String get legalAcceptanceIntro;
+
+  /// No description provided for @legalAcceptancePendingVersionsChip.
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} zorunlu sürüm'**
+  String legalAcceptancePendingVersionsChip(int count);
+
+  /// No description provided for @legalAcceptanceSourceChip.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaynak: yeedoy.com/legal'**
+  String get legalAcceptanceSourceChip;
+
+  /// No description provided for @legalAcceptanceConsentHelperText.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu onay verilmeden uygulama oturumu açılmış olsa bile içerik yüzeylerine geçilmez.'**
+  String get legalAcceptanceConsentHelperText;
+
+  /// No description provided for @legalAcceptanceOptionalPrefsTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'İsteğe bağlı tercihler'**
+  String get legalAcceptanceOptionalPrefsTitle;
+
+  /// No description provided for @legalAcceptanceMarketingOptInTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kampanya ve bildirim izinleri'**
+  String get legalAcceptanceMarketingOptInTitle;
+
+  /// No description provided for @legalAcceptanceAnalyticsOptInTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ürün analitiği iyileştirme izni'**
+  String get legalAcceptanceAnalyticsOptInTitle;
+
+  /// No description provided for @legalAcceptanceOptionalPrefsNote.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu tercihler zorunlu sözleşme kabulünden ayrı tutulur ve daha sonra profil ayarlarından güncellenebilir.'**
+  String get legalAcceptanceOptionalPrefsNote;
+
+  /// No description provided for @legalAcceptanceSavingButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydediliyor...'**
+  String get legalAcceptanceSavingButton;
+
+  /// No description provided for @legalAcceptanceAcceptButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kabul Et ve Devam Et'**
+  String get legalAcceptanceAcceptButton;
+
+  /// No description provided for @legalAcceptanceRequiredSnackbar.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam etmek için gerekli sözleşmeleri kabul etmelisiniz.'**
+  String get legalAcceptanceRequiredSnackbar;
+
+  /// No description provided for @legalAcceptanceMarketingSaveFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Pazarlama e-posta tercihiniz kaydedilemedi. Bildirim ayarlarından tekrar değiştirebilirsiniz.'**
+  String get legalAcceptanceMarketingSaveFailed;
+
+  /// No description provided for @legalAcceptanceVersionDateLine.
+  ///
+  /// In tr, this message translates to:
+  /// **'{versionLabel} • {date}'**
+  String legalAcceptanceVersionDateLine(String versionLabel, String date);
+
+  /// No description provided for @legalAcceptanceMonthJanuary.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ocak'**
+  String get legalAcceptanceMonthJanuary;
+
+  /// No description provided for @legalAcceptanceMonthFebruary.
+  ///
+  /// In tr, this message translates to:
+  /// **'Şubat'**
+  String get legalAcceptanceMonthFebruary;
+
+  /// No description provided for @legalAcceptanceMonthMarch.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mart'**
+  String get legalAcceptanceMonthMarch;
+
+  /// No description provided for @legalAcceptanceMonthApril.
+  ///
+  /// In tr, this message translates to:
+  /// **'Nisan'**
+  String get legalAcceptanceMonthApril;
+
+  /// No description provided for @legalAcceptanceMonthMay.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mayıs'**
+  String get legalAcceptanceMonthMay;
+
+  /// No description provided for @legalAcceptanceMonthJune.
+  ///
+  /// In tr, this message translates to:
+  /// **'Haziran'**
+  String get legalAcceptanceMonthJune;
+
+  /// No description provided for @legalAcceptanceMonthJuly.
+  ///
+  /// In tr, this message translates to:
+  /// **'Temmuz'**
+  String get legalAcceptanceMonthJuly;
+
+  /// No description provided for @legalAcceptanceMonthAugust.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ağustos'**
+  String get legalAcceptanceMonthAugust;
+
+  /// No description provided for @legalAcceptanceMonthSeptember.
+  ///
+  /// In tr, this message translates to:
+  /// **'Eylül'**
+  String get legalAcceptanceMonthSeptember;
+
+  /// No description provided for @legalAcceptanceMonthOctober.
+  ///
+  /// In tr, this message translates to:
+  /// **'Ekim'**
+  String get legalAcceptanceMonthOctober;
+
+  /// No description provided for @legalAcceptanceMonthNovember.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kasım'**
+  String get legalAcceptanceMonthNovember;
+
+  /// No description provided for @legalAcceptanceMonthDecember.
+  ///
+  /// In tr, this message translates to:
+  /// **'Aralık'**
+  String get legalAcceptanceMonthDecember;
+
+  /// No description provided for @collabListGroupVoteButton.
+  ///
+  /// In tr, this message translates to:
+  /// **'Grup Oyuna Geç'**
+  String get collabListGroupVoteButton;
 }
 
 class _AppLocalizationsDelegate

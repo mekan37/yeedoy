@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../../core/i18n/app_localizations.dart';
 import '../../data/business_badges_repository.dart';
 import '../../domain/business_badge.dart';
 
@@ -62,6 +63,7 @@ class _CertificateViewState extends State<_CertificateView> {
   Future<void> _share() async {
     if (_sharing) return;
     setState(() => _sharing = true);
+    final t = context.l10n;
     try {
       final ctx = _repaintKey.currentContext;
       if (ctx == null) return;
@@ -80,13 +82,17 @@ class _CertificateViewState extends State<_CertificateView> {
       await SharePlus.instance.share(
         ShareParams(
           files: [XFile(file.path)],
-          text: '${widget.businessName} — Yeedoy Başarım Sertifikası 🏆',
+          text: t.businessBadgeCertificateShareText(
+            widget.businessName,
+          ),
         ),
       );
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Paylaşım başarısız oldu.')),
+          SnackBar(
+            content: Text(t.businessBadgeCertificateShareFailed),
+          ),
         );
       }
     } finally {
@@ -116,7 +122,11 @@ class _CertificateViewState extends State<_CertificateView> {
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
               : const Icon(Icons.share),
-          label: Text(_sharing ? 'Paylaşılıyor...' : 'Sertifikayı Paylaş'),
+          label: Text(
+            _sharing
+                ? context.l10n.businessBadgeCertificateSharing
+                : context.l10n.businessBadgeCertificateShareButton,
+          ),
         ),
       ],
     );
@@ -180,9 +190,9 @@ class _CertificateCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
-          const Text(
-            'Başarım Sertifikası',
-            style: TextStyle(
+          Text(
+            context.l10n.businessBadgeCertificateSubtitle,
+            style: const TextStyle(
               fontSize: 10,
               color: Color(0xFF6B7280),
               letterSpacing: 1,

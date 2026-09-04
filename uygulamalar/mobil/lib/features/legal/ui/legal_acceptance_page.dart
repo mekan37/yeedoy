@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../../notifications/data/notification_preferences_repository.dart';
 import '../../shared/ui/components/app_scaffold.dart';
 import '../legal_catalog.dart';
@@ -34,7 +35,7 @@ class _LegalAcceptancePageState extends ConsumerState<LegalAcceptancePage> {
     final snapshotAsync = ref.watch(legalAcceptanceSnapshotProvider);
     return AppScaffold(
       appBar: AppBar(
-        title: const Text('Yasal Kabul'),
+        title: Text(context.l10n.legalAcceptancePageTitle),
       ),
       body: snapshotAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -54,7 +55,7 @@ class _LegalAcceptancePageState extends ConsumerState<LegalAcceptancePage> {
                   OutlinedButton(
                     onPressed: () =>
                         ref.invalidate(legalAcceptanceSnapshotProvider),
-                    child: const Text('Tekrar dene'),
+                    child: Text(context.l10n.legalAcceptanceRetryButton),
                   ),
                 ],
               ),
@@ -84,26 +85,30 @@ class _LegalAcceptancePageState extends ConsumerState<LegalAcceptancePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Devam etmek için güncel sözleşmeleri onaylayın.',
-                      style: TextStyle(
+                    Text(
+                      context.l10n.legalAcceptanceHeading,
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w900,
                         color: AppColors.textStrong,
                       ),
                     ),
                     const SizedBox(height: 10),
-                    const Text(
-                      'Yeedoy, kullanım şartları ve gizlilik politikası sürümlerini kullanıcı bazında kaydeder. Yeni sürüm yayınlandığında uygulamaya devam etmeden önce tekrar onay istenir.',
-                      style: TextStyle(color: AppColors.muted, height: 1.6),
+                    Text(
+                      context.l10n.legalAcceptanceIntro,
+                      style: const TextStyle(color: AppColors.muted, height: 1.6),
                     ),
                     const SizedBox(height: 14),
                     Wrap(
                       spacing: 10,
                       runSpacing: 10,
                       children: [
-                        _MetaChip(label: '${pendingVersions.length} zorunlu sürüm'),
-                        const _MetaChip(label: 'Kaynak: yeedoy.com/legal'),
+                        _MetaChip(
+                          label: context.l10n
+                              .legalAcceptancePendingVersionsChip(
+                                  pendingVersions.length),
+                        ),
+                        _MetaChip(label: context.l10n.legalAcceptanceSourceChip),
                       ],
                     ),
                     const SizedBox(height: 14),
@@ -127,8 +132,7 @@ class _LegalAcceptancePageState extends ConsumerState<LegalAcceptancePage> {
                   disabled: _saving,
                   includeCookiesLink: true,
                   linkStyle: LegalConsentLinkStyle.outlined,
-                  helperText:
-                      'Bu onay verilmeden uygulama oturumu açılmış olsa bile içerik yüzeylerine geçilmez.',
+                  helperText: context.l10n.legalAcceptanceConsentHelperText,
                   onChanged: (value) {
                     setState(() {
                       _acceptedRequiredPolicies = value ?? false;
@@ -148,9 +152,9 @@ class _LegalAcceptancePageState extends ConsumerState<LegalAcceptancePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'İsteğe bağlı tercihler',
-                      style: TextStyle(
+                    Text(
+                      context.l10n.legalAcceptanceOptionalPrefsTitle,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w800,
                         color: AppColors.textStrong,
                       ),
@@ -168,7 +172,7 @@ class _LegalAcceptancePageState extends ConsumerState<LegalAcceptancePage> {
                                   _marketingOptIn = value;
                                 });
                               },
-                        title: const Text('Kampanya ve bildirim izinleri'),
+                        title: Text(context.l10n.legalAcceptanceMarketingOptInTitle),
                       ),
                     ),
                     Material(
@@ -183,12 +187,12 @@ class _LegalAcceptancePageState extends ConsumerState<LegalAcceptancePage> {
                                   _analyticsOptIn = value;
                                 });
                               },
-                        title: const Text('Ürün analitiği iyileştirme izni'),
+                        title: Text(context.l10n.legalAcceptanceAnalyticsOptInTitle),
                       ),
                     ),
-                    const Text(
-                      'Bu tercihler zorunlu sözleşme kabulünden ayrı tutulur ve daha sonra profil ayarlarından güncellenebilir.',
-                      style: TextStyle(color: AppColors.muted, fontSize: 12),
+                    Text(
+                      context.l10n.legalAcceptanceOptionalPrefsNote,
+                      style: const TextStyle(color: AppColors.muted, fontSize: 12),
                     ),
                   ],
                 ),
@@ -197,7 +201,9 @@ class _LegalAcceptancePageState extends ConsumerState<LegalAcceptancePage> {
               FilledButton(
                 onPressed: _saving ? null : () => _submit(pendingVersions),
                 child: Text(
-                  _saving ? 'Kaydediliyor...' : 'Kabul Et ve Devam Et',
+                  _saving
+                      ? context.l10n.legalAcceptanceSavingButton
+                      : context.l10n.legalAcceptanceAcceptButton,
                 ),
               ),
             ],
@@ -210,10 +216,8 @@ class _LegalAcceptancePageState extends ConsumerState<LegalAcceptancePage> {
   Future<void> _submit(List<PolicyVersionRecord> versions) async {
     if (!_acceptedRequiredPolicies) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Devam etmek için gerekli sözleşmeleri kabul etmelisiniz.',
-          ),
+        SnackBar(
+          content: Text(context.l10n.legalAcceptanceRequiredSnackbar),
         ),
       );
       return;
@@ -269,12 +273,9 @@ class _LegalAcceptancePageState extends ConsumerState<LegalAcceptancePage> {
       // Kullanıcıya bilgi ver.
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Pazarlama e-posta tercihiniz kaydedilemedi. '
-            'Bildirim ayarlarından tekrar değiştirebilirsiniz.',
-          ),
-          duration: Duration(seconds: 4),
+        SnackBar(
+          content: Text(context.l10n.legalAcceptanceMarketingSaveFailed),
+          duration: const Duration(seconds: 4),
         ),
       );
     }
@@ -320,7 +321,10 @@ class _VersionTile extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(
-            '${version.versionLabel} • ${_formatDate(version.publishedAt)}',
+            context.l10n.legalAcceptanceVersionDateLine(
+              version.versionLabel,
+              _formatDate(context.l10n, version.publishedAt),
+            ),
             style: const TextStyle(color: AppColors.muted),
           ),
           if (descriptor != null) ...[
@@ -366,20 +370,20 @@ class _MetaChip extends StatelessWidget {
   }
 }
 
-String _formatDate(DateTime value) {
-  const months = <int, String>{
-    1: 'Ocak',
-    2: 'Şubat',
-    3: 'Mart',
-    4: 'Nisan',
-    5: 'Mayıs',
-    6: 'Haziran',
-    7: 'Temmuz',
-    8: 'Ağustos',
-    9: 'Eylül',
-    10: 'Ekim',
-    11: 'Kasım',
-    12: 'Aralık',
+String _formatDate(AppLocalizations t, DateTime value) {
+  final months = <int, String>{
+    1: t.legalAcceptanceMonthJanuary,
+    2: t.legalAcceptanceMonthFebruary,
+    3: t.legalAcceptanceMonthMarch,
+    4: t.legalAcceptanceMonthApril,
+    5: t.legalAcceptanceMonthMay,
+    6: t.legalAcceptanceMonthJune,
+    7: t.legalAcceptanceMonthJuly,
+    8: t.legalAcceptanceMonthAugust,
+    9: t.legalAcceptanceMonthSeptember,
+    10: t.legalAcceptanceMonthOctober,
+    11: t.legalAcceptanceMonthNovember,
+    12: t.legalAcceptanceMonthDecember,
   };
   return '${value.day} ${months[value.month]} ${value.year}';
 }

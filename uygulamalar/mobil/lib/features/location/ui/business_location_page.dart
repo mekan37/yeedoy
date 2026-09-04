@@ -6,6 +6,7 @@ import 'package:latlong2/latlong.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../app/theme/app_tokens.dart';
+import '../../../core/i18n/app_localizations.dart';
 import '../domain/business_location_provider.dart';
 
 class BusinessLocationPage extends ConsumerStatefulWidget {
@@ -59,9 +60,9 @@ class _BusinessLocationPageState extends ConsumerState<BusinessLocationPage> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (!mounted) return;
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Konum başarıyla güncellendi.'),
-                duration: Duration(seconds: 2),
+              SnackBar(
+                content: Text(context.l10n.businessLocationUpdateSuccess),
+                duration: const Duration(seconds: 2),
               ),
             );
           });
@@ -72,9 +73,9 @@ class _BusinessLocationPageState extends ConsumerState<BusinessLocationPage> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (!mounted) return;
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Konum kaydedilemedi. Tekrar deneyin.'),
-                duration: Duration(seconds: 3),
+              SnackBar(
+                content: Text(context.l10n.businessLocationSaveError),
+                duration: const Duration(seconds: 3),
               ),
             );
           });
@@ -145,7 +146,7 @@ class _BusinessLocationPageState extends ConsumerState<BusinessLocationPage> {
             child: Center(
               child: _HintChip(
                 icon: Icons.touch_app_rounded,
-                label: 'Haritaya dokunarak konum seçin',
+                label: context.l10n.businessLocationTapHint,
                 tokens: tokens,
               ),
             ),
@@ -275,18 +276,18 @@ class _BottomPanel extends StatelessWidget {
             ),
           ),
 
-          const Text(
-            'İşletme Konumu',
-            style: TextStyle(
+          Text(
+            context.l10n.businessLocationPanelTitle,
+            style: const TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w900,
               color: AppColors.textStrong,
             ),
           ),
           SizedBox(height: tokens.space4),
-          const Text(
-            'Haritaya dokunarak yeni konumu seçin, ardından kaydedin.',
-            style: TextStyle(fontSize: 13, color: AppColors.muted),
+          Text(
+            context.l10n.businessLocationPanelSubtitle,
+            style: const TextStyle(fontSize: 13, color: AppColors.muted),
           ),
           SizedBox(height: tokens.space12),
 
@@ -314,7 +315,7 @@ class _BottomPanel extends StatelessWidget {
                     selectedPoint != null
                         ? '${selectedPoint!.latitude.toStringAsFixed(6)}, '
                             '${selectedPoint!.longitude.toStringAsFixed(6)}'
-                        : 'Henüz konum seçilmedi',
+                        : context.l10n.businessLocationNoLocationSelected,
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
@@ -359,7 +360,7 @@ class _BottomPanel extends StatelessWidget {
                         color: AppColors.onPrimary,
                       ),
                     )
-                  : const Text('Bu Konumu Kaydet'),
+                  : Text(context.l10n.businessLocationSaveButton),
             ),
           ),
         ],
