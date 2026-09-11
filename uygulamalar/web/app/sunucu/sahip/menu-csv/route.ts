@@ -19,7 +19,7 @@ export async function GET(req: Request) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const rl = rateLimit(`menucsv:${user.id}`, 20, 3_600_000); // 20/hour
+  const rl = await rateLimit(`menucsv:${user.id}`, 20, 3_600_000); // 20/hour
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   // Verify ownership

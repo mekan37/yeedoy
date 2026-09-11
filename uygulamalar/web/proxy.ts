@@ -314,12 +314,12 @@ export async function proxy(request: NextRequest) {
   });
 
   const policy = pathname.startsWith('/sunucu/izleme')
-    ? rateLimit(`middleware:track:${identity}`, 60, 60_000)
+    ? await rateLimit(`middleware:track:${identity}`, 60, 60_000)
     : pathname.startsWith('/sunucu/sunum-ayarlari')
-      ? rateLimit(`middleware:presentation-settings:${identity}`, 30, 60_000)
+      ? await rateLimit(`middleware:presentation-settings:${identity}`, 30, 60_000)
     : pathname === '/auth/panel-handoff'
-      ? rateLimit(`middleware:panel-handoff:${identity}`, 20, 60_000)
-      : rateLimit(`middleware:qr:${identity}`, 20, 60_000);
+      ? await rateLimit(`middleware:panel-handoff:${identity}`, 20, 60_000)
+      : await rateLimit(`middleware:qr:${identity}`, 20, 60_000);
 
   if (policy.ok) {
     return applyCsp(NextResponse.next({ request: { headers: requestHeaders } }));

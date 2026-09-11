@@ -145,7 +145,7 @@ export async function activateMenu(menuId: string, businessId: string): Promise<
     return { error: 'Oturum açmanız gerekiyor.' };
   }
 
-  const limitResult = rateLimit(`owner-menu-activate:${user.id}`, 20, 60_000);
+  const limitResult = await rateLimit(`owner-menu-activate:${user.id}`, 20, 60_000);
   if (!limitResult.ok) {
     return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
   }

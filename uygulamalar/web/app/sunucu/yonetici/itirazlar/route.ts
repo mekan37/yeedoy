@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
-  const limit = rateLimit(`admin-claims-list:${identity}`, 60, 60_000);
+  const limit = await rateLimit(`admin-claims-list:${identity}`, 60, 60_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }

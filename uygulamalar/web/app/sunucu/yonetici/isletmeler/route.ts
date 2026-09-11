@@ -65,7 +65,7 @@ export async function POST(request: Request) {
     userAgent: request.headers.get('user-agent'),
   });
 
-  const rl = rateLimit(`admin-business-create:${identity}`, 20, 60_000);
+  const rl = await rateLimit(`admin-business-create:${identity}`, 20, 60_000);
   if (!rl.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }

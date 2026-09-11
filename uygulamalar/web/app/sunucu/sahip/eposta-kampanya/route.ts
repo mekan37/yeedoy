@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
-  const limitResult = rateLimit(`eposta-kampanya:${user.id}`, 3, 3_600_000);
+  const limitResult = await rateLimit(`eposta-kampanya:${user.id}`, 3, 3_600_000);
   if (!limitResult.ok) {
     return NextResponse.json(
       { error: 'rate_limited', issues: { general: ['Saatte en fazla 3 kampanya gönderilebilir.'] } },

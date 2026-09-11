@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   // Yalnızca IP ile anahtarla — User-Agent istemci kontrolünde, ekleyince
   // tek bir istekte 1 karakter değiştirmek yeni bir rate-limit kovası açar.
   const ip = getClientIp(request.headers) ?? 'unknown-ip';
-  const limit = rateLimit(`oneri-foto-upload:${ip}`, 10, 60_000);
+  const limit = await rateLimit(`oneri-foto-upload:${ip}`, 10, 60_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }

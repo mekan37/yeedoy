@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
-  const limit = rateLimit(`diet-profile:${user.id}:${identity}`, 20, 60_000);
+  const limit = await rateLimit(`diet-profile:${user.id}:${identity}`, 20, 60_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }

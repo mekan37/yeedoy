@@ -137,7 +137,7 @@ async function prepareBusinessMutation(
     return { error: 'Oturum açmanız gerekiyor.' };
   }
 
-  const limitResult = rateLimit(
+  const limitResult = await rateLimit(
     `owner-settings:${action}:${user.id}:${parsedBusinessId.data}`,
     limit,
     windowMs,
@@ -398,7 +398,7 @@ export async function updatePassword(
   const { supabase, user } = await getAuthenticatedUser();
   if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  const limitResult = rateLimit(`owner-settings:password:${user.id}`, 5, 5 * 60_000);
+  const limitResult = await rateLimit(`owner-settings:password:${user.id}`, 5, 5 * 60_000);
   if (!limitResult.ok) {
     return { error: 'Çok fazla deneme yapıldı. Lütfen beş dakika sonra tekrar deneyin.' };
   }

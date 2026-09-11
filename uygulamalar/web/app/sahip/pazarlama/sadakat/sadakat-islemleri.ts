@@ -33,7 +33,7 @@ export async function programOlustur(
   const d = parsed.data;
 
   return withAuth(async (userId) => {
-    const limitResult = rateLimit(`sadakat-program-olustur:${userId}`, 10, 60_000);
+    const limitResult = await rateLimit(`sadakat-program-olustur:${userId}`, 10, 60_000);
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
@@ -65,7 +65,7 @@ export async function programAktiflikDegistir(
   const d = parsed.data;
 
   return withAuth(async (userId) => {
-    const limitResult = rateLimit(`sadakat-aktiflik:${userId}`, 20, 60_000);
+    const limitResult = await rateLimit(`sadakat-aktiflik:${userId}`, 20, 60_000);
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
@@ -103,7 +103,7 @@ export async function programGuncelle(
   const d = parsed.data;
 
   return withAuth(async (userId) => {
-    const limitResult = rateLimit(`sadakat-program-guncelle:${userId}`, 10, 60_000);
+    const limitResult = await rateLimit(`sadakat-program-guncelle:${userId}`, 10, 60_000);
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
@@ -128,7 +128,7 @@ export async function programSil(programId: string): Promise<EylemSonucu> {
   const d = parsed.data;
 
   return withAuth(async (userId) => {
-    const limitResult = rateLimit(`sadakat-program-sil:${userId}`, 5, 60_000);
+    const limitResult = await rateLimit(`sadakat-program-sil:${userId}`, 5, 60_000);
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
@@ -162,7 +162,7 @@ export async function qrOkut(
   const d = parsed.data;
 
   return withAuth(async (ownerId) => {
-    const limitResult = rateLimit(`sadakat-qr-okut:${ownerId}`, 60, 60_000);
+    const limitResult = await rateLimit(`sadakat-qr-okut:${ownerId}`, 60, 60_000);
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
@@ -198,7 +198,7 @@ export async function odulKullan(memberId: string): Promise<OdulKullanSonucu> {
   const d = parsed.data;
 
   return withAuth(async (ownerId) => {
-    const limitResult = rateLimit(`sadakat-odul-kullan:${ownerId}`, 30, 60_000);
+    const limitResult = await rateLimit(`sadakat-odul-kullan:${ownerId}`, 30, 60_000);
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();

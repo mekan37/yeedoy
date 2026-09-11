@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Giriş yapmanız gerekiyor.' }, { status: 401 });
   }
 
-  const rl = rateLimit(`claim:submit:${user.id}`, 5, 15 * 60 * 1000);
+  const rl = await rateLimit(`claim:submit:${user.id}`, 5, 15 * 60 * 1000);
   if (!rl.ok) {
     return NextResponse.json({ error: 'Çok fazla istek gönderdiniz. Lütfen bekleyin.' }, { status: 429 });
   }

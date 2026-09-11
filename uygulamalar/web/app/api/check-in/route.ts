@@ -7,7 +7,7 @@ const schema = z.object({ businessId: z.string().uuid() });
 
 export async function POST(req: Request) {
   const ip = getClientIp(req.headers) ?? 'unknown-ip';
-  const limit = rateLimit(`checkin:${ip}`, 10, 60_000);
+  const limit = await rateLimit(`checkin:${ip}`, 10, 60_000);
   if (!limit.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const body = await req.json().catch(() => null);

@@ -44,7 +44,7 @@ export async function menuAnalizBaslatUrl(businessId: string, url: string): Prom
     return { ok: false, error: 'Geçerli bir URL girin.' };
   }
 
-  const limit = rateLimit(`menu-analiz-baslat:${guard.userId}`, 10, 60_000);
+  const limit = await rateLimit(`menu-analiz-baslat:${guard.userId}`, 10, 60_000);
   if (!limit.ok) return { ok: false, error: 'Çok fazla istek. Lütfen biraz bekleyip tekrar deneyin.' };
 
   const started = await menuExtractorStartSourceDiscoveryJob(trimmedUrl);

@@ -33,7 +33,7 @@ export async function PATCH(req: Request) {
   const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
-  const rl = rateLimit(`toplu:${user.id}`, 10, 3_600_000); // 10/hour
+  const rl = await rateLimit(`toplu:${user.id}`, 10, 3_600_000); // 10/hour
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const { data: dbRate } = await supabaseAny.rpc('consume_rate_limit_v1', {

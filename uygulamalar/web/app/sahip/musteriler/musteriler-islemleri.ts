@@ -22,7 +22,7 @@ export async function notEkle(businessId: string, userId: string, note: string):
   const d = parsed.data;
 
   return withAuth(async (ownerId) => {
-    const limitResult = rateLimit(`musteri-not-ekle:${ownerId}`, 20, 60_000);
+    const limitResult = await rateLimit(`musteri-not-ekle:${ownerId}`, 20, 60_000);
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
@@ -50,7 +50,7 @@ export async function etiketEkle(businessId: string, userId: string, tag: string
   const d = parsed.data;
 
   return withAuth(async (ownerId) => {
-    const limitResult = rateLimit(`musteri-etiket-ekle:${ownerId}`, 20, 60_000);
+    const limitResult = await rateLimit(`musteri-etiket-ekle:${ownerId}`, 20, 60_000);
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
@@ -75,7 +75,7 @@ export async function etiketSil(tagId: string, userId: string): Promise<EylemSon
   const d = parsed.data;
 
   return withAuth(async (ownerId) => {
-    const limitResult = rateLimit(`musteri-etiket-sil:${ownerId}`, 20, 60_000);
+    const limitResult = await rateLimit(`musteri-etiket-sil:${ownerId}`, 20, 60_000);
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();

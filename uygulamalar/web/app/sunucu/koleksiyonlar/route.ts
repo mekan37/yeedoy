@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
-  const limit = rateLimit(`collections:create:${user.id}`, 10, 60_000);
+  const limit = await rateLimit(`collections:create:${user.id}`, 10, 60_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }

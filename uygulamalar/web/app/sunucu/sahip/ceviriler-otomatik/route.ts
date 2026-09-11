@@ -21,7 +21,7 @@ export async function POST(req: Request) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const rl = rateLimit(`ceviri:${user.id}`, 2, 3_600_000); // 2/saat/kullanıcı
+  const rl = await rateLimit(`ceviri:${user.id}`, 2, 3_600_000); // 2/saat/kullanıcı
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const parsed = schema.safeParse(await req.json().catch(() => null));

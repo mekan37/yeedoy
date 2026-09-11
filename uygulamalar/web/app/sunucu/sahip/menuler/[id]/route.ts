@@ -45,7 +45,7 @@ export async function PATCH(request: Request, context: RouteContext) {
     ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
-  const limit = rateLimit(`owner-menu-patch:${identity}`, 30, 60_000);
+  const limit = await rateLimit(`owner-menu-patch:${identity}`, 30, 60_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
@@ -103,7 +103,7 @@ export async function DELETE(request: Request, context: RouteContext) {
     ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
-  const limit = rateLimit(`owner-menu-delete:${identity}`, 10, 60_000);
+  const limit = await rateLimit(`owner-menu-delete:${identity}`, 10, 60_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }

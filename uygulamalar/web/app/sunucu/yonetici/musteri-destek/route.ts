@@ -35,7 +35,7 @@ export async function GET(req: Request) {
   const { supabaseAny, user, response } = await requireAdmin();
   if (response) return response;
 
-  const rl = rateLimit(`destek:${user!.id}`, 60, 60_000); // 60/min
+  const rl = await rateLimit(`destek:${user!.id}`, 60, 60_000); // 60/min
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const ticketId = new URL(req.url).searchParams.get('ticketId');
@@ -55,7 +55,7 @@ export async function PATCH(req: Request) {
   const { supabaseAny, user, response } = await requireAdmin();
   if (response) return response;
 
-  const rl = rateLimit(`destek:${user!.id}`, 60, 60_000); // 60/min
+  const rl = await rateLimit(`destek:${user!.id}`, 60, 60_000); // 60/min
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const parsed = schema.safeParse(await req.json());
@@ -76,7 +76,7 @@ export async function POST(req: Request) {
   const { supabaseAny, user, response } = await requireAdmin();
   if (response) return response;
 
-  const rl = rateLimit(`destek:${user!.id}`, 60, 60_000); // 60/min
+  const rl = await rateLimit(`destek:${user!.id}`, 60, 60_000); // 60/min
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const parsed = replySchema.safeParse(await req.json());

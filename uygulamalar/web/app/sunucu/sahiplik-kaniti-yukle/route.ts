@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
 
   // Sahiplik kanıtı yükleme nadir bir işlemdir — dakikada 5 yeterince
   // cömert, kötüye kullanımı (depolama maliyeti / spam) sınırlar.
-  const rl = rateLimit(`sahiplik-kaniti:${user.id}`, 5, 60_000);
+  const rl = await rateLimit(`sahiplik-kaniti:${user.id}`, 5, 60_000);
   if (!rl.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }

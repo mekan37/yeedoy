@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
-  const rl = rateLimit(`isletme-ara:${identity}`, 60, 60_000);
+  const rl = await rateLimit(`isletme-ara:${identity}`, 60, 60_000);
   if (!rl.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }

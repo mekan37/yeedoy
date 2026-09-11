@@ -17,7 +17,7 @@ export async function PATCH(req: Request) {
   const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
-  const rl = rateLimit(`dsar:${user.id}`, 20, 3_600_000); // 20/hour
+  const rl = await rateLimit(`dsar:${user.id}`, 20, 3_600_000); // 20/hour
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const parsed = schema.safeParse(await req.json());

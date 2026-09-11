@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
-  const limit = rateLimit(`collab-vote:${identity}`, 30, 60_000);
+  const limit = await rateLimit(`collab-vote:${identity}`, 30, 60_000);
   if (!limit.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const body = await request.json().catch(() => null);

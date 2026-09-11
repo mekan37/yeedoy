@@ -22,7 +22,7 @@ async function guard(sb: SupabaseAny, userId: string): Promise<NextResponse | nu
   const { data: yetkili } = await sb.rpc('has_permission_v1', { p_permission: 'page:kvkk-gdpr' });
   if (!yetkili) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
-  const rl = rateLimit(`kvkk-belge:${userId}`, 30, 3_600_000);
+  const rl = await rateLimit(`kvkk-belge:${userId}`, 30, 3_600_000);
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   return null;

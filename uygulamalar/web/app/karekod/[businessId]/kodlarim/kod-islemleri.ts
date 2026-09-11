@@ -28,7 +28,7 @@ export async function upsertQrCode(
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  const rl = rateLimit(`karekod-qr-upsert:${user.id}`, 20, 60_000);
+  const rl = await rateLimit(`karekod-qr-upsert:${user.id}`, 20, 60_000);
   if (!rl.ok) return { error: 'Çok fazla istek gönderildi. Lütfen bir dakika bekleyin.' };
 
   const raw = {
@@ -70,7 +70,7 @@ export async function deleteQrCode(
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  const rl = rateLimit(`karekod-qr-delete:${user.id}`, 20, 60_000);
+  const rl = await rateLimit(`karekod-qr-delete:${user.id}`, 20, 60_000);
   if (!rl.ok) return { error: 'Çok fazla istek gönderildi. Lütfen bir dakika bekleyin.' };
 
   const parsed = z.object({ id: z.string().uuid(), businessId: z.string().uuid() }).safeParse({ id, businessId });

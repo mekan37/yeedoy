@@ -20,7 +20,7 @@ export async function POST(request: Request) {
   // Yalnızca güvenilir IP ile anahtarla — User-Agent istemci kontrolünde,
   // ekleyince tek bir istekte 1 karakter değiştirmek yeni bir kova açardı.
   const ip = getClientIp(request.headers) ?? 'unknown-ip';
-  const ipLimit = rateLimit(`web-login:ip:${ip}`, 8, 60_000);
+  const ipLimit = await rateLimit(`web-login:ip:${ip}`, 8, 60_000);
 
   if (!ipLimit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
   // İkinci, e-posta bazlı kova — dağıtık (çok-IP'li) credential-stuffing'in
   // tek bir hedef hesaba saldırmasını IP limitinden bağımsız olarak durdurur.
   const emailHash = createHash('sha256').update(parsed.data.email.trim().toLowerCase()).digest('hex');
-  const emailLimit = rateLimit(`web-login:email:${emailHash}`, 8, 60_000);
+  const emailLimit = await rateLimit(`web-login:email:${emailHash}`, 8, 60_000);
   if (!emailLimit.ok) {
     if (wantsHtmlRedirect) {
       return redirectToLogin('rate_limited', '/sahip/gosterge-panosu');

@@ -22,7 +22,7 @@ export async function updateReservationStatus(
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  const rl = rateLimit(`owner-reservation-status:${user.id}`, 20, 60_000);
+  const rl = await rateLimit(`owner-reservation-status:${user.id}`, 20, 60_000);
   if (!rl.ok) return { error: 'Çok fazla istek gönderildi. Lütfen bir dakika bekleyin.' };
 
   const parsed = UpdateStatusSchema.safeParse({ id, businessId, status, ownerNote });

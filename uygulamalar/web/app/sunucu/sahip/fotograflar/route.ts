@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     ip: getClientIp(req.headers),
     userAgent: req.headers.get('user-agent'),
   });
-  const rl = rateLimit(`owner-photo-upload:${identity}`, 15, 60_000);
+  const rl = await rateLimit(`owner-photo-upload:${identity}`, 15, 60_000);
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const supabase = await createSupabaseServerClient();
@@ -108,7 +108,7 @@ export async function DELETE(req: Request) {
     ip: getClientIp(req.headers),
     userAgent: req.headers.get('user-agent'),
   });
-  const rl = rateLimit(`owner-photo-delete:${identity}`, 20, 60_000);
+  const rl = await rateLimit(`owner-photo-delete:${identity}`, 20, 60_000);
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const body = await req.json().catch(() => null);

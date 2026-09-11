@@ -1,38 +1,37 @@
-type RateLimitRecord = {
-  count: number;
-  resetAt: number;
-};
+import { createSupabasePublicClient } from '@/src/lib/taban/acik';
+import { logger } from '@/src/lib/kayitci';
 
-const store = new Map<string, RateLimitRecord>();
+export type RateLimitResult = { ok: boolean; remaining: number; resetAt: number };
 
-const MAX_STORE_SIZE = 1_000;
+// Önceden süreç-içi bir Map kullanılıyordu — serverless'te (Vercel Fluid
+// Compute) her instance kendi sayacını tutuyordu, gerçek limit
+// "limit × aktif instance sayısı"na gevşiyordu. rate_limit_check_v1 RPC'si
+// (bkz. migration 20260911000006) atomik UPSERT ile paylaşılan, race-
+// condition-safe bir sayaç sağlıyor. RPC zaten anon'a açık (rate-limit
+// kontrolü kimlik gerektirmez), service-role'e ihtiyaç yok.
+//
+// DB erişilemezse FAIL OPEN edilir (izin verilir, uyarı loglanır) —
+// rate-limit'in amacı kötüye kullanımı sınırlamak; bir DB kesintisinde
+// tüm meşru trafiği reddetmek daha kötü bir sonuç olurdu.
+export async function rateLimit(key: string, limit: number, windowMs: number): Promise<RateLimitResult> {
+  try {
+    const supabase = createSupabasePublicClient();
+    const { data, error } = await (supabase as unknown as {
+      rpc: (fn: 'rate_limit_check_v1', args: { p_key: string; p_limit: number; p_window_ms: number }) =>
+        Promise<{ data: Array<{ ok: boolean; remaining: number; reset_at: string }> | null; error: unknown }>;
+    }).rpc('rate_limit_check_v1', { p_key: key, p_limit: limit, p_window_ms: windowMs });
 
-function evictExpired(now: number) {
-  // Only scan if store is getting large to avoid O(n) on every call
-  if (store.size < MAX_STORE_SIZE) return;
-  for (const [k, v] of store) {
-    if (v.resetAt <= now) store.delete(k);
+    if (error || !data || data.length === 0) {
+      logger.warn('rateLimit: RPC başarısız, fail-open', { key, error });
+      return { ok: true, remaining: limit, resetAt: Date.now() + windowMs };
+    }
+
+    const row = data[0];
+    return { ok: row.ok, remaining: row.remaining, resetAt: new Date(row.reset_at).getTime() };
+  } catch (err) {
+    logger.warn('rateLimit: beklenmeyen hata, fail-open', { key, err });
+    return { ok: true, remaining: limit, resetAt: Date.now() + windowMs };
   }
-}
-
-export function rateLimit(key: string, limit: number, windowMs: number) {
-  const timestamp = Date.now();
-  evictExpired(timestamp);
-  const current = store.get(key);
-
-  if (!current || current.resetAt <= timestamp) {
-    const next = { count: 1, resetAt: timestamp + windowMs };
-    store.set(key, next);
-    return { ok: true, remaining: limit - 1, resetAt: next.resetAt };
-  }
-
-  if (current.count >= limit) {
-    return { ok: false, remaining: 0, resetAt: current.resetAt };
-  }
-
-  current.count += 1;
-  store.set(key, current);
-  return { ok: true, remaining: limit - current.count, resetAt: current.resetAt };
 }
 
 export function getRequestIdentity(input: {

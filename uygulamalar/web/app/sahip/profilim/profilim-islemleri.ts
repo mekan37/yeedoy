@@ -23,7 +23,7 @@ export async function updateKisiselBilgiler(
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  const rl = rateLimit(`profilim-kisisel-bilgi:${user.id}`, 10, 60_000);
+  const rl = await rateLimit(`profilim-kisisel-bilgi:${user.id}`, 10, 60_000);
   if (!rl.ok) return { error: 'Çok fazla istek gönderildi. Lütfen bir süre sonra tekrar deneyin.' };
 
   const parsed = KisiselBilgilerSchema.safeParse({

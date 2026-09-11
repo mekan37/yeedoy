@@ -184,7 +184,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
 
-  const limit = rateLimit(`makbuz_ocr:${user.id}`, 5, 60_000);
+  const limit = await rateLimit(`makbuz_ocr:${user.id}`, 5, 60_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'Çok fazla istek. Lütfen bekleyin.' }, { status: 429 });
   }

@@ -40,7 +40,7 @@ export async function destekTalebiOlustur(
   if (!context.ok) return { error: context.error };
   const { supabase, user } = context;
 
-  const rl = rateLimit(`owner-destek-olustur:${user.id}`, 10, 3_600_000); // 10/saat
+  const rl = await rateLimit(`owner-destek-olustur:${user.id}`, 10, 3_600_000); // 10/saat
   if (!rl.ok) return { error: 'Çok fazla istek gönderildi. Lütfen bir süre sonra tekrar deneyin.' };
 
   const trimmedSubject = subject.trim();
@@ -115,7 +115,7 @@ export async function destekMesajGonder(ticketId: string, message: string): Prom
   if (!context.ok) return { error: context.error };
   const { supabase, user } = context;
 
-  const rl = rateLimit(`owner-destek-mesaj:${user.id}`, 30, 3_600_000); // 30/saat
+  const rl = await rateLimit(`owner-destek-mesaj:${user.id}`, 30, 3_600_000); // 30/saat
   if (!rl.ok) return { error: 'Çok fazla istek gönderildi. Lütfen bir süre sonra tekrar deneyin.' };
 
   const trimmedMessage = message.trim();

@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     maxRequests = 2;
   }
 
-  const limit = rateLimit(limitKey, maxRequests, 60_000);
+  const limit = await rateLimit(limitKey, maxRequests, 60_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }

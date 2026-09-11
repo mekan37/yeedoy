@@ -13,7 +13,7 @@ export async function POST() {
   // Hesap silme — kullanıcı başına günde max 3 deneme (spam koruması).
   // Auth'tan SONRA, user.id ile anahtarlanıyor — eskiden IP+User-Agent
   // (spoofable, auth'tan önce) kullanılıyordu.
-  const limit = rateLimit(`delete-account:${user.id}`, 3, 86_400_000);
+  const limit = await rateLimit(`delete-account:${user.id}`, 3, 86_400_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }

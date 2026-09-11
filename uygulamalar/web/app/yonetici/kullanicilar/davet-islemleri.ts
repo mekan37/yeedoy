@@ -12,7 +12,7 @@ export async function inviteUser(email: string): Promise<{ error: string } | { s
   const { data: isAdmin } = await (supabase as any).rpc('is_admin');
   if (!isAdmin) return { error: 'Yetkiniz yok.' };
 
-  const rl = rateLimit(`kullanici-davet:${user.id}`, 20, 3_600_000);
+  const rl = await rateLimit(`kullanici-davet:${user.id}`, 20, 3_600_000);
   if (!rl.ok) return { error: 'Çok fazla davet gönderildi. Lütfen bir süre sonra tekrar deneyin.' };
 
   const trimmed = email.trim().toLowerCase();

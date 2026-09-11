@@ -19,7 +19,7 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const rl = rateLimit(`rol:${user.id}`, 30, 3_600_000); // 30/hour
+  const rl = await rateLimit(`rol:${user.id}`, 30, 3_600_000); // 30/hour
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };

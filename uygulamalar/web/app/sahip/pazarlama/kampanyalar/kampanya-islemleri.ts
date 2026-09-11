@@ -62,7 +62,7 @@ export async function kampanyaKaydet(
   }
 
   return withAuth(async (userId) => {
-    const limitResult = rateLimit(`kampanya-kaydet:${userId}`, 20, 60_000);
+    const limitResult = await rateLimit(`kampanya-kaydet:${userId}`, 20, 60_000);
     if (!limitResult.ok) {
       return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
     }
@@ -92,7 +92,7 @@ export async function kampanyaSil(
   businessId: string,
 ): Promise<{ error: string } | null> {
   return withAuth(async (userId) => {
-    const limitResult = rateLimit(`kampanya-sil:${userId}`, 20, 60_000);
+    const limitResult = await rateLimit(`kampanya-sil:${userId}`, 20, 60_000);
     if (!limitResult.ok) {
       return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
     }

@@ -24,7 +24,7 @@ async function guard(sb: SupabaseAny, userId: string): Promise<NextResponse | nu
   const { data: isAdmin } = await sb.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
-  const rl = rateLimit(`gozlem-uyari:${userId}`, 30, 3_600_000);
+  const rl = await rateLimit(`gozlem-uyari:${userId}`, 30, 3_600_000);
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const { data: dbRate } = await sb.rpc('consume_rate_limit_v1', { p_action: 'admin_alert_rule_write', p_daily_limit: 30 });

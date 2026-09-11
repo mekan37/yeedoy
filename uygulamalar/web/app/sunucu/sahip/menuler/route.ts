@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
-  const limit = rateLimit(`owner-menus-create:${identity}`, 20, 60_000);
+  const limit = await rateLimit(`owner-menus-create:${identity}`, 20, 60_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
@@ -78,7 +78,7 @@ export async function GET(request: Request) {
     ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
-  const limit = rateLimit(`owner-menus-list:${identity}`, 60, 60_000);
+  const limit = await rateLimit(`owner-menus-list:${identity}`, 60, 60_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }

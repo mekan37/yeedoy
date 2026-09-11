@@ -28,7 +28,7 @@ export async function PATCH(req: Request) {
   const { supabaseAny, user, response } = await requireAdmin();
   if (response) return response;
 
-  const rl = rateLimit(`raporlar:${user!.id}`, 60, 60_000);
+  const rl = await rateLimit(`raporlar:${user!.id}`, 60, 60_000);
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const parsed = schema.safeParse(await req.json());
