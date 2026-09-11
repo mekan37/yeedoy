@@ -1,5 +1,6 @@
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import type { CokluSubeOverview } from '@/app/sahip/coklu-sube/coklu-sube-yardimcilari';
+import { csvHucre } from '@/src/lib/csv-guvenli';
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -19,10 +20,9 @@ export async function GET(request: Request) {
   if (error) return new Response('internal_error', { status: 500 });
   if (!overview) return new Response('not_found', { status: 404 });
 
-  const safeStr = (s: string | null) => `"${(s ?? '').replace(/"/g, '""')}"`;
   const header = 'Şube Adı,Şube Etiketi,Şehir,Durum,Görüntülenme,Rezervasyon';
   const lines = overview.branches.map((b) =>
-    [safeStr(b.name), safeStr(b.branch_label), safeStr(b.city), b.is_active ? 'Aktif' : 'Pasif', b.views, b.reservations].join(','),
+    [csvHucre(b.name), csvHucre(b.branch_label), csvHucre(b.city), b.is_active ? 'Aktif' : 'Pasif', b.views, b.reservations].join(','),
   );
   const csv = [header, ...lines].join('\n');
   const ts = new Date().toISOString().slice(0, 10);

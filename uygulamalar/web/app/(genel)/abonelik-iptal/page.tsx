@@ -145,6 +145,27 @@ function ExpiredScreen() {
   );
 }
 
+function RateLimitedScreen() {
+  return (
+    <main className="min-h-screen bg-bg flex items-center justify-center px-4">
+      <div className="mx-auto max-w-md text-center">
+        <div className="mb-6 flex items-center justify-center">
+          <div className="rounded-full bg-amber-100 p-4">
+            <svg className="h-8 w-8 text-amber-600" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+        </div>
+        <h1 className="mb-3 text-2xl font-black text-textStrong">Çok Fazla İstek</h1>
+        <p className="mb-8 text-sm leading-relaxed text-muted">
+          Bu bağlantı kısa sürede çok fazla kez kullanıldı. Bağlantı geçerli —
+          lütfen birkaç dakika bekleyip tekrar deneyin.
+        </p>
+      </div>
+    </main>
+  );
+}
+
 function InvalidScreen() {
   return (
     <main className="min-h-screen bg-bg flex items-center justify-center px-4">
@@ -409,7 +430,10 @@ export default async function AbonelikIptalPage({
     case 'no_secret':
       return <NoSecretScreen />;
     case 'rate_limited':
-      return <InvalidScreen />;
+      // Önceden "Geçersiz Bağlantı" (InvalidScreen) gösteriliyordu — kullanıcı
+      // bağlantının bozuk olduğunu düşünüyordu, oysa asıl durum geçici bir
+      // hız sınırıydı ve link geçerliydi.
+      return <RateLimitedScreen />;
     case 'invalid':
     default:
       return <InvalidScreen />;

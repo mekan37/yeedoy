@@ -55,6 +55,9 @@ export async function POST(request: Request) {
   const response = NextResponse.json({ ok: true, redirectTo });
   const cookieStore = await cookies();
   const supabase = createServerClient<Database>(appConfig.supabaseUrl(), appConfig.supabaseAnonKey(), {
+    // @supabase/ssr'ın varsayılan cookie ayarları secure bayrağı içermiyor —
+    // bkz. src/lib/taban/sunucu.ts'deki aynı düzeltme.
+    cookieOptions: { secure: process.env.NODE_ENV === 'production' },
     cookies: {
       getAll() {
         return cookieStore.getAll();

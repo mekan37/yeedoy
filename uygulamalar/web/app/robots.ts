@@ -23,7 +23,15 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
       {
         userAgent: '*',
         allow: ['/', '/m/', '/kod/', '/kesif', '/en-iyiler', '/isletme/', '/arama'],
-        disallow: ['/giris', '/karekod/', '/api/', '/auth/', '/forbidden', '/yasakli', '/admin/', '/owner/', '/sahip/', '/yonetici/'],
+        // /admin/ ve /owner/ (İngilizce ağaçlar) 2026-07-22'de tamamen silindi —
+        // artık var olmayan rotaları disallow etmenin bir faydası yok, kaldırıldı.
+        // /sunucu/ eklendi: /api/ ile aynı mantıkla route handler'ların bulunduğu
+        // dizin, crawler'ların GET'e izin veren uçlara (isletme-ara, acik-grafik
+        // vb.) gereksiz istek göndermesini önler. /b/ BİLİNÇLİ OLARAK disallow
+        // edilmiyor — /isletme/[slug]'e işaret eden bir canonical etiketi taşıyor,
+        // disallow edilirse Google o sayfayı hiç crawl edemeyeceği için canonical
+        // sinyalini de göremez.
+        disallow: ['/giris', '/karekod/', '/api/', '/sunucu/', '/auth/', '/forbidden', '/yasakli', '/sahip/', '/yonetici/'],
       },
     ],
     sitemap: sitemaps,

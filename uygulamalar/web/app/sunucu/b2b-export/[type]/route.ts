@@ -1,20 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { z } from 'zod';
-
-function toCsv(rows: Record<string, unknown>[]): string {
-  if (!rows.length) return '';
-  const headers = Object.keys(rows[0]);
-  const escape  = (v: unknown) => {
-    const s = v == null ? '' : String(v).replace(/"/g, '""');
-    return s.includes(',') || s.includes('"') || s.includes('\n') ? `"${s}"` : s;
-  };
-  const lines = [
-    headers.join(','),
-    ...rows.map((r) => headers.map((h) => escape(r[h])).join(',')),
-  ];
-  return lines.join('\r\n');
-}
+import { toCsv } from '@/src/lib/csv-guvenli';
 
 const ANALYTICS_PAGE_SIZE = 10_000;
 

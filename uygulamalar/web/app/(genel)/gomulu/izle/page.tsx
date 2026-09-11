@@ -69,7 +69,14 @@ function EmbedIcerigi() {
         className="h-[70vh] w-full border-0"
         allow={embed.type === 'youtube' ? 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' : undefined}
         allowFullScreen
-        sandbox={embed.type === 'generic' ? 'allow-scripts allow-same-origin allow-forms allow-popups' : undefined}
+        // allow-scripts + allow-same-origin BİRLİKTE verilmemeli — gömülü sayfa
+        // kendi origin'inde JS çalıştırabildiği için sandbox izolasyonunu fiilen
+        // etkisiz kılar (OWASP: "neredeyse hiç sandbox kullanmamakla aynı").
+        // allow-same-origin kaldırıldı; bu allowlist olmayan keyfi-URL embed'i
+        // için tek gerçek savunma proxy.ts'deki CSP frame-src kısıtı (şu an
+        // yalnızca OpenStreetMap'e izin veriyor, bu yüzden generic embed zaten
+        // tarayıcıda bloklanıyor — bu ikinci katman onu CSP olmadan da güvenli tutar).
+        sandbox={embed.type === 'generic' ? 'allow-scripts allow-forms allow-popups' : undefined}
         loading="lazy"
       />
     </div>

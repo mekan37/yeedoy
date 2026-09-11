@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { rateLimit } from '@/src/lib/oran-siniri';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { csvHucre } from '@/src/lib/csv-guvenli';
 import { z } from 'zod';
 
 const querySchema = z.object({ menuId: z.string().uuid() });
@@ -55,9 +56,15 @@ export async function GET(req: Request) {
   const lines = ((items ?? []) as any[]).map((item: any) => {
     const section = sectionMap[item.section_id] ?? '';
     const price = ((item.price_cents ?? 0) / 100).toFixed(2);
-    const desc = (item.description ?? '').replace(/"/g, '""');
-    const name = (item.name ?? '').replace(/"/g, '""');
-    return `"${section}","${name}","${desc}",${price},${item.currency ?? 'TRY'},${item.is_available ? 'Evet' : 'Hayır'},${item.sort_order ?? 0}`;
+    return [
+      csvHucre(section),
+      csvHucre(item.name),
+      csvHucre(item.description),
+      price,
+      item.currency ?? 'TRY',
+      item.is_available ? 'Evet' : 'Hayır',
+      item.sort_order ?? 0,
+    ].join(',');
   });
 
   const csv = [header, ...lines].join('\n');

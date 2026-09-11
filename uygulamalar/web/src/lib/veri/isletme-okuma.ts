@@ -25,23 +25,6 @@ export type Business = Pick<
 const businessSelect =
   'id,name,slug,description,logo_url,cover_url,category,city,address,phone,is_verified,is_active';
 
-export async function getBusinessBySlug(slug: string): Promise<Business | null> {
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from('businesses')
-    .select(businessSelect)
-    .or(`slug.eq.${slug},public_slug.eq.${slug}`)
-    .maybeSingle();
-
-  if (error) {
-    logger.error('getBusinessBySlug failed', { slug, error });
-    return null;
-  }
-
-  if (!data) return null;
-  return { ...(data as BusinessRow), website: null } as Business;
-}
-
 export async function getBusinessById(id: string): Promise<Business | null> {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase

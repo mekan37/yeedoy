@@ -60,6 +60,9 @@ export async function POST(request: Request) {
   );
   const response = NextResponse.redirect(new URL(destination, appConfig.siteUrl()));
   const supabase = createServerClient(appConfig.supabaseUrl(), appConfig.supabaseAnonKey(), {
+    // @supabase/ssr'ın varsayılan cookie ayarları secure bayrağı içermiyor —
+    // bkz. src/lib/taban/sunucu.ts'deki aynı düzeltme.
+    cookieOptions: { secure: process.env.NODE_ENV === 'production' },
     cookies: {
       getAll() {
         return cookieStore.getAll();
@@ -220,7 +223,7 @@ export function renderRedirectHtml(input: {
     <meta name="robots" content="noindex, nofollow" />
     <title>${escapedTitle}</title>
     ${shouldRedirect ? `<meta http-equiv="refresh" content="0;url=${escapedDestination}" />` : ''}
-    <style>
+    <style nonce="${escapeHtml(input.nonce)}">
       :root {
         color-scheme: light;
         --bg: #f7f2ef;

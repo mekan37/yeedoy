@@ -10,6 +10,11 @@ export async function createSupabaseServerClient() {
     appConfig.supabaseUrl(),
     appConfig.supabaseAnonKey(),
     {
+      // @supabase/ssr'ın DEFAULT_COOKIE_OPTIONS'ı secure bayrağı içermiyor —
+      // belirtilmezse oturum çerezleri Secure olmadan yazılır (production'da
+      // bile). localhost geliştirme genelde HTTP üzerinden çalıştığı için
+      // yalnızca production'da zorlanıyor.
+      cookieOptions: { secure: process.env.NODE_ENV === 'production' },
       cookies: {
         getAll() {
           return cookieStore.getAll();

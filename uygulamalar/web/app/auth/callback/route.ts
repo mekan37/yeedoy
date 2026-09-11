@@ -34,6 +34,9 @@ export async function GET(request: Request) {
     appConfig.supabaseUrl(),
     appConfig.supabaseAnonKey(),
     {
+      // @supabase/ssr'ın varsayılan cookie ayarları secure bayrağı içermiyor —
+      // bkz. src/lib/taban/sunucu.ts'deki aynı düzeltme.
+      cookieOptions: { secure: process.env.NODE_ENV === 'production' },
       cookies: {
         getAll() {
           return cookieStore.getAll();

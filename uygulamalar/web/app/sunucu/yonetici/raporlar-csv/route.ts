@@ -1,4 +1,5 @@
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { csvHucre } from '@/src/lib/csv-guvenli';
 import { z } from 'zod';
 
 const PAGE_SIZE = 500;
@@ -49,17 +50,14 @@ export async function GET(request: Request) {
   }>;
 
   const header = 'ID,Hedef,Neden,Detay,Durum,Tarih';
-  const lines = rows.map(r => {
-    const safeStr = (s: string | null) => `"${(s ?? '').replace(/"/g, '""')}"`;
-    return [
-      r.id,
-      r.target_type,
-      safeStr(r.reason),
-      safeStr(r.details),
-      r.status,
-      new Date(r.created_at).toLocaleDateString('tr-TR'),
-    ].join(',');
-  });
+  const lines = rows.map(r => [
+    r.id,
+    r.target_type,
+    csvHucre(r.reason),
+    csvHucre(r.details),
+    r.status,
+    new Date(r.created_at).toLocaleDateString('tr-TR'),
+  ].join(','));
 
   const csv = [header, ...lines].join('\n');
   const ts = new Date().toISOString().slice(0, 10);

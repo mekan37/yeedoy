@@ -23,13 +23,16 @@ function buildCsp(nonce: string, isEmbed: boolean): string {
     `script-src 'self' 'nonce-${nonce}'${isDev ? " 'unsafe-eval'" : ''} https://vercel-scripts.com https://va.vercel-scripts.com`,
     // style-src-elem/style-src-attr ayrımı: <style> blokları ve harici stylesheet'ler
     // (style-src-elem) sıkı tutulur — nonce/hash olmadan hiçbir inline <style> bloğu
-    // çalışmaz. style-src-attr için 'unsafe-inline' bilerek bırakıldı: CSP nonce'u
+    // çalışmaz. Nonce eklendi: middleware'in kendi ürettiği ham HTML yanıtları
+    // (örn. createNotFoundResponse, panel-handoff) inline <style nonce="..."> bloğu
+    // kullanıyor — nonce olmadan bu response'lar CSP tarafından stilsiz bırakılıyordu.
+    // style-src-attr için 'unsafe-inline' bilerek bırakıldı: CSP nonce'u
     // yalnızca <style> elementlerine uygulanabiliyor, style="" HTML özniteliğine hiç
     // uygulanamıyor (spec kısıtı) — React'in yaygın style={{...}} kullanımını nonce'suz
     // tamamen kaldırmak, her dinamik değer için ayrı bir nonce altyapısı gerektirirdi.
     // style="" JavaScript çalıştıramadığı için (script-src'nin aksine) bu, kabul
     // edilebilir bir risk dengesi — GitHub gibi birçok üretim sitesi aynı ayrımı kullanır.
-    "style-src-elem 'self' https://fonts.googleapis.com",
+    `style-src-elem 'self' 'nonce-${nonce}' https://fonts.googleapis.com`,
     "style-src-attr 'unsafe-inline'",
     "font-src 'self' data: https://fonts.gstatic.com",
     // next.config.mjs'nin imageRemotePatterns'ıyla eşleşen, işletme
@@ -118,6 +121,9 @@ async function guardPanelRoute(request: NextRequest, requestHeaders: Headers): P
   const response = NextResponse.next({ request: { headers: requestHeaders } });
 
   const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+    // @supabase/ssr'ın varsayılan cookie ayarları secure bayrağı içermiyor —
+    // bkz. src/lib/taban/sunucu.ts'deki aynı düzeltme.
+    cookieOptions: { secure: process.env.NODE_ENV === 'production' },
     cookies: {
       getAll() {
         return request.cookies.getAll();
@@ -242,6 +248,10 @@ export async function proxy(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-nonce', nonce);
+  // (kimlik) layout'unun oturumsuz erişimde gerçek hedefe geri dönebilmesi için
+  // — Server Component'ler middleware'in aksine request.nextUrl.pathname'e
+  // erişemiyor, bu yüzden aynı x-nonce deseniyle bir header'a taşınıyor.
+  requestHeaders.set('x-pathname', pathname + request.nextUrl.search);
   const isEmbed = pathname.startsWith('/embed/');
   const csp = buildCsp(nonce, isEmbed);
 
@@ -282,7 +292,7 @@ export async function proxy(request: NextRequest) {
   const panelGuard = await guardPanelRoute(request, requestHeaders);
   if (panelGuard) return applyCsp(panelGuard);
 
-  const routeGuard = normalizePublicRoute(request);
+  const routeGuard = normalizePublicRoute(request, nonce);
   if (routeGuard) {
     return applyCsp(routeGuard);
   }
@@ -325,7 +335,7 @@ export const config = {
   ],
 };
 
-function normalizePublicRoute(request: NextRequest) {
+function normalizePublicRoute(request: NextRequest, nonce: string) {
   const { pathname, searchParams } = request.nextUrl;
   if (
     !pathname.startsWith('/m/') &&
@@ -338,22 +348,22 @@ function normalizePublicRoute(request: NextRequest) {
   const segments = pathname.split('/').filter(Boolean);
   const businessPath = segments[1] ?? null;
   if (!businessPath) {
-    return createNotFoundResponse();
+    return createNotFoundResponse(nonce);
   }
 
   if (pathname.startsWith('/qr/') || pathname.startsWith('/karekod/')) {
     if (!isUuid(businessPath)) {
-      return createNotFoundResponse();
+      return createNotFoundResponse(nonce);
     }
   } else if (!isBusinessMenuPathKey(businessPath)) {
-    return createNotFoundResponse();
+    return createNotFoundResponse(nonce);
   }
 
   if (pathname.startsWith('/m/')) {
     const routeType = segments[2] ?? null;
     const routeId = segments[3] ?? null;
     if ((routeType === 'c' || routeType === 'i') && (!routeId || !isUuid(routeId))) {
-      return createNotFoundResponse();
+      return createNotFoundResponse(nonce);
     }
   }
 
@@ -383,7 +393,7 @@ function normalizePublicRoute(request: NextRequest) {
   return NextResponse.redirect(url);
 }
 
-function createNotFoundResponse() {
+function createNotFoundResponse(nonce: string) {
   return new NextResponse(
     `<!DOCTYPE html>
 <html lang="en">
@@ -392,7 +402,7 @@ function createNotFoundResponse() {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
     <title>Menu not found</title>
-    <style>
+    <style nonce="${nonce}">
       body {
         margin: 0;
         min-height: 100vh;

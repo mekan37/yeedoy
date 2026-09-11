@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createSupabasePublicClient } from '@/src/lib/taban/acik';
+import { csvHucre } from '@/src/lib/csv-guvenli';
 
 export const runtime = 'edge';
 export const revalidate = 3600;
@@ -27,13 +28,13 @@ export async function GET() {
 
     const header = 'kategori,medyan_fiyat_tl,ortalama_fiyat_tl,ornek_sayisi,guncellenen_30g,donem,kaynak\r\n';
     const lines = rows.map((r) => [
-      `"${r.category}"`,
+      csvHucre(r.category),
       (r.median_price_cents / 100).toFixed(2),
       (r.avg_price_cents / 100).toFixed(2),
       r.sample_count,
       r.updated_in_30d,
       period,
-      '"Yeedoy Restoran Fiyat Endeksi — yeedoy.com/fiyat-endeksi"',
+      csvHucre('Yeedoy Restoran Fiyat Endeksi — yeedoy.com/fiyat-endeksi'),
     ].join(','));
 
     const csv = header + lines.join('\r\n');

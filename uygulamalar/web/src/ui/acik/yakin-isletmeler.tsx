@@ -156,13 +156,19 @@ export function YakindakiIsletmeler() {
     }
   }, []);
 
-  if (state.status === 'idle' || state.status === 'locating') {
+  if (state.status === 'idle' || state.status === 'locating' || state.status === 'loading') {
+    // 'loading' (konum alındı, işletmeler getiriliyor) önceden hiç ele
+    // alınmıyordu — akış sonda `return null`'a düşüyordu, bu da spinner'dan
+    // aniden boşluğa (sonra tekrar içeriğe) geçen rahatsız edici bir titreşime
+    // yol açıyordu.
     return (
       <section className="border-t border-border py-8">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3 text-muted">
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-border border-t-primary" />
-            <p className="text-sm">Konumunuz alınıyor…</p>
+            <p className="text-sm">
+              {state.status === 'loading' ? 'Yakındaki işletmeler getiriliyor…' : 'Konumunuz alınıyor…'}
+            </p>
           </div>
         </div>
       </section>
