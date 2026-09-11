@@ -28,10 +28,10 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
         // /sunucu/ eklendi: /api/ ile aynı mantıkla route handler'ların bulunduğu
         // dizin, crawler'ların GET'e izin veren uçlara (isletme-ara, acik-grafik
         // vb.) gereksiz istek göndermesini önler. /b/ BİLİNÇLİ OLARAK disallow
-        // edilmiyor — /isletme/[slug]'e işaret eden bir canonical etiketi taşıyor,
-        // disallow edilirse Google o sayfayı hiç crawl edemeyeceği için canonical
-        // sinyalini de göremez.
-        disallow: ['/giris', '/karekod/', '/api/', '/sunucu/', '/auth/', '/forbidden', '/yasakli', '/sahip/', '/yonetici/'],
+        // edilmiyor — artık /isletme/[slug]'e gerçek bir HTTP 308 ile yönlendiriyor,
+        // disallow edilirse Google o sayfayı hiç crawl edemeyeceği için 308
+        // sinyalini de göremez. /yasakli app/forbidden'a birleştirildi, artık yok.
+        disallow: ['/giris', '/karekod/', '/api/', '/sunucu/', '/auth/', '/forbidden', '/sahip/', '/yonetici/'],
       },
     ],
     sitemap: sitemaps,

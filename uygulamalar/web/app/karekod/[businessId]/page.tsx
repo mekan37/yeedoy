@@ -83,7 +83,7 @@ export default async function QrPage({ params, searchParams }: QrPageProps) {
   }
 
   if (!access.canManage) {
-    redirect(`/yasakli?from=${encodeURIComponent(redirectTo)}`);
+    redirect('/forbidden');
   }
 
   const supabase = await createSupabaseServerClient();

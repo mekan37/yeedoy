@@ -34,7 +34,7 @@ export default async function KodlarimPage({ params }: Props) {
   }
 
   if (!access.canManage) {
-    redirect(`/yasakli?from=${encodeURIComponent(redirectTo)}`);
+    redirect('/forbidden');
   }
 
   const business = await getBusinessById(businessId);
