@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Star, CheckCircle, MapPin, ChevronRight } from 'lucide-react';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 import type { AcikIsletmeKarti } from '@/src/ui/acik/tipler';
+import { getPriceLevelFromBusiness } from '@/src/lib/fiyat-seviyesi';
 
 const CATEGORY_IMAGES: Record<string, string> = {
   kafe: '/category-images/cafe.webp',
@@ -31,9 +32,8 @@ function categoryFallback(cat?: string | null) {
   return CATEGORY_IMAGES[cat.toLowerCase().trim()] ?? '/category-images/restoran.webp';
 }
 
-function PriceLevelBadge({ priceLevel }: { priceLevel?: string | null }) {
-  const map: Record<string, string> = { budget: '₺', mid: '₺₺', premium: '₺₺₺' };
-  const label = priceLevel ? (map[priceLevel] ?? null) : null;
+function PriceLevelBadge({ priceLevel, medianPriceCents }: { priceLevel?: string | null; medianPriceCents?: number | null }) {
+  const label = getPriceLevelFromBusiness(priceLevel, medianPriceCents).level;
   if (!label) return null;
   return (
     <span className="rounded-full border border-border bg-bg px-2 py-0.5 text-[10px] font-extrabold text-muted">
@@ -86,7 +86,7 @@ function BizCard({ biz }: { biz: AcikIsletmeKarti }) {
           {[biz.category, biz.city].filter(Boolean).join(' · ')}
         </p>
         <div className="mt-auto flex items-center gap-2 pt-1">
-          <PriceLevelBadge priceLevel={biz.priceLevel} />
+          <PriceLevelBadge priceLevel={biz.priceLevel} medianPriceCents={biz.medianPriceCents} />
           {biz.isVerified && (
             <span className="flex items-center gap-1 text-[10px] font-extrabold text-primary">
               <CheckCircle size={11} aria-hidden="true" /> Doğrulandı

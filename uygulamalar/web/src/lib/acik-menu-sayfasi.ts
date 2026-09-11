@@ -1,5 +1,5 @@
-import { getMenuItemPhotos, getMenuItemVariants, getMenuItemPriceHistory, getPublicMenuData } from '@/src/lib/veri/menu-okuma';
-import type { PublicMenuData, PriceHistoryEntry } from '@/src/lib/veri/menu-okuma';
+import { getMenuItemPhotos, getMenuItemVariants, getMenuItemPriceHistory, getPublicMenuData, getStockDishImagesCached } from '@/src/lib/veri/menu-okuma';
+import type { PublicMenuData, PriceHistoryEntry, StockDishImage } from '@/src/lib/veri/menu-okuma';
 export { getTranslationValue } from '@/src/lib/menu-metinleri';
 
 export type SelectedItemDetails = {
@@ -11,13 +11,17 @@ export type SelectedItemDetails = {
 export type PublicMenuPageData = PublicMenuData & {
   selectedItem: PublicMenuData['items'][number] | null;
   selectedItemDetails: SelectedItemDetails | null;
+  stockDishImages: StockDishImage[];
 };
 
 export async function getPublicMenuPageData(input: {
   businessSlugOrId: string;
   selectedItemId?: string | null;
 }) {
-  const data = await getPublicMenuData(input.businessSlugOrId);
+  const [data, stockDishImages] = await Promise.all([
+    getPublicMenuData(input.businessSlugOrId),
+    getStockDishImagesCached(),
+  ]);
   if (!data) return null;
 
   const selectedItem = input.selectedItemId
@@ -29,6 +33,7 @@ export async function getPublicMenuPageData(input: {
       ...data,
       selectedItem: null,
       selectedItemDetails: null,
+      stockDishImages,
     } satisfies PublicMenuPageData;
   }
 
@@ -46,5 +51,6 @@ export async function getPublicMenuPageData(input: {
       photos,
       priceHistory,
     },
+    stockDishImages,
   } satisfies PublicMenuPageData;
 }

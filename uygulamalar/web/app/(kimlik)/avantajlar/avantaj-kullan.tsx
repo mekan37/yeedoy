@@ -1,12 +1,18 @@
 'use client';
 
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { toast } from '@/src/lib/toast-deposu';
 
 import { useState, useTransition } from 'react';
 
-async function markPerkUsed(perkId: string) {
+async function markPerkUsed(perkId: string): Promise<boolean> {
   const supabase = createSupabaseBrowserClient();
-  await (supabase as any).from('user_perks').update({ is_used: true }).eq('id', perkId);
+  const { error } = await (supabase as any).from('user_perks').update({ is_used: true }).eq('id', perkId);
+  if (error) {
+    toast('Avantaj kullanılamadı. Lütfen tekrar deneyin.', 'danger');
+    return false;
+  }
+  return true;
 }
 
 export function AvantajKullanButonu({ perkId, disabled }: { perkId: string; disabled?: boolean }) {
@@ -25,9 +31,11 @@ export function AvantajKullanButonu({ perkId, disabled }: { perkId: string; disa
           type="button"
           onClick={() => {
             startTransition(async () => {
-              await markPerkUsed(perkId);
-              setUsed(true);
-              setConfirm(false);
+              const ok = await markPerkUsed(perkId);
+              if (ok) {
+                setUsed(true);
+                setConfirm(false);
+              }
             });
           }}
           disabled={pending}

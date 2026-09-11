@@ -1,6 +1,7 @@
 'use client';
 
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { toast } from '@/src/lib/toast-deposu';
 
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
@@ -14,7 +15,12 @@ export function AlarmToggle({ alertId, isActive, itemName }: { alertId: string; 
     const next = !active;
     setActive(next);
     startTransition(async () => {
-      await (createSupabaseBrowserClient() as any).from('price_alerts').update({ is_active: next }).eq('id', alertId);
+      const { error } = await (createSupabaseBrowserClient() as any).from('price_alerts').update({ is_active: next }).eq('id', alertId);
+      if (error) {
+        setActive(!next);
+        toast('Fiyat alarmı güncellenemedi. Lütfen tekrar deneyin.', 'danger');
+        return;
+      }
       router.refresh();
     });
   }
@@ -47,7 +53,11 @@ export function AlarmSilButonu({ alertId }: { alertId: string }) {
           disabled={pending}
           onClick={() => {
             startTransition(async () => {
-              await createSupabaseBrowserClient().from('price_alerts' as any).delete().eq('id', alertId);
+              const { error } = await createSupabaseBrowserClient().from('price_alerts' as any).delete().eq('id', alertId);
+              if (error) {
+                toast('Alarm silinemedi. Lütfen tekrar deneyin.', 'danger');
+                return;
+              }
               router.refresh();
             });
           }}

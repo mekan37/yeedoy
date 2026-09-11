@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { appConfig } from '@/src/lib/ayarlar';
-import { AppProviders } from '@/src/lib/providers';
+import { AppProviders } from '@/src/lib/uygulama-saglayicilari';
 
 const outfit = Outfit({
   subsets: ['latin'],

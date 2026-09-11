@@ -262,8 +262,16 @@ input:focus-visible {
   animation: float 3s var(--yd-ease-smooth) infinite;
 }
 
+/* fill-mode 'both'/'forwards' KULLANILMIYOR: transform:translateY(0) 'to'
+   karesinde bile kalıcı uygulanmaya devam ederdi — transform:none olmayan
+   her ata, altındaki position:fixed öğeler için yeni bir containing block
+   oluşturur (mobil alt nav, foto galeri modalı gibi fixed bileşenler
+   viewport yerine bu div'e göre konumlanır). Varsayılan (fill-mode yok)
+   davranışta animasyon bitince eleman normal (transform'suz) durumuna
+   döner; translateY(0) zaten görsel olarak transform:none ile aynı
+   olduğundan geçiş sırasında hiçbir sıçrama olmaz. */
 .animate-slide-up {
-  animation: slide-up 280ms var(--yd-ease-spring) both;
+  animation: slide-up 280ms var(--yd-ease-spring);
 }
 
 .animate-fade-scale-in {

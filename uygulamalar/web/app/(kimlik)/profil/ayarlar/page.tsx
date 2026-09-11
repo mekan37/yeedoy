@@ -161,7 +161,8 @@ export default function ProfileSettingsPage() {
         .upload(path, compressed, { upsert: true, contentType: 'image/webp' });
       if (upErr) throw upErr;
       const publicUrl = sb.storage.from(AVATAR_BUCKET).getPublicUrl(path).data.publicUrl;
-      await (sb as any).from('user_profiles').update({ avatar_url: publicUrl }).eq('user_id', userId);
+      const { error: dbErr } = await (sb as any).from('user_profiles').update({ avatar_url: publicUrl }).eq('user_id', userId);
+      if (dbErr) throw dbErr;
       setAvatarUrl(publicUrl);
       toast('Profil fotoğrafı güncellendi', 'success');
     } catch {
@@ -176,10 +177,17 @@ export default function ProfileSettingsPage() {
   // Avatar kaldır
   async function handleRemoveAvatar() {
     if (!userId) return;
+    const previousUrl = avatarUrl;
     setAvatarPreview(null);
     setAvatarUrl(null);
     const sb = createSupabaseBrowserClient();
-    await (sb as any).from('user_profiles').update({ avatar_url: null }).eq('user_id', userId);
+    const { error } = await (sb as any).from('user_profiles').update({ avatar_url: null }).eq('user_id', userId);
+    if (error) {
+      setAvatarUrl(previousUrl);
+      setAvatarPreview(previousUrl);
+      toast('Fotoğraf kaldırılamadı', 'danger');
+      return;
+    }
     toast('Fotoğraf kaldırıldı', 'success');
   }
 

@@ -2,7 +2,6 @@
 
 import { useEffect, useState, type ReactNode } from 'react';
 import Link from 'next/link';
-import { AppProviders } from '@/src/lib/uygulama-saglayicilari';
 import { PanelShell } from './panel-kabugu';
 import type { NavSection } from './panel-yan-menusu';
 import { YoneticiUstArama } from './yonetici-ust-arama';
@@ -124,7 +123,6 @@ export function YoneticiKabukIstemcisi({
   const admin = useCurrentAdmin();
 
   return (
-    <AppProviders>
       <PanelShell
         navSections={navSectionsWithPermissions(
           navSectionsWithBadges(adminNavSections, {
@@ -166,7 +164,6 @@ export function YoneticiKabukIstemcisi({
       >
         {children}
       </PanelShell>
-    </AppProviders>
   );
 }
 

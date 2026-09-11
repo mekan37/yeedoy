@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
 import { compressToWebP } from '@/src/lib/gorsel-sikistir';
 import { createSupabaseBrowserClient } from '@/src/lib/taban-istemci';
+import { toast } from '@/src/lib/toast-deposu';
 import { FotoGalerisiTetik, type GaleriPhoto } from '@/src/ui/acik/foto-galerisi-modal';
 import { HelpfulVoteButton, ReportReviewButton } from '@/src/ui/acik/eylem-istemcisi';
 import { Icon } from '@/src/ui/acik/simgeler';
@@ -493,7 +494,7 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
           if (res.ok && payload?.data?.url) yuklenenUrller.push(payload.data.url);
         }
         if (yuklenenUrller.length > 0) {
-          await (sb as any).from('review_photos').insert(
+          const { error: fotoErr } = await (sb as any).from('review_photos').insert(
             yuklenenUrller.map((url) => ({
               review_id: yeniYorumId,
               business_id: businessId,
@@ -501,6 +502,9 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
               created_by: session.user.id,
             })),
           );
+          if (fotoErr) {
+            toast('Yorumun paylaşıldı ama fotoğraflar eklenemedi.', 'warning');
+          }
         }
       }
 

@@ -39,6 +39,43 @@ export function dosyaUzantisi(mimeType: string): string {
   }
 }
 
+const HEIC_BRANDS = ['heic', 'heix', 'heim', 'heis', 'hevc', 'hevx', 'mif1', 'msf1'];
+
+/**
+ * İstemcinin beyan ettiği Content-Type tamamen sahtelenebilir — bu yüzden
+ * yükleme kabul edilmeden önce dosyanın ilk baytları (magic number) beyan
+ * edilen türle eşleşiyor mu kontrol edilir. Yalnızca VARSAYILAN_IZINLI_MIME
+ * setindeki türler için imza tanımlı; bilinmeyen bir mime zaten yukarıda
+ * reddediliyor.
+ */
+async function magicBytesEslesiyorMu(file: File, mimeType: string): Promise<boolean> {
+  const head = new Uint8Array(await file.slice(0, 32).arrayBuffer());
+  const startsWith = (bytes: number[], offset = 0) =>
+    bytes.every((b, i) => head[offset + i] === b);
+  const asciiAt = (offset: number, len: number) =>
+    String.fromCharCode(...head.slice(offset, offset + len));
+
+  switch (mimeType) {
+    case 'image/jpeg':
+      return startsWith([0xff, 0xd8, 0xff]);
+    case 'image/png':
+      return startsWith([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+    case 'image/gif':
+      return asciiAt(0, 4) === 'GIF8';
+    case 'image/webp':
+      return asciiAt(0, 4) === 'RIFF' && asciiAt(8, 4) === 'WEBP';
+    case 'image/heic':
+    case 'image/heif': {
+      // ISO-BMFF: bayt 4-7 'ftyp', ardından 4 baytlık major brand.
+      if (asciiAt(4, 4) !== 'ftyp') return false;
+      const brand = asciiAt(8, 4).toLowerCase();
+      return HEIC_BRANDS.includes(brand);
+    }
+    default:
+      return false;
+  }
+}
+
 interface SupabaseStorageLike {
   storage: {
     from(bucket: string): {
@@ -78,6 +115,9 @@ export async function gorselYukle({
   }
   if (file.size > maxBytes) {
     return { ok: false, error: 'file_too_large', status: 413 };
+  }
+  if (!(await magicBytesEslesiyorMu(file, file.type))) {
+    return { ok: false, error: 'invalid_mime_type', status: 400 };
   }
 
   const { error } = await service.storage.from(bucket).upload(path, file, {

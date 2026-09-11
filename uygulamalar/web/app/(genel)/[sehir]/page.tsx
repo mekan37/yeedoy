@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import { PublicShell } from '@/src/ui/acik/yerlesim';
+import { NotFoundFallback } from '@/src/ui/acik/bulunamadi';
+import { jsonLd } from '@/src/lib/json-ld';
 import { Container } from '@/src/ui/acik/ortak';
 import { appConfig } from '@/src/lib/ayarlar';
 import { createSupabasePublicClient } from '@/src/lib/taban/acik';
@@ -91,7 +92,19 @@ export default async function CityHubPage({ params }: Props) {
     .not('category', 'is', null)
     .limit(2000) as { data: Array<{ district: string; category: string }> | null };
 
-  if (!combos || combos.length === 0) notFound();
+  if (!combos || combos.length === 0) {
+    return (
+      <PublicShell>
+        <NotFoundFallback
+          title="Şehir bulunamadı"
+          message={`${cityLabel} için henüz listelenmiş bir işletme yok ya da bağlantı hatalı.`}
+          hint="Keşfet sayfasından tüm şehirlere göz atabilirsiniz."
+          backHref="/kesif"
+          backLabel="Keşfet'e dön"
+        />
+      </PublicShell>
+    );
+  }
 
   // İlçe → işletme sayısı
   const districtCount = new Map<string, number>();
@@ -133,7 +146,7 @@ export default async function CityHubPage({ params }: Props) {
 
   return (
     <PublicShell>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(schema) }} />
       <Container className="py-8">
         {/* Breadcrumb */}
         <nav className="mb-4 text-sm text-muted" aria-label="Breadcrumb">

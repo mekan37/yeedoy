@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { KesifCanli } from '@/src/ui/acik/kesif-canli';
 import { appConfig } from '@/src/lib/ayarlar';
+import { fetchIsletmelerListesi } from '@/src/lib/veri/isletme-listesi';
 
 export const metadata: Metadata = (() => {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
@@ -59,7 +60,25 @@ const OZELLIKLER = [
   },
 ];
 
-export default function DiscoverPage() {
+type SearchParams = Promise<{
+  q?: string; category?: string; city?: string;
+  sort?: string; minRating?: string; verified?: string;
+}>;
+
+export default async function DiscoverPage({ searchParams }: { searchParams: SearchParams }) {
+  const sp = await searchParams;
+  const sort = sp.sort === 'reviews' || sp.sort === 'az' ? sp.sort : 'rating';
+  const minRating = Number(sp.minRating) || 0;
+  const { data: initialResults, total: initialTotal } = await fetchIsletmelerListesi({
+    q: sp.q,
+    category: sp.category,
+    city: sp.city,
+    sort,
+    minRating,
+    verified: sp.verified === 'true',
+    limit: 24,
+  }).catch(() => ({ data: [], total: 0 }));
+
   return (
     <PublicShell>
       <main className="min-h-screen bg-bg">
@@ -172,7 +191,7 @@ export default function DiscoverPage() {
               ))}
             </div>
           }>
-            <KesifCanli />
+            <KesifCanli initialResults={initialResults} initialTotal={initialTotal} />
           </Suspense>
         </div>
 

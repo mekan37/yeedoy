@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { getClientIp } from '@/src/lib/oran-siniri';
 
 interface AuditParams {
   supabase: SupabaseClient;
@@ -18,9 +19,7 @@ interface AuditParams {
  * Never throws — audit failure must not block the main operation.
  */
 export function logAudit(params: AuditParams): void {
-  const ip = params.request?.headers.get('cf-connecting-ip')
-    ?? params.request?.headers.get('x-real-ip')
-    ?? undefined;
+  const ip = (params.request ? getClientIp(params.request.headers) : null) ?? undefined;
   const userAgent = params.request?.headers.get('user-agent') ?? undefined;
 
   void (params.supabase as any).from('audit_logs').insert({

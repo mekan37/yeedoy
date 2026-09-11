@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
+import { NotFoundFallback } from '@/src/ui/acik/bulunamadi';
+import { jsonLd } from '@/src/lib/json-ld';
 import { appConfig } from '@/src/lib/ayarlar';
 import { AppSectionHeader } from '@/src/ui/components/app-section-header';
 import { buildMenuImageUrl } from '@/src/lib/media-url';
@@ -84,7 +85,17 @@ export default async function BusinessPage({ params }: Props) {
     .select('id, name, slug, description, logo_url, cover_url, category, city, district, address, phone, website_url, instagram_url, facebook_url, lat, lng, is_verified, is_active, order_yemeksepeti_url, order_trendyolgo_url, order_getir_url')
     .eq('slug', slug).maybeSingle() as { data: Business | null };
 
-  if (!biz || !biz.is_active) notFound();
+  if (!biz || !biz.is_active) {
+    return (
+      <NotFoundFallback
+        title="İşletme bulunamadı"
+        message="Aradığınız işletme yayında değil ya da bağlantı artık geçerli değil."
+        hint="Bağlantıyı tekrar kontrol edin ya da keşfet sayfasından arayın."
+        backHref="/kesif"
+        backLabel="Keşfet'e dön"
+      />
+    );
+  }
 
   type MealCardRow = { key: string; name: string; asset_name: string };
 
@@ -125,7 +136,7 @@ export default async function BusinessPage({ params }: Props) {
   return (
     <main className="min-h-screen bg-bg">
       <BusinessPageTracker businessId={biz.id} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd({
         '@context': 'https://schema.org', '@type': 'Restaurant', name: biz.name,
         ...(biz.description ? { description: biz.description } : {}),
         address: { '@type': 'PostalAddress', ...(biz.city ? { addressLocality: biz.city } : {}), addressCountry: 'TR' },

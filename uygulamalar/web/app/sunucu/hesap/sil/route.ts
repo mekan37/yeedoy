@@ -1,23 +1,21 @@
 import { NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
-import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
+import { rateLimit } from '@/src/lib/oran-siniri';
 
-export async function POST(request: Request) {
-  const identity = getRequestIdentity({
-    ip: getClientIp(request.headers),
-    userAgent: request.headers.get('user-agent'),
-  });
-  // Hesap silme — günde max 3 deneme (spam koruması)
-  const limit = rateLimit(`delete-account:${identity}`, 3, 86_400_000);
-  if (!limit.ok) {
-    return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
-  }
-
+export async function POST() {
   const supabase = await createSupabaseServerClient();
   const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  }
+
+  // Hesap silme — kullanıcı başına günde max 3 deneme (spam koruması).
+  // Auth'tan SONRA, user.id ile anahtarlanıyor — eskiden IP+User-Agent
+  // (spoofable, auth'tan önce) kullanılıyordu.
+  const limit = rateLimit(`delete-account:${user.id}`, 3, 86_400_000);
+  if (!limit.ok) {
+    return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
   // 1. Uygulama verilerini temizle (RPC)
@@ -42,7 +40,13 @@ export async function POST(request: Request) {
     serviceKey,
     { auth: { persistSession: false } },
   );
-  await admin.auth.admin.deleteUser(user.id);
+  const { error: deleteError } = await admin.auth.admin.deleteUser(user.id);
+  if (deleteError) {
+    // Uygulama verisi zaten silindi ama auth kaydı duruyor — "zombi hesap".
+    // ok:true DÖNMÜYORUZ ki kullanıcı/istemci gerçek durumdan haberdar olsun
+    // ve tekrar denesin; RPC idempotent olduğu için tekrar çağrı güvenli.
+    return NextResponse.json({ error: 'auth_delete_failed' }, { status: 500 });
+  }
 
   // 3. Oturumu kapat
   await supabase.auth.signOut();

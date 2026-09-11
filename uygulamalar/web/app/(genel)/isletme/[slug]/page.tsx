@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PublicShell } from '@/src/ui/acik/yerlesim';
+import { NotFoundFallback } from '@/src/ui/acik/bulunamadi';
+import { jsonLd } from '@/src/lib/json-ld';
+import { getPriceLevelFromBusiness } from '@/src/lib/fiyat-seviyesi';
 import { buildBusinessHeroImageUrl, buildMenuImageUrl } from '@/src/lib/medya-adresi';
 import {
   getMarketplaceBusinessBySlug,
@@ -84,15 +86,7 @@ function formatPrice(cents?: number | null) {
 }
 
 function priceLevelSymbol(level?: string | null, medianCents?: number | null): string | null {
-  if (level === 'budget') return '₺';
-  if (level === 'mid') return '₺₺';
-  if (level === 'premium') return '₺₺₺';
-  if (medianCents) {
-    if (medianCents < 20000) return '₺';
-    if (medianCents < 45000) return '₺₺';
-    return '₺₺₺';
-  }
-  return null;
+  return getPriceLevelFromBusiness(level, medianCents).level;
 }
 
 // ── Keyword extraction (TR stopwords) ────────────────────────────────────────
@@ -125,7 +119,19 @@ export default async function BusinessPage({ params, searchParams }: Props) {
   const { slug } = await params;
   const { tab } = await searchParams;
   const business = await getMarketplaceBusinessBySlug(slug);
-  if (!business) notFound();
+  if (!business) {
+    return (
+      <PublicShell>
+        <NotFoundFallback
+          title="İşletme bulunamadı"
+          message="Aradığınız işletme yayında değil ya da bağlantı artık geçerli değil."
+          hint="Bağlantıyı tekrar kontrol edin ya da keşfet sayfasından arayın."
+          backHref="/kesif"
+          backLabel="Keşfet'e dön"
+        />
+      </PublicShell>
+    );
+  }
 
   type MealCardPublicRow = { key: string; name: string; asset_name: string };
   type ReviewStatRow = {
@@ -353,7 +359,7 @@ export default async function BusinessPage({ params, searchParams }: Props) {
       <main className="min-h-screen bg-bg pb-20">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
         />
 
         {/* ── Breadcrumb ─────────────────────────────────────────── */}

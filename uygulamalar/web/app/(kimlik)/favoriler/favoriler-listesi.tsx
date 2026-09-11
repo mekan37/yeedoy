@@ -4,6 +4,8 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Heart, Star, MapPin, ThumbsUp, Utensils } from 'lucide-react';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { getPriceLevelFromBusiness } from '@/src/lib/fiyat-seviyesi';
+import { toast } from '@/src/lib/toast-deposu';
 
 // ── Tipler ───────────────────────────────────────────────────────────────────
 
@@ -47,12 +49,7 @@ function tabKategori(cat: string | null): string {
 }
 
 function fiyatSembolu(pl: string | null): string {
-  if (!pl) return '';
-  if (pl === 'budget') return '₺';
-  if (pl === 'mid') return '₺₺';
-  if (pl === 'premium') return '₺₺₺';
-  if (pl === 'luxury') return '₺₺₺₺';
-  return pl;
+  return getPriceLevelFromBusiness(pl, null).level ?? '';
 }
 
 function formatZaman(iso: string): string {
@@ -109,11 +106,13 @@ export function FavorilerListesi({ favoriler, yorumSayisi, ziyaretSayisi, helpfu
       const sb = createSupabaseBrowserClient();
       const { data: { session } } = await sb.auth.getSession();
       if (!session) return;
-      await (sb as any).from('favorites').delete()
+      const { error } = await (sb as any).from('favorites').delete()
         .eq('user_id', session.user.id)
         .eq('business_id', businessId);
+      if (error) throw error;
     } catch {
       setKaldirildi((prev) => { const next = new Set(prev); next.delete(businessId); return next; });
+      toast('Favorilerden kaldırılamadı. Lütfen tekrar deneyin.', 'danger');
     }
   }
 

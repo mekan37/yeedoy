@@ -1,6 +1,7 @@
 'use client';
 
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { toast } from '@/src/lib/toast-deposu';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -27,10 +28,14 @@ export default function OnboardingPage() {
       const supabase = createSupabaseBrowserClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        await (supabase as any).from('user_preferences').upsert({ user_id: user.id, diet_labels: diet, preferred_cuisines: cuisines });
+        const { error } = await (supabase as any).from('user_preferences').upsert({ user_id: user.id, diet_labels: diet, preferred_cuisines: cuisines });
+        if (error) toast('Tercihleriniz kaydedilemedi, daha sonra profilinizden güncelleyebilirsiniz.', 'warning');
       }
       router.push('/kesif');
-    } catch { router.push('/kesif'); }
+    } catch {
+      toast('Tercihleriniz kaydedilemedi, daha sonra profilinizden güncelleyebilirsiniz.', 'warning');
+      router.push('/kesif');
+    }
   }
 
   return (

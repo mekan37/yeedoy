@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { Container, Badge, SectionHeader } from '@/src/ui/acik/ortak';
+import { jsonLd } from '@/src/lib/json-ld';
 import { appConfig } from '@/src/lib/ayarlar';
 import { createSupabasePublicClient } from '@/src/lib/taban/acik';
 
@@ -217,7 +218,7 @@ export default async function FiyatEndeksiPage() {
     <PublicShell>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
       />
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}

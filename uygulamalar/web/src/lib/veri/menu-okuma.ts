@@ -3,6 +3,7 @@ import { createSupabasePublicClient } from '@/src/lib/taban/acik';
 import { logger } from '@/src/lib/kayitci';
 import type { Database } from '@/src/lib/taban/veri-tanimlari';
 import { getResolvedBusinessPresentationSettings } from '@/src/lib/veri/sunum-ayarlari-veri';
+import { escapePostgrestValue } from '@/src/lib/postgrest-yardimcilari';
 import type { ResolvedPresentationRecord } from '@/src/lib/sunum-ayarlari';
 
 type Business = Database['public']['Tables']['businesses']['Row'];
@@ -110,6 +111,32 @@ function normalizeMenuItems(
   });
 }
 
+export type StockDishImage = { id: string; image_url: string; keywords: string[] };
+
+// P1: eskiden her QR taraması (= yeni sekme/oturum) bu kütüphaneyi client-side
+// bir RPC round-trip'iyle sıfırdan çekiyordu (bkz. stok-yemek-kutuphanesi.ts —
+// bellek-içi cache tarayıcı oturumu bazlıydı, pratikte hiç ısınmıyordu).
+// Artık sunucu tarafında, uzun revalidate ile önbelleklenip getPublicMenuData
+// içine gömülüyor — client fetch'i tamamen kalktı.
+export const getStockDishImagesCached = unstable_cache(
+  async (): Promise<StockDishImage[]> => {
+    const supabase = createSupabasePublicClient();
+    const { data, error } = await (supabase as any).rpc('get_stock_dish_images_v1');
+    if (error) {
+      logger.warn('getStockDishImagesCached failed', { error });
+      return [];
+    }
+    if (!Array.isArray(data)) return [];
+    return (data as any[]).map((r) => ({
+      id: String(r.id),
+      image_url: String(r.image_url),
+      keywords: Array.isArray(r.keywords) ? r.keywords.map(String) : [],
+    }));
+  },
+  ['public-stock-dish-images'],
+  { revalidate: 3600 },
+);
+
 const getBusinessByIdCached = unstable_cache(
   async (businessId: string) => {
     const supabase = createSupabasePublicClient();
@@ -137,7 +164,7 @@ const getBusinessBySlugCached = unstable_cache(
     const { data, error } = await supabase
       .from('businesses')
       .select(businessSelect)
-      .or(`public_slug.eq.${slugOrPublicSlug},slug.eq.${slugOrPublicSlug}`)
+      .or(`public_slug.eq.${escapePostgrestValue(slugOrPublicSlug)},slug.eq.${escapePostgrestValue(slugOrPublicSlug)}`)
       .eq('is_active', true)
       .maybeSingle();
 

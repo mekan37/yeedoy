@@ -16,6 +16,7 @@ import {
   resolveBusinessMenuPathKeyFromRecord,
 } from '@/src/lib/menu-baglantilari';
 import { isUuid, normalizeDisplayParams } from '@/src/lib/yol-normalizasyonu';
+import { jsonLd } from '@/src/lib/json-ld';
 
 function getTodayHours(weekly: BusinessHoursInfo['weekly']): string | null {
   const today = new Date().getDay();
@@ -321,7 +322,7 @@ export async function renderPublicMenuRoute(input: {
       ) : null}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(schema) }}
       />
       <MenuDuzen
         data={data}

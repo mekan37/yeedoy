@@ -29,11 +29,20 @@ export async function GET(request: Request, context: RouteContext) {
     src: 'qr',
   });
 
+  // En kritik dönüşüm noktası (masa QR kodu) izleme servisine bağımlı
+  // kalmamalı — izleme yavaşlarsa/asılı kalırsa kullanıcı menüye ulaşmadan
+  // süresiz beklemesin diye sınırlı bir zaman aşımı var.
   const redirectMs = Date.now() - startedAt;
   const trackResponse = await fetch(new URL('/sunucu/izleme', request.url), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      // Orijinal istemcinin IP/UA'sı forward edilmezse /sunucu/izleme bu iç
+      // isteği 'unknown-ip' olarak görür — TÜM QR taramaları tek bir
+      // rate-limit kovasını paylaşır (bkz. oran-siniri.ts getClientIp).
+      'x-forwarded-for': request.headers.get('x-forwarded-for') ?? '',
+      'x-real-ip': request.headers.get('x-real-ip') ?? '',
+      'user-agent': request.headers.get('user-agent') ?? '',
     },
     body: JSON.stringify({
       eventName: 'qr_scanned',
@@ -48,6 +57,7 @@ export async function GET(request: Request, context: RouteContext) {
         redirect_ms: redirectMs,
       },
     }),
+    signal: AbortSignal.timeout(1500),
   }).catch((error) => {
     logger.warn('Failed to invoke /sunucu/izleme from short QR redirect', {
       businessId,

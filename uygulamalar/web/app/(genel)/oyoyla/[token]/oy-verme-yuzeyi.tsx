@@ -4,6 +4,23 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { clsx } from 'clsx';
 import { Trophy } from 'lucide-react';
+import { toast } from '@/src/lib/toast-deposu';
+
+const VOTER_ID_KEY = 'yd_ortak_liste_voter_id';
+
+// Hesap gerekmeyen, tarayıcı başına kalıcı rastgele bir seçmen kimliği.
+// Sunucu bunu tek-oy dedup anahtarı olarak kullanıyor (IP/User-Agent yerine).
+function getVoterId(): string {
+  try {
+    const existing = localStorage.getItem(VOTER_ID_KEY);
+    if (existing) return existing;
+    const fresh = crypto.randomUUID();
+    localStorage.setItem(VOTER_ID_KEY, fresh);
+    return fresh;
+  } catch {
+    return crypto.randomUUID();
+  }
+}
 
 interface OyItem {
   id: string;
@@ -35,7 +52,9 @@ export function OyVermeYuzeyi({ listId, token, items: initial }: OyVermeYuzeyiPr
     const prev = myVotes[itemId];
     const newVote = prev === vote ? null : vote; // toggle
 
-    // Optimistic update
+    // Optimistic update — hata durumunda geri alınmak üzere önceki durumu tut.
+    const prevItems = items;
+    const prevMyVotes = myVotes;
     setItems((arr) => arr.map((it) => {
       if (it.id !== itemId) return it;
       let up = it.upVotes;
@@ -53,11 +72,16 @@ export function OyVermeYuzeyi({ listId, token, items: initial }: OyVermeYuzeyiPr
 
     setLoading(itemId);
     try {
-      await fetch('/sunucu/ortak-liste/oy', {
+      const res = await fetch('/sunucu/ortak-liste/oy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ listId, itemId, vote: newVote ?? 0 }),
+        body: JSON.stringify({ listId, itemId, vote: newVote ?? 0, voterId: getVoterId() }),
       });
+      if (!res.ok) throw new Error('vote_failed');
+    } catch {
+      setItems(prevItems);
+      setMyVotes(prevMyVotes);
+      toast('Oyunuz kaydedilemedi. Lütfen tekrar deneyin.', 'danger');
     } finally {
       setLoading(null);
     }

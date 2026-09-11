@@ -143,7 +143,7 @@ export default function BildirimTercihlerPage() {
     setSaving(key);
     try {
       const supabase = createSupabaseBrowserClient();
-      await (supabase as any).from('notification_preferences').upsert(
+      const { error } = await (supabase as any).from('notification_preferences').upsert(
         {
           user_id: userId,
           notification_type: key,
@@ -152,6 +152,7 @@ export default function BildirimTercihlerPage() {
         },
         { onConflict: 'user_id,notification_type' },
       );
+      if (error) throw error;
       toast(next ? `${label} açıldı` : `${label} kapatıldı`, next ? 'success' : 'default');
     } catch {
       setPrefs((p) => ({ ...p, [key]: !next }));

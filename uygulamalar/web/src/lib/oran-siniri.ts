@@ -45,15 +45,14 @@ export function getRequestIdentity(input: {
 /**
  * İstemcinin gerçek IP'sini, istemcinin doğrudan sahteleyebileceği
  * ham `x-forwarded-for` yerine güvenilir kenar/proxy katmanlarının
- * yazdığı header'lardan çıkarır: Cloudflare varsa `cf-connecting-ip`,
- * yoksa Vercel'in kendi eklediği `x-real-ip`, o da yoksa
- * `x-forwarded-for` zincirinin SON halkası (zincirdeki tek client'ın
- * kontrol edemeyeceği, doğrudan bağlanan proxy'nin eklediği değer).
+ * yazdığı header'lardan çıkarır. Dağıtım Vercel — Cloudflare önünde değil,
+ * bu yüzden `cf-connecting-ip`'e GÜVENİLMİYOR (istemci bu header'ı serbestçe
+ * gönderip her IP-bazlı korumayı sahteleyebilirdi). Önce Vercel'in kendi
+ * eklediği `x-real-ip`, o da yoksa `x-forwarded-for` zincirinin SON halkası
+ * (zincirdeki tek client'ın kontrol edemeyeceği, doğrudan bağlanan proxy'nin
+ * eklediği değer) kullanılır.
  */
-export function getClientIp(headers: Headers): string | null {
-  const cfConnectingIp = headers.get('cf-connecting-ip')?.trim();
-  if (cfConnectingIp) return cfConnectingIp;
-
+export function getClientIp(headers: { get(name: string): string | null }): string | null {
   const realIp = headers.get('x-real-ip')?.trim();
   if (realIp) return realIp;
 

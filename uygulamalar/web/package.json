@@ -13,6 +13,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit --incremental false",
+    "gen:types": "supabase gen types typescript --linked > src/lib/taban/veri-tanimlari.ts",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
     "test:e2e": "playwright test e2e/public-menu.spec.ts",

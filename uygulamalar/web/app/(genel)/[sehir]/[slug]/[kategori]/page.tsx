@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import { PublicShell } from '@/src/ui/acik/yerlesim';
+import { NotFoundFallback } from '@/src/ui/acik/bulunamadi';
+import { jsonLd } from '@/src/lib/json-ld';
 import { Container } from '@/src/ui/acik/ortak';
 import { BusinessTile } from '@/src/ui/bilesenler/isletme-karti';
 import { appConfig } from '@/src/lib/ayarlar';
@@ -109,7 +110,19 @@ export default async function SehirSlugKategoriPage({ params }: Props) {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
 
   const businesses = await fetchBusinesses(cityLabel, districtLabel, categoryLabel);
-  if (businesses.length === 0) notFound();
+  if (businesses.length === 0) {
+    return (
+      <PublicShell>
+        <NotFoundFallback
+          title="Sonuç bulunamadı"
+          message={`${districtLabel}, ${cityLabel} / ${categoryLabel} için henüz listelenmiş bir işletme yok ya da bağlantı hatalı.`}
+          hint="Keşfet sayfasından tüm ilçe ve kategorilere göz atabilirsiniz."
+          backHref="/kesif"
+          backLabel="Keşfet'e dön"
+        />
+      </PublicShell>
+    );
+  }
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -166,9 +179,9 @@ export default async function SehirSlugKategoriPage({ params }: Props) {
 
   return (
     <PublicShell>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(itemListSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(faqSchema) }} />
       <Container className="py-8">
         <nav className="mb-4 text-sm text-muted" aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-1">

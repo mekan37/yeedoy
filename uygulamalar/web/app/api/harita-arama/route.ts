@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSupabasePublicClient } from '@/src/lib/taban/acik';
 import { rateLimit, getRequestIdentity, getClientIp } from '@/src/lib/oran-siniri';
+import { escapePostgrestValue } from '@/src/lib/postgrest-yardimcilari';
 
 const schema = z.object({ q: z.string().min(1).max(100).trim() });
 
@@ -10,7 +11,8 @@ export async function GET(req: NextRequest) {
     ip: getClientIp(req.headers),
     userAgent: req.headers.get('user-agent'),
   });
-  if (!rateLimit(`harita-arama:${id}`, 30, 60_000)) {
+  const rl = rateLimit(`harita-arama:${id}`, 30, 60_000);
+  if (!rl.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
@@ -36,7 +38,7 @@ export async function GET(req: NextRequest) {
     .from('businesses')
     .select('id,name,slug,public_slug,category,lat,lng,logo_url,cover_url,is_verified')
     .eq('is_active', true)
-    .or(`name.ilike.%${parsed.data.q}%,category.ilike.%${parsed.data.q}%`)
+    .or(`name.ilike.%${escapePostgrestValue(parsed.data.q)}%,category.ilike.%${escapePostgrestValue(parsed.data.q)}%`)
     .not('lat', 'is', null)
     .not('lng', 'is', null)
     .limit(8);

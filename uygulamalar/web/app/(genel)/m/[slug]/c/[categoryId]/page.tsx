@@ -1,6 +1,7 @@
 import { buildCanonicalPublicMenuHref, generatePublicMenuMetadata, hasLegacyBusinessPath, renderPublicMenuRoute } from '../../page';
 import { normalizeDisplayParams } from '@/src/lib/yol-normalizasyonu';
-import { notFound, redirect } from 'next/navigation';
+import { redirect } from 'next/navigation';
+import MenuNotFound from '../../not-found';
 import { getPublicMenuPageData } from '@/src/lib/acik-menu-sayfasi';
 import { isUuid } from '@/src/lib/yol-normalizasyonu';
 
@@ -23,9 +24,12 @@ export async function generateMetadata({ params, searchParams }: CategoryPagePro
 
 export default async function PublicCategoryPage({ params, searchParams }: CategoryPageProps) {
   const [{ slug, categoryId }, rawSearchParams] = await Promise.all([params, searchParams]);
-  if (!isUuid(categoryId)) notFound();
+  // notFound() burada KULLANILMIYOR: (genel) route grubunun loading.tsx'i bu
+  // sayfayı da bir Suspense sınırına sarıyor, içinde fırlatılan notFound()
+  // Next.js 16.2.11'de client'a hiç swap edilmiyor (bkz. ../../page.tsx).
+  if (!isUuid(categoryId)) return <MenuNotFound />;
   const data = await getPublicMenuPageData({ businessSlugOrId: slug });
-  if (!data) notFound();
+  if (!data) return <MenuNotFound />;
   const normalized = normalizeDisplayParams(rawSearchParams, {
     lang: data.presentation.defaultLang,
     theme: data.presentation.templateKey,

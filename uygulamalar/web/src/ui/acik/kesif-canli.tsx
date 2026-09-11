@@ -120,7 +120,13 @@ function IsletmeSkelton() {
 
 // ── Ana bileşen ───────────────────────────────────────────────────────────────
 
-export function KesifCanli() {
+export function KesifCanli({
+  initialResults = [],
+  initialTotal = 0,
+}: {
+  initialResults?: Isletme[];
+  initialTotal?: number;
+}) {
   const searchParams = useSearchParams();
 
   // Filtre state — URL'den başlatılır
@@ -138,9 +144,12 @@ export function KesifCanli() {
   const [verified, setVerified]   = useState(searchParams.get('verified') === 'true');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const [results, setResults]   = useState<Isletme[]>([]);
-  const [loading, setLoading]   = useState(true);
-  const [total, setTotal]       = useState(0);
+  // İlk render: sunucunun (searchParams ile aynı filtrelerle) önceden çektiği
+  // sonuçlarla başlar — mount'ta bir daha aynı isteği client'tan tekrarlamaz.
+  const [results, setResults]   = useState<Isletme[]>(initialResults);
+  const [loading, setLoading]   = useState(false);
+  const [total, setTotal]       = useState(initialTotal);
+  const isFirstRun = useRef(true);
 
   const debouncedQ    = useDebounce(q, 320);
   const debouncedCity = useDebounce(city, 400);
@@ -175,8 +184,14 @@ export function KesifCanli() {
   }, [debouncedQ, debouncedCity, category, sort, minRating, verified]);
 
   // Filtre/sıralama değiştiğinde sunucudan liste çeker — dış sistemle senkronizasyon.
-  // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => { fetch_(); }, [fetch_]);
+  // İlk mount'ta atlanır: sunucu bileşeni aynı filtrelerle sonucu zaten getirdi.
+  useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
+    fetch_();
+  }, [fetch_]);
 
   const temizle = () => {
     setQ(''); setCategory(''); setCity('');

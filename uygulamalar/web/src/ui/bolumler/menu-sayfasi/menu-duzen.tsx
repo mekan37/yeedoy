@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -10,8 +10,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
-import { bulVarsayilanYemekGorseli, type StockDishImage } from '@/src/lib/menu/varsayilan-yemek-gorseli';
-import { getStokYemekKutuphanesi } from '@/src/lib/menu/stok-yemek-kutuphanesi';
+import { bulVarsayilanYemekGorseli } from '@/src/lib/menu/varsayilan-yemek-gorseli';
 import { getTranslationValue } from '@/src/lib/acik-menu-sayfasi';
 import type { PublicMenuPageData } from '@/src/lib/acik-menu-sayfasi';
 import type { MenuItemRecord } from '@/src/lib/veri/menu-okuma';
@@ -98,11 +97,7 @@ export function MenuDuzen({
   const [query, setQuery] = useState('');
   const [showMoreMap, setShowMoreMap] = useState<Record<string, boolean>>({});
   const [collapsedMap, setCollapsedMap] = useState<Record<string, boolean>>({});
-  const [stokKutuphanesi, setStokKutuphanesi] = useState<StockDishImage[]>([]);
-
-  useEffect(() => {
-    getStokYemekKutuphanesi().then(setStokKutuphanesi);
-  }, []);
+  const stokKutuphanesi = data.stockDishImages;
 
   const catNameMap = new Map<string, string>(
     categories.map((cat, index) => [
@@ -567,7 +562,7 @@ function UrunSatiri({
   item, stokKutuphanesi, translations, lang, labels,
 }: {
   item: MenuItemRecord;
-  stokKutuphanesi: StockDishImage[];
+  stokKutuphanesi: PublicMenuPageData['stockDishImages'];
   translations: PublicMenuPageData['translations'];
   lang: AppLang;
   labels: MenuCopy;

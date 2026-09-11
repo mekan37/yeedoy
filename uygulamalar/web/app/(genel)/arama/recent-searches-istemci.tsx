@@ -61,13 +61,19 @@ export function RecentSearches({ currentQ }: { currentQ: string }) {
       <div className="relative mb-6">
         <p className="mb-2 text-xs font-black uppercase tracking-wide text-muted">Hızlı Arama</p>
         <div className="relative">
+          <label htmlFor="hizli-arama-input" className="sr-only">Hızlı arama</label>
           <input
+            id="hizli-arama-input"
             ref={inputRef}
             value={inputVal}
             onChange={e => { setInputVal(e.target.value); setShowSuggestions(true); }}
             onFocus={() => setShowSuggestions(true)}
             onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
             placeholder="Ör: pizza, burger, kahvaltı..."
+            role="combobox"
+            aria-expanded={showSuggestions && suggestions.length > 0}
+            aria-controls="hizli-arama-onerileri"
+            aria-autocomplete="list"
             className="w-full rounded-2xl border border-border bg-card px-4 py-3 pr-12 text-sm font-bold text-textStrong placeholder:text-muted focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
           />
           {inputVal && (
@@ -85,11 +91,18 @@ export function RecentSearches({ currentQ }: { currentQ: string }) {
 
           {/* Autocomplete dropdown */}
           {showSuggestions && suggestions.length > 0 && (
-            <div className="absolute left-0 right-0 top-full z-20 mt-1 overflow-hidden rounded-2xl border border-border bg-card shadow-lg">
+            <div
+              id="hizli-arama-onerileri"
+              role="listbox"
+              aria-label="Arama önerileri"
+              className="absolute left-0 right-0 top-full z-20 mt-1 overflow-hidden rounded-2xl border border-border bg-card shadow-lg"
+            >
               {suggestions.map(s => (
                 <Link
                   key={s}
                   href={`/arama?q=${encodeURIComponent(s)}`}
+                  role="option"
+                  aria-selected={s === inputVal}
                   className="flex items-center gap-3 px-4 py-3 text-sm font-bold text-textStrong hover:bg-cardAlt"
                   onClick={() => addRecent(s)}
                 >

@@ -25,13 +25,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
+  // Fail-closed: panelUrl ya da origin header eksikse de reddet. Eskiden
+  // ikisi de varsa kontrol ediliyordu — panelUrl env değişkeni yanlışlıkla
+  // tanımsız kalırsa (config drift) kontrol tamamen atlanıyordu, bu da
+  // cross-site bir form POST'uyla kurbanın tarayıcısına saldırganın
+  // oturumunu yazdırmayı (login CSRF) mümkün kılıyordu.
   const origin = request.headers.get('origin');
   const panelUrl = appConfig.panelUrl();
-  if (panelUrl && origin) {
-    const expectedOrigin = new URL(panelUrl).origin;
-    if (origin !== expectedOrigin) {
-      return NextResponse.json({ error: 'invalid_origin' }, { status: 403 });
-    }
+  if (!panelUrl) {
+    return NextResponse.json({ error: 'panel_url_not_configured' }, { status: 503 });
+  }
+  const expectedOrigin = new URL(panelUrl).origin;
+  if (origin !== expectedOrigin) {
+    return NextResponse.json({ error: 'invalid_origin' }, { status: 403 });
   }
 
   const formData = await request.formData();

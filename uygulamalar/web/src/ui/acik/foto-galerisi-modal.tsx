@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 
@@ -17,6 +17,8 @@ export function FotoGalerisiTetik({
 }) {
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState(index);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   const prev = useCallback(
     () => setCurrent((i) => (i - 1 + photos.length) % photos.length),
@@ -29,16 +31,57 @@ export function FotoGalerisiTetik({
 
   useEffect(() => {
     if (!open) return;
+
+    // Focus trap: Tab/Shift+Tab modal dışına çıkmasın (arkadaki sayfa
+    // içeriği görsel olarak gizli ama hâlâ DOM'da ve tab-erişilebilir).
+    function getFocusable(): HTMLElement[] {
+      const root = dialogRef.current;
+      if (!root) return [];
+      return Array.from(
+        root.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+    }
+
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key === 'Escape') { setOpen(false); return; }
       if (e.key === 'ArrowLeft') prev();
       if (e.key === 'ArrowRight') next();
+      if (e.key !== 'Tab') return;
+
+      const focusable = getFocusable();
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const activeEl = document.activeElement;
+
+      if (e.shiftKey && activeEl === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && activeEl === last) {
+        e.preventDefault();
+        first.focus();
+      } else if (!root_contains(activeEl)) {
+        // Odak modal dışına kaçtıysa (ör. içerik değişimiyle) başa döndür.
+        e.preventDefault();
+        first.focus();
+      }
     }
+
+    function root_contains(el: Element | null) {
+      return !!el && !!dialogRef.current?.contains(el);
+    }
+
     window.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
+    dialogRef.current?.focus();
+    const triggerEl = triggerRef.current;
+
     return () => {
       window.removeEventListener('keydown', onKey);
       document.body.style.overflow = '';
+      triggerEl?.focus();
     };
   }, [open, prev, next]);
 
@@ -52,6 +95,7 @@ export function FotoGalerisiTetik({
   return (
     <>
       <button
+        ref={triggerRef}
         type="button"
         onClick={handleOpen}
         className="group relative block h-full w-full cursor-zoom-in"
@@ -64,10 +108,12 @@ export function FotoGalerisiTetik({
         typeof document !== 'undefined' &&
         createPortal(
           <div
+            ref={dialogRef}
             role="dialog"
             aria-modal="true"
             aria-label="Fotoğraf galerisi"
-            className="fixed inset-0 z-9999 flex items-center justify-center bg-black/90 backdrop-blur-xs"
+            tabIndex={-1}
+            className="fixed inset-0 z-9999 flex items-center justify-center bg-black/90 backdrop-blur-xs outline-hidden"
             onClick={() => setOpen(false)}
           >
             {/* Modal içi — tıklama yayılımını durdur */}

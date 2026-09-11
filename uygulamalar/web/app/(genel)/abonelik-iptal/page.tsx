@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { headers } from 'next/headers';
 import { createClient } from '@supabase/supabase-js';
 import { verifyUnsubscribeToken } from '@/src/lib/email/unsubscribe-token';
-import { rateLimit } from '@/src/lib/oran-siniri';
+import { rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { logger } from '@/src/lib/kayitci';
 import { appConfig } from '@/src/lib/ayarlar';
 
@@ -316,10 +316,7 @@ export default async function AbonelikIptalPage({
 
   // IP tespiti (Next.js headers API)
   const headersList = await headers();
-  const ip =
-    headersList.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    headersList.get('x-real-ip')?.trim() ||
-    'unknown';
+  const ip = getClientIp(headersList) ?? 'unknown';
 
   const result = await processUnsubscribe(token, ip);
 

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import { createSupabasePublicClient } from '@/src/lib/taban/acik';
+import { NotFoundFallback } from '@/src/ui/acik/bulunamadi';
 import { OyVermeYuzeyi } from './oy-verme-yuzeyi';
 
 export const revalidate = 0; // her istekte taze
@@ -33,7 +33,15 @@ export default async function OyVerPage({ params }: Props) {
     .eq('invite_token', token)
     .single() as { data: { id: string; name: string; description: string | null } | null };
 
-  if (!list) notFound();
+  if (!list) {
+    return (
+      <NotFoundFallback
+        title="Davet bulunamadı"
+        message="Bu grup karar daveti artık geçerli değil ya da bağlantı hatalı."
+        hint="Daveti gönderen kişiden yeni bir bağlantı isteyin."
+      />
+    );
+  }
 
   // Listedeki işletmeler ve oy sayıları
   const { data: items } = await (supabase as any)

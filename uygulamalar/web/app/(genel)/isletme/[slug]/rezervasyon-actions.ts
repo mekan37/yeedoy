@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { headers } from 'next/headers';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
-import { rateLimit } from '@/src/lib/rate-limit';
+import { rateLimit, getClientIp } from '@/src/lib/rate-limit';
 
 const schema = z.object({
   business_id: z.string().uuid(),
@@ -21,11 +21,7 @@ export async function submitReservation(
   formData: FormData,
 ): Promise<{ error?: string; success?: boolean; reservationNo?: string }> {
   const h = await headers();
-  const ip =
-    h.get('cf-connecting-ip') ??
-    h.get('x-real-ip') ??
-    h.get('x-forwarded-for')?.split(',')[0]?.trim() ??
-    'unknown';
+  const ip = getClientIp(h) ?? 'unknown';
   const rl = rateLimit(`reservation:${ip}`, 5, 60_000);
   if (!rl.ok) {
     return { error: 'Çok fazla istek gönderildi. Lütfen bir dakika bekleyin.' };

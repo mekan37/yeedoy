@@ -1,6 +1,7 @@
 'use client';
 
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { toast } from '@/src/lib/toast-deposu';
 
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
@@ -21,9 +22,13 @@ export function TakipteCikButonu({ followedId }: { followedId: string }) {
               const supabase = createSupabaseBrowserClient();
               const { data: { user } } = await supabase.auth.getUser();
               if (user) {
-                await (supabase as any).from('user_follows').delete()
+                const { error } = await (supabase as any).from('user_follows').delete()
                   .eq('follower_id', user.id)
                   .eq('followed_id', followedId);
+                if (error) {
+                  toast('Takipten çıkılamadı. Lütfen tekrar deneyin.', 'danger');
+                  return;
+                }
               }
               router.refresh();
             });

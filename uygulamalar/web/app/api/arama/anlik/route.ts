@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSupabasePublicClient } from '@/src/lib/taban/acik';
 import { rateLimit, getRequestIdentity, getClientIp } from '@/src/lib/oran-siniri';
+import { escapePostgrestValue } from '@/src/lib/postgrest-yardimcilari';
 
 const querySchema = z.object({
   q: z.string().min(1).max(100).trim(),
@@ -14,7 +15,8 @@ export async function GET(request: Request) {
     ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
-  if (!rateLimit(`anlik-arama:${id}`, 60, 60_000)) {
+  const rl = rateLimit(`anlik-arama:${id}`, 60, 60_000);
+  if (!rl.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
@@ -89,7 +91,7 @@ export async function GET(request: Request) {
       .from('businesses')
       .select('id,name,slug,public_slug,category,city,district,logo_url,cover_url,is_verified')
       .eq('is_active', true)
-      .or(`name.ilike.%${q}%,category.ilike.%${q}%`)
+      .or(`name.ilike.%${escapePostgrestValue(q)}%,category.ilike.%${escapePostgrestValue(q)}%`)
       .limit(6) as { data: BizRow[] | null };
 
     if (textResults) {

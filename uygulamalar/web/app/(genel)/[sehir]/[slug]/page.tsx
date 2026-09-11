@@ -1,8 +1,10 @@
 import { cache } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import { PublicShell } from '@/src/ui/acik/yerlesim';
+import { NotFoundFallback } from '@/src/ui/acik/bulunamadi';
+import { escapePostgrestValue } from '@/src/lib/postgrest-yardimcilari';
+import { jsonLd } from '@/src/lib/json-ld';
 import { Container } from '@/src/ui/acik/ortak';
 import { BusinessTile } from '@/src/ui/bilesenler/isletme-karti';
 import { appConfig } from '@/src/lib/ayarlar';
@@ -67,7 +69,7 @@ const resolveMode = cache(async (
       .select('id,name,slug,public_slug,category,city,district,is_verified,avg_rating,review_count,price_level,median_price_cents,district_slug,category_slug')
       .eq('is_active', true)
       .eq('city_slug', citySlug)
-      .or(`district_slug.eq.${slugParam},category_slug.eq.${slugParam}`)
+      .or(`district_slug.eq.${escapePostgrestValue(slugParam)},category_slug.eq.${escapePostgrestValue(slugParam)}`)
       .order('avg_rating', { ascending: false })
       .limit(60);
 
@@ -130,7 +132,19 @@ export default async function SehirSlugPage({ params }: Props) {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   const { mode, businesses } = await resolveMode(sehir, slug);
 
-  if (businesses.length === 0) notFound();
+  if (businesses.length === 0) {
+    return (
+      <PublicShell>
+        <NotFoundFallback
+          title="Sonuç bulunamadı"
+          message={`${cityLabel} / ${slugLabel} için henüz listelenmiş bir işletme yok ya da bağlantı hatalı.`}
+          hint="Keşfet sayfasından tüm ilçe ve kategorilere göz atabilirsiniz."
+          backHref="/kesif"
+          backLabel="Keşfet'e dön"
+        />
+      </PublicShell>
+    );
+  }
 
   if (mode === 'district') {
     const categoryCount = new Map<string, number>();
@@ -154,7 +168,7 @@ export default async function SehirSlugPage({ params }: Props) {
     };
     return (
       <PublicShell>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(schema) }} />
         <Container className="py-8">
           <nav className="mb-4 text-sm text-muted" aria-label="Breadcrumb">
             <ol className="flex flex-wrap items-center gap-1">
@@ -215,8 +229,8 @@ export default async function SehirSlugPage({ params }: Props) {
 
   return (
     <PublicShell>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(faqSchema) }} />
       <Container className="py-8">
         <nav className="mb-4 text-sm text-muted" aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-1">

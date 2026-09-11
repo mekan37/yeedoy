@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
-import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
+import { rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { gorselYukle, dosyaUzantisi } from '@/src/lib/medya/yukleme-yardimcisi';
 
 // İşletme öner formu (submit_business_suggestion_v1 RPC) anon + authenticated
@@ -9,11 +9,10 @@ import { gorselYukle, dosyaUzantisi } from '@/src/lib/medya/yukleme-yardimcisi';
 // businessId/sahiplik kontrolü yapılamaz. Bu yüzden ayrı, kimliksiz ama
 // sıkı rate-limitli bir route.
 export async function POST(request: Request) {
-  const identity = getRequestIdentity({
-    ip: getClientIp(request.headers),
-    userAgent: request.headers.get('user-agent'),
-  });
-  const limit = rateLimit(`oneri-foto-upload:${identity}`, 10, 60_000);
+  // Yalnızca IP ile anahtarla — User-Agent istemci kontrolünde, ekleyince
+  // tek bir istekte 1 karakter değiştirmek yeni bir rate-limit kovası açar.
+  const ip = getClientIp(request.headers) ?? 'unknown-ip';
+  const limit = rateLimit(`oneri-foto-upload:${ip}`, 10, 60_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }

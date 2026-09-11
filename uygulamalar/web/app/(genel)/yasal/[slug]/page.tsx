@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { NotFoundFallback } from '@/src/ui/acik/bulunamadi';
 
 export const revalidate = 3600;
 
@@ -145,7 +145,16 @@ export default async function LegalDocPage({ params }: { params: Promise<{ slug:
   // Fallback to static content
   if (!body) {
     const fallback = STATIC_CONTENT[slug];
-    if (!fallback) notFound();
+    if (!fallback) {
+      return (
+        <NotFoundFallback
+          title="Belge bulunamadı"
+          message="Aradığınız yasal belge yayında değil ya da bağlantı artık geçerli değil."
+          backHref="/yasal"
+          backLabel="Yasal Bilgilere Dön"
+        />
+      );
+    }
     title = fallback.title;
     body = fallback.body;
   }

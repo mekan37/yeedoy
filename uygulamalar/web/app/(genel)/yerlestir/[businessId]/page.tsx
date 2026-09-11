@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 type Props = { params: Promise<{ businessId: string }> };
@@ -29,7 +28,14 @@ export default async function EmbedViewerPage({ params }: Props) {
     .eq('id', businessId)
     .single() as { data: BizRow | null };
 
-  if (!biz) notFound();
+  if (!biz) {
+    return (
+      <div className="p-4 max-w-sm font-sans" style={{ background: '#fff', minHeight: '100%' }}>
+        <p className="text-sm font-bold text-textStrong">İşletme bulunamadı</p>
+        <p className="mt-1 text-xs text-muted">Bağlantı artık geçerli değil.</p>
+      </div>
+    );
+  }
 
   const { data: menus } = await (supabase as any)
     .from('menus')

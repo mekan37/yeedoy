@@ -1,6 +1,7 @@
 'use client';
 
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { toast } from '@/src/lib/toast-deposu';
 
 import { useState, useEffect, useCallback } from 'react';
 
@@ -44,14 +45,15 @@ async function registerFirebasePush(): Promise<string | null> {
   }
 }
 
-async function savePushToken(token: string) {
+async function savePushToken(token: string): Promise<boolean> {
   const supabase = createSupabaseBrowserClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return;
-  await (supabase as any).from('push_subscriptions').upsert(
+  if (!user) return false;
+  const { error } = await (supabase as any).from('push_subscriptions').upsert(
     { user_id: user.id, token, platform: 'web', updated_at: new Date().toISOString() },
     { onConflict: 'user_id,platform' },
   );
+  return !error;
 }
 
 export function PushIzinButonu() {
@@ -90,8 +92,12 @@ export function PushIzinButonu() {
       if (firebaseConfigured) {
         const token = await registerFirebasePush();
         if (token) {
-          await savePushToken(token);
-          setStatus('subscribed');
+          const saved = await savePushToken(token);
+          if (saved) {
+            setStatus('subscribed');
+          } else {
+            toast('Bildirim izni verildi ama kaydedilemedi. Lütfen tekrar deneyin.', 'danger');
+          }
         }
       }
     } catch {

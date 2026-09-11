@@ -1,6 +1,8 @@
+import { cache } from 'react';
 import { unstable_cache } from 'next/cache';
 import { createSupabasePublicClient } from '@/src/lib/taban/acik';
 import { logger } from '@/src/lib/kayitci';
+import { escapePostgrestValue } from '@/src/lib/postgrest-yardimcilari';
 import type { AcikIsletmeKarti, AcikYorumKarti } from '@/src/ui/acik/tipler';
 
 export type MarketplaceSearchParams = {
@@ -197,7 +199,10 @@ async function getBusinessesByIds(ids: string[]) {
   return new Map((data ?? []).map((row) => [row.id, normalizeBusiness(row)]));
 }
 
-export async function getMarketplaceBusinessBySlug(slug: string) {
+// React cache(): generateMetadata + sayfa bileşeni aynı request içinde bu
+// fonksiyonu 2 kez çağırıyordu (~4 sorgudan oluşan zincir, toplam ~8
+// round-trip) — [sehir]/[slug]'da zaten kullanılan pattern burada da uygulandı.
+export const getMarketplaceBusinessBySlug = cache(async (slug: string) => {
   const supabase = createSupabasePublicClient();
   const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   let { data, error } = await supabaseAny
@@ -239,14 +244,10 @@ export async function getMarketplaceBusinessBySlug(slug: string) {
     reservationMaxParty: typeof data.reservation_max_party === 'number' && data.reservation_max_party > 0 ? data.reservation_max_party : 20,
     reservationNote: typeof data.reservation_note === 'string' ? data.reservation_note : null,
   };
-}
+});
 
 function isUuid(value: string) {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
-}
-
-function escapePostgrestValue(value: string) {
-  return value.replace(/\\/g, '\\\\').replace(/,/g, '\\,').replace(/\)/g, '\\)');
 }
 
 function serializeSupabaseError(error: any) {

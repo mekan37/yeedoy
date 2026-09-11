@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter, useParams } from 'next/navigation';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 import { getBlacklistTerms, matchesBlacklist } from '@/src/lib/moderasyon/kara-liste-on-kontrol';
+import { escapePostgrestValue } from '@/src/lib/postgrest-yardimcilari';
 
 const CRITERIA = [
   { key: 'taste_rating', label: 'Lezzet' },
@@ -87,11 +88,19 @@ export default function YeniYorumSayfasi() {
     const supabase = createSupabaseBrowserClient();
     Promise.all([
       supabase.auth.getUser(),
-      (supabase as any).from('businesses').select('id, name').eq('slug', slug).single(),
+      (supabase as any)
+        .from('businesses')
+        .select('id, name')
+        .or(`slug.eq.${escapePostgrestValue(slug)},public_slug.eq.${escapePostgrestValue(slug)}`)
+        .maybeSingle(),
     ]).then(([{ data: { user } }, { data: biz }]) => {
       if (!user) { router.push(`/giris?redirect=/isletme/${slug}/yorumlar/new`); return; }
       setUserId(user.id);
-      if (biz) { setBizId(biz.id); setBizName(biz.name); }
+      if (biz) {
+        setBizId(biz.id); setBizName(biz.name);
+      } else {
+        setError('İşletme bulunamadı. Bağlantıyı tekrar kontrol edin.');
+      }
     });
   }, [slug, router]);
 

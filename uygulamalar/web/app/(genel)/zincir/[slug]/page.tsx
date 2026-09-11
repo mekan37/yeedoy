@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
+import { NotFoundFallback } from '@/src/ui/acik/bulunamadi';
 
 interface ChainBranch {
   chain_id: string;
@@ -46,7 +46,15 @@ export default async function ZincirPage(
   });
 
   if (error || !data || (data as ChainBranch[]).length === 0) {
-    notFound();
+    return (
+      <NotFoundFallback
+        title="Zincir bulunamadı"
+        message="Aradığınız zincir yayında değil ya da bağlantı artık geçerli değil."
+        hint="Bağlantıyı tekrar kontrol edin ya da keşfet sayfasından arayın."
+        backHref="/kesif"
+        backLabel="Keşfet'e dön"
+      />
+    );
   }
 
   const branches = data as ChainBranch[];

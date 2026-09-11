@@ -1,17 +1,20 @@
 'use client';
 
-import { useState, useEffect, type FormEvent } from 'react';
+import { useState, useEffect, useRef, type FormEvent } from 'react';
 import Link from 'next/link';
 import { clsx } from 'clsx';
 import { Icon } from '@/src/ui/acik/simgeler';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 import { toast } from '@/src/lib/toast-deposu';
+import { useModalFocusTrap } from '@/src/lib/odak-tuzagi';
 
 export function CreateCollectionButton({ onCreated }: { onCreated?: () => void }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -47,9 +50,12 @@ export function CreateCollectionButton({ onCreated }: { onCreated?: () => void }
     setDescription('');
   }
 
+  useModalFocusTrap(open, dialogRef, triggerRef, handleClose);
+
   return (
     <>
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
         className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl border border-border bg-card px-4 text-sm font-extrabold text-textStrong transition-all hover:-translate-y-px hover:border-primary/30 hover:shadow-yd1 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
@@ -62,7 +68,9 @@ export function CreateCollectionButton({ onCreated }: { onCreated?: () => void }
 
       {open && (
         <div
-          className="fixed inset-0 z-50 grid place-items-end bg-black/35 p-3 sm:place-items-center"
+          ref={dialogRef}
+          tabIndex={-1}
+          className="fixed inset-0 z-50 grid place-items-end bg-black/35 p-3 sm:place-items-center outline-hidden"
           role="dialog"
           aria-modal="true"
           aria-labelledby="create-col-title"
@@ -257,6 +265,9 @@ export function ShareButton({ title, url, className }: { title: string; url?: st
 export function ReportBusinessButton({ businessId, businessName }: { businessId: string; businessName: string }) {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  useModalFocusTrap(open, dialogRef, triggerRef, () => setOpen(false));
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -283,6 +294,7 @@ export function ReportBusinessButton({ businessId, businessName }: { businessId:
   return (
     <>
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
         className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-border bg-card px-4 text-sm font-black text-textStrong hover:border-danger/35 hover:text-danger focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30"
@@ -291,7 +303,7 @@ export function ReportBusinessButton({ businessId, businessName }: { businessId:
         Rapor et
       </button>
       {open ? (
-        <div className="fixed inset-0 z-50 grid place-items-end bg-black/35 p-3 sm:place-items-center" role="dialog" aria-modal="true">
+        <div ref={dialogRef} tabIndex={-1} className="fixed inset-0 z-50 grid place-items-end bg-black/35 p-3 sm:place-items-center outline-hidden" role="dialog" aria-modal="true">
           <form onSubmit={submit} className="w-full max-w-md rounded-[24px] border border-border bg-card p-5 shadow-yd3">
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -334,6 +346,9 @@ export function ReportBusinessButton({ businessId, businessName }: { businessId:
 export function ReportReviewButton({ reviewId }: { reviewId: string }) {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  useModalFocusTrap(open, dialogRef, triggerRef, () => setOpen(false));
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -360,6 +375,7 @@ export function ReportReviewButton({ reviewId }: { reviewId: string }) {
   return (
     <>
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
         className="inline-flex min-h-11 items-center gap-1.5 rounded-2xl border border-border bg-card px-3 text-xs font-black text-muted hover:border-danger/35 hover:text-danger"
@@ -368,7 +384,7 @@ export function ReportReviewButton({ reviewId }: { reviewId: string }) {
         Bildir
       </button>
       {open ? (
-        <div className="fixed inset-0 z-50 grid place-items-end bg-black/35 p-3 sm:place-items-center" role="dialog" aria-modal="true">
+        <div ref={dialogRef} tabIndex={-1} className="fixed inset-0 z-50 grid place-items-end bg-black/35 p-3 sm:place-items-center outline-hidden" role="dialog" aria-modal="true">
           <form onSubmit={submit} className="w-full max-w-md rounded-[24px] border border-border bg-card p-5 shadow-yd3">
             <div className="flex items-start justify-between gap-4">
               <div>

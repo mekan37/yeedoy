@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
+import { getPriceLevelFromBusiness } from '@/src/lib/fiyat-seviyesi';
 import {
   type KampanyaTuru,
   type BadgeLine,
@@ -64,13 +65,7 @@ function kampanyaDonustur(veri: KampanyaGirdi): Kampanya {
 }
 
 function fiyatSembolu(pl: string | null | undefined, mc: number | null | undefined): string {
-  if (pl === 'budget')  return '₺';
-  if (pl === 'mid')     return '₺₺';
-  if (pl === 'premium') return '₺₺₺';
-  if (!mc) return '';
-  if (mc < 15000) return '₺';
-  if (mc < 40000) return '₺₺';
-  return '₺₺₺';
+  return getPriceLevelFromBusiness(pl, mc).level ?? '';
 }
 
 // ── Kampanya kartı ────────────────────────────────────────────────────────────
@@ -369,7 +364,7 @@ export function KampanyalarCanli({ campaigns }: Props) {
             <div className="space-y-2">
               <p className="text-xs font-extrabold text-muted">Fiyat Aralığı</p>
               <div className="flex gap-1.5">
-                {['₺', '₺₺', '₺₺₺', '₺₺₺₺'].map((f) => (
+                {['₺', '₺₺', '₺₺₺'].map((f) => (
                   <button
                     key={f}
                     type="button"

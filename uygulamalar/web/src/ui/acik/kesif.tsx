@@ -57,6 +57,7 @@ export function SearchBar({ q = '', city = '', action = '/kesif', className }: {
   return (
     <form method="GET" action={action} className={clsx('grid w-full max-w-4xl gap-2 rounded-[32px] bg-white p-2 shadow-[0_24px_60px_rgba(15,23,42,0.24)] sm:grid-cols-[1fr_1fr_auto]', className)}>
       <label className="relative block">
+        <span className="sr-only">İşletme, mutfak veya ürün ara</span>
         <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-muted"><Icon name="search" size={19} /></span>
         <input name="q" defaultValue={q} placeholder="İşletme, mutfak veya ürün" className="min-h-[52px] w-full rounded-full border-0 bg-bg py-3 pl-12 pr-4 text-sm font-bold text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30" />
       </label>
@@ -71,6 +72,7 @@ export function SearchBar({ q = '', city = '', action = '/kesif', className }: {
 export function LocationSearchInput({ city = '' }: { city?: string }) {
   return (
     <label className="relative block">
+      <span className="sr-only">Konum ara</span>
       <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-muted"><Icon name="pin" size={19} /></span>
       <input name="city" defaultValue={city} placeholder="Konum" className="min-h-[52px] w-full rounded-full border-0 bg-bg py-3 pl-12 pr-4 text-sm font-bold text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30" />
     </label>

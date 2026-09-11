@@ -1,10 +1,11 @@
+import { createHash } from 'node:crypto';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { z } from 'zod';
 import { appConfig } from '@/src/lib/ayarlar';
 import { sanitizeInternalRedirect } from '@/src/lib/guvenli-yonlendirme';
-import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
+import { rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { logger } from '@/src/lib/kayitci';
 import type { Database } from '@/src/lib/taban/veri-tanimlari';
 import { resolveRoleBasedRedirect } from '../rol-yonlendirme/route';
@@ -16,13 +17,12 @@ const loginSchema = z.object({
 });
 
 export async function POST(request: Request) {
-  const identity = getRequestIdentity({
-    ip: getClientIp(request.headers),
-    userAgent: request.headers.get('user-agent'),
-  });
-  const limit = rateLimit(`web-login:${identity}`, 8, 60_000);
+  // Yalnızca güvenilir IP ile anahtarla — User-Agent istemci kontrolünde,
+  // ekleyince tek bir istekte 1 karakter değiştirmek yeni bir kova açardı.
+  const ip = getClientIp(request.headers) ?? 'unknown-ip';
+  const ipLimit = rateLimit(`web-login:ip:${ip}`, 8, 60_000);
 
-  if (!limit.ok) {
+  if (!ipLimit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
@@ -38,6 +38,17 @@ export async function POST(request: Request) {
       { error: 'invalid_payload', issues: parsed.error.flatten().fieldErrors },
       { status: 400 },
     );
+  }
+
+  // İkinci, e-posta bazlı kova — dağıtık (çok-IP'li) credential-stuffing'in
+  // tek bir hedef hesaba saldırmasını IP limitinden bağımsız olarak durdurur.
+  const emailHash = createHash('sha256').update(parsed.data.email.trim().toLowerCase()).digest('hex');
+  const emailLimit = rateLimit(`web-login:email:${emailHash}`, 8, 60_000);
+  if (!emailLimit.ok) {
+    if (wantsHtmlRedirect) {
+      return redirectToLogin('rate_limited', '/sahip/gosterge-panosu');
+    }
+    return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
   const redirectTo = getLoginRedirect(parsed.data.redirectTo);

@@ -3,7 +3,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { AppProviders } from '@/src/lib/uygulama-saglayicilari';
 import { PanelShell } from './panel-kabugu';
 import type { NavSection } from './panel-yan-menusu';
 import { UserDropdown } from '@/src/ui/bilesenler/kullanici-dropdown';
@@ -154,7 +153,7 @@ export function SahipKabukIstemcisi({
   const isLandingPage = pathname === '/sahip';
 
   if (isLandingPage) {
-    return <AppProviders>{children}</AppProviders>;
+    return <>{children}</>;
   }
 
   // Kullanıcı zaten Yorumlar sayfasındayken rozeti gösterme
@@ -170,7 +169,6 @@ export function SahipKabukIstemcisi({
   const isletmeSayfaHref = isletme?.slug ? `/isletme/${isletme.slug}` : null;
 
   return (
-    <AppProviders>
       <PanelShell
         navSections={navSectionsWithYorumBadge(baseSections, effectiveYorumBadge)}
         logoSlot={<IsletmeKimlikKarti isletme={isletme} />}
@@ -226,7 +224,6 @@ export function SahipKabukIstemcisi({
       >
         {children}
       </PanelShell>
-    </AppProviders>
   );
 }
 

@@ -4,6 +4,7 @@ import { useEffect, useState, useTransition } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
+import { toast } from '@/src/lib/toast-deposu';
 import { YeedoyLogo } from '@/src/ui/marka/yeedoy-logo';
 import { GoogleIcon } from './giris-ikon';
 import { hataMesaji } from './giris-yardimci';
@@ -157,7 +158,7 @@ export function IsletmeGirisFormu({ initialTab = 'giris' }: Props) {
         return;
       }
 
-      const { data: rpcData } = await (supabase as any).rpc('owner_submit_new_business_v1', {
+      const { data: rpcData, error: rpcError } = await (supabase as any).rpc('owner_submit_new_business_v1', {
         p_name: businessName.trim(),
         p_city: city.trim(),
         p_district: city.trim(),
@@ -165,8 +166,11 @@ export function IsletmeGirisFormu({ initialTab = 'giris' }: Props) {
         p_address: '',
         p_phone: normalizedPhone,
         p_website: null,
-      }) as { data: { ok: boolean } | null };
+      }) as { data: { ok: boolean } | null; error: unknown };
 
+      if (rpcError || !rpcData?.ok) {
+        toast('Hesabın oluşturuldu ama işletme başvurun kaydedilemedi. Gösterge panelinden tekrar deneyebilirsin.', 'warning');
+      }
       window.location.assign(rpcData?.ok ? '/sahip/gosterge-panosu?bilgi=talep_alindi' : '/sahip/gosterge-panosu');
       router.refresh();
     });
