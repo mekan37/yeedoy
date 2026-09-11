@@ -1,6 +1,3 @@
-'use client';
-
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -15,6 +12,9 @@ import { getTranslationValue } from '@/src/lib/acik-menu-sayfasi';
 import type { PublicMenuPageData } from '@/src/lib/acik-menu-sayfasi';
 import type { MenuItemRecord } from '@/src/lib/veri/menu-okuma';
 import { allergenLabels, type AppLang, type MenuCopy } from '@/src/lib/ceviri';
+import { ShareButton } from '@/src/ui/acik/eylem-istemcisi';
+import { MenuArama } from './menu-arama';
+import { MenuSidebarVurgu } from './menu-sidebar-vurgu';
 
 // ── Sabitler ─────────────────────────────────────────────────────────────────
 
@@ -87,16 +87,20 @@ export type MenuDuzenProps = {
 };
 
 // ── Ana bileşen ───────────────────────────────────────────────────────────────
+//
+// Önceden bu bileşenin tamamı 'use client' idi — tüm menü verisi (yüzlerce
+// ürün olabilir) client bundle'ına serialize edilip hydrate ediliyordu.
+// Artık sunucu tarafında render ediliyor; yalnızca gerçekten interaktif
+// olan 3 küçük parça client-island: arama kutusu (menu-arama.tsx, DOM
+// query ile filtreler, veri taşımaz), sidebar aktif-kategori vurgusu
+// (menu-sidebar-vurgu.tsx, yalnızca CSS class toggler) ve paylaş butonu
+// (mevcut paylaşılan ShareButton). Kategori aç/kapa ve "daha fazla göster"
+// artık native <details>/<summary> ile JS'siz çalışıyor.
 
 export function MenuDuzen({
   data, isOpenNow, todayHours, businessName, lang, labels, langSwitchHrefTr, langSwitchHrefEn,
 }: MenuDuzenProps) {
   const { business, categories, items, media } = data;
-
-  const [activeCatId, setActiveCatId] = useState<string>(FEATURED_ID);
-  const [query, setQuery] = useState('');
-  const [showMoreMap, setShowMoreMap] = useState<Record<string, boolean>>({});
-  const [collapsedMap, setCollapsedMap] = useState<Record<string, boolean>>({});
   const stokKutuphanesi = data.stockDishImages;
 
   const catNameMap = new Map<string, string>(
@@ -123,21 +127,6 @@ export function MenuDuzen({
     itemsByCat.set(item.category_id, list);
   }
 
-  function matches(item: MenuItemRecord): boolean {
-    if (!query.trim()) return true;
-    const q = query.toLowerCase();
-    return (
-      item.name.toLowerCase().includes(q) ||
-      (item.description ?? '').toLowerCase().includes(q)
-    );
-  }
-
-  function scrollToSection(catId: string) {
-    setActiveCatId(catId);
-    const el = document.getElementById(`mcat-${catId}`);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
   const biz = business as Record<string, unknown>;
   const orderLinks: Array<{ label: string; url: string; emoji: string }> = [
     biz.order_yemeksepeti_url ? { label: 'Yemeksepeti', url: biz.order_yemeksepeti_url as string, emoji: '🛵' } : null,
@@ -159,6 +148,8 @@ export function MenuDuzen({
 
   return (
     <div>
+      <MenuSidebarVurgu />
+
       {/* ── İşletme başlığı ───────────────────────────────────────────────── */}
       <div className="border-b border-border bg-card">
         <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6">
@@ -287,18 +278,10 @@ export function MenuDuzen({
                   {labels.favoriteButton}
                 </button>
 
-                <button
-                  type="button"
-                  className="inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border bg-card px-4 text-xs font-black text-textStrong hover:border-primary hover:text-primary transition-colors"
-                  onClick={() => { if (navigator.share) navigator.share({ title: businessName, url: window.location.href }); }}
-                  aria-label={labels.shareButtonAria}
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-                    <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
-                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" /><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
-                  </svg>
-                  {labels.shareButton}
-                </button>
+                <ShareButton
+                  title={businessName}
+                  className="min-h-9 rounded-full border-border px-4 text-xs hover:border-primary hover:text-primary"
+                />
 
                 {business.reservation_url && (
                   <Link
@@ -338,24 +321,21 @@ export function MenuDuzen({
               {labels.menuCategoriesTitle}
             </p>
 
-            {sidebarCats.map((cat) => {
-              const isActive = activeCatId === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  type="button"
-                  onClick={() => scrollToSection(cat.id)}
-                  className={`flex w-full items-center gap-2.5 border-l-[3px] px-4 py-2.5 text-left text-sm font-extrabold transition-colors ${
-                    isActive
-                      ? 'border-primary bg-primary/5 text-primary'
-                      : 'border-transparent text-textStrong hover:bg-surface hover:text-primary'
-                  }`}
-                >
-                  <cat.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                  <span className="truncate">{cat.name}</span>
-                </button>
-              );
-            })}
+            {sidebarCats.map((cat, index) => (
+              <a
+                key={cat.id}
+                href={`#mcat-${cat.id}`}
+                data-sidebar-link={cat.id}
+                className={`flex w-full items-center gap-2.5 border-l-[3px] px-4 py-2.5 text-left text-sm font-extrabold transition-colors hover:bg-surface hover:text-primary ${
+                  index === 0
+                    ? 'border-primary bg-primary/5 text-primary'
+                    : 'border-transparent text-textStrong'
+                }`}
+              >
+                <cat.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span className="truncate">{cat.name}</span>
+              </a>
+            ))}
 
             <div className="mx-3 mt-4 rounded-2xl bg-primary/5 p-3">
               <p className="text-xs font-black text-primary">{labels.promoBannerTitle} 🎉</p>
@@ -367,25 +347,16 @@ export function MenuDuzen({
         {/* ── Menü içeriği ── */}
         <div className="flex-1 min-w-0 space-y-8">
 
-          {/* Arama */}
-          <div className="relative">
-            <span className="pointer-events-none absolute inset-y-0 left-3.5 flex items-center text-muted" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
-              </svg>
-            </span>
-            <input
-              type="search"
-              placeholder={labels.searchPlaceholder}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="h-11 w-full rounded-2xl border border-border bg-card pl-11 pr-4 text-sm font-bold text-textStrong placeholder:text-muted focus:border-primary focus:outline-hidden transition-colors"
-            />
-          </div>
+          <MenuArama
+            placeholder={labels.searchPlaceholder}
+            noResultsPrefix={labels.noSearchResultsPrefix}
+            noResultsSuffix={labels.noSearchResultsSuffix}
+            noResultsHint={labels.noSearchResultsHint}
+          />
 
           {/* ── Öne çıkanlar (grid) ── */}
-          {featuredItems.filter(matches).length > 0 && (
-            <section id={`mcat-${FEATURED_ID}`}>
+          {featuredItems.length > 0 && (
+            <section id={`mcat-${FEATURED_ID}`} data-menu-section data-menu-section-id={FEATURED_ID}>
               <div className="mb-4 flex items-baseline justify-between">
                 <div>
                   <h2 className="text-lg font-black text-textStrong">
@@ -395,7 +366,7 @@ export function MenuDuzen({
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                {featuredItems.filter(matches).map((item) => (
+                {featuredItems.map((item) => (
                   <UrunKarti key={item.id} item={item} translations={data.translations} lang={lang} labels={labels} />
                 ))}
               </div>
@@ -404,80 +375,69 @@ export function MenuDuzen({
 
           {/* ── Kategori bölümleri (liste) ── */}
           {categories.map((cat) => {
-            const catItems = (itemsByCat.get(cat.id) ?? []).filter(matches);
+            const catItems = itemsByCat.get(cat.id) ?? [];
             if (catItems.length === 0) return null;
 
             const catName = catNameMap.get(cat.id) ?? 'Kategori';
             const CategoryIcon = kategoriIkonu(catName);
-            const isCollapsed = collapsedMap[cat.id] ?? false;
-            const showMore = showMoreMap[cat.id] ?? false;
-            const visibleItems = showMore ? catItems : catItems.slice(0, INITIAL_SHOW);
+            const visibleItems = catItems.slice(0, INITIAL_SHOW);
+            const extraItems = catItems.slice(INITIAL_SHOW);
 
             return (
-              <section key={cat.id} id={`mcat-${cat.id}`}>
-                <button
-                  type="button"
-                  onClick={() => setCollapsedMap((p) => ({ ...p, [cat.id]: !p[cat.id] }))}
-                  className="mb-3 flex w-full items-center gap-2 text-left"
-                  aria-expanded={!isCollapsed}
-                >
-                  <CategoryIcon aria-hidden="true" className="h-5 w-5 shrink-0 text-primary" />
-                  <h2 className="flex-1 text-lg font-black text-textStrong">{catName}</h2>
-                  <svg
-                    width="16" height="16" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
-                    className={`shrink-0 text-muted transition-transform ${isCollapsed ? '' : 'rotate-180'}`}
-                    aria-hidden="true"
-                  >
-                    <path d="m18 15-6-6-6 6" />
-                  </svg>
-                </button>
+              <section key={cat.id} id={`mcat-${cat.id}`} data-menu-section data-menu-section-id={cat.id}>
+                <details open className="group/cat">
+                  <summary className="mb-3 flex w-full cursor-pointer list-none items-center gap-2 text-left [&::-webkit-details-marker]:hidden">
+                    <CategoryIcon aria-hidden="true" className="h-5 w-5 shrink-0 text-primary" />
+                    <h2 className="flex-1 text-lg font-black text-textStrong">{catName}</h2>
+                    <svg
+                      width="16" height="16" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
+                      className="shrink-0 text-muted transition-transform group-open/cat:rotate-180"
+                      aria-hidden="true"
+                    >
+                      <path d="m18 15-6-6-6 6" />
+                    </svg>
+                  </summary>
 
-                {!isCollapsed && (
-                  <>
-                    <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
-                      {visibleItems.map((item) => (
-                        <UrunSatiri
-                          key={item.id}
-                          item={item}
-                          stokKutuphanesi={stokKutuphanesi}
-                          translations={data.translations}
-                          lang={lang}
-                          labels={labels}
-                        />
-                      ))}
-                    </div>
+                  <div className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
+                    {visibleItems.map((item) => (
+                      <UrunSatiri
+                        key={item.id}
+                        item={item}
+                        stokKutuphanesi={stokKutuphanesi}
+                        translations={data.translations}
+                        lang={lang}
+                        labels={labels}
+                      />
+                    ))}
+                  </div>
 
-                    {!showMore && catItems.length > INITIAL_SHOW && (
-                      <button
-                        type="button"
-                        onClick={() => setShowMoreMap((p) => ({ ...p, [cat.id]: true }))}
-                        className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-2xl border border-border bg-card py-2.5 text-sm font-black text-textStrong hover:bg-surface transition-colors"
-                      >
+                  {extraItems.length > 0 && (
+                    <details className="group/more mt-3">
+                      <summary className="flex w-full cursor-pointer list-none items-center justify-center gap-1.5 rounded-2xl border border-border bg-card py-2.5 text-sm font-black text-textStrong hover:bg-surface transition-colors [&::-webkit-details-marker]:hidden">
                         {labels.showMoreButton}
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true" className="transition-transform group-open/more:rotate-180">
                           <path d="m6 9 6 6 6-6" />
                         </svg>
-                      </button>
-                    )}
-                  </>
-                )}
+                      </summary>
+                      <div className="mt-2 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
+                        {extraItems.map((item) => (
+                          <UrunSatiri
+                            key={item.id}
+                            item={item}
+                            stokKutuphanesi={stokKutuphanesi}
+                            translations={data.translations}
+                            lang={lang}
+                            labels={labels}
+                          />
+                        ))}
+                      </div>
+                    </details>
+                  )}
+                </details>
               </section>
             );
           })}
-
-          {/* Arama sonucu yok */}
-          {query.trim() &&
-            featuredItems.filter(matches).length === 0 &&
-            categories.every((c) => (itemsByCat.get(c.id) ?? []).filter(matches).length === 0) && (
-              <div className="rounded-2xl border border-border bg-card px-6 py-12 text-center">
-                <p className="text-3xl" aria-hidden="true">🔍</p>
-                <p className="mt-3 text-sm font-black text-textStrong">
-                  {labels.noSearchResultsPrefix} &ldquo;{query}&rdquo; {labels.noSearchResultsSuffix}
-                </p>
-                <p className="mt-1 text-xs font-bold text-muted">{labels.noSearchResultsHint}</p>
-              </div>
-            )}
         </div>
       </div>
     </div>
@@ -506,6 +466,9 @@ function UrunKarti({
 
   return (
     <div
+      data-menu-item
+      data-menu-name={name}
+      data-menu-desc={description ?? ''}
       className={`group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-shadow hover:shadow-ydMd ${
         !isAvailable ? 'opacity-60' : ''
       }`}
@@ -581,7 +544,12 @@ function UrunSatiri({
   }) ?? item.description;
 
   return (
-    <div className={`flex items-start gap-3 p-4 ${!isAvailable ? 'opacity-60' : ''}`}>
+    <div
+      data-menu-item
+      data-menu-name={name}
+      data-menu-desc={description ?? ''}
+      className={`flex items-start gap-3 p-4 ${!isAvailable ? 'opacity-60' : ''}`}
+    >
       {/* Görsel */}
       {imgUrl ? (
         <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl">
