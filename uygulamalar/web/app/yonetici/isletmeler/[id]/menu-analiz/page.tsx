@@ -45,7 +45,12 @@ export default async function MenuAnalizPage({ params, searchParams }: Props) {
         }
       />
       <PanelIcerikYuzeyi className="pt-6">
-        <MenuAnalizIstemcisi businessId={businessId} businessName={isletme?.name ?? ''} initialJobId={job ?? null} />
+        <MenuAnalizIstemcisi
+          businessId={businessId}
+          businessName={isletme?.name ?? ''}
+          initialJobId={job ?? null}
+          initialWebsiteUrl={isletme?.website_url ?? null}
+        />
       </PanelIcerikYuzeyi>
     </div>
   );

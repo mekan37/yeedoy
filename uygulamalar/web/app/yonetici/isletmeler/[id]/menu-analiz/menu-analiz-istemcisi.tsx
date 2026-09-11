@@ -17,8 +17,13 @@ import {
   type IsletmeMenuOgesi,
   type MenuAnalizUygulaKarari,
 } from './menu-analiz-islemleri';
+import {
+  MENU_KAYNAK_KESFI_METINLERI,
+  type DiscoveryOutcome,
+} from './menu-analiz-yardimcilari';
 
 type Asama = 'giris' | 'bekliyor' | 'tamamlandi' | 'basarisiz' | 'onizleme' | 'sonuc';
+export type MenuKaynakModu = 'url' | 'dosya' | 'website';
 type Karar = { action: 'create' | 'update' | 'skip'; targetId?: string };
 
 const POLL_ARALIGI_MS = 2800;
@@ -32,6 +37,9 @@ const HATA_METINLERI: Record<string, string> = {
   forbidden: 'Bu işlem için yetkiniz yok.',
   not_found: 'İşletme bulunamadı, sayfa yenilenmiş olabilir.',
   internal_error: 'Analiz başlatılamadı, tekrar deneyin.',
+  extractor_unavailable: MENU_KAYNAK_KESFI_METINLERI.unavailable,
+  auth_error: 'Menü analiz servisi kimlik doğrulaması başarısız oldu.',
+  job_failed: 'Menü analiz işi başlatılamadı, tekrar deneyin.',
 };
 
 function hataCevir(kod: unknown): string {
@@ -54,10 +62,12 @@ export function MenuAnalizIstemcisi({
   businessId,
   businessName,
   initialJobId,
+  initialWebsiteUrl,
 }: {
   businessId: string;
   businessName: string;
   initialJobId: string | null;
+  initialWebsiteUrl: string | null;
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -68,9 +78,12 @@ export function MenuAnalizIstemcisi({
   const [hataMesaji, setHataMesaji] = useState<string | null>(null);
   const [baslatiliyor, setBaslatiliyor] = useState(false);
 
-  const [mod, setMod] = useState<'url' | 'dosya'>('url');
+  const [mod, setMod] = useState<MenuKaynakModu>('url');
   const [urlDegeri, setUrlDegeri] = useState('');
+  const [websiteDegeri, setWebsiteDegeri] = useState(initialWebsiteUrl ?? '');
   const [dosya, setDosya] = useState<File | null>(null);
+  const [aktifAnalizModu, setAktifAnalizModu] = useState<MenuKaynakModu | null>(null);
+  const [discoveryOutcome, setDiscoveryOutcome] = useState<DiscoveryOutcome | null>(null);
 
   const [ogeler, setOgeler] = useState<MenuAnalizOge[]>([]);
   const [ogelerYukleniyor, setOgelerYukleniyor] = useState(false);
@@ -100,7 +113,9 @@ export function MenuAnalizIstemcisi({
         pollTimer.current = setTimeout(birTur, POLL_ARALIGI_MS);
         return;
       }
+      if (res.data.sourceType === 'website_discovery') setAktifAnalizModu('website');
       if (res.data.status === 'finished') {
+        setDiscoveryOutcome(res.data.discoveryOutcome);
         setAsama('tamamlandi');
         return;
       }
@@ -139,8 +154,10 @@ export function MenuAnalizIstemcisi({
     };
   }, [asama, jobId]);
 
-  function jobBaslatildi(yeniJobId: string) {
+  function jobBaslatildi(yeniJobId: string, kaynakModu: MenuKaynakModu) {
     setJobId(yeniJobId);
+    setAktifAnalizModu(kaynakModu);
+    setDiscoveryOutcome(null);
     setDurum('queued');
     setHataMesaji(null);
     setAsama('bekliyor');
@@ -160,7 +177,7 @@ export function MenuAnalizIstemcisi({
       setHataMesaji(res.error);
       return;
     }
-    jobBaslatildi(res.jobId);
+    jobBaslatildi(res.jobId, 'url');
   }
 
   async function dosyaIleBaslat() {
@@ -184,9 +201,43 @@ export function MenuAnalizIstemcisi({
         setHataMesaji(hataCevir(json?.error));
         return;
       }
-      jobBaslatildi(json.data.job_id);
+      jobBaslatildi(json.data.job_id, 'dosya');
     } catch {
       setHataMesaji('Analiz servisine ulaşılamadı.');
+    } finally {
+      setBaslatiliyor(false);
+    }
+  }
+
+  async function websiteIleBaslat() {
+    setHataMesaji(null);
+    const websiteUrl = websiteDegeri.trim();
+    if (!websiteUrl) {
+      setHataMesaji(MENU_KAYNAK_KESFI_METINLERI.required);
+      return;
+    }
+    try {
+      new URL(websiteUrl);
+    } catch {
+      setHataMesaji(MENU_KAYNAK_KESFI_METINLERI.invalidUrl);
+      return;
+    }
+
+    setBaslatiliyor(true);
+    try {
+      const resp = await fetch('/api/yonetici/menu-analiz/kaynak-kesfi', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ business_id: businessId, website_url: websiteUrl }),
+      });
+      const json = (await resp.json().catch(() => null)) as { data?: { job_id: string }; error?: string } | null;
+      if (!resp.ok || !json?.data?.job_id) {
+        setHataMesaji(hataCevir(json?.error));
+        return;
+      }
+      jobBaslatildi(json.data.job_id, 'website');
+    } catch {
+      setHataMesaji(MENU_KAYNAK_KESFI_METINLERI.unavailable);
     } finally {
       setBaslatiliyor(false);
     }
@@ -198,13 +249,35 @@ export function MenuAnalizIstemcisi({
     setHataMesaji(null);
     setOgeler([]);
     setSonuc(null);
-    setUrlDegeri('');
-    setDosya(null);
+    setDiscoveryOutcome(null);
+    setAktifAnalizModu(null);
     router.replace(pathname, { scroll: false });
   }
 
+  function girisModunaDon(yeniMod: MenuKaynakModu) {
+    setMod(yeniMod);
+    yenidenDene();
+  }
+
   async function ogeKaydet(oge: MenuAnalizOge, patch: { categoryName: string | null; name: string; description: string | null; priceCents: number | null }) {
-    setOgeler((prev) => prev.map((o) => (o.id === oge.id ? { ...o, category_name: patch.categoryName, name: patch.name, description: patch.description, price_cents: patch.priceCents } : o)));
+    setOgeler((prev) => prev.map((o) => {
+      if (o.id !== oge.id) return o;
+      const reviewReasons = patch.priceCents === null
+        ? o.review_reasons
+        : o.review_reasons.filter((reason) => reason !== 'Fiyat eksik' && reason !== 'Fiyat bulunamadı');
+      const priceWasOnlyReviewReason = o.price_cents === null
+        && o.warnings.length === 0
+        && o.review_reasons.every((reason) => reason === 'Fiyat eksik' || reason === 'Fiyat bulunamadı');
+      return {
+        ...o,
+        category_name: patch.categoryName,
+        name: patch.name,
+        description: patch.description,
+        price_cents: patch.priceCents,
+        review_reasons: reviewReasons,
+        requires_review: priceWasOnlyReviewReason && patch.priceCents !== null ? false : o.requires_review,
+      };
+    }));
     const res = await menuAnalizOgeGuncelle({
       itemId: oge.id,
       categoryName: patch.categoryName,
@@ -277,16 +350,19 @@ export function MenuAnalizIstemcisi({
           setMod={setMod}
           urlDegeri={urlDegeri}
           setUrlDegeri={setUrlDegeri}
+          websiteDegeri={websiteDegeri}
+          setWebsiteDegeri={setWebsiteDegeri}
           dosya={dosya}
           setDosya={setDosya}
           baslatiliyor={baslatiliyor}
           hataMesaji={hataMesaji}
           onUrlBaslat={urlIleBaslat}
           onDosyaBaslat={dosyaIleBaslat}
+          onWebsiteBaslat={websiteIleBaslat}
         />
       )}
 
-      {asama === 'bekliyor' && <BeklemeAlani durum={durum} />}
+      {asama === 'bekliyor' && <BeklemeAlani durum={durum} discovery={aktifAnalizModu === 'website'} />}
 
       {asama === 'basarisiz' && <BasarisizAlani hataMesaji={hataMesaji} onTekrarDene={yenidenDene} />}
 
@@ -295,14 +371,25 @@ export function MenuAnalizIstemcisi({
       )}
 
       {asama === 'tamamlandi' && !ogelerYukleniyor && (
-        <OgelerTablosu
-          ogeler={ogeler}
-          onKaydet={ogeKaydet}
-          onHaricTutDegistir={ogeHaricTutDegistir}
-          onOnizlemeyeGec={onizlemeyeGec}
-          onizlemeYukleniyor={onizlemeYukleniyor}
-          hataMesaji={hataMesaji}
-        />
+        <>
+          {discoveryOutcome && (
+            <DiscoveryOutcomeCard
+              outcome={discoveryOutcome}
+              onModeChange={girisModunaDon}
+              onRetry={() => void websiteIleBaslat()}
+            />
+          )}
+          {(ogeler.length > 0 || !discoveryOutcome) && (
+            <OgelerTablosu
+              ogeler={ogeler}
+              onKaydet={ogeKaydet}
+              onHaricTutDegistir={ogeHaricTutDegistir}
+              onOnizlemeyeGec={onizlemeyeGec}
+              onizlemeYukleniyor={onizlemeYukleniyor}
+              hataMesaji={hataMesaji}
+            />
+          )}
+        </>
       )}
 
       {asama === 'onizleme' && (
@@ -331,37 +418,45 @@ function GirisAlani({
   setMod,
   urlDegeri,
   setUrlDegeri,
+  websiteDegeri,
+  setWebsiteDegeri,
   dosya,
   setDosya,
   baslatiliyor,
   hataMesaji,
   onUrlBaslat,
   onDosyaBaslat,
+  onWebsiteBaslat,
 }: {
-  mod: 'url' | 'dosya';
-  setMod: (m: 'url' | 'dosya') => void;
+  mod: MenuKaynakModu;
+  setMod: (m: MenuKaynakModu) => void;
   urlDegeri: string;
   setUrlDegeri: (v: string) => void;
+  websiteDegeri: string;
+  setWebsiteDegeri: (v: string) => void;
   dosya: File | null;
   setDosya: (f: File | null) => void;
   baslatiliyor: boolean;
   hataMesaji: string | null;
   onUrlBaslat: () => void;
   onDosyaBaslat: () => void;
+  onWebsiteBaslat: () => void;
 }) {
   return (
-    <PanelBolumKarti title="Menü Kaynağı" description="Bir menü URL'si girin veya PDF/görsel dosya yükleyin. Analiz tamamlanınca çıkarılan kalemleri gözden geçirip onaylayacaksınız.">
+    <PanelBolumKarti title="Menü Kaynağı" description={MENU_KAYNAK_KESFI_METINLERI.cardDescription}>
       <div className="flex flex-col gap-4">
-        <div className="flex gap-1 border-b border-border">
+        <div role="tablist" aria-label="Menü kaynağı" className="flex gap-1 overflow-x-auto border-b border-border">
           <ModSekmesi active={mod === 'url'} onClick={() => setMod('url')}>Menü Linki (URL)</ModSekmesi>
           <ModSekmesi active={mod === 'dosya'} onClick={() => setMod('dosya')}>Dosya Yükle (PDF/Görsel)</ModSekmesi>
+          <ModSekmesi active={mod === 'website'} onClick={() => setMod('website')}>{MENU_KAYNAK_KESFI_METINLERI.tab}</ModSekmesi>
         </div>
 
-        {mod === 'url' ? (
+        {mod === 'url' && (
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
             <div className="flex-1">
-              <label className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted">Menü URL&apos;si</label>
+              <label htmlFor="menu-url" className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted">Menü URL&apos;si</label>
               <input
+                id="menu-url"
                 value={urlDegeri}
                 onChange={(e) => setUrlDegeri(e.target.value)}
                 placeholder="https://ornek-restoran.com/menu"
@@ -372,11 +467,14 @@ function GirisAlani({
               Analizi Başlat
             </PanelActionButton>
           </div>
-        ) : (
+        )}
+
+        {mod === 'dosya' && (
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
             <div className="flex-1">
-              <label className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted">Dosya (PDF veya görsel, maks. 30 MB)</label>
+              <label htmlFor="menu-file" className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted">Dosya (PDF veya görsel, maks. 30 MB)</label>
               <input
+                id="menu-file"
                 type="file"
                 accept="application/pdf,image/*"
                 onChange={(e) => setDosya(e.target.files?.[0] ?? null)}
@@ -386,6 +484,31 @@ function GirisAlani({
             <PanelActionButton variant="primary" loading={baslatiliyor} disabled={baslatiliyor || !dosya} onClick={onDosyaBaslat}>
               Analizi Başlat
             </PanelActionButton>
+          </div>
+        )}
+
+        {mod === 'website' && (
+          <div className="flex flex-col gap-3">
+            <p className="max-w-2xl text-sm text-muted">{MENU_KAYNAK_KESFI_METINLERI.description}</p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+              <div className="flex-1">
+                <label htmlFor="business-website" className="mb-1 block text-xs font-bold uppercase tracking-wide text-muted">
+                  {MENU_KAYNAK_KESFI_METINLERI.label}
+                </label>
+                <input
+                  id="business-website"
+                  type="url"
+                  value={websiteDegeri}
+                  onChange={(event) => setWebsiteDegeri(event.target.value)}
+                  placeholder={MENU_KAYNAK_KESFI_METINLERI.placeholder}
+                  className="min-h-11 w-full rounded-xl border border-border bg-bg px-4 py-2 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
+                />
+              </div>
+              <PanelActionButton variant="primary" loading={baslatiliyor} disabled={baslatiliyor || !websiteDegeri.trim()} onClick={onWebsiteBaslat}>
+                {MENU_KAYNAK_KESFI_METINLERI.action}
+              </PanelActionButton>
+            </div>
+            <p className="text-xs text-muted">{MENU_KAYNAK_KESFI_METINLERI.info}</p>
           </div>
         )}
 
@@ -399,9 +522,11 @@ function ModSekmesi({ active, onClick, children }: { active: boolean; onClick: (
   return (
     <button
       type="button"
+      role="tab"
+      aria-selected={active}
       onClick={onClick}
       className={clsx(
-        'rounded-t-lg px-4 py-2 text-sm font-extrabold transition-colors',
+        'min-h-11 shrink-0 whitespace-nowrap rounded-t-lg px-4 py-2 text-sm font-extrabold transition-colors',
         active ? 'border-b-2 border-primary text-primary' : 'text-muted hover:text-textStrong',
       )}
     >
@@ -412,15 +537,96 @@ function ModSekmesi({ active, onClick, children }: { active: boolean; onClick: (
 
 // ─── Bekleme (polling) ────────────────────────────────────────────────────────
 
-function BeklemeAlani({ durum }: { durum: 'queued' | 'started' }) {
+function BeklemeAlani({ durum, discovery = false }: { durum: 'queued' | 'started'; discovery?: boolean }) {
+  const baslik = discovery
+    ? durum === 'queued' ? 'Web sitesi inceleniyor' : 'Menü kaynağı aranıyor'
+    : durum === 'queued' ? 'Sırada...' : 'İşleniyor...';
   return (
     <PanelBolumKarti>
       <div className="flex flex-col items-center gap-3 py-10 text-center">
         <SpinnerIcon />
-        <p className="text-sm font-extrabold text-textStrong">{durum === 'queued' ? 'Sırada...' : 'İşleniyor...'}</p>
+        <p className="text-sm font-extrabold text-textStrong">{baslik}</p>
         <p className="max-w-sm text-xs text-muted">
-          Menü analiz ediliyor, bu birkaç dakika sürebilir. Bu sayfayı kapatmanız gerekirse iş bilgisi bağlantıya kaydedildi — sayfayı yeniden açtığınızda kaldığı yerden devam eder.
+          {discovery
+            ? MENU_KAYNAK_KESFI_METINLERI.workingDescription
+            : 'Menü analiz ediliyor, bu birkaç dakika sürebilir. Bu sayfayı kapatmanız gerekirse iş bilgisi bağlantıya kaydedildi — sayfayı yeniden açtığınızda kaldığı yerden devam eder.'}
         </p>
+        {discovery && (
+          <ol className="grid w-full max-w-2xl gap-2 text-left text-xs sm:grid-cols-5">
+            {MENU_KAYNAK_KESFI_METINLERI.progressSteps.map((step, index) => {
+              const activeIndex = durum === 'queued' ? 0 : 1;
+              return (
+                <li
+                  key={step}
+                  aria-current={index === activeIndex ? 'step' : undefined}
+                  className={clsx(
+                    'rounded-lg border px-2.5 py-2 font-bold',
+                    index === activeIndex ? 'border-primary/40 bg-primary/5 text-primary' : 'border-border text-muted',
+                  )}
+                >
+                  {step}
+                </li>
+              );
+            })}
+          </ol>
+        )}
+      </div>
+    </PanelBolumKarti>
+  );
+}
+
+export function DiscoveryOutcomeCard({
+  outcome,
+  onModeChange,
+  onRetry,
+}: {
+  outcome: DiscoveryOutcome;
+  onModeChange: (mode: MenuKaynakModu) => void;
+  onRetry: () => void;
+}) {
+  const noItems = outcome.status === 'SOURCE_FOUND_NO_ITEMS'
+    || outcome.status === 'SOURCE_FOUND_NEEDS_OCR'
+    || outcome.status === 'INVALID_SOURCE_CONTENT'
+    || outcome.status === 'NO_SOURCE_FOUND'
+    || outcome.status === 'FETCH_FAILED';
+  const sourceHref = outcome.sourceUrl ?? outcome.selectedSource;
+
+  return (
+    <PanelBolumKarti title={outcome.totalItems > 0 ? MENU_KAYNAK_KESFI_METINLERI.foundTitle : MENU_KAYNAK_KESFI_METINLERI.resultTitle} description={outcome.message}>
+      <div className="flex flex-col gap-3">
+        {outcome.totalItems > 0 && (
+          <div className="flex flex-wrap gap-x-5 gap-y-1 text-sm text-textStrong">
+            <span><strong>{outcome.totalItems}</strong> ürün</span>
+            <span><strong>{outcome.pricedItems}</strong> fiyatlı</span>
+            <span><strong>{outcome.missingPriceItems}</strong> fiyatı eksik</span>
+            <span><strong>{outcome.categoryCount}</strong> kategori</span>
+            {outcome.sourceProvider && <span>Kaynak: <strong>{outcome.sourceProvider}</strong></span>}
+          </div>
+        )}
+        {outcome.missingPriceItems > 0 && (
+          <p className="text-xs font-bold text-amber-700">
+            {outcome.pricedItems === 0
+              ? MENU_KAYNAK_KESFI_METINLERI.allPricesMissingHint
+              : MENU_KAYNAK_KESFI_METINLERI.partialHint}
+          </p>
+        )}
+        {sourceHref && (
+          <a href={sourceHref} target="_blank" rel="noopener noreferrer" className="w-fit text-xs font-extrabold text-primary hover:underline">
+            {MENU_KAYNAK_KESFI_METINLERI.viewSource}
+          </a>
+        )}
+        {noItems && (
+          <div className="flex flex-col gap-2 border-t border-border pt-3">
+            <p className="text-xs text-muted">{MENU_KAYNAK_KESFI_METINLERI.noSourceHint}</p>
+            <div className="flex flex-wrap gap-2">
+              {outcome.status === 'FETCH_FAILED' && (
+                <PanelActionButton variant="secondary" onClick={onRetry}>{MENU_KAYNAK_KESFI_METINLERI.retry}</PanelActionButton>
+              )}
+              <PanelActionButton variant="secondary" onClick={() => onModeChange('url')}>{MENU_KAYNAK_KESFI_METINLERI.enterMenuLink}</PanelActionButton>
+              <PanelActionButton variant="secondary" onClick={() => onModeChange('dosya')}>{MENU_KAYNAK_KESFI_METINLERI.uploadFile}</PanelActionButton>
+            </div>
+          </div>
+        )}
       </div>
     </PanelBolumKarti>
   );
@@ -565,7 +771,7 @@ function OgeSatiri({
           value={priceStr}
           onChange={(e) => setPriceStr(e.target.value)}
           onBlur={kaydet}
-          placeholder={priceEksik ? 'Zorunlu' : undefined}
+          placeholder={priceEksik ? '—' : undefined}
           className={clsx(inputClass, priceEksik && 'border-red-400 bg-red-50 placeholder:font-extrabold placeholder:text-red-500')}
         />
       </td>

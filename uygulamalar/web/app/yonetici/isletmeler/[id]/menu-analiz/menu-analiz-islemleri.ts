@@ -5,9 +5,15 @@ import { checkAdminAccess } from '@/src/lib/auth/admin-guard';
 import { logger } from '@/src/lib/kayitci';
 import { rateLimit } from '@/src/lib/oran-siniri';
 import {
-  menuExtractorStartUrlJob,
+  menuExtractorStartSourceDiscoveryJob,
   menuExtractorPollJob,
 } from '@/src/lib/menu-analiz/disari-cagri';
+import {
+  discoveryOutcomeMessage,
+  normalizeExtractResult,
+  parseDiscoveryOutcome,
+  type DiscoveryOutcome,
+} from './menu-analiz-yardimcilari';
 
 type SbRpc = { rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }> };
 
@@ -41,7 +47,7 @@ export async function menuAnalizBaslatUrl(businessId: string, url: string): Prom
   const limit = rateLimit(`menu-analiz-baslat:${guard.userId}`, 10, 60_000);
   if (!limit.ok) return { ok: false, error: 'Çok fazla istek. Lütfen biraz bekleyip tekrar deneyin.' };
 
-  const started = await menuExtractorStartUrlJob(trimmedUrl);
+  const started = await menuExtractorStartSourceDiscoveryJob(trimmedUrl);
   if (!started.ok) return { ok: false, error: started.error };
 
   const supabase = await createSupabaseServerClient();
@@ -71,6 +77,8 @@ export async function menuAnalizBaslatUrl(businessId: string, url: string): Prom
 export interface MenuAnalizDurum {
   status: 'queued' | 'started' | 'finished' | 'failed';
   errorMessage: string | null;
+  sourceType: string | null;
+  discoveryOutcome: DiscoveryOutcome | null;
 }
 
 export async function menuAnalizDurumSorgula(jobId: string): Promise<{ ok: true; data: MenuAnalizDurum } | { ok: false; error: string }> {
@@ -86,24 +94,48 @@ export async function menuAnalizDurumSorgula(jobId: string): Promise<{ ok: true;
     return { ok: false, error: 'Analiz durumu alınamadı.' };
   }
   const job = (Array.isArray(jobRows) ? jobRows[0] : jobRows) as
-    | { status: string; error_message: string | null; external_job_id: string | null }
+    | { status: string; error_message: string | null; external_job_id: string | null; source_type: string | null; source_url: string | null; result: unknown }
     | null
     | undefined;
   if (!job) return { ok: false, error: 'Analiz kaydı bulunamadı, sayfa yenilenmiş olabilir.' };
 
   // Zaten terminal durumdaysa dış servise tekrar sorulmaz — idempotent, gereksiz istek yok.
   if (job.status === 'finished' || job.status === 'failed') {
-    return { ok: true, data: { status: job.status, errorMessage: job.error_message } };
+    return {
+      ok: true,
+      data: {
+        status: job.status,
+        errorMessage: job.error_message,
+        sourceType: job.source_type,
+        discoveryOutcome: parseDiscoveryOutcome(job.result),
+      },
+    };
   }
 
   if (!job.external_job_id) {
-    return { ok: true, data: { status: (job.status as MenuAnalizDurum['status']) ?? 'queued', errorMessage: null } };
+    return { ok: true, data: { status: (job.status as MenuAnalizDurum['status']) ?? 'queued', errorMessage: null, sourceType: job.source_type, discoveryOutcome: null } };
   }
 
   const poll = await menuExtractorPollJob(job.external_job_id);
 
   if (poll.status === 'finished') {
     const items = normalizeExtractResult(poll.result);
+    if (process.env.NODE_ENV === 'development') {
+      const discovery = poll.result && typeof poll.result === 'object' && !Array.isArray(poll.result)
+        ? poll.result as Record<string, unknown>
+        : null;
+      logger.info('[menu-analysis]', {
+        input_url: job.source_url,
+        job_id: job.external_job_id,
+        job_status: 'finished',
+        discovery_status: discovery?.outcome_status ?? discovery?.status ?? null,
+        selected_source: discovery?.selected_source ?? null,
+        extraction_started: discovery?.extraction_started ?? null,
+        extraction_finished: discovery?.extraction_finished ?? null,
+        extracted_item_count: discovery?.extracted_item_count ?? null,
+        normalized_item_count: items.length,
+      });
+    }
     const { error: finishError } = await sb.rpc('admin_finish_menu_extract_job_v1', {
       p_job_id: jobId,
       p_result: poll.result ?? {},
@@ -113,170 +145,44 @@ export async function menuAnalizDurumSorgula(jobId: string): Promise<{ ok: true;
       logger.error('menuAnalizDurumSorgula: finish RPC hatası', { error: finishError, jobId });
       return { ok: false, error: 'Analiz sonucu kaydedilemedi, tekrar deneyin.' };
     }
-    return { ok: true, data: { status: 'finished', errorMessage: null } };
+    return {
+      ok: true,
+      data: {
+        status: 'finished',
+        errorMessage: null,
+        sourceType: job.source_type,
+        discoveryOutcome: parseDiscoveryOutcome(poll.result),
+      },
+    };
   }
 
   if (poll.status === 'failed') {
+    const errorMessage = discoveryOutcomeMessage(poll.error) ?? poll.error;
     const { error: failError } = await sb.rpc('admin_fail_menu_extract_job_v1', {
       p_job_id: jobId,
-      p_error_message: poll.error,
+      p_error_message: errorMessage,
     });
     if (failError) {
       logger.error('menuAnalizDurumSorgula: fail RPC hatası', { error: failError, jobId });
     }
-    return { ok: true, data: { status: 'failed', errorMessage: poll.error } };
+    return { ok: true, data: { status: 'failed', errorMessage, sourceType: job.source_type, discoveryOutcome: null } };
   }
 
   if (poll.status === 'error') {
+    if (poll.code === 'AUTH_ERROR') {
+      const { error: failError } = await sb.rpc('admin_fail_menu_extract_job_v1', {
+        p_job_id: jobId,
+        p_error_message: poll.error,
+      });
+      if (failError) logger.error('menuAnalizDurumSorgula: auth fail RPC hatası', { error: failError, jobId });
+      return { ok: true, data: { status: 'failed', errorMessage: poll.error, sourceType: job.source_type, discoveryOutcome: null } };
+    }
     // Extractor'a ulaşılamadı — DB durumuna dokunulmaz, istemci bir sonraki
     // poll turunda tekrar dener.
     return { ok: false, error: poll.error };
   }
 
-  return { ok: true, data: { status: poll.status, errorMessage: null } };
-}
-
-// ─── Normalizer ───────────────────────────────────────────────────────────────
-// Extractor'ın `result` alanının kesin şekli garanti değil. Kalemleri olası
-// birkaç anahtar altında arar, her alanı savunmacı biçimde ayıklar. Fiyatı
-// bulunamayan/parse edilemeyen kalemler için price_cents HER ZAMAN null kalır
-// — asla 0'a veya başka bir değere düşürülmez (bu özelliğin en kritik kuralı).
-
-interface NormalizedExtractItem {
-  category_name: string | null;
-  name: string;
-  description: string | null;
-  price_cents: number | null;
-  currency: string;
-  confidence: number | null;
-  requires_review: boolean;
-  review_reasons: string[];
-  warnings: string[];
-}
-
-const ITEM_ARRAY_KEYS = ['items', 'menu_items', 'menuItems', 'menu', 'products', 'dishes', 'entries'];
-
-function locateItemsArray(result: unknown): unknown[] {
-  if (Array.isArray(result)) return result;
-  if (!result || typeof result !== 'object') return [];
-  const r = result as Record<string, unknown>;
-  for (const key of ITEM_ARRAY_KEYS) {
-    if (Array.isArray(r[key])) return r[key] as unknown[];
-  }
-  // Bir seviye iç içe olabilir (ör. result.data.items)
-  for (const value of Object.values(r)) {
-    if (value && typeof value === 'object' && !Array.isArray(value)) {
-      const nested = value as Record<string, unknown>;
-      for (const key of ITEM_ARRAY_KEYS) {
-        if (Array.isArray(nested[key])) return nested[key] as unknown[];
-      }
-    }
-  }
-  return [];
-}
-
-function coerceName(r: Record<string, unknown>): string | null {
-  const candidates = [r.name, r.title, r.product_name, r.item_name, r.ad];
-  for (const c of candidates) {
-    if (typeof c === 'string' && c.trim()) return c.trim();
-  }
-  return null;
-}
-
-function coerceString(value: unknown): string | null {
-  if (typeof value === 'string' && value.trim()) return value.trim();
-  return null;
-}
-
-function coerceBoolean(value: unknown): boolean | null {
-  return typeof value === 'boolean' ? value : null;
-}
-
-function coerceStringArray(value: unknown): string[] {
-  if (!Array.isArray(value)) return [];
-  return value
-    .map((v) => (typeof v === 'string' ? v.trim() : typeof v === 'number' ? String(v) : null))
-    .filter((v): v is string => !!v);
-}
-
-function coerceConfidence(value: unknown): number | null {
-  const n = typeof value === 'number' ? value : typeof value === 'string' ? Number.parseFloat(value) : NaN;
-  if (!Number.isFinite(n)) return null;
-  if (n >= 0 && n <= 1) return n;
-  if (n > 1 && n <= 100) return Math.round(n) / 100; // bazı extractor'lar 0-100 döndürebilir
-  return null;
-}
-
-function parsePriceToCents(value: unknown): number | null {
-  if (typeof value === 'number' && Number.isFinite(value) && value >= 0) {
-    return Math.round(value * 100);
-  }
-  if (typeof value === 'string') {
-    const cleaned = value.replace(/[^\d.,]/g, '').trim();
-    if (!cleaned) return null;
-    const lastComma = cleaned.lastIndexOf(',');
-    const lastDot = cleaned.lastIndexOf('.');
-    let normalized: string;
-    if (lastComma > lastDot) {
-      normalized = cleaned.replace(/\./g, '').replace(',', '.'); // "1.234,56" → "1234.56"
-    } else if (lastDot > lastComma) {
-      normalized = cleaned.replace(/,/g, ''); // "1,234.56" → "1234.56"
-    } else {
-      normalized = cleaned.replace(/,/g, '');
-    }
-    const n = Number.parseFloat(normalized);
-    if (!Number.isFinite(n) || n < 0) return null;
-    return Math.round(n * 100);
-  }
-  return null;
-}
-
-function coercePriceCents(r: Record<string, unknown>): number | null {
-  if (typeof r.price_cents === 'number' && Number.isFinite(r.price_cents) && r.price_cents >= 0) {
-    return Math.round(r.price_cents);
-  }
-  const candidates = [r.price, r.fiyat, r.amount, r.unit_price];
-  for (const c of candidates) {
-    const cents = parsePriceToCents(c);
-    if (cents !== null) return cents;
-  }
-  return null;
-}
-
-function normalizeExtractResult(result: unknown): NormalizedExtractItem[] {
-  const rawItems = locateItemsArray(result);
-  const items: NormalizedExtractItem[] = [];
-
-  for (const raw of rawItems) {
-    if (!raw || typeof raw !== 'object') continue;
-    const r = raw as Record<string, unknown>;
-
-    const name = coerceName(r);
-    if (!name) continue; // ad yoksa kalem kullanılamaz — atla
-
-    const priceCents = coercePriceCents(r);
-    const reviewReasons = coerceStringArray(r.review_reasons ?? r.reviewReasons ?? r.reasons);
-    let requiresReview = coerceBoolean(r.requires_review ?? r.requiresReview) ?? false;
-
-    if (priceCents === null) {
-      requiresReview = true;
-      if (!reviewReasons.includes('Fiyat bulunamadı')) reviewReasons.push('Fiyat bulunamadı');
-    }
-
-    items.push({
-      category_name: coerceString(r.category_name ?? r.category ?? r.section ?? r.section_name ?? r.group),
-      name,
-      description: coerceString(r.description ?? r.desc),
-      price_cents: priceCents,
-      currency: coerceString(r.currency) ?? 'TRY',
-      confidence: coerceConfidence(r.confidence),
-      requires_review: requiresReview,
-      review_reasons: reviewReasons,
-      warnings: coerceStringArray(r.warnings),
-    });
-  }
-
-  return items;
+  return { ok: true, data: { status: poll.status, errorMessage: null, sourceType: job.source_type, discoveryOutcome: null } };
 }
 
 // ─── Taslak kalemler ─────────────────────────────────────────────────────────
