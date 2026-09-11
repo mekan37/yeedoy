@@ -73,13 +73,13 @@ export default async function ProfilPage() {
   if (!user) redirect('/giris?redirect=/profil');
 
   const [profileRes, statsRes, followersRes, followingRes] = await Promise.all([
-    (supabase as any).from('user_profiles').select('display_name, avatar_url, bio, city, created_at').eq('user_id', user!.id).maybeSingle() as Promise<{ data: Profile | null }>,
+    (supabase as any).rpc('get_my_profile_private_v1') as Promise<{ data: { ok: boolean; profile: Profile | null } | null }>,
     (supabase as any).rpc('get_my_profile_stats') as Promise<{ data: Stats[] | null }>,
     (supabase as any).from('user_follows').select('id', { count: 'exact', head: true }).eq('followed_id', user!.id) as Promise<{ count: number | null }>,
     (supabase as any).from('user_follows').select('id', { count: 'exact', head: true }).eq('follower_id', user!.id) as Promise<{ count: number | null }>,
   ]);
 
-  const profile = profileRes.data;
+  const profile = profileRes.data?.profile ?? null;
   const stats: Stats = statsRes.data?.[0] ?? { reviews_count: 0, helpful_received: 0, favorites_count: 0, visits_count: 0, contribution_score: 0 };
   const takipci = followersRes.count ?? 0;
   const takip = followingRes.count ?? 0;

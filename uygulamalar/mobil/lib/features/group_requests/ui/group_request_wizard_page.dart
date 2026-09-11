@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../../../core/storage/location_prefs.dart';
 import '../../auth/domain/auth_providers.dart';
 import '../data/group_requests_repository.dart';
@@ -208,9 +209,7 @@ class _DateTimePicker extends StatelessWidget {
     final t = AppLocalizations.of(context);
     final text = dateTime == null
         ? t.groupRequestWizardPickDateTime
-        : '${dateTime!.day.toString().padLeft(2, '0')}.'
-              '${dateTime!.month.toString().padLeft(2, '0')}.'
-              '${dateTime!.year}  '
+        : '${formatShortDate(context, dateTime!)}  '
               '${dateTime!.hour.toString().padLeft(2, '0')}:'
               '${dateTime!.minute.toString().padLeft(2, '0')}';
     return OutlinedButton.icon(
@@ -245,4 +244,3 @@ int? _parseBudget(String raw) {
   if (value == null || value <= 0) return null;
   return (value * 100).round();
 }
-

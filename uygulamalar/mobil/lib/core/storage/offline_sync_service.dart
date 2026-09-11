@@ -128,8 +128,22 @@ class OfflineSyncService with WidgetsBindingObserver {
       unawaited(_reportSyncResult(result));
       return result;
     } catch (error, stackTrace) {
-      unawaited(_reportSyncError(error, stackTrace, reason));
-      rethrow;
+      // `rethrow` kaldırıldı: bu metodun HER çağıranı `unawaited(...)` ile
+      // fire-and-forget çalıştırıyor (start/resume/heartbeat/connectivity
+      // restore) — rethrow edilen hata hiçbir yerde yakalanmıyor, yakalanmayan
+      // bir zone hatası olarak Crashlytics'e `fatal:true` ile düşüyordu.
+      // Çevrimdışıyken uygulamayı öne almak gibi son derece sık bir senaryo
+      // bile "fatal crash" olarak loglanıyordu. `_reportSyncError` zaten
+      // doğru (non-fatal) telemetri kaydını yapıyor; burada başka bir şey
+      // gerekmiyor.
+      await _reportSyncError(error, stackTrace, reason);
+      return OfflineSyncResult(
+        verifySent: 0,
+        submissionSent: 0,
+        prunedRecords: 0,
+        reason: reason,
+        skipped: true,
+      );
     } finally {
       _syncing = false;
     }

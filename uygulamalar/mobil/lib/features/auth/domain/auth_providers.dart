@@ -13,10 +13,7 @@ final authStateProvider = StreamProvider<AuthState>((ref) {
 
   // mevcut session state (app a?ili?Y)
   controller.add(
-    AuthState(
-      AuthChangeEvent.initialSession,
-      client.auth.currentSession,
-    ),
+    AuthState(AuthChangeEvent.initialSession, client.auth.currentSession),
   );
 
   final sub = client.auth.onAuthStateChange.listen(controller.add);
@@ -40,6 +37,7 @@ final userProvider = Provider<User?>((ref) {
 
 class _EnsureProfileStore {
   String? lastUserId;
+  String? inFlightUserId;
 }
 
 final _ensureProfileStoreProvider = Provider<_EnsureProfileStore>((ref) {
@@ -52,29 +50,37 @@ final ensureMyProfileProvider = Provider<void>((ref) {
     if (user == null) return;
     final store = ref.read(_ensureProfileStoreProvider);
     if (store.lastUserId == user.id) return;
-    store.lastUserId = user.id;
+    if (store.inFlightUserId == user.id) return;
+    store.inFlightUserId = user.id;
 
-    final profileRepo = ref.read(tasteTwinRepositoryProvider);
-    PublicProfile? publicProfile;
     try {
-      publicProfile = await profileRepo.fetchUserPublicProfile(user.id);
-    } catch (_) {
-      publicProfile = null;
-    }
-    final existingName = publicProfile?.displayName ?? '';
-    final fallback = user.email?.split('@').first ?? 'Kullanıcı';
-    final displayName = existingName.trim().isNotEmpty ? existingName : fallback;
-    final avatarUrl =
-        (publicProfile?.avatarUrl.isNotEmpty == true) ? publicProfile!.avatarUrl : '';
+      final profileRepo = ref.read(tasteTwinRepositoryProvider);
+      PublicProfile? publicProfile;
+      try {
+        publicProfile = await profileRepo.fetchUserPublicProfile(user.id);
+      } catch (_) {
+        publicProfile = null;
+      }
+      final existingName = publicProfile?.displayName ?? '';
+      final fallback = user.email?.split('@').first ?? 'Kullanıcı';
+      final displayName = existingName.trim().isNotEmpty
+          ? existingName
+          : fallback;
+      final avatarUrl = (publicProfile?.avatarUrl.isNotEmpty == true)
+          ? publicProfile!.avatarUrl
+          : '';
 
-    await profileRepo.ensureMyProfile(
-      displayName: displayName,
-      avatarUrl: avatarUrl,
-    );
+      await profileRepo.ensureMyProfile(
+        displayName: displayName,
+        avatarUrl: avatarUrl,
+      );
+      // Yalnızca gerçekten başarılı olunca "yapıldı" işaretle — aksi halde
+      // ağ hatasında profil hiç oluşturulmaz ve bir daha asla denenmez.
+      store.lastUserId = user.id;
+    } finally {
+      if (store.inFlightUserId == user.id) {
+        store.inFlightUserId = null;
+      }
+    }
   });
 });
-
-
-
-
-

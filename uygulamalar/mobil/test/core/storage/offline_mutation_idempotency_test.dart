@@ -39,11 +39,7 @@ void main() {
     test('metadata fields do not affect generated key', () async {
       final token = await createOfflineMutationIdempotencyToken(
         action: 'reviewCreate',
-        payload: {
-          'business_id': 'b1',
-          'rating': 5,
-          'content': 'great',
-        },
+        payload: {'business_id': 'b1', 'rating': 5, 'content': 'great'},
       );
       final second = await createOfflineMutationIdempotencyToken(
         action: 'reviewCreate',

@@ -9,6 +9,14 @@ class SecureLocalStorage extends LocalStorage {
 
   static const _secureStorage = FlutterSecureStorage(
     aOptions: AndroidOptions(),
+    // iOS varsayılanı (KeychainAccessibility.unlocked) refresh token'ın
+    // iCloud Keychain yedeğine dahil olmasına izin veriyordu — bir cihaz
+    // yedeğe erişebilen biri oturumu başka bir cihaza taşıyabilirdi.
+    // first_unlock_this_device: yalnızca bu cihazda, ilk kilit açmadan
+    // sonra erişilebilir; iCloud'a senkronlanmaz.
+    iOptions: IOSOptions(
+      accessibility: KeychainAccessibility.first_unlock_this_device,
+    ),
   );
 
   late final SharedPreferencesLocalStorage _webFallback =

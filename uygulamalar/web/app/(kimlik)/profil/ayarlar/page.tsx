@@ -129,11 +129,9 @@ export default function ProfileSettingsPage() {
       setUsername(emailPrefix);
 
       (sb as any)
-        .from('user_profiles')
-        .select('display_name, bio, phone, avatar_url')
-        .eq('user_id', user.id)
-        .maybeSingle()
-        .then(({ data }: { data: Record<string, unknown> | null }) => {
+        .rpc('get_my_profile_private_v1')
+        .then(({ data: envelope }: { data: { ok: boolean; profile: Record<string, unknown> | null } | null }) => {
+          const data = envelope?.profile;
           if (!data) return;
           if (data.display_name) {
             const parts = (data.display_name as string).trim().split(' ');

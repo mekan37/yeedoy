@@ -52,18 +52,22 @@ class _ContributePageState extends ConsumerState<ContributePage> {
               statsAsync.when(
                 loading: () => const SizedBox.shrink(),
                 error: (e, st) => const SizedBox.shrink(),
-                data: (stats) => historyAsync.whenData((h) {
-                  final thisWeek = h.recentItems
-                      .where((i) => i.createdAt.isAfter(
-                            DateTime.now().subtract(const Duration(days: 7)),
-                          ))
-                      .length;
-                  return _buildStatsCard(
-                    context,
-                    score: stats.contributionScore,
-                    weeklyCount: thisWeek,
-                  );
-                }).value ?? const SizedBox.shrink(),
+                data: (stats) =>
+                    historyAsync.whenData((h) {
+                      final thisWeek = h.recentItems
+                          .where(
+                            (i) => i.createdAt.isAfter(
+                              DateTime.now().subtract(const Duration(days: 7)),
+                            ),
+                          )
+                          .length;
+                      return _buildStatsCard(
+                        context,
+                        score: stats.contributionScore,
+                        weeklyCount: thisWeek,
+                      );
+                    }).value ??
+                    const SizedBox.shrink(),
               ),
               const SizedBox(height: 24),
             ],
@@ -174,16 +178,26 @@ class _ContributePageState extends ConsumerState<ContributePage> {
                       shape: BoxShape.circle,
                     ),
                   ),
-                  const Icon(Icons.star_rounded, color: AppColors.primary, size: 34),
+                  const Icon(
+                    Icons.star_rounded,
+                    color: AppColors.primary,
+                    size: 34,
+                  ),
                   const Positioned(
                     top: 6,
                     right: 4,
-                    child: Text('✦', style: TextStyle(fontSize: 11, color: AppColors.primary)),
+                    child: Text(
+                      '✦',
+                      style: TextStyle(fontSize: 11, color: AppColors.primary),
+                    ),
                   ),
                   const Positioned(
                     bottom: 8,
                     left: 4,
-                    child: Text('✦', style: TextStyle(fontSize: 8, color: AppColors.primary)),
+                    child: Text(
+                      '✦',
+                      style: TextStyle(fontSize: 8, color: AppColors.primary),
+                    ),
                   ),
                 ],
               ),
@@ -215,7 +229,10 @@ class _ContributePageState extends ConsumerState<ContributePage> {
             ),
             const SizedBox(width: 12),
             GestureDetector(
-              onTap: () {},
+              // Kart genel bir "katkıda bulun" tanıtımı — aşağıdaki 2
+              // aksiyon karosunun kullandığı aynı genel akışa yönlendiriyor
+              // (B21).
+              onTap: () => _openContributeSheet(context),
               child: Container(
                 width: 40,
                 height: 40,
@@ -270,7 +287,10 @@ class _ContributePageState extends ConsumerState<ContributePage> {
 
   // ── Recent contributions ──────────────────────────────────────────────────
 
-  Widget _buildRecentSection(BuildContext context, ContributionHistory? history) {
+  Widget _buildRecentSection(
+    BuildContext context,
+    ContributionHistory? history,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -350,7 +370,11 @@ class _ContributePageState extends ConsumerState<ContributePage> {
           child: Text(
             context.l10n.contributeEmptyState,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 13, color: AppColors.muted, height: 1.5),
+            style: const TextStyle(
+              fontSize: 13,
+              color: AppColors.muted,
+              height: 1.5,
+            ),
           ),
         ),
       );
@@ -395,12 +419,19 @@ class _ContributePageState extends ConsumerState<ContributePage> {
                     color: AppColors.primary,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.star_rounded, color: Colors.white, size: 26),
+                  child: const Icon(
+                    Icons.star_rounded,
+                    color: Colors.white,
+                    size: 26,
+                  ),
                 ),
                 const Positioned(
                   top: 2,
                   right: 0,
-                  child: Text('✦', style: TextStyle(fontSize: 9, color: AppColors.primary)),
+                  child: Text(
+                    '✦',
+                    style: TextStyle(fontSize: 9, color: AppColors.primary),
+                  ),
                 ),
               ],
             ),
@@ -412,7 +443,10 @@ class _ContributePageState extends ConsumerState<ContributePage> {
                 children: [
                   Text(
                     context.l10n.contributeScoreLabel,
-                    style: const TextStyle(fontSize: 12, color: AppColors.muted),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.muted,
+                    ),
                   ),
                   Text(
                     '$score',
@@ -439,7 +473,10 @@ class _ContributePageState extends ConsumerState<ContributePage> {
                 children: [
                   Text(
                     context.l10n.contributeThisWeekLabel,
-                    style: const TextStyle(fontSize: 12, color: AppColors.muted),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.muted,
+                    ),
                   ),
                   Text(
                     context.l10n.contributeWeeklyCountLabel(weeklyCount),
@@ -516,11 +553,7 @@ class _ContributePageState extends ConsumerState<ContributePage> {
 
   void _openContributeSheet(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          context.l10n.contributeVisitBusinessSnackbar,
-        ),
-      ),
+      SnackBar(content: Text(context.l10n.contributeVisitBusinessSnackbar)),
     );
     context.go('/discover');
   }
@@ -626,7 +659,11 @@ class _RecentItem extends StatelessWidget {
               color: AppColors.primarySoft,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(_typeIcon(item.type), color: AppColors.primary, size: 22),
+            child: Icon(
+              _typeIcon(item.type),
+              color: AppColors.primary,
+              size: 22,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -670,16 +707,16 @@ class _RecentItem extends StatelessWidget {
   }
 
   IconData _typeIcon(String type) => switch (type) {
-        'price' => Icons.local_offer_outlined,
-        'menu' => Icons.restaurant_menu_outlined,
-        _ => Icons.storefront_outlined,
-      };
+    'price' => Icons.local_offer_outlined,
+    'menu' => Icons.restaurant_menu_outlined,
+    _ => Icons.storefront_outlined,
+  };
 
   String _typeLabel(BuildContext context, String type) => switch (type) {
-        'price' => context.l10n.contributeTypePriceLabel,
-        'menu' => context.l10n.contributeTypeMenuLabel,
-        _ => context.l10n.contributeTypeBusinessLabel,
-      };
+    'price' => context.l10n.contributeTypePriceLabel,
+    'menu' => context.l10n.contributeTypeMenuLabel,
+    _ => context.l10n.contributeTypeBusinessLabel,
+  };
 }
 
 // ── Status badge ──────────────────────────────────────────────────────────────
@@ -692,33 +729,33 @@ class _StatusBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return switch (status) {
       'approved' => _Chip(
-          icon: Icons.check_circle_outline_rounded,
-          label: context.l10n.contributeStatusApproved,
-          iconColor: const Color(0xFF16A34A),
-          bg: const Color(0xFFDCFCE7),
-          text: const Color(0xFF16A34A),
-        ),
+        icon: Icons.check_circle_outline_rounded,
+        label: context.l10n.contributeStatusApproved,
+        iconColor: const Color(0xFF16A34A),
+        bg: const Color(0xFFDCFCE7),
+        text: const Color(0xFF16A34A),
+      ),
       'rejected' => _Chip(
-          icon: Icons.cancel_outlined,
-          label: context.l10n.contributeStatusRejected,
-          iconColor: AppColors.danger,
-          bg: const Color(0xFFFEE2E2),
-          text: AppColors.danger,
-        ),
+        icon: Icons.cancel_outlined,
+        label: context.l10n.contributeStatusRejected,
+        iconColor: AppColors.danger,
+        bg: const Color(0xFFFEE2E2),
+        text: AppColors.danger,
+      ),
       'under_review' => _Chip(
-          icon: Icons.visibility_outlined,
-          label: context.l10n.contributeStatusUnderReview,
-          iconColor: const Color(0xFF3B82F6),
-          bg: const Color(0xFFDBEAFE),
-          text: const Color(0xFF3B82F6),
-        ),
+        icon: Icons.visibility_outlined,
+        label: context.l10n.contributeStatusUnderReview,
+        iconColor: const Color(0xFF3B82F6),
+        bg: const Color(0xFFDBEAFE),
+        text: const Color(0xFF3B82F6),
+      ),
       _ => _Chip(
-          icon: Icons.hourglass_bottom_rounded,
-          label: context.l10n.contributeStatusPending,
-          iconColor: const Color(0xFFD97706),
-          bg: const Color(0xFFFEF3C7),
-          text: const Color(0xFFD97706),
-        ),
+        icon: Icons.hourglass_bottom_rounded,
+        label: context.l10n.contributeStatusPending,
+        iconColor: const Color(0xFFD97706),
+        bg: const Color(0xFFFEF3C7),
+        text: const Color(0xFFD97706),
+      ),
     };
   }
 }

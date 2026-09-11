@@ -5,6 +5,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/assets/category_assets.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../../core/utils/greeting_utils.dart';
 import '../data/price_alerts_repository.dart';
@@ -30,73 +31,68 @@ class _PriceAlertsPageState extends ConsumerState<PriceAlertsPage> {
 
     return CustomScrollView(
       slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      timeBasedGreeting(),
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: AppColors.muted,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      t.priceAlerts,
-                      style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w900,
-                        color: AppColors.textStrong,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      t.priceAlertsPageSubtitle,
-                      style: const TextStyle(fontSize: 13, color: AppColors.muted),
-                    ),
-                    const SizedBox(height: 20),
-
-                    // ── Promo banner ────────────────────────────────────
-                    _PromoBanner(
-                      onTap: () => showPriceAlertSheet(
-                        context: context,
-                        initialQuery: '',
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-
-                    // ── Tab selector ────────────────────────────────────
-                    _TabBar(
-                      selected: _tab,
-                      onChanged: (t) => setState(() => _tab = t),
-                    ),
-                    const SizedBox(height: 16),
-                  ],
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  timeBasedGreeting(),
+                  style: const TextStyle(fontSize: 13, color: AppColors.muted),
                 ),
-              ),
-            ),
+                const SizedBox(height: 2),
+                Text(
+                  t.priceAlerts,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.textStrong,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  t.priceAlertsPageSubtitle,
+                  style: const TextStyle(fontSize: 13, color: AppColors.muted),
+                ),
+                const SizedBox(height: 20),
 
-            // ── Tab content ─────────────────────────────────────────────
-            if (_tab == _AlertTab.active || _tab == _AlertTab.paused)
-              _AlertsSliver(
-                tab: _tab,
-                onToggle: _toggleAlert,
-                onDelete: _deleteAlert,
-              )
-            else
-              _TriggeredSliver(),
+                // ── Promo banner ────────────────────────────────────
+                _PromoBanner(
+                  onTap: () =>
+                      showPriceAlertSheet(context: context, initialQuery: ''),
+                ),
+                const SizedBox(height: 20),
 
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
-                child: _TipBanner(),
-              ),
+                // ── Tab selector ────────────────────────────────────
+                _TabBar(
+                  selected: _tab,
+                  onChanged: (t) => setState(() => _tab = t),
+                ),
+                const SizedBox(height: 16),
+              ],
             ),
-            const SliverToBoxAdapter(child: SizedBox(height: 16)),
-          ],
+          ),
+        ),
+
+        // ── Tab content ─────────────────────────────────────────────
+        if (_tab == _AlertTab.active || _tab == _AlertTab.paused)
+          _AlertsSliver(
+            tab: _tab,
+            onToggle: _toggleAlert,
+            onDelete: _deleteAlert,
+          )
+        else
+          _TriggeredSliver(),
+
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+            child: _TipBanner(),
+          ),
+        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 16)),
+      ],
     );
   }
 
@@ -108,9 +104,9 @@ class _PriceAlertsPageState extends ConsumerState<PriceAlertsPage> {
       ref.invalidate(myPriceAlertsProvider);
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppErrorMapper.message(e))),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(AppErrorMapper.message(e))));
     }
   }
 
@@ -138,9 +134,9 @@ class _PriceAlertsPageState extends ConsumerState<PriceAlertsPage> {
       ref.invalidate(myPriceAlertsProvider);
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppErrorMapper.message(e))),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(AppErrorMapper.message(e))));
     }
   }
 }
@@ -379,9 +375,10 @@ class _AlertCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageAsset = CategoryAssets.resolve(alert.category);
-    final locationText = [alert.city, alert.district]
-        .where((s) => s != null && s.isNotEmpty)
-        .join(', ');
+    final locationText = [
+      alert.city,
+      alert.district,
+    ].where((s) => s != null && s.isNotEmpty).join(', ');
 
     return AppCard(
       padding: const EdgeInsets.all(12),
@@ -491,11 +488,14 @@ class _AlertCard extends StatelessWidget {
                     const SizedBox(width: 4),
                     Text(
                       context.l10n.priceAlertsTargetPriceLabel,
-                      style: const TextStyle(fontSize: 12, color: AppColors.muted),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.muted,
+                      ),
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      _formatCents(alert.maxPriceCents),
+                      _formatCents(context, alert.maxPriceCents),
                       style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w800,
@@ -668,7 +668,10 @@ class _TriggeredCard extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     item.menuItemName!,
-                    style: const TextStyle(fontSize: 12, color: AppColors.muted),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.muted,
+                    ),
                   ),
                 ],
                 const SizedBox(height: 8),
@@ -682,11 +685,14 @@ class _TriggeredCard extends StatelessWidget {
                     const SizedBox(width: 4),
                     Text(
                       context.l10n.priceAlertsMatchedPriceLabel,
-                      style: const TextStyle(fontSize: 12, color: AppColors.muted),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.muted,
+                      ),
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      _formatCents(matched),
+                      _formatCents(context, matched),
                       style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w800,
@@ -707,11 +713,14 @@ class _TriggeredCard extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         context.l10n.priceAlertsPreviousPriceLabel,
-                        style: const TextStyle(fontSize: 12, color: AppColors.muted),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: AppColors.muted,
+                        ),
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        _formatCents(prev),
+                        _formatCents(context, prev),
                         style: const TextStyle(
                           fontSize: 12,
                           color: AppColors.muted,
@@ -805,8 +814,8 @@ class _TipBanner extends StatelessWidget {
   }
 }
 
-String _formatCents(int cents) {
-  final tl = cents ~/ 100;
-  final kr = cents % 100;
-  return kr == 0 ? '₺$tl' : '₺$tl,${kr.toString().padLeft(2, '0')}';
+// Kanonik formatCurrency'e devredildi — diğer ekranlarla aynı gösterim
+// (B36).
+String _formatCents(BuildContext context, int cents) {
+  return formatCurrency(context, cents / 100);
 }

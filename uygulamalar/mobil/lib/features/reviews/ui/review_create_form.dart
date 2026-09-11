@@ -253,7 +253,10 @@ class _ReviewCreateFormState extends ConsumerState<ReviewCreateForm> {
                             criteriaRatings: _criteriaRatings,
                           );
 
-                      // Upload photos if any (best-effort, non-fatal)
+                      // Upload photos if any (best-effort, non-fatal — but
+                      // the user must be told if it failed, otherwise they
+                      // never notice their photo was silently dropped).
+                      var photoUploadFailed = false;
                       if (reviewId != null && _selectedPhotos.isNotEmpty) {
                         final userId = ref.read(userProvider)?.id ?? '';
                         try {
@@ -266,7 +269,7 @@ class _ReviewCreateFormState extends ConsumerState<ReviewCreateForm> {
                                 files: _selectedPhotos,
                               );
                         } catch (_) {
-                          // Photo upload failure is non-fatal
+                          photoUploadFailed = true;
                         }
                       }
 
@@ -308,7 +311,13 @@ class _ReviewCreateFormState extends ConsumerState<ReviewCreateForm> {
                       ref.invalidate(myWeeklyMissionsProvider);
                       ref.invalidate(myProfileStatsProvider);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(t.reviewCreateSubmitted)),
+                        SnackBar(
+                          content: Text(
+                            photoUploadFailed
+                                ? t.reviewCreatePhotoUploadFailed
+                                : t.reviewCreateSubmitted,
+                          ),
+                        ),
                       );
                       setState(_resetForm);
                       widget.onSubmitted?.call();

@@ -156,9 +156,9 @@ class _BusinessActionChipsState extends ConsumerState<_BusinessActionChips> {
           .toggleFavorite(widget.business.id);
     } catch (error) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppErrorMapper.message(error))),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(AppErrorMapper.message(error))));
     }
   }
 
@@ -177,10 +177,9 @@ class _BusinessActionChipsState extends ConsumerState<_BusinessActionChips> {
     try {
       HapticFeedback.lightImpact();
       final clientId = await getAnalyticsClientId();
-      await ref.read(checkInRepositoryProvider).logCheckin(
-        businessId: widget.business.id,
-        clientId: clientId,
-      );
+      await ref
+          .read(checkInRepositoryProvider)
+          .logCheckin(businessId: widget.business.id, clientId: clientId);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Konum bildirimi kaydedildi')),
@@ -207,7 +206,9 @@ class _BusinessActionChipsState extends ConsumerState<_BusinessActionChips> {
       runSpacing: 8,
       children: [
         _ActionChip(
-          icon: isFavorited ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+          icon: isFavorited
+              ? Icons.favorite_rounded
+              : Icons.favorite_border_rounded,
           iconColor: isFavorited ? AppColors.danger : null,
           label: isFavorited ? t.favoriteAdded : t.addToFavorites,
           onTap: _handleFavorite,
@@ -263,11 +264,7 @@ class _ActionChip extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                icon,
-                size: 16,
-                color: iconColor ?? AppColors.text,
-              ),
+              Icon(icon, size: 16, color: iconColor ?? AppColors.text),
               const SizedBox(width: 6),
               Text(
                 label,
@@ -340,30 +337,11 @@ String? _timeText(dynamic value) {
   return raw.length >= 5 ? raw.substring(0, 5) : raw;
 }
 
-bool _isOpenNow(String? open, String? close, DateTime now) {
-  final o = _parseMinutes(open);
-  final c = _parseMinutes(close);
-  if (o == null || c == null) return false;
-  final hm = now.hour * 60 + now.minute;
-  if (o <= c) return hm >= o && hm <= c;
-  return hm >= o || hm <= c;
-}
-
 String _hoursText(BuildContext context, String? open, String? close) {
   final o = (open ?? '').trim();
   final c = (close ?? '').trim();
   if (o.isEmpty || c.isEmpty) return AppLocalizations.of(context).noHoursInfo;
   return '$o - $c';
-}
-
-int? _parseMinutes(String? value) {
-  if (value == null || value.trim().isEmpty) return null;
-  final parts = value.split(':');
-  if (parts.length < 2) return null;
-  final h = int.tryParse(parts[0]);
-  final m = int.tryParse(parts[1]);
-  if (h == null || m == null) return null;
-  return h * 60 + m;
 }
 
 String _menuImageForIndex(int index) {

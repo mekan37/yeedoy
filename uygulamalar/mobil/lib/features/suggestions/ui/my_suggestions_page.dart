@@ -15,16 +15,16 @@ enum _Tab { sent, answered, rejected }
 
 extension _TabX on _Tab {
   String label(AppLocalizations t) => switch (this) {
-        _Tab.sent => t.mySuggestionsTabSent,
-        _Tab.answered => t.mySuggestionsTabAnswered,
-        _Tab.rejected => t.mySuggestionsTabRejected,
-      };
+    _Tab.sent => t.mySuggestionsTabSent,
+    _Tab.answered => t.mySuggestionsTabAnswered,
+    _Tab.rejected => t.mySuggestionsTabRejected,
+  };
 
   bool matches(String status) => switch (this) {
-        _Tab.sent => status == 'pending',
-        _Tab.answered => status == 'approved',
-        _Tab.rejected => status == 'rejected',
-      };
+    _Tab.sent => status == 'pending',
+    _Tab.answered => status == 'approved',
+    _Tab.rejected => status == 'rejected',
+  };
 }
 
 // ── Page ──────────────────────────────────────────────────────────────────────
@@ -60,8 +60,7 @@ class _MySuggestionsPageState extends ConsumerState<MySuggestionsPage> {
   @override
   Widget build(BuildContext context) {
     final st = ref.watch(mySuggestionsControllerProvider);
-    final filtered =
-        st.items.where((s) => _tab.matches(s.status)).toList();
+    final filtered = st.items.where((s) => _tab.matches(s.status)).toList();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -241,7 +240,11 @@ class _MySuggestionsPageState extends ConsumerState<MySuggestionsPage> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
       child: GestureDetector(
-        onTap: () {},
+        // Metin ("İşletmelerin sana özel teklif vermesini bekle") grup
+        // talebi özelliğinin kendi metniyle birebir örtüşüyor:
+        // groupRequestWizardInfoTitle = "Teklifler işletmelerden gelir"
+        // (B21).
+        onTap: () => context.push('/group-requests/new'),
         child: Container(
           padding: const EdgeInsets.fromLTRB(14, 14, 10, 14),
           decoration: BoxDecoration(
@@ -280,7 +283,10 @@ class _MySuggestionsPageState extends ConsumerState<MySuggestionsPage> {
                     const SizedBox(height: 2),
                     Text(
                       context.l10n.mySuggestionsInfoBannerSubtitle,
-                      style: const TextStyle(fontSize: 12, color: AppColors.muted),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.muted,
+                      ),
                     ),
                   ],
                 ),
@@ -300,60 +306,57 @@ class _MySuggestionsPageState extends ConsumerState<MySuggestionsPage> {
   // ── Tip card ─────────────────────────────────────────────────────────────────
 
   Widget _buildTipCard(BuildContext context) {
+    // Bu kart salt bilgilendirme metni — gidilecek bir hedef yok, bu yüzden
+    // sessiz no-op yerine (B21) dokunma efekti tamamen kaldırıldı.
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
-      child: GestureDetector(
-        onTap: () {},
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(14, 12, 12, 12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: const Color(0xFFE5E7EB)),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 38,
-                height: 38,
-                decoration: const BoxDecoration(
-                  color: AppColors.primarySoft,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.lightbulb_outline_rounded,
-                  color: AppColors.primary,
-                  size: 18,
-                ),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(14, 12, 12, 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: const Color(0xFFE5E7EB)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 38,
+              height: 38,
+              decoration: const BoxDecoration(
+                color: AppColors.primarySoft,
+                shape: BoxShape.circle,
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      context.l10n.mySuggestionsTipCardTitle,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 13,
-                        color: AppColors.textStrong,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      context.l10n.mySuggestionsTipCardBody,
-                      style: const TextStyle(fontSize: 12, color: AppColors.muted),
-                    ),
-                  ],
-                ),
-              ),
-              const Icon(
-                Icons.chevron_right_rounded,
-                color: AppColors.muted,
+              child: const Icon(
+                Icons.lightbulb_outline_rounded,
+                color: AppColors.primary,
                 size: 18,
               ),
-            ],
-          ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    context.l10n.mySuggestionsTipCardTitle,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 13,
+                      color: AppColors.textStrong,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    context.l10n.mySuggestionsTipCardBody,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.muted,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -426,7 +429,10 @@ class _SuggestionCard extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 8),
-                          _StatusBadge(status: suggestion.status, l10n: context.l10n),
+                          _StatusBadge(
+                            status: suggestion.status,
+                            l10n: context.l10n,
+                          ),
                         ],
                       ),
                       const SizedBox(height: 4),
@@ -447,7 +453,11 @@ class _SuggestionCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 3),
                           Text(
-                            _locText(context.l10n, suggestion.district, suggestion.city),
+                            _locText(
+                              context.l10n,
+                              suggestion.district,
+                              suggestion.city,
+                            ),
                             style: const TextStyle(
                               fontSize: 12,
                               color: AppColors.muted,
@@ -498,10 +508,7 @@ class _SuggestionCard extends StatelessWidget {
                 const SizedBox(width: 5),
                 Text(
                   _fmtDate(context.l10n, suggestion.createdAt),
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.muted,
-                  ),
+                  style: const TextStyle(fontSize: 12, color: AppColors.muted),
                 ),
                 const Spacer(),
                 if (suggestion.status == 'approved' && approvedId.isNotEmpty)
@@ -511,7 +518,9 @@ class _SuggestionCard extends StatelessWidget {
                       side: const BorderSide(color: Color(0xFFE5E7EB)),
                       foregroundColor: AppColors.textStrong,
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 7),
+                        horizontal: 12,
+                        vertical: 7,
+                      ),
                       textStyle: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
@@ -524,12 +533,20 @@ class _SuggestionCard extends StatelessWidget {
                   )
                 else
                   OutlinedButton(
-                    onPressed: () {},
+                    // Onaylanmamış/eşleşmemiş bir öneri için gidilecek bir
+                    // işletme sayfası yok — önceden bu buton "Detayları
+                    // Gör" yazıp tıklanınca hiçbir şey yapmıyordu. Görsel
+                    // olarak devre dışı bırakılıyor (Flutter'ın standart
+                    // disabled stiliyle) ki sahte bir tıklanabilirlik izlenimi
+                    // vermesin.
+                    onPressed: null,
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Color(0xFFE5E7EB)),
                       foregroundColor: AppColors.textStrong,
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 7),
+                        horizontal: 12,
+                        vertical: 7,
+                      ),
                       textStyle: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
@@ -548,8 +565,11 @@ class _SuggestionCard extends StatelessWidget {
                     border: Border.all(color: const Color(0xFFE5E7EB)),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.more_vert_rounded,
-                      size: 16, color: AppColors.muted),
+                  child: const Icon(
+                    Icons.more_vert_rounded,
+                    size: 16,
+                    color: AppColors.muted,
+                  ),
                 ),
               ],
             ),
@@ -571,26 +591,26 @@ class _StatusBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return switch (status) {
       'approved' => _Badge(
-          icon: Icons.check_circle_outline_rounded,
-          label: l10n.mySuggestionsStatusApproved,
-          iconColor: AppColors.success,
-          bg: const Color(0xFFDCFCE7),
-          textColor: AppColors.success,
-        ),
+        icon: Icons.check_circle_outline_rounded,
+        label: l10n.mySuggestionsStatusApproved,
+        iconColor: AppColors.success,
+        bg: const Color(0xFFDCFCE7),
+        textColor: AppColors.success,
+      ),
       'rejected' => _Badge(
-          icon: Icons.cancel_outlined,
-          label: l10n.mySuggestionsStatusRejected,
-          iconColor: AppColors.danger,
-          bg: const Color(0xFFFEE2E2),
-          textColor: AppColors.danger,
-        ),
+        icon: Icons.cancel_outlined,
+        label: l10n.mySuggestionsStatusRejected,
+        iconColor: AppColors.danger,
+        bg: const Color(0xFFFEE2E2),
+        textColor: AppColors.danger,
+      ),
       _ => _Badge(
-          icon: Icons.schedule_rounded,
-          label: l10n.mySuggestionsStatusPending,
-          iconColor: const Color(0xFFD97706),
-          bg: const Color(0xFFFEF3C7),
-          textColor: const Color(0xFFD97706),
-        ),
+        icon: Icons.schedule_rounded,
+        label: l10n.mySuggestionsStatusPending,
+        iconColor: const Color(0xFFD97706),
+        bg: const Color(0xFFFEF3C7),
+        textColor: const Color(0xFFD97706),
+      ),
     };
   }
 }
@@ -672,20 +692,20 @@ class _EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     final (icon, title, sub) = switch (tab) {
       _Tab.sent => (
-          Icons.send_outlined,
-          l10n.mySuggestionsEmptySentTitle,
-          l10n.mySuggestionsEmptySentBody,
-        ),
+        Icons.send_outlined,
+        l10n.mySuggestionsEmptySentTitle,
+        l10n.mySuggestionsEmptySentBody,
+      ),
       _Tab.answered => (
-          Icons.check_circle_outline_rounded,
-          l10n.mySuggestionsEmptyAnsweredTitle,
-          l10n.mySuggestionsEmptyAnsweredBody,
-        ),
+        Icons.check_circle_outline_rounded,
+        l10n.mySuggestionsEmptyAnsweredTitle,
+        l10n.mySuggestionsEmptyAnsweredBody,
+      ),
       _Tab.rejected => (
-          Icons.cancel_outlined,
-          l10n.mySuggestionsEmptyRejectedTitle,
-          l10n.mySuggestionsEmptyRejectedBody,
-        ),
+        Icons.cancel_outlined,
+        l10n.mySuggestionsEmptyRejectedTitle,
+        l10n.mySuggestionsEmptyRejectedBody,
+      ),
     };
 
     return Padding(
@@ -742,14 +762,16 @@ class _ErrorBanner extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Icon(Icons.error_outline_rounded,
-                color: AppColors.danger, size: 20),
+            const Icon(
+              Icons.error_outline_rounded,
+              color: AppColors.danger,
+              size: 20,
+            ),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
                 message,
-                style: const TextStyle(
-                    fontSize: 13, color: AppColors.danger),
+                style: const TextStyle(fontSize: 13, color: AppColors.danger),
               ),
             ),
             TextButton(

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../domain/my_suspended_claim_controller.dart';
@@ -115,7 +116,12 @@ class _MySuspendedClaimsPageState extends ConsumerState<MySuspendedClaimsPage> {
               Column(
                 children: [
                   for (final item in st.items) ...[
-                    RepaintBoundary(child: _ClaimCard(item: item, onTap: () => _openDetails(item))),
+                    RepaintBoundary(
+                      child: _ClaimCard(
+                        item: item,
+                        onTap: () => _openDetails(item),
+                      ),
+                    ),
                     const SizedBox(height: 10),
                   ],
                   if (st.isLoadingMore)
@@ -212,7 +218,7 @@ class _MySuspendedClaimsPageState extends ConsumerState<MySuspendedClaimsPage> {
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  _fmtDate(item.fulfilledAt ?? item.createdAt),
+                  formatShortDate(context, item.fulfilledAt ?? item.createdAt),
                   style: const TextStyle(color: AppColors.muted),
                 ),
               ],
@@ -384,11 +390,4 @@ String _relativeTime(BuildContext context, DateTime time) {
   if (diff.inDays < 30) return t.smartFeedDaysAgo(diff.inDays);
   final months = (diff.inDays / 30).floor();
   return t.suspendedMealsMonthsAgo(months);
-}
-
-String _fmtDate(DateTime d) {
-  final y = d.year.toString().padLeft(4, '0');
-  final m = d.month.toString().padLeft(2, '0');
-  final day = d.day.toString().padLeft(2, '0');
-  return '$y-$m-$day';
 }

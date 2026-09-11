@@ -59,32 +59,31 @@ void main() {
   group('ContentModeration blacklist cache', () {
     tearDown(ContentModeration.resetForTesting);
 
-    test(
-      'blacklist call before configureRepository does not permanently '
-      'poison the cache with an empty result',
-      () async {
-        // Repository henüz configureRepository() ile ayarlanmadı. Bu çağrı
-        // _loadBlacklist -> _fetchBlacklist yolunu repository=null iken
-        // tetikler; eski davranışta bu, boş sonucu statik cache'e kalıcı
-        // olarak yazardı ve aşağıdaki configureRepository çağrısı hiçbir
-        // zaman etkili olmazdı.
-        final beforeConfigure = await ContentModeration.instance
-            .validateReview(content: 'gayet güzel bir mekan burada');
-        expect(beforeConfigure, isNull);
+    test('blacklist call before configureRepository does not permanently '
+        'poison the cache with an empty result', () async {
+      // Repository henüz configureRepository() ile ayarlanmadı. Bu çağrı
+      // _loadBlacklist -> _fetchBlacklist yolunu repository=null iken
+      // tetikler; eski davranışta bu, boş sonucu statik cache'e kalıcı
+      // olarak yazardı ve aşağıdaki configureRepository çağrısı hiçbir
+      // zaman etkili olmazdı.
+      final beforeConfigure = await ContentModeration.instance.validateReview(
+        content: 'gayet güzel bir mekan burada',
+      );
+      expect(beforeConfigure, isNull);
 
-        // "gizliterim" ayarlanan sözlük dışında hiçbir statik kural
-        // (_containsObfuscatedProfanity, link/telefon, emoji spam vb.)
-        // tarafından yakalanmaz — bu yüzden yalnızca repository'den gelen
-        // kara liste devrede olduğunda tespit edilebilir.
-        ContentModeration.instance.configureRepository(
-          _FakeModerationBlacklistRepository(const ['gizliterim']),
-        );
+      // "gizliterim" ayarlanan sözlük dışında hiçbir statik kural
+      // (_containsObfuscatedProfanity, link/telefon, emoji spam vb.)
+      // tarafından yakalanmaz — bu yüzden yalnızca repository'den gelen
+      // kara liste devrede olduğunda tespit edilebilir.
+      ContentModeration.instance.configureRepository(
+        _FakeModerationBlacklistRepository(const ['gizliterim']),
+      );
 
-        final afterConfigure = await ContentModeration.instance
-            .validateReview(content: 'bu yorumda gizliterim kelimesi var');
-        expect(afterConfigure, isNotNull);
-        expect(afterConfigure!.code, 'contains_profanity');
-      },
-    );
+      final afterConfigure = await ContentModeration.instance.validateReview(
+        content: 'bu yorumda gizliterim kelimesi var',
+      );
+      expect(afterConfigure, isNotNull);
+      expect(afterConfigure!.code, 'contains_profanity');
+    });
   });
 }

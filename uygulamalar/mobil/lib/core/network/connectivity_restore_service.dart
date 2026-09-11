@@ -47,19 +47,27 @@ class ConnectivityRestoreService with WidgetsBindingObserver {
     if (_started) return;
     _started = true;
     WidgetsBinding.instance.addObserver(this);
-    _timer = Timer.periodic(
-      _probeInterval,
-      (_) => unawaited(probeNow(trigger: 'heartbeat')),
-    );
+    _startTimer();
     unawaited(probeNow(trigger: 'start'));
   }
 
   void stop() {
     if (!_started) return;
     _started = false;
+    _stopTimer();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  void _startTimer() {
+    _timer ??= Timer.periodic(
+      _probeInterval,
+      (_) => unawaited(probeNow(trigger: 'heartbeat')),
+    );
+  }
+
+  void _stopTimer() {
     _timer?.cancel();
     _timer = null;
-    WidgetsBinding.instance.removeObserver(this);
   }
 
   Future<void> probeNow({String trigger = 'manual'}) async {
@@ -83,6 +91,10 @@ class ConnectivityRestoreService with WidgetsBindingObserver {
           ),
         );
       }
+    } catch (_) {
+      // Bu metod her yerde unawaited(...) ile fire-and-forget çalıştırılıyor
+      // (start/heartbeat/resume); burada yakalanmayan bir hata Crashlytics'e
+      // sahte "fatal" olarak düşerdi.
     } finally {
       _probing = false;
     }
@@ -90,37 +102,46 @@ class ConnectivityRestoreService with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state != AppLifecycleState.resumed) return;
-    unawaited(probeNow(trigger: 'resume'));
+    if (state == AppLifecycleState.resumed) {
+      _startTimer();
+      unawaited(probeNow(trigger: 'resume'));
+      return;
+    }
+    if (state == AppLifecycleState.paused) {
+      _stopTimer();
+    }
   }
 }
 
-final connectivityRestoreServiceProvider = Provider<ConnectivityRestoreService>((
-  ref,
-) {
-  return ConnectivityRestoreService(
-    probeOnline: () => _probeSupabaseReachability(),
-    onConnectivityRestored: (trigger) async {
-      final result = await ref.read(offlineSyncServiceProvider).syncNow(
-        reason: 'connectivity_restore',
-        ignoreBackoff: true,
-      );
-      await ref.read(appTelemetryProvider).logConnectivityRestore(
-        trigger: trigger,
-        replayWork: result.totalWork,
-      );
-    },
-    reportConnectivityEvent: (event) {
-      if (event.restored) {
-        return Future<void>.value();
-      }
-      return ref.read(appTelemetryProvider).logConnectivityStateChange(
-        trigger: event.trigger,
-        online: event.online,
-      );
-    },
-  );
-});
+final connectivityRestoreServiceProvider = Provider<ConnectivityRestoreService>(
+  (ref) {
+    return ConnectivityRestoreService(
+      probeOnline: () => _probeSupabaseReachability(),
+      onConnectivityRestored: (trigger) async {
+        final result = await ref
+            .read(offlineSyncServiceProvider)
+            .syncNow(reason: 'connectivity_restore', ignoreBackoff: true);
+        await ref
+            .read(appTelemetryProvider)
+            .logConnectivityRestore(
+              trigger: trigger,
+              replayWork: result.totalWork,
+            );
+      },
+      reportConnectivityEvent: (event) {
+        if (event.restored) {
+          return Future<void>.value();
+        }
+        return ref
+            .read(appTelemetryProvider)
+            .logConnectivityStateChange(
+              trigger: event.trigger,
+              online: event.online,
+            );
+      },
+    );
+  },
+);
 
 final connectivityRestoreLifecycleProvider = Provider<void>((ref) {
   final service = ref.read(connectivityRestoreServiceProvider);

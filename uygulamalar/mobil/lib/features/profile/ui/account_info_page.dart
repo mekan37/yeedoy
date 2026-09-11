@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../../../core/i18n/locale_controller.dart';
 import '../../../core/media/app_image_cache_manager.dart';
 import '../../../core/media/app_network_image.dart';
@@ -60,23 +61,25 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      builder: (_) => _EditNameSheet(onSaved: () {
-        ref.invalidate(_myProfileProvider);
-        ref.invalidate(publicProfileProvider);
-      }),
+      builder: (_) => _EditNameSheet(
+        onSaved: () {
+          ref.invalidate(_myProfileProvider);
+          ref.invalidate(publicProfileProvider);
+        },
+      ),
     );
   }
 
-  static String _formatDate(DateTime dt) =>
-      '${dt.day.toString().padLeft(2, '0')}.${dt.month.toString().padLeft(2, '0')}.${dt.year}';
+  static String _formatDate(BuildContext context, DateTime dt) =>
+      formatShortDate(context, dt);
 
   static String _genderLabel(BuildContext context, String? g) => switch (g) {
-        'male' => context.l10n.accountInfoGenderMale,
-        'female' => context.l10n.accountInfoGenderFemale,
-        'other' => context.l10n.accountInfoGenderOther,
-        'prefer_not_to_say' => context.l10n.accountInfoGenderPreferNotToSay,
-        _ => context.l10n.accountInfoAddPlaceholder,
-      };
+    'male' => context.l10n.accountInfoGenderMale,
+    'female' => context.l10n.accountInfoGenderFemale,
+    'other' => context.l10n.accountInfoGenderOther,
+    'prefer_not_to_say' => context.l10n.accountInfoGenderPreferNotToSay,
+    _ => context.l10n.accountInfoAddPlaceholder,
+  };
 
   void _showPhoneSheet(BuildContext context) {
     showModalBottomSheet<void>(
@@ -138,7 +141,9 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
             final canSubmit =
                 confirmationController.text.trim().toUpperCase() == 'SIL';
             return AlertDialog(
-              title: Text(dialogContext.l10n.accountInfoDeleteAccountDialogTitle),
+              title: Text(
+                dialogContext.l10n.accountInfoDeleteAccountDialogTitle,
+              ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +157,8 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                     controller: reasonController,
                     maxLines: 3,
                     decoration: InputDecoration(
-                      labelText: dialogContext.l10n.accountInfoDeleteReasonLabel,
+                      labelText:
+                          dialogContext.l10n.accountInfoDeleteReasonLabel,
                       hintText: dialogContext.l10n.accountInfoDeleteReasonHint,
                     ),
                   ),
@@ -161,7 +167,8 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                     controller: confirmationController,
                     onChanged: (_) => setDialogState(() {}),
                     decoration: InputDecoration(
-                      labelText: dialogContext.l10n.accountInfoDeleteConfirmLabel,
+                      labelText:
+                          dialogContext.l10n.accountInfoDeleteConfirmLabel,
                       hintText: dialogContext.l10n.accountInfoDeleteConfirmHint,
                     ),
                   ),
@@ -180,7 +187,9 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                     backgroundColor: AppColors.danger,
                     foregroundColor: Colors.white,
                   ),
-                  child: Text(dialogContext.l10n.accountInfoDeleteCreateRequestButton),
+                  child: Text(
+                    dialogContext.l10n.accountInfoDeleteCreateRequestButton,
+                  ),
                 ),
               ],
             );
@@ -192,12 +201,14 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
     if (confirmed != true) return;
 
     try {
-      await ref.read(legalRepositoryProvider).submitAccountDeletionRequest(
-        reason: reasonController.text.trim(),
-      );
+      await ref
+          .read(legalRepositoryProvider)
+          .submitAccountDeletionRequest(reason: reasonController.text.trim());
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.l10n.accountInfoDeleteRequestSubmitted)),
+          SnackBar(
+            content: Text(context.l10n.accountInfoDeleteRequestSubmitted),
+          ),
         );
       }
     } catch (_) {
@@ -315,8 +326,11 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                                         avatarUrl,
                                         size: 144,
                                       ),
-                                      cacheManager: AppImageCacheManager.instance,
+                                      cacheManager:
+                                          AppImageCacheManager.instance,
                                       fit: BoxFit.cover,
+                                      memCacheWidth: 144,
+                                      memCacheHeight: 144,
                                     )
                                   : const Icon(
                                       Icons.person_outline_rounded,
@@ -450,7 +464,9 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                   icon: Icons.mail_outline_rounded,
                   title: context.l10n.accountInfoEmailLabel,
                   value: user?.email ?? '—',
-                  onTap: () {},
+                  // E-posta değişimi doğrulama gerektirir (bkz. B11) — bu akış
+                  // yalnızca Hesap Güvenliği sayfasında var.
+                  onTap: () => context.push('/account-security'),
                 ),
                 _InfoRow(
                   icon: Icons.phone_outlined,
@@ -467,7 +483,7 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                   icon: Icons.calendar_today_outlined,
                   title: context.l10n.accountInfoBirthDateLabel,
                   value: birthDate != null
-                      ? _formatDate(birthDate)
+                      ? _formatDate(context, birthDate)
                       : context.l10n.accountInfoAddPlaceholder,
                   valueColor: birthDate == null ? AppColors.primary : null,
                   onTap: () => _showBirthDateSheet(context, birthDate),
@@ -506,7 +522,8 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                 _InfoRow(
                   icon: Icons.notifications_outlined,
                   title: context.l10n.accountInfoNotificationPreferencesTitle,
-                  subtitle: context.l10n.accountInfoNotificationPreferencesSubtitle,
+                  subtitle:
+                      context.l10n.accountInfoNotificationPreferencesSubtitle,
                   onTap: () => context.push('/notification-preferences'),
                 ),
                 _InfoRow(
@@ -560,7 +577,10 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
                   ),
                   subtitle: Text(
                     context.l10n.accountInfoDeleteAccountSubtitle,
-                    style: const TextStyle(fontSize: 12, color: AppColors.muted),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.muted,
+                    ),
                   ),
                   trailing: const Icon(
                     Icons.chevron_right_rounded,
@@ -589,7 +609,10 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
               child: Text(
                 context.l10n.accountInfoLanguagePreferenceTitle,
-                style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 17,
+                ),
               ),
             ),
             for (final (code, label) in [
@@ -616,12 +639,12 @@ class _AccountInfoPageState extends ConsumerState<AccountInfoPage> {
     );
   }
 
-  static String _langLabel(BuildContext context, String? code) => switch (code) {
+  static String _langLabel(BuildContext context, String? code) =>
+      switch (code) {
         'tr' => context.l10n.accountInfoLanguageTurkish,
         'en' => context.l10n.accountInfoLanguageEnglish,
         _ => context.l10n.accountInfoLanguageSystemDefault,
       };
-
 }
 
 // ── Helper widgets ────────────────────────────────────────────────────────────
@@ -725,15 +748,13 @@ class _InfoRow extends StatelessWidget {
               ),
             )
           : subtitle != null
-              ? Text(
-                  subtitle!,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.muted,
-                  ),
-                )
-              : null,
-      trailing: trailing ??
+          ? Text(
+              subtitle!,
+              style: const TextStyle(fontSize: 12, color: AppColors.muted),
+            )
+          : null,
+      trailing:
+          trailing ??
           const Icon(
             Icons.chevron_right_rounded,
             color: AppColors.muted,
@@ -814,7 +835,9 @@ class _EditNameSheetState extends ConsumerState<_EditNameSheet> {
     if (!(_formKey.currentState?.validate() ?? false)) return;
     setState(() => _saving = true);
     try {
-      final existing = await ref.read(profileRepositoryProvider).fetchMyProfile();
+      final existing = await ref
+          .read(profileRepositoryProvider)
+          .fetchMyProfile();
       final updated = Profile(
         id: existing?.id ?? '',
         firstName: _firstCtrl.text.trim(),
@@ -880,7 +903,8 @@ class _EditNameSheetState extends ConsumerState<_EditNameSheet> {
                       TextFormField(
                         controller: _firstCtrl,
                         decoration: InputDecoration(
-                            labelText: context.l10n.accountInfoFirstNameLabel),
+                          labelText: context.l10n.accountInfoFirstNameLabel,
+                        ),
                         validator: (v) => (v?.trim().isEmpty == true)
                             ? context.l10n.accountInfoFirstNameRequiredError
                             : null,
@@ -889,16 +913,19 @@ class _EditNameSheetState extends ConsumerState<_EditNameSheet> {
                       TextFormField(
                         controller: _lastCtrl,
                         decoration: InputDecoration(
-                            labelText: context.l10n.accountInfoLastNameLabel),
+                          labelText: context.l10n.accountInfoLastNameLabel,
+                        ),
                       ),
                       const SizedBox(height: 20),
                       SizedBox(
                         width: double.infinity,
                         child: FilledButton(
                           onPressed: _saving ? null : _save,
-                          child: Text(_saving
-                              ? context.l10n.accountInfoSavingLabel
-                              : context.l10n.accountInfoSaveButton),
+                          child: Text(
+                            _saving
+                                ? context.l10n.accountInfoSavingLabel
+                                : context.l10n.accountInfoSaveButton,
+                          ),
                         ),
                       ),
                     ],
@@ -940,10 +967,17 @@ class _EditPhoneSheetState extends State<_EditPhoneSheet> {
       setState(() => _error = context.l10n.accountInfoPhoneInvalidError);
       return;
     }
-    setState(() { _loading = true; _error = null; });
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
     try {
       await widget.ref.read(authServiceProvider).requestPhoneChange(phone);
-      if (mounted) setState(() { _otpSent = true; _loading = false; });
+      if (mounted)
+        setState(() {
+          _otpSent = true;
+          _loading = false;
+        });
     } catch (e) {
       if (mounted) {
         setState(() {
@@ -960,12 +994,14 @@ class _EditPhoneSheetState extends State<_EditPhoneSheet> {
       setState(() => _error = context.l10n.accountInfoOtpCodeLengthError);
       return;
     }
-    setState(() { _loading = true; _error = null; });
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
     try {
-      await widget.ref.read(authServiceProvider).verifyPhoneChange(
-        phone: _phoneCtrl.text.trim(),
-        token: code,
-      );
+      await widget.ref
+          .read(authServiceProvider)
+          .verifyPhoneChange(phone: _phoneCtrl.text.trim(), token: code);
       if (mounted) Navigator.of(context).pop();
     } catch (_) {
       if (mounted) {
@@ -981,7 +1017,11 @@ class _EditPhoneSheetState extends State<_EditPhoneSheet> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
-          20, 8, 20, 24 + MediaQuery.of(context).viewInsets.bottom),
+        20,
+        8,
+        20,
+        24 + MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -999,14 +1039,19 @@ class _EditPhoneSheetState extends State<_EditPhoneSheet> {
           ),
           const SizedBox(height: 16),
           if (_error != null) ...[
-            Text(_error!, style: const TextStyle(color: AppColors.danger, fontSize: 13)),
+            Text(
+              _error!,
+              style: const TextStyle(color: AppColors.danger, fontSize: 13),
+            ),
             const SizedBox(height: 8),
           ],
           if (!_otpSent) ...[
             TextField(
               controller: _phoneCtrl,
               keyboardType: TextInputType.phone,
-              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[+\d]'))],
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[+\d]')),
+              ],
               decoration: InputDecoration(
                 labelText: context.l10n.accountInfoPhoneLabel,
                 hintText: context.l10n.accountInfoPhoneHint,
@@ -1016,9 +1061,11 @@ class _EditPhoneSheetState extends State<_EditPhoneSheet> {
             const SizedBox(height: 16),
             FilledButton(
               onPressed: _loading ? null : _sendOtp,
-              child: Text(_loading
-                  ? context.l10n.accountInfoSendingLabel
-                  : context.l10n.accountInfoSendOtpButton),
+              child: Text(
+                _loading
+                    ? context.l10n.accountInfoSendingLabel
+                    : context.l10n.accountInfoSendOtpButton,
+              ),
             ),
           ] else ...[
             TextField(
@@ -1027,23 +1074,36 @@ class _EditPhoneSheetState extends State<_EditPhoneSheet> {
               maxLength: 6,
               textAlign: TextAlign.center,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, letterSpacing: 8),
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 8,
+              ),
               decoration: InputDecoration(
                 counterText: '',
                 hintText: context.l10n.accountInfoOtpHint,
-                hintStyle: const TextStyle(color: AppColors.muted, letterSpacing: 8),
+                hintStyle: const TextStyle(
+                  color: AppColors.muted,
+                  letterSpacing: 8,
+                ),
               ),
             ),
             const SizedBox(height: 16),
             FilledButton(
               onPressed: _loading ? null : _verifyOtp,
-              child: Text(_loading
-                  ? context.l10n.accountInfoVerifyingLabel
-                  : context.l10n.accountInfoConfirmButton),
+              child: Text(
+                _loading
+                    ? context.l10n.accountInfoVerifyingLabel
+                    : context.l10n.accountInfoConfirmButton,
+              ),
             ),
             const SizedBox(height: 8),
             TextButton(
-              onPressed: () => setState(() { _otpSent = false; _error = null; _otpCtrl.clear(); }),
+              onPressed: () => setState(() {
+                _otpSent = false;
+                _error = null;
+                _otpCtrl.clear();
+              }),
               child: Text(context.l10n.accountInfoChangeNumberButton),
             ),
           ],
@@ -1092,7 +1152,10 @@ class _EditBirthDateSheetState extends State<_EditBirthDateSheet> {
   }
 
   Future<void> _clearDate() async {
-    setState(() { _saving = true; _selected = null; });
+    setState(() {
+      _saving = true;
+      _selected = null;
+    });
     try {
       await widget.ref.read(profileRepositoryProvider).updateBirthDate(null);
       widget.onSaved();
@@ -1106,7 +1169,9 @@ class _EditBirthDateSheetState extends State<_EditBirthDateSheet> {
   Future<void> _save() async {
     setState(() => _saving = true);
     try {
-      await widget.ref.read(profileRepositoryProvider).updateBirthDate(_selected);
+      await widget.ref
+          .read(profileRepositoryProvider)
+          .updateBirthDate(_selected);
       widget.onSaved();
       if (mounted) Navigator.of(context).pop();
     } catch (_) {
@@ -1123,7 +1188,7 @@ class _EditBirthDateSheetState extends State<_EditBirthDateSheet> {
   @override
   Widget build(BuildContext context) {
     final label = _selected != null
-        ? '${_selected!.day.toString().padLeft(2, '0')}.${_selected!.month.toString().padLeft(2, '0')}.${_selected!.year}'
+        ? formatShortDate(context, _selected!)
         : context.l10n.accountInfoBirthDateNotSelected;
 
     return Padding(
@@ -1148,8 +1213,11 @@ class _EditBirthDateSheetState extends State<_EditBirthDateSheet> {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.calendar_today_outlined,
-                      color: AppColors.primary, size: 20),
+                  const Icon(
+                    Icons.calendar_today_outlined,
+                    color: AppColors.primary,
+                    size: 20,
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
@@ -1163,8 +1231,11 @@ class _EditBirthDateSheetState extends State<_EditBirthDateSheet> {
                       ),
                     ),
                   ),
-                  const Icon(Icons.chevron_right_rounded,
-                      color: AppColors.muted, size: 20),
+                  const Icon(
+                    Icons.chevron_right_rounded,
+                    color: AppColors.muted,
+                    size: 20,
+                  ),
                 ],
               ),
             ),
@@ -1172,16 +1243,20 @@ class _EditBirthDateSheetState extends State<_EditBirthDateSheet> {
           const SizedBox(height: 20),
           FilledButton(
             onPressed: (_saving || _selected == null) ? null : _save,
-            child: Text(_saving
-                ? context.l10n.accountInfoSavingLabel
-                : context.l10n.accountInfoSaveButton),
+            child: Text(
+              _saving
+                  ? context.l10n.accountInfoSavingLabel
+                  : context.l10n.accountInfoSaveButton,
+            ),
           ),
           if (widget.current != null) ...[
             const SizedBox(height: 8),
             TextButton(
               onPressed: _saving ? null : _clearDate,
-              child: Text(context.l10n.accountInfoRemoveDateButton,
-                  style: const TextStyle(color: AppColors.muted)),
+              child: Text(
+                context.l10n.accountInfoRemoveDateButton,
+                style: const TextStyle(color: AppColors.muted),
+              ),
             ),
           ],
         ],
@@ -1214,8 +1289,11 @@ class _EditGenderSheetState extends State<_EditGenderSheet> {
     ('male', context.l10n.accountInfoGenderMale, Icons.male_rounded),
     ('female', context.l10n.accountInfoGenderFemale, Icons.female_rounded),
     ('other', context.l10n.accountInfoGenderOther, Icons.transgender_rounded),
-    ('prefer_not_to_say', context.l10n.accountInfoGenderPreferNotToSay,
-        Icons.do_not_disturb_alt_rounded),
+    (
+      'prefer_not_to_say',
+      context.l10n.accountInfoGenderPreferNotToSay,
+      Icons.do_not_disturb_alt_rounded,
+    ),
   ];
 
   @override
@@ -1270,7 +1348,9 @@ class _EditGenderSheetState extends State<_EditGenderSheet> {
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 14),
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? AppColors.primarySoft
@@ -1282,11 +1362,11 @@ class _EditGenderSheetState extends State<_EditGenderSheet> {
                   ),
                   child: Row(
                     children: [
-                      Icon(icon,
-                          color: isSelected
-                              ? AppColors.primary
-                              : AppColors.muted,
-                          size: 20),
+                      Icon(
+                        icon,
+                        color: isSelected ? AppColors.primary : AppColors.muted,
+                        size: 20,
+                      ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
@@ -1301,8 +1381,11 @@ class _EditGenderSheetState extends State<_EditGenderSheet> {
                         ),
                       ),
                       if (isSelected)
-                        const Icon(Icons.check_rounded,
-                            color: AppColors.primary, size: 18),
+                        const Icon(
+                          Icons.check_rounded,
+                          color: AppColors.primary,
+                          size: 18,
+                        ),
                     ],
                   ),
                 ),
@@ -1312,9 +1395,11 @@ class _EditGenderSheetState extends State<_EditGenderSheet> {
           const SizedBox(height: 8),
           FilledButton(
             onPressed: (_saving || _selected == null) ? null : _save,
-            child: Text(_saving
-                ? context.l10n.accountInfoSavingLabel
-                : context.l10n.accountInfoSaveButton),
+            child: Text(
+              _saving
+                  ? context.l10n.accountInfoSavingLabel
+                  : context.l10n.accountInfoSaveButton,
+            ),
           ),
         ],
       ),
@@ -1384,7 +1469,10 @@ class _EditCitySheetState extends State<_EditCitySheet> {
             children: [
               Text(
                 context.l10n.accountInfoCityLabel,
-                style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 17,
+                ),
               ),
               const SizedBox(height: 4),
               Text(
@@ -1416,7 +1504,10 @@ class _EditCitySheetState extends State<_EditCitySheet> {
                           return ListTile(
                             title: Text(il),
                             trailing: isSelected
-                                ? const Icon(Icons.check_rounded, color: AppColors.primary)
+                                ? const Icon(
+                                    Icons.check_rounded,
+                                    color: AppColors.primary,
+                                  )
                                 : null,
                             onTap: () => _save(il),
                           );

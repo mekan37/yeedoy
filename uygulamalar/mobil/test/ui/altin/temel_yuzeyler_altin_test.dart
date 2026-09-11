@@ -89,4 +89,3 @@ class _Card extends StatelessWidget {
     );
   }
 }
-

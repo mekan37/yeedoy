@@ -164,10 +164,10 @@ void main() {
 class _DecidedConsentRepository implements ConsentRepository {
   @override
   Future<ConsentState> load() async => const ConsentState(
-        analytics: ConsentStatus.granted,
-        marketing: ConsentStatus.denied,
-        dataRetention: ConsentStatus.granted,
-      );
+    analytics: ConsentStatus.granted,
+    marketing: ConsentStatus.denied,
+    dataRetention: ConsentStatus.granted,
+  );
 
   @override
   Future<void> save(ConsentState state) async {}

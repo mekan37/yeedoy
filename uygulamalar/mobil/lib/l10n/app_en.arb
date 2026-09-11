@@ -4410,6 +4410,10 @@
   "@reviewCreateSubmitted": {
     "description": "Auto metadata for reviewCreateSubmitted"
   },
+  "reviewCreatePhotoUploadFailed": "Review submitted, but the photo failed to upload. You can try again later.",
+  "@reviewCreatePhotoUploadFailed": {
+    "description": "Auto metadata for reviewCreatePhotoUploadFailed"
+  },
   "reviewCreateErrorNewAccountRateLimited": "Daily review limit reached for new accounts.",
   "@reviewCreateErrorNewAccountRateLimited": {
     "description": "Auto metadata for reviewCreateErrorNewAccountRateLimited"
@@ -4429,6 +4433,364 @@
   "reviewCreateErrorEmojiSpam": "Review contains too many emojis.",
   "@reviewCreateErrorEmojiSpam": {
     "description": "Auto metadata for reviewCreateErrorEmojiSpam"
+  },
+  "reviewCreateHeroTitle": "Write a Review & Rate",
+  "@reviewCreateHeroTitle": {
+    "description": "Auto metadata for reviewCreateHeroTitle"
+  },
+  "reviewCreateHeroSubtitle": "Share your experience and help the community",
+  "@reviewCreateHeroSubtitle": {
+    "description": "Auto metadata for reviewCreateHeroSubtitle"
+  },
+  "reviewCreateRatingHintLow": "Poor",
+  "@reviewCreateRatingHintLow": {
+    "description": "Auto metadata for reviewCreateRatingHintLow"
+  },
+  "reviewCreateRatingHintHigh": "Excellent",
+  "@reviewCreateRatingHintHigh": {
+    "description": "Auto metadata for reviewCreateRatingHintHigh"
+  },
+  "reviewCreateContentLabel": "Your review (optional)",
+  "@reviewCreateContentLabel": {
+    "description": "Auto metadata for reviewCreateContentLabel"
+  },
+  "reviewCreateContentPlaceholder": "Write about your experience here...",
+  "@reviewCreateContentPlaceholder": {
+    "description": "Auto metadata for reviewCreateContentPlaceholder"
+  },
+  "reviewCreatePhotosLabel": "Add Photos",
+  "@reviewCreatePhotosLabel": {
+    "description": "Auto metadata for reviewCreatePhotosLabel"
+  },
+  "reviewCreateAddPhoto": "Add photo",
+  "@reviewCreateAddPhoto": {
+    "description": "Auto metadata for reviewCreateAddPhoto"
+  },
+  "reviewCreateAddPhotoHint": "Up to {max} photos",
+  "@reviewCreateAddPhotoHint": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for reviewCreateAddPhotoHint"
+  },
+  "reviewCreateExperienceLabel": "Detailed Rating (optional)",
+  "@reviewCreateExperienceLabel": {
+    "description": "Auto metadata for reviewCreateExperienceLabel"
+  },
+  "reviewCreateAddToFavorites": "Add this business to my favorites",
+  "@reviewCreateAddToFavorites": {
+    "description": "Auto metadata for reviewCreateAddToFavorites"
+  },
+  "reviewCreateSubmitCta": "Submit Review",
+  "@reviewCreateSubmitCta": {
+    "description": "Auto metadata for reviewCreateSubmitCta"
+  },
+  "reviewRatingCriterionTaste": "Taste",
+  "@reviewRatingCriterionTaste": {
+    "description": "Auto metadata for reviewRatingCriterionTaste"
+  },
+  "reviewRatingCriterionServiceSpeed": "Service speed",
+  "@reviewRatingCriterionServiceSpeed": {
+    "description": "Auto metadata for reviewRatingCriterionServiceSpeed"
+  },
+  "reviewRatingCriterionPricePerformance": "Price performance",
+  "@reviewRatingCriterionPricePerformance": {
+    "description": "Auto metadata for reviewRatingCriterionPricePerformance"
+  },
+  "reviewRatingCriterionCleanliness": "Cleanliness",
+  "@reviewRatingCriterionCleanliness": {
+    "description": "Auto metadata for reviewRatingCriterionCleanliness"
+  },
+  "reviewRatingCriterionAtmosphere": "Atmosphere",
+  "@reviewRatingCriterionAtmosphere": {
+    "description": "Auto metadata for reviewRatingCriterionAtmosphere"
+  },
+  "appShellExitOnBackPress": "Press back again to exit",
+  "@appShellExitOnBackPress": {
+    "description": "Auto metadata for appShellExitOnBackPress"
+  },
+  "businessMenuPreviewConfirmedByCount": "{count} users confirmed",
+  "@businessMenuPreviewConfirmedByCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for businessMenuPreviewConfirmedByCount"
+  },
+  "discoveryBudgetPerPersonUnlimited": "Budget per person: No limit",
+  "@discoveryBudgetPerPersonUnlimited": {
+    "description": "Auto metadata for discoveryBudgetPerPersonUnlimited"
+  },
+  "discoveryBudgetPerPersonMax": "Max budget per person: {amount}₺",
+  "@discoveryBudgetPerPersonMax": {
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for discoveryBudgetPerPersonMax"
+  },
+  "discoveryBudgetSliderUnlimited": "No limit",
+  "@discoveryBudgetSliderUnlimited": {
+    "description": "Auto metadata for discoveryBudgetSliderUnlimited"
+  },
+  "discoveryMaxBudgetChipLabel": "Max {amount}₺",
+  "@discoveryMaxBudgetChipLabel": {
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for discoveryMaxBudgetChipLabel"
+  },
+  "discoveryTasteTwinChipLabel": "Taste Twin",
+  "@discoveryTasteTwinChipLabel": {
+    "description": "Auto metadata for discoveryTasteTwinChipLabel"
+  },
+  "heroesWeeklyLeaderboardTitle": "Weekly Top Contributors",
+  "@heroesWeeklyLeaderboardTitle": {
+    "description": "Auto metadata for heroesWeeklyLeaderboardTitle"
+  },
+  "heroesWeeklyLeaderboardSubtitle": "Most price verifications, reviews, and photos in the past 7 days",
+  "@heroesWeeklyLeaderboardSubtitle": {
+    "description": "Auto metadata for heroesWeeklyLeaderboardSubtitle"
+  },
+  "heroesWeeklyLeaderboardEmpty": "No contributions this week yet.",
+  "@heroesWeeklyLeaderboardEmpty": {
+    "description": "Auto metadata for heroesWeeklyLeaderboardEmpty"
+  },
+  "heroesAllTimeTitle": "All-Time Heroes",
+  "@heroesAllTimeTitle": {
+    "description": "Auto metadata for heroesAllTimeTitle"
+  },
+  "heroesWeeklyStatsLine": "{verifyCount} verif · {reviewCount} reviews · {photoCount} photos",
+  "@heroesWeeklyStatsLine": {
+    "placeholders": {
+      "verifyCount": {
+        "type": "int"
+      },
+      "reviewCount": {
+        "type": "int"
+      },
+      "photoCount": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for heroesWeeklyStatsLine"
+  },
+  "menuItemsConfirmedByCount": "{count} verified",
+  "@menuItemsConfirmedByCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuItemsConfirmedByCount"
+  },
+  "menuOfflineSaveTooltipSaved": "Saved offline",
+  "@menuOfflineSaveTooltipSaved": {
+    "description": "Auto metadata for menuOfflineSaveTooltipSaved"
+  },
+  "menuOfflineSaveTooltipUnsaved": "Save for offline",
+  "@menuOfflineSaveTooltipUnsaved": {
+    "description": "Auto metadata for menuOfflineSaveTooltipUnsaved"
+  },
+  "menuOfflineSavedSnackbar": "Menu saved for offline use",
+  "@menuOfflineSavedSnackbar": {
+    "description": "Auto metadata for menuOfflineSavedSnackbar"
+  },
+  "priceOnRequest": "Price on request",
+  "@priceOnRequest": {
+    "description": "Auto metadata for priceOnRequest"
+  },
+  "menuTimeWindowNowDiscount": "Now: {label} • {pct}% off ({timeRange})",
+  "@menuTimeWindowNowDiscount": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "timeRange": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuTimeWindowNowDiscount"
+  },
+  "menuTimeWindowUpcomingDiscount": "{label} is cheaper ({timeRange}) • {pct}% off",
+  "@menuTimeWindowUpcomingDiscount": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "timeRange": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuTimeWindowUpcomingDiscount"
+  },
+  "menuTimeWindowNowPrice": "Now: {label} {priceText} ({timeRange})",
+  "@menuTimeWindowNowPrice": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "timeRange": {
+        "type": "String"
+      },
+      "priceText": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuTimeWindowNowPrice"
+  },
+  "menuTimeWindowUpcomingPrice": "{label} price {priceText} ({timeRange})",
+  "@menuTimeWindowUpcomingPrice": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "timeRange": {
+        "type": "String"
+      },
+      "priceText": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuTimeWindowUpcomingPrice"
+  },
+  "menuTimeWindowNowPlain": "Now: {label} ({timeRange})",
+  "@menuTimeWindowNowPlain": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "timeRange": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuTimeWindowNowPlain"
+  },
+  "menuTimeWindowUpcomingPlain": "{label} ({timeRange})",
+  "@menuTimeWindowUpcomingPlain": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "timeRange": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuTimeWindowUpcomingPlain"
+  },
+  "menuDataTrustLabel": "Data trust",
+  "@menuDataTrustLabel": {
+    "description": "Auto metadata for menuDataTrustLabel"
+  },
+  "menuPriceMetaToday": "Today",
+  "@menuPriceMetaToday": {
+    "description": "Auto metadata for menuPriceMetaToday"
+  },
+  "menuPriceMetaYesterday": "Yesterday",
+  "@menuPriceMetaYesterday": {
+    "description": "Auto metadata for menuPriceMetaYesterday"
+  },
+  "menuPriceMetaDaysAgo": "{days}d ago",
+  "@menuPriceMetaDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuPriceMetaDaysAgo"
+  },
+  "menuPriceMetaMonthsAgo": "{months}mo ago",
+  "@menuPriceMetaMonthsAgo": {
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuPriceMetaMonthsAgo"
+  },
+  "menuPriceMetaUpdated": "Updated: {timeStr}",
+  "@menuPriceMetaUpdated": {
+    "placeholders": {
+      "timeStr": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuPriceMetaUpdated"
+  },
+  "menuPriceMetaVerifierCount": "{count, plural, one{{count} verifier} other{{count} verifiers}}",
+  "@menuPriceMetaVerifierCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuPriceMetaVerifierCount"
+  },
+  "menuPriceMetaVoteCount": "{count, plural, one{{count} vote} other{{count} votes}}",
+  "@menuPriceMetaVoteCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuPriceMetaVoteCount"
+  },
+  "menuPriceBenchmarkSame": "City avg: {avgText} (similar)",
+  "@menuPriceBenchmarkSame": {
+    "placeholders": {
+      "avgText": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuPriceBenchmarkSame"
+  },
+  "menuPriceBenchmarkCheaper": "City avg: {avgText} • {pct}% cheaper",
+  "@menuPriceBenchmarkCheaper": {
+    "placeholders": {
+      "avgText": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuPriceBenchmarkCheaper"
+  },
+  "menuPriceBenchmarkPricier": "City avg: {avgText} • {pct}% pricier",
+  "@menuPriceBenchmarkPricier": {
+    "placeholders": {
+      "avgText": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuPriceBenchmarkPricier"
+  },
+  "menuNutritionDisclaimer": "Values may be estimates. Please inform staff about your allergies.",
+  "@menuNutritionDisclaimer": {
+    "description": "Auto metadata for menuNutritionDisclaimer"
+  },
+  "menuTransparentMenuTitle": "Transparent Menu",
+  "@menuTransparentMenuTitle": {
+    "description": "Auto metadata for menuTransparentMenuTitle"
+  },
+  "menuIngredientsLabel": "Ingredients",
+  "@menuIngredientsLabel": {
+    "description": "Auto metadata for menuIngredientsLabel"
   },
   "quality": "Quality",
   "@quality": {
@@ -5629,13 +5991,18 @@
   "accountSecurityLogoutAllButton": "Sign Out of All Devices",
   "accountSecurityChangePasswordErrorTooShort": "Password must be at least 6 characters.",
   "accountSecurityChangePasswordErrorMismatch": "Passwords do not match.",
+  "accountSecurityChangePasswordErrorReauthRequired": "Enter your current password to continue.",
+  "accountSecurityChangePasswordErrorReauthFailed": "Current password is incorrect.",
   "accountSecurityPasswordUpdated": "Password updated successfully.",
   "accountSecurityChangePasswordTitle": "Change Password",
+  "accountSecurityCurrentPasswordLabel": "Current password",
   "accountSecurityNewPasswordLabel": "New password",
   "accountSecurityNewPasswordConfirmLabel": "New password (again)",
   "accountSecuritySavingLabel": "Saving…",
   "accountSecurityUpdatePasswordButton": "Update Password",
   "accountSecurityChangeEmailErrorInvalid": "Enter a valid email.",
+  "accountSecurityChangeEmailErrorReauthRequired": "Enter your current password to continue.",
+  "accountSecurityChangeEmailErrorReauthFailed": "Current password is incorrect.",
   "accountSecurityChangeEmailSentBody": "A verification email has been sent to {email}. Your email will be updated once you click the link.",
   "@accountSecurityChangeEmailSentBody": {
     "placeholders": {

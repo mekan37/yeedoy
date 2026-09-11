@@ -67,60 +67,53 @@ part 'parts/business_menu_preview.dart';
 part 'parts/business_state_views.dart';
 part 'parts/check_in_button.dart';
 
-final _businessProvider = FutureProvider.autoDispose.family<Business, String>((ref, id) {
+final _businessProvider = FutureProvider.autoDispose.family<Business, String>((
+  ref,
+  id,
+) {
   return ref.watch(discoveryRepositoryProvider).fetchBusiness(id);
 });
 
-final _businessHoursProvider =
-    FutureProvider.autoDispose.family<({String? open, String? close})?, String>((
+// business_hours (mon_open/tue_open/... geniş kolonlu tablo) 2026-08-19'daki
+// Google Maps V5 import'undan bu yana TERK EDİLMİŞ — canlıda yalnızca 1
+// satır var. Gerçek/güncel veri business_weekly_hours'ta; get_business_hours_v1
+// zaten bunu doğru (Europe/Istanbul, özel gün/tatil override'lı) şekilde
+// hesaplıyor — burada onu tekrar yazmak yerine RPC'ye gidiliyor (B38).
+final _businessHoursProvider = FutureProvider.autoDispose
+    .family<({String? open, String? close, bool? isOpenNow})?, String>((
       ref,
       id,
     ) async {
       final client = ref.watch(supabaseProvider);
-      final res = await client
-          .from('business_hours')
-          .select(
-            'mon_open,mon_close,tue_open,tue_close,wed_open,wed_close,thu_open,thu_close,fri_open,fri_close,sat_open,sat_close,sun_open,sun_close',
-          )
-          .eq('business_id', id)
-          .maybeSingle();
-      if (res == null) return null;
-      final map = (res as Map).cast<String, dynamic>();
-      final now = DateTime.now();
-      return switch (now.weekday) {
-        DateTime.monday => (
-          open: _timeText(map['mon_open']),
-          close: _timeText(map['mon_close']),
-        ),
-        DateTime.tuesday => (
-          open: _timeText(map['tue_open']),
-          close: _timeText(map['tue_close']),
-        ),
-        DateTime.wednesday => (
-          open: _timeText(map['wed_open']),
-          close: _timeText(map['wed_close']),
-        ),
-        DateTime.thursday => (
-          open: _timeText(map['thu_open']),
-          close: _timeText(map['thu_close']),
-        ),
-        DateTime.friday => (
-          open: _timeText(map['fri_open']),
-          close: _timeText(map['fri_close']),
-        ),
-        DateTime.saturday => (
-          open: _timeText(map['sat_open']),
-          close: _timeText(map['sat_close']),
-        ),
-        _ => (
-          open: _timeText(map['sun_open']),
-          close: _timeText(map['sun_close']),
-        ),
-      };
+      final res = await client.rpc(
+        'get_business_hours_v1',
+        params: {'p_business_id': id},
+      );
+      if (res is! Map) return null;
+      final map = res.cast<String, dynamic>();
+      final isOpenNow = map['is_open_now'] as bool?;
+      final weekly = (map['weekly'] as List?) ?? const [];
+      // Postgres EXTRACT(DOW): Pazar=0 .. Cumartesi=6. Dart DateTime.weekday:
+      // Pazartesi=1 .. Pazar=7. `% 7` ikisini eşliyor.
+      final todayDow = DateTime.now().weekday % 7;
+      for (final entry in weekly) {
+        if (entry is! Map) continue;
+        final dow = (entry['day_of_week'] as num?)?.toInt();
+        if (dow != todayDow) continue;
+        if (entry['is_closed'] == true) {
+          return (open: null, close: null, isOpenNow: isOpenNow);
+        }
+        return (
+          open: _timeText(entry['open_time']),
+          close: _timeText(entry['close_time']),
+          isOpenNow: isOpenNow,
+        );
+      }
+      return (open: null, close: null, isOpenNow: isOpenNow);
     });
 
-final _menuItemVariantsProvider =
-    FutureProvider.autoDispose.family<Map<String, List<_MenuItemVariant>>, String>((
+final _menuItemVariantsProvider = FutureProvider.autoDispose
+    .family<Map<String, List<_MenuItemVariant>>, String>((
       ref,
       itemIdsKey,
     ) async {
@@ -159,11 +152,8 @@ final _menuItemVariantsProvider =
       return byItem;
     });
 
-final _businessFrequentTagsProvider =
-    FutureProvider.autoDispose.family<List<({String tag, int count})>, String>((
-      ref,
-      businessId,
-    ) async {
+final _businessFrequentTagsProvider = FutureProvider.autoDispose
+    .family<List<({String tag, int count})>, String>((ref, businessId) async {
       final client = ref.watch(supabaseProvider);
       final res = await client.rpc(
         'get_business_frequent_tags_v1',
@@ -183,11 +173,8 @@ final _businessFrequentTagsProvider =
           .toList(growable: false);
     });
 
-final _businessTrustProvider =
-    FutureProvider.autoDispose.family<_BusinessTrustSnapshot, String>((
-      ref,
-      businessId,
-    ) async {
+final _businessTrustProvider = FutureProvider.autoDispose
+    .family<_BusinessTrustSnapshot, String>((ref, businessId) async {
       final client = ref.watch(supabaseProvider);
       final now = DateTime.now();
 
@@ -315,11 +302,8 @@ final _businessTrustProvider =
       );
     });
 
-final _chainInfoProvider =
-    FutureProvider.autoDispose.family<ChainInfo?, String>((
-      ref,
-      businessId,
-    ) async {
+final _chainInfoProvider = FutureProvider.autoDispose
+    .family<ChainInfo?, String>((ref, businessId) async {
       return ref
           .watch(businessChainRepositoryProvider)
           .fetchChainInfo(businessId);
@@ -408,9 +392,7 @@ class _BusinessPageState extends ConsumerState<BusinessPage> {
           final isOpenNow = ref.watch(
             _businessHoursProvider(business.id).select(
               (async) => async.maybeWhen(
-                data: (today) => today == null
-                    ? null
-                    : _isOpenNow(today.open, today.close, DateTime.now()),
+                data: (today) => today?.isOpenNow,
                 orElse: () => null,
               ),
             ),

@@ -26,6 +26,13 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
   Timer? _debounce;
   bool _homeTtiLogged = false;
 
+  /// Sunucudan şu ana kadar çekilen HAM (filtre öncesi) satır sayısı.
+  /// `state.items.length` (filtrelenmiş) yerine bunu offset olarak
+  /// kullanmak gerekir — aksi halde filtre sonrası liste kısaldığında aynı
+  /// ham satırlar tekrar tekrar çekilir ya da agresif filtrede sayfalama
+  /// hiç ilerlemez (B14/B56 "offset kayması").
+  int _rawOffset = 0;
+
   /// Cached set of business IDs recommended by Taste Twin.
   /// Populated lazily when tasteTwinEnabled is toggled on and cleared on toggle off.
   Set<String> _tasteTwinBusinessIds = const {};
@@ -47,6 +54,9 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
   Future<void> loadInitial() async {
     final watch = Stopwatch()..start();
     final reqId = ++_requestId;
+    // items boşaltılırken hemen sıfırlanıyor — fetch hata verirse bile
+    // loadMore() stale bir ham offset'le devam etmesin.
+    _rawOffset = 0;
     state = state.copyWith(
       loading: true,
       isLoadingMore: false,
@@ -72,6 +82,7 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
       final list = await _fetchPage(offset: 0, limit: pageSize);
       _dbg('loadInitial:fetched raw=${list.length}');
       if (reqId != _requestId) return;
+      _rawOffset = list.length;
       final filtered = await _postProcess(list);
       _dbg('loadInitial:postProcess filtered=${filtered.length}');
 
@@ -100,7 +111,7 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
 
     try {
       _dbg(
-        'loadMore:start mode=${state.mode.name} query="${state.query}" offset=${state.items.length}',
+        'loadMore:start mode=${state.mode.name} query="${state.query}" rawOffset=$_rawOffset',
       );
       if (state.mode == DiscoveryMode.nearby &&
           (state.userLat == null || state.userLng == null)) {
@@ -111,14 +122,22 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
         return;
       }
 
-      final list = await _fetchPage(
-        offset: state.items.length,
-        limit: pageSize,
-      );
+      final list = await _fetchPage(offset: _rawOffset, limit: pageSize);
       _dbg('loadMore:fetched raw=${list.length}');
       if (baseReqId != _requestId || loadMoreId != _loadMoreId) return;
-      final combined = [...state.items, ...list];
-      final filtered = await _postProcess(combined);
+      _rawOffset += list.length;
+      // state.items zaten zenginleştirilmiş — yalnızca YENİ sayfayı
+      // zenginleştir (eski sayfaları her loadMore'da yeniden ağdan çekmek
+      // O(n²) büyümeye yol açıyordu, bkz. B14).
+      final repo = ref.read(searchRepositoryProvider);
+      final enrichedNew = await repo.enrichBusinessCards(list);
+      if (baseReqId != _requestId || loadMoreId != _loadMoreId) return;
+      final existingIds = state.items.map((b) => b.id).toSet();
+      final uniqueNew = enrichedNew
+          .where((b) => !existingIds.contains(b.id))
+          .toList(growable: false);
+      final combined = [...state.items, ...uniqueNew];
+      final filtered = _filterAndSort(combined);
       _dbg('loadMore:postProcess filtered=${filtered.length}');
 
       state = state.copyWith(
@@ -147,7 +166,14 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
       unawaited(loadInitial());
       return;
     }
-    if (q.trim().isEmpty) return;
+    if (q.trim().isEmpty) {
+      // Arama kutusu temizlendi: instant-filter sonuçları eski sorguda takılı
+      // kalmasın diye tabanı (filtresiz) yeniden yükle.
+      _debounce = Timer(const Duration(milliseconds: 150), () {
+        unawaited(loadInitial());
+      });
+      return;
+    }
     _debounce = Timer(const Duration(milliseconds: 500), () {
       unawaited(loadInitial());
     });
@@ -297,7 +323,9 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
         limit: 20,
       );
       _tasteTwinBusinessIds = recs.map((r) => r.businessId).toSet();
-      _dbg('_loadTasteTwinBoostIds: ${_tasteTwinBusinessIds.length} business IDs');
+      _dbg(
+        '_loadTasteTwinBoostIds: ${_tasteTwinBusinessIds.length} business IDs',
+      );
     } catch (e) {
       _dbg('_loadTasteTwinBoostIds:error $e — falling back to empty set');
       _tasteTwinBusinessIds = const {};
@@ -389,8 +417,17 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
     List<BusinessCardModel> input,
   ) async {
     final repo = ref.read(searchRepositoryProvider);
-    var list = await repo.enrichBusinessCards(input);
-    _dbg('_postProcess:start input=${input.length} enriched=${list.length}');
+    final enriched = await repo.enrichBusinessCards(input);
+    return _filterAndSort(enriched);
+  }
+
+  /// [input]'un TAMAMI zaten zenginleştirilmiş (enrichBusinessCards) olmalı.
+  /// Filtre+sıralama tamamen yerel/ucuz bir işlem — ağ çağrısı yok — bu
+  /// yüzden loadMore() eski (zaten zenginleştirilmiş) öğeleri yeniden ağdan
+  /// çekmeden burada yeniden çalıştırabilir (B14: O(n²) sayfalama fix'i).
+  List<BusinessCardModel> _filterAndSort(List<BusinessCardModel> input) {
+    var list = input;
+    _dbg('_filterAndSort:start input=${input.length}');
 
     final normalizedQuery = normalizeSearchQuery(state.query);
     final queryTokens = normalizedQuery
@@ -429,10 +466,12 @@ class DiscoverySearchNotifier extends Notifier<DiscoverySearchState> {
 
     if (state.hasBudgetFilter) {
       list = list
-          .where((b) =>
-              b.medianPriceCents != null &&
-              b.medianPriceCents! > 0 &&
-              b.medianPriceCents! <= state.maxBudgetCents!)
+          .where(
+            (b) =>
+                b.medianPriceCents != null &&
+                b.medianPriceCents! > 0 &&
+                b.medianPriceCents! <= state.maxBudgetCents!,
+          )
           .toList();
       _dbg('_postProcess:maxBudget ${state.maxBudgetCents} -> ${list.length}');
     }

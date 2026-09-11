@@ -8,6 +8,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../../../core/security/route_sanitizer.dart';
 import '../../../core/location/turkiye_illeri.dart';
 import '../../legal/legal_linking.dart';
@@ -62,7 +63,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       return;
     }
     if (_passCtrl.text != _passConfirmCtrl.text) {
-      setState(() => _errorMessage = context.l10n.registerErrorPasswordMismatch);
+      setState(
+        () => _errorMessage = context.l10n.registerErrorPasswordMismatch,
+      );
       return;
     }
     if (_passCtrl.text.length < 8) {
@@ -103,9 +106,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       }
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(context.l10n.registerSuccessMessage),
-        ),
+        SnackBar(content: Text(context.l10n.registerSuccessMessage)),
       );
       context.go('/discover');
     } catch (e) {
@@ -176,7 +177,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     children: [
                       Text(
                         context.l10n.registerCitySheetTitle,
-                        style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 15),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 15,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       TextField(
@@ -184,7 +188,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         onChanged: (v) => setSheetState(() => filter = v),
                         decoration: InputDecoration(
                           hintText: context.l10n.registerCitySearchHint,
-                          prefixIcon: const Icon(Icons.search_rounded, size: 20),
+                          prefixIcon: const Icon(
+                            Icons.search_rounded,
+                            size: 20,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -387,7 +394,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         child: Text(
                           _birthDate == null
                               ? context.l10n.registerBirthDatePlaceholder
-                              : '${_birthDate!.day.toString().padLeft(2, '0')}.${_birthDate!.month.toString().padLeft(2, '0')}.${_birthDate!.year}',
+                              : formatShortDate(context, _birthDate!),
                           style: TextStyle(
                             fontSize: 14,
                             color: _birthDate == null
@@ -488,7 +495,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               ),
                             ),
                           ),
-                          TextSpan(text: context.l10n.registerTermsAndConnector),
+                          TextSpan(
+                            text: context.l10n.registerTermsAndConnector,
+                          ),
                           WidgetSpan(
                             child: GestureDetector(
                               onTap: () =>
@@ -504,7 +513,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               ),
                             ),
                           ),
-                          TextSpan(text: context.l10n.registerTermsAcceptSuffix),
+                          TextSpan(
+                            text: context.l10n.registerTermsAcceptSuffix,
+                          ),
                         ],
                       ),
                     ),
@@ -764,7 +775,10 @@ class _PhoneFieldState extends State<_PhoneField> {
               style: const TextStyle(fontSize: 14, color: AppColors.textStrong),
               decoration: InputDecoration(
                 hintText: context.l10n.registerPhoneHint,
-                hintStyle: const TextStyle(color: AppColors.muted, fontSize: 14),
+                hintStyle: const TextStyle(
+                  color: AppColors.muted,
+                  fontSize: 14,
+                ),
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
@@ -819,7 +833,10 @@ class _PhoneFieldState extends State<_PhoneField> {
                 const SizedBox(height: 16),
                 Text(
                   context.l10n.registerCountryCodeSheetTitle,
-                  style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 15),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 15,
+                  ),
                 ),
                 const Divider(),
                 Flexible(

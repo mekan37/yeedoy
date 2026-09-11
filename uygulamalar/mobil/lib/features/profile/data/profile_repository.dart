@@ -25,12 +25,12 @@ class ProfileRepository {
     if (uid == null) return null;
 
     try {
-      final row = await _supabase
-          .from('user_profiles')
-          .select('user_id,display_name,social_links,language_code,birth_date,gender,city')
-          .eq('user_id', uid)
-          .single();
-      final data = (row as Map).cast<String, dynamic>();
+      final res = await _supabase.rpc('get_my_profile_private_v1');
+      final envelope = (res as Map).cast<String, dynamic>();
+      if (envelope['ok'] != true) return null;
+      final profile = envelope['profile'];
+      if (profile == null) return null;
+      final data = (profile as Map).cast<String, dynamic>();
       final displayName = (data['display_name'] ?? '').toString().trim();
       final parts = displayName
           .split(RegExp(r'\s+'))

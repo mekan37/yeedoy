@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../data/group_requests_repository.dart';
 import '../domain/group_request_models.dart';
 import '../../../features/shared/ui/design_system.dart';
@@ -74,14 +75,17 @@ class MyGroupRequestsPage extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${req.city} • ${_formatDate(req.dateTime)}',
+                            '${req.city} • ${formatShortDate(context, req.dateTime)}',
                             style: const TextStyle(fontWeight: FontWeight.w900),
                           ),
                           const SizedBox(height: 6),
                           Text(
                             t.groupRequestPartyAndBudget(
                               req.partySize,
-                              _formatPrice(req.budgetTotalCents),
+                              formatCurrency(
+                                context,
+                                req.budgetTotalCents / 100.0,
+                              ),
                             ),
                             style: const TextStyle(color: AppColors.muted),
                           ),
@@ -124,16 +128,4 @@ class _StatusChip extends StatelessWidget {
     };
     return AppBadge(label: label, tone: tone);
   }
-}
-
-String _formatDate(DateTime time) {
-  return '${time.day.toString().padLeft(2, '0')}.'
-      '${time.month.toString().padLeft(2, '0')}.'
-      '${time.year}';
-}
-
-String _formatPrice(int cents) {
-  final value = cents / 100.0;
-  final text = value.toStringAsFixed(value.truncateToDouble() == value ? 0 : 2);
-  return 'TL$text';
 }

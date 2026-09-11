@@ -1,4 +1,4 @@
-﻿import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:yeedoy/core/analytics/app_events.dart';
 import 'package:yeedoy/core/quality/golden_paths.dart';
 
@@ -45,4 +45,3 @@ void main() {
     });
   });
 }
-

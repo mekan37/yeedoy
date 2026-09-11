@@ -75,7 +75,6 @@ class PushNotificationService {
     final user = ref.read(userProvider);
     if (user == null) return;
 
-    _started = true;
     final messaging = FirebaseMessaging.instance;
 
     try {
@@ -92,7 +91,17 @@ class PushNotificationService {
       // Some platforms may throw when notification permission is unsupported.
     }
 
-    await _registerCurrentToken(messaging);
+    // Sunucuya cihaz kaydı ağ hatasıyla başarısız olabilir — bu, mesaj
+    // dinleyicilerinin (push tıklaması, gelen kutusu canlı güncellemesi)
+    // kurulmasını ASLA engellememeli. Önceden bu adım hataya düşünce
+    // `start()` erken çıkıyor ve `_started` zaten true olduğu için o oturum
+    // boyunca bir daha hiç denenmiyordu.
+    try {
+      await _registerCurrentToken(messaging);
+    } catch (_) {
+      // no-op — bir sonraki onTokenRefresh veya foreground dönüşünde
+      // yeniden denenebilir; kritik olan dinleyicilerin kurulması.
+    }
 
     _tokenSub = messaging.onTokenRefresh.listen((token) async {
       await _registerToken(token);
@@ -106,6 +115,9 @@ class PushNotificationService {
     _messageOpenSub = FirebaseMessaging.onMessageOpenedApp.listen((message) {
       _emitPushTapIntent(message.data);
     });
+
+    // Dinleyiciler kuruldu — artık gerçekten "başlatılmış" sayılabilir.
+    _started = true;
 
     try {
       final initialMessage = await messaging.getInitialMessage();
@@ -141,27 +153,32 @@ class PushNotificationService {
     _lastToken = token;
   }
 
-  void stop() {
+  /// Cihaz push kaydını sunucudan siler ve dinleyicileri kapatır.
+  ///
+  /// Önceden `void` + `unawaited(...)` idi: hem çağıran taraf bu işlemin
+  /// bittiğini asla bekleyemiyordu hem de sign-out akışında bu, sunucu
+  /// isteği tamamlanmadan `auth.signOut()` çağrılmasına (ve JWT geçersiz
+  /// olduğu için unregister'ın sessizce 401 ile başarısız olmasına) yol
+  /// açıyordu. Artık `Future<void>` — sign-out akışı bunu bekleyip ANCAK
+  /// ondan sonra oturumu kapatmalı.
+  Future<void> stop() async {
     if (!_started) return;
     _started = false;
-    unawaited(() async {
-      try {
-        final token = _lastToken ?? await FirebaseMessaging.instance.getToken();
-        if (token == null || token.trim().isEmpty) return;
-        await ref
-            .read(inboxRepositoryProvider)
-            .unregisterDevice(fcmToken: token);
-      } catch (_) {
-        // no-op
-      } finally {
-        _lastToken = null;
+    try {
+      final token = _lastToken ?? await FirebaseMessaging.instance.getToken();
+      if (token != null && token.trim().isNotEmpty) {
+        await ref.read(inboxRepositoryProvider).unregisterDevice(fcmToken: token);
       }
-    }());
-    _tokenSub?.cancel();
+    } catch (_) {
+      // no-op — cihaz kaydı sunucuda kalabilir, kritik değil.
+    } finally {
+      _lastToken = null;
+    }
+    await _tokenSub?.cancel();
     _tokenSub = null;
-    _messageSub?.cancel();
+    await _messageSub?.cancel();
     _messageSub = null;
-    _messageOpenSub?.cancel();
+    await _messageOpenSub?.cancel();
     _messageOpenSub = null;
   }
 

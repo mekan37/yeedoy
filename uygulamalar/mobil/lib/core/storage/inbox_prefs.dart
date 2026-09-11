@@ -33,4 +33,12 @@ class InboxPrefs {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_cachedItemsKey, jsonEncode(items.take(50).toList()));
   }
+
+  /// Oturum sahibi değiştiğinde (logout/login) önceki kullanıcının gelen
+  /// kutusu önbelleğinin bir sonraki kullanıcıya sızmaması için çağrılır.
+  static Future<void> clear() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_readIdsKey);
+    await prefs.remove(_cachedItemsKey);
+  }
 }

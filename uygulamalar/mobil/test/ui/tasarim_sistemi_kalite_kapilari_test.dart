@@ -82,6 +82,3 @@ void main() {
     expect(size.width, greaterThanOrEqualTo(44));
   });
 }
-
-
-

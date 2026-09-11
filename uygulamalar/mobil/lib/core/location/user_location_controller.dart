@@ -175,7 +175,19 @@ class UserLocationController extends Notifier<UserLocationState> {
         lng: lng,
       );
     } catch (e) {
-      state = state.copyWith(loading: false, permissionDenied: true, error: e);
+      // Yalnızca GERÇEK bir izin reddi (LocationPermission.denied/
+      // deniedForever, _getLocation()'da AppErrorCodes.locationPermissionRequired
+      // olarak fırlatılıyor) permissionDenied=true olmalı. Konum SERVİSLERİ
+      // kapalıyken (LocationServiceDisabledException) veya GPS timeout gibi
+      // diğer hatalarda bu true yapılırsa UI "izin ver" CTA'sı gösterir —
+      // oysa kullanıcının izni zaten var, ayarlardan konumu açması gerekir.
+      final isPermissionIssue = e is Exception &&
+          e.toString().contains(AppErrorCodes.locationPermissionRequired);
+      state = state.copyWith(
+        loading: false,
+        permissionDenied: isPermissionIssue,
+        error: e,
+      );
     }
   }
 

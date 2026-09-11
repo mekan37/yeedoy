@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "REPLACE_WITH_APPLE_TEAM_ID.com.yeedoy.app",
+        "appIDs": ["REPLACE_WITH_APPLE_TEAM_ID.com.yeedoy.app"],
+        "paths": ["*"]
+      }
+    ]
+  }
+}

@@ -6,6 +6,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/config/product_guardrail_overrides.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../../../core/media/app_network_image.dart';
 import '../data/reviews_repository.dart';
 import '../domain/business_reviews_controller.dart';
@@ -75,66 +76,74 @@ class _BusinessReviewsPageState extends ConsumerState<BusinessReviewsPage> {
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
               sliver: SliverList.list(
                 children: [
-            AppHeroHeader(
-              title: t.reviewsCount(st.items.length),
-              subtitle: t.businessReviewsCommunityExperiences,
-              icon: Icons.rate_review_outlined,
-            ),
-            const SizedBox(height: 12),
-            _RatingSummarySection(businessId: widget.businessId),
-            const SizedBox(height: 12),
-            Text(
-              guardrails.ownerCanDeleteReviews
-                  ? t.businessReviewsOwnerCanModerate
-                  : t.businessReviewsOwnersCanOnlyReply,
-              style: const TextStyle(color: AppColors.muted, fontSize: 12),
-            ),
-            const SizedBox(height: 10),
-            SegmentedButton<String>(
-              segments: [
-                ButtonSegment(value: 'newest', label: Text(t.sortNewest)),
-                ButtonSegment(value: 'helpful', label: Text(t.sortMostHelpful)),
-                ButtonSegment(
-                  value: 'verified',
-                  label: Text(t.sortVerified),
-                  icon: const Icon(Icons.verified_rounded, size: 14),
-                ),
-              ],
-              selected: {st.sort},
-              onSelectionChanged: (s) => ref
-                  .read(businessReviewsProvider(widget.businessId).notifier)
-                  .setSort(s.first),
-            ),
-            const SizedBox(height: 12),
-            if (st.error != null)
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      AppErrorMapper.message(st.error),
-                      style: const TextStyle(color: AppColors.danger),
+                  AppHeroHeader(
+                    title: t.reviewsCount(st.items.length),
+                    subtitle: t.businessReviewsCommunityExperiences,
+                    icon: Icons.rate_review_outlined,
+                  ),
+                  const SizedBox(height: 12),
+                  _RatingSummarySection(businessId: widget.businessId),
+                  const SizedBox(height: 12),
+                  Text(
+                    guardrails.ownerCanDeleteReviews
+                        ? t.businessReviewsOwnerCanModerate
+                        : t.businessReviewsOwnersCanOnlyReply,
+                    style: const TextStyle(
+                      color: AppColors.muted,
+                      fontSize: 12,
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  OutlinedButton(
-                    onPressed: () => ref
+                  const SizedBox(height: 10),
+                  SegmentedButton<String>(
+                    segments: [
+                      ButtonSegment(value: 'newest', label: Text(t.sortNewest)),
+                      ButtonSegment(
+                        value: 'helpful',
+                        label: Text(t.sortMostHelpful),
+                      ),
+                      ButtonSegment(
+                        value: 'verified',
+                        label: Text(t.sortVerified),
+                        icon: const Icon(Icons.verified_rounded, size: 14),
+                      ),
+                    ],
+                    selected: {st.sort},
+                    onSelectionChanged: (s) => ref
                         .read(
                           businessReviewsProvider(widget.businessId).notifier,
                         )
-                        .refresh(),
-                    child: Text(t.retry),
+                        .setSort(s.first),
                   ),
-                ],
-              ),
+                  const SizedBox(height: 12),
+                  if (st.error != null)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            AppErrorMapper.message(st.error),
+                            style: const TextStyle(color: AppColors.danger),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        OutlinedButton(
+                          onPressed: () => ref
+                              .read(
+                                businessReviewsProvider(
+                                  widget.businessId,
+                                ).notifier,
+                              )
+                              .refresh(),
+                          child: Text(t.retry),
+                        ),
+                      ],
+                    ),
                 ],
               ),
             ),
             if (st.isLoading && st.items.isEmpty)
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                sliver: SliverList.list(
-                  children: const [_ReviewsSkeleton()],
-                ),
+                sliver: SliverList.list(children: const [_ReviewsSkeleton()]),
               )
             else if (st.items.isEmpty)
               SliverPadding(
@@ -157,8 +166,7 @@ class _BusinessReviewsPageState extends ConsumerState<BusinessReviewsPage> {
                   ),
                 ),
                 data: (votedIds) {
-                  final reviewIds =
-                      st.items.map((r) => r.id).toList();
+                  final reviewIds = st.items.map((r) => r.id).toList();
                   final repliesAsync = ref.watch(
                     reviewRepliesBatchProvider(reviewIds),
                   );
@@ -269,6 +277,7 @@ class _ReviewCard extends ConsumerWidget {
   final bool isVoted;
   final VoidCallback onToggleHelpful;
   final VoidCallback onReport;
+
   /// Batch reply map entry: {id, content, created_at}
   final Map<String, dynamic>? ownerReply;
 
@@ -302,7 +311,7 @@ class _ReviewCard extends ConsumerWidget {
                   const SizedBox(width: 6),
                 ],
                 Text(
-                  _fmtDate(review.createdAt),
+                  formatShortDate(context, review.createdAt),
                   style: const TextStyle(color: AppColors.muted, fontSize: 12),
                 ),
                 PopupMenuButton<String>(
@@ -376,18 +385,18 @@ class _ReviewCard extends ConsumerWidget {
                         onPressed: onToggleHelpful,
                         icon: const Icon(Icons.thumb_up_alt),
                         label: Text(
-                          AppLocalizations.of(context).helpfulCount(
-                            review.helpfulCount,
-                          ),
+                          AppLocalizations.of(
+                            context,
+                          ).helpfulCount(review.helpfulCount),
                         ),
                       )
                     : OutlinedButton.icon(
                         onPressed: onToggleHelpful,
                         icon: const Icon(Icons.thumb_up_alt_outlined, size: 18),
                         label: Text(
-                          AppLocalizations.of(context).helpfulCount(
-                            review.helpfulCount,
-                          ),
+                          AppLocalizations.of(
+                            context,
+                          ).helpfulCount(review.helpfulCount),
                         ),
                       ),
                 if (review.authorBadgeTitle != null) ...[
@@ -430,8 +439,11 @@ class _OwnerReplyBubble extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.storefront_rounded,
-                  size: 13, color: AppColors.primary),
+              const Icon(
+                Icons.storefront_rounded,
+                size: 13,
+                color: AppColors.primary,
+              ),
               const SizedBox(width: 5),
               Text(
                 t.businessReviewsOwnersCanOnlyReply.contains('sahibi')
@@ -682,10 +694,7 @@ class _StarDistributionBars extends StatelessWidget {
                 width: 28,
                 child: Text(
                   '${(fraction * 100).round()}%',
-                  style: const TextStyle(
-                    fontSize: 11,
-                    color: AppColors.muted,
-                  ),
+                  style: const TextStyle(fontSize: 11, color: AppColors.muted),
                   textAlign: TextAlign.end,
                 ),
               ),
@@ -712,8 +721,8 @@ class _MiniStars extends StatelessWidget {
           filled
               ? Icons.star_rounded
               : halfFilled
-                  ? Icons.star_half_rounded
-                  : Icons.star_border_rounded,
+              ? Icons.star_half_rounded
+              : Icons.star_border_rounded,
           size: 16,
           color: AppColors.star,
         );
@@ -875,10 +884,7 @@ class _CriteriaDisplay extends StatelessWidget {
 
 /// Small pill showing the author's highest XP badge next to the helpful button.
 class _AuthorBadgePill extends StatelessWidget {
-  const _AuthorBadgePill({
-    required this.title,
-    required this.tier,
-  });
+  const _AuthorBadgePill({required this.title, required this.tier});
 
   final String title;
   final String tier;
@@ -975,13 +981,3 @@ class _Stars extends StatelessWidget {
     );
   }
 }
-
-String _fmtDate(DateTime d) {
-  final y = d.year.toString().padLeft(4, '0');
-  final m = d.month.toString().padLeft(2, '0');
-  final day = d.day.toString().padLeft(2, '0');
-  return '$y-$m-$day';
-}
-
-
-

@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../app/theme/colors.dart';
 import '../../../../core/config/feature_flags.dart';
@@ -10,6 +9,7 @@ import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/location/user_location_controller.dart';
 import '../../../../core/media/app_image_cache_manager.dart';
 import '../../../../core/media/app_network_image.dart';
+import '../../../../core/session/session_cleanup_service.dart';
 import '../../../auth/domain/auth_providers.dart';
 import '../../../notifications/domain/inbox_provider.dart';
 import '../../../taste_twin/domain/taste_twin_controllers.dart';
@@ -322,9 +322,7 @@ class AppDrawer extends ConsumerWidget {
               GestureDetector(
                 onTap: () async {
                   close();
-                  await Supabase.instance.client.auth.signOut(
-                    scope: SignOutScope.global,
-                  );
+                  await ref.read(sessionCleanupServiceProvider).signOut();
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -387,6 +385,8 @@ class _Avatar extends StatelessWidget {
                 imageUrl: buildAvatarUrl(avatarUrl!, size: 96),
                 cacheManager: AppImageCacheManager.instance,
                 fit: BoxFit.cover,
+                memCacheWidth: 96,
+                memCacheHeight: 96,
               ),
             )
           : Center(

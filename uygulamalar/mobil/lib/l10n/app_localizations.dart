@@ -6113,6 +6113,12 @@ abstract class AppLocalizations {
   /// **'Yorum gönderildi.'**
   String get reviewCreateSubmitted;
 
+  /// Auto metadata for reviewCreatePhotoUploadFailed
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorum gönderildi ama fotoğraf yüklenemedi. Daha sonra tekrar deneyebilirsin.'**
+  String get reviewCreatePhotoUploadFailed;
+
   /// Auto metadata for reviewCreateErrorNewAccountRateLimited
   ///
   /// In tr, this message translates to:
@@ -6142,6 +6148,346 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Yorumda çok fazla emoji var.'**
   String get reviewCreateErrorEmojiSpam;
+
+  /// Auto metadata for reviewCreateHeroTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorum Yap ve Puan Ver'**
+  String get reviewCreateHeroTitle;
+
+  /// Auto metadata for reviewCreateHeroSubtitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Deneyimini paylaş, topluluğa yardımcı ol'**
+  String get reviewCreateHeroSubtitle;
+
+  /// Auto metadata for reviewCreateRatingHintLow
+  ///
+  /// In tr, this message translates to:
+  /// **'Kötü'**
+  String get reviewCreateRatingHintLow;
+
+  /// Auto metadata for reviewCreateRatingHintHigh
+  ///
+  /// In tr, this message translates to:
+  /// **'Mükemmel'**
+  String get reviewCreateRatingHintHigh;
+
+  /// Auto metadata for reviewCreateContentLabel
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorumun (isteğe bağlı)'**
+  String get reviewCreateContentLabel;
+
+  /// Auto metadata for reviewCreateContentPlaceholder
+  ///
+  /// In tr, this message translates to:
+  /// **'Deneyimini buraya yazabilirsin...'**
+  String get reviewCreateContentPlaceholder;
+
+  /// Auto metadata for reviewCreatePhotosLabel
+  ///
+  /// In tr, this message translates to:
+  /// **'Fotoğraf Ekle'**
+  String get reviewCreatePhotosLabel;
+
+  /// Auto metadata for reviewCreateAddPhoto
+  ///
+  /// In tr, this message translates to:
+  /// **'Fotoğraf ekle'**
+  String get reviewCreateAddPhoto;
+
+  /// Auto metadata for reviewCreateAddPhotoHint
+  ///
+  /// In tr, this message translates to:
+  /// **'En fazla {max} foto'**
+  String reviewCreateAddPhotoHint(int max);
+
+  /// Auto metadata for reviewCreateExperienceLabel
+  ///
+  /// In tr, this message translates to:
+  /// **'Detaylı Değerlendirme (isteğe bağlı)'**
+  String get reviewCreateExperienceLabel;
+
+  /// Auto metadata for reviewCreateAddToFavorites
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu işletmeyi favorilerime ekle'**
+  String get reviewCreateAddToFavorites;
+
+  /// Auto metadata for reviewCreateSubmitCta
+  ///
+  /// In tr, this message translates to:
+  /// **'Yorumu Gönder'**
+  String get reviewCreateSubmitCta;
+
+  /// Auto metadata for reviewRatingCriterionTaste
+  ///
+  /// In tr, this message translates to:
+  /// **'Lezzet'**
+  String get reviewRatingCriterionTaste;
+
+  /// Auto metadata for reviewRatingCriterionServiceSpeed
+  ///
+  /// In tr, this message translates to:
+  /// **'Servis Hızı'**
+  String get reviewRatingCriterionServiceSpeed;
+
+  /// Auto metadata for reviewRatingCriterionPricePerformance
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat performans'**
+  String get reviewRatingCriterionPricePerformance;
+
+  /// Auto metadata for reviewRatingCriterionCleanliness
+  ///
+  /// In tr, this message translates to:
+  /// **'Temizlik'**
+  String get reviewRatingCriterionCleanliness;
+
+  /// Auto metadata for reviewRatingCriterionAtmosphere
+  ///
+  /// In tr, this message translates to:
+  /// **'Atmosfer'**
+  String get reviewRatingCriterionAtmosphere;
+
+  /// Auto metadata for appShellExitOnBackPress
+  ///
+  /// In tr, this message translates to:
+  /// **'Çıkmak için tekrar basın'**
+  String get appShellExitOnBackPress;
+
+  /// Auto metadata for businessMenuPreviewConfirmedByCount
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} kullanıcı onayladı'**
+  String businessMenuPreviewConfirmedByCount(int count);
+
+  /// Auto metadata for discoveryBudgetPerPersonUnlimited
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişi başı bütçe: Sınırsız'**
+  String get discoveryBudgetPerPersonUnlimited;
+
+  /// Auto metadata for discoveryBudgetPerPersonMax
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişi başı max bütçe: {amount}₺'**
+  String discoveryBudgetPerPersonMax(int amount);
+
+  /// Auto metadata for discoveryBudgetSliderUnlimited
+  ///
+  /// In tr, this message translates to:
+  /// **'Sınırsız'**
+  String get discoveryBudgetSliderUnlimited;
+
+  /// Auto metadata for discoveryMaxBudgetChipLabel
+  ///
+  /// In tr, this message translates to:
+  /// **'Max {amount}₺'**
+  String discoveryMaxBudgetChipLabel(int amount);
+
+  /// Auto metadata for discoveryTasteTwinChipLabel
+  ///
+  /// In tr, this message translates to:
+  /// **'Taste Twin'**
+  String get discoveryTasteTwinChipLabel;
+
+  /// Auto metadata for heroesWeeklyLeaderboardTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Haftalık En İyi Katkıcılar'**
+  String get heroesWeeklyLeaderboardTitle;
+
+  /// Auto metadata for heroesWeeklyLeaderboardSubtitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Son 7 günde en çok fiyat doğrulayan, yorum yazan ve fotoğraf ekleyenler'**
+  String get heroesWeeklyLeaderboardSubtitle;
+
+  /// Auto metadata for heroesWeeklyLeaderboardEmpty
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hafta henüz katkı yok.'**
+  String get heroesWeeklyLeaderboardEmpty;
+
+  /// Auto metadata for heroesAllTimeTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm Zamanlar Kahramanları'**
+  String get heroesAllTimeTitle;
+
+  /// Auto metadata for heroesWeeklyStatsLine
+  ///
+  /// In tr, this message translates to:
+  /// **'{verifyCount} doğrulama · {reviewCount} yorum · {photoCount} fotoğraf'**
+  String heroesWeeklyStatsLine(
+    int verifyCount,
+    int reviewCount,
+    int photoCount,
+  );
+
+  /// Auto metadata for menuItemsConfirmedByCount
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} kişi onayladı'**
+  String menuItemsConfirmedByCount(int count);
+
+  /// Auto metadata for menuOfflineSaveTooltipSaved
+  ///
+  /// In tr, this message translates to:
+  /// **'Çevrimdışı kaydedildi'**
+  String get menuOfflineSaveTooltipSaved;
+
+  /// Auto metadata for menuOfflineSaveTooltipUnsaved
+  ///
+  /// In tr, this message translates to:
+  /// **'Çevrimdışı kaydet'**
+  String get menuOfflineSaveTooltipUnsaved;
+
+  /// Auto metadata for menuOfflineSavedSnackbar
+  ///
+  /// In tr, this message translates to:
+  /// **'Menü çevrimdışı için kaydedildi'**
+  String get menuOfflineSavedSnackbar;
+
+  /// Auto metadata for priceOnRequest
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyata sorunuz'**
+  String get priceOnRequest;
+
+  /// Auto metadata for menuTimeWindowNowDiscount
+  ///
+  /// In tr, this message translates to:
+  /// **'Şu an: {label} • %{pct} indirimli ({timeRange})'**
+  String menuTimeWindowNowDiscount(String label, String timeRange, int pct);
+
+  /// Auto metadata for menuTimeWindowUpcomingDiscount
+  ///
+  /// In tr, this message translates to:
+  /// **'{label} daha uygun ({timeRange}) • %{pct} indirim'**
+  String menuTimeWindowUpcomingDiscount(
+    String label,
+    String timeRange,
+    int pct,
+  );
+
+  /// Auto metadata for menuTimeWindowNowPrice
+  ///
+  /// In tr, this message translates to:
+  /// **'Şu an: {label} {priceText} ({timeRange})'**
+  String menuTimeWindowNowPrice(
+    String label,
+    String timeRange,
+    String priceText,
+  );
+
+  /// Auto metadata for menuTimeWindowUpcomingPrice
+  ///
+  /// In tr, this message translates to:
+  /// **'{label} fiyatı {priceText} ({timeRange})'**
+  String menuTimeWindowUpcomingPrice(
+    String label,
+    String timeRange,
+    String priceText,
+  );
+
+  /// Auto metadata for menuTimeWindowNowPlain
+  ///
+  /// In tr, this message translates to:
+  /// **'Şu an: {label} ({timeRange})'**
+  String menuTimeWindowNowPlain(String label, String timeRange);
+
+  /// Auto metadata for menuTimeWindowUpcomingPlain
+  ///
+  /// In tr, this message translates to:
+  /// **'{label} ({timeRange})'**
+  String menuTimeWindowUpcomingPlain(String label, String timeRange);
+
+  /// Auto metadata for menuDataTrustLabel
+  ///
+  /// In tr, this message translates to:
+  /// **'Veri güveni'**
+  String get menuDataTrustLabel;
+
+  /// Auto metadata for menuPriceMetaToday
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün'**
+  String get menuPriceMetaToday;
+
+  /// Auto metadata for menuPriceMetaYesterday
+  ///
+  /// In tr, this message translates to:
+  /// **'Dün'**
+  String get menuPriceMetaYesterday;
+
+  /// Auto metadata for menuPriceMetaDaysAgo
+  ///
+  /// In tr, this message translates to:
+  /// **'{days} gün önce'**
+  String menuPriceMetaDaysAgo(int days);
+
+  /// Auto metadata for menuPriceMetaMonthsAgo
+  ///
+  /// In tr, this message translates to:
+  /// **'{months} ay önce'**
+  String menuPriceMetaMonthsAgo(int months);
+
+  /// Auto metadata for menuPriceMetaUpdated
+  ///
+  /// In tr, this message translates to:
+  /// **'Son güncelleme: {timeStr}'**
+  String menuPriceMetaUpdated(String timeStr);
+
+  /// Auto metadata for menuPriceMetaVerifierCount
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} doğrulayıcı'**
+  String menuPriceMetaVerifierCount(int count);
+
+  /// Auto metadata for menuPriceMetaVoteCount
+  ///
+  /// In tr, this message translates to:
+  /// **'{count} oylama'**
+  String menuPriceMetaVoteCount(int count);
+
+  /// Auto metadata for menuPriceBenchmarkSame
+  ///
+  /// In tr, this message translates to:
+  /// **'Şehir ort: {avgText} (benzer fiyat)'**
+  String menuPriceBenchmarkSame(String avgText);
+
+  /// Auto metadata for menuPriceBenchmarkCheaper
+  ///
+  /// In tr, this message translates to:
+  /// **'Şehir ort: {avgText} • %{pct} daha ucuz'**
+  String menuPriceBenchmarkCheaper(String avgText, int pct);
+
+  /// Auto metadata for menuPriceBenchmarkPricier
+  ///
+  /// In tr, this message translates to:
+  /// **'Şehir ort: {avgText} • %{pct} daha pahalı'**
+  String menuPriceBenchmarkPricier(String avgText, int pct);
+
+  /// Auto metadata for menuNutritionDisclaimer
+  ///
+  /// In tr, this message translates to:
+  /// **'Değerler tahmini olabilir. Alerji durumunuz için lütfen personele bilgi veriniz.'**
+  String get menuNutritionDisclaimer;
+
+  /// Auto metadata for menuTransparentMenuTitle
+  ///
+  /// In tr, this message translates to:
+  /// **'Şeffaf Menü'**
+  String get menuTransparentMenuTitle;
+
+  /// Auto metadata for menuIngredientsLabel
+  ///
+  /// In tr, this message translates to:
+  /// **'İçindekiler'**
+  String get menuIngredientsLabel;
 
   /// Auto metadata for quality
   ///
@@ -8535,6 +8881,18 @@ abstract class AppLocalizations {
   /// **'Şifreler eşleşmiyor.'**
   String get accountSecurityChangePasswordErrorMismatch;
 
+  /// No description provided for @accountSecurityChangePasswordErrorReauthRequired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam etmek için mevcut şifrenizi girin.'**
+  String get accountSecurityChangePasswordErrorReauthRequired;
+
+  /// No description provided for @accountSecurityChangePasswordErrorReauthFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut şifre yanlış.'**
+  String get accountSecurityChangePasswordErrorReauthFailed;
+
   /// No description provided for @accountSecurityPasswordUpdated.
   ///
   /// In tr, this message translates to:
@@ -8546,6 +8904,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Şifre Değiştir'**
   String get accountSecurityChangePasswordTitle;
+
+  /// No description provided for @accountSecurityCurrentPasswordLabel.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut şifre'**
+  String get accountSecurityCurrentPasswordLabel;
 
   /// No description provided for @accountSecurityNewPasswordLabel.
   ///
@@ -8576,6 +8940,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Geçerli bir e-posta girin.'**
   String get accountSecurityChangeEmailErrorInvalid;
+
+  /// No description provided for @accountSecurityChangeEmailErrorReauthRequired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Devam etmek için mevcut şifrenizi girin.'**
+  String get accountSecurityChangeEmailErrorReauthRequired;
+
+  /// No description provided for @accountSecurityChangeEmailErrorReauthFailed.
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut şifre yanlış.'**
+  String get accountSecurityChangeEmailErrorReauthFailed;
 
   /// No description provided for @accountSecurityChangeEmailSentBody.
   ///

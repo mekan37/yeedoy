@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../storage/dev_overrides_prefs.dart';
@@ -39,10 +40,15 @@ final devOverridesProvider =
       DevOverridesController.new,
     );
 
+/// Test kullanıcı-id/konum override'ları — yalnızca geliştirme içindir.
+/// `kDebugMode` kapısı olmadan, üretim build'inde de local storage'tan
+/// (bir gün yanlışlıkla yazılırsa) sessizce okunup analitik client-id'yi
+/// veya arama konumunu değiştirebilirdi (B60). Release build'de bu sınıf
+/// prefs'i hiç okumaz/yazmaz, her zaman boş kalır.
 class DevOverridesController extends Notifier<DevOverrides> {
   @override
   DevOverrides build() {
-    Future.microtask(_loadFromPrefs);
+    if (kDebugMode) Future.microtask(_loadFromPrefs);
     return DevOverrides.empty();
   }
 
@@ -56,6 +62,7 @@ class DevOverridesController extends Notifier<DevOverrides> {
   }
 
   Future<void> setTestUserId(String? userId) async {
+    if (!kDebugMode) return;
     final value = userId?.trim() ?? '';
     if (value.isEmpty) {
       state = state.copyWith(testUserId: null);
@@ -70,6 +77,7 @@ class DevOverridesController extends Notifier<DevOverrides> {
     required String city,
     required String district,
   }) async {
+    if (!kDebugMode) return;
     final nextCity = city.trim();
     final nextDistrict = district.trim();
     if (nextCity.isEmpty || nextDistrict.isEmpty) return;
@@ -81,11 +89,13 @@ class DevOverridesController extends Notifier<DevOverrides> {
   }
 
   Future<void> clearTestLocation() async {
+    if (!kDebugMode) return;
     state = state.copyWith(testCity: null, testDistrict: null);
     await DevOverridesPrefs.clearTestLocation();
   }
 
   Future<void> clearAll() async {
+    if (!kDebugMode) return;
     state = DevOverrides.empty();
     await DevOverridesPrefs.clearAll();
   }

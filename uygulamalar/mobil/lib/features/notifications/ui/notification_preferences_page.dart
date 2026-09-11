@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../app/theme/colors.dart';
 import '../domain/notification_preferences_provider.dart';
@@ -144,7 +145,9 @@ class _NotificationPreferencesPageState
             if (_showBanner) ...[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: _InfoBanner(onDismiss: () => setState(() => _showBanner = false)),
+                child: _InfoBanner(
+                  onDismiss: () => setState(() => _showBanner = false),
+                ),
               ),
               const SizedBox(height: 20),
             ],
@@ -163,8 +166,7 @@ class _NotificationPreferencesPageState
                 child: Column(
                   children: [
                     for (int i = 0; i < _channels.length; i++) ...[
-                      if (i > 0)
-                        const Divider(height: 1, indent: 56),
+                      if (i > 0) const Divider(height: 1, indent: 56),
                       _ChannelRow(
                         channel: _channels[i],
                         value: _channelValue(i),
@@ -192,12 +194,12 @@ class _NotificationPreferencesPageState
                 child: Column(
                   children: [
                     for (int i = 0; i < _categories.length; i++) ...[
-                      if (i > 0)
-                        const Divider(height: 1, indent: 56),
+                      if (i > 0) const Divider(height: 1, indent: 56),
                       _CategoryRow(
                         category: _categories[i],
                         onTap: () => setState(
-                          () => _categories[i].enabled = !_categories[i].enabled,
+                          () =>
+                              _categories[i].enabled = !_categories[i].enabled,
                         ),
                       ),
                     ],
@@ -219,8 +221,10 @@ class _NotificationPreferencesPageState
                 ),
                 child: ListTile(
                   onTap: () => _showSilentHoursSheet(context),
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 2,
+                  ),
                   leading: Container(
                     width: 36,
                     height: 36,
@@ -282,9 +286,9 @@ class _NotificationPreferencesPageState
               child: _MarketingEmailSection(
                 onError: (message) {
                   if (!mounted) return;
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(message)),
-                  );
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(message)));
                 },
               ),
             ),
@@ -297,11 +301,7 @@ class _NotificationPreferencesPageState
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.shield_outlined,
-                    size: 14,
-                    color: AppColors.muted,
-                  ),
+                  Icon(Icons.shield_outlined, size: 14, color: AppColors.muted),
                   SizedBox(width: 6),
                   Text(
                     'Bildirim ayarlarınızı istediğiniz zaman değiştirebilirsiniz.',
@@ -406,7 +406,11 @@ class _NotificationPreferencesPageState
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _TimeChip(label: 'Başlangıç', time: '22:00'),
-                    Icon(Icons.arrow_forward_rounded, color: AppColors.muted, size: 18),
+                    Icon(
+                      Icons.arrow_forward_rounded,
+                      color: AppColors.muted,
+                      size: 18,
+                    ),
                     _TimeChip(label: 'Bitiş', time: '08:00'),
                   ],
                 ),
@@ -500,7 +504,10 @@ class _InfoBanner extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 GestureDetector(
-                  onTap: () {},
+                  // Sayfada bildirimlerle ilgili daha fazla açıklayıcı
+                  // içerik yok — sitedeki genel "yardım" hedefiyle aynı
+                  // (bkz. profile_settings_page.dart) (B21).
+                  onTap: () => context.push('/help-support'),
                   child: const Text(
                     'Daha fazla bilgi',
                     style: TextStyle(
@@ -517,7 +524,11 @@ class _InfoBanner extends StatelessWidget {
             onTap: onDismiss,
             child: const Padding(
               padding: EdgeInsets.all(4),
-              child: Icon(Icons.close_rounded, size: 16, color: AppColors.muted),
+              child: Icon(
+                Icons.close_rounded,
+                size: 16,
+                color: AppColors.muted,
+              ),
             ),
           ),
         ],
@@ -673,10 +684,7 @@ class _MarketingEmailSection extends ConsumerWidget {
               Expanded(
                 child: Text(
                   'Tercih yüklenemedi. Tekrar denemek için sayfayı yenileyin.',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.muted,
-                  ),
+                  style: const TextStyle(fontSize: 12, color: AppColors.muted),
                 ),
               ),
             ],
@@ -705,10 +713,7 @@ class _MarketingEmailSection extends ConsumerWidget {
 }
 
 class _MarketingEmailTile extends StatelessWidget {
-  const _MarketingEmailTile({
-    required this.value,
-    required this.onChanged,
-  });
+  const _MarketingEmailTile({required this.value, required this.onChanged});
 
   final bool value;
   final ValueChanged<bool> onChanged;
@@ -719,8 +724,10 @@ class _MarketingEmailTile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListTile(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 14,
+            vertical: 2,
+          ),
           leading: Container(
             width: 36,
             height: 36,

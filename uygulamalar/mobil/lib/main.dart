@@ -12,6 +12,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app_mobile/mobile_app.dart';
+import 'core/ads/ads_consent_service.dart';
 import 'core/content/content_moderation.dart';
 import 'core/content/moderation_blacklist_repository.dart';
 import 'core/monitoring/app_telemetry.dart';
@@ -21,7 +22,6 @@ import 'core/security/secure_local_storage.dart';
 import 'core/security/safe_debug_print.dart';
 import 'firebase_options.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-
 
 final firebaseAnalytics = FirebaseAnalytics.instance;
 void _installFrameDropObserver(ProviderContainer container) {
@@ -60,7 +60,9 @@ void _installFrameDropObserver(ProviderContainer container) {
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if (Firebase.apps.isEmpty) {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   }
 }
 
@@ -68,6 +70,13 @@ Future<void> main() async {
   final startupWatch = Stopwatch()..start();
   WidgetsFlutterBinding.ensureInitialized();
   installSafeDebugPrint();
+
+  // dotenv.load Firebase/MobileAds'tan bağımsız — açılışı sıralı olarak
+  // beklemesin diye onlarla eşzamanlı başlatılıyor, yalnızca gerçekten
+  // ihtiyaç duyulduğunda (env değişkenleri okunmadan önce) await ediliyor
+  // (B63).
+  final dotenvFuture = dotenv.load(fileName: ".env");
+
   // Run Firebase and MobileAds initialization in parallel — they are independent.
   // A failure here (missing/invalid config, platform quirk) must not crash
   // app startup: Firebase-dependent features simply stay disabled and the
@@ -86,7 +95,17 @@ Future<void> main() async {
     );
   }
 
-  await dotenv.load(fileName: ".env");
+  // Reklam isteklerinden ÖNCE onay (UMP) akışını başlat — açılışı
+  // bloklamaz, sonucu bekleyen taraf (NativeAdController) kendi
+  // Future'ını ayrıca bekler. Hiçbir zaman app başlangıcını çökertmemeli
+  // (bkz. production-readiness denetimi B12).
+  try {
+    AdsConsentService.instance.ensureConsent();
+  } catch (error, stack) {
+    debugPrint('AdsConsentService.ensureConsent failed: $error\n$stack');
+  }
+
+  await dotenvFuture;
 
   final supabaseUrl = _requireEnv('SUPABASE_URL');
   final supabaseAnonKey = _requireEnv('SUPABASE_ANON_KEY');
@@ -117,8 +136,14 @@ Future<void> main() async {
     FlutterError.presentError(details);
     final taxonomy = classifyError(details.exception);
     if (firebaseReady) {
-      FirebaseCrashlytics.instance.setCustomKey('error_taxonomy', taxonomy.name);
-      FirebaseCrashlytics.instance.setCustomKey('error_source', 'flutter_error');
+      FirebaseCrashlytics.instance.setCustomKey(
+        'error_taxonomy',
+        taxonomy.name,
+      );
+      FirebaseCrashlytics.instance.setCustomKey(
+        'error_source',
+        'flutter_error',
+      );
       FirebaseCrashlytics.instance.recordFlutterFatalError(details);
     }
     unawaited(
@@ -135,8 +160,14 @@ Future<void> main() async {
   PlatformDispatcher.instance.onError = (error, stack) {
     final taxonomy = classifyError(error);
     if (firebaseReady) {
-      FirebaseCrashlytics.instance.setCustomKey('error_taxonomy', taxonomy.name);
-      FirebaseCrashlytics.instance.setCustomKey('error_source', 'platform_dispatcher');
+      FirebaseCrashlytics.instance.setCustomKey(
+        'error_taxonomy',
+        taxonomy.name,
+      );
+      FirebaseCrashlytics.instance.setCustomKey(
+        'error_source',
+        'platform_dispatcher',
+      );
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     }
     unawaited(
@@ -158,20 +189,23 @@ Future<void> main() async {
 
   await SentryFlutter.init(
     (options) {
-      options.dsn = 'https://be35cfefcc67396e205ecd35cded016f@o4511903059738624.ingest.de.sentry.io/4511903321096272';
-      // Adds request headers and IP for users, for more info visit:
+      options.dsn =
+          'https://be35cfefcc67396e205ecd35cded016f@o4511903059738624.ingest.de.sentry.io/4511903321096272';
+      // IP + request header toplama kapalı — kullanıcı PII'sini gereksiz
+      // yere üçüncü tarafa göndermemek için (bkz. production-readiness
+      // denetimi B13). Gerekirse:
       // https://docs.sentry.io/platforms/dart/guides/flutter/data-management/data-collected/
-      options.sendDefaultPii = true;
+      options.sendDefaultPii = false;
       options.enableLogs = true;
-      // Set tracesSampleRate to 1.0 to capture 100% of transactions for tracing.
-      // We recommend adjusting this value in production.
-      options.tracesSampleRate = 1.0;
-      // The sampling rate for profiling is relative to tracesSampleRate
-      // Setting to 1.0 will profile 100% of sampled transactions:
-      options.profilesSampleRate = 1.0;
-      // Configure Session Replay
-      options.replay.sessionSampleRate = 0.1;
-      options.replay.onErrorSampleRate = 1.0;
+      // Production'da %100 örnekleme hem gereksiz Sentry maliyeti hem de
+      // cihazda gereksiz CPU/pil yükü demekti — release'de düşürüldü, debug'da
+      // (geliştirici cihazında) tam görünürlük için 1.0 kalıyor.
+      options.tracesSampleRate = kReleaseMode ? 0.1 : 1.0;
+      // Profiling oranı tracesSampleRate'e görelidir.
+      options.profilesSampleRate = kReleaseMode ? 0.1 : 1.0;
+      // Session Replay
+      options.replay.sessionSampleRate = kReleaseMode ? 0.02 : 0.1;
+      options.replay.onErrorSampleRate = kReleaseMode ? 0.2 : 1.0;
     },
     appRunner: () => runApp(
       SentryWidget(

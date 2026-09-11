@@ -1,4 +1,4 @@
-﻿import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:yeedoy/core/quality/release_gate.dart';
 
 void main() {
@@ -74,4 +74,3 @@ void main() {
     expect(result.reasons, isNotEmpty);
   });
 }
-

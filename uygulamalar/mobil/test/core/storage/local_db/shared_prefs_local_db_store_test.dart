@@ -17,7 +17,11 @@ void main() {
       await first.upsert(
         bucket: LocalDbBucket.discoveryFeed,
         id: 'feed|tr|istanbul',
-        payload: {'rows': <Map<String, dynamic>>[{'id': 'b1'}]},
+        payload: {
+          'rows': <Map<String, dynamic>>[
+            {'id': 'b1'},
+          ],
+        },
       );
 
       final second = SharedPrefsLocalDbStore();

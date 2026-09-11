@@ -57,9 +57,20 @@ class DiscoveryRepository {
       final business = await _telemetry.traceRpc<Business>(
         operation: 'get_business',
         run: () async {
+          // B61: bare select() yerine açık kolon listesi — ayrıca
+          // businesses_with_stats'ta hiç bulunmayan (bu yüzden işletme
+          // detay sayfasında hep boş görünen) logo_url/neighborhood/
+          // price_level/reservation_* kolonları view'a eklendi.
           final res = await client
               .from('businesses_with_stats')
-              .select()
+              .select(
+                'id,name,category,description,phone,address,city,district,'
+                'lat,lng,is_active,created_at,reviews_count,avg_rating,'
+                'is_verified,is_open_now,recent_price_verified_count,'
+                'logo_url,neighborhood,price_level,accepts_reservations,'
+                'reservation_phone,reservation_min_party,'
+                'reservation_max_party,reservation_note',
+              )
               .eq('id', id)
               .single();
           return Business.fromMap(res);

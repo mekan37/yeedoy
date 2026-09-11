@@ -17,12 +17,8 @@ export default async function SahipProfilimSayfasi() {
 
   const businessIds = await getOwnerBusinessIds(supabase as any, user.id);
 
-  const [{ data: profile }, { data: plan }, { data: prefRows }] = await Promise.all([
-    (supabase as any)
-      .from('user_profiles')
-      .select('display_name, avatar_url, bio, phone, birth_date, gender')
-      .eq('user_id', user.id)
-      .maybeSingle(),
+  const [{ data: profileEnvelope }, { data: plan }, { data: prefRows }] = await Promise.all([
+    (supabase as any).rpc('get_my_profile_private_v1'),
     businessIds.length > 0
       ? (supabase as any).rpc('get_my_plan_v1', { p_business_id: businessIds[0] })
       : Promise.resolve({ data: null }),
@@ -33,6 +29,8 @@ export default async function SahipProfilimSayfasi() {
       .then((res: { data: Array<{ notification_type: string; enabled: boolean }> | null }) => res)
       .catch(() => ({ data: [] as Array<{ notification_type: string; enabled: boolean }> })),
   ]);
+
+  const profile = profileEnvelope?.profile ?? null;
 
   const notificationPrefs: Record<string, boolean> = {};
   for (const row of (prefRows ?? []) as Array<{ notification_type: string; enabled: boolean }>) {

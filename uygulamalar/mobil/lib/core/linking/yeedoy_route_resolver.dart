@@ -1,4 +1,5 @@
 import '../config/app_config.dart';
+import '../security/route_sanitizer.dart';
 
 String? resolveYeedoyRouteFromQr(String raw) {
   final trimmed = raw.trim();
@@ -15,18 +16,21 @@ String? resolveYeedoyRouteFromQr(String raw) {
   final normalized = _normalizedPathSegments(uri);
 
   if (normalized.length == 2 && normalized.first == 'menu') {
-    final menuId = normalized[1];
+    final menuId = sanitizeUuid(normalized[1]);
+    if (menuId == null) return null;
     return '/menu/$menuId?src=qr';
   }
   if (normalized.length == 2 && normalized.first == 'b') {
-    final businessId = normalized[1];
+    final businessId = sanitizeUuid(normalized[1]);
+    if (businessId == null) return null;
     return '/b/$businessId';
   }
   if (normalized.length == 4 &&
       normalized[0] == 'b' &&
       normalized[2] == 'menu') {
-    final businessId = normalized[1];
-    final menuId = normalized[3];
+    final businessId = sanitizeUuid(normalized[1]);
+    final menuId = sanitizeUuid(normalized[3]);
+    if (businessId == null || menuId == null) return null;
     return '/b/$businessId/menu/$menuId';
   }
 
@@ -38,11 +42,13 @@ bool _isYeedoyLink(Uri uri) {
   if (scheme == AppConfig.deepLinkScheme.toLowerCase()) return true;
   if (scheme != 'https' && scheme != 'http') return false;
 
+  // Önceden `host.contains('yeedoy')` de kabul ediliyordu — bu,
+  // "yeedoy-guvenlik-dogrulama.example" veya "yeedoy.evil.com" gibi
+  // üçüncü taraf alan adlarının da geçerli sayılmasına yol açıyordu.
+  // Yalnızca yapılandırılmış gerçek domain (veya alt alan adı) kabul edilir.
   final host = uri.host.toLowerCase();
   final configured = AppConfig.webDomain.toLowerCase();
-  return host == configured ||
-      host.endsWith('.$configured') ||
-      host.contains('yeedoy');
+  return host == configured || host.endsWith('.$configured');
 }
 
 List<String> _normalizedPathSegments(Uri uri) {

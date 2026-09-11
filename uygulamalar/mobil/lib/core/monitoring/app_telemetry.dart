@@ -10,6 +10,7 @@ import 'alert_rules.dart';
 import 'error_taxonomy.dart';
 import 'request_trace.dart';
 import '../perf/perf_slo.dart';
+import '../security/safe_debug_print.dart';
 
 final appTelemetryProvider = Provider<AppTelemetry>((ref) {
   return AppTelemetry(ref.watch(analyticsRepositoryProvider));
@@ -333,7 +334,12 @@ class AppTelemetry {
     Map<String, Object?>? extraMeta,
   }) async {
     final clientId = await getAnalyticsClientId();
-    final message = error.toString();
+    // Ham exception mesajı/stack trace e-posta, JWT, telefon veya UUID
+    // parçaları içerebilir — Crashlytics/Sentry'ye gitmeden önce
+    // sanitizeDebugLog ile aynı desenlerle maskeleniyor (bkz.
+    // core/security/safe_debug_print.dart).
+    final message = sanitizeDebugLog(error.toString());
+    final stackText = sanitizeDebugLog(stack.toString());
     final taxonomy = classifyError(error);
     await _analytics.logEvent(
       eventName: 'app_error',
@@ -342,10 +348,7 @@ class AppTelemetry {
       meta: {
         'taxonomy': taxonomy.name,
         'error': message.substring(0, min(message.length, 300)),
-        'stack': stack.toString().substring(
-          0,
-          min(stack.toString().length, 800),
-        ),
+        'stack': stackText.substring(0, min(stackText.length, 800)),
         ...?extraMeta,
       },
     );

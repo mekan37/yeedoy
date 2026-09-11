@@ -3,20 +3,20 @@ part of '../menu_item_page.dart';
 // 14 EU alerjen kodu → Türkçe etiket eşleştirme tablosu
 // İkon: assets/allergens/allergen_{code}.svg
 const _kAllergenLabel = {
-  'gluten':         'Gluten',
-  'crustaceans':    'Kabuklu Deniz Ürünleri',
-  'egg':            'Yumurta',
-  'fish':           'Balık',
-  'peanuts':        'Yer Fıstığı',
-  'soy':            'Soya',
-  'milk':           'Süt',
-  'treenuts':       'Sert Kabuklu Yemişler',
-  'celery':         'Kereviz',
-  'mustard':        'Hardal',
-  'sesame':         'Susam',
+  'gluten': 'Gluten',
+  'crustaceans': 'Kabuklu Deniz Ürünleri',
+  'egg': 'Yumurta',
+  'fish': 'Balık',
+  'peanuts': 'Yer Fıstığı',
+  'soy': 'Soya',
+  'milk': 'Süt',
+  'treenuts': 'Sert Kabuklu Yemişler',
+  'celery': 'Kereviz',
+  'mustard': 'Hardal',
+  'sesame': 'Susam',
   'sulfur_dioxide': 'Kükürt Dioksit',
-  'lupin':          'Acı Bakla',
-  'molluscs':       'Yumuşakçalar',
+  'lupin': 'Acı Bakla',
+  'molluscs': 'Yumuşakçalar',
 };
 
 class _AllergenSection extends StatelessWidget {
@@ -35,9 +35,7 @@ class _AllergenSection extends StatelessWidget {
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: [
-              for (final code in allergens) _AllergenChip(code: code),
-            ],
+            children: [for (final code in allergens) _AllergenChip(code: code)],
           ),
           const SizedBox(height: 10),
           Text(
@@ -72,7 +70,10 @@ class _AllergenChip extends StatelessWidget {
             assetPath,
             width: 16,
             height: 16,
-            colorFilter: const ColorFilter.mode(AppColors.primary, BlendMode.srcIn),
+            colorFilter: const ColorFilter.mode(
+              AppColors.primary,
+              BlendMode.srcIn,
+            ),
           ),
           const SizedBox(width: 6),
           Text(
@@ -145,10 +146,7 @@ class _PriceHistorySection extends StatelessWidget {
               ],
               if (sorted.length >= 2) ...[
                 const SizedBox(height: 12),
-                SizedBox(
-                  height: 100,
-                  child: _PriceLineChart(entries: sorted),
-                ),
+                SizedBox(height: 100, child: _PriceLineChart(entries: sorted)),
               ],
               const SizedBox(height: 8),
               for (final item in latest) ...[
@@ -215,7 +213,9 @@ class _PriceLinePainter extends CustomPainter {
     // Avoid division by zero
     final effectiveRange = priceRange < 1 ? 100.0 : priceRange;
 
-    final times = entries.map((e) => e.createdAt.millisecondsSinceEpoch).toList();
+    final times = entries
+        .map((e) => e.createdAt.millisecondsSinceEpoch)
+        .toList();
     final minTime = times.reduce((a, b) => a < b ? a : b);
     final maxTime = times.reduce((a, b) => a > b ? a : b);
     final timeRange = (maxTime - minTime).toDouble();
@@ -253,8 +253,7 @@ class _PriceLinePainter extends CustomPainter {
       final t =
           (entries[i].createdAt.millisecondsSinceEpoch - minTime) /
           effectiveTimeRange;
-      final p =
-          (entries[i].priceCents - minPrice) / effectiveRange;
+      final p = (entries[i].priceCents - minPrice) / effectiveRange;
       final x = paddingLeft + t * chartW;
       final y = paddingTop + chartH * (1 - (priceRange < 1 ? 0.5 : p));
       points.add(Offset(x, y));
@@ -295,8 +294,7 @@ class _PriceLinePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _PriceLinePainter old) =>
-      old.entries != entries;
+  bool shouldRepaint(covariant _PriceLinePainter old) => old.entries != entries;
 }
 
 class _PriceHistoryRow extends StatelessWidget {
@@ -333,7 +331,7 @@ class _PriceHistoryRow extends StatelessWidget {
               Text(
                 t.menuPriceHistoryMeta(
                   _relativeTime(context, item.createdAt),
-                  _fmtDate(item.createdAt),
+                  formatShortDate(context, item.createdAt),
                   deltaText ?? '',
                 ),
                 style: const TextStyle(color: AppColors.muted, fontSize: 12),
@@ -352,13 +350,6 @@ String? _priceDeltaText(int? oldPriceCents, int newPriceCents) {
   final pct = (diff / oldPriceCents * 100).abs();
   final sign = diff >= 0 ? '+' : '-';
   return '$sign${pct.toStringAsFixed(1)}%';
-}
-
-String _fmtDate(DateTime date) {
-  final y = date.year.toString().padLeft(4, '0');
-  final m = date.month.toString().padLeft(2, '0');
-  final d = date.day.toString().padLeft(2, '0');
-  return '$y-$m-$d';
 }
 
 class _PriceHistorySkeleton extends StatelessWidget {
@@ -445,7 +436,6 @@ class _PriceStatusCard extends ConsumerWidget {
               _formatPrice(context, item.price);
           final badge = _statusBadge(status.status, t);
           final benchmark = benchmarkAsync?.asData?.value;
-          final isTr = t.localeName.startsWith('tr');
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -473,26 +463,27 @@ class _PriceStatusCard extends ConsumerWidget {
                 ],
               ),
               // Bağlam chip'leri
-              if (benchmark != null && priceCents != null && priceCents > 0) ...[
+              if (benchmark != null &&
+                  priceCents != null &&
+                  priceCents > 0) ...[
                 const SizedBox(height: 8),
                 _PriceBenchmarkChip(
                   itemPriceCents: priceCents,
                   benchmark: benchmark,
-                  isTr: isTr,
                 ),
               ],
               if (item.timeWindows.isNotEmpty) ...[
                 const SizedBox(height: 6),
-                _TimeWindowInsightChip(windows: item.timeWindows, isTr: isTr),
+                _TimeWindowInsightChip(windows: item.timeWindows),
               ],
               const SizedBox(height: 12),
               const Divider(height: 1),
               const SizedBox(height: 12),
               // Veri güveni — gerçek confidenceScore'a bağlı
-              _DataTrustBar(score: status.confidenceScore, isTr: isTr),
+              _DataTrustBar(score: status.confidenceScore),
               const SizedBox(height: 8),
               // Kompakt meta: son güncelleme · doğrulayıcı · oylar
-              _PriceMetaRow(status: status, isTr: isTr),
+              _PriceMetaRow(status: status),
               const SizedBox(height: 12),
               // Oy butonları
               Row(
@@ -1205,9 +1196,7 @@ String _formatPrice(
   String currencyCode = 'TRY',
 }) {
   if (price == null) {
-    return AppLocalizations.of(context).localeName.startsWith('tr')
-        ? 'Fiyata sorunuz'
-        : 'Price on request';
+    return AppLocalizations.of(context).priceOnRequest;
   }
   return formatCurrency(context, price, currencyCode: currencyCode);
 }
@@ -1268,16 +1257,14 @@ class _StatusBadgeConfig {
 }
 
 class _TimeWindowInsightChip extends StatelessWidget {
-  const _TimeWindowInsightChip({
-    required this.windows,
-    required this.isTr,
-  });
+  const _TimeWindowInsightChip({required this.windows});
 
   final List<MenuItemTimeWindow> windows;
-  final bool isTr;
 
   @override
   Widget build(BuildContext context) {
+    final t = context.l10n;
+    final isTr = t.localeName.startsWith('tr');
     // Prefer the currently-active window; otherwise the next upcoming one.
     final active = windows.where((w) => w.isActiveNow()).firstOrNull;
     final now = DateTime.now().hour;
@@ -1296,26 +1283,22 @@ class _TimeWindowInsightChip extends StatelessWidget {
     final String chipText;
     if (window.discountPct != null && window.discountPct! > 0) {
       chipText = active != null
-          ? (isTr
-              ? 'Şu an: $label • %${window.discountPct} indirimli ($timeRange)'
-              : 'Now: $label • ${window.discountPct}% off ($timeRange)')
-          : (isTr
-              ? '$label daha uygun ($timeRange) • %${window.discountPct} indirim'
-              : '$label is cheaper ($timeRange) • ${window.discountPct}% off');
+          ? t.menuTimeWindowNowDiscount(label, timeRange, window.discountPct!)
+          : t.menuTimeWindowUpcomingDiscount(
+              label,
+              timeRange,
+              window.discountPct!,
+            );
     } else if (window.priceCents != null) {
       final priceText =
           '${(window.priceCents! / 100).toStringAsFixed(window.priceCents! % 100 == 0 ? 0 : 2)}₺';
       chipText = active != null
-          ? (isTr
-              ? 'Şu an: $label $priceText ($timeRange)'
-              : 'Now: $label $priceText ($timeRange)')
-          : (isTr
-              ? '$label fiyatı $priceText ($timeRange)'
-              : '$label price $priceText ($timeRange)');
+          ? t.menuTimeWindowNowPrice(label, timeRange, priceText)
+          : t.menuTimeWindowUpcomingPrice(label, timeRange, priceText);
     } else {
       chipText = active != null
-          ? (isTr ? 'Şu an: $label ($timeRange)' : 'Now: $label ($timeRange)')
-          : (isTr ? '$label ($timeRange)' : '$label ($timeRange)');
+          ? t.menuTimeWindowNowPlain(label, timeRange)
+          : t.menuTimeWindowUpcomingPlain(label, timeRange);
     }
 
     final chipColor = active != null ? AppColors.success : AppColors.info;
@@ -1329,9 +1312,8 @@ class _TimeWindowInsightChip extends StatelessWidget {
 }
 
 class _DataTrustBar extends StatelessWidget {
-  const _DataTrustBar({required this.score, required this.isTr});
+  const _DataTrustBar({required this.score});
   final double score;
-  final bool isTr;
 
   @override
   Widget build(BuildContext context) {
@@ -1352,7 +1334,7 @@ class _DataTrustBar extends StatelessWidget {
             Icon(Icons.shield_outlined, size: 14, color: barColor),
             const SizedBox(width: 5),
             Text(
-              isTr ? 'Veri güveni' : 'Data trust',
+              context.l10n.menuDataTrustLabel,
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
@@ -1398,40 +1380,34 @@ class _DataTrustBar extends StatelessWidget {
 }
 
 class _PriceMetaRow extends StatelessWidget {
-  const _PriceMetaRow({required this.status, required this.isTr});
+  const _PriceMetaRow({required this.status});
   final MenuItemPriceStatus status;
-  final bool isTr;
 
   @override
   Widget build(BuildContext context) {
+    final t = context.l10n;
     final parts = <String>[];
     if (status.lastVerifiedAt != null) {
       final diff = DateTime.now().difference(status.lastVerifiedAt!);
       final String timeStr;
       if (diff.inHours < 24) {
-        timeStr = isTr ? 'Bugün' : 'Today';
+        timeStr = t.menuPriceMetaToday;
       } else if (diff.inDays == 1) {
-        timeStr = isTr ? 'Dün' : 'Yesterday';
+        timeStr = t.menuPriceMetaYesterday;
       } else if (diff.inDays < 30) {
-        timeStr = isTr ? '${diff.inDays} gün önce' : '${diff.inDays}d ago';
+        timeStr = t.menuPriceMetaDaysAgo(diff.inDays);
       } else {
         final m = (diff.inDays / 30).floor();
-        timeStr = isTr ? '$m ay önce' : '${m}mo ago';
+        timeStr = t.menuPriceMetaMonthsAgo(m);
       }
-      parts.add(isTr ? 'Son güncelleme: $timeStr' : 'Updated: $timeStr');
+      parts.add(t.menuPriceMetaUpdated(timeStr));
     }
     if (status.verifiedSources48h > 0) {
-      parts.add(
-        isTr
-            ? '${status.verifiedSources48h} doğrulayıcı'
-            : '${status.verifiedSources48h} verifier${status.verifiedSources48h > 1 ? 's' : ''}',
-      );
+      parts.add(t.menuPriceMetaVerifierCount(status.verifiedSources48h));
     }
     final totalVotes = status.okVotes + status.badVotes;
     if (totalVotes > 0) {
-      parts.add(
-        isTr ? '$totalVotes oylama' : '$totalVotes vote${totalVotes > 1 ? 's' : ''}',
-      );
+      parts.add(t.menuPriceMetaVoteCount(totalVotes));
     }
     if (parts.isEmpty) return const SizedBox.shrink();
     return Text(
@@ -1457,17 +1433,22 @@ class _TransparentMenuSection extends StatelessWidget {
     final hasCalories = caloriesMin != null;
     final hasIngredients = ingredients.isNotEmpty;
     if (!hasCalories && !hasIngredients) return const SizedBox.shrink();
+    final t = context.l10n;
 
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Şeffaf Menü', style: context.sectionTitleStyle),
+          Text(t.menuTransparentMenuTitle, style: context.sectionTitleStyle),
           if (hasCalories) ...[
             const SizedBox(height: 12),
             Row(
               children: [
-                const Icon(Icons.local_fire_department_rounded, size: 16, color: AppColors.primary),
+                const Icon(
+                  Icons.local_fire_department_rounded,
+                  size: 16,
+                  color: AppColors.primary,
+                ),
                 const SizedBox(width: 8),
                 Text(
                   '$caloriesMin kcal',
@@ -1492,9 +1473,9 @@ class _TransparentMenuSection extends StatelessWidget {
           ],
           if (hasIngredients) ...[
             const SizedBox(height: 12),
-            const Text(
-              'İçindekiler',
-              style: TextStyle(
+            Text(
+              t.menuIngredientsLabel,
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
                 color: AppColors.muted,
@@ -1511,9 +1492,9 @@ class _TransparentMenuSection extends StatelessWidget {
             ),
           ],
           const SizedBox(height: 10),
-          const Text(
-            'Değerler tahmini olabilir. Alerji durumunuz için lütfen personele bilgi veriniz.',
-            style: TextStyle(
+          Text(
+            t.menuNutritionDisclaimer,
+            style: const TextStyle(
               fontSize: 11,
               color: AppColors.muted,
               height: 1.4,
@@ -1529,15 +1510,14 @@ class _PriceBenchmarkChip extends StatelessWidget {
   const _PriceBenchmarkChip({
     required this.itemPriceCents,
     required this.benchmark,
-    required this.isTr,
   });
 
   final int itemPriceCents;
   final MenuItemPriceBenchmark benchmark;
-  final bool isTr;
 
   @override
   Widget build(BuildContext context) {
+    final t = context.l10n;
     final avgPrice = benchmark.avgPriceCents / 100;
     final thisPrice = itemPriceCents / 100;
     final diff = thisPrice - avgPrice;
@@ -1547,23 +1527,16 @@ class _PriceBenchmarkChip extends StatelessWidget {
     final color = same
         ? AppColors.muted
         : (cheaper ? AppColors.success : AppColors.danger);
-    final avgText =
-        avgPrice.truncateToDouble() == avgPrice
+    final avgText = avgPrice.truncateToDouble() == avgPrice
         ? '${avgPrice.toInt()}₺'
         : '${avgPrice.toStringAsFixed(2)}₺';
     final String label;
     if (same) {
-      label = isTr
-          ? 'Şehir ort: $avgText (benzer fiyat)'
-          : 'City avg: $avgText (similar)';
+      label = t.menuPriceBenchmarkSame(avgText);
     } else if (cheaper) {
-      label = isTr
-          ? 'Şehir ort: $avgText • %$pctDiff daha ucuz'
-          : 'City avg: $avgText • $pctDiff% cheaper';
+      label = t.menuPriceBenchmarkCheaper(avgText, pctDiff);
     } else {
-      label = isTr
-          ? 'Şehir ort: $avgText • %$pctDiff daha pahalı'
-          : 'City avg: $avgText • $pctDiff% pricier';
+      label = t.menuPriceBenchmarkPricier(avgText, pctDiff);
     }
     return AppChip(label: label, color: color, filled: false);
   }

@@ -66,13 +66,21 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
   const userIds = members.map((m) => m.user_id).filter((id): id is string => Boolean(id));
   const profileMap = new Map<string, { display_name: string | null; avatar_url: string | null; phone: string | null }>();
   if (userIds.length > 0) {
-    const { data: profiles } = await (supabase as any)
-      .from('user_profiles')
-      .select('user_id, display_name, avatar_url, phone')
-      .in('user_id', userIds) as {
-        data: Array<{ user_id: string; display_name: string | null; avatar_url: string | null; phone: string | null }> | null;
-      };
-    for (const p of profiles ?? []) profileMap.set(p.user_id, p);
+    const [{ data: profiles }, { data: contacts }] = await Promise.all([
+      (supabase as any)
+        .from('user_profiles')
+        .select('user_id, display_name, avatar_url')
+        .in('user_id', userIds) as Promise<{
+          data: Array<{ user_id: string; display_name: string | null; avatar_url: string | null }> | null;
+        }>,
+      (supabase as any).rpc('owner_list_team_member_contacts_v1', {
+        p_business_id: activeBusiness.id,
+      }) as Promise<{ data: Array<{ user_id: string; phone: string | null }> | null }>,
+    ]);
+    const phoneMap = new Map((contacts ?? []).map((c) => [c.user_id, c.phone]));
+    for (const p of profiles ?? []) {
+      profileMap.set(p.user_id, { ...p, phone: phoneMap.get(p.user_id) ?? null });
+    }
   }
 
   const uyeler: EkipUyesi[] = members.map((m) => {

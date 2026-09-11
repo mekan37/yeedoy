@@ -210,6 +210,14 @@ void main() {
   testWidgets('Sign in calls authService.signInWithEmail', (tester) async {
     final fakeAuth = await _pumpLogin(tester);
 
+    // _signIn() e-posta/şifre doğrulamasından geçemeyen boş bir formda
+    // erken çıkar (B65 test-rot düzeltmesi) — geçerli değerler girilmeden
+    // signInWithEmail hiç çağrılmaz.
+    final textFields = find.byType(TextField);
+    await tester.enterText(textFields.at(0), 'test@example.com');
+    await tester.enterText(textFields.at(1), 'sifre123');
+    await tester.pumpAndSettle();
+
     // Scroll to ensure the FilledButton is visible, then tap it
     await tester.ensureVisible(find.byType(FilledButton));
     await tester.pumpAndSettle();

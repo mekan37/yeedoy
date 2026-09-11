@@ -14,7 +14,7 @@ class FoodCatalogHit {
   factory FoodCatalogHit.fromMap(Map<String, dynamic> map) {
     return FoodCatalogHit(
       id: _asInt(map, ['id', 'catalog_item_id']) ?? 0,
-      name: _asString(map, ['name', 'title']) ?? '?or?n',
+      name: _asString(map, ['name', 'title']) ?? 'Ürün',
       categoryName: _asString(map, ['category_name', 'category']) ?? '',
       categoryId: _asString(map, ['category_id', 'categoryId']) ?? '',
     );

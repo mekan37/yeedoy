@@ -55,7 +55,7 @@ export default async function AdminUsersPage({ searchParams }: Props) {
   const userIds = authUsers.map((u) => u.id);
 
   const [{ data: profiles }, { data: approvedClaims }] = await Promise.all([
-    userIds.length > 0 ? sb.from('user_profiles').select('user_id, display_name, phone, city, shadow_banned, created_at').in('user_id', userIds) : Promise.resolve({ data: [] }),
+    userIds.length > 0 ? (serviceClient as any).from('user_profiles').select('user_id, display_name, phone, city, shadow_banned, created_at').in('user_id', userIds) : Promise.resolve({ data: [] }),
     userIds.length > 0 ? sb.from('owner_claims').select('user_id').eq('status', 'approved').in('user_id', userIds) : Promise.resolve({ data: [] }),
   ]);
 

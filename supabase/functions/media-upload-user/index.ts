@@ -9,15 +9,19 @@ function json(data: unknown, status = 200) {
 }
 
 function readClientIp(req: Request): string {
-  const forwarded = req.headers.get("x-forwarded-for") ?? "";
-  if (forwarded.trim().length > 0) {
-    const first = forwarded.split(",")[0]?.trim();
-    if (first) return first;
-  }
   const cf = req.headers.get("cf-connecting-ip");
   if (cf?.trim()) return cf.trim();
   const real = req.headers.get("x-real-ip");
   if (real?.trim()) return real.trim();
+  // bkz. anti-spam-guard/index.ts: x-forwarded-for'un SON elemanı
+  // güvenilir gateway gözlemi, İLK eleman istemcinin sahteleyebileceği
+  // değer — önceden ilk eleman kullanılıyordu.
+  const forwarded = req.headers.get("x-forwarded-for") ?? "";
+  if (forwarded.trim().length > 0) {
+    const parts = forwarded.split(",").map((p) => p.trim()).filter(Boolean);
+    const last = parts[parts.length - 1];
+    if (last) return last;
+  }
   return "unknown";
 }
 
@@ -198,7 +202,19 @@ serve(async (req) => {
     return json({ ok: false, error: "rate_limit_insert_failed", detail: insertLimitErr.message }, 500);
   }
 
-  let businessPath = /^[0-9a-fA-F-]{36}$/.test(businessIdRaw) ? businessIdRaw : "";
+  // Public bucket'ta (critical=false) storage path'i istemcinin doğrudan
+  // verdiği business_id'ye ASLA güvenmiyoruz — bu, path'i (ve dolayısıyla
+  // görselin hangi işletmenin altında görüneceğini) tamamen istemcinin
+  // seçmesine izin verir. Yalnızca gerçek bir menu_item_id'den sunucu
+  // tarafında türetilen business_id kabul edilir. Private/critical
+  // (menu-media-private, signed URL, kimseyle paylaşılmayan) bucket'ta ise
+  // herhangi bir kullanıcının herhangi bir işletme için fiyat kanıtı/fiş
+  // yüklemesi kasıtlı olarak desteklendiği için doğrudan business_id kabul
+  // edilir.
+  let businessPath = "";
+  if (critical && /^[0-9a-fA-F-]{36}$/.test(businessIdRaw)) {
+    businessPath = businessIdRaw;
+  }
   if (!businessPath && /^[0-9a-fA-F-]{36}$/.test(menuItemIdRaw)) {
     const { data: menuItem, error: menuErr } = await adminClient
       .from("menu_items")

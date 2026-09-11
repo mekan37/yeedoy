@@ -47,19 +47,4 @@ class BusinessAmenitiesRepository {
       throw Exception(AppErrorMapper.message(e));
     }
   }
-
-  Future<void> updateBusinessAmenities({
-    required String businessId,
-    required List<String> amenityKeys,
-  }) async {
-    try {
-      await client.rpc('owner_update_business_amenities_v1', params: {
-        'p_business_id': businessId,
-        'p_amenity_keys': amenityKeys,
-      });
-      _cache.remove(businessId);
-    } catch (e) {
-      throw Exception(AppErrorMapper.message(e));
-    }
-  }
 }

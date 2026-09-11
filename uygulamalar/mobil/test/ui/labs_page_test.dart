@@ -75,24 +75,18 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('shows feed experiments without labs-only entries', (
-    tester,
-  ) async {
+  // NOT: enablePhotoFeed'e bağlı ayrı bir "Feed" girişi kod tabanından
+  // kaldırıldı — labs_page.dart'taki TÜM girişler artık tek başına
+  // enableLabs'a bağlı (B65 test-rot düzeltmesi).
+  testWidgets('shows empty state when labs flag is disabled', (tester) async {
     await pumpLabsPage(
       tester,
-      flags: const FeatureFlagsState(
-        localFlags: {
-          'enablePhotoFeed': true,
-          'enableLabs': false,
-        },
-      ),
+      flags: const FeatureFlagsState(localFlags: {'enableLabs': false}),
     );
 
-    // 'Feed' appears in both the status chip row and the entry list.
-    expect(find.text('Feed'), findsAtLeastNWidgets(1));
-    expect(find.text('Food experts'), findsOneWidget);
     expect(find.text('Heroes'), findsNothing);
-    expect(find.text('Budget Combos'), findsNothing);
+    expect(find.text('Group requests'), findsNothing);
+    expect(find.text('Smart Picks'), findsNothing);
   });
 
   testWidgets('shows labs-only entries when labs flag is enabled', (
@@ -100,18 +94,15 @@ void main() {
   ) async {
     await pumpLabsPage(
       tester,
-      flags: const FeatureFlagsState(
-        localFlags: {
-          'enablePhotoFeed': false,
-          'enableLabs': true,
-        },
-      ),
+      flags: const FeatureFlagsState(localFlags: {'enableLabs': true}),
     );
 
     // 'Heroes' appears in both the status chip row and the entry list.
+    // Yalnızca varsayılan test viewport'unda kaydırmadan görünen ilk
+    // girişler doğrulanıyor — alttaki (Compare, My Suspended Meals) girişler
+    // scroll cache-extent dışında kalıp build edilmeyebiliyor.
     expect(find.text('Heroes'), findsAtLeastNWidgets(1));
     expect(find.text('Group requests'), findsOneWidget);
     expect(find.text('Smart Picks'), findsOneWidget);
-    expect(find.text('Feed'), findsNothing);
   });
 }

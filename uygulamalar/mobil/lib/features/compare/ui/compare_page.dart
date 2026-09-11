@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../../../features/shared/ui/components/app_appbar.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../../features/shared/ui/design_system.dart';
@@ -101,12 +102,16 @@ class _ComparePageState extends ConsumerState<ComparePage> {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: AppColors.success.withValues(alpha: 0.15),
+                                color: AppColors.success.withValues(
+                                  alpha: 0.15,
+                                ),
                                 borderRadius: BorderRadius.circular(999),
                               ),
                               child: Text(
                                 t.compareSuggestedBadge,
-                                style: const TextStyle(fontWeight: FontWeight.w800),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                ),
                               ),
                             ),
                         ],
@@ -119,7 +124,10 @@ class _ComparePageState extends ConsumerState<ComparePage> {
                       const SizedBox(height: 12),
                       _InfoRow(
                         label: t.compareMedianPriceLabel,
-                        value: _formatPriceFromCents(item.medianPriceCents),
+                        value: _formatPriceFromCents(
+                          context,
+                          item.medianPriceCents,
+                        ),
                       ),
                       const SizedBox(height: 6),
                       _InfoRow(
@@ -129,7 +137,7 @@ class _ComparePageState extends ConsumerState<ComparePage> {
                       const SizedBox(height: 6),
                       _InfoRow(
                         label: t.compareLastUpdateLabel,
-                        value: _formatDate(item.lastUpdateAt),
+                        value: _formatDate(context, item.lastUpdateAt),
                       ),
                       if ((item.cheapestItemName ?? '').isNotEmpty &&
                           item.cheapestItemPriceCents != null) ...[
@@ -142,7 +150,7 @@ class _ComparePageState extends ConsumerState<ComparePage> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          '${item.cheapestItemName} · ${_formatPriceFromCents(item.cheapestItemPriceCents)}',
+                          '${item.cheapestItemName} · ${_formatPriceFromCents(context, item.cheapestItemPriceCents)}',
                           style: const TextStyle(color: AppColors.slate),
                         ),
                       ],
@@ -150,7 +158,8 @@ class _ComparePageState extends ConsumerState<ComparePage> {
                       Row(
                         children: [
                           OutlinedButton(
-                            onPressed: () => context.go('/b/${item.businessId}'),
+                            onPressed: () =>
+                                context.go('/b/${item.businessId}'),
                             child: Text(t.compareGoToBusinessAction),
                           ),
                           const Spacer(),
@@ -229,10 +238,12 @@ String _locText(String district, String city) {
   return '$d, $c';
 }
 
-String _formatPriceFromCents(int? cents) {
+// Eskiden .toStringAsFixed(0) kuruşu tamamen düşürüyordu (150.99 TL "151
+// TRY" gösteriyordu) ve kanonik formatCurrency yerine elle "TRY" string'i
+// ekliyordu — artık kanonik formatlayıcıya devrediliyor (B36).
+String _formatPriceFromCents(BuildContext context, int? cents) {
   if (cents == null) return '-';
-  final value = (cents / 100).toStringAsFixed(0);
-  return '$value TRY';
+  return formatCurrency(context, cents / 100);
 }
 
 String _formatRatio(double? ratio) {
@@ -241,10 +252,8 @@ String _formatRatio(double? ratio) {
   return '%$percent';
 }
 
-String _formatDate(DateTime? date) {
+// Kanonik formatShortDate'e devredildi (B37).
+String _formatDate(BuildContext context, DateTime? date) {
   if (date == null) return '-';
-  final day = date.day.toString().padLeft(2, '0');
-  final month = date.month.toString().padLeft(2, '0');
-  return '$day.$month.${date.year}';
+  return formatShortDate(context, date);
 }
-

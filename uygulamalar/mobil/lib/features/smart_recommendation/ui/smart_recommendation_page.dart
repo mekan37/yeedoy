@@ -8,6 +8,7 @@ import '../../../core/assets/category_assets.dart';
 import '../../../core/analytics/app_events.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../../../core/location/user_location_controller.dart';
 import '../../../features/discovery/domain/discovery_search_notifier.dart';
 import '../../../core/media/app_network_image.dart';
@@ -23,20 +24,20 @@ enum _PriceRange {
   over1000;
 
   int get maxCents => switch (this) {
-        _PriceRange.under200 => 20000,
-        _PriceRange.r200_400 => 40000,
-        _PriceRange.r400_600 => 60000,
-        _PriceRange.r600_1000 => 100000,
-        _PriceRange.over1000 => 200000,
-      };
+    _PriceRange.under200 => 20000,
+    _PriceRange.r200_400 => 40000,
+    _PriceRange.r400_600 => 60000,
+    _PriceRange.r600_1000 => 100000,
+    _PriceRange.over1000 => 200000,
+  };
 
   String get label => switch (this) {
-        _PriceRange.under200 => '₺200 altı',
-        _PriceRange.r200_400 => '₺200–400',
-        _PriceRange.r400_600 => '₺400–600',
-        _PriceRange.r600_1000 => '₺600–1.000',
-        _PriceRange.over1000 => '₺1.000 üzeri',
-      };
+    _PriceRange.under200 => '₺200 altı',
+    _PriceRange.r200_400 => '₺200–400',
+    _PriceRange.r400_600 => '₺400–600',
+    _PriceRange.r600_1000 => '₺600–1.000',
+    _PriceRange.over1000 => '₺1.000 üzeri',
+  };
 }
 
 class SmartRecommendationPage extends ConsumerStatefulWidget {
@@ -56,10 +57,8 @@ class _SmartRecommendationPageState
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
     final loc = ref.watch(userLocationProvider);
-    final userLat =
-        ref.watch(discoverySearchProvider.select((s) => s.userLat));
-    final userLng =
-        ref.watch(discoverySearchProvider.select((s) => s.userLng));
+    final userLat = ref.watch(discoverySearchProvider.select((s) => s.userLat));
+    final userLng = ref.watch(discoverySearchProvider.select((s) => s.userLng));
     final query = SmartRecoQuery(
       city: loc.city ?? '',
       district: loc.district ?? '',
@@ -74,41 +73,41 @@ class _SmartRecommendationPageState
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 4, 20, 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                t.smartRecoTitle,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w900,
-                  color: AppColors.textStrong,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 4, 20, 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  t.smartRecoTitle,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.textStrong,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                t.smartRecoSubtitle,
-                style: const TextStyle(fontSize: 13, color: AppColors.muted),
-              ),
-            ],
+                const SizedBox(height: 4),
+                Text(
+                  t.smartRecoSubtitle,
+                  style: const TextStyle(fontSize: 13, color: AppColors.muted),
+                ),
+              ],
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: _InputCard(
-            partySize: _partySize,
-            selectedRange: _selectedRange,
-            onPartySizeChanged: (v) => setState(() => _partySize = v),
-            onRangeChanged: (v) => setState(() => _selectedRange = v),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: _InputCard(
+              partySize: _partySize,
+              selectedRange: _selectedRange,
+              onPartySizeChanged: (v) => setState(() => _partySize = v),
+              onRangeChanged: (v) => setState(() => _selectedRange = v),
+            ),
           ),
-        ),
-        const SizedBox(height: 16),
-        _ResultsSection(query: query),
-        const SizedBox(height: 24),
-      ],
-    ),
+          const SizedBox(height: 16),
+          _ResultsSection(query: query),
+          const SizedBox(height: 24),
+        ],
+      ),
     );
   }
 }
@@ -232,11 +231,13 @@ class _ResultsSection extends ConsumerWidget {
         ),
         data: (items) {
           if (items.isNotEmpty) {
-            ref.read(analyticsRepositoryProvider).logEvent(
-              eventName: AppEvents.smartRecoSearch,
-              source: 'smart_reco',
-              meta: {'count': items.length},
-            );
+            ref
+                .read(analyticsRepositoryProvider)
+                .logEvent(
+                  eventName: AppEvents.smartRecoSearch,
+                  source: 'smart_reco',
+                  meta: {'count': items.length},
+                );
           }
           if (items.isEmpty) {
             return AppEmptyState(
@@ -248,9 +249,7 @@ class _ResultsSection extends ConsumerWidget {
           return Column(
             children: [
               for (final item in items) ...[
-                RepaintBoundary(
-                  child: _SmartBusinessCard(item: item),
-                ),
+                RepaintBoundary(child: _SmartBusinessCard(item: item)),
                 const SizedBox(height: 10),
               ],
               const SizedBox(height: 4),
@@ -274,11 +273,13 @@ class _SmartBusinessCard extends ConsumerWidget {
       padding: EdgeInsets.zero,
       child: InkWell(
         onTap: () {
-          ref.read(analyticsRepositoryProvider).logEvent(
-            eventName: AppEvents.smartRecoBusinessOpen,
-            businessId: item.businessId,
-            source: 'smart_reco',
-          );
+          ref
+              .read(analyticsRepositoryProvider)
+              .logEvent(
+                eventName: AppEvents.smartRecoBusinessOpen,
+                businessId: item.businessId,
+                source: 'smart_reco',
+              );
           context.go('/b/${item.businessId}');
         },
         borderRadius: BorderRadius.circular(16),
@@ -401,7 +402,7 @@ class _SmartBusinessCard extends ConsumerWidget {
                       children: [
                         if (item.originalTotalCents != null) ...[
                           Text(
-                            _formatCents(item.originalTotalCents!),
+                            _formatCents(context, item.originalTotalCents!),
                             style: const TextStyle(
                               fontSize: 12,
                               color: AppColors.muted,
@@ -420,7 +421,7 @@ class _SmartBusinessCard extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
-                            _formatCents(item.totalCents),
+                            _formatCents(context, item.totalCents),
                             style: const TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w800,
@@ -453,10 +454,12 @@ class _ShuffleTile extends ConsumerWidget {
       padding: EdgeInsets.zero,
       child: InkWell(
         onTap: () {
-          ref.read(analyticsRepositoryProvider).logEvent(
-            eventName: AppEvents.smartRecoShuffle,
-            source: 'smart_reco',
-          );
+          ref
+              .read(analyticsRepositoryProvider)
+              .logEvent(
+                eventName: AppEvents.smartRecoShuffle,
+                source: 'smart_reco',
+              );
           ref.read(smartRecoRepositoryProvider).clearReadCache();
           ref.invalidate(smartRecoProvider(query));
         },
@@ -492,9 +495,8 @@ class _ShuffleTile extends ConsumerWidget {
   }
 }
 
-String _formatCents(int cents) {
-  final tl = cents ~/ 100;
-  final kr = cents % 100;
-  if (kr == 0) return '₺$tl';
-  return '₺$tl,${kr.toString().padLeft(2, '0')}';
+// Kanonik formatCurrency'e devredildi — diğer ekranlarla aynı gösterim
+// (B36).
+String _formatCents(BuildContext context, int cents) {
+  return formatCurrency(context, cents / 100);
 }

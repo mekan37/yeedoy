@@ -29,9 +29,7 @@ class _FakeConsentRepository implements ConsentRepository {
 
 ProviderContainer _container(_FakeConsentRepository repo) {
   final container = ProviderContainer(
-    overrides: [
-      consentRepositoryProvider.overrideWithValue(repo),
-    ],
+    overrides: [consentRepositoryProvider.overrideWithValue(repo)],
   );
   return container;
 }
@@ -60,8 +58,11 @@ void main() {
       await Future<void>.delayed(const Duration(milliseconds: 10));
 
       final state = container.read(consentNotifierProvider);
-      expect(state.hasDecided, isFalse,
-          reason: 'Hiçbir onay verilmemişken hasDecided false olmalı');
+      expect(
+        state.hasDecided,
+        isFalse,
+        reason: 'Hiçbir onay verilmemişken hasDecided false olmalı',
+      );
       expect(state.analytics, ConsentStatus.unknown);
       expect(state.marketing, ConsentStatus.unknown);
     });
@@ -187,8 +188,11 @@ void main() {
       await container.read(consentNotifierProvider.notifier).deny();
 
       final state = container.read(consentNotifierProvider);
-      expect(state.hasDecided, isTrue,
-          reason: 'deny() de bir karar, hasDecided true olmalı');
+      expect(
+        state.hasDecided,
+        isTrue,
+        reason: 'deny() de bir karar, hasDecided true olmalı',
+      );
     });
 
     test('deny() sonrası analytics ve marketing denied', () async {
@@ -211,8 +215,11 @@ void main() {
       await container.read(consentNotifierProvider.notifier).deny();
 
       final state = container.read(consentNotifierProvider);
-      expect(state.dataRetention, ConsentStatus.granted,
-          reason: 'KVKK madde 7 gereği dataRetention zorunlu kabul edilir');
+      expect(
+        state.dataRetention,
+        ConsentStatus.granted,
+        reason: 'KVKK madde 7 gereği dataRetention zorunlu kabul edilir',
+      );
     });
 
     test('deny() ikinci çağrısında state aynı kalır — döngü yok', () async {
@@ -249,8 +256,11 @@ void main() {
       expect(state.analytics, ConsentStatus.granted);
       expect(state.marketing, ConsentStatus.denied);
       expect(state.hasDecided, isTrue);
-      expect(state.allGranted, isFalse,
-          reason: 'Marketing denied olduğundan allGranted false kalmalı');
+      expect(
+        state.allGranted,
+        isFalse,
+        reason: 'Marketing denied olduğundan allGranted false kalmalı',
+      );
     });
   });
 

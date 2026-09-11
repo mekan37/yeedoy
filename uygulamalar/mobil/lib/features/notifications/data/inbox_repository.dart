@@ -145,9 +145,11 @@ class InboxRepository {
       final menuItemId = (map['menu_item_id'] ?? '').toString();
       final cents = (map['suggested_price_cents'] as num?)?.toInt();
       final businessName = businessNames[businessId] ?? 'İşletme';
-      final priceText = cents == null
-          ? ''
-          : ' (${(cents / 100).toStringAsFixed(0)} TL)';
+      // .toStringAsFixed(0) kuruşu tamamen düşürüyordu (150.99 TL → "151
+      // TL") — bu bir repository/data sınıfı, BuildContext'i (dolayısıyla
+      // kanonik formatCurrency'i) yok, bu yüzden minimal, doğru bir yerel
+      // biçimlendirme kullanılıyor (B36).
+      final priceText = cents == null ? '' : ' (${_formatTlNoContext(cents)})';
       items.add(
         InboxItem(
           id: 'price_$id',
@@ -264,4 +266,13 @@ class InboxRepository {
       },
     );
   }
+}
+
+/// Bu sınıfta BuildContext yok (repository/data katmanı) — kanonik
+/// formatCurrency kullanılamıyor; kuruşu doğru yuvarlayan minimal bir yerel
+/// biçimlendirme (B36).
+String _formatTlNoContext(int cents) {
+  final tl = cents ~/ 100;
+  final kr = cents % 100;
+  return kr == 0 ? '$tl TL' : '$tl,${kr.toString().padLeft(2, '0')} TL';
 }

@@ -61,7 +61,10 @@ export default async function OwnerOnboardingPage() {
 
   if (hasBusiness) {
     const [{ count: hoursCount }, { data: bizRows }, { count: campaignCount }, { data: menuRows }] = await Promise.all([
-      (supabase as any).from('business_hours').select('id', { count: 'exact', head: true }).in('business_id', businessIds),
+      // business_hours 2026-08-19'daki Google Maps V5 import'undan bu yana
+      // terk edildi (canlıda 1 satır) — güncel veri business_weekly_hours'ta
+      // (bkz. saat-islemleri.ts / upsert_business_hours_v1).
+      (supabase as any).from('business_weekly_hours').select('id', { count: 'exact', head: true }).in('business_id', businessIds),
       (supabase as any).from('businesses').select('logo_url, cover_url').in('id', businessIds),
       (supabase as any).from('campaigns').select('id', { count: 'exact', head: true }).in('business_id', businessIds),
       (supabase as any).from('menus').select('id').in('business_id', businessIds),

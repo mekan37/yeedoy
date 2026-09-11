@@ -12,10 +12,21 @@ final favoritesRepositoryProvider = Provider<FavoritesRepository>((ref) {
 });
 
 class PaginatedFavorites {
-  const PaginatedFavorites({required this.ids, required this.items});
+  const PaginatedFavorites({
+    required this.ids,
+    required this.items,
+    this.cursorFavoritedAt,
+    this.cursorBusinessId,
+  });
 
   final List<String> ids;
   final List<BusinessCardModel> items;
+
+  /// (favorited_at, business_id) çifti — son satırın keyset cursor'ı.
+  /// Sonraki sayfa isteğinde `afterFavoritedAt`/`afterBusinessId` olarak
+  /// geri verilir. `null` ise ilk sayfa ya da liste boş demektir.
+  final DateTime? cursorFavoritedAt;
+  final String? cursorBusinessId;
 }
 
 class FavoritesRepository {
@@ -119,13 +130,24 @@ class FavoritesRepository {
         .toList();
   }
 
+  /// Keyset (cursor) sayfalama — B52: offset-tabanlı sayfalama, favoriler
+  /// listesi sayfalama sırasında değiştiğinde (ekleme/çıkarma) kayma
+  /// yaşıyordu. `afterFavoritedAt`/`afterBusinessId` verilmezse ilk sayfa
+  /// döner; verilirse o cursor'dan sonraki satırlar döner — liste boyutu
+  /// sayfalama sırasında değişse bile atlama/tekrar yaşanmaz.
   Future<PaginatedFavorites> fetchMyFavoritesWithBusinesses({
     int limit = 50,
-    int offset = 0,
+    DateTime? afterFavoritedAt,
+    String? afterBusinessId,
   }) async {
+    final isFirstPage = afterFavoritedAt == null;
     final res = await client.rpc(
-      'get_my_favorites_v1',
-      params: {'p_limit': limit, 'p_offset': offset},
+      'get_my_favorites_v2',
+      params: {
+        'p_limit': limit,
+        'p_after_favorited_at': afterFavoritedAt?.toIso8601String(),
+        'p_after_business_id': afterBusinessId,
+      },
     );
     final rows = (res as List).cast<Map<String, dynamic>>();
     final ids = rows.map((e) => e['business_id'] as String).toList();
@@ -151,8 +173,14 @@ class FavoritesRepository {
       if (item != null) ordered.add(item);
     }
 
-    final page = PaginatedFavorites(ids: ids, items: ordered);
-    if (offset == 0) {
+    final lastRow = rows.last;
+    final page = PaginatedFavorites(
+      ids: ids,
+      items: ordered,
+      cursorFavoritedAt: DateTime.parse(lastRow['favorited_at'] as String),
+      cursorBusinessId: lastRow['business_id'] as String,
+    );
+    if (isFirstPage) {
       await OfflineCachePrefs.saveFavoriteIds(ids);
       await OfflineCachePrefs.saveFavoriteBusinesses(
         ordered.map((e) => e.toMap()).toList(),

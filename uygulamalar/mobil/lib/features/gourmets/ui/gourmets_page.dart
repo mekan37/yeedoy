@@ -43,73 +43,87 @@ class _GourmetsPageState extends ConsumerState<GourmetsPage> {
     final st = ref.watch(gourmetDiscoverProvider);
     final user = ref.watch(userProvider);
 
+    final hasError = st.error != null;
+    final showSkeleton = st.loading && st.items.isEmpty;
+    final showEmpty = !st.loading && st.items.isEmpty;
+
+    Future<void> onFollow(GourmetUser g) async {
+      if (user == null) {
+        context.go('/login?redirect=/gourmets');
+        return;
+      }
+      try {
+        await ref.read(gourmetDiscoverProvider.notifier).toggleFollow(g);
+      } catch (e) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(AppErrorMapper.message(e))));
+        }
+      }
+    }
+
+    var itemCount = hasError ? 1 : 0;
+    if (showSkeleton || showEmpty) {
+      itemCount += 1;
+    } else {
+      itemCount += st.items.length + (st.isLoadingMore ? 1 : 0);
+    }
+
+    Widget buildItem(BuildContext context, int index) {
+      var i = index;
+      if (hasError) {
+        if (i == 0) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    AppErrorMapper.message(st.error),
+                    style: const TextStyle(color: AppColors.danger),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                OutlinedButton(
+                  onPressed: () => ref
+                      .read(gourmetDiscoverProvider.notifier)
+                      .loadInitial(force: true),
+                  child: Text(t.retry),
+                ),
+              ],
+            ),
+          );
+        }
+        i -= 1;
+      }
+      if (showSkeleton) return const _GourmetSkeleton();
+      if (showEmpty) return _EmptyState(message: t.gourmetsPageEmpty);
+      if (i < st.items.length) {
+        final g = st.items[i];
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: RepaintBoundary(
+            child: _GourmetTile(user: g, onFollow: () => onFollow(g)),
+          ),
+        );
+      }
+      return const Padding(
+        padding: EdgeInsets.only(top: 12),
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return AppScaffold(
       appBar: AppBar(title: Text(t.gourmetsPageTitle)),
       body: RefreshIndicator(
         onRefresh: () =>
             ref.read(gourmetDiscoverProvider.notifier).loadInitial(force: true),
-        child: ListView(
+        child: ListView.builder(
           controller: scrollCtrl,
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
-          children: [
-            if (st.error != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        AppErrorMapper.message(st.error),
-                        style: const TextStyle(color: AppColors.danger),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    OutlinedButton(
-                      onPressed: () => ref
-                          .read(gourmetDiscoverProvider.notifier)
-                          .loadInitial(force: true),
-                      child: Text(t.retry),
-                    ),
-                  ],
-                ),
-              ),
-            if (st.loading && st.items.isEmpty)
-              const _GourmetSkeleton()
-            else if (!st.loading && st.items.isEmpty)
-              _EmptyState(message: t.gourmetsPageEmpty)
-            else ...[
-              for (final g in st.items) ...[
-                RepaintBoundary(
-                  child: _GourmetTile(
-                    user: g,
-                    onFollow: () async {
-                    if (user == null) {
-                      context.go('/login?redirect=/gourmets');
-                      return;
-                    }
-                    try {
-                      await ref
-                          .read(gourmetDiscoverProvider.notifier)
-                          .toggleFollow(g);
-                    } catch (e) {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(AppErrorMapper.message(e))),
-                        );
-                      }
-                    }
-                  },
-                  ),
-                ),
-                const SizedBox(height: 10),
-              ],
-            ],
-            if (st.isLoadingMore)
-              const Padding(
-                padding: EdgeInsets.only(top: 12),
-                child: Center(child: CircularProgressIndicator()),
-              ),
-          ],
+          itemCount: itemCount,
+          itemBuilder: buildItem,
         ),
       ),
     );
@@ -236,4 +250,3 @@ class _EmptyState extends StatelessWidget {
     );
   }
 }
-

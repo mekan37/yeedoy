@@ -117,13 +117,25 @@ async function searchUsers(supabase: SupabaseLike, query: string, limit: number)
   const result = await safeQuery(
     supabase
       .from('user_profiles')
-      .select('user_id, display_name, is_gourmet, shadow_banned, created_at')
+      .select('user_id, display_name, is_gourmet, created_at')
       .or(`display_name.ilike.${pattern}`)
       .order('created_at', { ascending: false })
       .limit(limit),
   );
 
+  const userIds = (result.data ?? []).map((row) => row.user_id as string).filter(Boolean);
+  const shadowBannedMap = new Map<string, boolean>();
+  if (userIds.length > 0) {
+    const privateResult = await safeQuery(
+      (supabase as any).rpc('admin_list_user_profiles_private_v1', { p_user_ids: userIds }),
+    );
+    for (const row of privateResult.data ?? []) {
+      shadowBannedMap.set(row.user_id as string, Boolean(row.shadow_banned));
+    }
+  }
+
   return (result.data ?? []).map((row) => {
+    row.shadow_banned = shadowBannedMap.get(row.user_id as string) ?? false;
     const userId = text(row.user_id);
     const roleLabel = row.is_gourmet ? 'Gurme' : 'Kullanıcı';
     const statusLabel = row.shadow_banned ? 'Kısıtlı' : 'Aktif';

@@ -53,6 +53,8 @@ final favoritesControllerProvider =
 class FavoritesController extends Notifier<FavoritesPagingState> {
   static const int pageSize = 20;
   final Set<String> _statusInflight = <String>{};
+  DateTime? _cursorFavoritedAt;
+  String? _cursorBusinessId;
 
   @override
   FavoritesPagingState build() {
@@ -80,6 +82,8 @@ class FavoritesController extends Notifier<FavoritesPagingState> {
     if (ref.read(userProvider) == null) return;
     if (state.isLoading) return;
     state = state.copyWith(isLoading: true, isLoadingMore: false, error: null);
+    _cursorFavoritedAt = null;
+    _cursorBusinessId = null;
 
     try {
       final repo = ref.read(favoritesRepositoryProvider);
@@ -92,17 +96,28 @@ class FavoritesController extends Notifier<FavoritesPagingState> {
         );
         _syncIds(cached.ids);
       }
-      final page = await repo.fetchMyFavoritesWithBusinesses(
-        limit: pageSize,
-        offset: 0,
-      );
+      final page = await repo.fetchMyFavoritesWithBusinesses(limit: pageSize);
       final unchanged = _sameIds(state.items, page.items);
+      final hasMore = page.ids.length == pageSize;
       state = state.copyWith(
         items: unchanged ? state.items : page.items,
         isLoading: false,
-        hasMore: page.ids.length == pageSize,
+        hasMore: hasMore,
       );
-      _syncIds(page.ids);
+      if (hasMore) {
+        _cursorFavoritedAt = page.cursorFavoritedAt;
+        _cursorBusinessId = page.cursorBusinessId;
+        _syncIds(page.ids);
+      } else {
+        // Bu, kullanıcının favori listesinin TAMAMI (tek sayfaya sığdı) —
+        // başka cihazda kaldırılmış ama bu cihazda hâlâ "favorili" görünen
+        // eski id'leri temizlemek için union yerine tam uzlaştırma yap.
+        final knownIds = page.ids.toSet();
+        ref.read(favoriteIdsProvider.notifier).replaceAll(knownIds);
+        ref
+            .read(favoriteStatusCacheProvider.notifier)
+            .reconcileWithKnownFavorites(knownIds);
+      }
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e);
     }
@@ -117,15 +132,31 @@ class FavoritesController extends Notifier<FavoritesPagingState> {
       final repo = ref.read(favoritesRepositoryProvider);
       final page = await repo.fetchMyFavoritesWithBusinesses(
         limit: pageSize,
-        offset: state.items.length,
+        afterFavoritedAt: _cursorFavoritedAt,
+        afterBusinessId: _cursorBusinessId,
       );
-      final all = [...state.items, ...page.items];
+      final seenIds = <String>{for (final b in state.items) b.id};
+      final newItems = page.items.where((b) => seenIds.add(b.id)).toList();
+      final all = [...state.items, ...newItems];
+      final hasMore = page.ids.length == pageSize;
       state = state.copyWith(
         items: all,
         isLoadingMore: false,
-        hasMore: page.ids.length == pageSize,
+        hasMore: hasMore,
       );
-      _syncIds(page.ids);
+      if (hasMore) {
+        _cursorFavoritedAt = page.cursorFavoritedAt;
+        _cursorBusinessId = page.cursorBusinessId;
+        _syncIds(page.ids);
+      } else {
+        // Son sayfaya ulaşıldı: artık kullanıcının favori listesinin TAMAMI
+        // elimizde — loadInitial'daki gibi tam uzlaştırma yap.
+        final knownIds = all.map((b) => b.id).toSet();
+        ref.read(favoriteIdsProvider.notifier).replaceAll(knownIds);
+        ref
+            .read(favoriteStatusCacheProvider.notifier)
+            .reconcileWithKnownFavorites(knownIds);
+      }
     } catch (e) {
       state = state.copyWith(isLoadingMore: false, error: e);
     }
@@ -134,7 +165,6 @@ class FavoritesController extends Notifier<FavoritesPagingState> {
   Future<void> refresh() async {
     if (ref.read(userProvider) == null) return;
     state = state.copyWith(
-      isLoading: true,
       isLoadingMore: false,
       hasMore: true,
       items: [],
@@ -167,7 +197,7 @@ class FavoritesController extends Notifier<FavoritesPagingState> {
 
   Future<bool> toggleFavorite(String businessId) async {
     if (ref.read(userProvider) == null) {
-      throw Exception('Giri?Y gerekli.');
+      throw Exception('Giriş gerekli.');
     }
     final repo = ref.read(favoritesRepositoryProvider);
     final cache = ref.read(favoriteStatusCacheProvider.notifier);
@@ -188,10 +218,7 @@ class FavoritesController extends Notifier<FavoritesPagingState> {
     }
 
     try {
-      final newFav = await repo.setFavorite(
-        businessId,
-        isFavorited: !wasFav,
-      );
+      final newFav = await repo.setFavorite(businessId, isFavorited: !wasFav);
       cache.set(businessId, newFav);
       if (newFav) {
         ids.add(businessId);

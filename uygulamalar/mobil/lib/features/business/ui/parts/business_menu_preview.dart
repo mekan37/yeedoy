@@ -506,9 +506,7 @@ class _BusinessMenuItemRowState extends ConsumerState<_BusinessMenuItemRow> {
                   if (item.priceStatus == 'verified' &&
                       (item.total30d ?? 0) > 0)
                     Text(
-                      t.localeName.startsWith('tr')
-                          ? '${item.total30d} kullanıcı onayladı'
-                          : '${item.total30d} users confirmed',
+                      t.businessMenuPreviewConfirmedByCount(item.total30d!),
                       style: const TextStyle(
                         color: AppColors.muted,
                         fontSize: 12,

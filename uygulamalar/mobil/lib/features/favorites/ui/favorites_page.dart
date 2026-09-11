@@ -170,140 +170,146 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               sliver: SliverList.list(
                 children: [
-            const _FavoritesHeader(),
-            if (!_isSharedMode && st.items.isNotEmpty) ...[
-              _FavoritesCountBanner(count: st.items.length),
-              SizedBox(height: tokens.space12),
-            ],
-            if (_showStaleBadge(_favoritesCachedAt)) ...[
-              _OfflineStaleBadge(updatedAt: _favoritesCachedAt!),
-              SizedBox(height: tokens.space12),
-            ],
-            if (_isSharedMode) ...[
-              _sharedCollectionPanel(),
-              SizedBox(height: tokens.space12),
-            ],
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: qCtrl,
-                    onChanged: _onSearchChanged,
-                    decoration: InputDecoration(
-                      hintText: t.favoritesSearchHint,
-                      prefixIcon: const Icon(Icons.search),
-                    ),
-                  ),
-                ),
-                if (!_isSharedMode) ...[
-                  SizedBox(width: tokens.space8),
-                  Material(
-                    color: _showCollectionsPanel
-                        ? AppColors.primarySoft
-                        : AppColors.cardAlt,
-                    borderRadius: BorderRadius.circular(tokens.radius12),
-                    child: Semantics(
-                      button: true,
-                      label: _showCollectionsPanel
-                          ? 'Koleksiyon panelini kapat'
-                          : 'Koleksiyon panelini aç',
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(tokens.radius12),
-                        onTap: () => setState(
-                          () => _showCollectionsPanel = !_showCollectionsPanel,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(14),
-                          child: Icon(
-                            Icons.tune,
-                            color: _showCollectionsPanel
-                                ? AppColors.primary
-                                : AppColors.textStrong,
+                  const _FavoritesHeader(),
+                  if (!_isSharedMode && st.items.isNotEmpty) ...[
+                    _FavoritesCountBanner(count: st.items.length),
+                    SizedBox(height: tokens.space12),
+                  ],
+                  if (_showStaleBadge(_favoritesCachedAt)) ...[
+                    _OfflineStaleBadge(updatedAt: _favoritesCachedAt!),
+                    SizedBox(height: tokens.space12),
+                  ],
+                  if (_isSharedMode) ...[
+                    _sharedCollectionPanel(),
+                    SizedBox(height: tokens.space12),
+                  ],
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: qCtrl,
+                          onChanged: _onSearchChanged,
+                          decoration: InputDecoration(
+                            hintText: t.favoritesSearchHint,
+                            prefixIcon: const Icon(Icons.search),
                           ),
                         ),
                       ),
+                      if (!_isSharedMode) ...[
+                        SizedBox(width: tokens.space8),
+                        Material(
+                          color: _showCollectionsPanel
+                              ? AppColors.primarySoft
+                              : AppColors.cardAlt,
+                          borderRadius: BorderRadius.circular(tokens.radius12),
+                          child: Semantics(
+                            button: true,
+                            label: _showCollectionsPanel
+                                ? 'Koleksiyon panelini kapat'
+                                : 'Koleksiyon panelini aç',
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(
+                                tokens.radius12,
+                              ),
+                              onTap: () => setState(
+                                () => _showCollectionsPanel =
+                                    !_showCollectionsPanel,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(14),
+                                child: Icon(
+                                  Icons.tune,
+                                  color: _showCollectionsPanel
+                                      ? AppColors.primary
+                                      : AppColors.textStrong,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                  SizedBox(height: tokens.space8),
+                  if (widget.nearbyMode) _nearbyBanner(),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        CategoryChip(
+                          label: t.all,
+                          selected:
+                              category.isEmpty && !_openOnly && !_nearbySort,
+                          onTap: () => setState(() {
+                            category = '';
+                            _openOnly = false;
+                            _nearbySort = false;
+                          }),
+                        ),
+                        const SizedBox(width: 8),
+                        CategoryChip(
+                          label: '🟢 ${t.mapFilterOpen}',
+                          selected: _openOnly,
+                          onTap: () => setState(() => _openOnly = !_openOnly),
+                        ),
+                        const SizedBox(width: 8),
+                        CategoryChip(
+                          label: t.nearbyShort,
+                          selected: _nearbySort,
+                          leading: Icon(
+                            Icons.location_on_rounded,
+                            size: 14,
+                            color: _nearbySort
+                                ? AppColors.primary
+                                : AppColors.muted,
+                          ),
+                          onTap: () {
+                            final next = !_nearbySort;
+                            setState(() => _nearbySort = next);
+                            if (next && _pos == null) _loadLocation();
+                          },
+                        ),
+                        const SizedBox(width: 8),
+                        for (final c in categories) ...[
+                          CategoryChip(
+                            label: _localizedCategoryLabel(context, c),
+                            selected: category == c,
+                            leading: Icon(
+                              _categoryIcon(c),
+                              size: 14,
+                              color: category == c
+                                  ? AppColors.primary
+                                  : AppColors.muted,
+                            ),
+                            onTap: () => setState(() => category = c),
+                          ),
+                          const SizedBox(width: 8),
+                        ],
+                      ],
                     ),
                   ),
-                ],
-              ],
-            ),
-            SizedBox(height: tokens.space8),
-            if (widget.nearbyMode) _nearbyBanner(),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  CategoryChip(
-                    label: t.all,
-                    selected: category.isEmpty && !_openOnly && !_nearbySort,
-                    onTap: () => setState(() {
-                      category = '';
-                      _openOnly = false;
-                      _nearbySort = false;
-                    }),
-                  ),
-                  const SizedBox(width: 8),
-                  CategoryChip(
-                    label: '🟢 ${t.mapFilterOpen}',
-                    selected: _openOnly,
-                    onTap: () => setState(() => _openOnly = !_openOnly),
-                  ),
-                  const SizedBox(width: 8),
-                  CategoryChip(
-                    label: t.nearbyShort,
-                    selected: _nearbySort,
-                    leading: Icon(
-                      Icons.location_on_rounded,
-                      size: 14,
-                      color: _nearbySort ? AppColors.primary : AppColors.muted,
-                    ),
-                    onTap: () {
-                      final next = !_nearbySort;
-                      setState(() => _nearbySort = next);
-                      if (next && _pos == null) _loadLocation();
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  for (final c in categories) ...[
-                    CategoryChip(
-                      label: _localizedCategoryLabel(context, c),
-                      selected: category == c,
-                      leading: Icon(
-                        _categoryIcon(c),
-                        size: 14,
-                        color: category == c ? AppColors.primary : AppColors.muted,
-                      ),
-                      onTap: () => setState(() => category = c),
-                    ),
-                    const SizedBox(width: 8),
+                  if (!_isSharedMode && _showCollectionsPanel) ...[
+                    SizedBox(height: tokens.space12),
+                    _collectionsSection(isCreator: isCreator),
+                    if (isCreator) _creatorCollectionPanel(),
                   ],
+                  SizedBox(height: tokens.space12),
+                  if (!_isSharedMode && st.error != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        AppErrorMapper.message(st.error),
+                        style: const TextStyle(color: AppColors.danger),
+                      ),
+                    ),
                 ],
-              ),
-            ),
-            if (!_isSharedMode && _showCollectionsPanel) ...[
-              SizedBox(height: tokens.space12),
-              _collectionsSection(isCreator: isCreator),
-              if (isCreator) _creatorCollectionPanel(),
-            ],
-            SizedBox(height: tokens.space12),
-            if (!_isSharedMode && st.error != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Text(
-                  AppErrorMapper.message(st.error),
-                  style: const TextStyle(color: AppColors.danger),
-                ),
-              ),
-            ],
               ),
             ),
             if ((_isSharedMode && _sharedLoading) ||
                 (!_isSharedMode && st.isLoading && st.items.isEmpty))
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                sliver: SliverList.list(
-                  children: const [_FavoritesSkeleton()],
-                ),
+                sliver: SliverList.list(children: const [_FavoritesSkeleton()]),
               )
             else if (filtered.isEmpty)
               SliverPadding(
@@ -732,49 +738,53 @@ class _FavoritesPageState extends ConsumerState<FavoritesPage> {
   Future<void> _createCollection() async {
     final t = AppLocalizations.of(context);
     final ctrl = TextEditingController();
-    final ok = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(t.favoritesNewCollectionTitle),
-        content: TextField(
-          controller: ctrl,
-          decoration: InputDecoration(
-            hintText: t.favoritesCollectionNameExample,
+    try {
+      final ok = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(t.favoritesNewCollectionTitle),
+          content: TextField(
+            controller: ctrl,
+            decoration: InputDecoration(
+              hintText: t.favoritesCollectionNameExample,
+            ),
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: Text(t.vazgec),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: Text(t.favoritesCreateAction),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(t.vazgec),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: Text(t.favoritesCreateAction),
-          ),
-        ],
-      ),
-    );
-    if (ok != true) return;
-    final name = ctrl.text.trim();
-    if (name.isEmpty) return;
-    final now = DateTime.now();
-    final collection = FavoriteCollection(
-      id: '${now.microsecondsSinceEpoch}',
-      name: name,
-      businessIds: const <String>[],
-      createdAtIso: now.toIso8601String(),
-      isPublic: false,
-      isSponsored: false,
-      followersCount: 0,
-      engagementCount: 0,
-    );
-    final next = [..._collections, collection];
-    await FavoriteCollectionsPrefs.save(next);
-    if (!mounted) return;
-    setState(() {
-      _collections = next;
-      _selectedCollectionId = collection.id;
-    });
+      );
+      if (ok != true) return;
+      final name = ctrl.text.trim();
+      if (name.isEmpty) return;
+      final now = DateTime.now();
+      final collection = FavoriteCollection(
+        id: '${now.microsecondsSinceEpoch}',
+        name: name,
+        businessIds: const <String>[],
+        createdAtIso: now.toIso8601String(),
+        isPublic: false,
+        isSponsored: false,
+        followersCount: 0,
+        engagementCount: 0,
+      );
+      final next = [..._collections, collection];
+      await FavoriteCollectionsPrefs.save(next);
+      if (!mounted) return;
+      setState(() {
+        _collections = next;
+        _selectedCollectionId = collection.id;
+      });
+    } finally {
+      ctrl.dispose();
+    }
   }
 
   Future<void> _deleteSelectedCollection() async {
@@ -1193,16 +1203,16 @@ class _FavoritesHeader extends StatelessWidget {
         children: [
           Text(
             timeBasedGreeting(),
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.muted,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: AppColors.muted),
           ),
           const SizedBox(height: 4),
           Text(
             t.favorites,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w900,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w900),
           ),
         ],
       ),

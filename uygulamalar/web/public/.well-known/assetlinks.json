@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.yeedoy.app",
+      "sha256_cert_fingerprints": [
+        "07:97:0E:5A:35:97:EA:6F:61:09:65:3E:F8:15:C9:77:3B:50:76:4D:B7:23:E0:EE:7C:C9:66:DD:5F:09:46:67",
+        "A0:10:65:8E:93:1A:6A:0B:E8:DA:10:5C:74:05:05:86:07:82:42:90:29:2D:73:14:B6:A7:B4:36:96:A6:3B:C5"
+      ]
+    }
+  }
+]

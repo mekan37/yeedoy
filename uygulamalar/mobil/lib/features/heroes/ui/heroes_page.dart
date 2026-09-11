@@ -5,8 +5,6 @@ import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/i18n/formatters.dart';
-import '../../taste_twin/domain/taste_twin_controllers.dart';
-import '../../taste_twin/domain/taste_twin_models.dart';
 import '../domain/hero_controllers.dart';
 import '../domain/hero_models.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
@@ -19,7 +17,6 @@ class HeroesPage extends ConsumerWidget {
     final t = context.l10n;
     final heroesAsync = ref.watch(heroesProvider);
     final weeklyAsync = ref.watch(weeklyLeaderboardProvider);
-    final isTr = t.localeName.startsWith('tr');
 
     Future<void> onRefresh() async {
       await Future.wait([
@@ -37,7 +34,7 @@ class HeroesPage extends ConsumerWidget {
           children: [
             // ── Weekly Leaderboard ───────────────────────────────────────
             Text(
-              isTr ? 'Haftalık En İyi Katkıcılar' : 'Weekly Top Contributors',
+              t.heroesWeeklyLeaderboardTitle,
               style: const TextStyle(
                 fontWeight: FontWeight.w900,
                 fontSize: 16,
@@ -46,9 +43,7 @@ class HeroesPage extends ConsumerWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              isTr
-                  ? 'Son 7 günde en çok fiyat doğrulayan, yorum yazan ve fotoğraf ekleyenler'
-                  : 'Most price verifications, reviews, and photos in the past 7 days',
+              t.heroesWeeklyLeaderboardSubtitle,
               style: const TextStyle(color: AppColors.muted, fontSize: 12),
             ),
             const SizedBox(height: 10),
@@ -64,9 +59,7 @@ class HeroesPage extends ConsumerWidget {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: Text(
-                      isTr
-                          ? 'Bu hafta henüz katkı yok.'
-                          : 'No contributions this week yet.',
+                      t.heroesWeeklyLeaderboardEmpty,
                       style: const TextStyle(color: AppColors.muted),
                     ),
                   );
@@ -77,7 +70,6 @@ class HeroesPage extends ConsumerWidget {
                       _WeeklyLeaderboardTile(
                         entry: entries[i],
                         rank: i + 1,
-                        isTr: isTr,
                       ),
                       const SizedBox(height: 8),
                     ],
@@ -92,7 +84,7 @@ class HeroesPage extends ConsumerWidget {
 
             // ── All-time Heroes ──────────────────────────────────────────
             Text(
-              isTr ? 'Tüm Zamanlar Kahramanları' : 'All-Time Heroes',
+              t.heroesAllTimeTitle,
               style: const TextStyle(
                 fontWeight: FontWeight.w900,
                 fontSize: 16,
@@ -137,25 +129,19 @@ class HeroesPage extends ConsumerWidget {
 }
 
 class _WeeklyLeaderboardTile extends ConsumerWidget {
-  const _WeeklyLeaderboardTile({
-    required this.entry,
-    required this.rank,
-    required this.isTr,
-  });
+  const _WeeklyLeaderboardTile({required this.entry, required this.rank});
 
   final WeeklyLeaderboardEntry entry;
   final int rank;
-  final bool isTr;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profileAsync = ref.watch(publicProfileProvider(entry.userId));
-    final profile =
-        profileAsync.asData?.value ??
-        PublicProfile(displayName: '', avatarUrl: '');
-    final name = profile.displayName.isNotEmpty
-        ? profile.displayName
-        : (isTr ? 'Kullanıcı' : 'User');
+    final t = context.l10n;
+    // display_name/avatar_url artık get_weekly_contributor_leaderboard_v1'den
+    // join ile geliyor — satır başına ayrı profil RPC'si gerekmiyor (B18).
+    final name = entry.displayName.isNotEmpty
+        ? entry.displayName
+        : t.heroesPageUserFallback;
 
     final Color rankColor = switch (rank) {
       1 => const Color(0xFFFFD700),
@@ -185,11 +171,10 @@ class _WeeklyLeaderboardTile extends ConsumerWidget {
             const SizedBox(width: 10),
             CircleAvatar(
               radius: 18,
-              backgroundImage: profile.avatarUrl.isEmpty
+              backgroundImage: entry.avatarUrl.isEmpty
                   ? null
-                  : NetworkImage(profile.avatarUrl),
-              child:
-                  profile.avatarUrl.isEmpty ? const Icon(Icons.person) : null,
+                  : NetworkImage(entry.avatarUrl),
+              child: entry.avatarUrl.isEmpty ? const Icon(Icons.person) : null,
             ),
             const SizedBox(width: 10),
             Expanded(
@@ -203,9 +188,11 @@ class _WeeklyLeaderboardTile extends ConsumerWidget {
                   ),
                   const SizedBox(height: 3),
                   Text(
-                    isTr
-                        ? '${entry.verifyCount} doğrulama · ${entry.reviewCount} yorum · ${entry.photoCount} fotoğraf'
-                        : '${entry.verifyCount} verif · ${entry.reviewCount} reviews · ${entry.photoCount} photos',
+                    t.heroesWeeklyStatsLine(
+                      entry.verifyCount,
+                      entry.reviewCount,
+                      entry.photoCount,
+                    ),
                     style: const TextStyle(
                       color: AppColors.muted,
                       fontSize: 11,
@@ -246,12 +233,10 @@ class _HeroTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = context.l10n;
-    final profileAsync = ref.watch(publicProfileProvider(hero.userId));
-    final profile =
-        profileAsync.asData?.value ??
-        PublicProfile(displayName: '', avatarUrl: '');
-    final name = profile.displayName.isNotEmpty
-        ? profile.displayName
+    // display_name/avatar_url artık get_heroes_v1'den join ile geliyor —
+    // satır başına ayrı profil RPC'si gerekmiyor (B18).
+    final name = hero.displayName.isNotEmpty
+        ? hero.displayName
         : t.heroesPageUserFallback;
 
     return Card(
@@ -261,12 +246,10 @@ class _HeroTile extends ConsumerWidget {
           children: [
             CircleAvatar(
               radius: 22,
-              backgroundImage: profile.avatarUrl.isEmpty
+              backgroundImage: hero.avatarUrl.isEmpty
                   ? null
-                  : NetworkImage(profile.avatarUrl),
-              child: profile.avatarUrl.isEmpty
-                  ? const Icon(Icons.person)
-                  : null,
+                  : NetworkImage(hero.avatarUrl),
+              child: hero.avatarUrl.isEmpty ? const Icon(Icons.person) : null,
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -382,11 +365,5 @@ String _formatPrice(
   String currencyCode = 'TRY',
 }) {
   if (cents == null) return context.l10n.unknown;
-  return formatCurrency(
-    context,
-    cents / 100.0,
-    currencyCode: currencyCode,
-  );
+  return formatCurrency(context, cents / 100.0, currencyCode: currencyCode);
 }
-
-

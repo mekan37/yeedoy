@@ -75,7 +75,7 @@ class _FakeNotifPrefsRepository implements NotificationPreferencesRepository {
 /// _submit() içindeki pazarlama opt-in akışını doğrudan simüle eder.
 /// Widget'ı pump etmek gerekmez; repository davranışı test edilir.
 Future<({bool optInRpcCalled, bool didNavigate, String? errorMessage})>
-    _runSubmitLogic({
+_runSubmitLogic({
   required bool acceptedRequired,
   required bool marketingOptIn,
   required _FakeLegalRepository legalRepo,
@@ -129,46 +129,56 @@ void main() {
     // -----------------------------------------------------------------------
     // T1: _marketingOptIn true iken RPC çağrılır
     // -----------------------------------------------------------------------
-    test('T1: _marketingOptIn=true iken updateMyMarketingEmailOptIn(true) çağrılır',
-        () async {
-      final legalRepo = _FakeLegalRepository();
-      final notifRepo = _FakeNotifPrefsRepository();
+    test(
+      'T1: _marketingOptIn=true iken updateMyMarketingEmailOptIn(true) çağrılır',
+      () async {
+        final legalRepo = _FakeLegalRepository();
+        final notifRepo = _FakeNotifPrefsRepository();
 
-      final result = await _runSubmitLogic(
-        acceptedRequired: true,
-        marketingOptIn: true,
-        legalRepo: legalRepo,
-        notifRepo: notifRepo,
-      );
+        final result = await _runSubmitLogic(
+          acceptedRequired: true,
+          marketingOptIn: true,
+          legalRepo: legalRepo,
+          notifRepo: notifRepo,
+        );
 
-      expect(result.optInRpcCalled, isTrue,
-          reason: '_marketingOptIn=true iken RPC çağrılmalı');
-      expect(notifRepo.updateCalls, [true]);
-      expect(result.didNavigate, isTrue);
-    });
+        expect(
+          result.optInRpcCalled,
+          isTrue,
+          reason: '_marketingOptIn=true iken RPC çağrılmalı',
+        );
+        expect(notifRepo.updateCalls, [true]);
+        expect(result.didNavigate, isTrue);
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T2: _marketingOptIn false iken kullanıcı otomatik opt-in yapılmaz
     // -----------------------------------------------------------------------
-    test('T2: _marketingOptIn=false iken updateMyMarketingEmailOptIn çağrılmaz',
-        () async {
-      final legalRepo = _FakeLegalRepository();
-      final notifRepo = _FakeNotifPrefsRepository();
+    test(
+      'T2: _marketingOptIn=false iken updateMyMarketingEmailOptIn çağrılmaz',
+      () async {
+        final legalRepo = _FakeLegalRepository();
+        final notifRepo = _FakeNotifPrefsRepository();
 
-      final result = await _runSubmitLogic(
-        acceptedRequired: true,
-        marketingOptIn: false,
-        legalRepo: legalRepo,
-        notifRepo: notifRepo,
-      );
+        final result = await _runSubmitLogic(
+          acceptedRequired: true,
+          marketingOptIn: false,
+          legalRepo: legalRepo,
+          notifRepo: notifRepo,
+        );
 
-      expect(result.optInRpcCalled, isFalse,
+        expect(
+          result.optInRpcCalled,
+          isFalse,
           reason:
               '_marketingOptIn=false iken RPC çağrılmamalı — '
-              'kullanıcı otomatik opt-in yapılmamalı');
-      expect(notifRepo.updateCalls, isEmpty);
-      expect(result.didNavigate, isTrue);
-    });
+              'kullanıcı otomatik opt-in yapılmamalı',
+        );
+        expect(notifRepo.updateCalls, isEmpty);
+        expect(result.didNavigate, isTrue);
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T3: Zorunlu kabul verilmemişse akış başlamaz
@@ -193,28 +203,31 @@ void main() {
     // T4: Pazarlama izni kaydı başarısız olursa zorunlu akış bloke olmaz
     // -----------------------------------------------------------------------
     test(
-        'T4: Pazarlama RPC hatası zorunlu kabul akışını bloke etmez — navigate edilir',
-        () async {
-      final legalRepo = _FakeLegalRepository();
-      final notifRepo = _FakeNotifPrefsRepository(throwOnUpdate: true);
+      'T4: Pazarlama RPC hatası zorunlu kabul akışını bloke etmez — navigate edilir',
+      () async {
+        final legalRepo = _FakeLegalRepository();
+        final notifRepo = _FakeNotifPrefsRepository(throwOnUpdate: true);
 
-      final result = await _runSubmitLogic(
-        acceptedRequired: true,
-        marketingOptIn: true,
-        legalRepo: legalRepo,
-        notifRepo: notifRepo,
-      );
+        final result = await _runSubmitLogic(
+          acceptedRequired: true,
+          marketingOptIn: true,
+          legalRepo: legalRepo,
+          notifRepo: notifRepo,
+        );
 
-      // Zorunlu kabul başarılı → navigate edildi
-      expect(result.didNavigate, isTrue,
-          reason:
-              'Pazarlama RPC hatası yasal kabul akışını bloke etmemeli');
-      // Hata mesajı gösterildi
-      expect(result.errorMessage, isNotNull);
-      expect(result.errorMessage, contains('Bildirim ayarlarından'));
-      // updateCalls boş — exception fırlattı ama hiç kaydolmadı
-      expect(notifRepo.updateCalls, isEmpty);
-    });
+        // Zorunlu kabul başarılı → navigate edildi
+        expect(
+          result.didNavigate,
+          isTrue,
+          reason: 'Pazarlama RPC hatası yasal kabul akışını bloke etmemeli',
+        );
+        // Hata mesajı gösterildi
+        expect(result.errorMessage, isNotNull);
+        expect(result.errorMessage, contains('Bildirim ayarlarından'));
+        // updateCalls boş — exception fırlattı ama hiç kaydolmadı
+        expect(notifRepo.updateCalls, isEmpty);
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T5: Zorunlu kabul RPC hatası → navigate edilmez
@@ -240,62 +253,74 @@ void main() {
     // T6: business_follows.is_subscribed_email global izin olarak kullanılmaz
     // -----------------------------------------------------------------------
     test(
-        'T6: is_subscribed_email global pazarlama izni olarak kullanılmaz',
-        () async {
-      // NotificationPreferencesRepository yalnızca
-      // update_my_marketing_email_opt_in_v1 çağırır.
-      // is_subscribed_email için hiçbir metod tanımlı değil.
-      final notifRepo = _FakeNotifPrefsRepository();
-      await notifRepo.updateMyMarketingEmailOptIn(enabled: true);
+      'T6: is_subscribed_email global pazarlama izni olarak kullanılmaz',
+      () async {
+        // NotificationPreferencesRepository yalnızca
+        // update_my_marketing_email_opt_in_v1 çağırır.
+        // is_subscribed_email için hiçbir metod tanımlı değil.
+        final notifRepo = _FakeNotifPrefsRepository();
+        await notifRepo.updateMyMarketingEmailOptIn(enabled: true);
 
-      // Yalnızca marketing_email_opt_in güncellemesi yapıldı
-      expect(notifRepo.updateCalls, hasLength(1));
-      expect(notifRepo.updateCalls.first, isTrue);
-      // is_subscribed_email çağrısı yok — fake repo onu içermiyor bile
-    });
+        // Yalnızca marketing_email_opt_in güncellemesi yapıldı
+        expect(notifRepo.updateCalls, hasLength(1));
+        expect(notifRepo.updateCalls.first, isTrue);
+        // is_subscribed_email çağrısı yok — fake repo onu içermiyor bile
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T7: SharedPreferences source-of-truth değil
     // -----------------------------------------------------------------------
-    test('T7: SharedPreferences set edilmeden repository RPC ile güncellenir',
-        () async {
-      // SharedPreferences mock kurulmadan test çalışıyor.
-      // Değer yalnızca fake repo üzerinden (RPC simüle) tutuluyor.
-      final legalRepo = _FakeLegalRepository();
-      final notifRepo = _FakeNotifPrefsRepository();
+    test(
+      'T7: SharedPreferences set edilmeden repository RPC ile güncellenir',
+      () async {
+        // SharedPreferences mock kurulmadan test çalışıyor.
+        // Değer yalnızca fake repo üzerinden (RPC simüle) tutuluyor.
+        final legalRepo = _FakeLegalRepository();
+        final notifRepo = _FakeNotifPrefsRepository();
 
-      await _runSubmitLogic(
-        acceptedRequired: true,
-        marketingOptIn: true,
-        legalRepo: legalRepo,
-        notifRepo: notifRepo,
-      );
+        await _runSubmitLogic(
+          acceptedRequired: true,
+          marketingOptIn: true,
+          legalRepo: legalRepo,
+          notifRepo: notifRepo,
+        );
 
-      // Source-of-truth repo (RPC) — SharedPreferences değil
-      final savedInRepo = notifRepo.updateCalls;
-      expect(savedInRepo, [true],
-          reason: 'Değer SharedPreferences\'ta değil, RPC üzerinden saklanmalı');
-    });
+        // Source-of-truth repo (RPC) — SharedPreferences değil
+        final savedInRepo = notifRepo.updateCalls;
+        expect(
+          savedInRepo,
+          [true],
+          reason: 'Değer SharedPreferences\'ta değil, RPC üzerinden saklanmalı',
+        );
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T8: ProviderContainer ile notifier entegrasyon testi
     // -----------------------------------------------------------------------
-    test('T8: ProviderContainer — notificationPreferencesProvider başlangıç değerini yükler',
-        () async {
-      final fakeRepo = _FakeNotifPrefsRepository();
-      final container = ProviderContainer(
-        overrides: [
-          notificationPreferencesRepositoryProvider
-              .overrideWithValue(fakeRepo),
-        ],
-      );
-      addTearDown(container.dispose);
+    test(
+      'T8: ProviderContainer — notificationPreferencesProvider başlangıç değerini yükler',
+      () async {
+        final fakeRepo = _FakeNotifPrefsRepository();
+        final container = ProviderContainer(
+          overrides: [
+            notificationPreferencesRepositoryProvider.overrideWithValue(
+              fakeRepo,
+            ),
+          ],
+        );
+        addTearDown(container.dispose);
 
-      final prefs = await container.read(
-        notificationPreferencesProvider.future,
-      );
-      expect(prefs.marketingEmailOptIn, isFalse,
-          reason: 'Başlangıç değeri false olmalı (defaultValue)');
-    });
+        final prefs = await container.read(
+          notificationPreferencesProvider.future,
+        );
+        expect(
+          prefs.marketingEmailOptIn,
+          isFalse,
+          reason: 'Başlangıç değeri false olmalı (defaultValue)',
+        );
+      },
+    );
   });
 }

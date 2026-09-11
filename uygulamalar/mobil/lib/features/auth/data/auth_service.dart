@@ -1,6 +1,8 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/config/app_config.dart';
+
 class AuthService {
   AuthService(this.client);
   final SupabaseClient client;
@@ -23,9 +25,7 @@ class AuthService {
   //  3. Supabase Auth → Providers → Google etkin + Client ID/Secret girilmiş olmalı.
 
   Future<AuthResponse> signInWithGoogle() async {
-    final googleSignIn = GoogleSignIn(
-      scopes: ['email', 'profile'],
-    );
+    final googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
 
     final googleUser = await googleSignIn.signIn();
     if (googleUser == null) {
@@ -64,23 +64,53 @@ class AuthService {
     required String phone,
     required String token,
   }) async {
-    return client.auth.verifyOTP(
-      phone: phone,
-      token: token,
-      type: OtpType.sms,
-    );
+    return client.auth.verifyOTP(phone: phone, token: token, type: OtpType.sms);
   }
 
   // ── Şifre sıfırlama (e-posta ile link) ───────────────────────────────────
 
   Future<void> resetPassword(String email) async {
+    // B33: eskiden doğrulanmamış özel URL şeması (io.supabase.yeedoy://)
+    // kullanılıyordu — cihazdaki başka bir uygulama aynı şemayı kayıt
+    // ettirip linki ele geçirebilirdi. Artık App Links/Universal Links ile
+    // doğrulanan gerçek yeedoy.com domaini kullanılıyor (bkz.
+    // android/app/src/main/AndroidManifest.xml'deki https intent-filter'ı,
+    // ios/Runner/Runner.entitlements'taki associated-domains ve
+    // web/public/.well-known/{assetlinks.json,apple-app-site-association}).
+    // Uygulama yüklüyse ve doğrulama geçtiyse link doğrudan uygulamayı açar;
+    // aksi halde web'deki /sifre-sifirlama sayfasına düşer.
     await client.auth.resetPasswordForEmail(
       email,
-      redirectTo: 'io.supabase.yeedoy://reset-callback',
+      redirectTo: '${AppConfig.webBaseUrl}/sifre-sifirlama',
     );
   }
 
   // ── Şifre güncelleme (giriş yapıktan sonra) ───────────────────────────────
+
+  /// Kullanıcının şifre ile giriş yapabilen bir e-posta identity'si var mı
+  /// (yalnızca Google ile giriş yapmış bir kullanıcının henüz şifresi
+  /// yoktur — bu durumda reauth istenmez, ilk şifre "belirleme" akışı
+  /// bozulmaz).
+  bool get hasPasswordIdentity =>
+      (client.auth.currentUser?.identities ?? const []).any(
+        (identity) => identity.provider == 'email',
+      );
+
+  /// Şifre/e-posta gibi hassas değişikliklerden önce mevcut şifreyi
+  /// doğrular. Supabase, oturum açıkken updateUser() için mevcut şifreyi
+  /// sormaz — bu, cihaza fiziksel/oturum erişimi olan birinin şifreyi
+  /// bilmeden hesabı ele geçirmesine izin verirdi (B11). signInWithPassword
+  /// ile sessiz bir doğrulama yapılır; yanlışsa AuthException fırlatılır.
+  Future<void> verifyCurrentPassword(String currentPassword) async {
+    final email = client.auth.currentUser?.email;
+    if (email == null || email.isEmpty) {
+      throw const AuthException('Mevcut şifre doğrulanamadı.');
+    }
+    await client.auth.signInWithPassword(
+      email: email,
+      password: currentPassword,
+    );
+  }
 
   Future<void> updatePassword(String newPassword) async {
     await client.auth.updateUser(UserAttributes(password: newPassword));
@@ -114,6 +144,11 @@ class AuthService {
 
   // ── Çıkış ─────────────────────────────────────────────────────────────────
 
+  /// Düşük seviyeli Supabase çağrısı. UI kodu bunu DOĞRUDAN çağırmamalı —
+  /// push cihaz kaydını sunucudan silme ve yerel önbellek/kuyruk temizliği
+  /// gibi oturum kapanış adımlarını atlar. Bunun yerine
+  /// `ref.read(sessionCleanupServiceProvider).signOut()` kullanın
+  /// (bkz. core/session/session_cleanup_service.dart).
   Future<void> signOut() async {
     await client.auth.signOut(scope: SignOutScope.global);
   }

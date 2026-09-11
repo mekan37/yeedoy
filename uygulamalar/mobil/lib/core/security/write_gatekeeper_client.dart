@@ -1,6 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../monitoring/request_trace.dart';
+import '../storage/offline_submission_queue.dart' show isLikelyOfflineError;
 
 Future<void> invokeWriteGatekeeper(
   SupabaseClient client, {
@@ -26,13 +27,18 @@ Future<void> invokeWriteGatekeeper(
       throw Exception((map['error'] ?? 'write_gatekeeper_failed').toString());
     }
     throw Exception('write_gatekeeper_failed');
+  } on FunctionException catch (e) {
+    // Yalnızca fonksiyon deploy edilmemişse (404) sessizce geç. 401/403/429
+    // gibi sunucunun bilinçli reddettiği durumlar asla sessizce
+    // yutulmamalı — aksi halde write-gatekeeper'ın yetki/itibar reddi,
+    // istemci tarafında "başarılı" gibi görünür (menu_photo_delete,
+    // owner_price_suggestion_approve/reject, review_vote_* etkilenir).
+    if (e.status == 404) return;
+    rethrow;
   } catch (e) {
-    final raw = e.toString();
-    // Edge function not deployed (404) or unreachable → pass through.
-    // Gatekeeper is best-effort; missing function must not block writes.
-    if (raw.contains('404') || raw.contains('FunctionException')) {
-      return;
-    }
+    // Gerçek ağ hatası (SocketException, timeout vb.) — fonksiyona hiç
+    // ulaşılamadı. Gatekeeper best-effort olduğu için geç.
+    if (isLikelyOfflineError(e)) return;
     rethrow;
   }
 }

@@ -285,9 +285,9 @@ class _MenuPageState extends ConsumerState<MenuPage>
             )
           else
             IconButton(
-              tooltip: t.localeName.startsWith('tr')
-                  ? (offlineSaved ? 'Çevrimdışı kaydedildi' : 'Çevrimdışı kaydet')
-                  : (offlineSaved ? 'Saved offline' : 'Save for offline'),
+              tooltip: offlineSaved
+                  ? t.menuOfflineSaveTooltipSaved
+                  : t.menuOfflineSaveTooltipUnsaved,
               onPressed: _saveForOffline,
               icon: Icon(
                 offlineSaved
@@ -658,11 +658,7 @@ class _MenuPageState extends ConsumerState<MenuPage>
       final t = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            t.localeName.startsWith('tr')
-                ? 'Menü çevrimdışı için kaydedildi'
-                : 'Menu saved for offline use',
-          ),
+          content: Text(t.menuOfflineSavedSnackbar),
           duration: const Duration(seconds: 2),
         ),
       );
@@ -1269,9 +1265,7 @@ String _formatPriceLocalized(
   String currencyCode = 'TRY',
 }) {
   if (price == null) {
-    return AppLocalizations.of(context).localeName.startsWith('tr')
-        ? 'Fiyata sorunuz'
-        : 'Price on request';
+    return AppLocalizations.of(context).priceOnRequest;
   }
   return formatCurrency(context, price, currencyCode: currencyCode);
 }

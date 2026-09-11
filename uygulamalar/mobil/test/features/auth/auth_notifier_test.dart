@@ -23,13 +23,13 @@ class _MockSupabaseClient extends Mock implements SupabaseClient {}
 
 class _FakeAuthService extends AuthService {
   _FakeAuthService()
-      : super(
-          SupabaseClient(
-            'http://localhost:54321',
-            'fake-anon-key',
-            authOptions: const AuthClientOptions(autoRefreshToken: false),
-          ),
-        );
+    : super(
+        SupabaseClient(
+          'http://localhost:54321',
+          'fake-anon-key',
+          authOptions: const AuthClientOptions(autoRefreshToken: false),
+        ),
+      );
 
   bool signInCalled = false;
   bool signOutCalled = false;
@@ -59,8 +59,7 @@ class _FakeAuthService extends AuthService {
   Future<AuthResponse> verifyPhoneOtp({
     required String phone,
     required String token,
-  }) async =>
-      throw UnimplementedError();
+  }) async => throw UnimplementedError();
 
   @override
   Future<void> signOut() async {
@@ -82,11 +81,8 @@ User _stubUser({String id = 'user-1', String email = 'test@yeedoy.com'}) =>
       createdAt: DateTime.now().toIso8601String(),
     );
 
-Session _fakeSession(User user) => Session(
-      accessToken: 'fake-token',
-      tokenType: 'bearer',
-      user: user,
-    );
+Session _fakeSession(User user) =>
+    Session(accessToken: 'fake-token', tokenType: 'bearer', user: user);
 
 // ---------------------------------------------------------------------------
 // authStateProvider stream-based test helper
@@ -97,9 +93,7 @@ Session _fakeSession(User user) => Session(
 
 ProviderContainer _containerWithAuthState(AuthState authState) {
   return ProviderContainer(
-    overrides: [
-      authStateProvider.overrideWithValue(AsyncData(authState)),
-    ],
+    overrides: [authStateProvider.overrideWithValue(AsyncData(authState))],
   );
 }
 
@@ -124,8 +118,9 @@ void main() {
     });
 
     test('signIn hatasi — AuthException firlatiliyor', () {
-      authService.throwOnSignIn =
-          const AuthException('invalid login credentials');
+      authService.throwOnSignIn = const AuthException(
+        'invalid login credentials',
+      );
       expect(
         () => authService.signInWithEmail('bad@test.com', 'yanlis'),
         throwsA(isA<AuthException>()),
@@ -266,60 +261,60 @@ void main() {
   // ──────────────────────────────────────────────────────────────────────────
   group('authStateProvider — mock Supabase ile listener testi', () {
     test(
-        'onAuthStateChange dinlendikten sonra signedIn eventi sessionProvider gunceller',
-        () async {
-      final mockClient = _MockSupabaseClient();
-      final mockAuth = _MockGoTrueClient();
+      'onAuthStateChange dinlendikten sonra signedIn eventi sessionProvider gunceller',
+      () async {
+        final mockClient = _MockSupabaseClient();
+        final mockAuth = _MockGoTrueClient();
 
-      // authStateProvider'in build fonksiyonu:
-      //   1. controller.add(AuthState(initialSession, currentSession))
-      //   2. client.auth.onAuthStateChange.listen(controller.add)
-      // Biz de onAuthStateChange stream'ine ilave event gonderecegiz.
-      final sc = StreamController<AuthState>.broadcast();
+        // authStateProvider'in build fonksiyonu:
+        //   1. controller.add(AuthState(initialSession, currentSession))
+        //   2. client.auth.onAuthStateChange.listen(controller.add)
+        // Biz de onAuthStateChange stream'ine ilave event gonderecegiz.
+        final sc = StreamController<AuthState>.broadcast();
 
-      when(() => mockAuth.onAuthStateChange).thenAnswer((_) => sc.stream);
-      when(() => mockAuth.currentSession).thenReturn(null);
-      when(() => mockClient.auth).thenReturn(mockAuth);
+        when(() => mockAuth.onAuthStateChange).thenAnswer((_) => sc.stream);
+        when(() => mockAuth.currentSession).thenReturn(null);
+        when(() => mockClient.auth).thenReturn(mockAuth);
 
-      final container = ProviderContainer(
-        overrides: [supabaseProvider.overrideWithValue(mockClient)],
-      );
-
-      // authStateProvider'i izle ve deger degisimlerini topla
-      final collected = <AuthState>[];
-      final sub = container.listen<AsyncValue<AuthState>>(
-        authStateProvider,
-        (_, next) {
-          if (next.hasValue) collected.add(next.requireValue);
-        },
-        fireImmediately: true,
-      );
-
-      // Provider build edilsin — initialSession null ile gelir
-      // StreamController'in add() senkron olarak buffer'landi
-      // Birkaç mikrotask gecisi bekliyoruz
-      await Future<void>.delayed(const Duration(milliseconds: 50));
-
-      // signedIn eventi gonder
-      final user = _stubUser(email: 'listener@test.com');
-      final session = _fakeSession(user);
-      sc.add(AuthState(AuthChangeEvent.signedIn, session));
-      await Future<void>.delayed(const Duration(milliseconds: 20));
-
-      sub.close();
-      container.dispose();
-      await sc.close();
-
-      // En az 1 event (initialSession) geldi mi?
-      expect(collected, isNotEmpty);
-      // signedIn eventi geldi mi?
-      if (collected.length > 1) {
-        expect(
-          collected.any((s) => s.session?.user.email == 'listener@test.com'),
-          isTrue,
+        final container = ProviderContainer(
+          overrides: [supabaseProvider.overrideWithValue(mockClient)],
         );
-      }
-    });
+
+        // authStateProvider'i izle ve deger degisimlerini topla
+        final collected = <AuthState>[];
+        final sub = container.listen<AsyncValue<AuthState>>(authStateProvider, (
+          _,
+          next,
+        ) {
+          if (next.hasValue) collected.add(next.requireValue);
+        }, fireImmediately: true);
+
+        // Provider build edilsin — initialSession null ile gelir
+        // StreamController'in add() senkron olarak buffer'landi
+        // Birkaç mikrotask gecisi bekliyoruz
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+
+        // signedIn eventi gonder
+        final user = _stubUser(email: 'listener@test.com');
+        final session = _fakeSession(user);
+        sc.add(AuthState(AuthChangeEvent.signedIn, session));
+        await Future<void>.delayed(const Duration(milliseconds: 20));
+
+        sub.close();
+        container.dispose();
+        await sc.close();
+
+        // En az 1 event (initialSession) geldi mi?
+        expect(collected, isNotEmpty);
+        // signedIn eventi geldi mi?
+        if (collected.length > 1) {
+          expect(
+            collected.any((s) => s.session?.user.email == 'listener@test.com'),
+            isTrue,
+          );
+        }
+      },
+    );
   });
 
   // ──────────────────────────────────────────────────────────────────────────
@@ -329,9 +324,7 @@ void main() {
     test('override ile fake servis donduruluyor', () {
       final fakeService = _FakeAuthService();
       final container = ProviderContainer(
-        overrides: [
-          authServiceProvider.overrideWith((_) => fakeService),
-        ],
+        overrides: [authServiceProvider.overrideWith((_) => fakeService)],
       );
       addTearDown(container.dispose);
 

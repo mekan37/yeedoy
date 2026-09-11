@@ -56,3 +56,11 @@ export function buildMenuImageUrl(
     return raw;
   }
 }
+
+export function buildBusinessHeroImageUrl(
+  coverUrl: string | null | undefined,
+  logoUrl: string | null | undefined,
+  options: MenuImageOptions = {},
+): string | null {
+  return buildMenuImageUrl(coverUrl?.trim() || logoUrl?.trim(), options);
+}

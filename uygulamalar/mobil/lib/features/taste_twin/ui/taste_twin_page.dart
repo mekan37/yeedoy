@@ -66,10 +66,9 @@ class TasteTwinPage extends ConsumerWidget {
                     ),
                     const SizedBox(width: 8),
                     OutlinedButton(
-                      onPressed: () =>
-                          ref
-                              .read(tasteMatchesProvider.notifier)
-                              .loadInitial(force: true),
+                      onPressed: () => ref
+                          .read(tasteMatchesProvider.notifier)
+                          .loadInitial(force: true),
                       child: Text(t.retry),
                     ),
                   ],
@@ -99,11 +98,10 @@ class _MatchCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final t = AppLocalizations.of(context);
-    final profileAsync = ref.watch(publicProfileProvider(match.userId));
-    final avatarUrl = profileAsync.asData?.value.avatarUrl ?? match.avatarUrl;
-    final name = profileAsync.asData?.value.displayName.isNotEmpty == true
-        ? profileAsync.asData!.value.displayName
-        : match.displayName;
+    // TasteMatch zaten display_name/avatar_url'i RPC'den taşıyor — satır
+    // başına ayrı bir profil RPC'si (N+1) gereksizdi (B18).
+    final avatarUrl = match.avatarUrl;
+    final name = match.displayName;
 
     return Card(
       child: Padding(
@@ -112,7 +110,9 @@ class _MatchCard extends ConsumerWidget {
           children: [
             CircleAvatar(
               radius: 24,
-              backgroundImage: avatarUrl.isEmpty ? null : NetworkImage(avatarUrl),
+              backgroundImage: avatarUrl.isEmpty
+                  ? null
+                  : NetworkImage(avatarUrl),
               child: avatarUrl.isEmpty ? const Icon(Icons.person) : null,
             ),
             const SizedBox(width: 12),
@@ -120,26 +120,38 @@ class _MatchCard extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(name, style: const TextStyle(fontWeight: FontWeight.w900)),
+                  Text(
+                    name,
+                    style: const TextStyle(fontWeight: FontWeight.w900),
+                  ),
                   const SizedBox(height: 4),
                   Text(
                     t.tasteTwinMatchSummary(
                       match.similarityPercent,
                       match.overlapCount,
                     ),
-                    style: const TextStyle(color: AppColors.muted, fontSize: 12),
+                    style: const TextStyle(
+                      color: AppColors.muted,
+                      fontSize: 12,
+                    ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     t.tasteTwinSignalHint,
-                    style: const TextStyle(color: AppColors.muted, fontSize: 11),
+                    style: const TextStyle(
+                      color: AppColors.muted,
+                      fontSize: 11,
+                    ),
                   ),
                   if (match.reviewSimilarity != null ||
                       match.signalSimilarity != null) ...[
                     const SizedBox(height: 4),
                     Text(
                       _debugSimilarityText(context, match),
-                      style: const TextStyle(color: AppColors.slate, fontSize: 10),
+                      style: const TextStyle(
+                        color: AppColors.slate,
+                        fontSize: 10,
+                      ),
                     ),
                   ],
                 ],
@@ -424,9 +436,15 @@ class _OverlapSection extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(t.tasteTwinWhyMatchedTitle, style: const TextStyle(fontWeight: FontWeight.w900)),
+        Text(
+          t.tasteTwinWhyMatchedTitle,
+          style: const TextStyle(fontWeight: FontWeight.w900),
+        ),
         const SizedBox(height: 8),
-        Text(t.tasteTwinReviewOverlapTitle, style: const TextStyle(fontWeight: FontWeight.w800)),
+        Text(
+          t.tasteTwinReviewOverlapTitle,
+          style: const TextStyle(fontWeight: FontWeight.w800),
+        ),
         const SizedBox(height: 6),
         reviewAsync.when(
           loading: () => const _ReasonSkeleton(),
@@ -522,7 +540,10 @@ class _DivergenceSection extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(t.tasteTwinDivergenceTitle, style: const TextStyle(fontWeight: FontWeight.w900)),
+        Text(
+          t.tasteTwinDivergenceTitle,
+          style: const TextStyle(fontWeight: FontWeight.w900),
+        ),
         const SizedBox(height: 8),
         async.when(
           loading: () => const _ReasonSkeleton(),
@@ -642,10 +663,9 @@ class _SignalReasonRow extends StatelessWidget {
             ),
           ),
           Text(
-            AppLocalizations.of(context).tasteTwinSignalComparison(
-              mySignal,
-              otherSignal,
-            ),
+            AppLocalizations.of(
+              context,
+            ).tasteTwinSignalComparison(mySignal, otherSignal),
             style: const TextStyle(color: AppColors.muted, fontSize: 12),
           ),
         ],
@@ -705,8 +725,12 @@ String _debugSimilarityText(BuildContext context, TasteMatch match) {
   final t = AppLocalizations.of(context);
   final review = match.reviewSimilarity;
   final signal = match.signalSimilarity;
-  final reviewPct = review == null ? null : (review * 100).round().clamp(0, 100);
-  final signalPct = signal == null ? null : (signal * 100).round().clamp(0, 100);
+  final reviewPct = review == null
+      ? null
+      : (review * 100).round().clamp(0, 100);
+  final signalPct = signal == null
+      ? null
+      : (signal * 100).round().clamp(0, 100);
   if (reviewPct != null && signalPct != null) {
     return t.tasteTwinDebugReviewAndSignal(reviewPct, signalPct);
   }
@@ -732,4 +756,3 @@ String _relativeLong(BuildContext context, DateTime time) {
   if (diff.inDays == 1) return t.yesterday;
   return t.smartFeedDaysAgo(diff.inDays);
 }
-

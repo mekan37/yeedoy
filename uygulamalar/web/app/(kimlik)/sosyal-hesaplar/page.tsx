@@ -85,13 +85,10 @@ export default function SosyalHesaplarPage() {
       if (!user) return;
       setUserId(user.id);
       (supabase as any)
-        .from('user_profiles')
-        .select('social_links')
-        .eq('user_id', user.id)
-        .maybeSingle()
-        .then(({ data }: { data: ProfileRow | null }) => {
-          if (data?.social_links) {
-            setLinks(data.social_links);
+        .rpc('get_my_profile_private_v1')
+        .then(({ data: envelope }: { data: { ok: boolean; profile: ProfileRow | null } | null }) => {
+          if (envelope?.profile?.social_links) {
+            setLinks(envelope.profile.social_links);
           }
           setLoading(false);
         });

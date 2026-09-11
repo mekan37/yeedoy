@@ -128,6 +128,8 @@ class AppTopBar extends ConsumerWidget {
                         imageUrl: buildAvatarUrl(avatarUrl, size: 72),
                         cacheManager: AppImageCacheManager.instance,
                         fit: BoxFit.cover,
+                        memCacheWidth: 72,
+                        memCacheHeight: 72,
                       )
                     : Center(
                         child: Text(

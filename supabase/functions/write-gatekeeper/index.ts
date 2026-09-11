@@ -52,15 +52,19 @@ function asNonEmptyString(value: unknown): string | null {
 }
 
 function readClientIp(req: Request): string {
-  const forwarded = req.headers.get("x-forwarded-for") ?? "";
-  if (forwarded.trim().length > 0) {
-    const first = forwarded.split(",")[0]?.trim();
-    if (first) return first;
-  }
   const cf = req.headers.get("cf-connecting-ip");
   if (cf?.trim()) return cf.trim();
   const real = req.headers.get("x-real-ip");
   if (real?.trim()) return real.trim();
+  // bkz. anti-spam-guard/index.ts: x-forwarded-for'un SON elemanı
+  // güvenilir gateway gözlemi, İLK eleman istemcinin sahteleyebileceği
+  // değer — önceden ilk eleman kullanılıyordu.
+  const forwarded = req.headers.get("x-forwarded-for") ?? "";
+  if (forwarded.trim().length > 0) {
+    const parts = forwarded.split(",").map((p) => p.trim()).filter(Boolean);
+    const last = parts[parts.length - 1];
+    if (last) return last;
+  }
   return "unknown";
 }
 
@@ -225,9 +229,13 @@ serve(async (req) => {
   }
   const userId = userRes.user.id;
   const accountCreatedAt = asNonEmptyString(userRes.user.created_at);
-  const role = String(
-    (userRes.user.app_metadata?.role ?? userRes.user.user_metadata?.role ?? "user"),
-  ).toLowerCase();
+  // Yalnızca app_metadata güvenilir: yalnızca service_role tarafından
+  // yazılabilir. user_metadata istemcinin kendisi tarafından
+  // (auth.updateUser) yazılabildiği için "admin"/"owner" rolü buradan asla
+  // okunmamalı — aksi halde herhangi bir kullanıcı role="admin" set edip
+  // aşağıdaki sahiplik kontrollerini (bkz. `canWrite = role === "admin"`)
+  // atlayabilir.
+  const role = String(userRes.user.app_metadata?.role ?? "user").toLowerCase();
   const allowedRoles = new Set(["user", "owner", "admin"]);
   if (!allowedRoles.has(role)) {
     return json({ ok: false, error: "forbidden_role" }, 403, requestId);

@@ -16,7 +16,10 @@ Future<String> getAnalyticsClientId() async {
 }
 
 String _generateClientId() {
-  final rand = Random();
+  // Random() (kriptografik olmayan) yerine Random.secure(): bu client_id
+  // sunucu tarafında bazı günlük rate-limit anahtarlarının bir parçası —
+  // tahmin edilebilir olması limiti kolayca aşmayı mümkün kılıyordu.
+  final rand = Random.secure();
   final time = DateTime.now().microsecondsSinceEpoch;
   final salt = rand.nextInt(1 << 32);
   return '$time-$salt';

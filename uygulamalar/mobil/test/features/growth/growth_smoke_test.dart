@@ -23,8 +23,7 @@ _ShareCallback? _shareCallbackFor(InboxItem item) {
   if (item.type == 'favorite_price_changed') {
     return () {
       final businessId = item.meta['business_id']?.toString() ?? '';
-      final businessName =
-          item.meta['business_name']?.toString() ?? item.title;
+      final businessName = item.meta['business_name']?.toString() ?? item.title;
       final prevCents = (item.meta['previous_price_cents'] as num?)?.toInt();
       final newCents = (item.meta['matched_price_cents'] as num?)?.toInt();
       final pct = prevCents != null && prevCents > 0 && newCents != null
@@ -32,14 +31,13 @@ _ShareCallback? _shareCallbackFor(InboxItem item) {
           : null;
       final emoji =
           (newCents != null && prevCents != null && newCents > prevCents)
-              ? '!'
-              : 'ok';
+          ? '!'
+          : 'ok';
       // Gerçek kodda SharePlus.instance.share(...) çağrılır.
       // Burada sadece string oluşturma mantığını crash-test ederiz.
       final shareText = [
         '$emoji $businessName',
-        if (pct != null)
-          'Fiyat %${pct.abs()} ${pct > 0 ? 'artis' : 'dusus'}',
+        if (pct != null) 'Fiyat %${pct.abs()} ${pct > 0 ? 'artis' : 'dusus'}',
         'yeedoy.com/isletme/$businessId',
       ].join('\n');
       // share() çağrısı platforma bağlı; testte sadece build aşamasını doğrularız.
@@ -82,8 +80,10 @@ List<SmartRecommendation> _sortWithWeights(
   final maxPrice = priceValues.reduce((a, b) => a > b ? a : b).toDouble();
   final priceRange = (maxPrice - minPrice).clamp(1.0, maxPrice).toDouble();
 
-  final distanceValues =
-      items.map((e) => e.distanceKm).whereType<double>().toList();
+  final distanceValues = items
+      .map((e) => e.distanceKm)
+      .whereType<double>()
+      .toList();
   final minDistance = distanceValues.isEmpty
       ? null
       : distanceValues.reduce((a, b) => a < b ? a : b);
@@ -94,8 +94,7 @@ List<SmartRecommendation> _sortWithWeights(
       ? null
       : (maxDistance - minDistance).clamp(0.1, 9999.0).toDouble();
 
-  final ratingValues =
-      items.map((e) => e.rating).whereType<double>().toList();
+  final ratingValues = items.map((e) => e.rating).whereType<double>().toList();
   final minRating = ratingValues.isEmpty
       ? null
       : ratingValues.reduce((a, b) => a < b ? a : b);
@@ -118,7 +117,9 @@ List<SmartRecommendation> _sortWithWeights(
     final parts = <double>[priceScore];
     final ws = <double>[wPrice];
 
-    if (item.distanceKm != null && distanceRange != null && minDistance != null) {
+    if (item.distanceKm != null &&
+        distanceRange != null &&
+        minDistance != null) {
       final distScore = 1 - ((item.distanceKm! - minDistance) / distanceRange);
       parts.add(distScore);
       ws.add(wDistance);
@@ -147,10 +148,7 @@ List<SmartRecommendation> _sortWithWeights(
 // Test helpers
 // ---------------------------------------------------------------------------
 
-InboxItem _inboxItem(
-  String type, {
-  Map<String, dynamic> meta = const {},
-}) =>
+InboxItem _inboxItem(String type, {Map<String, dynamic> meta = const {}}) =>
     InboxItem(
       id: 'test-$type',
       type: type,
@@ -166,14 +164,13 @@ SmartRecommendation _reco(
   required int totalCents,
   double? distanceKm,
   double? rating,
-}) =>
-    SmartRecommendation(
-      businessId: id,
-      businessName: 'İşletme $id',
-      totalCents: totalCents,
-      distanceKm: distanceKm,
-      rating: rating,
-    );
+}) => SmartRecommendation(
+  businessId: id,
+  businessName: 'İşletme $id',
+  totalCents: totalCents,
+  distanceKm: distanceKm,
+  rating: rating,
+);
 
 // ---------------------------------------------------------------------------
 // Testler
@@ -237,11 +234,7 @@ void main() {
     test('achievement_unlocked callback null değil', () {
       final item = _inboxItem(
         'achievement_unlocked',
-        meta: {
-          'title': 'Gurme Gezgin',
-          'xp': 100,
-          'level': 5,
-        },
+        meta: {'title': 'Gurme Gezgin', 'xp': 100, 'level': 5},
       );
       final cb = _shareCallbackFor(item);
       expect(cb, isNotNull);
@@ -250,21 +243,14 @@ void main() {
     test('achievement_unlocked callback exception throw etmiyor', () {
       final item = _inboxItem(
         'achievement_unlocked',
-        meta: {
-          'title': 'Gurme Gezgin',
-          'xp': 100,
-          'level': 5,
-        },
+        meta: {'title': 'Gurme Gezgin', 'xp': 100, 'level': 5},
       );
       final cb = _shareCallbackFor(item);
       expect(() => cb!(), returnsNormally);
     });
 
     test('achievement_unlocked — xp=0 ve level null ile crash yok', () {
-      final item = _inboxItem(
-        'achievement_unlocked',
-        meta: {'title': 'Rozet'},
-      );
+      final item = _inboxItem('achievement_unlocked', meta: {'title': 'Rozet'});
       final cb = _shareCallbackFor(item);
       expect(() => cb!(), returnsNormally);
     });
@@ -272,8 +258,11 @@ void main() {
     test('generic type callback null döner — paylaşım yok', () {
       final item = _inboxItem('system_announcement');
       final cb = _shareCallbackFor(item);
-      expect(cb, isNull,
-          reason: 'Paylaşım desteklenmeyen tipler için null dönmeli');
+      expect(
+        cb,
+        isNull,
+        reason: 'Paylaşım desteklenmeyen tipler için null dönmeli',
+      );
     });
 
     test('report_result type callback null döner', () {
@@ -311,8 +300,11 @@ void main() {
         weightDistance: 0.1,
         weightRating: 0.1,
       );
-      expect(sorted.first.businessId, 'cheap',
-          reason: 'Fiyat ağırlığı yüksekken ucuz işletme öne geçmeli');
+      expect(
+        sorted.first.businessId,
+        'cheap',
+        reason: 'Fiyat ağırlığı yüksekken ucuz işletme öne geçmeli',
+      );
     });
 
     test('daha yakın işletme distance-weight yüksekken öne geçer', () {
@@ -326,8 +318,11 @@ void main() {
         weightPrice: 0.05,
         weightRating: 0.05,
       );
-      expect(sorted.first.businessId, 'near',
-          reason: 'Mesafe ağırlığı yüksekken yakın işletme öne geçmeli');
+      expect(
+        sorted.first.businessId,
+        'near',
+        reason: 'Mesafe ağırlığı yüksekken yakın işletme öne geçmeli',
+      );
     });
 
     test('distanceKm null olan öğeler crash yapmıyor', () {

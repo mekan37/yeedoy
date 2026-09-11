@@ -5,6 +5,7 @@ import '../../../app/theme/app_tokens.dart';
 import '../../../app/theme/app_typography.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../data/reservation_repository.dart';
 import '../domain/business.dart';
 
@@ -60,8 +61,9 @@ class _ReservationFormState {
       specialRequest: specialRequest ?? this.specialRequest,
       pending: pending ?? this.pending,
       error: identical(error, _sentinel) ? this.error : error as String?,
-      successNo:
-          identical(successNo, _sentinel) ? this.successNo : successNo as String?,
+      successNo: identical(successNo, _sentinel)
+          ? this.successNo
+          : successNo as String?,
     );
   }
 }
@@ -105,24 +107,21 @@ class _ReservationController extends Notifier<_ReservationFormState> {
     state = state.copyWith(pending: true, error: null);
 
     try {
-      final result =
-          await ref.read(reservationRepositoryProvider).submitReservation(
-                businessId: business.id,
-                guestName: s.name.trim(),
-                guestPhone: s.phone.trim(),
-                guestEmail:
-                    s.email.trim().isEmpty ? null : s.email.trim(),
-                partySize: s.partySize,
-                date: s.date!,
-                time: s.time,
-                specialRequest: s.specialRequest.trim().isEmpty
-                    ? null
-                    : s.specialRequest.trim(),
-              );
-      state = state.copyWith(
-        pending: false,
-        successNo: result.reservationNo,
-      );
+      final result = await ref
+          .read(reservationRepositoryProvider)
+          .submitReservation(
+            businessId: business.id,
+            guestName: s.name.trim(),
+            guestPhone: s.phone.trim(),
+            guestEmail: s.email.trim().isEmpty ? null : s.email.trim(),
+            partySize: s.partySize,
+            date: s.date!,
+            time: s.time,
+            specialRequest: s.specialRequest.trim().isEmpty
+                ? null
+                : s.specialRequest.trim(),
+          );
+      state = state.copyWith(pending: false, successNo: result.reservationNo);
     } catch (e) {
       final msg = e.toString();
       final cleanMsg = msg.startsWith('Exception: ')
@@ -133,10 +132,10 @@ class _ReservationController extends Notifier<_ReservationFormState> {
   }
 }
 
-final _reservationControllerProvider = NotifierProvider.autoDispose<
-    _ReservationController, _ReservationFormState>(
-  _ReservationController.new,
-);
+final _reservationControllerProvider =
+    NotifierProvider.autoDispose<_ReservationController, _ReservationFormState>(
+      _ReservationController.new,
+    );
 
 // ─── Public API ────────────────────────────────────────────────────────────────
 
@@ -238,9 +237,7 @@ class _ReservationSheet extends ConsumerWidget {
             onPressed: () => Navigator.of(context).pop(),
             icon: const Icon(Icons.close),
             tooltip: context.l10n.reservationCloseTooltip,
-            style: IconButton.styleFrom(
-              minimumSize: const Size(44, 44),
-            ),
+            style: IconButton.styleFrom(minimumSize: const Size(44, 44)),
           ),
         ],
       ),
@@ -259,8 +256,9 @@ class _ReservationSheet extends ConsumerWidget {
     final maxDate = DateTime.now().add(const Duration(days: 30));
     final timeParts = state.time.split(':');
     final initialHour = int.tryParse(timeParts[0]) ?? 19;
-    final initialMinute =
-        timeParts.length > 1 ? (int.tryParse(timeParts[1]) ?? 0) : 0;
+    final initialMinute = timeParts.length > 1
+        ? (int.tryParse(timeParts[1]) ?? 0)
+        : 0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -271,7 +269,9 @@ class _ReservationSheet extends ConsumerWidget {
           child: TextField(
             onChanged: (v) => ctrl.update((s) => s.copyWith(name: v)),
             textCapitalization: TextCapitalization.words,
-            decoration: InputDecoration(hintText: context.l10n.reservationNameHint),
+            decoration: InputDecoration(
+              hintText: context.l10n.reservationNameHint,
+            ),
           ),
         ),
         SizedBox(height: tok.space12),
@@ -282,7 +282,9 @@ class _ReservationSheet extends ConsumerWidget {
           child: TextField(
             onChanged: (v) => ctrl.update((s) => s.copyWith(phone: v)),
             keyboardType: TextInputType.phone,
-            decoration: InputDecoration(hintText: context.l10n.reservationPhoneHint),
+            decoration: InputDecoration(
+              hintText: context.l10n.reservationPhoneHint,
+            ),
           ),
         ),
         SizedBox(height: tok.space12),
@@ -293,7 +295,9 @@ class _ReservationSheet extends ConsumerWidget {
           child: TextField(
             onChanged: (v) => ctrl.update((s) => s.copyWith(email: v)),
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(hintText: context.l10n.reservationEmailHint),
+            decoration: InputDecoration(
+              hintText: context.l10n.reservationEmailHint,
+            ),
           ),
         ),
         SizedBox(height: tok.space12),
@@ -317,9 +321,7 @@ class _ReservationSheet extends ConsumerWidget {
             borderRadius: BorderRadius.circular(16),
             child: _DateTimeDisplay(
               value: state.date != null
-                  ? '${state.date!.day.toString().padLeft(2, '0')}.'
-                      '${state.date!.month.toString().padLeft(2, '0')}.'
-                      '${state.date!.year}'
+                  ? formatShortDate(context, state.date!)
                   : null,
               hint: context.l10n.reservationDatePickHint,
               icon: Icons.calendar_today_outlined,
@@ -364,8 +366,9 @@ class _ReservationSheet extends ConsumerWidget {
               _StepButton(
                 icon: Icons.remove,
                 onPressed: state.partySize > business.reservationMinParty
-                    ? () => ctrl
-                        .update((s) => s.copyWith(partySize: s.partySize - 1))
+                    ? () => ctrl.update(
+                        (s) => s.copyWith(partySize: s.partySize - 1),
+                      )
                     : null,
               ),
               const SizedBox(width: 16),
@@ -380,8 +383,9 @@ class _ReservationSheet extends ConsumerWidget {
               _StepButton(
                 icon: Icons.add,
                 onPressed: state.partySize < business.reservationMaxParty
-                    ? () => ctrl
-                        .update((s) => s.copyWith(partySize: s.partySize + 1))
+                    ? () => ctrl.update(
+                        (s) => s.copyWith(partySize: s.partySize + 1),
+                      )
                     : null,
               ),
               const SizedBox(width: 12),
@@ -460,24 +464,24 @@ class _ReservationSheet extends ConsumerWidget {
       ),
       decoration: const BoxDecoration(
         color: AppColors.card,
-        border: Border(
-          top: BorderSide(color: AppColors.border, width: 0.5),
-        ),
+        border: Border(top: BorderSide(color: AppColors.border, width: 0.5)),
       ),
       child: SizedBox(
         width: double.infinity,
         height: 52,
         child: FilledButton(
-          onPressed:
-              state.pending ? null : () => ctrl.submit(context, business),
+          onPressed: state.pending
+              ? null
+              : () => ctrl.submit(context, business),
           child: state.pending
               ? const SizedBox(
                   width: 22,
                   height: 22,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(AppColors.onPrimary),
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      AppColors.onPrimary,
+                    ),
                   ),
                 )
               : Text(
@@ -629,10 +633,7 @@ class _FormField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: context.captionStyle,
-        ),
+        Text(label, style: context.captionStyle),
         const SizedBox(height: 6),
         child,
       ],

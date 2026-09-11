@@ -34,11 +34,7 @@ class _AppShellState extends ConsumerState<AppShell> {
         _lastBackPress = now;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(
-              AppLocalizations.of(context).localeName.startsWith('tr')
-                  ? 'Çıkmak için tekrar basın'
-                  : 'Press back again to exit',
-            ),
+            content: Text(context.l10n.appShellExitOnBackPress),
             duration: const Duration(seconds: 2),
           ),
         );

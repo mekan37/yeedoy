@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:yeedoy/app/theme/app_tokens.dart';
 import 'package:yeedoy/features/shared/ui/components/app_badge.dart';
@@ -82,4 +82,3 @@ void main() {
     expect(size.width, greaterThanOrEqualTo(44));
   });
 }
-

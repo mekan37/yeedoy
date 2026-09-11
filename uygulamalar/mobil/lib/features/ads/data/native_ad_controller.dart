@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import '../../../core/ads/ads_consent_service.dart';
 import '../../../core/config/ad_config.dart';
 
 final nativeAdControllerProvider = NotifierProvider<NativeAdController, int>(
@@ -52,6 +55,20 @@ class NativeAdController extends Notifier<int> {
   }
 
   void _loadOne() {
+    unawaited(_loadOneAfterConsent());
+  }
+
+  /// Reklam isteği, kullanıcı onay akışı (UMP) sonuçlanana kadar
+  /// gönderilmiyor — akış EEA/UK dışı kullanıcılarda anında, içindekilerde
+  /// form kapatılınca tamamlanır (bkz. B12).
+  Future<void> _loadOneAfterConsent() async {
+    final canRequest = await AdsConsentService.instance.waitUntilReady();
+    if (_disposed) return;
+    if (!canRequest) {
+      _inFlight = _inFlight > 0 ? _inFlight - 1 : 0;
+      if (kDebugMode) debugPrint('native_ad skipped: consent not granted');
+      return;
+    }
     try {
       final ad = NativeAd(
         adUnitId: AdConfig.nativeUnitId,

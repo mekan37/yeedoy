@@ -12,32 +12,67 @@ import '../../discovery/domain/city_districts_provider.dart';
 
 const _kNeighborhoods = <String, List<String>>{
   'Kadıköy': [
-    'Caferağa', 'Moda', 'Fenerbahçe', 'Fikirtepe', 'Göztepe',
-    'Kozyatağı', 'Bostancı', 'Caddebostan', 'Erenköy', 'Suadiye',
+    'Caferağa',
+    'Moda',
+    'Fenerbahçe',
+    'Fikirtepe',
+    'Göztepe',
+    'Kozyatağı',
+    'Bostancı',
+    'Caddebostan',
+    'Erenköy',
+    'Suadiye',
   ],
   'Beşiktaş': [
-    'Levent', 'Etiler', 'Ortaköy', 'Bebek', 'Arnavutköy',
-    'Kuruçeşme', 'Balmumcu', 'Gayrettepe', 'Türkali',
+    'Levent',
+    'Etiler',
+    'Ortaköy',
+    'Bebek',
+    'Arnavutköy',
+    'Kuruçeşme',
+    'Balmumcu',
+    'Gayrettepe',
+    'Türkali',
   ],
   'Beyoğlu': [
-    'Cihangir', 'Galata', 'Karaköy', 'Taksim', 'Tarlabaşı',
-    'Kasımpaşa', 'Tomtom', 'Piri Paşa',
+    'Cihangir',
+    'Galata',
+    'Karaköy',
+    'Taksim',
+    'Tarlabaşı',
+    'Kasımpaşa',
+    'Tomtom',
+    'Piri Paşa',
   ],
   'Şişli': [
-    'Harbiye', 'Nişantaşı', 'Fulya', 'Mecidiyeköy', 'Bomonti',
-    'Pangaltı', 'Osmanbey', 'Esentepe',
+    'Harbiye',
+    'Nişantaşı',
+    'Fulya',
+    'Mecidiyeköy',
+    'Bomonti',
+    'Pangaltı',
+    'Osmanbey',
+    'Esentepe',
   ],
   'Üsküdar': [
-    'Mimar Sinan', 'Altunizade', 'Beylerbeyi', 'Çengelköy',
-    'Kuzguncuk', 'Çamlıca', 'Acıbadem',
+    'Mimar Sinan',
+    'Altunizade',
+    'Beylerbeyi',
+    'Çengelköy',
+    'Kuzguncuk',
+    'Çamlıca',
+    'Acıbadem',
   ],
   'Çankaya': [
-    'Kavaklıdere', 'Bahçelievler', 'Çukurambar', 'GOP', 'Ayrancı',
-    'Gaziosmanpaşa', 'Birlik',
+    'Kavaklıdere',
+    'Bahçelievler',
+    'Çukurambar',
+    'GOP',
+    'Ayrancı',
+    'Gaziosmanpaşa',
+    'Birlik',
   ],
-  'Konak': [
-    'Alsancak', 'Hatay', 'Bornova', 'Güzelyalı', 'Bayraklı',
-  ],
+  'Konak': ['Alsancak', 'Hatay', 'Bornova', 'Güzelyalı', 'Bayraklı'],
 };
 
 List<String> _neighborhoodsFor(String district) =>
@@ -76,7 +111,9 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
       return;
     }
     setState(() => _saving = true);
-    await ref.read(userLocationProvider.notifier).setManualLocation(
+    await ref
+        .read(userLocationProvider.notifier)
+        .setManualLocation(
           city: _city!,
           district: _district!,
           neighborhood: _neighborhood,
@@ -157,10 +194,12 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                 error: (e, st) => _buildBody(context, cities: [], allRows: []),
                 data: (rows) {
                   final allRows = rows
-                      .map((r) => (
-                            canonicalCity((r['city'] ?? '').toString()),
-                            canonicalDistrict((r['district'] ?? '').toString()),
-                          ))
+                      .map(
+                        (r) => (
+                          canonicalCity((r['city'] ?? '').toString()),
+                          canonicalDistrict((r['district'] ?? '').toString()),
+                        ),
+                      )
                       .where((t) => t.$1.isNotEmpty && t.$2.isNotEmpty)
                       .toList();
 
@@ -186,12 +225,9 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
     required List<String> cities,
     required List<(String, String)> allRows,
   }) {
-    final districts = allRows
-        .where((r) => r.$1 == _city)
-        .map((r) => r.$2)
-        .toSet()
-        .toList()
-      ..sort();
+    final districts =
+        allRows.where((r) => r.$1 == _city).map((r) => r.$2).toSet().toList()
+          ..sort();
 
     final neighborhoods = _neighborhoodsFor(_district ?? '');
 
@@ -226,11 +262,14 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
         const SizedBox(height: 6),
         _buildHint(context.l10n.locationPickerDistrictHint),
         const SizedBox(height: 24),
-        _buildSectionLabelOptional(context.l10n.locationPickerNeighborhoodLabel),
+        _buildSectionLabelOptional(
+          context.l10n.locationPickerNeighborhoodLabel,
+        ),
         const SizedBox(height: 8),
         _buildDropdown(
           icon: Icons.home_outlined,
-          value: _neighborhood ?? context.l10n.locationPickerOptionalPlaceholder,
+          value:
+              _neighborhood ?? context.l10n.locationPickerOptionalPlaceholder,
           onTap: (_district == null || neighborhoods.isEmpty)
               ? null
               : _pickNeighborhood,
@@ -293,7 +332,9 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                 borderRadius: BorderRadius.circular(12),
                 child: InkWell(
                   borderRadius: BorderRadius.circular(12),
-                  onTap: () {},
+                  // Aynı zil ikonu + kırmızı nokta deseni profile_page.dart
+                  // ve legal_page.dart'ta /inbox'a gidiyor (B21).
+                  onTap: () => context.push('/inbox'),
                   child: const Padding(
                     padding: EdgeInsets.all(10),
                     child: Icon(
@@ -456,7 +497,8 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
     bool disabled = false,
     bool isOptional = false,
   }) {
-    final isPlaceholder = disabled ||
+    final isPlaceholder =
+        disabled ||
         (isOptional && value == context.l10n.locationPickerOptionalPlaceholder);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -489,8 +531,12 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                   value,
                   style: TextStyle(
                     fontSize: 15,
-                    fontWeight: isPlaceholder ? FontWeight.w500 : FontWeight.w700,
-                    color: isPlaceholder ? AppColors.muted : AppColors.textStrong,
+                    fontWeight: isPlaceholder
+                        ? FontWeight.w500
+                        : FontWeight.w700,
+                    color: isPlaceholder
+                        ? AppColors.muted
+                        : AppColors.textStrong,
                   ),
                 ),
               ),
@@ -512,12 +558,20 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(Icons.info_outline_rounded, size: 14, color: AppColors.muted),
+          const Icon(
+            Icons.info_outline_rounded,
+            size: 14,
+            color: AppColors.muted,
+          ),
           const SizedBox(width: 5),
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(fontSize: 12, color: AppColors.muted, height: 1.4),
+              style: const TextStyle(
+                fontSize: 12,
+                color: AppColors.muted,
+                height: 1.4,
+              ),
             ),
           ),
         ],
@@ -577,13 +631,17 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                         style: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 14,
-                          color: hasLoc ? AppColors.textStrong : AppColors.muted,
+                          color: hasLoc
+                              ? AppColors.textStrong
+                              : AppColors.muted,
                         ),
                       ),
                       if (_neighborhood != null) ...[
                         const SizedBox(height: 2),
                         Text(
-                          context.l10n.locationPickerNeighborhoodSuffix(_neighborhood!),
+                          context.l10n.locationPickerNeighborhoodSuffix(
+                            _neighborhood!,
+                          ),
                           style: const TextStyle(
                             fontSize: 12,
                             color: AppColors.muted,
@@ -610,7 +668,9 @@ class _LocationPickerPageState extends ConsumerState<LocationPickerPage> {
                           foregroundColor: AppColors.primary,
                           backgroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 8),
+                            horizontal: 10,
+                            vertical: 8,
+                          ),
                           textStyle: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
@@ -815,7 +875,9 @@ class _PickerSheetState extends State<_PickerSheet> {
   Widget build(BuildContext context) {
     final filtered = _filtered;
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: ConstrainedBox(
         constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height * 0.75,
@@ -854,8 +916,11 @@ class _PickerSheetState extends State<_PickerSheet> {
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
                   children: [
-                    const Icon(Icons.search_rounded,
-                        color: AppColors.muted, size: 18),
+                    const Icon(
+                      Icons.search_rounded,
+                      color: AppColors.muted,
+                      size: 18,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: TextField(
@@ -864,7 +929,9 @@ class _PickerSheetState extends State<_PickerSheet> {
                         decoration: InputDecoration(
                           hintText: context.l10n.locationPickerSearchHint,
                           hintStyle: const TextStyle(
-                              color: AppColors.muted, fontSize: 13),
+                            color: AppColors.muted,
+                            fontSize: 13,
+                          ),
                           border: InputBorder.none,
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
@@ -873,7 +940,9 @@ class _PickerSheetState extends State<_PickerSheet> {
                           contentPadding: EdgeInsets.zero,
                         ),
                         style: const TextStyle(
-                            fontSize: 13, color: AppColors.textStrong),
+                          fontSize: 13,
+                          color: AppColors.textStrong,
+                        ),
                       ),
                     ),
                   ],
@@ -893,8 +962,9 @@ class _PickerSheetState extends State<_PickerSheet> {
                     title: Text(
                       item,
                       style: TextStyle(
-                        fontWeight:
-                            isSelected ? FontWeight.w800 : FontWeight.w500,
+                        fontWeight: isSelected
+                            ? FontWeight.w800
+                            : FontWeight.w500,
                         fontSize: 14,
                         color: isSelected
                             ? AppColors.primary
@@ -902,8 +972,11 @@ class _PickerSheetState extends State<_PickerSheet> {
                       ),
                     ),
                     trailing: isSelected
-                        ? const Icon(Icons.check_rounded,
-                            color: AppColors.primary, size: 18)
+                        ? const Icon(
+                            Icons.check_rounded,
+                            color: AppColors.primary,
+                            size: 18,
+                          )
                         : null,
                     onTap: () {
                       widget.onSelected(item);

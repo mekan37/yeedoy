@@ -15,11 +15,7 @@ void main() {
     });
 
     test('priceLevel is null when price_level key is absent', () {
-      final map = {
-        'id': 'b2',
-        'name': 'Test',
-        'category': 'Restoran',
-      };
+      final map = {'id': 'b2', 'name': 'Test', 'category': 'Restoran'};
       final business = Business.fromMap(map);
       expect(business.priceLevel, isNull);
     });

@@ -19,23 +19,24 @@ void main() {
     });
   });
 
-  test('business detail falls back to legacy overall stats when summary is absent', () {
-    final detail = BusinessDetail.fromJson({
-      'stats': {
-        'id': 'business-1',
-        'name': 'Yeedoy Bistro',
-        'avg_rating': 4.4,
-        'reviews_count': 18,
-      },
-      'rating_breakdown': const <String, dynamic>{},
-      'latest_reviews': const <Map<String, dynamic>>[],
-    });
+  test(
+    'business detail falls back to legacy overall stats when summary is absent',
+    () {
+      final detail = BusinessDetail.fromJson({
+        'stats': {
+          'id': 'business-1',
+          'name': 'Yeedoy Bistro',
+          'avg_rating': 4.4,
+          'reviews_count': 18,
+        },
+        'rating_breakdown': const <String, dynamic>{},
+        'latest_reviews': const <Map<String, dynamic>>[],
+      });
 
-    expect(detail.stats.id, 'business-1');
-    expect(detail.stats.reviewsCount, 18);
-    expect(detail.stats.avgRating, 4.4);
-    expect(detail.breakdown.total, 0);
-  });
+      expect(detail.stats.id, 'business-1');
+      expect(detail.stats.reviewsCount, 18);
+      expect(detail.stats.avgRating, 4.4);
+      expect(detail.breakdown.total, 0);
+    },
+  );
 }
-
-

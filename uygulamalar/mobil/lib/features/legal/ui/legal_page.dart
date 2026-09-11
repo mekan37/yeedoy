@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/config/app_config.dart';
@@ -8,7 +9,7 @@ import '../legal_linking.dart';
 
 // ── Item definitions ─────────────────────────────────────────────────────────
 
-enum _LegalAction { openUrl, deleteRequest, support }
+enum _LegalAction { openUrl, deleteRequest, support, adPrivacyOptions }
 
 class _LegalItem {
   const _LegalItem({
@@ -30,7 +31,8 @@ final _kItems = <_LegalItem>[
   _LegalItem(
     icon: Icons.article_outlined,
     title: 'Kullanım Şartları',
-    description: 'Uygulamamızı kullanırken uymanız gereken kurallar ve koşullar.',
+    description:
+        'Uygulamamızı kullanırken uymanız gereken kurallar ve koşullar.',
     action: _LegalAction.openUrl,
     url: AppConfig.termsUrl,
   ),
@@ -53,14 +55,16 @@ final _kItems = <_LegalItem>[
   _LegalItem(
     icon: Icons.copyright_outlined,
     title: 'Telif Hakkı Politikası',
-    description: 'Uygulama içeriği, marka ve diğer fikri mülkiyet haklarına dair bilgiler.',
+    description:
+        'Uygulama içeriği, marka ve diğer fikri mülkiyet haklarına dair bilgiler.',
     action: _LegalAction.openUrl,
     url: AppConfig.copyrightPolicyUrl,
   ),
   _LegalItem(
     icon: Icons.person_outline,
     title: 'KVKK Aydınlatma Metni',
-    description: 'Kişisel Verilerin Korunması Kanunu kapsamında aydınlatma metnimiz.',
+    description:
+        'Kişisel Verilerin Korunması Kanunu kapsamında aydınlatma metnimiz.',
     action: _LegalAction.openUrl,
     url: AppConfig.kvkkUrl,
   ),
@@ -72,6 +76,13 @@ final _kItems = <_LegalItem>[
     url: AppConfig.legalUrl('distance-sales'),
   ),
   _LegalItem(
+    icon: Icons.ads_click_outlined,
+    title: 'Reklam Tercihleri',
+    description:
+        'Kişiselleştirilmiş reklam onayınızı (varsa) görüntüleyin veya değiştirin.',
+    action: _LegalAction.adPrivacyOptions,
+  ),
+  _LegalItem(
     icon: Icons.delete_outline_rounded,
     title: 'Veri Silme Talebi',
     description:
@@ -81,7 +92,8 @@ final _kItems = <_LegalItem>[
   _LegalItem(
     icon: Icons.headset_mic_outlined,
     title: 'Yasal Destek',
-    description: 'Yasal konularla ilgili destek almak için bizimle iletişime geçin.',
+    description:
+        'Yasal konularla ilgili destek almak için bizimle iletişime geçin.',
     action: _LegalAction.support,
   ),
 ];
@@ -105,8 +117,9 @@ class LegalPage extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    onPressed: () =>
-                        context.canPop() ? context.pop() : context.go('/discover'),
+                    onPressed: () => context.canPop()
+                        ? context.pop()
+                        : context.go('/discover'),
                     icon: const Icon(
                       Icons.arrow_back_ios_new_rounded,
                       color: AppColors.textStrong,
@@ -180,7 +193,10 @@ class LegalPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.primarySoft,
                   borderRadius: BorderRadius.circular(14),
@@ -230,18 +246,49 @@ class LegalPage extends StatelessWidget {
             await openLegalUrl(item.url!);
           } catch (e) {
             if (!context.mounted) return;
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(AppErrorMapper.message(e))),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(AppErrorMapper.message(e))));
           }
         }
       case _LegalAction.deleteRequest:
         if (context.mounted) context.push('/data-deletion');
       case _LegalAction.support:
         if (context.mounted) context.push('/help-support');
+      case _LegalAction.adPrivacyOptions:
+        await _handleAdPrivacyOptions(context);
     }
   }
 
+  Future<void> _handleAdPrivacyOptions(BuildContext context) async {
+    try {
+      final status = await ConsentInformation.instance
+          .getPrivacyOptionsRequirementStatus();
+      if (status != PrivacyOptionsRequirementStatus.required) {
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Bulunduğunuz bölgede kişiselleştirilmiş reklam onayı gerekmiyor.',
+            ),
+          ),
+        );
+        return;
+      }
+      await ConsentForm.showPrivacyOptionsForm((formError) {
+        if (formError != null && context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(AppErrorMapper.message(formError))),
+          );
+        }
+      });
+    } catch (e) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(AppErrorMapper.message(e))));
+    }
+  }
 }
 
 // ── Legal row ─────────────────────────────────────────────────────────────────
@@ -349,10 +396,7 @@ class _NotificationBell extends StatelessWidget {
         const Positioned(
           top: 8,
           right: 8,
-          child: CircleAvatar(
-            radius: 4,
-            backgroundColor: AppColors.danger,
-          ),
+          child: CircleAvatar(radius: 4, backgroundColor: AppColors.danger),
         ),
       ],
     );

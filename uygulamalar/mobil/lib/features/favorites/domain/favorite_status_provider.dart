@@ -2,9 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Memory cache: businessId -> isFavorited
 final favoriteStatusCacheProvider =
-    NotifierProvider<FavoriteStatusCache, Map<String, bool>>(FavoriteStatusCache.new);
+    NotifierProvider<FavoriteStatusCache, Map<String, bool>>(
+      FavoriteStatusCache.new,
+    );
 
-final favoriteIdsProvider = NotifierProvider<FavoriteIdsCache, Set<String>>(FavoriteIdsCache.new);
+final favoriteIdsProvider = NotifierProvider<FavoriteIdsCache, Set<String>>(
+  FavoriteIdsCache.new,
+);
 
 class FavoriteStatusCache extends Notifier<Map<String, bool>> {
   @override
@@ -21,6 +25,22 @@ class FavoriteStatusCache extends Notifier<Map<String, bool>> {
 
   void clear() {
     state = <String, bool>{};
+  }
+
+  /// Clears cached `true` entries for businesses not present in [knownFavoriteIds].
+  /// Only call this with the complete, authoritative set of the user's current
+  /// favorites (e.g. once the favorites list has finished loading with no more
+  /// pages) — otherwise a partial page would wrongly clear valid entries.
+  void reconcileWithKnownFavorites(Set<String> knownFavoriteIds) {
+    var changed = false;
+    final next = {...state};
+    for (final entry in state.entries) {
+      if (entry.value && !knownFavoriteIds.contains(entry.key)) {
+        next[entry.key] = false;
+        changed = true;
+      }
+    }
+    if (changed) state = next;
   }
 }
 
@@ -46,9 +66,22 @@ class FavoriteIdsCache extends Notifier<Set<String>> {
   void clear() {
     state = <String>{};
   }
+
+  /// Replaces the whole set. Only call this with the complete, authoritative
+  /// set of the user's current favorites (e.g. once the favorites list has
+  /// finished loading with no more pages left) — otherwise a partial page
+  /// would wrongly drop ids that simply weren't on that page.
+  void replaceAll(Set<String> ids) {
+    state = {...ids};
+  }
 }
 
-final isFavoritedProvider = Provider.family<bool, String>((ref, businessId) {
+// autoDispose: aksi halde her görülen businessId için kalıcı bir provider
+// örneği birikirdi (uzun bir kaydırma oturumunda sınırsız büyür) — B67.
+final isFavoritedProvider = Provider.autoDispose.family<bool, String>((
+  ref,
+  businessId,
+) {
   final cache = ref.watch(favoriteStatusCacheProvider);
   if (cache.containsKey(businessId)) return cache[businessId]!;
   final ids = ref.watch(favoriteIdsProvider);

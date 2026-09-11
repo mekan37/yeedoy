@@ -38,17 +38,17 @@ const _kAllAllergens = [
 // working regardless of the active app locale. Only the displayed label is
 // localized.
 String _allergenLabel(AppLocalizations t, String key) => switch (key) {
-      'Süt ve süt ürünleri' => t.dietProfileAllergenMilk,
-      'Fındık' => t.dietProfileAllergenNuts,
-      'Yumurta' => t.dietProfileAllergenEgg,
-      'Deniz ürünleri' => t.dietProfileAllergenSeafood,
-      'Glüten' => t.dietProfileAllergenGluten,
-      'Soya' => t.dietProfileAllergenSoy,
-      'Susam' => t.dietProfileAllergenSesame,
-      'Buğday' => t.dietProfileAllergenWheat,
-      'Helal' => t.dietProfileAllergenHalal,
-      _ => key,
-    };
+  'Süt ve süt ürünleri' => t.dietProfileAllergenMilk,
+  'Fındık' => t.dietProfileAllergenNuts,
+  'Yumurta' => t.dietProfileAllergenEgg,
+  'Deniz ürünleri' => t.dietProfileAllergenSeafood,
+  'Glüten' => t.dietProfileAllergenGluten,
+  'Soya' => t.dietProfileAllergenSoy,
+  'Susam' => t.dietProfileAllergenSesame,
+  'Buğday' => t.dietProfileAllergenWheat,
+  'Helal' => t.dietProfileAllergenHalal,
+  _ => key,
+};
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
@@ -282,7 +282,11 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
             const SizedBox(height: 10),
             Text(
               context.l10n.dietProfileHelpSheetBody,
-              style: const TextStyle(fontSize: 14, color: AppColors.muted, height: 1.5),
+              style: const TextStyle(
+                fontSize: 14,
+                color: AppColors.muted,
+                height: 1.5,
+              ),
             ),
             const SizedBox(height: 24),
           ],
@@ -327,11 +331,20 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
                 const SizedBox(height: 14),
                 Row(
                   children: [
-                    _HeroFeature(icon: Icons.eco_outlined, label: context.l10n.dietProfileHeroFeaturePersonalized),
+                    _HeroFeature(
+                      icon: Icons.eco_outlined,
+                      label: context.l10n.dietProfileHeroFeaturePersonalized,
+                    ),
                     const SizedBox(width: 12),
-                    _HeroFeature(icon: Icons.favorite_outline_rounded, label: context.l10n.dietProfileHeroFeatureHealthier),
+                    _HeroFeature(
+                      icon: Icons.favorite_outline_rounded,
+                      label: context.l10n.dietProfileHeroFeatureHealthier,
+                    ),
                     const SizedBox(width: 12),
-                    _HeroFeature(icon: Icons.star_outline_rounded, label: context.l10n.dietProfileHeroFeatureSaveTime),
+                    _HeroFeature(
+                      icon: Icons.star_outline_rounded,
+                      label: context.l10n.dietProfileHeroFeatureSaveTime,
+                    ),
                   ],
                 ),
               ],
@@ -432,11 +445,21 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
       rows.add(
         Row(
           children: [
-            Expanded(child: _DietCard(option: left, selected: _dietType == left.type, onTap: () => setState(() => _dietType = left.type))),
+            Expanded(
+              child: _DietCard(
+                option: left,
+                selected: _dietType == left.type,
+                onTap: () => setState(() => _dietType = left.type),
+              ),
+            ),
             const SizedBox(width: 8),
             Expanded(
               child: right != null
-                  ? _DietCard(option: right, selected: _dietType == right.type, onTap: () => setState(() => _dietType = right.type))
+                  ? _DietCard(
+                      option: right,
+                      selected: _dietType == right.type,
+                      onTap: () => setState(() => _dietType = right.type),
+                    )
                   : const SizedBox.shrink(),
             ),
           ],
@@ -467,7 +490,11 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
                 border: Border.all(color: AppColors.primary),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.add_rounded, color: AppColors.primary, size: 18),
+              child: const Icon(
+                Icons.add_rounded,
+                color: AppColors.primary,
+                size: 18,
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -480,7 +507,11 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
                 ),
               ),
             ),
-            const Icon(Icons.chevron_right_rounded, color: AppColors.muted, size: 20),
+            const Icon(
+              Icons.chevron_right_rounded,
+              color: AppColors.muted,
+              size: 20,
+            ),
           ],
         ),
       ),
@@ -491,10 +522,26 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
 
   Widget _buildGoalRow() {
     final goals = [
-      _GoalOption(goal: _Goal.loseWeight, label: context.l10n.dietProfileGoalLoseWeight, icon: Icons.trending_down_rounded),
-      _GoalOption(goal: _Goal.gainWeight, label: context.l10n.dietProfileGoalGainWeight, icon: Icons.trending_up_rounded),
-      _GoalOption(goal: _Goal.maintain, label: context.l10n.dietProfileGoalMaintain, icon: Icons.remove_rounded),
-      _GoalOption(goal: _Goal.healthyEating, label: context.l10n.dietProfileGoalHealthyEating, icon: Icons.favorite_outline_rounded),
+      _GoalOption(
+        goal: _Goal.loseWeight,
+        label: context.l10n.dietProfileGoalLoseWeight,
+        icon: Icons.trending_down_rounded,
+      ),
+      _GoalOption(
+        goal: _Goal.gainWeight,
+        label: context.l10n.dietProfileGoalGainWeight,
+        icon: Icons.trending_up_rounded,
+      ),
+      _GoalOption(
+        goal: _Goal.maintain,
+        label: context.l10n.dietProfileGoalMaintain,
+        icon: Icons.remove_rounded,
+      ),
+      _GoalOption(
+        goal: _Goal.healthyEating,
+        label: context.l10n.dietProfileGoalHealthyEating,
+        icon: Icons.favorite_outline_rounded,
+      ),
     ];
 
     return Row(
@@ -529,7 +576,9 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
-                      color: selected ? AppColors.primary : AppColors.textStrong,
+                      color: selected
+                          ? AppColors.primary
+                          : AppColors.textStrong,
                       height: 1.3,
                     ),
                   ),
@@ -578,7 +627,11 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
         const SizedBox(height: 2),
         Text(
           context.l10n.dietProfileAllergenSectionSubtitle,
-          style: const TextStyle(fontSize: 12, color: AppColors.muted, height: 1.4),
+          style: const TextStyle(
+            fontSize: 12,
+            color: AppColors.muted,
+            height: 1.4,
+          ),
         ),
         const SizedBox(height: 12),
         if (_allergens.isEmpty)
@@ -611,10 +664,14 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: _allergens.map((a) => _AllergenChip(
-              label: _allergenLabel(context.l10n, a),
-              onRemove: () => setState(() => _allergens.remove(a)),
-            )).toList(),
+            children: _allergens
+                .map(
+                  (a) => _AllergenChip(
+                    label: _allergenLabel(context.l10n, a),
+                    onRemove: () => setState(() => _allergens.remove(a)),
+                  ),
+                )
+                .toList(),
           ),
       ],
     );
@@ -671,7 +728,11 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
             ),
           ),
           TextButton(
-            onPressed: () {},
+            // Sayfanın tamamı zaten düzenlenebilir form — ayrı bir
+            // "görüntüle" modu yok. "Düzenle" burada mantıklı tek şekilde
+            // "kaydedildi" banner'ını kapatıp forma geri dönmek anlamına
+            // geliyor (B21).
+            onPressed: () => setState(() => _saved = false),
             style: TextButton.styleFrom(
               foregroundColor: const Color(0xFF16A34A),
               padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -746,7 +807,9 @@ class _DietProfilePageState extends ConsumerState<DietProfilePage> {
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF7F1D1D),
             foregroundColor: Colors.white,
-            disabledBackgroundColor: const Color(0xFF7F1D1D).withValues(alpha: 0.5),
+            disabledBackgroundColor: const Color(
+              0xFF7F1D1D,
+            ).withValues(alpha: 0.5),
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(28),
@@ -833,7 +896,11 @@ class _FoodIllustration extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: const Center(
-                child: Icon(Icons.eco_rounded, size: 38, color: AppColors.primary),
+                child: Icon(
+                  Icons.eco_rounded,
+                  size: 38,
+                  color: AppColors.primary,
+                ),
               ),
             ),
           ),
@@ -847,7 +914,11 @@ class _FoodIllustration extends StatelessWidget {
                 color: AppColors.primary,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.check_rounded, color: Colors.white, size: 18),
+              child: const Icon(
+                Icons.check_rounded,
+                color: Colors.white,
+                size: 18,
+              ),
             ),
           ),
         ],
@@ -996,7 +1067,11 @@ class _AllergenChip extends StatelessWidget {
           const SizedBox(width: 6),
           GestureDetector(
             onTap: onRemove,
-            child: const Icon(Icons.close_rounded, size: 14, color: AppColors.muted),
+            child: const Icon(
+              Icons.close_rounded,
+              size: 14,
+              color: AppColors.muted,
+            ),
           ),
         ],
       ),
@@ -1007,10 +1082,7 @@ class _AllergenChip extends StatelessWidget {
 // ── Allergen picker sheet ─────────────────────────────────────────────────────
 
 class _AllergenPickerSheet extends StatefulWidget {
-  const _AllergenPickerSheet({
-    required this.selected,
-    required this.onConfirm,
-  });
+  const _AllergenPickerSheet({required this.selected, required this.onConfirm});
 
   final Set<String> selected;
   final ValueChanged<Set<String>> onConfirm;
@@ -1080,8 +1152,11 @@ class _AllergenPickerSheetState extends State<_AllergenPickerSheet> {
                 ),
               ),
               trailing: _local.contains(allergen)
-                  ? const Icon(Icons.check_rounded,
-                      color: AppColors.primary, size: 18)
+                  ? const Icon(
+                      Icons.check_rounded,
+                      color: AppColors.primary,
+                      size: 18,
+                    )
                   : null,
               onTap: () => setState(() {
                 if (_local.contains(allergen)) {

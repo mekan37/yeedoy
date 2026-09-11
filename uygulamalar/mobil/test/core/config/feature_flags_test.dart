@@ -13,10 +13,7 @@ void main() {
 
     test('prefers local override values', () {
       const state = FeatureFlagsState(
-        localFlags: {
-          'enableLabs': true,
-          'enableQrAutoCheckin': true,
-        },
+        localFlags: {'enableLabs': true, 'enableQrAutoCheckin': true},
       );
       expect(state.enableLabs, isTrue);
       expect(state.enableQrAutoCheckin, isTrue);

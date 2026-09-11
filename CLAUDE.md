@@ -66,7 +66,7 @@ All privileged RPCs follow `*_v1` / `*_v2` naming. New Supabase access goes thro
 
 ## Constraints
 
-- No admin/owner CRUD in mobile app.
+- No admin/owner CRUD in mobile app. **Documented exception:** `/owner/location/:businessId` (`uygulamalar/mobil/lib/features/location/`) — a native map pin-drop + GPS location picker for an owner's own business. Kept mobile-native deliberately (see the comment in `lib/app/router.dart`'s redirect logic) because that interaction is materially better on-device than the equivalent web form (`app/sahip/isletmeler/[id]/isletme-duzenleme-formu.tsx`, which stays the canonical fallback). Client writes directly to `businesses.latitude/longitude` via `.update()` (not an RPC) — this is safe because RLS policy `businesses_update_owner_admin` already scopes it to `is_admin() OR is_owner_of_business(id)`. Do not read this exception as license for other owner/admin CRUD on mobile — it is scoped to this one field, this one route (2026-09-11).
 - **Web and mobile move together.** Before building a user-facing feature on one platform, check whether the other already has it (don't assume web is "primary" — mobile is sometimes ahead) and build/flag the missing side as part of the same task. If the feature is something an owner or admin would plausibly need to configure or manage, also check whether `/sahip` or `/yonetici` needs an equivalent.
 - No second state management library (Riverpod in Flutter, Zustand in web).
 - No new Supabase access outside a repository class in Flutter.

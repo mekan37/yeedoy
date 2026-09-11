@@ -167,6 +167,7 @@ class FaqPage extends StatefulWidget {
 
 class _FaqPageState extends State<FaqPage> {
   final _searchCtrl = TextEditingController();
+  final _searchFocus = FocusNode();
   int _selectedCat = 0;
   int? _expandedIndex;
   String _query = '';
@@ -174,12 +175,14 @@ class _FaqPageState extends State<FaqPage> {
   @override
   void dispose() {
     _searchCtrl.dispose();
+    _searchFocus.dispose();
     super.dispose();
   }
 
   List<_FaqEntry> get _filtered {
-    final catItems =
-        _kFaqs(context).where((f) => f.catIndex == _selectedCat).toList();
+    final catItems = _kFaqs(
+      context,
+    ).where((f) => f.catIndex == _selectedCat).toList();
     if (_query.isEmpty) return catItems;
     final q = _query.toLowerCase();
     return catItems.where((f) => f.question.toLowerCase().contains(q)).toList();
@@ -248,7 +251,9 @@ class _FaqPageState extends State<FaqPage> {
             shape: const CircleBorder(),
             elevation: 1,
             child: IconButton(
-              onPressed: () {},
+              // Arama alanı sayfada zaten her zaman görünür (_buildSearch) —
+              // bu buton ona odaklanıyor (B21).
+              onPressed: () => _searchFocus.requestFocus(),
               icon: const Icon(
                 Icons.search_rounded,
                 size: 20,
@@ -281,6 +286,7 @@ class _FaqPageState extends State<FaqPage> {
             Expanded(
               child: TextField(
                 controller: _searchCtrl,
+                focusNode: _searchFocus,
                 onChanged: (v) {
                   setState(() {
                     _query = v;
@@ -289,8 +295,10 @@ class _FaqPageState extends State<FaqPage> {
                 },
                 decoration: InputDecoration(
                   hintText: context.l10n.faqSearchHint,
-                  hintStyle:
-                      const TextStyle(color: AppColors.muted, fontSize: 13),
+                  hintStyle: const TextStyle(
+                    color: AppColors.muted,
+                    fontSize: 13,
+                  ),
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
@@ -347,14 +355,14 @@ class _FaqPageState extends State<FaqPage> {
                   width: 82,
                   margin: const EdgeInsets.symmetric(horizontal: 4),
                   padding: const EdgeInsets.symmetric(
-                      vertical: 10, horizontal: 6),
+                    vertical: 10,
+                    horizontal: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: selected ? AppColors.primarySoft : Colors.white,
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(
-                      color: selected
-                          ? AppColors.primary
-                          : AppColors.border,
+                      color: selected ? AppColors.primary : AppColors.border,
                     ),
                   ),
                   child: Column(
@@ -372,9 +380,7 @@ class _FaqPageState extends State<FaqPage> {
                         child: Icon(
                           cat.icon,
                           size: 18,
-                          color: selected
-                              ? Colors.white
-                              : AppColors.muted,
+                          color: selected ? Colors.white : AppColors.muted,
                         ),
                       ),
                       const SizedBox(height: 5),
@@ -397,9 +403,7 @@ class _FaqPageState extends State<FaqPage> {
                         context.l10n.faqQuestionCount(cat.count),
                         style: TextStyle(
                           fontSize: 8,
-                          color: selected
-                              ? AppColors.primary
-                              : AppColors.muted,
+                          color: selected ? AppColors.primary : AppColors.muted,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -547,7 +551,9 @@ class _FaqPageState extends State<FaqPage> {
                 foregroundColor: Colors.white,
                 elevation: 0,
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 14, vertical: 10),
+                  horizontal: 14,
+                  vertical: 10,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

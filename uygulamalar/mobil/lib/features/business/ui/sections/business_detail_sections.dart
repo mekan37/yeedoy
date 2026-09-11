@@ -118,7 +118,6 @@ class BusinessPerksSection extends ConsumerWidget {
       loading: () => const SizedBox.shrink(),
       error: (_, _) => const SizedBox.shrink(),
       data: (perks) {
-        if (perks.isEmpty) return const SizedBox.shrink();
         return AppCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,15 +130,16 @@ class BusinessPerksSection extends ConsumerWidget {
                       style: const TextStyle(fontWeight: FontWeight.w900),
                     ),
                   ),
-                  TextButton(
-                    onPressed: () => context.push(
-                      Uri(
-                        path: '/perks/$businessId',
-                        queryParameters: {'name': businessName},
-                      ).toString(),
+                  if (perks.isNotEmpty)
+                    TextButton(
+                      onPressed: () => context.push(
+                        Uri(
+                          path: '/perks/$businessId',
+                          queryParameters: {'name': businessName},
+                        ).toString(),
+                      ),
+                      child: Text(t.businessDetailSeeAllButton),
                     ),
-                    child: Text(t.businessDetailSeeAllButton),
-                  ),
                 ],
               ),
               const SizedBox(height: 8),

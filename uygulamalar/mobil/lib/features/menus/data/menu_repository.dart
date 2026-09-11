@@ -36,8 +36,7 @@ class MenuRepository {
     this._telemetry,
     RequestCache requestCache,
     this._localDb,
-  )
-    : _cache = requestCache.scope(_cacheScope);
+  ) : _cache = requestCache.scope(_cacheScope);
   final SupabaseClient client;
   final AppTelemetry _telemetry;
   final RequestCacheScope _cache;
@@ -72,13 +71,10 @@ class MenuRepository {
           .map((row) => BusinessMenu.fromMap(row.cast<String, dynamic>()))
           .toList();
       _cache.set(key, menus);
-      await _writeMenuSnapshot(
-        key,
-        <String, dynamic>{
-          'type': 'business_menus',
-          'menus': menus.map((menu) => menu.toMap()).toList(),
-        },
-      );
+      await _writeMenuSnapshot(key, <String, dynamic>{
+        'type': 'business_menus',
+        'menus': menus.map((menu) => menu.toMap()).toList(),
+      });
       await OfflineCachePrefs.saveBusinessMenus(businessId, menus);
       return menus;
     } catch (e) {
@@ -139,13 +135,10 @@ class MenuRepository {
           .map((row) => MenuSection.fromMap(row.cast<String, dynamic>()))
           .toList();
       _cache.set(key, sections);
-      await _writeMenuSnapshot(
-        key,
-        <String, dynamic>{
-          'type': 'menu_sections',
-          'sections': sections.map((section) => section.toMap()).toList(),
-        },
-      );
+      await _writeMenuSnapshot(key, <String, dynamic>{
+        'type': 'menu_sections',
+        'sections': sections.map((section) => section.toMap()).toList(),
+      });
       await OfflineCachePrefs.saveMenuSections(menuId, sections);
       return sections;
     } catch (e) {
@@ -170,18 +163,15 @@ class MenuRepository {
     if (fresh != null) return fresh;
     try {
       final items = await _telemetry.traceRpc<List<MenuItem>>(
-        operation: 'get_menu_items_v2',
+        operation: 'get_menu_items_by_sections_v1',
         run: () => _getMenuItemsV2(menuId, sections: sections),
         sampleRate: 0.2,
       );
       _cache.set(key, items);
-      await _writeMenuSnapshot(
-        key,
-        <String, dynamic>{
-          'type': 'menu_items',
-          'items': items.map((item) => item.toMap()).toList(),
-        },
-      );
+      await _writeMenuSnapshot(key, <String, dynamic>{
+        'type': 'menu_items',
+        'items': items.map((item) => item.toMap()).toList(),
+      });
       await OfflineCachePrefs.saveMenuItems(menuId, items);
       final hasSuspiciousDuplicates = _hasDuplicatedItemIds(items);
       final hasNoSectionBinding =
@@ -207,13 +197,10 @@ class MenuRepository {
         sampleRate: 0.2,
       );
       _cache.set(key, items);
-      await _writeMenuSnapshot(
-        key,
-        <String, dynamic>{
-          'type': 'menu_items',
-          'items': items.map((item) => item.toMap()).toList(),
-        },
-      );
+      await _writeMenuSnapshot(key, <String, dynamic>{
+        'type': 'menu_items',
+        'items': items.map((item) => item.toMap()).toList(),
+      });
       await OfflineCachePrefs.saveMenuItems(menuId, items);
       return items;
     } catch (e) {
@@ -403,10 +390,7 @@ class MenuRepository {
     try {
       final token = await createOfflineMutationIdempotencyToken(
         action: 'menu_item_photo_vote',
-        payload: {
-          'photo_id': photoId,
-          'vote': vote,
-        },
+        payload: {'photo_id': photoId, 'vote': vote},
       );
       try {
         final res = await client.rpc(
@@ -495,8 +479,7 @@ class MenuRepository {
     String? businessId,
     String? menuId,
   }) async {
-    final resolvedClientId =
-        (clientId ?? await getAnalyticsClientId()).trim();
+    final resolvedClientId = (clientId ?? await getAnalyticsClientId()).trim();
     final capturedAtValue = capturedAt ?? DateTime.now();
     final queuedPayload = await attachOfflineMutationIdempotency(
       action: OfflineVerifyActionType.suggestPrice.name,
@@ -536,9 +519,7 @@ class MenuRepository {
           'submit_menu_item_price_suggestion_v5',
           params: {
             ...params,
-            'p_client_id': resolvedClientId.isEmpty
-                ? null
-                : resolvedClientId,
+            'p_client_id': resolvedClientId.isEmpty ? null : resolvedClientId,
             'p_captured_at': capturedAtValue.toIso8601String(),
             'p_idempotency_key': queuedPayload['idempotency_key'],
           },
@@ -552,9 +533,7 @@ class MenuRepository {
             'submit_menu_item_price_suggestion_v3',
             params: {
               ...params,
-              'p_client_id': resolvedClientId.isEmpty
-                  ? null
-                  : resolvedClientId,
+              'p_client_id': resolvedClientId.isEmpty ? null : resolvedClientId,
               'p_captured_at': capturedAtValue.toIso8601String(),
             },
           );
@@ -780,7 +759,9 @@ class MenuRepository {
     }
   }
 
-  Future<MenuItemPriceStatus> fetchMenuItemPriceStatus(String menuItemId) async {
+  Future<MenuItemPriceStatus> fetchMenuItemPriceStatus(
+    String menuItemId,
+  ) async {
     try {
       final res = await client.rpc(
         'get_menu_item_price_status_v1',
@@ -891,23 +872,22 @@ class MenuRepository {
         .toList();
     if (sectionIds.isEmpty) return const [];
 
-    final responses = await Future.wait(
-      sectionIds.map(
-        (id) => client.rpc(
-          'get_menu_items_v2',
-          params: {'p_section_id': id, 'p_limit': limit, 'p_offset': offset},
-        ),
-      ),
+    // Bölüm başına ayrı RPC (N+1) yerine tek batched çağrı (B17) — bölüm
+    // başına limit/offset semantiği sunucu tarafında row_number() ile
+    // korunuyor.
+    final res = await client.rpc(
+      'get_menu_items_by_sections_v1',
+      params: {
+        'p_section_ids': sectionIds,
+        'p_limit': limit,
+        'p_offset': offset,
+      },
     );
-    final items = <MenuItem>[];
-    for (final res in responses) {
-      final rows = (res as List?) ?? const [];
-      items.addAll(
-        rows.whereType<Map>().map(
-          (row) => MenuItem.fromMap(row.cast<String, dynamic>()),
-        ),
-      );
-    }
+    final rows = (res as List?) ?? const [];
+    final items = rows
+        .whereType<Map>()
+        .map((row) => MenuItem.fromMap(row.cast<String, dynamic>()))
+        .toList();
     if (items.isEmpty) return items;
     final byId = <String, MenuItem>{};
     for (final item in items) {
@@ -949,10 +929,7 @@ class MenuRepository {
     }).toList();
   }
 
-  Future<void> _writeMenuSnapshot(
-    String id,
-    Map<String, dynamic> payload,
-  ) {
+  Future<void> _writeMenuSnapshot(String id, Map<String, dynamic> payload) {
     return _localDb.upsert(
       bucket: LocalDbBucket.menuSnapshot,
       id: id,
@@ -1134,10 +1111,7 @@ Future<void> _submitDesiredPriceVoteLegacy({
     if (currentVote == null || currentVote == 0) return;
     final res = await client.rpc(
       'vote_menu_item_price_v1',
-      params: {
-        'p_menu_item_id': menuItemId,
-        'p_vote': currentVote,
-      },
+      params: {'p_menu_item_id': menuItemId, 'p_vote': currentVote},
     );
     _ensureOkResponse(res, fallbackError: 'price_vote_failed');
     return;
@@ -1163,10 +1137,7 @@ Future<void> _submitDesiredPhotoVoteLegacy({
     if (currentVote == null || currentVote == 0) return;
     final res = await client.rpc(
       'vote_menu_item_photo_v1',
-      params: {
-        'p_photo_id': photoId,
-        'p_vote': currentVote,
-      },
+      params: {'p_photo_id': photoId, 'p_vote': currentVote},
     );
     _ensureOkResponse(res, fallbackError: 'photo_vote_failed');
     return;
@@ -1212,7 +1183,10 @@ void _ensureOkResponse(dynamic res, {required String fallbackError}) {
     throw Exception(error.isEmpty ? fallbackError : error);
   }
   if (res is List && res.isNotEmpty && res.first is Map) {
-    _ensureOkResponse((res.first as Map).cast<String, dynamic>(), fallbackError: fallbackError);
+    _ensureOkResponse(
+      (res.first as Map).cast<String, dynamic>(),
+      fallbackError: fallbackError,
+    );
     return;
   }
   throw Exception(fallbackError);

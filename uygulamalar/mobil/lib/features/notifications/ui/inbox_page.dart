@@ -9,6 +9,7 @@ import '../../../core/analytics/analytics_client.dart';
 import '../../../core/analytics/app_events.dart';
 import '../../../core/analytics/analytics_repository.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../domain/inbox_models.dart';
 import '../domain/inbox_provider.dart';
@@ -38,11 +39,11 @@ class _InboxPageState extends ConsumerState<InboxPage> {
   _InboxFilter _filter = _InboxFilter.all;
 
   List<InboxItem> _filtered(InboxState st) => switch (_filter) {
-        _InboxFilter.all => st.items,
-        _InboxFilter.unread => st.items.where((e) => !st.isRead(e)).toList(),
-        _InboxFilter.business =>
-          st.items.where((e) => _kBusinessTypes.contains(e.type)).toList(),
-      };
+    _InboxFilter.all => st.items,
+    _InboxFilter.unread => st.items.where((e) => !st.isRead(e)).toList(),
+    _InboxFilter.business =>
+      st.items.where((e) => _kBusinessTypes.contains(e.type)).toList(),
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -55,56 +56,56 @@ class _InboxPageState extends ConsumerState<InboxPage> {
     return RefreshIndicator(
       onRefresh: () => controller.refresh(),
       child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            _buildHeader(t),
-            _buildFilterBar(),
-            if (notificationsDenied)
-              const Padding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 10),
-                child: _NotificationDeniedBanner(),
+        padding: EdgeInsets.zero,
+        children: [
+          _buildHeader(t),
+          _buildFilterBar(),
+          if (notificationsDenied)
+            const Padding(
+              padding: EdgeInsets.fromLTRB(16, 0, 16, 10),
+              child: _NotificationDeniedBanner(),
+            ),
+          if (st.error != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+              child: Text(
+                AppErrorMapper.message(st.error),
+                style: const TextStyle(color: AppColors.danger),
               ),
-            if (st.error != null)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
-                child: Text(
-                  AppErrorMapper.message(st.error),
-                  style: const TextStyle(color: AppColors.danger),
-                ),
+            ),
+          if (st.isLoading && st.items.isEmpty)
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.all(24),
+                child: CircularProgressIndicator(),
               ),
-            if (st.isLoading && st.items.isEmpty)
-              const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(24),
-                  child: CircularProgressIndicator(),
-                ),
-              )
-            else if (items.isEmpty)
+            )
+          else if (items.isEmpty)
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: AppEmptyState(
+                icon: Icons.inbox_outlined,
+                title: t.inboxEmptyTitle,
+                description: t.inboxEmptyDescription,
+              ),
+            )
+          else
+            for (final item in items)
               Padding(
-                padding: const EdgeInsets.all(16),
-                child: AppEmptyState(
-                  icon: Icons.inbox_outlined,
-                  title: t.inboxEmptyTitle,
-                  description: t.inboxEmptyDescription,
-                ),
-              )
-            else
-              for (final item in items)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                  child: RepaintBoundary(
-                    child: _buildInboxTile(
-                      context: context,
-                      ref: ref,
-                      controller: controller,
-                      item: item,
-                      unread: !st.isRead(item),
-                    ),
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                child: RepaintBoundary(
+                  child: _buildInboxTile(
+                    context: context,
+                    ref: ref,
+                    controller: controller,
+                    item: item,
+                    unread: !st.isRead(item),
                   ),
                 ),
-            const SizedBox(height: 16),
-          ],
-        ),
+              ),
+          const SizedBox(height: 16),
+        ],
+      ),
     );
   }
 
@@ -245,7 +246,7 @@ String _messageForInboxItem(BuildContext context, InboxItem item) {
     final newCents = (item.meta['matched_price_cents'] as num?)?.toInt();
     if (prevCents != null && newCents != null && newCents < prevCents) {
       final savingsCents = prevCents - newCents;
-      final savings = _formatCents(savingsCents);
+      final savings = _formatCents(context, savingsCents);
       return '${item.message} • $savings tasarruf';
     }
     return item.message;
@@ -253,7 +254,6 @@ String _messageForInboxItem(BuildContext context, InboxItem item) {
 
   return item.message;
 }
-
 
 class _InboxTile extends StatelessWidget {
   const _InboxTile({
@@ -310,8 +310,9 @@ class _InboxTile extends StatelessWidget {
                           child: Text(
                             title,
                             style: TextStyle(
-                              fontWeight:
-                                  unread ? FontWeight.w900 : FontWeight.w700,
+                              fontWeight: unread
+                                  ? FontWeight.w900
+                                  : FontWeight.w700,
                               fontSize: 14,
                               color: AppColors.textStrong,
                             ),
@@ -366,11 +367,10 @@ class _InboxTile extends StatelessWidget {
   }
 }
 
-String _formatCents(int cents) {
-  final tl = cents ~/ 100;
-  final kr = cents % 100;
-  if (kr == 0) return '₺$tl';
-  return '₺$tl,${kr.toString().padLeft(2, '0')}';
+// Kanonik formatCurrency'e devredildi — diğer ekranlarla aynı gösterim
+// (B36).
+String _formatCents(BuildContext context, int cents) {
+  return formatCurrency(context, cents / 100);
 }
 
 String _relative(BuildContext context, DateTime time) {
@@ -380,9 +380,7 @@ String _relative(BuildContext context, DateTime time) {
   if (diff.inHours < 1) return t.timeMinutes(diff.inMinutes);
   if (diff.inDays < 1) return t.timeHours(diff.inHours);
   if (diff.inDays < 30) return t.timeDays(diff.inDays);
-  final d = time.day.toString().padLeft(2, '0');
-  final m = time.month.toString().padLeft(2, '0');
-  return '$d.$m.${time.year}';
+  return formatShortDate(context, time);
 }
 
 class _InboxVisual {
@@ -450,7 +448,6 @@ _InboxVisual _visualFor(InboxItem item) {
   }
 }
 
-
 class _NotificationDeniedBanner extends StatelessWidget {
   const _NotificationDeniedBanner();
 
@@ -465,8 +462,11 @@ class _NotificationDeniedBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.notifications_off_outlined,
-              color: AppColors.warning, size: 20),
+          const Icon(
+            Icons.notifications_off_outlined,
+            color: AppColors.warning,
+            size: 20,
+          ),
           const SizedBox(width: 10),
           const Expanded(
             child: Text(
@@ -492,4 +492,3 @@ class _NotificationDeniedBanner extends StatelessWidget {
     );
   }
 }
-

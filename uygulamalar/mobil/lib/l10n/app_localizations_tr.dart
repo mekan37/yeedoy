@@ -3347,6 +3347,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get reviewCreateSubmitted => 'Yorum gönderildi.';
 
   @override
+  String get reviewCreatePhotoUploadFailed =>
+      'Yorum gönderildi ama fotoğraf yüklenemedi. Daha sonra tekrar deneyebilirsin.';
+
+  @override
   String get reviewCreateErrorNewAccountRateLimited =>
       'Yeni hesaplar için günlük yorum limiti doldu.';
 
@@ -3364,6 +3368,229 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get reviewCreateErrorEmojiSpam => 'Yorumda çok fazla emoji var.';
+
+  @override
+  String get reviewCreateHeroTitle => 'Yorum Yap ve Puan Ver';
+
+  @override
+  String get reviewCreateHeroSubtitle =>
+      'Deneyimini paylaş, topluluğa yardımcı ol';
+
+  @override
+  String get reviewCreateRatingHintLow => 'Kötü';
+
+  @override
+  String get reviewCreateRatingHintHigh => 'Mükemmel';
+
+  @override
+  String get reviewCreateContentLabel => 'Yorumun (isteğe bağlı)';
+
+  @override
+  String get reviewCreateContentPlaceholder =>
+      'Deneyimini buraya yazabilirsin...';
+
+  @override
+  String get reviewCreatePhotosLabel => 'Fotoğraf Ekle';
+
+  @override
+  String get reviewCreateAddPhoto => 'Fotoğraf ekle';
+
+  @override
+  String reviewCreateAddPhotoHint(int max) {
+    return 'En fazla $max foto';
+  }
+
+  @override
+  String get reviewCreateExperienceLabel =>
+      'Detaylı Değerlendirme (isteğe bağlı)';
+
+  @override
+  String get reviewCreateAddToFavorites => 'Bu işletmeyi favorilerime ekle';
+
+  @override
+  String get reviewCreateSubmitCta => 'Yorumu Gönder';
+
+  @override
+  String get reviewRatingCriterionTaste => 'Lezzet';
+
+  @override
+  String get reviewRatingCriterionServiceSpeed => 'Servis Hızı';
+
+  @override
+  String get reviewRatingCriterionPricePerformance => 'Fiyat performans';
+
+  @override
+  String get reviewRatingCriterionCleanliness => 'Temizlik';
+
+  @override
+  String get reviewRatingCriterionAtmosphere => 'Atmosfer';
+
+  @override
+  String get appShellExitOnBackPress => 'Çıkmak için tekrar basın';
+
+  @override
+  String businessMenuPreviewConfirmedByCount(int count) {
+    return '$count kullanıcı onayladı';
+  }
+
+  @override
+  String get discoveryBudgetPerPersonUnlimited => 'Kişi başı bütçe: Sınırsız';
+
+  @override
+  String discoveryBudgetPerPersonMax(int amount) {
+    return 'Kişi başı max bütçe: $amount₺';
+  }
+
+  @override
+  String get discoveryBudgetSliderUnlimited => 'Sınırsız';
+
+  @override
+  String discoveryMaxBudgetChipLabel(int amount) {
+    return 'Max $amount₺';
+  }
+
+  @override
+  String get discoveryTasteTwinChipLabel => 'Taste Twin';
+
+  @override
+  String get heroesWeeklyLeaderboardTitle => 'Haftalık En İyi Katkıcılar';
+
+  @override
+  String get heroesWeeklyLeaderboardSubtitle =>
+      'Son 7 günde en çok fiyat doğrulayan, yorum yazan ve fotoğraf ekleyenler';
+
+  @override
+  String get heroesWeeklyLeaderboardEmpty => 'Bu hafta henüz katkı yok.';
+
+  @override
+  String get heroesAllTimeTitle => 'Tüm Zamanlar Kahramanları';
+
+  @override
+  String heroesWeeklyStatsLine(
+    int verifyCount,
+    int reviewCount,
+    int photoCount,
+  ) {
+    return '$verifyCount doğrulama · $reviewCount yorum · $photoCount fotoğraf';
+  }
+
+  @override
+  String menuItemsConfirmedByCount(int count) {
+    return '$count kişi onayladı';
+  }
+
+  @override
+  String get menuOfflineSaveTooltipSaved => 'Çevrimdışı kaydedildi';
+
+  @override
+  String get menuOfflineSaveTooltipUnsaved => 'Çevrimdışı kaydet';
+
+  @override
+  String get menuOfflineSavedSnackbar => 'Menü çevrimdışı için kaydedildi';
+
+  @override
+  String get priceOnRequest => 'Fiyata sorunuz';
+
+  @override
+  String menuTimeWindowNowDiscount(String label, String timeRange, int pct) {
+    return 'Şu an: $label • %$pct indirimli ($timeRange)';
+  }
+
+  @override
+  String menuTimeWindowUpcomingDiscount(
+    String label,
+    String timeRange,
+    int pct,
+  ) {
+    return '$label daha uygun ($timeRange) • %$pct indirim';
+  }
+
+  @override
+  String menuTimeWindowNowPrice(
+    String label,
+    String timeRange,
+    String priceText,
+  ) {
+    return 'Şu an: $label $priceText ($timeRange)';
+  }
+
+  @override
+  String menuTimeWindowUpcomingPrice(
+    String label,
+    String timeRange,
+    String priceText,
+  ) {
+    return '$label fiyatı $priceText ($timeRange)';
+  }
+
+  @override
+  String menuTimeWindowNowPlain(String label, String timeRange) {
+    return 'Şu an: $label ($timeRange)';
+  }
+
+  @override
+  String menuTimeWindowUpcomingPlain(String label, String timeRange) {
+    return '$label ($timeRange)';
+  }
+
+  @override
+  String get menuDataTrustLabel => 'Veri güveni';
+
+  @override
+  String get menuPriceMetaToday => 'Bugün';
+
+  @override
+  String get menuPriceMetaYesterday => 'Dün';
+
+  @override
+  String menuPriceMetaDaysAgo(int days) {
+    return '$days gün önce';
+  }
+
+  @override
+  String menuPriceMetaMonthsAgo(int months) {
+    return '$months ay önce';
+  }
+
+  @override
+  String menuPriceMetaUpdated(String timeStr) {
+    return 'Son güncelleme: $timeStr';
+  }
+
+  @override
+  String menuPriceMetaVerifierCount(int count) {
+    return '$count doğrulayıcı';
+  }
+
+  @override
+  String menuPriceMetaVoteCount(int count) {
+    return '$count oylama';
+  }
+
+  @override
+  String menuPriceBenchmarkSame(String avgText) {
+    return 'Şehir ort: $avgText (benzer fiyat)';
+  }
+
+  @override
+  String menuPriceBenchmarkCheaper(String avgText, int pct) {
+    return 'Şehir ort: $avgText • %$pct daha ucuz';
+  }
+
+  @override
+  String menuPriceBenchmarkPricier(String avgText, int pct) {
+    return 'Şehir ort: $avgText • %$pct daha pahalı';
+  }
+
+  @override
+  String get menuNutritionDisclaimer =>
+      'Değerler tahmini olabilir. Alerji durumunuz için lütfen personele bilgi veriniz.';
+
+  @override
+  String get menuTransparentMenuTitle => 'Şeffaf Menü';
+
+  @override
+  String get menuIngredientsLabel => 'İçindekiler';
 
   @override
   String get quality => 'Kalite';
@@ -4701,10 +4928,21 @@ class AppLocalizationsTr extends AppLocalizations {
       'Şifreler eşleşmiyor.';
 
   @override
+  String get accountSecurityChangePasswordErrorReauthRequired =>
+      'Devam etmek için mevcut şifrenizi girin.';
+
+  @override
+  String get accountSecurityChangePasswordErrorReauthFailed =>
+      'Mevcut şifre yanlış.';
+
+  @override
   String get accountSecurityPasswordUpdated => 'Şifre başarıyla güncellendi.';
 
   @override
   String get accountSecurityChangePasswordTitle => 'Şifre Değiştir';
+
+  @override
+  String get accountSecurityCurrentPasswordLabel => 'Mevcut şifre';
 
   @override
   String get accountSecurityNewPasswordLabel => 'Yeni şifre';
@@ -4721,6 +4959,14 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get accountSecurityChangeEmailErrorInvalid =>
       'Geçerli bir e-posta girin.';
+
+  @override
+  String get accountSecurityChangeEmailErrorReauthRequired =>
+      'Devam etmek için mevcut şifrenizi girin.';
+
+  @override
+  String get accountSecurityChangeEmailErrorReauthFailed =>
+      'Mevcut şifre yanlış.';
 
   @override
   String accountSecurityChangeEmailSentBody(String email) {

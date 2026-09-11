@@ -5,4 +5,4 @@
 - Breakpoints: `AppTokens.bp720/860/980/1180/1280` — never magic numbers
 - No inline color, spacing, or hex. No raw `TextStyle(fontSize:16)` hardcodes — use `AppTypography`
 - Min tap target: 44 px
-- Font family: Sora
+- Font family: Outfit (`GoogleFonts.outfit()`, `lib/app/theme/app_text.dart`)

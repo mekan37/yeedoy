@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -22,6 +23,7 @@ final reviewsRepositoryProvider = Provider<ReviewsRepository>((ref) {
 class ReviewsRepository {
   ReviewsRepository(this.client);
   final SupabaseClient client;
+  final Random _random = Random.secure();
 
   Future<List<Review>> listReviews(String businessId) async {
     return fetchBusinessReviews(
@@ -159,8 +161,11 @@ class ReviewsRepository {
   }
 
   String _randomHex() {
-    final r = DateTime.now().microsecondsSinceEpoch & 0xFFFFFF;
-    return r.toRadixString(16).padLeft(6, '0');
+    // Önceden mikrosaniye tabanlı (~1000 aday, tahmin edilebilir) idi —
+    // storage path'i public 'temp' bucket'ta olduğu için bu, dosyanın
+    // URL'sinin brute-force ile bulunabilmesi anlamına geliyordu.
+    final bytes = List<int>.generate(8, (_) => _random.nextInt(256));
+    return bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
   }
 
   /// Fetches recent review photo URLs for a business (up to [limit] photos).

@@ -51,11 +51,8 @@ export default async function BildirimAyarlariPage() {
   // migration 20260620000001 uygulanmadan önce sütun yoktur; hata durumunda false default.
   let marketingEmailEnabled = false;
   try {
-    const { data: profileData } = await (supabase as any)
-      .from('user_profiles')
-      .select('marketing_email_opt_in')
-      .eq('user_id', user!.id)
-      .single();
+    const { data: envelope } = await (supabase as any).rpc('get_my_profile_private_v1');
+    const profileData = envelope?.profile;
     if (profileData && typeof profileData.marketing_email_opt_in === 'boolean') {
       marketingEmailEnabled = profileData.marketing_email_opt_in;
     }

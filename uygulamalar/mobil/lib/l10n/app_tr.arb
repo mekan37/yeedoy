@@ -2242,11 +2242,66 @@
   "reviewCreateOptionalTitleLabel": "Başlık (isteğe bağlı)",
   "reviewCreateContentRequired": "Yorum boş olamaz.",
   "reviewCreateSubmitted": "Yorum gönderildi.",
+  "reviewCreatePhotoUploadFailed": "Yorum gönderildi ama fotoğraf yüklenemedi. Daha sonra tekrar deneyebilirsin.",
   "reviewCreateErrorNewAccountRateLimited": "Yeni hesaplar için günlük yorum limiti doldu.",
   "reviewCreateErrorSameBusinessCooldown": "Aynı işletme için kısa sürede tekrar yorum gönderemezsin.",
   "reviewCreateErrorContainsLinkOrPhone": "Yorumda link veya telefon bilgisi paylaşılamaz.",
   "reviewCreateErrorContainsProfanity": "Yorumda uygunsuz ifade var.",
   "reviewCreateErrorEmojiSpam": "Yorumda çok fazla emoji var.",
+  "reviewCreateHeroTitle": "Yorum Yap ve Puan Ver",
+  "reviewCreateHeroSubtitle": "Deneyimini paylaş, topluluğa yardımcı ol",
+  "reviewCreateRatingHintLow": "Kötü",
+  "reviewCreateRatingHintHigh": "Mükemmel",
+  "reviewCreateContentLabel": "Yorumun (isteğe bağlı)",
+  "reviewCreateContentPlaceholder": "Deneyimini buraya yazabilirsin...",
+  "reviewCreatePhotosLabel": "Fotoğraf Ekle",
+  "reviewCreateAddPhoto": "Fotoğraf ekle",
+  "reviewCreateAddPhotoHint": "En fazla {max} foto",
+  "reviewCreateExperienceLabel": "Detaylı Değerlendirme (isteğe bağlı)",
+  "reviewCreateAddToFavorites": "Bu işletmeyi favorilerime ekle",
+  "reviewCreateSubmitCta": "Yorumu Gönder",
+  "reviewRatingCriterionTaste": "Lezzet",
+  "reviewRatingCriterionServiceSpeed": "Servis Hızı",
+  "reviewRatingCriterionPricePerformance": "Fiyat performans",
+  "reviewRatingCriterionCleanliness": "Temizlik",
+  "reviewRatingCriterionAtmosphere": "Atmosfer",
+  "appShellExitOnBackPress": "Çıkmak için tekrar basın",
+  "businessMenuPreviewConfirmedByCount": "{count} kullanıcı onayladı",
+  "discoveryBudgetPerPersonUnlimited": "Kişi başı bütçe: Sınırsız",
+  "discoveryBudgetPerPersonMax": "Kişi başı max bütçe: {amount}₺",
+  "discoveryBudgetSliderUnlimited": "Sınırsız",
+  "discoveryMaxBudgetChipLabel": "Max {amount}₺",
+  "discoveryTasteTwinChipLabel": "Taste Twin",
+  "heroesWeeklyLeaderboardTitle": "Haftalık En İyi Katkıcılar",
+  "heroesWeeklyLeaderboardSubtitle": "Son 7 günde en çok fiyat doğrulayan, yorum yazan ve fotoğraf ekleyenler",
+  "heroesWeeklyLeaderboardEmpty": "Bu hafta henüz katkı yok.",
+  "heroesAllTimeTitle": "Tüm Zamanlar Kahramanları",
+  "heroesWeeklyStatsLine": "{verifyCount} doğrulama · {reviewCount} yorum · {photoCount} fotoğraf",
+  "menuItemsConfirmedByCount": "{count} kişi onayladı",
+  "menuOfflineSaveTooltipSaved": "Çevrimdışı kaydedildi",
+  "menuOfflineSaveTooltipUnsaved": "Çevrimdışı kaydet",
+  "menuOfflineSavedSnackbar": "Menü çevrimdışı için kaydedildi",
+  "priceOnRequest": "Fiyata sorunuz",
+  "menuTimeWindowNowDiscount": "Şu an: {label} • %{pct} indirimli ({timeRange})",
+  "menuTimeWindowUpcomingDiscount": "{label} daha uygun ({timeRange}) • %{pct} indirim",
+  "menuTimeWindowNowPrice": "Şu an: {label} {priceText} ({timeRange})",
+  "menuTimeWindowUpcomingPrice": "{label} fiyatı {priceText} ({timeRange})",
+  "menuTimeWindowNowPlain": "Şu an: {label} ({timeRange})",
+  "menuTimeWindowUpcomingPlain": "{label} ({timeRange})",
+  "menuDataTrustLabel": "Veri güveni",
+  "menuPriceMetaToday": "Bugün",
+  "menuPriceMetaYesterday": "Dün",
+  "menuPriceMetaDaysAgo": "{days} gün önce",
+  "menuPriceMetaMonthsAgo": "{months} ay önce",
+  "menuPriceMetaUpdated": "Son güncelleme: {timeStr}",
+  "menuPriceMetaVerifierCount": "{count} doğrulayıcı",
+  "menuPriceMetaVoteCount": "{count} oylama",
+  "menuPriceBenchmarkSame": "Şehir ort: {avgText} (benzer fiyat)",
+  "menuPriceBenchmarkCheaper": "Şehir ort: {avgText} • %{pct} daha ucuz",
+  "menuPriceBenchmarkPricier": "Şehir ort: {avgText} • %{pct} daha pahalı",
+  "menuNutritionDisclaimer": "Değerler tahmini olabilir. Alerji durumunuz için lütfen personele bilgi veriniz.",
+  "menuTransparentMenuTitle": "Şeffaf Menü",
+  "menuIngredientsLabel": "İçindekiler",
   "quality": "Kalite",
   "smartFeedEmptyTitle": "Henüz akış yok",
   "smartFeedEmptyDescription": "Filtreleri gevşetebilir ya da ilk katkıyı sen ekleyebilirsin.",
@@ -4751,6 +4806,9 @@
   "@reviewCreateSubmitted": {
     "description": "Auto metadata for reviewCreateSubmitted"
   },
+  "@reviewCreatePhotoUploadFailed": {
+    "description": "Auto metadata for reviewCreatePhotoUploadFailed"
+  },
   "@reviewCreateErrorNewAccountRateLimited": {
     "description": "Auto metadata for reviewCreateErrorNewAccountRateLimited"
   },
@@ -4765,6 +4823,310 @@
   },
   "@reviewCreateErrorEmojiSpam": {
     "description": "Auto metadata for reviewCreateErrorEmojiSpam"
+  },
+  "@reviewCreateHeroTitle": {
+    "description": "Auto metadata for reviewCreateHeroTitle"
+  },
+  "@reviewCreateHeroSubtitle": {
+    "description": "Auto metadata for reviewCreateHeroSubtitle"
+  },
+  "@reviewCreateRatingHintLow": {
+    "description": "Auto metadata for reviewCreateRatingHintLow"
+  },
+  "@reviewCreateRatingHintHigh": {
+    "description": "Auto metadata for reviewCreateRatingHintHigh"
+  },
+  "@reviewCreateContentLabel": {
+    "description": "Auto metadata for reviewCreateContentLabel"
+  },
+  "@reviewCreateContentPlaceholder": {
+    "description": "Auto metadata for reviewCreateContentPlaceholder"
+  },
+  "@reviewCreatePhotosLabel": {
+    "description": "Auto metadata for reviewCreatePhotosLabel"
+  },
+  "@reviewCreateAddPhoto": {
+    "description": "Auto metadata for reviewCreateAddPhoto"
+  },
+  "@reviewCreateAddPhotoHint": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for reviewCreateAddPhotoHint"
+  },
+  "@reviewCreateExperienceLabel": {
+    "description": "Auto metadata for reviewCreateExperienceLabel"
+  },
+  "@reviewCreateAddToFavorites": {
+    "description": "Auto metadata for reviewCreateAddToFavorites"
+  },
+  "@reviewCreateSubmitCta": {
+    "description": "Auto metadata for reviewCreateSubmitCta"
+  },
+  "@reviewRatingCriterionTaste": {
+    "description": "Auto metadata for reviewRatingCriterionTaste"
+  },
+  "@reviewRatingCriterionServiceSpeed": {
+    "description": "Auto metadata for reviewRatingCriterionServiceSpeed"
+  },
+  "@reviewRatingCriterionPricePerformance": {
+    "description": "Auto metadata for reviewRatingCriterionPricePerformance"
+  },
+  "@reviewRatingCriterionCleanliness": {
+    "description": "Auto metadata for reviewRatingCriterionCleanliness"
+  },
+  "@reviewRatingCriterionAtmosphere": {
+    "description": "Auto metadata for reviewRatingCriterionAtmosphere"
+  },
+  "@appShellExitOnBackPress": {
+    "description": "Auto metadata for appShellExitOnBackPress"
+  },
+  "@businessMenuPreviewConfirmedByCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for businessMenuPreviewConfirmedByCount"
+  },
+  "@discoveryBudgetPerPersonUnlimited": {
+    "description": "Auto metadata for discoveryBudgetPerPersonUnlimited"
+  },
+  "@discoveryBudgetPerPersonMax": {
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for discoveryBudgetPerPersonMax"
+  },
+  "@discoveryBudgetSliderUnlimited": {
+    "description": "Auto metadata for discoveryBudgetSliderUnlimited"
+  },
+  "@discoveryMaxBudgetChipLabel": {
+    "placeholders": {
+      "amount": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for discoveryMaxBudgetChipLabel"
+  },
+  "@discoveryTasteTwinChipLabel": {
+    "description": "Auto metadata for discoveryTasteTwinChipLabel"
+  },
+  "@heroesWeeklyLeaderboardTitle": {
+    "description": "Auto metadata for heroesWeeklyLeaderboardTitle"
+  },
+  "@heroesWeeklyLeaderboardSubtitle": {
+    "description": "Auto metadata for heroesWeeklyLeaderboardSubtitle"
+  },
+  "@heroesWeeklyLeaderboardEmpty": {
+    "description": "Auto metadata for heroesWeeklyLeaderboardEmpty"
+  },
+  "@heroesAllTimeTitle": {
+    "description": "Auto metadata for heroesAllTimeTitle"
+  },
+  "@heroesWeeklyStatsLine": {
+    "placeholders": {
+      "verifyCount": {
+        "type": "int"
+      },
+      "reviewCount": {
+        "type": "int"
+      },
+      "photoCount": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for heroesWeeklyStatsLine"
+  },
+  "@menuItemsConfirmedByCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuItemsConfirmedByCount"
+  },
+  "@menuOfflineSaveTooltipSaved": {
+    "description": "Auto metadata for menuOfflineSaveTooltipSaved"
+  },
+  "@menuOfflineSaveTooltipUnsaved": {
+    "description": "Auto metadata for menuOfflineSaveTooltipUnsaved"
+  },
+  "@menuOfflineSavedSnackbar": {
+    "description": "Auto metadata for menuOfflineSavedSnackbar"
+  },
+  "@priceOnRequest": {
+    "description": "Auto metadata for priceOnRequest"
+  },
+  "@menuTimeWindowNowDiscount": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "timeRange": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuTimeWindowNowDiscount"
+  },
+  "@menuTimeWindowUpcomingDiscount": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "timeRange": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuTimeWindowUpcomingDiscount"
+  },
+  "@menuTimeWindowNowPrice": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "timeRange": {
+        "type": "String"
+      },
+      "priceText": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuTimeWindowNowPrice"
+  },
+  "@menuTimeWindowUpcomingPrice": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "timeRange": {
+        "type": "String"
+      },
+      "priceText": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuTimeWindowUpcomingPrice"
+  },
+  "@menuTimeWindowNowPlain": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "timeRange": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuTimeWindowNowPlain"
+  },
+  "@menuTimeWindowUpcomingPlain": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "timeRange": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuTimeWindowUpcomingPlain"
+  },
+  "@menuDataTrustLabel": {
+    "description": "Auto metadata for menuDataTrustLabel"
+  },
+  "@menuPriceMetaToday": {
+    "description": "Auto metadata for menuPriceMetaToday"
+  },
+  "@menuPriceMetaYesterday": {
+    "description": "Auto metadata for menuPriceMetaYesterday"
+  },
+  "@menuPriceMetaDaysAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuPriceMetaDaysAgo"
+  },
+  "@menuPriceMetaMonthsAgo": {
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuPriceMetaMonthsAgo"
+  },
+  "@menuPriceMetaUpdated": {
+    "placeholders": {
+      "timeStr": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuPriceMetaUpdated"
+  },
+  "@menuPriceMetaVerifierCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuPriceMetaVerifierCount"
+  },
+  "@menuPriceMetaVoteCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuPriceMetaVoteCount"
+  },
+  "@menuPriceBenchmarkSame": {
+    "placeholders": {
+      "avgText": {
+        "type": "String"
+      }
+    },
+    "description": "Auto metadata for menuPriceBenchmarkSame"
+  },
+  "@menuPriceBenchmarkCheaper": {
+    "placeholders": {
+      "avgText": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuPriceBenchmarkCheaper"
+  },
+  "@menuPriceBenchmarkPricier": {
+    "placeholders": {
+      "avgText": {
+        "type": "String"
+      },
+      "pct": {
+        "type": "int"
+      }
+    },
+    "description": "Auto metadata for menuPriceBenchmarkPricier"
+  },
+  "@menuNutritionDisclaimer": {
+    "description": "Auto metadata for menuNutritionDisclaimer"
+  },
+  "@menuTransparentMenuTitle": {
+    "description": "Auto metadata for menuTransparentMenuTitle"
+  },
+  "@menuIngredientsLabel": {
+    "description": "Auto metadata for menuIngredientsLabel"
   },
   "@quality": {
     "description": "Auto metadata for quality"
@@ -5596,13 +5958,18 @@
   "accountSecurityLogoutAllButton": "Tüm Cihazlarda Oturumu Kapat",
   "accountSecurityChangePasswordErrorTooShort": "Şifre en az 6 karakter olmalıdır.",
   "accountSecurityChangePasswordErrorMismatch": "Şifreler eşleşmiyor.",
+  "accountSecurityChangePasswordErrorReauthRequired": "Devam etmek için mevcut şifrenizi girin.",
+  "accountSecurityChangePasswordErrorReauthFailed": "Mevcut şifre yanlış.",
   "accountSecurityPasswordUpdated": "Şifre başarıyla güncellendi.",
   "accountSecurityChangePasswordTitle": "Şifre Değiştir",
+  "accountSecurityCurrentPasswordLabel": "Mevcut şifre",
   "accountSecurityNewPasswordLabel": "Yeni şifre",
   "accountSecurityNewPasswordConfirmLabel": "Yeni şifre (tekrar)",
   "accountSecuritySavingLabel": "Kaydediliyor…",
   "accountSecurityUpdatePasswordButton": "Şifreyi Güncelle",
   "accountSecurityChangeEmailErrorInvalid": "Geçerli bir e-posta girin.",
+  "accountSecurityChangeEmailErrorReauthRequired": "Devam etmek için mevcut şifrenizi girin.",
+  "accountSecurityChangeEmailErrorReauthFailed": "Mevcut şifre yanlış.",
   "accountSecurityChangeEmailSentBody": "{email} adresine doğrulama e-postası gönderildi. Bağlantıya tıkladıktan sonra e-postanız güncellenecektir.",
   "@accountSecurityChangeEmailSentBody": {
     "placeholders": {

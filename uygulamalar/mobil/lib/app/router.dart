@@ -69,20 +69,25 @@ import '../core/i18n/app_localizations.dart';
 bool _bootSplashHandled = false;
 
 final appRouterProvider = Provider<GoRouter>((ref) {
-  final session = ref.watch(sessionProvider);
-  final flags = ref.watch(featureFlagsProvider);
-  final legalSnapshot = ref.watch(legalAcceptanceSnapshotProvider);
   ref.watch(ensureMyProfileProvider);
-  final authRefresh = ValueNotifier<int>(0);
-  ref.listen(authStateProvider, (_, _) {
-    authRefresh.value++;
-  });
-  ref.onDispose(authRefresh.dispose);
+  // Yalnızca redirect() içinde canlı olarak ref.read edilen değerlerin
+  // değiştiğini bildiren tek bir Listenable — provider'ın kendisi (ve
+  // dolayısıyla GoRouter örneği) her oturum/flag/legal değişiminde SIFIRDAN
+  // yaratılmasın diye burada ref.watch değil ref.listen kullanılıyor.
+  // Aksi halde navigasyon yığını her değişimde resetlenir (B48).
+  final routerRefresh = ValueNotifier<int>(0);
+  ref.listen(authStateProvider, (_, _) => routerRefresh.value++);
+  ref.listen(featureFlagsProvider, (_, _) => routerRefresh.value++);
+  ref.listen(legalAcceptanceSnapshotProvider, (_, _) => routerRefresh.value++);
+  ref.onDispose(routerRefresh.dispose);
 
   return GoRouter(
     initialLocation: '/splash',
-    refreshListenable: authRefresh,
+    refreshListenable: routerRefresh,
     redirect: (context, state) {
+      final session = ref.read(sessionProvider);
+      final flags = ref.read(featureFlagsProvider);
+      final legalSnapshot = ref.read(legalAcceptanceSnapshotProvider);
       final loggedIn = session != null;
       final path = state.uri.path;
 
@@ -345,10 +350,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         // kapalı. Nav girişi yok; deep-link/manuel URL erişimine karşı redirect.
         // Sayfa silinmedi, geriye dönük uyumluluk için route saklı tutuldu.
         redirect: (c, s) => '/profile',
-        pageBuilder: (c, s) => buildFadeSlidePage(
-          state: s,
-          child: const YemekGunluguSayfasi(),
-        ),
+        pageBuilder: (c, s) =>
+            buildFadeSlidePage(state: s, child: const YemekGunluguSayfasi()),
       ),
       GoRoute(
         path: '/group-vote/:token',
@@ -470,14 +473,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         path: '/suggest-business',
         builder: (c, s) => const SuggestBusinessPage(),
       ),
-      GoRoute(
-        path: '/my-reviews',
-        builder: (c, s) => const MyReviewsPage(),
-      ),
-      GoRoute(
-        path: '/my-visits',
-        builder: (c, s) => const MyVisitsPage(),
-      ),
+      GoRoute(path: '/my-reviews', builder: (c, s) => const MyReviewsPage()),
+      GoRoute(path: '/my-visits', builder: (c, s) => const MyVisitsPage()),
       GoRoute(
         path: '/my-suggestions',
         builder: (c, s) => const MySuggestionsPage(),

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/i18n/locale_controller.dart';
+import '../../../core/session/session_cleanup_service.dart';
 import '../../legal/legal_providers.dart';
 import '../../legal/legal_repository.dart';
 import '../data/profile_repository.dart';
@@ -56,7 +56,7 @@ class _ProfileSettingsPageState extends ConsumerState<ProfileSettingsPage> {
   }
 
   Future<void> _logout() async {
-    await Supabase.instance.client.auth.signOut(scope: SignOutScope.global);
+    await ref.read(sessionCleanupServiceProvider).signOut();
     if (!mounted) return;
     Navigator.of(context).pop();
   }

@@ -8,7 +8,9 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../../../core/network/supabase_provider.dart';
+import '../../../core/session/session_cleanup_service.dart';
 import '../../legal/legal_repository.dart';
 import '../data/auth_service_provider.dart';
 import '../domain/auth_providers.dart';
@@ -77,7 +79,8 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
     // 3. İki Adımlı Doğrulama aktif
     try {
       final res = await client.auth.mfa.listFactors();
-      final verified = (res.totp as List?)
+      final verified =
+          (res.totp as List?)
               ?.where((f) => (f.status as String?) == 'verified')
               .toList() ??
           [];
@@ -97,8 +100,7 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
 
     // 5. Güvenilen cihaz kayıtlı
     try {
-      final rows =
-          await client.from('user_devices').select('id').limit(1);
+      final rows = await client.from('user_devices').select('id').limit(1);
       if ((rows as List).isNotEmpty) done++;
     } catch (_) {}
 
@@ -113,15 +115,13 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
   Future<void> _downloadData() async {
     final messenger = ScaffoldMessenger.of(context);
     try {
-      await ref.read(legalRepositoryProvider).submitPrivacyRequest(
-            requestType: 'data_export',
-          );
+      await ref
+          .read(legalRepositoryProvider)
+          .submitPrivacyRequest(requestType: 'data_export');
       if (mounted) {
         messenger.showSnackBar(
           SnackBar(
-            content: Text(
-              context.l10n.accountSecurityDataExportRequested,
-            ),
+            content: Text(context.l10n.accountSecurityDataExportRequested),
           ),
         );
       }
@@ -129,7 +129,8 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
       if (mounted) {
         messenger.showSnackBar(
           SnackBar(
-              content: Text(context.l10n.accountSecurityRequestFailedGeneric)),
+            content: Text(context.l10n.accountSecurityRequestFailedGeneric),
+          ),
         );
       }
     }
@@ -143,11 +144,7 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
       await launchUrl(uri);
     } else if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            context.l10n.accountSecurityMailAppUnavailable,
-          ),
-        ),
+        SnackBar(content: Text(context.l10n.accountSecurityMailAppUnavailable)),
       );
     }
   }
@@ -194,8 +191,10 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
                         ),
                         Text(
                           context.l10n.accountSecurityPageSubtitle,
-                          style:
-                              const TextStyle(fontSize: 12, color: AppColors.muted),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.muted,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -243,7 +242,9 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
                   icon: Icons.lock_outline_rounded,
                   title: context.l10n.accountSecurityPasswordTitle,
                   subtitle: context.l10n.accountSecurityPasswordSubtitle,
-                  trailing: _MetaText(context.l10n.accountSecurityPasswordLastChanged),
+                  trailing: _MetaText(
+                    context.l10n.accountSecurityPasswordLastChanged,
+                  ),
                   onTap: () => _showChangePassword(context),
                 ),
                 _SecurityRow(
@@ -278,9 +279,12 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
             const SizedBox(height: 16),
 
             // ── Tips card ─────────────────────────────────────────────
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: _TipsCard(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: _TipsCard(
+                onPasswordTap: () => _showChangePassword(context),
+                onTwoFactorTap: () => _show2FASheet(context),
+              ),
             ),
 
             const SizedBox(height: 24),
@@ -397,8 +401,10 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
                     controller: reasonController,
                     maxLines: 3,
                     decoration: InputDecoration(
-                      labelText: dialogContext.l10n.accountSecurityDeleteReasonLabel,
-                      hintText: dialogContext.l10n.accountSecurityDeleteReasonHint,
+                      labelText:
+                          dialogContext.l10n.accountSecurityDeleteReasonLabel,
+                      hintText:
+                          dialogContext.l10n.accountSecurityDeleteReasonHint,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -406,8 +412,10 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
                     controller: confirmationController,
                     onChanged: (_) => setDialogState(() {}),
                     decoration: InputDecoration(
-                      labelText: dialogContext.l10n.accountSecurityDeleteConfirmLabel,
-                      hintText: dialogContext.l10n.accountSecurityDeleteConfirmHint,
+                      labelText:
+                          dialogContext.l10n.accountSecurityDeleteConfirmLabel,
+                      hintText:
+                          dialogContext.l10n.accountSecurityDeleteConfirmHint,
                     ),
                   ),
                 ],
@@ -425,7 +433,9 @@ class _AccountSecurityPageState extends ConsumerState<AccountSecurityPage> {
                     backgroundColor: AppColors.danger,
                     foregroundColor: Colors.white,
                   ),
-                  child: Text(dialogContext.l10n.accountSecurityDeleteCreateRequestButton),
+                  child: Text(
+                    dialogContext.l10n.accountSecurityDeleteCreateRequestButton,
+                  ),
                 ),
               ],
             );
@@ -504,13 +514,13 @@ class _SecurityScoreCard extends StatelessWidget {
     final bgColor = score == 0
         ? const Color(0xFFFEE2E2)
         : score < 3
-            ? const Color(0xFFFEF3C7)
-            : const Color(0xFFDCFCE7);
+        ? const Color(0xFFFEF3C7)
+        : const Color(0xFFDCFCE7);
     final iconColor = score == 0
         ? AppColors.danger
         : score < 3
-            ? const Color(0xFFF59E0B)
-            : AppColors.success;
+        ? const Color(0xFFF59E0B)
+        : AppColors.success;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -592,7 +602,9 @@ class _SecurityScoreCard extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                         children: [
-                          TextSpan(text: context.l10n.accountSecurityScorePrefix),
+                          TextSpan(
+                            text: context.l10n.accountSecurityScorePrefix,
+                          ),
                           TextSpan(
                             text: scoreLabel,
                             style: TextStyle(
@@ -755,7 +767,8 @@ class _SecurityRow extends StatelessWidget {
         subtitle,
         style: const TextStyle(fontSize: 12, color: AppColors.muted),
       ),
-      trailing: trailing ??
+      trailing:
+          trailing ??
           const Icon(
             Icons.chevron_right_rounded,
             color: AppColors.muted,
@@ -784,8 +797,11 @@ class _MetaText extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 4),
-        const Icon(Icons.chevron_right_rounded,
-            color: AppColors.muted, size: 20),
+        const Icon(
+          Icons.chevron_right_rounded,
+          color: AppColors.muted,
+          size: 20,
+        ),
       ],
     );
   }
@@ -808,7 +824,11 @@ class _ActiveBadge extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 4),
-        const Icon(Icons.chevron_right_rounded, color: AppColors.muted, size: 20),
+        const Icon(
+          Icons.chevron_right_rounded,
+          color: AppColors.muted,
+          size: 20,
+        ),
       ],
     );
   }
@@ -817,7 +837,10 @@ class _ActiveBadge extends StatelessWidget {
 // ── Tips card ─────────────────────────────────────────────────────────────────
 
 class _TipsCard extends StatelessWidget {
-  const _TipsCard();
+  const _TipsCard({required this.onPasswordTap, required this.onTwoFactorTap});
+
+  final VoidCallback onPasswordTap;
+  final VoidCallback onTwoFactorTap;
 
   @override
   Widget build(BuildContext context) {
@@ -880,14 +903,14 @@ class _TipsCard extends StatelessWidget {
             icon: Icons.shield_outlined,
             title: context.l10n.accountSecurityTipStrongPasswordTitle,
             subtitle: context.l10n.accountSecurityTipStrongPasswordSubtitle,
-            onTap: () {},
+            onTap: onPasswordTap,
           ),
           const Divider(height: 1, indent: 56),
           _TipRow(
             icon: Icons.smartphone_outlined,
             title: context.l10n.accountSecurityTip2faTitle,
             subtitle: context.l10n.accountSecurityTip2faSubtitle,
-            onTap: () {},
+            onTap: onTwoFactorTap,
           ),
         ],
       ),
@@ -1004,8 +1027,7 @@ class _SupportBanner extends StatelessWidget {
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: AppColors.primary),
               foregroundColor: AppColors.primary,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               textStyle: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 12,
@@ -1056,7 +1078,8 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
     try {
       final client = widget.ref.read(supabaseProvider);
       final res = await client.auth.mfa.listFactors();
-      final verified = (res.totp as List?)
+      final verified =
+          (res.totp as List?)
               ?.where((f) => (f.status as String?) == 'verified')
               .toList() ??
           [];
@@ -1086,8 +1109,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
       final data = res as dynamic;
       setState(() {
         _totpUri = (data.totp?.uri ?? data.data?.totp?.uri) as String?;
-        _totpSecret =
-            (data.totp?.secret ?? data.data?.totp?.secret) as String?;
+        _totpSecret = (data.totp?.secret ?? data.data?.totp?.secret) as String?;
         _factorId = (data.id ?? data.data?.id) as String?;
         _state = TfaState.enrolling;
         _loading = false;
@@ -1112,8 +1134,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
     });
     try {
       final client = widget.ref.read(supabaseProvider);
-      final challenge =
-          await client.auth.mfa.challenge(factorId: _factorId!);
+      final challenge = await client.auth.mfa.challenge(factorId: _factorId!);
       final challengeId =
           ((challenge as dynamic).id ?? (challenge as dynamic).data?.id)
               as String?;
@@ -1149,8 +1170,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
     });
     try {
       final client = widget.ref.read(supabaseProvider);
-      final challenge =
-          await client.auth.mfa.challenge(factorId: _factorId!);
+      final challenge = await client.auth.mfa.challenge(factorId: _factorId!);
       final challengeId =
           ((challenge as dynamic).id ?? (challenge as dynamic).data?.id)
               as String?;
@@ -1180,7 +1200,11 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
-          20, 8, 20, 20 + MediaQuery.of(context).viewInsets.bottom),
+        20,
+        8,
+        20,
+        20 + MediaQuery.of(context).viewInsets.bottom,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1194,8 +1218,11 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
                   color: Color(0xFFFEE2E2),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.smartphone_rounded,
-                    color: AppColors.primary, size: 20),
+                child: const Icon(
+                  Icons.smartphone_rounded,
+                  color: AppColors.primary,
+                  size: 20,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -1205,14 +1232,17 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
                     Text(
                       context.l10n.accountSecurity2faTitle,
                       style: const TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 16,
-                          color: AppColors.textStrong),
+                        fontWeight: FontWeight.w900,
+                        fontSize: 16,
+                        color: AppColors.textStrong,
+                      ),
                     ),
                     Text(
                       context.l10n.accountSecurity2faSheetSubtitle,
-                      style:
-                          const TextStyle(fontSize: 12, color: AppColors.muted),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.muted,
+                      ),
                     ),
                   ],
                 ),
@@ -1222,8 +1252,8 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
           const SizedBox(height: 20),
           if (_state == TfaState.checking)
             const Center(
-                child:
-                    CircularProgressIndicator(color: AppColors.primary))
+              child: CircularProgressIndicator(color: AppColors.primary),
+            )
           else if (_state == TfaState.notEnrolled)
             _buildNotEnrolled()
           else if (_state == TfaState.enrolling)
@@ -1238,40 +1268,51 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
   }
 
   Widget _buildNotEnrolled() => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF1F5F9),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              context.l10n.accountSecurity2faNotEnrolledBody,
-              style: const TextStyle(
-                  fontSize: 13, color: AppColors.muted, height: 1.5),
-            ),
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF1F5F9),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Text(
+          context.l10n.accountSecurity2faNotEnrolledBody,
+          style: const TextStyle(
+            fontSize: 13,
+            color: AppColors.muted,
+            height: 1.5,
           ),
-          if (_error != null) ...[
-            const SizedBox(height: 8),
-            Text(_error!,
-                style:
-                    const TextStyle(color: AppColors.danger, fontSize: 13)),
-          ],
-          const SizedBox(height: 16),
-          FilledButton.icon(
-            onPressed: _loading ? null : _startEnroll,
-            icon: _loading
-                ? const SizedBox(
-                    width: 16,
-                    height: 16,
-                    child: CircularProgressIndicator(
-                        strokeWidth: 2, color: Colors.white))
-                : const Icon(Icons.lock_open_rounded, size: 18),
-            label: Text(_loading ? context.l10n.accountSecurity2faStartingLabel : context.l10n.accountSecurity2faStartSetupButton),
-          ),
-        ],
-      );
+        ),
+      ),
+      if (_error != null) ...[
+        const SizedBox(height: 8),
+        Text(
+          _error!,
+          style: const TextStyle(color: AppColors.danger, fontSize: 13),
+        ),
+      ],
+      const SizedBox(height: 16),
+      FilledButton.icon(
+        onPressed: _loading ? null : _startEnroll,
+        icon: _loading
+            ? const SizedBox(
+                width: 16,
+                height: 16,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.white,
+                ),
+              )
+            : const Icon(Icons.lock_open_rounded, size: 18),
+        label: Text(
+          _loading
+              ? context.l10n.accountSecurity2faStartingLabel
+              : context.l10n.accountSecurity2faStartSetupButton,
+        ),
+      ),
+    ],
+  );
 
   Widget _buildEnrolling() {
     final uri = _totpUri ?? '';
@@ -1281,7 +1322,10 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
         Text(
           context.l10n.accountSecurity2faStep1,
           style: const TextStyle(
-              fontSize: 13, color: AppColors.textStrong, height: 1.5),
+            fontSize: 13,
+            color: AppColors.textStrong,
+            height: 1.5,
+          ),
         ),
         const SizedBox(height: 16),
         if (uri.isNotEmpty)
@@ -1310,19 +1354,22 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
           ),
         if (_totpSecret != null) ...[
           const SizedBox(height: 12),
-          Text(context.l10n.accountSecurity2faSecretLabel,
-              style: const TextStyle(fontSize: 12, color: AppColors.muted)),
+          Text(
+            context.l10n.accountSecurity2faSecretLabel,
+            style: const TextStyle(fontSize: 12, color: AppColors.muted),
+          ),
           const SizedBox(height: 4),
           GestureDetector(
             onTap: () {
               Clipboard.setData(ClipboardData(text: _totpSecret!));
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(context.l10n.accountSecurity2faSecretCopied)),
+                SnackBar(
+                  content: Text(context.l10n.accountSecurity2faSecretCopied),
+                ),
               );
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 12, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
                 color: const Color(0xFFF1F5F9),
                 borderRadius: BorderRadius.circular(8),
@@ -1333,14 +1380,18 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
                     child: Text(
                       _totpSecret!,
                       style: const TextStyle(
-                          fontFamily: 'monospace',
-                          fontSize: 13,
-                          letterSpacing: 1.5,
-                          color: AppColors.textStrong),
+                        fontFamily: 'monospace',
+                        fontSize: 13,
+                        letterSpacing: 1.5,
+                        color: AppColors.textStrong,
+                      ),
                     ),
                   ),
-                  const Icon(Icons.copy_rounded,
-                      size: 16, color: AppColors.muted),
+                  const Icon(
+                    Icons.copy_rounded,
+                    size: 16,
+                    color: AppColors.muted,
+                  ),
                 ],
               ),
             ),
@@ -1349,14 +1400,14 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
         const SizedBox(height: 20),
         Text(
           context.l10n.accountSecurity2faStep2,
-          style:
-              const TextStyle(fontSize: 13, color: AppColors.textStrong),
+          style: const TextStyle(fontSize: 13, color: AppColors.textStrong),
         ),
         const SizedBox(height: 8),
         if (_error != null) ...[
-          Text(_error!,
-              style:
-                  const TextStyle(color: AppColors.danger, fontSize: 13)),
+          Text(
+            _error!,
+            style: const TextStyle(color: AppColors.danger, fontSize: 13),
+          ),
           const SizedBox(height: 6),
         ],
         TextField(
@@ -1366,127 +1417,146 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
           textAlign: TextAlign.center,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           style: const TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.w900,
-              letterSpacing: 8),
+            fontSize: 28,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 8,
+          ),
           decoration: const InputDecoration(
             counterText: '',
             hintText: '000000',
-            hintStyle:
-                TextStyle(color: AppColors.muted, letterSpacing: 8),
+            hintStyle: TextStyle(color: AppColors.muted, letterSpacing: 8),
           ),
         ),
         const SizedBox(height: 16),
         FilledButton(
           onPressed: _loading ? null : _verifyAndActivate,
           child: Text(
-              _loading ? context.l10n.accountSecurity2faVerifyingLabel : context.l10n.accountSecurity2faVerifyButton),
+            _loading
+                ? context.l10n.accountSecurity2faVerifyingLabel
+                : context.l10n.accountSecurity2faVerifyButton,
+          ),
         ),
       ],
     );
   }
 
   Widget _buildEnrolled() => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: const Color(0xFFDCFCE7),
-              borderRadius: BorderRadius.circular(12),
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: const Color(0xFFDCFCE7),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            const Icon(
+              Icons.check_circle_rounded,
+              color: AppColors.success,
+              size: 22,
             ),
-            child: Row(
-              children: [
-                const Icon(Icons.check_circle_rounded,
-                    color: AppColors.success, size: 22),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    context.l10n.accountSecurity2faEnabledBanner,
-                    style: const TextStyle(
-                        fontSize: 13,
-                        color: Color(0xFF15803D),
-                        height: 1.4),
-                  ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                context.l10n.accountSecurity2faEnabledBanner,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: Color(0xFF15803D),
+                  height: 1.4,
                 ),
-              ],
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          OutlinedButton.icon(
-            onPressed: () =>
-                setState(() => _state = TfaState.disabling),
-            icon: const Icon(Icons.lock_open_rounded,
-                size: 16, color: AppColors.danger),
-            label: Text(context.l10n.accountSecurity2faDisableButton,
-                style: const TextStyle(color: AppColors.danger)),
-            style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: AppColors.danger),
-            ),
-          ),
-        ],
-      );
+          ],
+        ),
+      ),
+      const SizedBox(height: 20),
+      OutlinedButton.icon(
+        onPressed: () => setState(() => _state = TfaState.disabling),
+        icon: const Icon(
+          Icons.lock_open_rounded,
+          size: 16,
+          color: AppColors.danger,
+        ),
+        label: Text(
+          context.l10n.accountSecurity2faDisableButton,
+          style: const TextStyle(color: AppColors.danger),
+        ),
+        style: OutlinedButton.styleFrom(
+          side: const BorderSide(color: AppColors.danger),
+        ),
+      ),
+    ],
+  );
 
   Widget _buildDisabling() => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: const Color(0xFFFEF2F2),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: const Color(0xFFFECACA)),
-            ),
-            child: Text(
-              context.l10n.accountSecurity2faDisablePrompt,
-              style: const TextStyle(
-                  fontSize: 13, color: AppColors.muted, height: 1.4),
-            ),
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFEF2F2),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: const Color(0xFFFECACA)),
+        ),
+        child: Text(
+          context.l10n.accountSecurity2faDisablePrompt,
+          style: const TextStyle(
+            fontSize: 13,
+            color: AppColors.muted,
+            height: 1.4,
           ),
-          const SizedBox(height: 14),
-          if (_error != null) ...[
-            Text(_error!,
-                style:
-                    const TextStyle(color: AppColors.danger, fontSize: 13)),
-            const SizedBox(height: 6),
-          ],
-          TextField(
-            controller: _codeCtrl,
-            keyboardType: TextInputType.number,
-            maxLength: 6,
-            textAlign: TextAlign.center,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            style: const TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w900,
-                letterSpacing: 8),
-            decoration: const InputDecoration(
-              counterText: '',
-              hintText: '000000',
-              hintStyle:
-                  TextStyle(color: AppColors.muted, letterSpacing: 8),
-            ),
-          ),
-          const SizedBox(height: 14),
-          FilledButton(
-            onPressed: _loading ? null : _disableConfirm,
-            style: FilledButton.styleFrom(
-                backgroundColor: AppColors.danger,
-                foregroundColor: Colors.white),
-            child:
-                Text(_loading ? context.l10n.accountSecurity2faProcessingLabel : context.l10n.accountSecurity2faDisableButton),
-          ),
-          const SizedBox(height: 8),
-          TextButton(
-            onPressed: () => setState(() {
-              _state = TfaState.enrolled;
-              _error = null;
-              _codeCtrl.clear();
-            }),
-            child: Text(context.l10n.accountSecurityCancelButton),
-          ),
-        ],
-      );
+        ),
+      ),
+      const SizedBox(height: 14),
+      if (_error != null) ...[
+        Text(
+          _error!,
+          style: const TextStyle(color: AppColors.danger, fontSize: 13),
+        ),
+        const SizedBox(height: 6),
+      ],
+      TextField(
+        controller: _codeCtrl,
+        keyboardType: TextInputType.number,
+        maxLength: 6,
+        textAlign: TextAlign.center,
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        style: const TextStyle(
+          fontSize: 28,
+          fontWeight: FontWeight.w900,
+          letterSpacing: 8,
+        ),
+        decoration: const InputDecoration(
+          counterText: '',
+          hintText: '000000',
+          hintStyle: TextStyle(color: AppColors.muted, letterSpacing: 8),
+        ),
+      ),
+      const SizedBox(height: 14),
+      FilledButton(
+        onPressed: _loading ? null : _disableConfirm,
+        style: FilledButton.styleFrom(
+          backgroundColor: AppColors.danger,
+          foregroundColor: Colors.white,
+        ),
+        child: Text(
+          _loading
+              ? context.l10n.accountSecurity2faProcessingLabel
+              : context.l10n.accountSecurity2faDisableButton,
+        ),
+      ),
+      const SizedBox(height: 8),
+      TextButton(
+        onPressed: () => setState(() {
+          _state = TfaState.enrolled;
+          _error = null;
+          _codeCtrl.clear();
+        }),
+        child: Text(context.l10n.accountSecurityCancelButton),
+      ),
+    ],
+  );
 }
 
 // ── Güvenilen Cihazlar sheet ──────────────────────────────────────────────────
@@ -1530,12 +1600,24 @@ class _TrustedDevicesSheetState extends State<_TrustedDevicesSheet> {
   Future<void> _remove(String id) async {
     try {
       final client = widget.ref.read(supabaseProvider);
-      await client.from('user_devices').delete().eq('id', id);
+      // `.select()` zorunlu: onsuz RLS'in sessizce 0 satır silmesi (örn.
+      // eksik DELETE policy'si) `error` fırlatmaz, yalnızca boş sonuç döner.
+      final deleted = await client
+          .from('user_devices')
+          .delete()
+          .eq('id', id)
+          .select('id');
+      if ((deleted as List).isEmpty) {
+        throw Exception('device_delete_denied');
+      }
       setState(() => _devices.removeWhere((d) => d['id'] == id));
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(context.l10n.accountSecurityDeviceRemoveFailed)));
+          SnackBar(
+            content: Text(context.l10n.accountSecurityDeviceRemoveFailed),
+          ),
+        );
       }
     }
   }
@@ -1547,7 +1629,8 @@ class _TrustedDevicesSheetState extends State<_TrustedDevicesSheet> {
     if (dt == null) return t.accountSecurityUnknown;
     final diff = DateTime.now().difference(dt);
     if (diff.inMinutes < 2) return t.accountSecurityTimeJustNow;
-    if (diff.inHours < 1) return t.accountSecurityTimeMinutesAgo(diff.inMinutes);
+    if (diff.inHours < 1)
+      return t.accountSecurityTimeMinutesAgo(diff.inMinutes);
     if (diff.inDays < 1) return t.accountSecurityTimeHoursAgo(diff.inHours);
     if (diff.inDays < 30) return t.accountSecurityTimeDaysAgo(diff.inDays);
     return t.accountSecurityTimeMonthsAgo((diff.inDays / 30).round());
@@ -1567,22 +1650,34 @@ class _TrustedDevicesSheetState extends State<_TrustedDevicesSheet> {
                 width: 40,
                 height: 40,
                 decoration: const BoxDecoration(
-                    color: Color(0xFFFEE2E2), shape: BoxShape.circle),
-                child: const Icon(Icons.phone_android_rounded,
-                    color: AppColors.primary, size: 20),
+                  color: Color(0xFFFEE2E2),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.phone_android_rounded,
+                  color: AppColors.primary,
+                  size: 20,
+                ),
               ),
               const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(context.l10n.accountSecurityTrustedDevicesTitle,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 16,
-                          color: AppColors.textStrong)),
-                  Text(context.l10n.accountSecurityTrustedDevicesSheetSubtitle,
-                      style:
-                          const TextStyle(fontSize: 12, color: AppColors.muted)),
+                  Text(
+                    context.l10n.accountSecurityTrustedDevicesTitle,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 16,
+                      color: AppColors.textStrong,
+                    ),
+                  ),
+                  Text(
+                    context.l10n.accountSecurityTrustedDevicesSheetSubtitle,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.muted,
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -1590,29 +1685,28 @@ class _TrustedDevicesSheetState extends State<_TrustedDevicesSheet> {
           const SizedBox(height: 20),
           if (_loading)
             const Center(
-                child:
-                    CircularProgressIndicator(color: AppColors.primary))
+              child: CircularProgressIndicator(color: AppColors.primary),
+            )
           else if (_devices.isEmpty)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 24),
               child: Center(
-                  child: Text(context.l10n.accountSecurityNoDevicesFound,
-                      style: const TextStyle(color: AppColors.muted))),
+                child: Text(
+                  context.l10n.accountSecurityNoDevicesFound,
+                  style: const TextStyle(color: AppColors.muted),
+                ),
+              ),
             )
           else
             ...List.generate(_devices.length, (i) {
               final d = _devices[i];
               final platform = (d['platform'] as String?) ?? 'Bilinmiyor';
               final version = (d['app_version'] as String?) ?? '';
-              final lastSeen =
-                  _relativeTime(d['last_seen_at'] as String?);
-              final isAndroid =
-                  platform.toLowerCase().contains('android');
+              final lastSeen = _relativeTime(d['last_seen_at'] as String?);
+              final isAndroid = platform.toLowerCase().contains('android');
               return Column(
                 children: [
-                  if (i > 0)
-                    const Divider(
-                        height: 1, color: AppColors.border),
+                  if (i > 0) const Divider(height: 1, color: AppColors.border),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
                     leading: Container(
@@ -1631,40 +1725,63 @@ class _TrustedDevicesSheetState extends State<_TrustedDevicesSheet> {
                       ),
                     ),
                     title: Text(
-                      isAndroid ? context.l10n.accountSecurityAndroidDevice : context.l10n.accountSecurityIosDevice,
+                      isAndroid
+                          ? context.l10n.accountSecurityAndroidDevice
+                          : context.l10n.accountSecurityIosDevice,
                       style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 14,
-                          color: AppColors.textStrong),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14,
+                        color: AppColors.textStrong,
+                      ),
                     ),
                     subtitle: Text(
-                      version.isNotEmpty
-                          ? 'v$version · $lastSeen'
-                          : lastSeen,
+                      version.isNotEmpty ? 'v$version · $lastSeen' : lastSeen,
                       style: const TextStyle(
-                          fontSize: 12, color: AppColors.muted),
+                        fontSize: 12,
+                        color: AppColors.muted,
+                      ),
                     ),
                     trailing: IconButton(
-                      icon: const Icon(Icons.delete_outline_rounded,
-                          color: AppColors.danger, size: 20),
+                      icon: const Icon(
+                        Icons.delete_outline_rounded,
+                        color: AppColors.danger,
+                        size: 20,
+                      ),
                       onPressed: () async {
                         final ok = await showDialog<bool>(
                           context: context,
                           builder: (dialogContext) => AlertDialog(
-                            title: Text(dialogContext.l10n.accountSecurityRemoveDeviceDialogTitle),
+                            title: Text(
+                              dialogContext
+                                  .l10n
+                                  .accountSecurityRemoveDeviceDialogTitle,
+                            ),
                             content: Text(
-                                dialogContext.l10n.accountSecurityRemoveDeviceDialogBody),
+                              dialogContext
+                                  .l10n
+                                  .accountSecurityRemoveDeviceDialogBody,
+                            ),
                             actions: [
                               TextButton(
-                                  onPressed: () =>
-                                      Navigator.pop(dialogContext, false),
-                                  child: Text(dialogContext.l10n.accountSecurityCancelButton)),
+                                onPressed: () =>
+                                    Navigator.pop(dialogContext, false),
+                                child: Text(
+                                  dialogContext
+                                      .l10n
+                                      .accountSecurityCancelButton,
+                                ),
+                              ),
                               FilledButton(
                                 onPressed: () =>
                                     Navigator.pop(dialogContext, true),
                                 style: FilledButton.styleFrom(
-                                    backgroundColor: AppColors.danger),
-                                child: Text(dialogContext.l10n.accountSecurityRemoveButton),
+                                  backgroundColor: AppColors.danger,
+                                ),
+                                child: Text(
+                                  dialogContext
+                                      .l10n
+                                      .accountSecurityRemoveButton,
+                                ),
                               ),
                             ],
                           ),
@@ -1700,7 +1817,9 @@ class _SessionManagementSheet extends StatelessWidget {
       if (raw == null) return context.l10n.accountSecurityUnknown;
       final dt = DateTime.tryParse(raw)?.toLocal();
       if (dt == null) return context.l10n.accountSecurityUnknown;
-      return '${dt.day.toString().padLeft(2, '0')}.${dt.month.toString().padLeft(2, '0')}.${dt.year}  ${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
+      final hh = dt.hour.toString().padLeft(2, '0');
+      final mm = dt.minute.toString().padLeft(2, '0');
+      return '${formatShortDate(context, dt)}  $hh:$mm';
     }
 
     return Padding(
@@ -1715,22 +1834,34 @@ class _SessionManagementSheet extends StatelessWidget {
                 width: 40,
                 height: 40,
                 decoration: const BoxDecoration(
-                    color: Color(0xFFFEE2E2), shape: BoxShape.circle),
-                child: const Icon(Icons.key_rounded,
-                    color: AppColors.primary, size: 20),
+                  color: Color(0xFFFEE2E2),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.key_rounded,
+                  color: AppColors.primary,
+                  size: 20,
+                ),
               ),
               const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(context.l10n.accountSecuritySessionsTitle,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 16,
-                          color: AppColors.textStrong)),
-                  Text(context.l10n.accountSecuritySessionsSheetSubtitle,
-                      style:
-                          const TextStyle(fontSize: 12, color: AppColors.muted)),
+                  Text(
+                    context.l10n.accountSecuritySessionsTitle,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 16,
+                      color: AppColors.textStrong,
+                    ),
+                  ),
+                  Text(
+                    context.l10n.accountSecuritySessionsSheetSubtitle,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.muted,
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -1751,28 +1882,39 @@ class _SessionManagementSheet extends StatelessWidget {
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 3),
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFDCFCE7),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: Text(context.l10n.accountSecurityActiveSessionBadge,
-                          style: const TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF15803D))),
+                      child: Text(
+                        context.l10n.accountSecurityActiveSessionBadge,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF15803D),
+                        ),
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 12),
-                _SessionRow(label: context.l10n.accountSecuritySessionEmailLabel, value: email),
+                _SessionRow(
+                  label: context.l10n.accountSecuritySessionEmailLabel,
+                  value: email,
+                ),
                 const SizedBox(height: 6),
                 _SessionRow(
-                    label: context.l10n.accountSecuritySessionLastLoginLabel, value: fmt(lastSignIn)),
+                  label: context.l10n.accountSecuritySessionLastLoginLabel,
+                  value: fmt(lastSignIn),
+                ),
                 const SizedBox(height: 6),
                 _SessionRow(
-                    label: context.l10n.accountSecuritySessionCreatedLabel,
-                    value: fmt(createdAt)),
+                  label: context.l10n.accountSecuritySessionCreatedLabel,
+                  value: fmt(createdAt),
+                ),
               ],
             ),
           ),
@@ -1787,9 +1929,10 @@ class _SessionManagementSheet extends StatelessWidget {
             child: Text(
               context.l10n.accountSecuritySessionWarning,
               style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.muted,
-                  height: 1.45),
+                fontSize: 12,
+                color: AppColors.muted,
+                height: 1.45,
+              ),
             ),
           ),
           const SizedBox(height: 20),
@@ -1798,32 +1941,42 @@ class _SessionManagementSheet extends StatelessWidget {
               final ok = await showDialog<bool>(
                 context: context,
                 builder: (dialogContext) => AlertDialog(
-                  title: Text(dialogContext.l10n.accountSecurityLogoutAllDialogTitle),
+                  title: Text(
+                    dialogContext.l10n.accountSecurityLogoutAllDialogTitle,
+                  ),
                   content: Text(
-                      dialogContext.l10n.accountSecurityLogoutAllDialogBody),
+                    dialogContext.l10n.accountSecurityLogoutAllDialogBody,
+                  ),
                   actions: [
                     TextButton(
-                        onPressed: () => Navigator.pop(dialogContext, false),
-                        child: Text(dialogContext.l10n.accountSecurityCancelButton)),
+                      onPressed: () => Navigator.pop(dialogContext, false),
+                      child: Text(
+                        dialogContext.l10n.accountSecurityCancelButton,
+                      ),
+                    ),
                     FilledButton(
                       onPressed: () => Navigator.pop(dialogContext, true),
                       style: FilledButton.styleFrom(
-                          backgroundColor: AppColors.danger),
-                      child: Text(dialogContext.l10n.accountSecurityLogoutAllCloseButton),
+                        backgroundColor: AppColors.danger,
+                      ),
+                      child: Text(
+                        dialogContext.l10n.accountSecurityLogoutAllCloseButton,
+                      ),
                     ),
                   ],
                 ),
               );
               if (ok == true && context.mounted) {
                 Navigator.pop(context);
-                await ref.read(authServiceProvider).signOut();
+                await ref.read(sessionCleanupServiceProvider).signOut();
               }
             },
             icon: const Icon(Icons.logout_rounded, size: 18),
             label: Text(context.l10n.accountSecurityLogoutAllButton),
             style: FilledButton.styleFrom(
-                backgroundColor: AppColors.danger,
-                foregroundColor: Colors.white),
+              backgroundColor: AppColors.danger,
+              foregroundColor: Colors.white,
+            ),
           ),
         ],
       ),
@@ -1843,16 +1996,20 @@ class _SessionRow extends StatelessWidget {
       children: [
         SizedBox(
           width: 120,
-          child: Text(label,
-              style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.muted,
-                  fontWeight: FontWeight.w600)),
+          child: Text(
+            label,
+            style: const TextStyle(
+              fontSize: 12,
+              color: AppColors.muted,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
         Expanded(
-          child: Text(value,
-              style: const TextStyle(
-                  fontSize: 12, color: AppColors.textStrong)),
+          child: Text(
+            value,
+            style: const TextStyle(fontSize: 12, color: AppColors.textStrong),
+          ),
         ),
       ],
     );
@@ -1870,13 +2027,18 @@ class _ChangePasswordSheet extends StatefulWidget {
 }
 
 class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
+  final _currentPassCtrl = TextEditingController();
   final _newPassCtrl = TextEditingController();
   final _confirmCtrl = TextEditingController();
   bool _loading = false;
   String? _error;
 
+  bool get _requiresReauth =>
+      widget.ref.read(authServiceProvider).hasPasswordIdentity;
+
   @override
   void dispose() {
+    _currentPassCtrl.dispose();
     _newPassCtrl.dispose();
     _confirmCtrl.dispose();
     super.dispose();
@@ -1884,12 +2046,23 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
 
   Future<void> _save() async {
     final pass = _newPassCtrl.text;
+    if (_requiresReauth && _currentPassCtrl.text.isEmpty) {
+      setState(
+        () => _error =
+            context.l10n.accountSecurityChangePasswordErrorReauthRequired,
+      );
+      return;
+    }
     if (pass.length < 6) {
-      setState(() => _error = context.l10n.accountSecurityChangePasswordErrorTooShort);
+      setState(
+        () => _error = context.l10n.accountSecurityChangePasswordErrorTooShort,
+      );
       return;
     }
     if (pass != _confirmCtrl.text) {
-      setState(() => _error = context.l10n.accountSecurityChangePasswordErrorMismatch);
+      setState(
+        () => _error = context.l10n.accountSecurityChangePasswordErrorMismatch,
+      );
       return;
     }
     setState(() {
@@ -1897,7 +2070,22 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
       _error = null;
     });
     try {
-      await widget.ref.read(authServiceProvider).updatePassword(pass);
+      final authService = widget.ref.read(authServiceProvider);
+      if (_requiresReauth) {
+        try {
+          await authService.verifyCurrentPassword(_currentPassCtrl.text);
+        } catch (_) {
+          if (mounted) {
+            setState(() {
+              _error =
+                  context.l10n.accountSecurityChangePasswordErrorReauthFailed;
+              _loading = false;
+            });
+          }
+          return;
+        }
+      }
+      await authService.updatePassword(pass);
       if (mounted) {
         Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -1926,17 +2114,27 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
         children: [
           Text(
             context.l10n.accountSecurityChangePasswordTitle,
-            style:
-                const TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+            style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
           ),
           const SizedBox(height: 16),
           if (_error != null) ...[
             Text(
               _error!,
-              style: const TextStyle(
-                  color: AppColors.danger, fontSize: 13),
+              style: const TextStyle(color: AppColors.danger, fontSize: 13),
             ),
             const SizedBox(height: 8),
+          ],
+          if (_requiresReauth) ...[
+            TextField(
+              controller: _currentPassCtrl,
+              obscureText: true,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                labelText: context.l10n.accountSecurityCurrentPasswordLabel,
+                prefixIcon: const Icon(Icons.lock_person_outlined),
+              ),
+            ),
+            const SizedBox(height: 10),
           ],
           TextField(
             controller: _newPassCtrl,
@@ -1961,8 +2159,11 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
           const SizedBox(height: 16),
           FilledButton(
             onPressed: _loading ? null : _save,
-            child:
-                Text(_loading ? context.l10n.accountSecuritySavingLabel : context.l10n.accountSecurityUpdatePasswordButton),
+            child: Text(
+              _loading
+                  ? context.l10n.accountSecuritySavingLabel
+                  : context.l10n.accountSecurityUpdatePasswordButton,
+            ),
           ),
         ],
       ),
@@ -1982,20 +2183,34 @@ class _ChangeEmailSheet extends StatefulWidget {
 
 class _ChangeEmailSheetState extends State<_ChangeEmailSheet> {
   final _emailCtrl = TextEditingController();
+  final _currentPassCtrl = TextEditingController();
   bool _loading = false;
   bool _sent = false;
   String? _error;
 
+  bool get _requiresReauth =>
+      widget.ref.read(authServiceProvider).hasPasswordIdentity;
+
   @override
   void dispose() {
     _emailCtrl.dispose();
+    _currentPassCtrl.dispose();
     super.dispose();
   }
 
   Future<void> _save() async {
     final email = _emailCtrl.text.trim();
     if (!email.contains('@')) {
-      setState(() => _error = context.l10n.accountSecurityChangeEmailErrorInvalid);
+      setState(
+        () => _error = context.l10n.accountSecurityChangeEmailErrorInvalid,
+      );
+      return;
+    }
+    if (_requiresReauth && _currentPassCtrl.text.isEmpty) {
+      setState(
+        () =>
+            _error = context.l10n.accountSecurityChangeEmailErrorReauthRequired,
+      );
       return;
     }
     setState(() {
@@ -2003,7 +2218,21 @@ class _ChangeEmailSheetState extends State<_ChangeEmailSheet> {
       _error = null;
     });
     try {
-      await widget.ref.read(authServiceProvider).updateEmail(email);
+      final authService = widget.ref.read(authServiceProvider);
+      if (_requiresReauth) {
+        try {
+          await authService.verifyCurrentPassword(_currentPassCtrl.text);
+        } catch (_) {
+          if (mounted) {
+            setState(() {
+              _error = context.l10n.accountSecurityChangeEmailErrorReauthFailed;
+              _loading = false;
+            });
+          }
+          return;
+        }
+      }
+      await authService.updateEmail(email);
       if (mounted) setState(() => _sent = true);
     } catch (e) {
       if (mounted) setState(() => _error = AppErrorMapper.message(e));
@@ -2032,7 +2261,9 @@ class _ChangeEmailSheetState extends State<_ChangeEmailSheet> {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  context.l10n.accountSecurityChangeEmailSentBody(_emailCtrl.text.trim()),
+                  context.l10n.accountSecurityChangeEmailSentBody(
+                    _emailCtrl.text.trim(),
+                  ),
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 13),
                 ),
@@ -2050,40 +2281,58 @@ class _ChangeEmailSheetState extends State<_ChangeEmailSheet> {
                 Text(
                   context.l10n.accountSecurityChangeEmailTitle,
                   style: const TextStyle(
-                      fontWeight: FontWeight.w800, fontSize: 16),
+                    fontWeight: FontWeight.w800,
+                    fontSize: 16,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   context.l10n.accountSecurityChangeEmailSubtitle,
-                  style: const TextStyle(
-                      color: AppColors.muted, fontSize: 13),
+                  style: const TextStyle(color: AppColors.muted, fontSize: 13),
                 ),
                 const SizedBox(height: 16),
                 if (_error != null) ...[
                   Text(
                     _error!,
                     style: const TextStyle(
-                        color: AppColors.danger, fontSize: 13),
+                      color: AppColors.danger,
+                      fontSize: 13,
+                    ),
                   ),
                   const SizedBox(height: 8),
                 ],
                 TextField(
                   controller: _emailCtrl,
                   keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.done,
-                  onSubmitted: (_) => _save(),
+                  textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     labelText: context.l10n.accountSecurityNewEmailLabel,
                     prefixIcon: const Icon(Icons.email_outlined),
                   ),
                 ),
+                if (_requiresReauth) ...[
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _currentPassCtrl,
+                    obscureText: true,
+                    textInputAction: TextInputAction.done,
+                    onSubmitted: (_) => _save(),
+                    decoration: InputDecoration(
+                      labelText:
+                          context.l10n.accountSecurityCurrentPasswordLabel,
+                      prefixIcon: const Icon(Icons.lock_person_outlined),
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 16),
                 FilledButton(
                   onPressed: _loading ? null : _save,
                   child: Text(
                     _loading
                         ? context.l10n.accountSecuritySendingLabel
-                        : context.l10n.accountSecuritySendVerificationLinkButton,
+                        : context
+                              .l10n
+                              .accountSecuritySendVerificationLinkButton,
                   ),
                 ),
               ],

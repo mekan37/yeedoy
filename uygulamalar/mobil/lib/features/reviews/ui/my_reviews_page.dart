@@ -96,9 +96,8 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
             children: [
               _IconBtn(
                 icon: Icons.arrow_back_ios_new_rounded,
-                onTap: () => context.canPop()
-                    ? context.pop()
-                    : context.go('/profile'),
+                onTap: () =>
+                    context.canPop() ? context.pop() : context.go('/profile'),
               ),
               Expanded(
                 child: Text(
@@ -111,10 +110,11 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
                   ),
                 ),
               ),
-              _IconBtn(
-                icon: Icons.tune_rounded,
-                onTap: () {},
-              ),
+              // Filtreleme zaten sekmelerle (_Tab) yapılıyor — bunun
+              // ötesinde bağlanacak bir sıralama/filtre özelliği yok;
+              // sessiz no-op yerine kaldırıldı, başlığı ortalamak için
+              // aynı genişlikte boş alan bırakıldı (B21).
+              const SizedBox(width: 40),
             ],
           ),
           const SizedBox(height: 4),
@@ -136,10 +136,8 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
     List<MyReviewEntry> filtered,
     String userId,
   ) {
-    final publishedCount =
-        all.where((r) => r.status == 'approved').length;
-    final pendingCount =
-        all.where((r) => r.status == 'pending').length;
+    final publishedCount = all.where((r) => r.status == 'approved').length;
+    final pendingCount = all.where((r) => r.status == 'pending').length;
 
     return CustomScrollView(
       slivers: [
@@ -148,7 +146,12 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
           child: Container(
             color: Colors.white,
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-            child: _buildTabBar(context, all.length, publishedCount, pendingCount),
+            child: _buildTabBar(
+              context,
+              all.length,
+              publishedCount,
+              pendingCount,
+            ),
           ),
         ),
 
@@ -194,7 +197,11 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
   // ── Tab bar ──────────────────────────────────────────────────────────────────
 
   Widget _buildTabBar(
-      BuildContext context, int total, int published, int pending) {
+    BuildContext context,
+    int total,
+    int published,
+    int pending,
+  ) {
     return Row(
       children: [
         _TabChip(
@@ -449,16 +456,11 @@ class _MyReviewsPageState extends ConsumerState<MyReviewsPage> {
 
   // ── Helpers ───────────────────────────────────────────────────────────────────
 
-  List<MyReviewEntry> _filterReviews(
-    List<MyReviewEntry> all,
-    _Tab tab,
-  ) {
+  List<MyReviewEntry> _filterReviews(List<MyReviewEntry> all, _Tab tab) {
     return switch (tab) {
       _Tab.all => all,
-      _Tab.published =>
-        all.where((r) => r.status == 'approved').toList(),
-      _Tab.pending =>
-        all.where((r) => r.status == 'pending').toList(),
+      _Tab.published => all.where((r) => r.status == 'approved').toList(),
+      _Tab.pending => all.where((r) => r.status == 'pending').toList(),
     };
   }
 }
@@ -494,9 +496,7 @@ class _TabChip extends StatelessWidget {
             color: selected ? selectedColor : Colors.white,
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: selected
-                  ? selectedColor
-                  : const Color(0xFFE5E7EB),
+              color: selected ? selectedColor : const Color(0xFFE5E7EB),
             ),
           ),
           child: Row(
@@ -527,10 +527,7 @@ class _TabChip extends StatelessWidget {
 // ── Review card ───────────────────────────────────────────────────────────────
 
 class _ReviewCard extends ConsumerWidget {
-  const _ReviewCard({
-    required this.entry,
-    required this.userId,
-  });
+  const _ReviewCard({required this.entry, required this.userId});
 
   final MyReviewEntry entry;
   final String userId;
@@ -675,10 +672,7 @@ class _ReviewCard extends ConsumerWidget {
             parts.join(', '),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 12,
-              color: AppColors.muted,
-            ),
+            style: const TextStyle(fontSize: 12, color: AppColors.muted),
           ),
         ),
       ],
@@ -758,23 +752,23 @@ class _StatusBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final (label, icon, color, bg) = switch (status) {
       'approved' => (
-          context.l10n.myReviewsStatusPublished,
-          Icons.check_rounded,
-          const Color(0xFF16A34A),
-          const Color(0xFFDCFCE7),
-        ),
+        context.l10n.myReviewsStatusPublished,
+        Icons.check_rounded,
+        const Color(0xFF16A34A),
+        const Color(0xFFDCFCE7),
+      ),
       'pending' => (
-          context.l10n.myReviewsStatusPending,
-          Icons.access_time_rounded,
-          const Color(0xFFD97706),
-          const Color(0xFFFEF3C7),
-        ),
+        context.l10n.myReviewsStatusPending,
+        Icons.access_time_rounded,
+        const Color(0xFFD97706),
+        const Color(0xFFFEF3C7),
+      ),
       _ => (
-          context.l10n.myReviewsStatusRejected,
-          Icons.close_rounded,
-          const Color(0xFFDC2626),
-          const Color(0xFFFEE2E2),
-        ),
+        context.l10n.myReviewsStatusRejected,
+        Icons.close_rounded,
+        const Color(0xFFDC2626),
+        const Color(0xFFFEE2E2),
+      ),
     };
 
     return Container(
@@ -834,9 +828,16 @@ class _MenuButton extends StatelessWidget {
           value: 'delete',
           child: Row(
             children: [
-              const Icon(Icons.delete_outline_rounded, size: 16, color: AppColors.danger),
+              const Icon(
+                Icons.delete_outline_rounded,
+                size: 16,
+                color: AppColors.danger,
+              ),
               const SizedBox(width: 8),
-              Text(context.l10n.myReviewsMenuDelete, style: const TextStyle(color: AppColors.danger)),
+              Text(
+                context.l10n.myReviewsMenuDelete,
+                style: const TextStyle(color: AppColors.danger),
+              ),
             ],
           ),
         ),

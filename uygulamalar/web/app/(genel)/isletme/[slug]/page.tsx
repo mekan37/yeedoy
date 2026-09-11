@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { PublicShell } from '@/src/ui/acik/yerlesim';
-import { buildMenuImageUrl } from '@/src/lib/medya-adresi';
+import { buildBusinessHeroImageUrl, buildMenuImageUrl } from '@/src/lib/medya-adresi';
 import {
   getMarketplaceBusinessBySlug,
   getMarketplaceBusinesses,
@@ -346,7 +346,7 @@ export default async function BusinessPage({ params, searchParams }: Props) {
   };
   Object.keys(schema).forEach((k) => schema[k] === undefined && delete schema[k]);
 
-  const coverUrl = buildMenuImageUrl(business.coverUrl, { width: 1200, quality: 85 });
+  const coverUrl = buildBusinessHeroImageUrl(business.coverUrl, business.logoUrl, { width: 1200, quality: 85 });
 
   return (
     <PublicShell>

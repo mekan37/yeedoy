@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../../../features/shared/ui/components/app_appbar.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../../features/shared/ui/design_system.dart';
@@ -281,7 +282,7 @@ class _JournalEntryTile extends StatelessWidget {
               const SizedBox(width: 8),
               if (entry.amountCents != null) ...[
                 Text(
-                  _formatPrice(entry.amountCents!, entry.currency),
+                  _formatPrice(context, entry.amountCents!, entry.currency),
                   style: const TextStyle(
                     fontWeight: FontWeight.w800,
                     fontSize: 13,
@@ -329,9 +330,10 @@ class _JournalEntryTile extends StatelessWidget {
     return '$h:$m';
   }
 
-  String _formatPrice(int cents, String currency) {
-    final symbol = currency == 'TRY' ? '₺' : currency;
-    return '${(cents / 100).toStringAsFixed(2)} $symbol';
+  // Kanonik formatCurrency'e devredildi — diğer ekranlarla aynı gösterim
+  // (B36).
+  String _formatPrice(BuildContext context, int cents, String currency) {
+    return formatCurrency(context, cents / 100, currencyCode: currency);
   }
 }
 
@@ -629,7 +631,10 @@ class _HatirlaticiSheetState extends State<_HatirlaticiSheet> {
                     children: [
                       Text(
                         context.l10n.yemekGunluguHourLabel,
-                        style: const TextStyle(color: AppColors.muted, fontSize: 11),
+                        style: const TextStyle(
+                          color: AppColors.muted,
+                          fontSize: 11,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Container(
@@ -676,7 +681,10 @@ class _HatirlaticiSheetState extends State<_HatirlaticiSheet> {
                     children: [
                       Text(
                         context.l10n.yemekGunluguMinuteLabel,
-                        style: const TextStyle(color: AppColors.muted, fontSize: 11),
+                        style: const TextStyle(
+                          color: AppColors.muted,
+                          fontSize: 11,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Container(

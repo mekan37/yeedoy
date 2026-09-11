@@ -1,3 +1,8 @@
+// Her aramada (her tuş vuruşunda) yeniden derlenmesin diye modül seviyesinde
+// bir kez derleniyor (B64).
+final _nonAlphaNumeric = RegExp(r'[^a-z0-9\s]');
+final _extraWhitespace = RegExp(r'\s+');
+
 String normalizeSearchQuery(String input) {
   var value = input.trim().toLowerCase();
   if (value.isEmpty) return '';
@@ -18,8 +23,8 @@ String normalizeSearchQuery(String input) {
     value = value.replaceAll(entry.key, entry.value);
   }
 
-  value = value.replaceAll(RegExp(r'[^a-z0-9\s]'), ' ');
-  value = value.replaceAll(RegExp(r'\s+'), ' ').trim();
+  value = value.replaceAll(_nonAlphaNumeric, ' ');
+  value = value.replaceAll(_extraWhitespace, ' ').trim();
   return value;
 }
 

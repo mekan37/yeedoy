@@ -3366,6 +3366,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reviewCreateSubmitted => 'Review submitted.';
 
   @override
+  String get reviewCreatePhotoUploadFailed =>
+      'Review submitted, but the photo failed to upload. You can try again later.';
+
+  @override
   String get reviewCreateErrorNewAccountRateLimited =>
       'Daily review limit reached for new accounts.';
 
@@ -3383,6 +3387,240 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewCreateErrorEmojiSpam => 'Review contains too many emojis.';
+
+  @override
+  String get reviewCreateHeroTitle => 'Write a Review & Rate';
+
+  @override
+  String get reviewCreateHeroSubtitle =>
+      'Share your experience and help the community';
+
+  @override
+  String get reviewCreateRatingHintLow => 'Poor';
+
+  @override
+  String get reviewCreateRatingHintHigh => 'Excellent';
+
+  @override
+  String get reviewCreateContentLabel => 'Your review (optional)';
+
+  @override
+  String get reviewCreateContentPlaceholder =>
+      'Write about your experience here...';
+
+  @override
+  String get reviewCreatePhotosLabel => 'Add Photos';
+
+  @override
+  String get reviewCreateAddPhoto => 'Add photo';
+
+  @override
+  String reviewCreateAddPhotoHint(int max) {
+    return 'Up to $max photos';
+  }
+
+  @override
+  String get reviewCreateExperienceLabel => 'Detailed Rating (optional)';
+
+  @override
+  String get reviewCreateAddToFavorites => 'Add this business to my favorites';
+
+  @override
+  String get reviewCreateSubmitCta => 'Submit Review';
+
+  @override
+  String get reviewRatingCriterionTaste => 'Taste';
+
+  @override
+  String get reviewRatingCriterionServiceSpeed => 'Service speed';
+
+  @override
+  String get reviewRatingCriterionPricePerformance => 'Price performance';
+
+  @override
+  String get reviewRatingCriterionCleanliness => 'Cleanliness';
+
+  @override
+  String get reviewRatingCriterionAtmosphere => 'Atmosphere';
+
+  @override
+  String get appShellExitOnBackPress => 'Press back again to exit';
+
+  @override
+  String businessMenuPreviewConfirmedByCount(int count) {
+    return '$count users confirmed';
+  }
+
+  @override
+  String get discoveryBudgetPerPersonUnlimited => 'Budget per person: No limit';
+
+  @override
+  String discoveryBudgetPerPersonMax(int amount) {
+    return 'Max budget per person: $amount₺';
+  }
+
+  @override
+  String get discoveryBudgetSliderUnlimited => 'No limit';
+
+  @override
+  String discoveryMaxBudgetChipLabel(int amount) {
+    return 'Max $amount₺';
+  }
+
+  @override
+  String get discoveryTasteTwinChipLabel => 'Taste Twin';
+
+  @override
+  String get heroesWeeklyLeaderboardTitle => 'Weekly Top Contributors';
+
+  @override
+  String get heroesWeeklyLeaderboardSubtitle =>
+      'Most price verifications, reviews, and photos in the past 7 days';
+
+  @override
+  String get heroesWeeklyLeaderboardEmpty => 'No contributions this week yet.';
+
+  @override
+  String get heroesAllTimeTitle => 'All-Time Heroes';
+
+  @override
+  String heroesWeeklyStatsLine(
+    int verifyCount,
+    int reviewCount,
+    int photoCount,
+  ) {
+    return '$verifyCount verif · $reviewCount reviews · $photoCount photos';
+  }
+
+  @override
+  String menuItemsConfirmedByCount(int count) {
+    return '$count verified';
+  }
+
+  @override
+  String get menuOfflineSaveTooltipSaved => 'Saved offline';
+
+  @override
+  String get menuOfflineSaveTooltipUnsaved => 'Save for offline';
+
+  @override
+  String get menuOfflineSavedSnackbar => 'Menu saved for offline use';
+
+  @override
+  String get priceOnRequest => 'Price on request';
+
+  @override
+  String menuTimeWindowNowDiscount(String label, String timeRange, int pct) {
+    return 'Now: $label • $pct% off ($timeRange)';
+  }
+
+  @override
+  String menuTimeWindowUpcomingDiscount(
+    String label,
+    String timeRange,
+    int pct,
+  ) {
+    return '$label is cheaper ($timeRange) • $pct% off';
+  }
+
+  @override
+  String menuTimeWindowNowPrice(
+    String label,
+    String timeRange,
+    String priceText,
+  ) {
+    return 'Now: $label $priceText ($timeRange)';
+  }
+
+  @override
+  String menuTimeWindowUpcomingPrice(
+    String label,
+    String timeRange,
+    String priceText,
+  ) {
+    return '$label price $priceText ($timeRange)';
+  }
+
+  @override
+  String menuTimeWindowNowPlain(String label, String timeRange) {
+    return 'Now: $label ($timeRange)';
+  }
+
+  @override
+  String menuTimeWindowUpcomingPlain(String label, String timeRange) {
+    return '$label ($timeRange)';
+  }
+
+  @override
+  String get menuDataTrustLabel => 'Data trust';
+
+  @override
+  String get menuPriceMetaToday => 'Today';
+
+  @override
+  String get menuPriceMetaYesterday => 'Yesterday';
+
+  @override
+  String menuPriceMetaDaysAgo(int days) {
+    return '${days}d ago';
+  }
+
+  @override
+  String menuPriceMetaMonthsAgo(int months) {
+    return '${months}mo ago';
+  }
+
+  @override
+  String menuPriceMetaUpdated(String timeStr) {
+    return 'Updated: $timeStr';
+  }
+
+  @override
+  String menuPriceMetaVerifierCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count verifiers',
+      one: '$count verifier',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String menuPriceMetaVoteCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count votes',
+      one: '$count vote',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String menuPriceBenchmarkSame(String avgText) {
+    return 'City avg: $avgText (similar)';
+  }
+
+  @override
+  String menuPriceBenchmarkCheaper(String avgText, int pct) {
+    return 'City avg: $avgText • $pct% cheaper';
+  }
+
+  @override
+  String menuPriceBenchmarkPricier(String avgText, int pct) {
+    return 'City avg: $avgText • $pct% pricier';
+  }
+
+  @override
+  String get menuNutritionDisclaimer =>
+      'Values may be estimates. Please inform staff about your allergies.';
+
+  @override
+  String get menuTransparentMenuTitle => 'Transparent Menu';
+
+  @override
+  String get menuIngredientsLabel => 'Ingredients';
 
   @override
   String get quality => 'Quality';
@@ -4721,10 +4959,21 @@ class AppLocalizationsEn extends AppLocalizations {
       'Passwords do not match.';
 
   @override
+  String get accountSecurityChangePasswordErrorReauthRequired =>
+      'Enter your current password to continue.';
+
+  @override
+  String get accountSecurityChangePasswordErrorReauthFailed =>
+      'Current password is incorrect.';
+
+  @override
   String get accountSecurityPasswordUpdated => 'Password updated successfully.';
 
   @override
   String get accountSecurityChangePasswordTitle => 'Change Password';
+
+  @override
+  String get accountSecurityCurrentPasswordLabel => 'Current password';
 
   @override
   String get accountSecurityNewPasswordLabel => 'New password';
@@ -4740,6 +4989,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountSecurityChangeEmailErrorInvalid => 'Enter a valid email.';
+
+  @override
+  String get accountSecurityChangeEmailErrorReauthRequired =>
+      'Enter your current password to continue.';
+
+  @override
+  String get accountSecurityChangeEmailErrorReauthFailed =>
+      'Current password is incorrect.';
 
   @override
   String accountSecurityChangeEmailSentBody(String email) {

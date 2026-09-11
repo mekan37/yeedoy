@@ -1,5 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../storage/offline_submission_queue.dart' show isLikelyOfflineError;
+
 Future<void> enforceEdgeRateLimit(
   SupabaseClient client, {
   required String action,
@@ -22,19 +24,27 @@ Future<void> enforceEdgeRateLimit(
       throw Exception((map['error'] ?? 'rate_limited').toString());
     }
     throw Exception('rate_limited');
+  } on FunctionException catch (e) {
+    // Yalnızca fonksiyon deploy edilmemişse (404) sessizce geç — bu durumda
+    // rate-limit "best-effort" kabul edilir. 401/403/429/500 gibi
+    // sunucunun BİLEREK verdiği reddler asla sessizce yutulmamalı; aksi
+    // halde istemci "dryRun" davranışını taklit edip gerçek reddi bypass
+    // edebilir.
+    if (e.status == 404) return;
+    if (e.status == 429) {
+      throw Exception('rate_limited_user');
+    }
+    rethrow;
   } catch (e) {
     final raw = e.toString();
     if (raw.contains('rate_limited_')) {
       throw Exception(raw);
     }
-    if (raw.contains('429')) {
-      throw Exception('rate_limited_user');
-    }
-    // Edge function not deployed (404) or unreachable → pass through.
-    // Rate limiting is best-effort; missing function must not block writes.
-    if (raw.contains('404') || raw.contains('FunctionException')) {
-      return;
-    }
+    // Gerçek ağ hatası (SocketException, timeout vb.) — fonksiyona hiç
+    // ulaşılamadı, sunucudan bir "izin verildi/verilmedi" yanıtı yok.
+    // Rate-limit best-effort olduğu için burada geçiyoruz (FunctionException
+    // dalının aksine: orada sunucu YANIT VERDİ ve reddi bilinçliydi).
+    if (isLikelyOfflineError(e)) return;
     rethrow;
   }
 }

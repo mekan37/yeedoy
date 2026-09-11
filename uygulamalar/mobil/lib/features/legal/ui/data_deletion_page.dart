@@ -7,6 +7,22 @@ import '../../../core/errors/app_error_mapper.dart';
 import '../legal_providers.dart';
 import '../legal_repository.dart';
 
+enum _ReasonType {
+  accountDeletion,
+  deleteData,
+  deleteInteractions,
+  deleteSupport,
+  deleteOwnerClaims,
+  marketingOptOut,
+  other,
+}
+
+class _ReasonOption {
+  const _ReasonOption(this.type, this.label);
+  final _ReasonType type;
+  final String label;
+}
+
 class DataDeletionPage extends ConsumerStatefulWidget {
   const DataDeletionPage({super.key});
 
@@ -15,23 +31,36 @@ class DataDeletionPage extends ConsumerStatefulWidget {
 }
 
 class _DataDeletionPageState extends ConsumerState<DataDeletionPage> {
-  String? _reason;
+  _ReasonType? _reasonType;
   final _descCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
   bool _loading = false;
   String? _errorMessage;
 
-  static const _reasons = [
-    'Hesabımı silme talebi',
-    'Kişisel verilerimin silinmesi / yok edilmesi / anonimleştirilmesi talebi',
-    'Yorum, favori veya check-in verilerimle ilgili talep',
-    'Destek talebi geçmişimle ilgili talep',
-    'İşletme sahipliği başvurumla ilgili talep',
-    'Pazarlama e-postası iznini kapatmak istiyorum',
-    'Diğer',
+  static const _reasons = <_ReasonOption>[
+    _ReasonOption(_ReasonType.accountDeletion, 'Hesabımı silme talebi'),
+    _ReasonOption(
+      _ReasonType.deleteData,
+      'Kişisel verilerimin silinmesi / yok edilmesi / anonimleştirilmesi talebi',
+    ),
+    _ReasonOption(
+      _ReasonType.deleteInteractions,
+      'Yorum, favori veya check-in verilerimle ilgili talep',
+    ),
+    _ReasonOption(
+      _ReasonType.deleteSupport,
+      'Destek talebi geçmişimle ilgili talep',
+    ),
+    _ReasonOption(
+      _ReasonType.deleteOwnerClaims,
+      'İşletme sahipliği başvurumla ilgili talep',
+    ),
+    _ReasonOption(
+      _ReasonType.marketingOptOut,
+      'Pazarlama e-postası iznini kapatmak istiyorum',
+    ),
+    _ReasonOption(_ReasonType.other, 'Diğer'),
   ];
-
-  static const _marketingReason = 'Pazarlama e-postası iznini kapatmak istiyorum';
 
   @override
   void initState() {
@@ -46,24 +75,27 @@ class _DataDeletionPageState extends ConsumerState<DataDeletionPage> {
     super.dispose();
   }
 
-  bool get _isMarketingSelected => _reason == _marketingReason;
+  bool get _isMarketingSelected => _reasonType == _ReasonType.marketingOptOut;
 
-  /// UI seçeneğini RPC request_type değerine dönüştürür.
-  static String _reasonToRequestType(String reason) {
-    return switch (reason) {
-      'Kişisel verilerimin silinmesi / yok edilmesi / anonimleştirilmesi talebi' =>
-        'delete_data',
-      'Yorum, favori veya check-in verilerimle ilgili talep' =>
-        'delete_interactions',
-      'Destek talebi geçmişimle ilgili talep' => 'delete_support',
-      'İşletme sahipliği başvurumla ilgili talep' => 'delete_owner_claims',
+  String get _reasonLabel =>
+      _reasons.firstWhere((r) => r.type == _reasonType).label;
+
+  /// Seçilen nedeni RPC request_type değerine dönüştürür. UI etiket metninden
+  /// değil, enum'dan türetilir — böylece etiket lokalize edilse bile
+  /// (ör. EN) doğru RPC'ye gider.
+  static String _requestTypeFor(_ReasonType type) {
+    return switch (type) {
+      _ReasonType.deleteData => 'delete_data',
+      _ReasonType.deleteInteractions => 'delete_interactions',
+      _ReasonType.deleteSupport => 'delete_support',
+      _ReasonType.deleteOwnerClaims => 'delete_owner_claims',
       _ => 'other',
     };
   }
 
   Future<void> _submit() async {
     setState(() => _errorMessage = null);
-    if (_reason == null) {
+    if (_reasonType == null) {
       setState(() => _errorMessage = 'Lütfen talep nedenini seçin.');
       return;
     }
@@ -83,21 +115,21 @@ class _DataDeletionPageState extends ConsumerState<DataDeletionPage> {
 
     setState(() => _loading = true);
     try {
-      final details = 'Neden: $_reason'
+      final details =
+          'Neden: $_reasonLabel'
           '${_descCtrl.text.trim().isNotEmpty ? '\n\n${_descCtrl.text.trim()}' : ''}';
 
       // Hesap silme talebi ayrı RPC ve ayrı tabloya gider.
-      if (_reason == 'Hesabımı silme talebi') {
-        await ref.read(legalRepositoryProvider).submitAccountDeletionRequest(
-          reason: details,
-        );
+      if (_reasonType == _ReasonType.accountDeletion) {
+        await ref
+            .read(legalRepositoryProvider)
+            .submitAccountDeletionRequest(reason: details);
       } else {
         // Diğer gizlilik/veri talepleri → submit_privacy_request_v1
-        final requestType = _reasonToRequestType(_reason!);
-        await ref.read(legalRepositoryProvider).submitPrivacyRequest(
-          requestType: requestType,
-          details: details,
-        );
+        final requestType = _requestTypeFor(_reasonType!);
+        await ref
+            .read(legalRepositoryProvider)
+            .submitPrivacyRequest(requestType: requestType, details: details);
       }
 
       ref.invalidate(legalRequestOverviewProvider);
@@ -149,13 +181,18 @@ class _DataDeletionPageState extends ConsumerState<DataDeletionPage> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    // profile_settings_page.dart'taki aynı yardım ikonu
+                    // ile aynı hedef (B21).
+                    onPressed: () => context.push('/help-support'),
                     icon: Container(
                       width: 36,
                       height: 36,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.primary, width: 1.5),
+                        border: Border.all(
+                          color: AppColors.primary,
+                          width: 1.5,
+                        ),
                       ),
                       child: const Icon(
                         Icons.help_outline_rounded,
@@ -181,13 +218,13 @@ class _DataDeletionPageState extends ConsumerState<DataDeletionPage> {
                   _SectionTitle('Talep Bilgileri'),
                   const SizedBox(height: 8),
                   _FormCard(
-                    reason: _reason,
+                    reasonType: _reasonType,
                     reasons: _reasons,
                     descCtrl: _descCtrl,
                     emailCtrl: _emailCtrl,
                     showEmailField: !_isMarketingSelected,
                     onReasonChanged: (v) => setState(() {
-                      _reason = v;
+                      _reasonType = v;
                       _errorMessage = null;
                     }),
                   ),
@@ -213,8 +250,9 @@ class _DataDeletionPageState extends ConsumerState<DataDeletionPage> {
                       onPressed: _loading ? null : _submit,
                       style: FilledButton.styleFrom(
                         backgroundColor: AppColors.primary,
-                        disabledBackgroundColor:
-                            AppColors.primary.withValues(alpha: 0.5),
+                        disabledBackgroundColor: AppColors.primary.withValues(
+                          alpha: 0.5,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),
@@ -244,7 +282,11 @@ class _DataDeletionPageState extends ConsumerState<DataDeletionPage> {
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.lock_outline_rounded, size: 14, color: AppColors.muted),
+                      Icon(
+                        Icons.lock_outline_rounded,
+                        size: 14,
+                        color: AppColors.muted,
+                      ),
                       SizedBox(width: 6),
                       Text(
                         'Tüm talepleriniz gizli ve güvenli bir şekilde işlenir.',
@@ -442,7 +484,7 @@ class _InfoRow extends StatelessWidget {
 
 class _FormCard extends StatelessWidget {
   const _FormCard({
-    required this.reason,
+    required this.reasonType,
     required this.reasons,
     required this.descCtrl,
     required this.emailCtrl,
@@ -450,11 +492,11 @@ class _FormCard extends StatelessWidget {
     this.showEmailField = true,
   });
 
-  final String? reason;
-  final List<String> reasons;
+  final _ReasonType? reasonType;
+  final List<_ReasonOption> reasons;
   final TextEditingController descCtrl;
   final TextEditingController emailCtrl;
-  final ValueChanged<String?> onReasonChanged;
+  final ValueChanged<_ReasonType?> onReasonChanged;
   final bool showEmailField;
 
   @override
@@ -484,8 +526,8 @@ class _FormCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                value: reason,
+              child: DropdownButton<_ReasonType>(
+                value: reasonType,
                 hint: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12),
                   child: Text(
@@ -504,10 +546,13 @@ class _FormCard extends StatelessWidget {
                 items: reasons
                     .map(
                       (r) => DropdownMenuItem(
-                        value: r,
+                        value: r.type,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 12),
-                          child: Text(r, style: const TextStyle(fontSize: 14)),
+                          child: Text(
+                            r.label,
+                            style: const TextStyle(fontSize: 14),
+                          ),
                         ),
                       ),
                     )
@@ -547,7 +592,12 @@ class _FormCard extends StatelessWidget {
                   maxLines: 5,
                   maxLength: 500,
                   buildCounter:
-                      (_, {required currentLength, required isFocused, maxLength}) => null,
+                      (
+                        _, {
+                        required currentLength,
+                        required isFocused,
+                        maxLength,
+                      }) => null,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
                     enabledBorder: InputBorder.none,
@@ -563,7 +613,10 @@ class _FormCard extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(0, 0, 12, 8),
                   child: Text(
                     '${descCtrl.text.length}/500',
-                    style: const TextStyle(fontSize: 11, color: AppColors.muted),
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: AppColors.muted,
+                    ),
                   ),
                 ),
               ],
@@ -598,7 +651,10 @@ class _FormCard extends StatelessWidget {
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   filled: false,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 14,
+                  ),
                   hintText: 'ornek@email.com',
                   hintStyle: TextStyle(color: AppColors.muted, fontSize: 14),
                 ),
@@ -727,7 +783,11 @@ class _ErrorBanner extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.error_outline_rounded, color: AppColors.danger, size: 18),
+          const Icon(
+            Icons.error_outline_rounded,
+            color: AppColors.danger,
+            size: 18,
+          ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(

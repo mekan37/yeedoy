@@ -57,6 +57,10 @@ const imageRemotePatterns = [
     protocol: 'https',
     hostname: 'lh3.googleusercontent.com',
   },
+  {
+    protocol: 'https',
+    hostname: 'i.hizliresim.com',
+  },
 ];
 
 /** @type {import('next').NextConfig} */
@@ -238,6 +242,19 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800',
+          },
+        ],
+      },
+      {
+        // iOS Universal Links doğrulaması bu dosyayı application/json
+        // Content-Type ile bekler; uzantısız dosyalar için Next.js
+        // varsayılanı bunu garanti etmez.
+        source: '/.well-known/apple-app-site-association',
+        headers: [
+          { key: 'Content-Type', value: 'application/json' },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400',
           },
         ],
       },

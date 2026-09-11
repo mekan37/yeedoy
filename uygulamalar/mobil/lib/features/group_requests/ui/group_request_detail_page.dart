@@ -7,6 +7,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../../discovery/data/search_repository.dart';
 import '../data/group_requests_repository.dart';
 import '../domain/group_request_models.dart';
@@ -182,14 +183,14 @@ class _GroupRequestDetailPageState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${request.city} • ${_formatDateTime(request.dateTime)}',
+                      '${request.city} • ${_formatDateTime(context, request.dateTime)}',
                       style: const TextStyle(fontWeight: FontWeight.w900),
                     ),
                     const SizedBox(height: 6),
                     Text(
                       t.groupRequestPartyAndBudget(
                         request.partySize,
-                        _formatPrice(request.budgetTotalCents),
+                        _formatPrice(context, request.budgetTotalCents),
                       ),
                       style: const TextStyle(color: AppColors.muted),
                     ),
@@ -273,7 +274,9 @@ class _GroupRequestDetailPageState
 
   void _reloadRequestAndOffers({required bool force}) {
     if (force) {
-      ref.read(groupRequestsRepositoryProvider).invalidateRequest(widget.requestId);
+      ref
+          .read(groupRequestsRepositoryProvider)
+          .invalidateRequest(widget.requestId);
     }
     ref.invalidate(_offersProvider(widget.requestId));
     if (mounted) {
@@ -303,10 +306,9 @@ class _GroupRequestDetailPageState
 
   Future<void> _vote(GroupOffer offer) async {
     try {
-      await ref.read(groupRequestsRepositoryProvider).voteGroupOffer(
-        offer.id,
-        voted: offer.myVote != 1,
-      );
+      await ref
+          .read(groupRequestsRepositoryProvider)
+          .voteGroupOffer(offer.id, voted: offer.myVote != 1);
       _reloadRequestAndOffers(force: false);
     } catch (e) {
       if (!mounted) return;
@@ -418,7 +420,7 @@ class _OfferCard extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             t.groupRequestOfferPriceLabel(
-              _formatPrice(offer.offeredTotalCents),
+              _formatPrice(context, offer.offeredTotalCents),
             ),
             style: const TextStyle(color: AppColors.muted),
           ),
@@ -771,7 +773,7 @@ Future<void> _showAcceptedSuccess(
 ) async {
   final t = AppLocalizations.of(context);
   final text = t.groupRequestAcceptedSummary(
-    _formatPrice(offer.offeredTotalCents),
+    _formatPrice(context, offer.offeredTotalCents),
   );
   await showModalBottomSheet<void>(
     context: context,
@@ -833,17 +835,17 @@ Future<void> _showAcceptedSuccess(
   );
 }
 
-String _formatPrice(int cents) {
-  final value = cents / 100.0;
-  final text = value.toStringAsFixed(value.truncateToDouble() == value ? 0 : 2);
-  return 'TL$text';
+// Kanonik formatCurrency'e devredildi — eskiden "TL150.5" gibi İngilizce
+// ondalık ayracıyla gösteriyordu (B36).
+String _formatPrice(BuildContext context, int cents) {
+  return formatCurrency(context, cents / 100.0);
 }
 
-String _formatDateTime(DateTime time) {
-  return '${time.day.toString().padLeft(2, '0')}.'
-      '${time.month.toString().padLeft(2, '0')}.'
-      '${time.year} '
-      '${time.hour.toString().padLeft(2, '0')}:'
-      '${time.minute.toString().padLeft(2, '0')}';
+// Kanonik formatShortDate'e devredildi — eskiden EN locale'de bile sabit
+// dd.MM.yyyy gösteriyordu (B37, review'ın kendi örneğiydi). Saat kısmı
+// (hh:mm) formatShortDate'te yok, ayrıca ekleniyor.
+String _formatDateTime(BuildContext context, DateTime time) {
+  final hh = time.hour.toString().padLeft(2, '0');
+  final mm = time.minute.toString().padLeft(2, '0');
+  return '${formatShortDate(context, time)} $hh:$mm';
 }
-

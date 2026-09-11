@@ -13,8 +13,6 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
-    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
 
     <application
         android:label="Yeedoy"
@@ -54,21 +52,17 @@
                 <data android:scheme="yeedoy"/>
             </intent-filter>
 
-            <!-- App link: https://yeedoy.com (Android App Links) -->
+            <!-- App link: https://yeedoy.com (Android App Links) — B33: şifre
+                 sıfırlama e-posta linki de artık bunu kullanıyor (eskiden
+                 doğrulanmamış io.supabase.yeedoy:// özel şeması kullanılıyordu,
+                 kaldırıldı). Doğrulama için web/public/.well-known/assetlinks.json
+                 gerekli. -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="https" android:host="yeedoy.com"/>
                 <data android:scheme="https" android:host="www.yeedoy.com"/>
-            </intent-filter>
-
-            <!-- Şifre sıfırlama e-posta linki (Supabase deep link) -->
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="io.supabase.yeedoy"/>
             </intent-filter>
 
             <!-- Google Assistant App Actions + Static Shortcuts -->

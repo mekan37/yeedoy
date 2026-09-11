@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'local_db/default_local_db_store.dart';
 import 'local_db/local_db_models.dart';
@@ -59,6 +60,7 @@ class OfflineMutationQueueItem {
     this.lastError,
     this.nextRetryAt,
     this.lastAttemptAt,
+    this.ownerUserId,
   });
 
   final String id;
@@ -70,6 +72,12 @@ class OfflineMutationQueueItem {
   final String? lastError;
   final DateTime? nextRetryAt;
   final DateTime? lastAttemptAt;
+
+  /// Bu öğeyi kuyruğa ekleyen oturumun kullanıcı id'si. Null ise (eski/legacy
+  /// kayıtlar) sahiplik bilinmiyor demektir ve eşleşme kontrolünden muaf
+  /// tutulur — yalnızca DOLU olup mevcut kullanıcıyla uyuşmayan kayıtlar
+  /// [OfflineMutationQueueStore.dropForUserMismatch] tarafından atılır.
+  final String? ownerUserId;
 
   bool isReady(DateTime now) {
     final retryAt = nextRetryAt;
@@ -97,6 +105,7 @@ class OfflineMutationQueueItem {
       lastError: lastError ?? this.lastError,
       nextRetryAt: nextRetryAt,
       lastAttemptAt: lastAttemptAt ?? this.lastAttemptAt,
+      ownerUserId: ownerUserId,
     );
   }
 
@@ -111,6 +120,7 @@ class OfflineMutationQueueItem {
       'last_error': lastError,
       'next_retry_at': nextRetryAt?.toUtc().toIso8601String(),
       'last_attempt_at': lastAttemptAt?.toUtc().toIso8601String(),
+      'owner_user_id': ownerUserId,
       'type': 'offline_mutation',
     };
   }
@@ -143,6 +153,7 @@ class OfflineMutationQueueItem {
     final lastAttemptAt = DateTime.tryParse(
       (map['last_attempt_at'] ?? '').toString(),
     )?.toUtc();
+    final ownerUserId = (map['owner_user_id'] ?? '').toString().trim();
     return OfflineMutationQueueItem(
       id: record.id,
       kind: kind,
@@ -153,6 +164,7 @@ class OfflineMutationQueueItem {
       lastError: lastErrorText.isEmpty ? null : lastErrorText,
       nextRetryAt: nextRetryAt,
       lastAttemptAt: lastAttemptAt,
+      ownerUserId: ownerUserId.isEmpty ? null : ownerUserId,
     );
   }
 }
@@ -230,9 +242,29 @@ class OfflineMutationQueueStore {
       kind: kind,
       createdAt: now,
       payload: Map<String, dynamic>.from(payload),
+      ownerUserId: _currentUserIdOrNull(),
     );
     await _writeItem(store, item);
     await _trimFamily(store, family: kind.family);
+  }
+
+  /// Oturum sahibi değiştiğinde (logout/login) çağrılır: kuyrukta duran ve
+  /// SAHİBİ BİLİNEN (owner_user_id dolu) ama artık aktif oturuma ait olmayan
+  /// öğeleri kalıcı olarak siler — böylece A'nın çevrimdışı yazdığı bir
+  /// yorum/rapor, B oturum açtıktan sonra B'nin kimliğiyle gönderilmez.
+  /// Sahibi bilinmeyen (eski/legacy) kayıtlara dokunulmaz.
+  static Future<int> dropForUserMismatch({required String? keepUserId}) async {
+    final store = await _store();
+    final all = await readAll(limit: 5000);
+    var dropped = 0;
+    for (final item in all) {
+      final owner = item.ownerUserId;
+      if (owner == null || owner.isEmpty) continue;
+      if (owner == keepUserId) continue;
+      await store.remove(LocalDbBucket.offlineMutationQueue, item.id);
+      dropped += 1;
+    }
+    return dropped;
   }
 
   static Future<List<OfflineMutationQueueItem>> readAll({
@@ -557,6 +589,19 @@ Duration _retryBackoff(
     policy.maxDelay.inSeconds,
   );
   return Duration(seconds: seconds);
+}
+
+/// `Supabase.instance` yalnızca `Supabase.initialize(...)` çağrıldıktan
+/// sonra kullanılabilir (gerçek uygulamada her zaman böyledir, ama bu
+/// dosyanın birim testleri Supabase'i hiç başlatmaz). Başlatılmamışsa
+/// öğe "sahibi bilinmiyor" (null) olarak kuyruğa girer — bu da eski/legacy
+/// kayıtlarla aynı, güvenli varsayılan davranıştır.
+String? _currentUserIdOrNull() {
+  try {
+    return Supabase.instance.client.auth.currentUser?.id;
+  } catch (_) {
+    return null;
+  }
 }
 
 int? _asInt(Object? value) {

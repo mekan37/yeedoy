@@ -315,27 +315,93 @@ class SearchRepository {
     if (cards.isEmpty) return cards;
     final ids = cards.map((e) => e.id).toList(growable: false);
 
-    final ratings = <String, double>{};
-    final qualityScores = <String, double>{};
-    final medianPrice = <String, int>{};
-    final openNow = <String, bool>{};
-    final recentVerified = <String, int>{};
-    var mealCardProviders = <String, List<MealCardProviderOption>>{};
+    // 4 bağımsız zenginleştirme sorgusu artık sıralı değil paralel (B14) —
+    // her biri kendi hata sınırında izole, biri başarısız olsa da diğerleri
+    // etkilenmiyor. Hatalar artık sessizce yutulmuyor, telemetriye
+    // raporlanıyor. is_open_now artık businesses_with_stats'tan (B38 ile
+    // düzeltildi) geliyor — ayrı bir business_hours sorgusu (terk edilmiş
+    // tablo) yok; sorgu başarısız olursa TÜM işletmeler "kapalı" (false)
+    // gösterilmiyor, "bilinmiyor" (null) olarak bırakılıyor. Her çağrı
+    // kendi Future'ını hemen başlatır (ilk await'e kadar eager çalışır) —
+    // bu yüzden aşağıdaki await'ler sıralı görünse de sorgular ağ
+    // üzerinde eşzamanlı yürüyor; Future.wait'e (ve tip-cast riskine)
+    // gerek kalmadan aynı paralellik sağlanıyor.
+    final statsFuture = _fetchRatingsAndQuality(ids);
+    final medianPriceFuture = _fetchMedianPrice(ids);
+    final recentVerifiedFuture = _fetchRecentVerified(ids);
+    final mealCardProvidersFuture = _fetchMealCardProviders(ids);
 
+    final (ratings, openNow) = await statsFuture;
+    final medianPrice = await medianPriceFuture;
+    final recentVerified = await recentVerifiedFuture;
+    final mealCardProviders = await mealCardProvidersFuture;
+
+    return cards
+        .map((card) {
+          final rating = ratings[card.id] ?? card.avgRating ?? 0;
+          final quality = card.qualityScore ?? 0;
+          final verified =
+              recentVerified[card.id] ?? card.recentPriceVerifiedCount ?? 0;
+          // Bilinmiyorsa false'a düşürme — null (bilinmiyor) olarak bırak.
+          final isOpen = openNow.containsKey(card.id)
+              ? openNow[card.id]
+              : card.isOpenNow;
+          final trustScore = _computeTrustScore(
+            qualityScore: quality,
+            recentVerifiedCount: verified,
+            avgRating: rating,
+            isOpenNow: isOpen ?? false,
+          );
+          return card.copyWith(
+            avgRating: rating,
+            qualityScore: quality,
+            trustScore: trustScore,
+            medianPriceCents: medianPrice[card.id],
+            isOpenNow: isOpen,
+            recentPriceVerifiedCount: verified,
+            mealCardProviders:
+                mealCardProviders[card.id] ?? card.mealCardProviders,
+          );
+        })
+        .toList(growable: false);
+  }
+
+  /// [ratings], [isOpenNow]. `quality_score` kaldırıldı — businesses_with_stats
+  /// view'ında hiç var olmayan bir kolondu (her çağrıda sessizce başarısız
+  /// oluyordu, avg_rating'i de birlikte düşürüyor olabilirdi); ayrı bir
+  /// "kalite skoru" özelliği hâlâ tanımlanmamış, bu turun kapsamı dışında.
+  ///
+  /// is_open_now artık burada, businesses_with_stats'tan geliyor —
+  /// business_hours (terk edilmiş, ~1 satır) yerine business_weekly_hours
+  /// kullanan doğru hesaplama (bkz. B38 migration'ı) burada tek seferde
+  /// alınıyor; ayrı bir business_hours sorgusuna gerek kalmadı.
+  Future<(Map<String, double>, Map<String, bool>)> _fetchRatingsAndQuality(
+    List<String> ids,
+  ) async {
+    final ratings = <String, double>{};
+    final isOpenNow = <String, bool>{};
     try {
       final rows = await client
           .from('businesses_with_stats')
-          .select('id,avg_rating,quality_score')
+          .select('id,avg_rating,is_open_now')
           .inFilter('id', ids);
       for (final row in (rows as List)) {
         final map = (row as Map<String, dynamic>);
-        ratings[map['id'].toString()] = ((map['avg_rating'] as num?) ?? 0)
-            .toDouble();
-        qualityScores[map['id'].toString()] =
-            ((map['quality_score'] as num?) ?? 0).toDouble();
+        final id = map['id'].toString();
+        ratings[id] = ((map['avg_rating'] as num?) ?? 0).toDouble();
+        final open = map['is_open_now'];
+        if (open is bool) isOpenNow[id] = open;
       }
-    } catch (_) {}
+    } catch (e, st) {
+      unawaited(
+        _telemetry.reportError(e, st, source: 'enrichBusinessCards:stats'),
+      );
+    }
+    return (ratings, isOpenNow);
+  }
 
+  Future<Map<String, int>> _fetchMedianPrice(List<String> ids) async {
+    final medianPrice = <String, int>{};
     try {
       final rows = await client
           .from('business_price_index_v1')
@@ -346,21 +412,16 @@ class SearchRepository {
         medianPrice[map['business_id'].toString()] =
             ((map['median_price_cents'] as num?) ?? 0).toInt();
       }
-    } catch (_) {}
+    } catch (e, st) {
+      unawaited(
+        _telemetry.reportError(e, st, source: 'enrichBusinessCards:price'),
+      );
+    }
+    return medianPrice;
+  }
 
-    try {
-      final rows = await client
-          .from('business_hours')
-          .select(
-            'business_id,mon_open,mon_close,tue_open,tue_close,wed_open,wed_close,thu_open,thu_close,fri_open,fri_close,sat_open,sat_close,sun_open,sun_close',
-          )
-          .inFilter('business_id', ids);
-      for (final row in (rows as List)) {
-        final map = (row as Map<String, dynamic>);
-        openNow[map['business_id'].toString()] = _isOpenNow(map);
-      }
-    } catch (_) {}
-
+  Future<Map<String, int>> _fetchRecentVerified(List<String> ids) async {
+    final recentVerified = <String, int>{};
     try {
       final fromIso = DateTime.now()
           .subtract(const Duration(days: 7))
@@ -377,35 +438,25 @@ class SearchRepository {
         final businessId = map['business_id'].toString();
         recentVerified[businessId] = (recentVerified[businessId] ?? 0) + 1;
       }
-    } catch (_) {}
+    } catch (e, st) {
+      unawaited(
+        _telemetry.reportError(e, st, source: 'enrichBusinessCards:verified'),
+      );
+    }
+    return recentVerified;
+  }
 
+  Future<Map<String, List<MealCardProviderOption>>> _fetchMealCardProviders(
+    List<String> ids,
+  ) async {
     try {
-      mealCardProviders = await _mealCardProvidersRepository
-          .listBusinessProvidersByIds(ids);
-    } catch (_) {}
-
-    return cards.map((card) {
-      final rating = ratings[card.id] ?? card.avgRating ?? 0;
-      final quality = qualityScores[card.id] ?? card.qualityScore ?? 0;
-      final verified =
-          recentVerified[card.id] ?? card.recentPriceVerifiedCount ?? 0;
-      final isOpen = openNow[card.id] ?? card.isOpenNow ?? false;
-      final trustScore = _computeTrustScore(
-        qualityScore: quality,
-        recentVerifiedCount: verified,
-        avgRating: rating,
-        isOpenNow: isOpen,
+      return await _mealCardProvidersRepository.listBusinessProvidersByIds(ids);
+    } catch (e, st) {
+      unawaited(
+        _telemetry.reportError(e, st, source: 'enrichBusinessCards:mealCard'),
       );
-      return card.copyWith(
-        avgRating: rating,
-        qualityScore: quality,
-        trustScore: trustScore,
-        medianPriceCents: medianPrice[card.id],
-        isOpenNow: isOpen,
-        recentPriceVerifiedCount: verified,
-        mealCardProviders: mealCardProviders[card.id] ?? card.mealCardProviders,
-      );
-    }).toList(growable: false);
+      return <String, List<MealCardProviderOption>>{};
+    }
   }
 
   List<String> _normalizeMealCardKeys(List<String> mealCardKeys) {
@@ -476,62 +527,5 @@ class SearchRepository {
             (openBoost * 0.10))
         .clamp(0, 1)
         .toDouble();
-  }
-
-  bool _isOpenNow(Map<String, dynamic> row) {
-    final now = DateTime.now();
-    final weekday = now.weekday;
-    final hm = now.hour * 60 + now.minute;
-
-    String? open;
-    String? close;
-    switch (weekday) {
-      case DateTime.monday:
-        open = row['mon_open']?.toString();
-        close = row['mon_close']?.toString();
-        break;
-      case DateTime.tuesday:
-        open = row['tue_open']?.toString();
-        close = row['tue_close']?.toString();
-        break;
-      case DateTime.wednesday:
-        open = row['wed_open']?.toString();
-        close = row['wed_close']?.toString();
-        break;
-      case DateTime.thursday:
-        open = row['thu_open']?.toString();
-        close = row['thu_close']?.toString();
-        break;
-      case DateTime.friday:
-        open = row['fri_open']?.toString();
-        close = row['fri_close']?.toString();
-        break;
-      case DateTime.saturday:
-        open = row['sat_open']?.toString();
-        close = row['sat_close']?.toString();
-        break;
-      case DateTime.sunday:
-        open = row['sun_open']?.toString();
-        close = row['sun_close']?.toString();
-        break;
-    }
-    if (open == null || close == null || open.isEmpty || close.isEmpty) {
-      return false;
-    }
-
-    final o = _parseMinutes(open);
-    final c = _parseMinutes(close);
-    if (o == null || c == null) return false;
-    if (o <= c) return hm >= o && hm <= c;
-    return hm >= o || hm <= c;
-  }
-
-  int? _parseMinutes(String value) {
-    final parts = value.split(':');
-    if (parts.length < 2) return null;
-    final h = int.tryParse(parts[0]);
-    final m = int.tryParse(parts[1]);
-    if (h == null || m == null) return null;
-    return (h * 60) + m;
   }
 }

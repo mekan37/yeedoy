@@ -157,7 +157,10 @@ Future<({bool navigated, String? error})> _runSubmitLogic({
       await repo.submitAccountDeletionRequest(reason: details);
     } else {
       final requestType = _reasonToRequestType(reason);
-      await repo.submitPrivacyRequest(requestType: requestType, details: details);
+      await repo.submitPrivacyRequest(
+        requestType: requestType,
+        details: details,
+      );
     }
     return (navigated: true, error: null);
   } catch (e) {
@@ -178,18 +181,20 @@ void main() {
     // -----------------------------------------------------------------------
     // T1: Kesin "kalıcı silinecektir" ifadesi ekranda bulunmamalı
     // -----------------------------------------------------------------------
-    test('T1: _PreRequestCard metinleri "kalıcı olarak silinecektir" içermiyor',
-        () {
-      for (final text in _preRequestTexts) {
-        expect(
-          text.toLowerCase().contains('kalıcı olarak silinecektir'),
-          isFalse,
-          reason:
-              '"kalıcı olarak silinecektir" kesin ifadesi legal belgelerle çelişiyor. '
-              'Sorunlu metin: "$text"',
-        );
-      }
-    });
+    test(
+      'T1: _PreRequestCard metinleri "kalıcı olarak silinecektir" içermiyor',
+      () {
+        for (final text in _preRequestTexts) {
+          expect(
+            text.toLowerCase().contains('kalıcı olarak silinecektir'),
+            isFalse,
+            reason:
+                '"kalıcı olarak silinecektir" kesin ifadesi legal belgelerle çelişiyor. '
+                'Sorunlu metin: "$text"',
+          );
+        }
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T2: "Bu işlem geri alınamaz" ifadesi ekranda bulunmamalı
@@ -232,44 +237,51 @@ void main() {
     // T4: _AfterSubmitCard metni "sınırlı süre saklanabilir" içeriyor
     // -----------------------------------------------------------------------
     test(
-        'T4: _AfterSubmitCard "sınırlı süre saklanabilir" uyarısını içeriyor',
-        () {
-      expect(
-        _afterSubmitText.contains('sınırlı süre saklanabilir'),
-        isTrue,
-        reason:
-            'Yasal saklama istisnası uyarısı _AfterSubmitCard metninde yer almalı.',
-      );
-    });
+      'T4: _AfterSubmitCard "sınırlı süre saklanabilir" uyarısını içeriyor',
+      () {
+        expect(
+          _afterSubmitText.contains('sınırlı süre saklanabilir'),
+          isTrue,
+          reason:
+              'Yasal saklama istisnası uyarısı _AfterSubmitCard metninde yer almalı.',
+        );
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T5: "Talebiniz alınır ve değerlendirilir" ifadesi mevcut
     // -----------------------------------------------------------------------
-    test('T5: _AfterSubmitCard "Talebiniz alınır ve değerlendirilir" içeriyor',
-        () {
-      expect(
-        _afterSubmitText.contains('Talebiniz alınır ve değerlendirilir'),
-        isTrue,
-      );
-    });
+    test(
+      'T5: _AfterSubmitCard "Talebiniz alınır ve değerlendirilir" içeriyor',
+      () {
+        expect(
+          _afterSubmitText.contains('Talebiniz alınır ve değerlendirilir'),
+          isTrue,
+        );
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T6: Pazarlama seçeneği neden listesinde var ve ayrı olarak işaretli
     // -----------------------------------------------------------------------
     test('T6: _marketingReason _reasons listesinde yer alıyor', () {
-      expect(_reasons.contains(_marketingReason), isTrue,
-          reason:
-              'Pazarlama e-postası seçeneği talep nedeni listesinde bulunmalı.');
+      expect(
+        _reasons.contains(_marketingReason),
+        isTrue,
+        reason:
+            'Pazarlama e-postası seçeneği talep nedeni listesinde bulunmalı.',
+      );
     });
 
     // -----------------------------------------------------------------------
     // T7: Pazarlama nedeni seçilince submit() form göndermez (yönlendirme yapar)
     // -----------------------------------------------------------------------
-    test(
-        'T7: Pazarlama seçilince submitPrivacyRequest çağrılmaz',
-        () async {
+    test('T7: Pazarlama seçilince submitPrivacyRequest çağrılmaz', () async {
       final repo = _FakeLegalRepository();
-      final result = await _runSubmitLogic(reason: _marketingReason, repo: repo);
+      final result = await _runSubmitLogic(
+        reason: _marketingReason,
+        repo: repo,
+      );
 
       expect(
         repo.submitPrivacyCalled,
@@ -278,10 +290,16 @@ void main() {
             'Pazarlama seçeneği seçildiğinde submitPrivacyRequest çağrılmamalı; '
             'kullanıcı bildirim ayarları sayfasına yönlendirilmeli.',
       );
-      expect(repo.submitAccountDeletionCalled, isFalse,
-          reason: 'Pazarlama seçeneği hesap silme RPC çağırmamalı.');
-      expect(result.navigated, isTrue,
-          reason: 'Pazarlama seçeneği yönlendirme yapmalı.');
+      expect(
+        repo.submitAccountDeletionCalled,
+        isFalse,
+        reason: 'Pazarlama seçeneği hesap silme RPC çağırmamalı.',
+      );
+      expect(
+        result.navigated,
+        isTrue,
+        reason: 'Pazarlama seçeneği yönlendirme yapmalı.',
+      );
     });
 
     // -----------------------------------------------------------------------
@@ -311,13 +329,13 @@ void main() {
     // -----------------------------------------------------------------------
     // T10: "Veri İndir" aktif metin olarak ekranda yer almıyor
     // -----------------------------------------------------------------------
-    test('T10: "Veri İndir" aktif buton/metin _preRequestTexts içinde yok',
-        () {
+    test('T10: "Veri İndir" aktif buton/metin _preRequestTexts içinde yok', () {
       for (final text in _preRequestTexts) {
         expect(
           text.contains('Veri İndir'),
           isFalse,
-          reason: '"Veri İndir" işlevsiz bir aksiyon olarak ekranda yer almamalı.',
+          reason:
+              '"Veri İndir" işlevsiz bir aksiyon olarak ekranda yer almamalı.',
         );
       }
     });
@@ -340,100 +358,117 @@ void main() {
     // -----------------------------------------------------------------------
     // T12: Hesap silme seçeneği → submit_account_deletion_request_v1 çağrıldı
     // -----------------------------------------------------------------------
-    test('T12: "Hesabımı silme talebi" → submitAccountDeletionRequest çağrılır',
-        () async {
-      final repo = _FakeLegalRepository();
-      await _runSubmitLogic(reason: 'Hesabımı silme talebi', repo: repo);
+    test(
+      'T12: "Hesabımı silme talebi" → submitAccountDeletionRequest çağrılır',
+      () async {
+        final repo = _FakeLegalRepository();
+        await _runSubmitLogic(reason: 'Hesabımı silme talebi', repo: repo);
 
-      expect(repo.submitAccountDeletionCalled, isTrue,
-          reason: 'Hesap silme seçeneği submitAccountDeletionRequest çağırmalı.');
-    });
+        expect(
+          repo.submitAccountDeletionCalled,
+          isTrue,
+          reason:
+              'Hesap silme seçeneği submitAccountDeletionRequest çağırmalı.',
+        );
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T13: Hesap silme seçeneği → submit_privacy_request_v1 çağrılmadı
     // -----------------------------------------------------------------------
     test(
-        'T13: "Hesabımı silme talebi" → submitPrivacyRequest çağrılmaz',
-        () async {
-      final repo = _FakeLegalRepository();
-      await _runSubmitLogic(reason: 'Hesabımı silme talebi', repo: repo);
+      'T13: "Hesabımı silme talebi" → submitPrivacyRequest çağrılmaz',
+      () async {
+        final repo = _FakeLegalRepository();
+        await _runSubmitLogic(reason: 'Hesabımı silme talebi', repo: repo);
 
-      expect(repo.submitPrivacyCalled, isFalse,
+        expect(
+          repo.submitPrivacyCalled,
+          isFalse,
           reason:
               'Hesap silme talebi privacy_requests tablosuna gitmamalı; '
-              'submitPrivacyRequest çağrılmamalı.');
-    });
+              'submitPrivacyRequest çağrılmamalı.',
+        );
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T14: "Kişisel verilerin silinmesi" → submit_privacy_request_v1 + request_type: 'delete_data'
     // -----------------------------------------------------------------------
     test(
-        'T14: "Kişisel verilerimin silinmesi" → submitPrivacyRequest(delete_data)',
-        () async {
-      final repo = _FakeLegalRepository();
-      await _runSubmitLogic(
-        reason:
-            'Kişisel verilerimin silinmesi / yok edilmesi / anonimleştirilmesi talebi',
-        repo: repo,
-      );
-
-      expect(repo.submitPrivacyCalled, isTrue);
-      expect(repo.lastPrivacyRequestType, equals('delete_data'),
+      'T14: "Kişisel verilerimin silinmesi" → submitPrivacyRequest(delete_data)',
+      () async {
+        final repo = _FakeLegalRepository();
+        await _runSubmitLogic(
           reason:
-              '"Kişisel verilerimin silinmesi" seçeneği request_type="delete_data" göndermelidir.');
-      expect(repo.submitAccountDeletionCalled, isFalse);
-    });
+              'Kişisel verilerimin silinmesi / yok edilmesi / anonimleştirilmesi talebi',
+          repo: repo,
+        );
+
+        expect(repo.submitPrivacyCalled, isTrue);
+        expect(
+          repo.lastPrivacyRequestType,
+          equals('delete_data'),
+          reason:
+              '"Kişisel verilerimin silinmesi" seçeneği request_type="delete_data" göndermelidir.',
+        );
+        expect(repo.submitAccountDeletionCalled, isFalse);
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T15: "Yorum, favori veya check-in" → request_type: 'delete_interactions'
     // -----------------------------------------------------------------------
     test(
-        'T15: "Yorum, favori veya check-in verilerimle ilgili talep" → delete_interactions',
-        () async {
-      final repo = _FakeLegalRepository();
-      await _runSubmitLogic(
-        reason: 'Yorum, favori veya check-in verilerimle ilgili talep',
-        repo: repo,
-      );
+      'T15: "Yorum, favori veya check-in verilerimle ilgili talep" → delete_interactions',
+      () async {
+        final repo = _FakeLegalRepository();
+        await _runSubmitLogic(
+          reason: 'Yorum, favori veya check-in verilerimle ilgili talep',
+          repo: repo,
+        );
 
-      expect(repo.submitPrivacyCalled, isTrue);
-      expect(repo.lastPrivacyRequestType, equals('delete_interactions'));
-      expect(repo.submitAccountDeletionCalled, isFalse);
-    });
+        expect(repo.submitPrivacyCalled, isTrue);
+        expect(repo.lastPrivacyRequestType, equals('delete_interactions'));
+        expect(repo.submitAccountDeletionCalled, isFalse);
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T16: "Destek talebi geçmişimle ilgili talep" → request_type: 'delete_support'
     // -----------------------------------------------------------------------
     test(
-        'T16: "Destek talebi geçmişimle ilgili talep" → delete_support',
-        () async {
-      final repo = _FakeLegalRepository();
-      await _runSubmitLogic(
-        reason: 'Destek talebi geçmişimle ilgili talep',
-        repo: repo,
-      );
+      'T16: "Destek talebi geçmişimle ilgili talep" → delete_support',
+      () async {
+        final repo = _FakeLegalRepository();
+        await _runSubmitLogic(
+          reason: 'Destek talebi geçmişimle ilgili talep',
+          repo: repo,
+        );
 
-      expect(repo.submitPrivacyCalled, isTrue);
-      expect(repo.lastPrivacyRequestType, equals('delete_support'));
-      expect(repo.submitAccountDeletionCalled, isFalse);
-    });
+        expect(repo.submitPrivacyCalled, isTrue);
+        expect(repo.lastPrivacyRequestType, equals('delete_support'));
+        expect(repo.submitAccountDeletionCalled, isFalse);
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T17: "İşletme sahipliği başvurumla ilgili talep" → request_type: 'delete_owner_claims'
     // -----------------------------------------------------------------------
     test(
-        'T17: "İşletme sahipliği başvurumla ilgili talep" → delete_owner_claims',
-        () async {
-      final repo = _FakeLegalRepository();
-      await _runSubmitLogic(
-        reason: 'İşletme sahipliği başvurumla ilgili talep',
-        repo: repo,
-      );
+      'T17: "İşletme sahipliği başvurumla ilgili talep" → delete_owner_claims',
+      () async {
+        final repo = _FakeLegalRepository();
+        await _runSubmitLogic(
+          reason: 'İşletme sahipliği başvurumla ilgili talep',
+          repo: repo,
+        );
 
-      expect(repo.submitPrivacyCalled, isTrue);
-      expect(repo.lastPrivacyRequestType, equals('delete_owner_claims'));
-      expect(repo.submitAccountDeletionCalled, isFalse);
-    });
+        expect(repo.submitPrivacyCalled, isTrue);
+        expect(repo.lastPrivacyRequestType, equals('delete_owner_claims'));
+        expect(repo.submitAccountDeletionCalled, isFalse);
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T18: "Diğer" → request_type: 'other'
@@ -450,44 +485,64 @@ void main() {
     // -----------------------------------------------------------------------
     // T19: Pazarlama seçeneği → hiçbir veri silme RPC çağrılmaz
     // -----------------------------------------------------------------------
-    test(
-        'T19: Pazarlama seçeneği → veri silme RPC çağrılmaz',
-        () async {
+    test('T19: Pazarlama seçeneği → veri silme RPC çağrılmaz', () async {
       final repo = _FakeLegalRepository();
       await _runSubmitLogic(reason: _marketingReason, repo: repo);
 
-      expect(repo.submitPrivacyCalled, isFalse,
-          reason: 'Pazarlama seçeneği submitPrivacyRequest çağırmamalı.');
-      expect(repo.submitAccountDeletionCalled, isFalse,
-          reason: 'Pazarlama seçeneği submitAccountDeletionRequest çağırmamalı.');
+      expect(
+        repo.submitPrivacyCalled,
+        isFalse,
+        reason: 'Pazarlama seçeneği submitPrivacyRequest çağırmamalı.',
+      );
+      expect(
+        repo.submitAccountDeletionCalled,
+        isFalse,
+        reason: 'Pazarlama seçeneği submitAccountDeletionRequest çağırmamalı.',
+      );
     });
 
     // -----------------------------------------------------------------------
     // T20: Pazarlama seçeneği → yönlendirme yapıldı (navigated: true)
     // -----------------------------------------------------------------------
-    test('T20: Pazarlama seçeneği → bildirim tercihleri sayfasına yönlendirdi',
-        () async {
-      final repo = _FakeLegalRepository();
-      final result = await _runSubmitLogic(reason: _marketingReason, repo: repo);
+    test(
+      'T20: Pazarlama seçeneği → bildirim tercihleri sayfasına yönlendirdi',
+      () async {
+        final repo = _FakeLegalRepository();
+        final result = await _runSubmitLogic(
+          reason: _marketingReason,
+          repo: repo,
+        );
 
-      expect(result.navigated, isTrue,
+        expect(
+          result.navigated,
+          isTrue,
           reason:
-              'Pazarlama seçeneği seçilince /notification-preferences yönlendirmesi yapılmalı.');
-    });
+              'Pazarlama seçeneği seçilince /notification-preferences yönlendirmesi yapılmalı.',
+        );
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T21: RPC hata verirse UI çökmeden hata mesajı gösteriyor
     // -----------------------------------------------------------------------
-    test('T21: submitPrivacyRequest hata verince navigated=false, error dolu',
-        () async {
-      final repo = _FakeLegalRepository()..throwOnPrivacy = true;
-      final result = await _runSubmitLogic(reason: 'Diğer', repo: repo);
+    test(
+      'T21: submitPrivacyRequest hata verince navigated=false, error dolu',
+      () async {
+        final repo = _FakeLegalRepository()..throwOnPrivacy = true;
+        final result = await _runSubmitLogic(reason: 'Diğer', repo: repo);
 
-      expect(result.navigated, isFalse,
-          reason: 'RPC hata verince kullanıcı sayfada kalmalı.');
-      expect(result.error, isNotNull,
-          reason: 'Hata mesajı UI\'ya yansıtılmalı.');
-    });
+        expect(
+          result.navigated,
+          isFalse,
+          reason: 'RPC hata verince kullanıcı sayfada kalmalı.',
+        );
+        expect(
+          result.error,
+          isNotNull,
+          reason: 'Hata mesajı UI\'ya yansıtılmalı.',
+        );
+      },
+    );
 
     // -----------------------------------------------------------------------
     // T22: Ekranda "kalıcı olarak silinecektir" ifadesi yok
@@ -549,8 +604,7 @@ void main() {
         expect(
           _reasonToRequestType(entry.key),
           equals(entry.value),
-          reason:
-              '"${entry.key}" → "${entry.value}" eşleştirmesi yanlış.',
+          reason: '"${entry.key}" → "${entry.value}" eşleştirmesi yanlış.',
         );
       }
     });

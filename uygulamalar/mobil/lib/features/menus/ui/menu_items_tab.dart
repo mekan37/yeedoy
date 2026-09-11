@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../../../core/media/app_network_image.dart';
 import '../../../features/shared/ui/design_system.dart';
 import '../../../features/shared/ui/components/quick_login_sheet.dart';
@@ -59,263 +60,296 @@ class _MenuItemsTabState extends ConsumerState<MenuItemsTab> {
         .cast<MenuItemSearchResult?>()
         .firstWhere((item) => item != null, orElse: () => null);
 
+    final showSkeleton = st.loading && st.items.isEmpty;
+    final showEmptyState = !st.loading && st.items.isEmpty;
+
     return RefreshIndicator(
       onRefresh: () => ref.read(menuItemSearchProvider.notifier).refresh(),
-      child: ListView(
+      // Liste büyüdükçe (200+ ürün) tüm kartların yeniden inşa edilmesini
+      // önlemek için sadece ürün listesi SliverList.builder ile lazy inşa
+      // ediliyor; başlık/filtre bölümü ve alt bilgi tek seferlik statik
+      // içerik olduğu için SliverToBoxAdapter'da kalıyor (B19).
+      child: CustomScrollView(
         controller: scrollCtrl,
-        padding: const EdgeInsets.fromLTRB(16, 14, 16, 24),
-        children: [
-          Text(
-            t.discoveryFoodsGreeting,
-            style: context.subtitleStyle,
-          ),
-          SizedBox(height: tokens.space4),
-          Text(
-            t.tabFoods,
-            style: context.titleStyle.copyWith(fontSize: 28),
-          ),
-          SizedBox(height: tokens.space16),
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(t.discoveryFoodsGreeting, style: context.subtitleStyle),
+                  SizedBox(height: tokens.space4),
+                  Text(
+                    t.tabFoods,
+                    style: context.titleStyle.copyWith(fontSize: 28),
+                  ),
+                  SizedBox(height: tokens.space16),
 
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: qCtrl,
-                  textInputAction: TextInputAction.search,
-                  onChanged: (_) {
-                    setState(() => _selectedCategoryId = null);
-                    ref
-                        .read(menuItemSearchProvider.notifier)
-                        .setQuery(qCtrl.text.trim());
-                  },
-                  onSubmitted: (_) =>
-                      ref.read(menuItemSearchProvider.notifier).refresh(),
-                  decoration: InputDecoration(
-                    hintText: t.discoveryFoodsSearchHint,
-                    prefixIcon: const Icon(Icons.search),
-                    suffixIcon: qCtrl.text.isEmpty
-                        ? null
-                        : IconButton(
-                            tooltip: t.kapat,
-                            icon: const Icon(Icons.close),
-                            onPressed: () {
-                              qCtrl.clear();
-                              setState(() => _selectedCategoryId = null);
-                              ref
-                                  .read(menuItemSearchProvider.notifier)
-                                  .setQuery('');
-                              ref
-                                  .read(menuItemSearchProvider.notifier)
-                                  .refresh();
-                              setState(() {});
-                            },
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: qCtrl,
+                          textInputAction: TextInputAction.search,
+                          onChanged: (_) {
+                            setState(() => _selectedCategoryId = null);
+                            ref
+                                .read(menuItemSearchProvider.notifier)
+                                .setQuery(qCtrl.text.trim());
+                          },
+                          onSubmitted: (_) => ref
+                              .read(menuItemSearchProvider.notifier)
+                              .refresh(),
+                          decoration: InputDecoration(
+                            hintText: t.discoveryFoodsSearchHint,
+                            prefixIcon: const Icon(Icons.search),
+                            suffixIcon: qCtrl.text.isEmpty
+                                ? null
+                                : IconButton(
+                                    tooltip: t.kapat,
+                                    icon: const Icon(Icons.close),
+                                    onPressed: () {
+                                      qCtrl.clear();
+                                      setState(
+                                        () => _selectedCategoryId = null,
+                                      );
+                                      ref
+                                          .read(menuItemSearchProvider.notifier)
+                                          .setQuery('');
+                                      ref
+                                          .read(menuItemSearchProvider.notifier)
+                                          .refresh();
+                                      setState(() {});
+                                    },
+                                  ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(999),
+                              borderSide: BorderSide(color: AppColors.border),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(999),
+                              borderSide: BorderSide(color: AppColors.border),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(999),
+                              borderSide: const BorderSide(
+                                color: AppColors.primary,
+                                width: 1.5,
+                              ),
+                            ),
+                            filled: true,
+                            fillColor: AppColors.card,
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: tokens.space16,
+                              vertical: tokens.space12,
+                            ),
                           ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(999),
-                      borderSide: BorderSide(color: AppColors.border),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(999),
-                      borderSide: BorderSide(color: AppColors.border),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(999),
-                      borderSide: const BorderSide(
-                        color: AppColors.primary,
-                        width: 1.5,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: AppColors.card,
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: tokens.space16,
-                      vertical: tokens.space12,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: tokens.space8),
-              IconButton.filledTonal(
-                tooltip: t.filters,
-                icon: const Icon(Icons.tune),
-                onPressed: () => _openFilters(context, st),
-              ),
-            ],
-          ),
-          SizedBox(height: tokens.space12),
-
-          // Category chips row
-          SizedBox(
-            height: tokens.minHitTarget,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(right: tokens.space8),
-                  child: AppFilterChip(
-                    label: t.all,
-                    selected: _selectedCategoryId == null,
-                    onTap: () => _selectCategory(null, null),
-                  ),
-                ),
-                for (final category in discoveryHomeCategories)
-                  Padding(
-                    padding: EdgeInsets.only(right: tokens.space8),
-                    child: AppFilterChip(
-                      label: _categoryChipLabel(t, category.titleKey),
-                      selected: _selectedCategoryId == category.id,
-                      onTap: () => _selectCategory(category.id, category),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-          SizedBox(height: tokens.space16),
-
-          Row(
-            children: [
-              FilterChip(
-                label: Text(st.profileEnabled ? t.profileActive : t.profile),
-                selected: st.profileEnabled,
-                onSelected: (value) async {
-                  if (user == null) {
-                    _redirectToLogin(context);
-                    return;
-                  }
-                  if (profileAsync.isLoading) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(t.profileLoading)));
-                    return;
-                  }
-                  if (profileAsync.hasError) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          AppErrorMapper.message(profileAsync.error),
                         ),
                       ),
-                    );
-                    return;
-                  }
-                  final profile = profileAsync.asData?.value;
-                  if (profile == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(t.dietProfileNotFound)),
-                    );
-                    return;
-                  }
-                  await ref
-                      .read(menuItemSearchProvider.notifier)
-                      .applyProfile(
-                        enabled: value,
-                        vegan: profile.vegan,
-                        vegetarian: profile.vegetarian,
-                        glutenFree: profile.glutenFree,
-                        lactoseFree: profile.lactoseFree,
-                        halal: profile.halal,
-                        maxCalories: profile.maxCalories,
-                      );
-                },
-              ),
-              const Spacer(),
-              if (st.profileEnabled)
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 6,
+                      SizedBox(width: tokens.space8),
+                      IconButton.filledTonal(
+                        tooltip: t.filters,
+                        icon: const Icon(Icons.tune),
+                        onPressed: () => _openFilters(context, st),
+                      ),
+                    ],
                   ),
-                  decoration: BoxDecoration(
-                    color: AppColors.success.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Text(
-                    t.profileActive,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.success,
-                    ),
-                  ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 10),
+                  SizedBox(height: tokens.space12),
 
-          if (st.error != null)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      AppErrorMapper.message(st.error),
-                      style: const TextStyle(color: AppColors.danger),
+                  // Category chips row
+                  SizedBox(
+                    height: tokens.minHitTarget,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: tokens.space8),
+                          child: AppFilterChip(
+                            label: t.all,
+                            selected: _selectedCategoryId == null,
+                            onTap: () => _selectCategory(null, null),
+                          ),
+                        ),
+                        for (final category in discoveryHomeCategories)
+                          Padding(
+                            padding: EdgeInsets.only(right: tokens.space8),
+                            child: AppFilterChip(
+                              label: _categoryChipLabel(t, category.titleKey),
+                              selected: _selectedCategoryId == category.id,
+                              onTap: () =>
+                                  _selectCategory(category.id, category),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  OutlinedButton(
-                    onPressed: () =>
-                        ref.read(menuItemSearchProvider.notifier).refresh(),
-                    child: Text(t.retry),
+                  SizedBox(height: tokens.space16),
+
+                  Row(
+                    children: [
+                      FilterChip(
+                        label: Text(
+                          st.profileEnabled ? t.profileActive : t.profile,
+                        ),
+                        selected: st.profileEnabled,
+                        onSelected: (value) async {
+                          if (user == null) {
+                            _redirectToLogin(context);
+                            return;
+                          }
+                          if (profileAsync.isLoading) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(t.profileLoading)),
+                            );
+                            return;
+                          }
+                          if (profileAsync.hasError) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  AppErrorMapper.message(profileAsync.error),
+                                ),
+                              ),
+                            );
+                            return;
+                          }
+                          final profile = profileAsync.asData?.value;
+                          if (profile == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(t.dietProfileNotFound)),
+                            );
+                            return;
+                          }
+                          await ref
+                              .read(menuItemSearchProvider.notifier)
+                              .applyProfile(
+                                enabled: value,
+                                vegan: profile.vegan,
+                                vegetarian: profile.vegetarian,
+                                glutenFree: profile.glutenFree,
+                                lactoseFree: profile.lactoseFree,
+                                halal: profile.halal,
+                                maxCalories: profile.maxCalories,
+                              );
+                        },
+                      ),
+                      const Spacer(),
+                      if (st.profileEnabled)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.success.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Text(
+                            t.profileActive,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.success,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
+                  const SizedBox(height: 10),
+
+                  if (st.error != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              AppErrorMapper.message(st.error),
+                              style: const TextStyle(color: AppColors.danger),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          OutlinedButton(
+                            onPressed: () => ref
+                                .read(menuItemSearchProvider.notifier)
+                                .refresh(),
+                            child: Text(t.retry),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                  if (showSkeleton) const _MenuItemsSkeleton(),
+                  if (!showSkeleton && todaySpecial != null) ...[
+                    RepaintBoundary(
+                      child: _TodaySpecialBanner(
+                        item: todaySpecial,
+                        title: t.todaysPickTitle,
+                        onTap: () => _openMenuItem(context, todaySpecial),
+                      ),
+                    ),
+                    SizedBox(height: tokens.space16),
+                  ],
+                  if (!showSkeleton && st.items.isNotEmpty) ...[
+                    Text(t.popularFoodsTitle, style: context.sectionTitleStyle),
+                    SizedBox(height: tokens.space12),
+                  ],
                 ],
               ),
             ),
-
-          if (st.loading && st.items.isEmpty) ...[
-            const _MenuItemsSkeleton(),
-          ] else ...[
-            if (todaySpecial != null) ...[
-              RepaintBoundary(
-                child: _TodaySpecialBanner(
-                  item: todaySpecial,
-                  title: t.todaysPickTitle,
-                  onTap: () => _openMenuItem(context, todaySpecial),
-                ),
-              ),
-              SizedBox(height: tokens.space16),
-            ],
-            if (st.items.isNotEmpty) ...[
-              Text(
-                t.popularFoodsTitle,
-                style: context.sectionTitleStyle,
-              ),
-              SizedBox(height: tokens.space12),
-            ],
-            for (final item in st.items) ...[
-              RepaintBoundary(
-                child: _MenuItemCard(
-                  item: item,
-                  onTap: () => _openMenuItem(context, item),
-                  onAlertTap: () => _openPriceAlert(context, item, user != null),
-                ),
-              ),
-              const SizedBox(height: 10),
-            ],
-          ],
-
-          if (st.isLoadingMore)
-            const Padding(
-              padding: EdgeInsets.only(top: 12),
-              child: Center(child: CircularProgressIndicator()),
-            ),
-
-          if (!st.loading && st.items.isEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: 24),
-              child: _EmptyState(
-                title: st.needsLocation ? t.allowLocation : t.noResultsFound,
-                subtitle: st.needsLocation
-                    ? t.allowLocationForNearby
-                    : t.tryDifferentSearchOrFilter,
-                onLocationTap: st.needsLocation
-                    ? () => ref
-                          .read(menuItemSearchProvider.notifier)
-                          .requestLocation()
-                    : null,
+          ),
+          if (!showSkeleton)
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final item = st.items[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: RepaintBoundary(
+                      child: _MenuItemCard(
+                        item: item,
+                        onTap: () => _openMenuItem(context, item),
+                        onAlertTap: () =>
+                            _openPriceAlert(context, item, user != null),
+                      ),
+                    ),
+                  );
+                }, childCount: st.items.length),
               ),
             ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  if (st.isLoadingMore)
+                    const Padding(
+                      padding: EdgeInsets.only(top: 12),
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+                  if (showEmptyState)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 24),
+                      child: _EmptyState(
+                        title: st.needsLocation
+                            ? t.allowLocation
+                            : t.noResultsFound,
+                        subtitle: st.needsLocation
+                            ? t.allowLocationForNearby
+                            : t.tryDifferentSearchOrFilter,
+                        onLocationTap: st.needsLocation
+                            ? () => ref
+                                  .read(menuItemSearchProvider.notifier)
+                                  .requestLocation()
+                            : null,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -653,9 +687,7 @@ class _MenuItemCard extends StatelessWidget {
                               ),
                               const SizedBox(width: 3),
                               Text(
-                                t.localeName.startsWith('tr')
-                                    ? '${item.total30d} kişi onayladı'
-                                    : '${item.total30d} verified',
+                                t.menuItemsConfirmedByCount(item.total30d!),
                                 style: const TextStyle(
                                   color: AppColors.success,
                                   fontSize: 11,
@@ -701,7 +733,11 @@ class _MenuItemCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    _formatPrice(item.priceCents, locale: t.localeName),
+                    _formatPrice(
+                      context,
+                      item.priceCents,
+                      locale: t.localeName,
+                    ),
                     style: const TextStyle(fontWeight: FontWeight.w900),
                   ),
                 ],
@@ -870,10 +906,7 @@ class _MenuItemFilterSheetState extends State<_MenuItemFilterSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              t.filters,
-              style: context.sectionTitleStyle,
-            ),
+            Text(t.filters, style: context.sectionTitleStyle),
             const SizedBox(height: 12),
             if (widget.profileEnabled) ...[
               Container(
@@ -1010,13 +1043,15 @@ void _redirectToLogin(BuildContext context) {
   showQuickLoginSheet(context);
 }
 
-String _formatPrice(int? cents, {String? locale}) {
+// Eskiden "TL150.5" gibi İngilizce ondalık ayracıyla (nokta) ve "TL" harfleri
+// ile gösteriyordu — kanonik formatCurrency'e devredildi (B36).
+String _formatPrice(BuildContext context, int? cents, {String? locale}) {
   if (cents == null) {
-    return (locale ?? '').startsWith('tr') ? 'Fiyata sorunuz' : 'Price on request';
+    return (locale ?? '').startsWith('tr')
+        ? 'Fiyata sorunuz'
+        : 'Price on request';
   }
-  final value = cents / 100.0;
-  final text = value.toStringAsFixed(value.truncateToDouble() == value ? 0 : 2);
-  return 'TL$text';
+  return formatCurrency(context, cents / 100.0);
 }
 
 _StatusBadgeConfig _statusBadge(String status, AppLocalizations t) {

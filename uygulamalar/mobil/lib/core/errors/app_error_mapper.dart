@@ -1,5 +1,7 @@
+import 'package:geolocator/geolocator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../storage/offline_submission_queue.dart' show isLikelyOfflineError;
 import 'app_error_codes.dart';
 
 class AppErrorMapper {
@@ -13,6 +15,20 @@ class AppErrorMapper {
     if (error is PostgrestException) {
       if (error.message.isNotEmpty) return error.message;
       return 'İşlem sırasında bir hata oluştu.';
+    }
+
+    if (error is LocationServiceDisabledException) {
+      return 'Konum servisleri kapalı. Lütfen cihaz ayarlarından konumu açın.';
+    }
+
+    if (error is PermissionDeniedException) {
+      return 'Konum izni gerekli.';
+    }
+
+    // SocketException/ClientException/timeout gibi ham ağ hataları — ham
+    // İngilizce teknik metin yerine anlaşılır bir yönlendirme göster.
+    if (isLikelyOfflineError(error)) {
+      return 'İnternet bağlantısı yok veya zayıf. Lütfen bağlantını kontrol edip tekrar dene.';
     }
 
     if (error is Exception) {

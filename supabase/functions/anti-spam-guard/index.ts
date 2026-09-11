@@ -50,15 +50,23 @@ const RULES: Record<string, Rule> = {
 };
 
 function readClientIp(req: Request): string {
-  const forwarded = req.headers.get("x-forwarded-for") ?? "";
-  if (forwarded.trim().length > 0) {
-    const first = forwarded.split(",")[0]?.trim();
-    if (first) return first;
-  }
   const cf = req.headers.get("cf-connecting-ip");
   if (cf?.trim()) return cf.trim();
   const real = req.headers.get("x-real-ip");
   if (real?.trim()) return real.trim();
+  // x-forwarded-for bir zincirdir: her hop kendi gözlemlediği IP'yi SONA
+  // ekler. Zincirin İLK elemanı istemcinin kendi iddia ettiği (dolayısıyla
+  // sahtelenebilir) değerdir; SON eleman, isteği bu fonksiyona ileten
+  // (güvenilir) gateway'in doğrudan gözlemlediği gerçek IP'dir. Önceden
+  // ilk eleman kullanılıyordu — bu, IP bazlı rate-limit/kara listeyi
+  // istemcinin kendi belirlediği sahte bir IP ile bypass etmesine izin
+  // veriyordu.
+  const forwarded = req.headers.get("x-forwarded-for") ?? "";
+  if (forwarded.trim().length > 0) {
+    const parts = forwarded.split(",").map((p) => p.trim()).filter(Boolean);
+    const last = parts[parts.length - 1];
+    if (last) return last;
+  }
   return "unknown";
 }
 
@@ -100,12 +108,10 @@ serve(async (req) => {
   const body = (await req.json().catch(() => ({}))) as {
     action?: string;
     scope?: string;
-    dryRun?: boolean;
   };
 
   const action = (body.action ?? "").trim();
   const scope = (body.scope ?? "").trim() || null;
-  const dryRun = body.dryRun === true;
 
   const rule = RULES[action];
   if (!rule) {
@@ -197,29 +203,27 @@ serve(async (req) => {
     }
   }
 
-  if (!dryRun) {
-    const { error: insertErr } = await adminClient.from("edge_rate_limit_events").insert({
-      action,
-      user_id: userId,
-      ip_hash: ipHash,
-      scope,
-    });
-    if (insertErr) {
-      return json({ ok: false, error: "rate_limit_insert_failed", detail: insertErr.message }, 500);
-    }
-
-    const cleanupBefore = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000).toISOString();
-    await adminClient
-      .from("edge_rate_limit_events")
-      .delete()
-      .lt("created_at", cleanupBefore);
+  const { error: insertErr } = await adminClient.from("edge_rate_limit_events").insert({
+    action,
+    user_id: userId,
+    ip_hash: ipHash,
+    scope,
+  });
+  if (insertErr) {
+    return json({ ok: false, error: "rate_limit_insert_failed", detail: insertErr.message }, 500);
   }
+
+  const cleanupBefore = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000).toISOString();
+  await adminClient
+    .from("edge_rate_limit_events")
+    .delete()
+    .lt("created_at", cleanupBefore);
 
   return json({
     ok: true,
     action,
     window_seconds: rule.windowSeconds,
-    remaining: Math.max(0, userWindowLimit - currentUserCount - (dryRun ? 0 : 1)),
+    remaining: Math.max(0, userWindowLimit - currentUserCount - 1),
   });
 });
 

@@ -16,44 +16,40 @@ import 'package:yeedoy/l10n/app_localizations.dart';
 // Helpers
 // ---------------------------------------------------------------------------
 ThemeData _theme() => ThemeData(
-      extensions: const <ThemeExtension<dynamic>>[
-        AppTokens(
-          space4: 4,
-          space8: 8,
-          space12: 12,
-          space16: 16,
-          space20: 20,
-          space24: 24,
-          radius12: 12,
-          radius16: 16,
-          radius20: 20,
-          radius24: 24,
-          elevation1: 1,
-          elevation2: 6,
-          elevation3: 12,
-          minHitTarget: 44,
-          fast: Duration(milliseconds: 150),
-          medium: Duration(milliseconds: 180),
-          slow: Duration(milliseconds: 220),
-        ),
-      ],
-    );
+  extensions: const <ThemeExtension<dynamic>>[
+    AppTokens(
+      space4: 4,
+      space8: 8,
+      space12: 12,
+      space16: 16,
+      space20: 20,
+      space24: 24,
+      radius12: 12,
+      radius16: 16,
+      radius20: 20,
+      radius24: 24,
+      elevation1: 1,
+      elevation2: 6,
+      elevation3: 12,
+      minHitTarget: 44,
+      fast: Duration(milliseconds: 150),
+      medium: Duration(milliseconds: 180),
+      slow: Duration(milliseconds: 220),
+    ),
+  ],
+);
 
 BusinessPerk _makePerk(String id) => BusinessPerk(
-      id: id,
-      businessId: 'biz-1',
-      title: 'Perk $id',
-      requiresCheckin: false,
-      status: 'active',
-      createdAt: DateTime(2026, 1, 1),
-    );
+  id: id,
+  businessId: 'biz-1',
+  title: 'Perk $id',
+  requiresCheckin: false,
+  status: 'active',
+  createdAt: DateTime(2026, 1, 1),
+);
 
-BusinessAmenity _makeAmenity(String id) => BusinessAmenity(
-      id: id,
-      key: 'wifi',
-      label: 'Wi-Fi',
-      icon: 'wifi',
-    );
+BusinessAmenity _makeAmenity(String id) =>
+    BusinessAmenity(id: id, key: 'wifi', label: 'Wi-Fi', icon: 'wifi');
 
 Future<void> _pumpSection(
   WidgetTester tester, {
@@ -78,7 +74,10 @@ Future<void> _pumpSection(
           ),
         ),
       ),
-      GoRoute(path: '/ayricaliklar/:id', builder: (context, state) => const SizedBox()),
+      GoRoute(
+        path: '/ayricaliklar/:id',
+        builder: (context, state) => const SizedBox(),
+      ),
     ],
   );
 
@@ -86,10 +85,12 @@ Future<void> _pumpSection(
     ProviderScope(
       overrides: [
         businessPerksProvider(businessId).overrideWith((_) async => perks),
-        businessAmenitiesProvider(businessId)
-            .overrideWith((_) async => amenities),
-        businessRecentCheckinsProvider(businessId)
-            .overrideWith((_) async => checkins),
+        businessAmenitiesProvider(
+          businessId,
+        ).overrideWith((_) async => amenities),
+        businessRecentCheckinsProvider(
+          businessId,
+        ).overrideWith((_) async => checkins),
         businessNewItemsProvider(businessId).overrideWith((_) async => []),
       ],
       child: MaterialApp.router(
@@ -107,15 +108,17 @@ Future<void> _pumpSection(
 // Tests
 // ---------------------------------------------------------------------------
 void main() {
-  testWidgets('BusinessPerksSection shows no-campaign text when empty',
-      (tester) async {
+  testWidgets('BusinessPerksSection shows no-campaign text when empty', (
+    tester,
+  ) async {
     await _pumpSection(tester, perks: []);
 
     expect(find.text('No active campaigns'), findsOneWidget);
   });
 
-  testWidgets('BusinessPerksSection shows perk count when perks exist',
-      (tester) async {
+  testWidgets('BusinessPerksSection shows perk count when perks exist', (
+    tester,
+  ) async {
     final perks = [_makePerk('p1'), _makePerk('p2'), _makePerk('p3')];
     await _pumpSection(tester, perks: perks);
 
@@ -128,28 +131,32 @@ void main() {
     'BusinessPerksSection shows "Tümünü gör" button only when perks exist',
     (tester) async {
       await _pumpSection(tester, perks: [_makePerk('p1')]);
-      expect(find.text('Tümünü gör'), findsOneWidget);
+      // Test harness defaults to English locale (see other assertions in
+      // this file, e.g. 'No active campaigns'); the localized label here is
+      // "See all" (TR: "Tümünü gör").
+      expect(find.text('See all'), findsOneWidget);
     },
   );
 
-  testWidgets(
-    'BusinessPerksSection hides "Tümünü gör" when no perks',
-    (tester) async {
-      await _pumpSection(tester, perks: []);
-      expect(find.text('Tümünü gör'), findsNothing);
-    },
-  );
+  testWidgets('BusinessPerksSection hides "See all" when no perks', (
+    tester,
+  ) async {
+    await _pumpSection(tester, perks: []);
+    expect(find.text('See all'), findsNothing);
+  });
 
-  testWidgets('BusinessPerksSection shows amenity count when amenities exist',
-      (tester) async {
+  testWidgets('BusinessPerksSection shows amenity count when amenities exist', (
+    tester,
+  ) async {
     final amenities = [_makeAmenity('a1'), _makeAmenity('a2')];
     await _pumpSection(tester, perks: [], amenities: amenities);
 
     expect(find.textContaining('2'), findsOneWidget);
   });
 
-  testWidgets('BusinessPerksSection shows checkin count when > 0',
-      (tester) async {
+  testWidgets('BusinessPerksSection shows checkin count when > 0', (
+    tester,
+  ) async {
     await _pumpSection(tester, perks: [], checkins: 7);
 
     expect(find.textContaining('7'), findsOneWidget);
@@ -173,5 +180,3 @@ void main() {
     expect(perk.description, contains('indirim'));
   });
 }
-
-
