@@ -12,7 +12,9 @@ export const revalidate = 3600;
 const SITE_URL = () => appConfig.siteUrl().replace(/\/$/, '');
 
 export const metadata: Metadata = {
-  title: 'Türkiye Restoran Fiyat Endeksi | Yeedoy',
+  // Root layout'un title.template'i ('%s | Yeedoy') <title> etiketine zaten
+  // suffix ekliyor; openGraph.title şablondan geçmiyor, suffix'ini kendi taşır.
+  title: 'Türkiye Restoran Fiyat Endeksi',
   description:
     'Yeedoy, Türkiye genelindeki restoran menü fiyatlarını topluluk doğrulamasıyla izleyen bağımsız fiyat endeksidir. Aylık yayınlanır — medya ve araştırmacılar için ücretsiz.',
   alternates: { canonical: `${SITE_URL()}/fiyat-endeksi` },

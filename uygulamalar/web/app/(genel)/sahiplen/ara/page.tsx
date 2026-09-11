@@ -3,7 +3,7 @@ import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { IsletmeAramaIstemcisi } from './isletme-arama-istemcisi';
 
 export const metadata: Metadata = {
-  title: 'İşletmeni Bul | Yeedoy',
+  title: 'İşletmeni Bul',
   description: 'Adı, şehir veya ilçesiyle işletmeni bul ve sahiplenmek için başvur.',
   robots: { index: false, follow: false },
 };

@@ -5,7 +5,7 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  return { title: `${slug} | Yeedoy`, robots: { index: false, follow: false } };
+  return { title: slug, robots: { index: false, follow: false } };
 }
 
 // MVP scope dışı: sipariş/sepet/ödeme final stratejik karar raporuna göre

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Store, Star, CircleDollarSign } from 'lucide-react';
 
-export const metadata: Metadata = { title: 'Katkı Yap | Yeedoy', robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: 'Katkı Yap', robots: { index: false, follow: false } };
 
 const CONTRIBUTE_ITEMS = [
   { href: '/oneri', label: 'İşletme Öner', description: 'Yeedoy\'da görmek istediğin bir işletmeyi öner', icon: Store },

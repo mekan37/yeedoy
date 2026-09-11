@@ -9,7 +9,7 @@ import { FavoriKarusel, type FavoriIsletme } from './favori-karusel';
 import { AvatarYukleme } from './avatar-yukleme';
 
 export const metadata: Metadata = {
-  title: 'Profilim | Yeedoy',
+  title: 'Profilim',
   robots: { index: false, follow: false },
 };
 

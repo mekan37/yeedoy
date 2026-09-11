@@ -120,7 +120,7 @@ function renderMarkdown(text: string) {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const title = STATIC_CONTENT[slug]?.title ?? 'Yasal Belge';
-  return { title: `${title} | Yeedoy` };
+  return { title };
 }
 
 export default async function LegalDocPage({ params }: { params: Promise<{ slug: string }> }) {

@@ -4,7 +4,7 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { AvantajKullanButonu } from './avantaj-kullan';
 import { KoduGoster } from './kodu-goster';
 
-export const metadata: Metadata = { title: 'Avantajlarım | Yeedoy', robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: 'Avantajlarım', robots: { index: false, follow: false } };
 
 type PerkRow = {
   id: string; title: string; description: string | null;

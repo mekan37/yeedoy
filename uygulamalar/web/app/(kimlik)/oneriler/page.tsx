@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { OneriFormu } from './oneri-formu';
 
-export const metadata: Metadata = { title: 'Önerilerim | Yeedoy', robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: 'Önerilerim', robots: { index: false, follow: false } };
 
 const STATUS_MAP: Record<string, { label: string; className: string }> = {
   pending:  { label: 'İncelemede', className: 'bg-amber-50 text-amber-700' },

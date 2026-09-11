@@ -3,7 +3,7 @@ import QRCode from 'qrcode';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 export const metadata: Metadata = {
-  title: 'Sadakat Kartlarım | Yeedoy',
+  title: 'Sadakat Kartlarım',
   robots: { index: false, follow: false },
 };
 

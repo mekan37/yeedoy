@@ -25,7 +25,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq('slug', slug)
     .single() as { data: { name: string } | null };
   return {
-    title: data ? `${data.name} Yorumları | Yeedoy` : 'Yorumlar | Yeedoy',
+    // Root layout'un title.template'i ('%s | Yeedoy') zaten suffix ekliyor.
+    title: data ? `${data.name} Yorumları` : 'Yorumlar',
   };
 }
 

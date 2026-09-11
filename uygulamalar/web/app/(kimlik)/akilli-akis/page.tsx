@@ -4,7 +4,7 @@ import AkilliAkisIstemcisi from '@/src/ui/bolumler/akilli-akis-istemcisi';
 import type { SmartFeedEvent } from '@/src/ui/bolumler/akilli-akis-istemcisi';
 
 export const metadata: Metadata = {
-  title: 'Akıllı Akış | Yeedoy',
+  title: 'Akıllı Akış',
   robots: { index: false, follow: false },
 };
 

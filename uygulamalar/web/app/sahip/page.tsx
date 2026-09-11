@@ -20,7 +20,7 @@ import { OwnerLandingSearch } from './sahip-arama';
 import { PLAN_TANIMLARI, type PlanTierId } from '@/src/lib/plan/plan-tanimlari';
 
 export const metadata: Metadata = {
-  title: 'İşletme Paneli | Yeedoy',
+  title: 'İşletme Paneli',
   description: 'Yeedoy İşletme Paneli ile menünüzü yönetin, yorumları takip edin, istatistikleri görün.',
   robots: { index: true, follow: true },
 };

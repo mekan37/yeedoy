@@ -11,7 +11,8 @@ export function generateMetadata(): Metadata {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   const canonical = `${siteUrl}/kesif/harita`;
   return {
-    title: 'Harita — Yakındaki Restoranlar | Yeedoy',
+    // Root layout'un title.template'i ('%s | Yeedoy') zaten suffix ekliyor.
+    title: 'Harita — Yakındaki Restoranlar',
     description: 'Türkiye genelinde restoranları, kafeleri ve işletmeleri harita üzerinde keşfedin.',
     alternates: { canonical },
     robots: { index: true, follow: true },

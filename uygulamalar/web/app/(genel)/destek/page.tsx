@@ -19,7 +19,7 @@ function slugifySection(text: string): string {
 }
 
 export const metadata: Metadata = {
-  title: 'Yardım Merkezi | Yeedoy',
+  title: 'Yardım Merkezi',
   description:
     'Yeedoy hakkında sık sorulan sorular, hesap yönetimi ve destek iletişim bilgileri.',
   alternates: {

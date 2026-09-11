@@ -5,7 +5,7 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: 'Haftalık Liderler | Yeedoy',
+  title: 'Haftalık Liderler',
   description:
     "Yeedoy topluluğunun bu haftanın en çok katkı yapan üyeleri — fiyat doğrulamaları, yorumlar ve fotoğraflar.",
   robots: { index: true, follow: true },

@@ -12,7 +12,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const supabase = await createSupabaseServerClient();
   const { data } = await (supabase as any).from('businesses').select('name').eq('id', businessId).single() as { data: { name: string } | null };
   return {
-    title: data ? `${data.name} | Yeedoy` : 'Yeedoy',
+    // Root layout'un title.template'i ('%s | Yeedoy') zaten suffix ekliyor.
+    title: data ? data.name : undefined,
     robots: { index: false, follow: false },
   };
 }

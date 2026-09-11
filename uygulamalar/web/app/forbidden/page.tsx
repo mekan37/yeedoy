@@ -6,7 +6,7 @@ import { YeedoyLogo } from '@/src/ui/marka/yeedoy-logo';
 import { ForbiddenActions } from './forbidden-actions';
 
 export const metadata: Metadata = {
-  title: 'Erişim Yok | Yeedoy',
+  title: 'Erişim Yok',
   robots: { index: false, follow: false },
 };
 

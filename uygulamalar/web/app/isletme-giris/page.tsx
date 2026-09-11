@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { IsletmeGirisFormu } from '@/src/ui/bolumler/isletme-giris-formu';
 
 export const metadata: Metadata = {
-  title: 'İşletme Paneline Giriş Yap | Yeedoy',
+  title: 'İşletme Paneline Giriş Yap',
   robots: { index: false, follow: false },
   alternates: { canonical: '/isletme-giris' },
 };

@@ -4,7 +4,7 @@ import { ProfilSidebarNav } from '@/src/ui/acik/profil-sidebar-nav';
 import { FavorilerListesi, type FavIsletme } from './favoriler-listesi';
 
 export const metadata: Metadata = {
-  title: 'Favorilerim | Yeedoy',
+  title: 'Favorilerim',
   robots: { index: false, follow: false },
 };
 

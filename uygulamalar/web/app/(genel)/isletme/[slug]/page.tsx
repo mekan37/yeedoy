@@ -52,10 +52,12 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const business = await getMarketplaceBusinessBySlug(slug);
-  if (!business) return { title: 'İşletme | Yeedoy' };
+  if (!business) return { title: 'İşletme' };
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   const canonical = `${siteUrl}/isletme/${business.slug}`;
-  const title = `${business.name}${business.city ? ` | ${business.city}` : ''} | Yeedoy`;
+  // Root layout'un title.template'i ('%s | Yeedoy') <title> etiketine zaten
+  // suffix ekliyor; openGraph.title şablondan geçmiyor, suffix'ini kendi taşır.
+  const title = `${business.name}${business.city ? ` | ${business.city}` : ''}`;
   const description =
     business.description ??
     `${business.name} menüsü, yorumları, adresi ve fiyat bilgileri.`;
@@ -64,7 +66,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     alternates: { canonical },
     openGraph: {
-      title,
+      title: `${title} | Yeedoy`,
       description,
       url: canonical,
       images: [

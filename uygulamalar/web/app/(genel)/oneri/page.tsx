@@ -7,7 +7,9 @@ import { OneriCanli } from '@/src/ui/acik/oneri-canli';
 import type { OneriIsletme, OneriAktivite, OneriTercih } from '@/src/ui/acik/oneri-canli';
 
 export const metadata: Metadata = {
-  title: 'Akıllı Öneri | Yeedoy',
+  // Root layout'un title.template'i ('%s | Yeedoy') <title> etiketine zaten
+  // suffix ekliyor; openGraph.title şablondan geçmiyor, suffix'ini kendi taşır.
+  title: 'Akıllı Öneri',
   description: 'Zevklerine ve alışkanlıklarına göre senin için seçtik!',
   openGraph: { title: 'Akıllı Öneri | Yeedoy', description: 'Zevklerine göre kişisel restoran önerileri.' },
   alternates: { canonical: '/oneri' },

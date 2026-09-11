@@ -5,7 +5,9 @@ import { KampanyalarCanli } from '@/src/ui/acik/kampanyalar-canli';
 import type { KampanyaGirdi } from '@/src/ui/acik/kampanyalar-canli';
 
 export const metadata: Metadata = {
-  title: 'Kampanyalar | Yeedoy',
+  // Root layout'un title.template'i ('%s | Yeedoy') <title> etiketine zaten
+  // suffix ekliyor; openGraph.title şablondan geçmiyor, suffix'ini kendi taşır.
+  title: 'Kampanyalar',
   description: 'En güncel lezzet fırsatlarını ve indirimlerini keşfet.',
   openGraph: { title: 'Kampanyalar | Yeedoy', description: 'En güncel fırsatlar Yeedoy\'da.' },
 };

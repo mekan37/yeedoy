@@ -6,7 +6,7 @@ import { BildirimTercihleri } from './bildirim-tercihleri';
 import { PazarlamaEmailToggle } from './pazarlama-email-toggle';
 
 export const metadata: Metadata = {
-  title: 'Bildirim Ayarları | Yeedoy',
+  title: 'Bildirim Ayarları',
   robots: { index: false, follow: false },
 };
 

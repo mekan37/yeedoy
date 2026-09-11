@@ -3,7 +3,7 @@ import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { IsletmeOnerFormu } from './isletme-oner-formu';
 
 export const metadata: Metadata = {
-  title: 'İşletme Öner | Yeedoy',
+  title: 'İşletme Öner',
   description: 'Bildiğin kaliteli bir restoranı, kafe veya mekanı Yeedoy topluluğuyla paylaş.',
   alternates: { canonical: '/isletme-oner' },
 };

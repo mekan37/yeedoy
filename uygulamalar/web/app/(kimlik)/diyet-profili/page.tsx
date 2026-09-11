@@ -4,7 +4,7 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { DiyetProfilFormu } from './diyet-profil-formu';
 
 export const metadata: Metadata = {
-  title: 'Diyet Tercihlerim | Yeedoy',
+  title: 'Diyet Tercihlerim',
   robots: { index: false, follow: false },
 };
 

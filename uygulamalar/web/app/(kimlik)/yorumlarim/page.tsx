@@ -5,7 +5,7 @@ import { ProfilSidebarNav } from '@/src/ui/acik/profil-sidebar-nav';
 import { YorumKarti, type YorumSatiri } from '@/src/ui/acik/yorum-karti';
 
 export const metadata: Metadata = {
-  title: 'Yorumlarım | Yeedoy',
+  title: 'Yorumlarım',
   robots: { index: false, follow: false },
 };
 

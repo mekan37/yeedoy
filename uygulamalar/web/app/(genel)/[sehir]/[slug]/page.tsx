@@ -112,9 +112,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   const canonical = `${siteUrl}/${sehir}/${slug}`;
   const { mode } = await resolveMode(sehir, slug);
+  // Root layout'un title.template'i ('%s | Yeedoy') <title> etiketine zaten
+  // suffix ekliyor; openGraph.title şablondan geçmiyor, suffix'ini kendi taşır.
   const title = mode === 'district'
-    ? `${slugLabel}, ${cityLabel} — Restoran ve Menüler | Yeedoy`
-    : `${slugLabel} — ${cityLabel} | Güncel Fiyatlar | Yeedoy`;
+    ? `${slugLabel}, ${cityLabel} — Restoran ve Menüler`
+    : `${slugLabel} — ${cityLabel} | Güncel Fiyatlar`;
   const description = mode === 'district'
     ? `${slugLabel}'da işletmelerin güncel menüleri, fiyatları ve kullanıcı yorumları.`
     : `${cityLabel}'da ${slugLabel} kategorisinde öne çıkan restoranlar, güncel menü fiyatları ve topluluk yorumları.`;
@@ -122,7 +124,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     alternates: { canonical },
-    openGraph: { title, description, url: canonical, locale: 'tr_TR' },
+    openGraph: { title: `${title} | Yeedoy`, description, url: canonical, locale: 'tr_TR' },
   };
 }
 

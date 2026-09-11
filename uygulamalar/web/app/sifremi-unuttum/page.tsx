@@ -3,7 +3,7 @@ import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { SifremiUnuttumFormu } from '@/src/ui/bolumler/sifremi-unuttum-formu';
 
 export const metadata: Metadata = {
-  title: 'Şifremi Unuttum | Yeedoy',
+  title: 'Şifremi Unuttum',
   robots: { index: false, follow: false },
   alternates: { canonical: '/sifremi-unuttum' },
 };

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 export const metadata: Metadata = {
-  title: 'Bütçe-Dostu Kombolar | Yeedoy',
+  title: 'Bütçe-Dostu Kombolar',
   robots: { index: false, follow: false },
 };
 

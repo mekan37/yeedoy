@@ -12,7 +12,7 @@ type ClaimPageProps = {
 export function generateMetadata(): Metadata {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   return {
-    title: 'İşletmeni Sahiplen | Yeedoy',
+    title: 'İşletmeni Sahiplen',
     description: 'İşletmeni Yeedoy\'da sahiplen, menünü ve işletme bilgilerini kendi panelinden güncel tut.',
     alternates: { canonical: `${siteUrl}/sahiplen` },
     robots: { index: true, follow: true },

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 export const metadata: Metadata = {
-  title: 'Süspanse Taleplerim | Yeedoy',
+  title: 'Süspanse Taleplerim',
   robots: { index: false, follow: false },
 };
 

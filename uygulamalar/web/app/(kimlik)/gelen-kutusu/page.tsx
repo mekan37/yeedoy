@@ -12,7 +12,7 @@ import {
 import { GelenKutusuRealtimeYenileyici } from './realtime-yenileyici';
 
 export const metadata: Metadata = {
-  title: 'Bildirimler | Yeedoy',
+  title: 'Bildirimler',
   robots: { index: false, follow: false },
 };
 

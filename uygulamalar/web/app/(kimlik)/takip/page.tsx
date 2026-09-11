@@ -5,7 +5,7 @@ import { Star } from 'lucide-react';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { TakipteCikButonu } from './takipten-cik';
 
-export const metadata: Metadata = { title: 'Takip Ettiklerim | Yeedoy', robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: 'Takip Ettiklerim', robots: { index: false, follow: false } };
 
 type FollowRow = {
   followed_id: string;

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Yorum ve İçerik Politikası | Yeedoy',
+  title: 'Yorum ve İçerik Politikası',
   description: 'Yeedoy platformunda yorum, fiyat katkısı ve içerik paylaşımına ilişkin kurallar.',
 };
 

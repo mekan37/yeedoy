@@ -9,7 +9,7 @@ import { logger } from '@/src/lib/kayitci';
 import { appConfig } from '@/src/lib/ayarlar';
 
 export const metadata: Metadata = {
-  title: 'Abonelik İptali | Yeedoy',
+  title: 'Abonelik İptali',
   robots: { index: false, follow: false },
 };
 
@@ -237,7 +237,7 @@ async function checkUnsubscribeStatus(token: string, ip: string): Promise<CheckR
   }
 
   // IP bazlı rate limit: 10 istek / dakika
-  const rl = rateLimit(`unsub:${ip}`, 10, 60_000);
+  const rl = await rateLimit(`unsub:${ip}`, 10, 60_000);
   if (!rl.ok) {
     logger.warn('abonelik-iptal: rate limit exceeded', { ip });
     return { status: 'rate_limited' };

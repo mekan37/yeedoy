@@ -4,7 +4,7 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { OturumKapatButonu } from './oturum-kapat';
 import { IkiFactorAyar } from './iki-faktor-ayar';
 
-export const metadata: Metadata = { title: 'Hesap Güvenliği | Yeedoy', robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: 'Hesap Güvenliği', robots: { index: false, follow: false } };
 
 export default async function SecurityPage() {
   const supabase = await createSupabaseServerClient();

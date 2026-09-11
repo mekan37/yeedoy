@@ -5,7 +5,7 @@ import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { EnIyilerCanli } from '@/src/ui/acik/en-iyiler-canli';
 
 export const metadata: Metadata = {
-  title: 'En İyi İşletmeler | Yeedoy',
+  title: 'En İyi İşletmeler',
   description: "Kullanıcıların değerlendirmelerine göre Yeedoy'un en iyi mekanları",
   alternates: { canonical: '/en-iyiler' },
 };

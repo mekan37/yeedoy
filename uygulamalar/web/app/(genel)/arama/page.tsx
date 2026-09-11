@@ -12,7 +12,7 @@ type SearchParams = { q?: string; city?: string; category?: string; page?: strin
 export function generateMetadata(): Metadata {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   return {
-    title: 'Arama | Yeedoy',
+    title: 'Arama',
     description: 'Yeedoy işletme, kategori ve menü arama sonuçları.',
     alternates: { canonical: `${siteUrl}/arama` },
   };

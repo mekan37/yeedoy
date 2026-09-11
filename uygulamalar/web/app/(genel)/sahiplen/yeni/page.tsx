@@ -6,7 +6,7 @@ import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { YeniIsletmeFormu } from './yeni-isletme-formu';
 
 export const metadata: Metadata = {
-  title: 'İşletmeni Ekle | Yeedoy',
+  title: 'İşletmeni Ekle',
   description: 'İşletmeniz Yeedoy\'da listeli değilse buradan başvuru yapın.',
   robots: { index: false, follow: false },
 };

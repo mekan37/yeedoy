@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 export const metadata: Metadata = {
-  title: 'Tat İkizin | Yeedoy',
+  title: 'Tat İkizin',
   robots: { index: false, follow: false },
 };
 

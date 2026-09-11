@@ -95,11 +95,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const categoryLabel = slug2label(kategori);
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   const canonical = `${siteUrl}/${sehir}/${slug}/${kategori}`;
+  // Root layout'un title.template'i ('%s | Yeedoy') <title> etiketine zaten
+  // suffix ekliyor; openGraph.title şablondan geçmiyor, suffix'ini kendi taşır.
+  const title = `${categoryLabel} — ${districtLabel}, ${cityLabel}`;
   return {
-    title: `${categoryLabel} — ${districtLabel}, ${cityLabel} | Yeedoy`,
+    title,
     description: `${districtLabel} ve ${cityLabel} çevresinde ${categoryLabel} kategorisinde öne çıkan restoranlar, menüler ve fiyatlar.`,
     alternates: { canonical },
-    openGraph: { title: `${categoryLabel} — ${districtLabel}, ${cityLabel} | Yeedoy`, url: canonical },
+    openGraph: { title: `${title} | Yeedoy`, url: canonical },
   };
 }
 

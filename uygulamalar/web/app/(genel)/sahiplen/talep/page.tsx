@@ -5,7 +5,7 @@ import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { TalepFormu } from './talep-formu';
 
 export const metadata: Metadata = {
-  title: 'Sahiplenme Talebi | Yeedoy',
+  title: 'Sahiplenme Talebi',
   robots: { index: false, follow: false },
 };
 

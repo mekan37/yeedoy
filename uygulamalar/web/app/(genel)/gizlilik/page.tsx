@@ -4,7 +4,7 @@ import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { Container } from '@/src/ui/acik/ortak';
 
 export const metadata: Metadata = {
-  title: 'Gizlilik Politikası | Yeedoy',
+  title: 'Gizlilik Politikası',
   description:
     'Yeedoy uygulamasının kişisel veri işleme politikası, KVKK kapsamında haklarınız ve iletişim bilgileri.',
   alternates: {

@@ -31,7 +31,7 @@ export async function generateMetadata(
     p_limit: 1,
   });
   const name = (data as ChainBranch[] | null)?.[0]?.chain_name ?? 'Zincir';
-  return { title: `${name} | Yeedoy` };
+  return { title: name };
 }
 
 export default async function ZincirPage(

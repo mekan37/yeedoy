@@ -4,7 +4,7 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { ProfilSidebarNav } from '@/src/ui/acik/profil-sidebar-nav';
 
 export const metadata: Metadata = {
-  title: 'Önerilerim | Yeedoy',
+  title: 'Önerilerim',
   robots: { index: false, follow: false },
 };
 

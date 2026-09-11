@@ -4,7 +4,7 @@ import { PublicShell } from '@/src/ui/acik/yerlesim';
 import { Container } from '@/src/ui/acik/ortak';
 
 export const metadata: Metadata = {
-  title: 'Yardım & SSS | Yeedoy',
+  title: 'Yardım & SSS',
   description: 'Sık sorulan sorular ve yardım rehberi.',
   alternates: { canonical: '/yardim' },
 };

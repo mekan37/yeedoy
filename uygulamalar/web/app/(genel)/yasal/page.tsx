@@ -8,7 +8,7 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: 'Yasal Bilgiler | Yeedoy',
+  title: 'Yasal Bilgiler',
   description: 'Gizlilik politikası, kullanım şartları ve diğer yasal belgeler',
   alternates: { canonical: '/yasal' },
 };

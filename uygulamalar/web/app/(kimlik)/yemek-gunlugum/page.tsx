@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 export const metadata: Metadata = {
-  title: 'Yemek Günlüğüm | Yeedoy',
+  title: 'Yemek Günlüğüm',
   robots: { index: false, follow: false },
 };
 

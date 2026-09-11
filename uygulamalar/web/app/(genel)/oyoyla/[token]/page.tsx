@@ -16,9 +16,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .eq('invite_token', token)
     .single() as { data: { name: string } | null };
 
-  if (!data) return { title: 'Grup Karar | Yeedoy' };
+  if (!data) return { title: 'Grup Karar' };
   return {
-    title: `${data.name} — Oy Ver | Yeedoy`,
+    title: `${data.name} — Oy Ver`,
     robots: { index: false, follow: false },
   };
 }

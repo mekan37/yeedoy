@@ -65,14 +65,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .ilike('city', cityLabel) as { count: number | null };
 
   const businessCount = count ?? 0;
-  const title = `${cityLabel}'da Restoran, Kafe ve Menüler | Yeedoy`;
+  // Root layout'un title.template'i ('%s | Yeedoy') <title> etiketine zaten
+  // suffix ekliyor — burada da eklenirse "... | Yeedoy | Yeedoy" olur.
+  // openGraph.title şablondan geçmiyor, marka suffix'ini kendi taşımalı.
+  const title = `${cityLabel}'da Restoran, Kafe ve Menüler`;
+  const ogTitle = `${title} | Yeedoy`;
   const description = `${cityLabel}'da ${businessCount > 0 ? `${businessCount}+ ` : ''}işletmenin güncel menülerini keşfet. Fiyat şeffaflığı, kullanıcı yorumları ve fiyat geçmişi.`;
 
   return {
     title,
     description,
     alternates: { canonical },
-    openGraph: { title, description, url: canonical },
+    openGraph: { title: ogTitle, description, url: canonical },
   };
 }
 

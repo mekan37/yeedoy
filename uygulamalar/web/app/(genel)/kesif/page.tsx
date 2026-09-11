@@ -11,7 +11,8 @@ export const metadata: Metadata = (() => {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   const canonical = `${siteUrl}/kesif`;
   return {
-    title: 'Keşfet | Yeedoy',
+    // Root layout'un title.template'i ('%s | Yeedoy') zaten suffix ekliyor.
+    title: 'Keşfet',
     description: 'Restoran, kafe ve menüleri kategori, şehir ve yorumla anlık olarak keşfet.',
     alternates: { canonical },
     openGraph: {

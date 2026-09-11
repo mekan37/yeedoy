@@ -4,7 +4,7 @@ import { Bell } from 'lucide-react';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { AlarmToggle, AlarmSilButonu } from './alarm-islemleri';
 
-export const metadata: Metadata = { title: 'Fiyat Alarmlarım | Yeedoy', robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: 'Fiyat Alarmlarım', robots: { index: false, follow: false } };
 
 type AlertRow = {
   id: string; target_price_cents: number; currency: string; is_active: boolean;
