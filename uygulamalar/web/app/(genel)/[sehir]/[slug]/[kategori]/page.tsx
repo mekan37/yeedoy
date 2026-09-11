@@ -23,6 +23,7 @@ type LocalBusiness = {
   median_price_cents?: number | null;
 };
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.LONG (3600)
 export const revalidate = 3600;
 
 type Props = {

@@ -154,6 +154,12 @@ export function FavoriteButton({
 }) {
   const [active, setActive] = useState(initialActive);
   const [loading, setLoading] = useState(false);
+  // Kullanıcı mount-time kontrolü henüz sonuçlanmadan butona tıklarsa, o geç
+  // kalan async sonuç kullanıcının iyimser (optimistic) durumunu sessizce
+  // geri alabiliyordu (favorilere eklendi ama kalp anında "boşaldı" görünüyordu).
+  // Bu ref, kullanıcı bir kez etkileşime girdiğinde mount-check sonucunun
+  // artık uygulanmamasını sağlıyor.
+  const userToggledRef = useRef(false);
 
   // Mount'ta gerçek durumu kontrol et (sayfa her zaman false ile başlar)
   useEffect(() => {
@@ -170,7 +176,7 @@ export function FavoriteButton({
           .eq('user_id', session.user.id)
           .eq('business_id', businessId)
           .maybeSingle();
-        if (!cancelled) setActive(!!data);
+        if (!cancelled && !userToggledRef.current) setActive(!!data);
       } catch { /* sessiz hata */ }
     })();
     return () => { cancelled = true; };
@@ -188,6 +194,7 @@ export function FavoriteButton({
       return;
     }
 
+    userToggledRef.current = true;
     const next = !active;
     setActive(next);
     setLoading(true);
@@ -303,11 +310,11 @@ export function ReportBusinessButton({ businessId, businessName }: { businessId:
         Rapor et
       </button>
       {open ? (
-        <div ref={dialogRef} tabIndex={-1} className="fixed inset-0 z-50 grid place-items-end bg-black/35 p-3 sm:place-items-center outline-hidden" role="dialog" aria-modal="true">
+        <div ref={dialogRef} tabIndex={-1} className="fixed inset-0 z-50 grid place-items-end bg-black/35 p-3 sm:place-items-center outline-hidden" role="dialog" aria-modal="true" aria-labelledby="rapor-et-baslik">
           <form onSubmit={submit} className="w-full max-w-md rounded-[24px] border border-border bg-card p-5 shadow-yd3">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-lg font-black text-textStrong">{businessName} için rapor</h2>
+                <h2 id="rapor-et-baslik" className="text-lg font-black text-textStrong">{businessName} için rapor</h2>
                 <p className="mt-1 text-sm text-muted">Menü, fiyat ya da işletme bilgisiyle ilgili sorunu iletin.</p>
               </div>
               <button type="button" onClick={() => setOpen(false)} className="min-h-11 rounded-2xl px-3 text-sm font-black text-muted hover:bg-cardAlt">
@@ -384,11 +391,11 @@ export function ReportReviewButton({ reviewId }: { reviewId: string }) {
         Bildir
       </button>
       {open ? (
-        <div ref={dialogRef} tabIndex={-1} className="fixed inset-0 z-50 grid place-items-end bg-black/35 p-3 sm:place-items-center outline-hidden" role="dialog" aria-modal="true">
+        <div ref={dialogRef} tabIndex={-1} className="fixed inset-0 z-50 grid place-items-end bg-black/35 p-3 sm:place-items-center outline-hidden" role="dialog" aria-modal="true" aria-labelledby="yorum-bildir-baslik">
           <form onSubmit={submit} className="w-full max-w-md rounded-[24px] border border-border bg-card p-5 shadow-yd3">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-lg font-black text-textStrong">Yorumu bildir</h2>
+                <h2 id="yorum-bildir-baslik" className="text-lg font-black text-textStrong">Yorumu bildir</h2>
                 <p className="mt-1 text-sm text-muted">Bu yorumla ilgili sorunu iletin, ekibimiz inceleyecek.</p>
               </div>
               <button type="button" onClick={() => setOpen(false)} className="min-h-11 rounded-2xl px-3 text-sm font-black text-muted hover:bg-cardAlt">

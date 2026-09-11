@@ -4,6 +4,7 @@ import { getMapBusinesses } from '@/src/lib/veri/harita-okuma';
 import { appConfig } from '@/src/lib/ayarlar';
 import { HaritaSarmalayici } from './harita-sarmalayici';
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.MEDIUM (120)
 export const revalidate = 120;
 
 export function generateMetadata(): Metadata {

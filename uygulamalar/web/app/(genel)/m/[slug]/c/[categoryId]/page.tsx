@@ -10,6 +10,7 @@ type CategoryPageProps = {
   searchParams: Promise<{ lang?: string; theme?: string; src?: string; preview?: string }>;
 };
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.MEDIUM (120)
 export const revalidate = 120;
 
 export async function generateMetadata({ params, searchParams }: CategoryPageProps) {

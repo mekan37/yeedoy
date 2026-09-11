@@ -6,9 +6,12 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-// Out of MVP scope: chain pages (social/discovery extra) are disabled for MVP
-// per the final strategic decision report.
-// Mirrors the TR /(genel)/zincir/[slug] redirect. Page not deleted, only gated.
-export default function ChainPage(): never {
-  redirect('/discover');
+type Props = { params: Promise<{ slug: string }> };
+
+// /(genel)/zincir/[slug] artık gerçek bir özellik sayfası (yönlendirme değil) —
+// bu İngilizce mirror güncellenmemiş, slug'ı hiç taşımadan /discover'a (iki
+// sekmelik zincirle /kesif'e) düşüyordu. slug'ı koruyarak gerçek sayfaya yönlendir.
+export default async function ChainPage({ params }: Props): Promise<never> {
+  const { slug } = await params;
+  redirect(`/zincir/${slug}`);
 }

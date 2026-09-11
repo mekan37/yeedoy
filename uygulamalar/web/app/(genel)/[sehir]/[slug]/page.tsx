@@ -30,6 +30,7 @@ type LocalBusiness = {
   category_slug?: string | null;
 };
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.LONG (3600)
 export const revalidate = 3600;
 
 type Props = { params: Promise<{ sehir: string; slug: string }> };

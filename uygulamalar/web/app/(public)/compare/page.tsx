@@ -8,7 +8,8 @@ export const metadata: Metadata = {
 
 // Out of MVP scope: business compare (social/discovery extra) is disabled for MVP
 // per the final strategic decision report.
-// Mirrors the TR /(genel)/karsilastir redirect. Page not deleted, only gated.
+// Mirrors the TR /(genel)/karsilastir redirect target directly (avoids the
+// extra /discover→/kesif hop that /karsilastir itself already resolves through).
 export default function ComparePage(): never {
-  redirect('/discover');
+  redirect('/kesif');
 }

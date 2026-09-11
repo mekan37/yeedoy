@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSupabaseServerClient } from '@/src/lib/taban/sunucu';
-import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
 import { rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { logger } from '@/src/lib/kayitci';
 
@@ -47,13 +46,11 @@ export async function POST(request: Request) {
 
   const { businessId, rating, category, message } = parsed.data;
 
-  const supabase = createSupabaseServiceClient();
-  if (!supabase) {
-    logger.warn('Feedback: no supabase service client available');
-    return NextResponse.json({ error: 'service_unavailable' }, { status: 503 });
-  }
-
-  const { error } = await supabase.from('menu_feedback').insert({
+  // menu_feedback'in RLS politikası anon+authenticated insert'i zaten aynı
+  // kısıtlarla (rating 1-5, category enum, message<=500) izin veriyor —
+  // service-role'e gerek yok; oturumlu istemci RLS'i ikinci bir savunma
+  // katmanı olarak canlı tutuyor.
+  const { error } = await supabaseServer.from('menu_feedback').insert({
     business_id: businessId,
     rating,
     category,

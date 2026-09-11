@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { NotFoundFallback } from '@/src/ui/acik/bulunamadi';
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.LONG (3600)
 export const revalidate = 3600;
 
 const STATIC_CONTENT: Record<string, { title: string; body: string }> = {

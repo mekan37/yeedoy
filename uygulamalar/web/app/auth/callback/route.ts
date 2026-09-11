@@ -3,7 +3,19 @@ import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import { appConfig } from '@/src/lib/ayarlar';
 import { sanitizeInternalRedirect } from '@/src/lib/guvenli-yonlendirme';
+import { logger } from '@/src/lib/kayitci';
 import type { Database } from '@/src/lib/taban/veri-tanimlari';
+
+// user_metadata kullanıcının kendi updateUser() çağrısıyla değiştirebildiği,
+// güvenilmeyen bir alan — beklenmeyen tipte (obje/array) veya aşırı uzun
+// değerler insert'i sessizce patlatabilir ya da .slice() çağrısında route'u
+// çökertebilir (500). Her alan burada string'e ve makul bir uzunluğa sabitlenir.
+function sanitizeMetaString(value: unknown, maxLen: number): string | null {
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  return trimmed.slice(0, maxLen);
+}
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
@@ -56,23 +68,31 @@ export async function GET(request: Request) {
       .maybeSingle() as { data: { user_id: string } | null };
 
     if (!existing) {
+      const meta = (user.user_metadata ?? {}) as Record<string, unknown>;
+
       // display_name: user metadata (e-posta kaydı) veya provider name (OAuth)
       const displayName =
-        (user.user_metadata?.display_name as string | undefined) ||
-        (user.user_metadata?.full_name as string | undefined) ||
-        (user.user_metadata?.name as string | undefined) ||
-        user.email?.split('@')[0] ||
+        sanitizeMetaString(meta.display_name, 60) ||
+        sanitizeMetaString(meta.full_name, 60) ||
+        sanitizeMetaString(meta.name, 60) ||
+        sanitizeMetaString(user.email?.split('@')[0], 60) ||
         'Kullanıcı';
 
-      const meta = (user.user_metadata ?? {}) as Record<string, unknown>;
       const profileRow: Record<string, unknown> = {
         user_id: user.id,
-        display_name: displayName.slice(0, 60),
+        display_name: displayName,
       };
-      if (meta.city)     profileRow.city     = meta.city;
-      if (meta.district) profileRow.district = meta.district;
-      if (meta.phone)    profileRow.phone    = meta.phone;
-      await (supabase as any).from('user_profiles').insert(profileRow);
+      const city = sanitizeMetaString(meta.city, 80);
+      const district = sanitizeMetaString(meta.district, 80);
+      const phone = sanitizeMetaString(meta.phone, 20);
+      if (city)     profileRow.city     = city;
+      if (district) profileRow.district = district;
+      if (phone)    profileRow.phone    = phone;
+
+      const { error: insertErr } = await (supabase as any).from('user_profiles').insert(profileRow);
+      if (insertErr) {
+        logger.warn('auth/callback: user_profiles insert error', { code: insertErr.code, userId: user.id });
+      }
     }
   }
 

@@ -23,10 +23,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(appConfig.siteUrl()),
   title: {
-    default: 'Yeedoy QR Menu',
-    template: '%s | Yeedoy QR Menu',
+    default: 'Yeedoy',
+    template: '%s | Yeedoy',
   },
-  description: 'High-performance public digital restaurant menu and QR generation experience.',
+  description: 'Restoranları, kafeleri ve menüleri keşfet; fiyatları karşılaştır, gerçek kullanıcı yorumlarını oku.',
   manifest: '/manifest.webmanifest',
   icons: {
     icon: [

@@ -1,10 +1,6 @@
-import { createBrowserClient } from '@supabase/ssr';
-import { appConfig } from '@/src/lib/ayarlar';
-import type { Database } from '@/src/lib/supabase/database.types';
-
-export function createSupabaseBrowserClient() {
-  return createBrowserClient<Database>(
-    appConfig.supabaseUrl(),
-    appConfig.supabaseAnonKey(),
-  );
-}
+// Re-export shim — kanonik kaynak @/src/lib/taban/istemci.ts (Türkçe adlandırma
+// projedeki kural). İki dosya elle senkronize tutulan byte-byte bir kopyaydı
+// (drift riski) — artık tek kaynaktan üretiliyor. Yeni kod doğrudan
+// '@/src/lib/taban/istemci' import etmeli, bu dosya yalnızca geriye dönük
+// uyumluluk için var.
+export { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';

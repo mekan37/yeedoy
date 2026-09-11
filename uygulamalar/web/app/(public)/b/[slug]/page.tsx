@@ -13,6 +13,7 @@ import { getMyCheckInToday } from '@/src/lib/veri/check-in-okuma';
 import { CheckInButton } from '@/src/ui/acik/check-in-button';
 import { BusinessPageTracker, TrackedLink } from '@/src/ui/acik/business-page-tracker';
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.MEDIUM (120)
 export const revalidate = 120;
 
 type Props = { params: Promise<{ slug: string }> };
@@ -69,9 +70,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     { data: Pick<Business,'name'|'description'|'city'|'category'> | null };
   if (!data) return { title: 'İşletme | Yeedoy' };
   const title = `${data.name}${data.city ? ` — ${data.city}` : ''} | Yeedoy`;
+  const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
   return {
     title,
     description: data.description ?? `${data.name} menüsünü görüntüle ve yorum yap`,
+    // /b/[slug] içerik olarak /isletme/[slug] ile aynı işletmeyi anlatıyor
+    // (kısa paylaşım linki) — canonical olmadan Google için yinelenen içerik olur.
+    alternates: { canonical: `${siteUrl}/isletme/${slug}` },
     openGraph: { title },
   };
 }
@@ -225,7 +230,7 @@ export default async function BusinessPage({ params }: Props) {
               <MenuBookIcon /> Menüyü Gör
             </Link>
           )}
-          <Link href={`/b/${biz.slug}/reviews/new`}
+          <Link href={`/isletme/${biz.slug}#yorum-yaz`}
             className="inline-flex min-h-[44px] items-center gap-2 rounded-2xl border border-border bg-card px-5 text-sm font-extrabold text-textStrong transition-colors hover:border-primary/40 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/30">
             <StarIcon /> Yorum Yaz
           </Link>
@@ -300,7 +305,7 @@ export default async function BusinessPage({ params }: Props) {
               {reviews.length === 0 ? (
                 <div className="rounded-[20px] border border-border bg-card p-8 text-center">
                   <p className="text-muted mb-3">Henüz yorum yok.</p>
-                  <Link href={`/b/${biz.slug}/reviews/new`} className="text-sm font-bold text-primary hover:underline">İlk yorumu sen yaz →</Link>
+                  <Link href={`/isletme/${biz.slug}#yorum-yaz`} className="text-sm font-bold text-primary hover:underline">İlk yorumu sen yaz →</Link>
                 </div>
               ) : (
                 <div className="flex flex-col gap-3">

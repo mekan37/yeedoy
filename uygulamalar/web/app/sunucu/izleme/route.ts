@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { mapTrackEventToRpc, parseRpcTrackResult, trackEventSchema } from '@/src/lib/analitik';
-import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
 import { createSupabaseServerClient } from '@/src/lib/taban/sunucu';
 import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { logger } from '@/src/lib/kayitci';
@@ -30,7 +29,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'client_id_required' }, { status: 400 });
   }
 
-  const supabase = createSupabaseServiceClient() ?? (await createSupabaseServerClient());
+  // log_event_v1 anon'a doğrudan GRANT'li ve SECURITY DEFINER — service-role'e
+  // gerek yok. Oturumlu istemci kullanmak auth.uid()'in fonksiyon içinde doğru
+  // çözülmesini sağlıyor (service-role ile çağrıldığında oturum bilgisi hiç
+  // taşınmadığı için giriş yapmış kullanıcıların olayları bile anonim
+  // (nil UUID) kaydediliyordu).
+  const supabase = await createSupabaseServerClient();
   const { data, error } = await (supabase as unknown as {
     rpc: (
       fn: 'log_event_v1',

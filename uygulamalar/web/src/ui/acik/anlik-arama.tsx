@@ -69,13 +69,18 @@ export function AnlikArama({ className = '' }: { className?: string }) {
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
   const debouncedQuery = useDebounce(query, 280);
 
-  // Konum izni
+  // Konum izni — 'yd_konum' anahtarı KonumIzniIstemcisi/YakindakiIsletmeler ile
+  // paylaşılıyor (önceden burada yalnızca bu dosyaya özel 'yd-coords' anahtarı
+  // kullanılıyordu — küçük bir yazım farkı yüzünden bu bileşen hiçbir zaman
+  // paylaşılan konumdan yararlanamıyor, her zaman kendi ayrı geolocation
+  // isteğini tetikliyordu).
   useEffect(() => {
     if (!navigator.geolocation) return;
-    const stored = sessionStorage.getItem('yd-coords');
+    const stored = sessionStorage.getItem('yd_konum');
     if (stored) {
       // sessionStorage okuması UI dışı bir kaynaktan senkronizasyon.
       // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -86,7 +91,7 @@ export function AnlikArama({ className = '' }: { className?: string }) {
       (pos) => {
         const c = { lat: pos.coords.latitude, lng: pos.coords.longitude };
         setCoords(c);
-        sessionStorage.setItem('yd-coords', JSON.stringify(c));
+        sessionStorage.setItem('yd_konum', JSON.stringify(c));
       },
       () => { /* izin verilmedi — konumsuz arama */ },
       { timeout: 5000, maximumAge: 300_000 },
@@ -95,11 +100,16 @@ export function AnlikArama({ className = '' }: { className?: string }) {
 
   // Arama isteği
   const doSearch = useCallback(async (q: string) => {
+    // Önceki istek hâlâ sürüyorsa iptal et — aksi halde yavaş bir önceki
+    // yanıt, hızlı gelen daha yeni bir yanıtın üzerine yazıp eski/yanlış
+    // sonuçları gösterebilirdi (yarış koşulu).
+    abortRef.current?.abort();
     if (!q.trim()) { setResults(null); return; }
+    const ctrl = new AbortController();
+    abortRef.current = ctrl;
     setLoading(true);
     // Ağ isteği herhangi bir sebeple (ör. bot koruması sinyal üretimi) hiç
     // sonuçlanmazsa arama kutusunun sonsuza kadar "yükleniyor" kalmasını önler.
-    const timeout = AbortSignal.timeout(8_000);
     try {
       const url = new URL('/api/arama/anlik', window.location.origin);
       url.searchParams.set('q', q.trim());
@@ -107,12 +117,12 @@ export function AnlikArama({ className = '' }: { className?: string }) {
         url.searchParams.set('lat', String(coords.lat));
         url.searchParams.set('lng', String(coords.lng));
       }
-      const res = await fetch(url.toString(), { signal: timeout });
+      const res = await fetch(url.toString(), { signal: AbortSignal.any([ctrl.signal, AbortSignal.timeout(8_000)]) });
       if (res.ok) setResults(await res.json());
     } catch {
-      // hata veya zaman aşımı — sessizce geç
+      // hata, iptal veya zaman aşımı — sessizce geç
     } finally {
-      setLoading(false);
+      if (abortRef.current === ctrl) setLoading(false);
     }
   }, [coords]);
 
@@ -145,7 +155,7 @@ export function AnlikArama({ className = '' }: { className?: string }) {
 
   const flatOptions = results
     ? [
-        ...results.businesses.map((biz) => ({ href: `/isletme/${biz.slug}` })),
+        ...results.businesses.map((biz) => ({ href: `/isletme/${biz.slug ?? biz.id}` })),
         ...results.items.map((item) => ({ href: `/isletme/${item.businessSlug}` })),
       ]
     : [];
@@ -349,7 +359,9 @@ function BizSatiri({
   onSelect: () => void;
 }) {
   const imgSrc = buildMenuImageUrl(biz.logoUrl ?? biz.coverUrl ?? null, { width: 80, quality: 75 });
-  const href = `/isletme/${biz.slug}`;
+  // slug hiç yoksa (nadir veri kalitesi durumu) /isletme/[slug]'ın kendi
+  // UUID-fallback çözümlemesine düşer — /isletme/null linki üretilmez.
+  const href = `/isletme/${biz.slug ?? biz.id}`;
   const isHighlighted = index === highlightedIndex;
 
   return (

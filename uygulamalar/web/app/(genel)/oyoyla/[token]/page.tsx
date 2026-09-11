@@ -50,7 +50,9 @@ export default async function OyVerPage({ params }: Props) {
     .eq('list_id', list.id) as { data: Array<{
       id: string;
       business_id: string;
-      businesses: { id: string; name: string; slug: string; category: string | null; city: string | null; district: string | null };
+      // businesses null dönebilir: işletme silinmiş ya da RLS anon'a
+      // görünmez kılmış (ör. is_active=false) olabilir — FK hâlâ dursa bile.
+      businesses: { id: string; name: string; slug: string; category: string | null; city: string | null; district: string | null } | null;
     }> | null };
 
   const { data: votes } = await (supabase as any)
@@ -78,16 +80,20 @@ export default async function OyVerPage({ params }: Props) {
         <OyVermeYuzeyi
           listId={list.id}
           token={token}
-          items={(items ?? []).map((item) => ({
-            id: item.id,
-            businessId: item.business_id,
-            businessName: item.businesses.name,
-            businessSlug: item.businesses.slug,
-            category: item.businesses.category,
-            location: [item.businesses.district, item.businesses.city].filter(Boolean).join(', '),
-            upVotes: voteCounts[item.id]?.up ?? 0,
-            downVotes: voteCounts[item.id]?.down ?? 0,
-          }))}
+          items={(items ?? [])
+            // İşletme silinmiş/artık görünmez olabilir — bu öneri artık
+            // oylanamaz, listeden çıkar (sayfayı çökertmek yerine).
+            .filter((item): item is typeof item & { businesses: NonNullable<typeof item.businesses> } => item.businesses != null)
+            .map((item) => ({
+              id: item.id,
+              businessId: item.business_id,
+              businessName: item.businesses.name,
+              businessSlug: item.businesses.slug,
+              category: item.businesses.category,
+              location: [item.businesses.district, item.businesses.city].filter(Boolean).join(', '),
+              upVotes: voteCounts[item.id]?.up ?? 0,
+              downVotes: voteCounts[item.id]?.down ?? 0,
+            }))}
         />
       </div>
     </main>

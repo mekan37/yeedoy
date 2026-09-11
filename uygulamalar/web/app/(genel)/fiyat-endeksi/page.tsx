@@ -6,6 +6,7 @@ import { jsonLd } from '@/src/lib/json-ld';
 import { appConfig } from '@/src/lib/ayarlar';
 import { createSupabasePublicClient } from '@/src/lib/taban/acik';
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.LONG (3600)
 export const revalidate = 3600;
 
 const SITE_URL = () => appConfig.siteUrl().replace(/\/$/, '');

@@ -1,35 +1,6 @@
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
-import { appConfig } from '@/src/lib/ayarlar';
-import type { Database } from '@/src/lib/supabase/database.types';
-
-export async function createSupabaseServerClient() {
-  const cookieStore = await cookies();
-
-  return createServerClient<Database>(
-    appConfig.supabaseUrl(),
-    appConfig.supabaseAnonKey(),
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll();
-        },
-        setAll(
-          cookiesToSet: Array<{
-            name: string;
-            value: string;
-            options?: Record<string, unknown>;
-          }>,
-        ) {
-          try {
-            cookiesToSet.forEach(({ name, value, options }) => {
-              cookieStore.set(name, value, options);
-            });
-          } catch {
-            // Server components cannot always mutate cookies.
-          }
-        },
-      },
-    },
-  );
-}
+// Re-export shim — kanonik kaynak @/src/lib/taban/sunucu.ts (Türkçe adlandırma
+// projedeki kural). İki dosya elle senkronize tutulan byte-byte bir kopyaydı
+// (drift riski) — artık tek kaynaktan üretiliyor. Yeni kod doğrudan
+// '@/src/lib/taban/sunucu' import etmeli, bu dosya yalnızca geriye dönük
+// uyumluluk için var.
+export { createSupabaseServerClient } from '@/src/lib/taban/sunucu';

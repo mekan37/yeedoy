@@ -5,6 +5,11 @@ export const runtime = 'edge';
 export const alt = 'Yeedoy';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
+// Revalidate eklenmeden bu route her istek (sosyal medya link-preview
+// tarayıcıları dahil — Twitter/WhatsApp/Slack aynı linki tekrar tekrar
+// çekebilir) için DB'ye gidip görseli yeniden render ediyordu.
+// bkz. src/lib/revalidate.ts — REVALIDATE.STANDARD (300), sayfanın kendisiyle aynı tier
+export const revalidate = 300;
 
 type Props = { params: Promise<{ slug: string }> };
 

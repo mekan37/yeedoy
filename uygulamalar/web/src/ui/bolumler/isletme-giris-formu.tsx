@@ -80,12 +80,16 @@ export function IsletmeGirisFormu({ initialTab = 'giris' }: Props) {
   }, [router]);
 
   async function handleGoogle() {
+    setError('');
     setGooglePending(true);
     const supabase = createSupabaseBrowserClient();
     const callbackUrl = new URL('/auth/callback', window.location.origin);
     callbackUrl.searchParams.set('redirect', '/sahip/gosterge-panosu');
-    await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: callbackUrl.toString() } });
-    setGooglePending(false);
+    const { error: oauthError } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: callbackUrl.toString() } });
+    if (oauthError) {
+      setError(hataMesaji(oauthError));
+      setGooglePending(false);
+    }
   }
 
   function handleSubmit(e: React.FormEvent) {

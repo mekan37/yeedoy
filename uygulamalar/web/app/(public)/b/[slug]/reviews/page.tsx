@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
 import { AppSectionHeader } from '@/src/ui/components/app-section-header';
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.MEDIUM (120)
 export const revalidate = 120;
 
 type SortOption = 'newest' | 'top' | 'verified';

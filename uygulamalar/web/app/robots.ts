@@ -23,7 +23,7 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
       {
         userAgent: '*',
         allow: ['/', '/m/', '/kod/', '/kesif', '/en-iyiler', '/isletme/', '/arama'],
-        disallow: ['/giris', '/karekod/', '/api/', '/auth/', '/forbidden', '/admin/', '/owner/', '/sahip/', '/yonetici/'],
+        disallow: ['/giris', '/karekod/', '/api/', '/auth/', '/forbidden', '/yasakli', '/admin/', '/owner/', '/sahip/', '/yonetici/'],
       },
     ],
     sitemap: sitemaps,

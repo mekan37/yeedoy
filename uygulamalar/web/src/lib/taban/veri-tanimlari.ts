@@ -12,6 +12,31 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.5"
   }
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json
+          operationName?: string
+          query?: string
+          variables?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
       account_deletion_requests: {
@@ -80,6 +105,48 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_alert_rules: {
+        Row: {
+          created_at: string
+          enabled: boolean
+          id: string
+          metric: string
+          name: string
+          notify_email: boolean
+          notify_slack: boolean
+          severity: string
+          threshold: number
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          metric: string
+          name: string
+          notify_email?: boolean
+          notify_slack?: boolean
+          severity?: string
+          threshold: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          metric?: string
+          name?: string
+          notify_email?: boolean
+          notify_slack?: boolean
+          severity?: string
+          threshold?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       admin_audit_log: {
         Row: {
           action: string
@@ -131,6 +198,243 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_menu_extract_items: {
+        Row: {
+          business_id: string
+          category_name: string | null
+          confidence: number | null
+          created_at: string
+          currency: string
+          description: string | null
+          excluded: boolean
+          id: string
+          imported: boolean
+          imported_menu_item_id: string | null
+          job_id: string
+          name: string
+          price_cents: number | null
+          requires_review: boolean
+          review_reasons: Json
+          updated_at: string
+          warnings: Json
+        }
+        Insert: {
+          business_id: string
+          category_name?: string | null
+          confidence?: number | null
+          created_at?: string
+          currency?: string
+          description?: string | null
+          excluded?: boolean
+          id?: string
+          imported?: boolean
+          imported_menu_item_id?: string | null
+          job_id: string
+          name: string
+          price_cents?: number | null
+          requires_review?: boolean
+          review_reasons?: Json
+          updated_at?: string
+          warnings?: Json
+        }
+        Update: {
+          business_id?: string
+          category_name?: string | null
+          confidence?: number | null
+          created_at?: string
+          currency?: string
+          description?: string | null
+          excluded?: boolean
+          id?: string
+          imported?: boolean
+          imported_menu_item_id?: string | null
+          job_id?: string
+          name?: string
+          price_cents?: number | null
+          requires_review?: boolean
+          review_reasons?: Json
+          updated_at?: string
+          warnings?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_menu_extract_items_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_quality_score_v1"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "admin_menu_extract_items_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "admin_menu_extract_items_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "admin_menu_extract_items_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats_mv"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "admin_menu_extract_items_imported_menu_item_id_fkey"
+            columns: ["imported_menu_item_id"]
+            isOneToOne: false
+            referencedRelation: "business_item_trends_v1"
+            referencedColumns: ["menu_item_id"]
+          },
+          {
+            foreignKeyName: "admin_menu_extract_items_imported_menu_item_id_fkey"
+            columns: ["imported_menu_item_id"]
+            isOneToOne: false
+            referencedRelation: "menu_item_price_status_v1"
+            referencedColumns: ["menu_item_id"]
+          },
+          {
+            foreignKeyName: "admin_menu_extract_items_imported_menu_item_id_fkey"
+            columns: ["imported_menu_item_id"]
+            isOneToOne: false
+            referencedRelation: "menu_item_value_score_v1"
+            referencedColumns: ["menu_item_id"]
+          },
+          {
+            foreignKeyName: "admin_menu_extract_items_imported_menu_item_id_fkey"
+            columns: ["imported_menu_item_id"]
+            isOneToOne: false
+            referencedRelation: "menu_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "admin_menu_extract_items_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "admin_menu_extract_jobs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      admin_menu_extract_jobs: {
+        Row: {
+          business_id: string
+          created_at: string
+          created_by: string
+          error_message: string | null
+          external_job_id: string
+          id: string
+          result: Json | null
+          source_file_name: string | null
+          source_type: string
+          source_url: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          created_by: string
+          error_message?: string | null
+          external_job_id: string
+          id?: string
+          result?: Json | null
+          source_file_name?: string | null
+          source_type: string
+          source_url?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          created_by?: string
+          error_message?: string | null
+          external_job_id?: string
+          id?: string
+          result?: Json | null
+          source_file_name?: string | null
+          source_type?: string
+          source_url?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_menu_extract_jobs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_quality_score_v1"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "admin_menu_extract_jobs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "admin_menu_extract_jobs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "admin_menu_extract_jobs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats_mv"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      admin_roles: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          is_active: boolean
+          is_system: boolean
+          name: string
+          permissions: Database["public"]["Enums"]["admin_permission_key"][]
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          is_system?: boolean
+          name: string
+          permissions?: Database["public"]["Enums"]["admin_permission_key"][]
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          is_system?: boolean
+          name?: string
+          permissions?: Database["public"]["Enums"]["admin_permission_key"][]
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       admin_runtime_settings: {
         Row: {
           key: string
@@ -155,17 +459,28 @@ export type Database = {
       admin_users: {
         Row: {
           created_at: string
+          role_id: string
           user_id: string
         }
         Insert: {
           created_at?: string
+          role_id: string
           user_id: string
         }
         Update: {
           created_at?: string
+          role_id?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "admin_users_role_id_fkey"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "admin_roles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       alert_events: {
         Row: {
@@ -241,6 +556,50 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      allergen_ingredient_aliases: {
+        Row: {
+          allergen_code: string
+          created_at: string
+          ingredient: string
+        }
+        Insert: {
+          allergen_code: string
+          created_at?: string
+          ingredient: string
+        }
+        Update: {
+          allergen_code?: string
+          created_at?: string
+          ingredient?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "allergen_ingredient_aliases_allergen_code_fkey"
+            columns: ["allergen_code"]
+            isOneToOne: false
+            referencedRelation: "allergens"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
+      allergens: {
+        Row: {
+          code: string
+          emoji: string | null
+          label_tr: string
+        }
+        Insert: {
+          code: string
+          emoji?: string | null
+          label_tr: string
+        }
+        Update: {
+          code?: string
+          emoji?: string | null
+          label_tr?: string
+        }
+        Relationships: []
       }
       analytics_events: {
         Row: {
@@ -686,6 +1045,89 @@ export type Database = {
             columns: ["menu_id"]
             isOneToOne: false
             referencedRelation: "menus"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      business_external_sources: {
+        Row: {
+          business_id: string
+          cid: string | null
+          created_at: string
+          data_id: string | null
+          first_seen_at: string
+          id: string
+          last_seen_at: string
+          menu_url: string | null
+          order_online_url: string | null
+          place_id: string | null
+          plus_code: string | null
+          provider: string
+          source_key: string
+          source_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          business_id: string
+          cid?: string | null
+          created_at?: string
+          data_id?: string | null
+          first_seen_at?: string
+          id?: string
+          last_seen_at?: string
+          menu_url?: string | null
+          order_online_url?: string | null
+          place_id?: string | null
+          plus_code?: string | null
+          provider: string
+          source_key: string
+          source_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string
+          cid?: string | null
+          created_at?: string
+          data_id?: string | null
+          first_seen_at?: string
+          id?: string
+          last_seen_at?: string
+          menu_url?: string | null
+          order_online_url?: string | null
+          place_id?: string | null
+          plus_code?: string | null
+          provider?: string
+          source_key?: string
+          source_url?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_external_sources_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_quality_score_v1"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "business_external_sources_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_external_sources_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_external_sources_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats_mv"
             referencedColumns: ["id"]
           },
         ]
@@ -2164,16 +2606,19 @@ export type Database = {
           boundary_checked: boolean
           branch_label: string | null
           category: string
+          category_slug: string | null
           chain_id: string | null
           chain_sort_order: number | null
           city: string | null
           city_norm: string | null
+          city_slug: string | null
           cover_provider: string | null
           cover_url: string | null
           created_at: string
           description: string | null
           district: string | null
           district_norm: string | null
+          district_slug: string | null
           email: string | null
           facebook_url: string | null
           fingerprint: string | null
@@ -2184,6 +2629,7 @@ export type Database = {
           is_verified: boolean
           lat: number | null
           lng: number | null
+          location: unknown
           logo_provider: string | null
           logo_url: string | null
           name: string
@@ -2195,6 +2641,7 @@ export type Database = {
           phone: string | null
           price_level: string | null
           public_slug: string | null
+          regional_tag_id: string | null
           reservation_advance_hours: number
           reservation_max_party: number
           reservation_min_party: number
@@ -2217,16 +2664,19 @@ export type Database = {
           boundary_checked?: boolean
           branch_label?: string | null
           category: string
+          category_slug?: string | null
           chain_id?: string | null
           chain_sort_order?: number | null
           city?: string | null
           city_norm?: string | null
+          city_slug?: string | null
           cover_provider?: string | null
           cover_url?: string | null
           created_at?: string
           description?: string | null
           district?: string | null
           district_norm?: string | null
+          district_slug?: string | null
           email?: string | null
           facebook_url?: string | null
           fingerprint?: string | null
@@ -2237,6 +2687,7 @@ export type Database = {
           is_verified?: boolean
           lat?: number | null
           lng?: number | null
+          location?: unknown
           logo_provider?: string | null
           logo_url?: string | null
           name: string
@@ -2248,6 +2699,7 @@ export type Database = {
           phone?: string | null
           price_level?: string | null
           public_slug?: string | null
+          regional_tag_id?: string | null
           reservation_advance_hours?: number
           reservation_max_party?: number
           reservation_min_party?: number
@@ -2270,16 +2722,19 @@ export type Database = {
           boundary_checked?: boolean
           branch_label?: string | null
           category?: string
+          category_slug?: string | null
           chain_id?: string | null
           chain_sort_order?: number | null
           city?: string | null
           city_norm?: string | null
+          city_slug?: string | null
           cover_provider?: string | null
           cover_url?: string | null
           created_at?: string
           description?: string | null
           district?: string | null
           district_norm?: string | null
+          district_slug?: string | null
           email?: string | null
           facebook_url?: string | null
           fingerprint?: string | null
@@ -2290,6 +2745,7 @@ export type Database = {
           is_verified?: boolean
           lat?: number | null
           lng?: number | null
+          location?: unknown
           logo_provider?: string | null
           logo_url?: string | null
           name?: string
@@ -2301,6 +2757,7 @@ export type Database = {
           phone?: string | null
           price_level?: string | null
           public_slug?: string | null
+          regional_tag_id?: string | null
           reservation_advance_hours?: number
           reservation_max_party?: number
           reservation_min_party?: number
@@ -2330,6 +2787,13 @@ export type Database = {
             columns: ["osm_boundary_id"]
             isOneToOne: false
             referencedRelation: "osm_admin_boundaries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "businesses_regional_tag_id_fkey"
+            columns: ["regional_tag_id"]
+            isOneToOne: false
+            referencedRelation: "regional_cuisine_tags"
             referencedColumns: ["id"]
           },
           {
@@ -2915,6 +3379,7 @@ export type Database = {
       collections: {
         Row: {
           created_at: string
+          description: string | null
           id: string
           is_public: boolean
           title: string
@@ -2922,6 +3387,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          description?: string | null
           id?: string
           is_public?: boolean
           title: string
@@ -2929,6 +3395,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          description?: string | null
           id?: string
           is_public?: boolean
           title?: string
@@ -3488,6 +3955,33 @@ export type Database = {
           },
         ]
       }
+      food_image_prompts: {
+        Row: {
+          created_at: string
+          id: string
+          language: string
+          model: string
+          normalized_food_name: string
+          prompt: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          language?: string
+          model: string
+          normalized_food_name: string
+          prompt: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          language?: string
+          model?: string
+          normalized_food_name?: string
+          prompt?: string
+        }
+        Relationships: []
+      }
       group_offer_votes: {
         Row: {
           created_at: string
@@ -3715,6 +4209,45 @@ export type Database = {
           summary?: string
           title?: string
           visibility?: string
+        }
+        Relationships: []
+      }
+      legal_documents: {
+        Row: {
+          content: string
+          created_at: string
+          description: string | null
+          id: string
+          is_published: boolean
+          slug: string
+          sort_order: number
+          title: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_published?: boolean
+          slug: string
+          sort_order?: number
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_published?: boolean
+          slug?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
         }
         Relationships: []
       }
@@ -4016,13 +4549,17 @@ export type Database = {
           business_id: string
           calorie_max: number | null
           calorie_min: number | null
+          category_name: string | null
           confidence: number
           created_at: string
+          currency: string
+          description_text: string | null
           id: string
           ingredients_json: Json | null
           menu_item_id: string | null
           normalized_text: string | null
           ocr_job_id: string | null
+          price_cents: number | null
           requires_review: boolean
           source_text: string
           status: string
@@ -4034,13 +4571,17 @@ export type Database = {
           business_id: string
           calorie_max?: number | null
           calorie_min?: number | null
+          category_name?: string | null
           confidence?: number
           created_at?: string
+          currency?: string
+          description_text?: string | null
           id?: string
           ingredients_json?: Json | null
           menu_item_id?: string | null
           normalized_text?: string | null
           ocr_job_id?: string | null
+          price_cents?: number | null
           requires_review?: boolean
           source_text: string
           status?: string
@@ -4052,13 +4593,17 @@ export type Database = {
           business_id?: string
           calorie_max?: number | null
           calorie_min?: number | null
+          category_name?: string | null
           confidence?: number
           created_at?: string
+          currency?: string
+          description_text?: string | null
           id?: string
           ingredients_json?: Json | null
           menu_item_id?: string | null
           normalized_text?: string | null
           ocr_job_id?: string | null
+          price_cents?: number | null
           requires_review?: boolean
           source_text?: string
           status?: string
@@ -4134,25 +4679,38 @@ export type Database = {
         Row: {
           allergen: string
           detected_by: string
+          evidence: string | null
           item_id: string
           risk_level: string
+          status: string
           updated_at: string
         }
         Insert: {
           allergen: string
           detected_by?: string
+          evidence?: string | null
           item_id: string
           risk_level?: string
+          status?: string
           updated_at?: string
         }
         Update: {
           allergen?: string
           detected_by?: string
+          evidence?: string | null
           item_id?: string
           risk_level?: string
+          status?: string
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "menu_item_allergens_allergen_fkey"
+            columns: ["allergen"]
+            isOneToOne: false
+            referencedRelation: "allergens"
+            referencedColumns: ["code"]
+          },
           {
             foreignKeyName: "menu_item_allergens_item_id_fkey"
             columns: ["item_id"]
@@ -5584,6 +6142,30 @@ export type Database = {
         }
         Relationships: []
       }
+      moderation_blacklist_terms: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: number
+          is_active: boolean
+          term: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: never
+          is_active?: boolean
+          term: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: never
+          is_active?: boolean
+          term?: string
+        }
+        Relationships: []
+      }
       moderation_decision_templates: {
         Row: {
           body: string
@@ -6429,6 +7011,51 @@ export type Database = {
           },
         ]
       }
+      regional_cuisine_tags: {
+        Row: {
+          city: string
+          city_norm: string | null
+          created_at: string
+          id: string
+          label: string
+        }
+        Insert: {
+          city: string
+          city_norm?: string | null
+          created_at?: string
+          id?: string
+          label: string
+        }
+        Update: {
+          city?: string
+          city_norm?: string | null
+          created_at?: string
+          id?: string
+          label?: string
+        }
+        Relationships: []
+      }
+      regional_recommendation_events: {
+        Row: {
+          city: string
+          id: string
+          sent_at: string
+          user_id: string
+        }
+        Insert: {
+          city: string
+          id?: string
+          sent_at?: string
+          user_id: string
+        }
+        Update: {
+          city?: string
+          id?: string
+          sent_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       reports: {
         Row: {
           admin_note: string | null
@@ -6581,6 +7208,104 @@ export type Database = {
           },
         ]
       }
+      review_photos: {
+        Row: {
+          business_id: string
+          created_at: string
+          created_by: string | null
+          id: string
+          review_id: string
+          url: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          review_id: string
+          url: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          review_id?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "review_photos_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_quality_score_v1"
+            referencedColumns: ["business_id"]
+          },
+          {
+            foreignKeyName: "review_photos_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "review_photos_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "review_photos_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_with_stats_mv"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "review_photos_review_id_fkey"
+            columns: ["review_id"]
+            isOneToOne: false
+            referencedRelation: "reviews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      review_ratings: {
+        Row: {
+          r_atmosphere: number | null
+          r_cleanliness: number | null
+          r_price_value: number | null
+          r_service: number | null
+          r_taste: number | null
+          review_id: string
+        }
+        Insert: {
+          r_atmosphere?: number | null
+          r_cleanliness?: number | null
+          r_price_value?: number | null
+          r_service?: number | null
+          r_taste?: number | null
+          review_id: string
+        }
+        Update: {
+          r_atmosphere?: number | null
+          r_cleanliness?: number | null
+          r_price_value?: number | null
+          r_service?: number | null
+          r_taste?: number | null
+          review_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "review_ratings_review_id_fkey"
+            columns: ["review_id"]
+            isOneToOne: true
+            referencedRelation: "reviews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       review_replies: {
         Row: {
           business_id: string
@@ -6637,20 +7362,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "businesses_with_stats_mv"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "review_replies_review_id_fkey"
-            columns: ["review_id"]
-            isOneToOne: true
-            referencedRelation: "business_reviews"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "review_replies_review_id_fkey"
-            columns: ["review_id"]
-            isOneToOne: true
-            referencedRelation: "review_ratings"
-            referencedColumns: ["review_id"]
           },
           {
             foreignKeyName: "review_replies_review_id_fkey"
@@ -6737,20 +7448,6 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "review_votes_review_id_fkey"
-            columns: ["review_id"]
-            isOneToOne: false
-            referencedRelation: "business_reviews"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "review_votes_review_id_fkey"
-            columns: ["review_id"]
-            isOneToOne: false
-            referencedRelation: "review_ratings"
-            referencedColumns: ["review_id"]
-          },
           {
             foreignKeyName: "review_votes_review_id_fkey"
             columns: ["review_id"]
@@ -7222,6 +7919,36 @@ export type Database = {
           },
         ]
       }
+      stock_dish_images: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          image_url: string
+          is_active: boolean
+          keywords: string[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          image_url: string
+          is_active?: boolean
+          keywords?: string[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          keywords?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       storage_deletion_queue: {
         Row: {
           attempts: number
@@ -7549,9 +8276,12 @@ export type Database = {
           done_at: string | null
           id: string
           items_json: Json
+          processed_by: string | null
           seen_at: string | null
+          staff_note: string | null
           status: string
           table_number: string
+          updated_at: string | null
         }
         Insert: {
           business_id: string
@@ -7560,9 +8290,12 @@ export type Database = {
           done_at?: string | null
           id?: string
           items_json?: Json
+          processed_by?: string | null
           seen_at?: string | null
+          staff_note?: string | null
           status?: string
           table_number: string
+          updated_at?: string | null
         }
         Update: {
           business_id?: string
@@ -7571,9 +8304,12 @@ export type Database = {
           done_at?: string | null
           id?: string
           items_json?: Json
+          processed_by?: string | null
           seen_at?: string | null
+          staff_note?: string | null
           status?: string
           table_number?: string
+          updated_at?: string | null
         }
         Relationships: [
           {
@@ -7701,20 +8437,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "businesses_with_stats_mv"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "temp_uploads_review_id_fkey"
-            columns: ["review_id"]
-            isOneToOne: false
-            referencedRelation: "business_reviews"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "temp_uploads_review_id_fkey"
-            columns: ["review_id"]
-            isOneToOne: false
-            referencedRelation: "review_ratings"
-            referencedColumns: ["review_id"]
           },
           {
             foreignKeyName: "temp_uploads_review_id_fkey"
@@ -8266,7 +8988,7 @@ export type Database = {
         Row: {
           amount_cents: number | null
           business_id: string
-          checked_in_at: string | null
+          checked_in_at: string
           created_at: string
           currency: string | null
           id: string
@@ -8278,7 +9000,7 @@ export type Database = {
         Insert: {
           amount_cents?: number | null
           business_id: string
-          checked_in_at?: string | null
+          checked_in_at?: string
           created_at?: string
           currency?: string | null
           id?: string
@@ -8290,7 +9012,7 @@ export type Database = {
         Update: {
           amount_cents?: number | null
           business_id?: string
-          checked_in_at?: string | null
+          checked_in_at?: string
           created_at?: string
           currency?: string | null
           id?: string
@@ -8765,97 +9487,9 @@ export type Database = {
           },
         ]
       }
-      business_reviews: {
-        Row: {
-          atmosphere_rating: number | null
-          business_id: string | null
-          cleanliness_rating: number | null
-          content: string | null
-          created_at: string | null
-          helpful_count: number | null
-          id: string | null
-          overall_rating: number | null
-          owner_replied_at: string | null
-          owner_reply: string | null
-          price_performance_rating: number | null
-          rating: number | null
-          service_speed_rating: number | null
-          status: string | null
-          taste_rating: number | null
-          title: string | null
-          user_id: string | null
-        }
-        Insert: {
-          atmosphere_rating?: number | null
-          business_id?: string | null
-          cleanliness_rating?: number | null
-          content?: string | null
-          created_at?: string | null
-          helpful_count?: number | null
-          id?: string | null
-          overall_rating?: number | null
-          owner_replied_at?: string | null
-          owner_reply?: string | null
-          price_performance_rating?: number | null
-          rating?: number | null
-          service_speed_rating?: number | null
-          status?: string | null
-          taste_rating?: number | null
-          title?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          atmosphere_rating?: number | null
-          business_id?: string | null
-          cleanliness_rating?: number | null
-          content?: string | null
-          created_at?: string | null
-          helpful_count?: number | null
-          id?: string | null
-          overall_rating?: number | null
-          owner_replied_at?: string | null
-          owner_reply?: string | null
-          price_performance_rating?: number | null
-          rating?: number | null
-          service_speed_rating?: number | null
-          status?: string | null
-          taste_rating?: number | null
-          title?: string | null
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "reviews_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_quality_score_v1"
-            referencedColumns: ["business_id"]
-          },
-          {
-            foreignKeyName: "reviews_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "reviews_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses_with_stats"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "reviews_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses_with_stats_mv"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       businesses_with_stats: {
         Row: {
+          accepts_reservations: boolean | null
           address: string | null
           avg_rating: number | null
           category: string | null
@@ -8865,11 +9499,20 @@ export type Database = {
           district: string | null
           id: string | null
           is_active: boolean | null
+          is_open_now: boolean | null
           is_verified: boolean | null
           lat: number | null
           lng: number | null
+          logo_url: string | null
           name: string | null
+          neighborhood: string | null
           phone: string | null
+          price_level: string | null
+          recent_price_verified_count: number | null
+          reservation_max_party: number | null
+          reservation_min_party: number | null
+          reservation_note: string | null
+          reservation_phone: string | null
           reviews_count: number | null
         }
         Relationships: []
@@ -8887,59 +9530,10 @@ export type Database = {
           lat: number | null
           lng: number | null
           name: string | null
+          neighborhood: string | null
           reviews_count: number | null
         }
         Relationships: []
-      }
-      crowd_checkins: {
-        Row: {
-          business_id: string | null
-          checked_in_at: string | null
-          id: string | null
-          user_id: string | null
-        }
-        Insert: {
-          business_id?: string | null
-          checked_in_at?: never
-          id?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          business_id?: string | null
-          checked_in_at?: never
-          id?: string | null
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "visits_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_quality_score_v1"
-            referencedColumns: ["business_id"]
-          },
-          {
-            foreignKeyName: "visits_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "visits_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses_with_stats"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "visits_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses_with_stats_mv"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       expired_temp_uploads_v1: {
         Row: {
@@ -9129,21 +9723,6 @@ export type Database = {
         }
         Relationships: []
       }
-      price_verifications: {
-        Row: {
-          created_at: string | null
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          user_id?: string | null
-        }
-        Relationships: []
-      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -9168,33 +9747,6 @@ export type Database = {
           email?: never
           id?: string | null
           is_gourmet?: boolean | null
-        }
-        Relationships: []
-      }
-      review_ratings: {
-        Row: {
-          r_atmosphere: number | null
-          r_cleanliness: number | null
-          r_price_value: number | null
-          r_service: number | null
-          r_taste: number | null
-          review_id: string | null
-        }
-        Insert: {
-          r_atmosphere?: number | null
-          r_cleanliness?: number | null
-          r_price_value?: number | null
-          r_service?: number | null
-          r_taste?: number | null
-          review_id?: string | null
-        }
-        Update: {
-          r_atmosphere?: number | null
-          r_cleanliness?: number | null
-          r_price_value?: number | null
-          r_service?: number | null
-          r_taste?: number | null
-          review_id?: string | null
         }
         Relationships: []
       }
@@ -9224,6 +9776,10 @@ export type Database = {
       _check_plan_limit_v1: {
         Args: { p_business_id: string; p_feature_key: string }
         Returns: undefined
+      }
+      _check_translation_language_limit_v1: {
+        Args: { p_business_id: string; p_locale: string }
+        Returns: boolean
       }
       _get_business_plan_tier_v1: {
         Args: { p_business_id: string }
@@ -9432,6 +9988,15 @@ export type Database = {
             }
             Returns: string
           }
+      admin_add_blacklist_term_v1: { Args: { p_term: string }; Returns: number }
+      admin_add_businesses_to_chain_v1: {
+        Args: { p_business_ids: string[]; p_chain_id: string }
+        Returns: Json
+      }
+      admin_apply_menu_extract_job_v1: {
+        Args: { p_decisions: Json; p_job_id: string }
+        Returns: Json
+      }
       admin_apply_user_safety_action_v1: {
         Args: {
           p_action: string
@@ -9483,6 +10048,10 @@ export type Database = {
         Returns: Json
       }
       admin_assign_report_v1: { Args: { p_report_id: string }; Returns: Json }
+      admin_assign_user_role_v1: {
+        Args: { p_role_id: string; p_user_id: string }
+        Returns: undefined
+      }
       admin_bulk_decide_owner_claims_v1: {
         Args: { p_claim_ids: string[]; p_decision: string; p_note?: string }
         Returns: Json
@@ -9545,6 +10114,24 @@ export type Database = {
         }
         Returns: string
       }
+      admin_create_menu_extract_job_v1: {
+        Args: {
+          p_business_id: string
+          p_external_job_id: string
+          p_source_file_name?: string
+          p_source_type: string
+          p_source_url?: string
+        }
+        Returns: string
+      }
+      admin_create_role_v1: {
+        Args: {
+          p_description: string
+          p_name: string
+          p_permissions: Database["public"]["Enums"]["admin_permission_key"][]
+        }
+        Returns: string
+      }
       admin_create_sponsorship_v1: {
         Args: {
           p_business_id: string
@@ -9558,12 +10145,33 @@ export type Database = {
         }
         Returns: Json
       }
+      admin_db_health_v1: {
+        Args: never
+        Returns: {
+          active_connections: number
+          db_size_bytes: number
+        }[]
+      }
       admin_decide_moderation_appeal_v1: {
         Args: { p_appeal_id: string; p_decision: string; p_note?: string }
         Returns: Json
       }
       admin_decide_owner_claim_v1: {
         Args: { p_claim_id: string; p_decision: string; p_note?: string }
+        Returns: undefined
+      }
+      admin_delete_alert_rule_v1: { Args: { p_id: string }; Returns: undefined }
+      admin_delete_legal_document_v1: {
+        Args: { p_id: string }
+        Returns: undefined
+      }
+      admin_delete_regional_cuisine_tag_v1: {
+        Args: { p_id: string }
+        Returns: undefined
+      }
+      admin_delete_role_v1: { Args: { p_role_id: string }; Returns: undefined }
+      admin_delete_stock_dish_image_v1: {
+        Args: { p_id: string }
         Returns: undefined
       }
       admin_export_anonymous_trends_csv_v1: {
@@ -9602,6 +10210,10 @@ export type Database = {
         Args: { p_sla_only?: boolean; p_status?: string }
         Returns: string
       }
+      admin_fail_menu_extract_job_v1: {
+        Args: { p_error_message: string; p_job_id: string }
+        Returns: undefined
+      }
       admin_find_duplicate_businesses_v1: {
         Args: { p_suggestion_id: string; p_threshold?: number }
         Returns: {
@@ -9612,6 +10224,14 @@ export type Database = {
           name: string
           score: number
         }[]
+      }
+      admin_finish_menu_extract_job_v1: {
+        Args: { p_items: Json; p_job_id: string; p_result: Json }
+        Returns: undefined
+      }
+      admin_get_business_detail_v1: {
+        Args: { p_business_id: string }
+        Returns: Json
       }
       admin_get_chain_detail_v1: {
         Args: { p_chain_id: string }
@@ -9633,6 +10253,20 @@ export type Database = {
           is_active: boolean
           is_template: boolean
           template_business_id: string
+        }[]
+      }
+      admin_get_menu_extract_job_v1: {
+        Args: { p_job_id: string }
+        Returns: {
+          business_id: string
+          created_at: string
+          error_message: string
+          external_job_id: string
+          id: string
+          source_file_name: string
+          source_type: string
+          source_url: string
+          status: string
         }[]
       }
       admin_get_offline_mutation_alert_settings_v1: {
@@ -9702,6 +10336,26 @@ export type Database = {
           p_suggestion_id: string
         }
         Returns: Json
+      }
+      admin_list_blacklist_terms_v1: {
+        Args: { p_limit?: number; p_offset?: number; p_query?: string }
+        Returns: {
+          created_at: string
+          id: number
+          is_active: boolean
+          term: string
+        }[]
+      }
+      admin_list_business_menu_items_v1: {
+        Args: { p_business_id: string }
+        Returns: {
+          category_name: string
+          currency: string
+          description: string
+          id: string
+          name: string
+          price_cents: number
+        }[]
       }
       admin_list_business_submissions_v1: {
         Args: { p_limit?: number; p_offset?: number; p_status?: string }
@@ -9850,6 +10504,24 @@ export type Database = {
           summary: string
           title: string
           visibility: string
+        }[]
+      }
+      admin_list_menu_extract_items_v1: {
+        Args: { p_job_id: string }
+        Returns: {
+          category_name: string
+          confidence: number
+          currency: string
+          description: string
+          excluded: boolean
+          id: string
+          imported: boolean
+          imported_menu_item_id: string
+          name: string
+          price_cents: number
+          requires_review: boolean
+          review_reasons: Json
+          warnings: Json
         }[]
       }
       admin_list_menu_price_suggestions_v1: {
@@ -10061,6 +10733,17 @@ export type Database = {
           user_id: string
         }[]
       }
+      admin_list_regional_cuisine_tags_v1: {
+        Args: never
+        Returns: {
+          business_count: number
+          city: string
+          city_norm: string
+          created_at: string
+          id: string
+          label: string
+        }[]
+      }
       admin_list_reports_v5: {
         Args: {
           p_assigned?: string
@@ -10166,6 +10849,16 @@ export type Database = {
           total_cap: number
         }[]
       }
+      admin_list_stock_dish_images_v1: {
+        Args: never
+        Returns: {
+          created_at: string
+          id: string
+          image_url: string
+          is_active: boolean
+          keywords: string[]
+        }[]
+      }
       admin_list_suspended_claims_v1: {
         Args: {
           p_limit?: number
@@ -10223,6 +10916,17 @@ export type Database = {
           owner_role: string
         }[]
       }
+      admin_list_user_profiles_private_v1: {
+        Args: { p_user_ids: string[] }
+        Returns: {
+          city: string
+          district: string
+          phone: string
+          referral_code: string
+          shadow_banned: boolean
+          user_id: string
+        }[]
+      }
       admin_log_impersonation_v1: {
         Args: {
           p_action: string
@@ -10240,6 +10944,10 @@ export type Database = {
           p_primary_business_id: string
         }
         Returns: Json
+      }
+      admin_moderate_reviews_v1: {
+        Args: { p_ids: string[]; p_status: string }
+        Returns: undefined
       }
       admin_queue_assign_v1: {
         Args: {
@@ -10306,6 +11014,10 @@ export type Database = {
         Args: { p_claim_id: string; p_note?: string }
         Returns: Json
       }
+      admin_remove_blacklist_term_v1: {
+        Args: { p_id: number }
+        Returns: undefined
+      }
       admin_remove_business_from_chain_v1: {
         Args: { p_business_id: string }
         Returns: Json
@@ -10313,6 +11025,16 @@ export type Database = {
       admin_reset_user_achievement_v1: {
         Args: { p_achievement_id: string; p_reason?: string; p_user_id: string }
         Returns: Json
+      }
+      admin_search_businesses_for_tagging_v1: {
+        Args: { p_query: string }
+        Returns: {
+          city: string
+          city_norm: string
+          current_tag_label: string
+          id: string
+          name: string
+        }[]
       }
       admin_set_appeal_review_v1: {
         Args: { p_appeal_id: string; p_in_review: boolean }
@@ -10326,6 +11048,10 @@ export type Database = {
         Args: { p_business_id: string; p_ends_at?: string; p_plan_tier: string }
         Returns: Json
       }
+      admin_set_business_regional_tag_v1: {
+        Args: { p_business_id: string; p_tag_id: string }
+        Returns: undefined
+      }
       admin_set_business_verified_v1: {
         Args: {
           p_business_id: string
@@ -10334,6 +11060,10 @@ export type Database = {
           p_tier?: string
         }
         Returns: Json
+      }
+      admin_set_menu_extract_item_excluded_v1: {
+        Args: { p_excluded: boolean; p_item_id: string }
+        Returns: undefined
       }
       admin_set_menu_item_photo_moderation_v1: {
         Args: {
@@ -10357,6 +11087,10 @@ export type Database = {
         Returns: Json
       }
       admin_sla_metrics_v1: { Args: never; Returns: Json }
+      admin_soft_delete_business_v1: {
+        Args: { p_admin_note?: string; p_business_id: string }
+        Returns: undefined
+      }
       admin_unassign_business_suggestion_v1: {
         Args: { p_suggestion_id: string }
         Returns: Json
@@ -10373,11 +11107,18 @@ export type Database = {
           p_category: string
           p_city: string
           p_cover_url: string
+          p_description?: string
           p_district: string
+          p_email?: string
+          p_facebook_url?: string
+          p_instagram_url?: string
           p_lat: number
           p_lng: number
           p_logo_url: string
           p_name: string
+          p_phone?: string
+          p_twitter_url?: string
+          p_website_url?: string
         }
         Returns: Json
       }
@@ -10396,6 +11137,17 @@ export type Database = {
         }
         Returns: Json
       }
+      admin_update_menu_extract_item_v1: {
+        Args: {
+          p_category_name: string
+          p_currency?: string
+          p_description: string
+          p_item_id: string
+          p_name: string
+          p_price_cents: number
+        }
+        Returns: undefined
+      }
       admin_update_receipt_submission_review_v1: {
         Args: {
           p_receipt_id: string
@@ -10409,9 +11161,36 @@ export type Database = {
         Args: { p_admin_note?: string; p_report_id: string; p_status: string }
         Returns: undefined
       }
+      admin_update_role_v1: {
+        Args: {
+          p_description: string
+          p_is_active: boolean
+          p_name: string
+          p_permissions: Database["public"]["Enums"]["admin_permission_key"][]
+          p_role_id: string
+        }
+        Returns: undefined
+      }
       admin_update_sponsorship_lead_status_v1: {
         Args: { p_id: string; p_status: string }
         Returns: Json
+      }
+      admin_upsert_alert_rule_v1: {
+        Args: {
+          p_enabled: boolean
+          p_id: string
+          p_metric: string
+          p_name: string
+          p_notify_email: boolean
+          p_notify_slack: boolean
+          p_severity: string
+          p_threshold: number
+        }
+        Returns: string
+      }
+      admin_upsert_business_hours_v1: {
+        Args: { p_business_id: string; p_hours: Json }
+        Returns: undefined
       }
       admin_upsert_chain_override_v1: {
         Args: {
@@ -10421,6 +11200,22 @@ export type Database = {
           p_note?: string
           p_price_cents: number
         }
+        Returns: Json
+      }
+      admin_upsert_legal_document_v1: {
+        Args: {
+          p_content: string
+          p_description: string
+          p_id: string
+          p_is_published: boolean
+          p_slug: string
+          p_sort_order: number
+          p_title: string
+        }
+        Returns: string
+      }
+      admin_upsert_regional_cuisine_tag_v1: {
+        Args: { p_city?: string; p_id?: string; p_label?: string }
         Returns: Json
       }
       admin_upsert_sponsorship_package_v1: {
@@ -10436,6 +11231,15 @@ export type Database = {
           p_surface?: string
         }
         Returns: Json
+      }
+      admin_upsert_stock_dish_image_v1: {
+        Args: {
+          p_id?: string
+          p_image_url?: string
+          p_is_active?: boolean
+          p_keywords?: string[]
+        }
+        Returns: string
       }
       analytics_growth_v1: {
         Args: { p_business_id?: string; p_days?: number }
@@ -10542,6 +11346,10 @@ export type Database = {
           updated: number
         }[]
       }
+      bulk_upsert_menu_translations_v1: {
+        Args: { p_business_id: string; p_translations: Json }
+        Returns: Json
+      }
       bump_collection_engagement_v1: {
         Args: { p_collection_key: string; p_delta?: number }
         Returns: {
@@ -10579,6 +11387,10 @@ export type Database = {
         Returns: boolean
       }
       capture_request_meta_v1: { Args: never; Returns: Record<string, unknown> }
+      check_owner_permission_v1: {
+        Args: { p_business_id: string; p_required_action?: string }
+        Returns: boolean
+      }
       check_price_alerts_for_item_v1:
         | {
             Args: {
@@ -10623,6 +11435,20 @@ export type Database = {
           }
       check_rate_limit_v1: {
         Args: { p_key: string; p_max: number; p_window?: string }
+        Returns: boolean
+      }
+      check_regional_recommendation_v1: {
+        Args: { p_current_city: string }
+        Returns: {
+          business_id: string
+          business_name: string
+          business_slug: string
+          logo_url: string
+          tag_label: string
+        }[]
+      }
+      check_translation_language_limit_v1: {
+        Args: { p_business_id: string; p_locale: string }
         Returns: boolean
       }
       claim_mission_v1: { Args: { p_mission_id: string }; Returns: Json }
@@ -10683,7 +11509,7 @@ export type Database = {
             Returns: Json
           }
       create_collection_v1: {
-        Args: { p_is_public?: boolean; p_title: string }
+        Args: { p_description?: string; p_is_public?: boolean; p_title: string }
         Returns: Json
       }
       create_email_campaign_v1: {
@@ -10872,12 +11698,17 @@ export type Database = {
         | { Args: { schema_name: string; table_name: string }; Returns: string }
         | { Args: { table_name: string }; Returns: string }
       enablelongtransactions: { Args: never; Returns: string }
+      enrich_businesses_from_google_catalog_v1: { Args: never; Returns: number }
       ensure_default_section_for_business_v1: {
         Args: { p_business_id: string }
         Returns: string
       }
       ensure_my_profile_v1: {
-        Args: { p_avatar_url?: string; p_display_name?: string }
+        Args: {
+          p_avatar_url?: string
+          p_city?: string
+          p_display_name?: string
+        }
         Returns: Json
       }
       equals: { Args: { geom1: unknown; geom2: unknown }; Returns: boolean }
@@ -10887,6 +11718,32 @@ export type Database = {
       }
       estimate_email_segment_v1: {
         Args: { p_business_id: string; p_segment?: string }
+        Returns: number
+      }
+      find_google_maps_unresolved_candidates_v1: {
+        Args: {
+          p_batch_size?: number
+          p_city?: string
+          p_min_sim?: number
+          p_radius_m?: number
+        }
+        Returns: number
+      }
+      find_nearby_businesses_v1: {
+        Args: {
+          p_lat: number
+          p_limit?: number
+          p_lng: number
+          p_radius_meters?: number
+        }
+        Returns: {
+          distance_meters: number
+          id: string
+          name: string
+        }[]
+      }
+      flag_google_maps_category_unmapped_v1: {
+        Args: { p_batch_size?: number; p_city?: string }
         Returns: number
       }
       follow_business_v1: { Args: { p_business_id: string }; Returns: Json }
@@ -11075,6 +11932,15 @@ export type Database = {
           title: string
         }[]
       }
+      get_business_busy_hours_v1: {
+        Args: { p_business_id: string; p_days_back?: number }
+        Returns: {
+          avg_event_count: number
+          event_count: number
+          hour_of_day: number
+          peak_rank: number
+        }[]
+      }
       get_business_categories_v1: {
         Args: never
         Returns: {
@@ -11095,6 +11961,10 @@ export type Database = {
           chain_slug: string
           is_template_branch: boolean
         }[]
+      }
+      get_business_checkin_user_ids_v1: {
+        Args: { p_business_id: string }
+        Returns: string[]
       }
       get_business_cities_v1: {
         Args: { p_limit?: number }
@@ -11152,6 +12022,16 @@ export type Database = {
         Returns: Json
       }
       get_business_hours_v1: { Args: { p_business_id: string }; Returns: Json }
+      get_business_location_city_stats_v1: {
+        Args: never
+        Returns: {
+          active_count: number
+          business_count: number
+          city: string
+          district_count: number
+          verified_count: number
+        }[]
+      }
       get_business_location_district_stats_v1: {
         Args: never
         Returns: {
@@ -11196,10 +12076,8 @@ export type Database = {
         Returns: {
           active_from: string
           active_to: string
-          external_url: string
           id: string
           kind: string
-          source_image_url: string
           status: Database["public"]["Enums"]["menu_status"]
           title: string
         }[]
@@ -11262,7 +12140,6 @@ export type Database = {
         Returns: {
           active_count: number
           business_count: number
-          district_count: number
           geojson: string
           province_name: string
           verified_count: number
@@ -11531,6 +12408,14 @@ export type Database = {
           district: string
         }[]
       }
+      get_city_hub_stats_v1: {
+        Args: { p_city: string }
+        Returns: {
+          category: string
+          district: string
+          item_count: number
+        }[]
+      }
       get_collab_list_detail_v1: { Args: { p_list_id: string }; Returns: Json }
       get_collection_share_by_slug_v1: {
         Args: { p_slug: string }
@@ -11566,6 +12451,10 @@ export type Database = {
           name: string
           reviews_count: number
         }[]
+      }
+      get_dashboard_stats_today_v1: {
+        Args: { p_business_id: string }
+        Returns: Json
       }
       get_dashboard_weekly_v1: {
         Args: { p_business_id: string; p_days?: number }
@@ -11716,6 +12605,8 @@ export type Database = {
       get_heroes_v1: {
         Args: { p_limit?: number }
         Returns: {
+          avatar_url: string
+          display_name: string
           donated_amount_cents: number
           donated_count: number
           user_id: string
@@ -11777,6 +12668,30 @@ export type Database = {
           menu_item_id: string
           price_cents: number
           sort_order: number
+        }[]
+      }
+      get_menu_items_by_sections_v1: {
+        Args: { p_limit?: number; p_offset?: number; p_section_ids: string[] }
+        Returns: {
+          business_id: string
+          calories: number
+          catalog_item_id: number
+          created_at: string
+          currency: string
+          description: string
+          id: string
+          is_gluten_free: boolean
+          is_halal: boolean
+          is_lactose_free: boolean
+          is_vegan: boolean
+          is_vegetarian: boolean
+          name: string
+          price_cents: number
+          price_status: string
+          section_id: string
+          status: string
+          total_30d: number
+          updated_at: string
         }[]
       }
       get_menu_items_price_age_v1: {
@@ -11860,6 +12775,12 @@ export type Database = {
           title: string
         }[]
       }
+      get_moderation_blacklist_terms_v1: {
+        Args: never
+        Returns: {
+          term: string
+        }[]
+      }
       get_moderation_templates_v1: {
         Args: { p_scope?: string }
         Returns: {
@@ -11900,7 +12821,22 @@ export type Database = {
           xp: number
         }[]
       }
+      get_my_admin_role_v1: {
+        Args: never
+        Returns: {
+          permissions: Database["public"]["Enums"]["admin_permission_key"][]
+          role_name: string
+        }[]
+      }
       get_my_behavior_segment_v1: { Args: never; Returns: Json }
+      get_my_category_preferences_v1: {
+        Args: { p_limit?: number }
+        Returns: {
+          category: string
+          interaction_count: number
+          pct: number
+        }[]
+      }
       get_my_checkin_today_v1: {
         Args: { p_business_id: string }
         Returns: Json
@@ -11919,6 +12855,17 @@ export type Database = {
       get_my_diet_profile_v1: { Args: never; Returns: Json }
       get_my_favorites_v1: {
         Args: { p_limit?: number; p_offset?: number }
+        Returns: {
+          business_id: string
+          favorited_at: string
+        }[]
+      }
+      get_my_favorites_v2: {
+        Args: {
+          p_after_business_id?: string
+          p_after_favorited_at?: string
+          p_limit?: number
+        }
         Returns: {
           business_id: string
           favorited_at: string
@@ -11966,6 +12913,7 @@ export type Database = {
       get_my_notification_preferences_v1: { Args: never; Returns: Json }
       get_my_plan_v1: { Args: { p_business_id: string }; Returns: Json }
       get_my_points_v1: { Args: never; Returns: Json }
+      get_my_profile_private_v1: { Args: never; Returns: Json }
       get_my_profile_progress_v1: {
         Args: never
         Returns: {
@@ -11995,6 +12943,14 @@ export type Database = {
           helpful_received: number
           reviews_count: number
           visits_count: number
+        }[]
+      }
+      get_my_recent_activity_v1: {
+        Args: { p_limit?: number }
+        Returns: {
+          activity_type: string
+          business_id: string
+          created_at: string
         }[]
       }
       get_my_referral_stats_v1: { Args: never; Returns: Json }
@@ -12029,6 +12985,19 @@ export type Database = {
       }
       get_my_trust_graph_v1: { Args: never; Returns: Json }
       get_my_weekly_missions: {
+        Args: never
+        Returns: {
+          completed_count: number
+          reviews_done: number
+          reviews_goal: number
+          visits_done: number
+          visits_goal: number
+          votes_done: number
+          votes_goal: number
+          week_start: string
+        }[]
+      }
+      get_my_weekly_missions_v1: {
         Args: never
         Returns: {
           completed_count: number
@@ -12154,6 +13123,7 @@ export type Database = {
           title: string
         }[]
       }
+      get_pending_reports_count_v1: { Args: never; Returns: Json }
       get_pending_table_orders_v1: {
         Args: { p_business_id: string; p_limit?: number }
         Returns: {
@@ -12198,6 +13168,13 @@ export type Database = {
           my_claim_id: string
           my_status: string
           reward_points: number
+        }[]
+      }
+      get_public_business_cities_v1: {
+        Args: { p_limit?: number }
+        Returns: {
+          business_count: number
+          city: string
         }[]
       }
       get_public_collection_v1: {
@@ -12333,7 +13310,19 @@ export type Database = {
       }
       get_staff_performance_today_v1: {
         Args: { p_business_id: string }
-        Returns: Json
+        Returns: {
+          siparis_sayisi: number
+          staff_id: string
+          tamamlanan: number
+        }[]
+      }
+      get_stock_dish_images_v1: {
+        Args: never
+        Returns: {
+          id: string
+          image_url: string
+          keywords: string[]
+        }[]
       }
       get_taste_divergence_examples_v1: {
         Args: { p_limit?: number; p_other_user_id: string }
@@ -12440,6 +13429,8 @@ export type Database = {
       get_weekly_contributor_leaderboard_v1: {
         Args: { p_limit?: number }
         Returns: {
+          avatar_url: string
+          display_name: string
           photo_count: number
           review_count: number
           user_id: string
@@ -12454,6 +13445,12 @@ export type Database = {
           p_business_id: string
           p_permission: string
           p_role_override?: string
+        }
+        Returns: boolean
+      }
+      has_permission_v1: {
+        Args: {
+          p_permission: Database["public"]["Enums"]["admin_permission_key"]
         }
         Returns: boolean
       }
@@ -12497,6 +13494,17 @@ export type Database = {
           p_target_type: string
         }
         Returns: undefined
+      }
+      insert_business_hours_from_google_catalog_v1: {
+        Args: { p_batch_size?: number; p_city?: string }
+        Returns: number
+      }
+      insert_new_businesses_from_google_catalog_v1: {
+        Args: { p_batch_size?: number; p_city?: string }
+        Returns: {
+          linked_existing: number
+          new_businesses: number
+        }[]
       }
       is_admin: { Args: never; Returns: boolean }
       is_admin_or_community_mod_v1: { Args: never; Returns: boolean }
@@ -12621,15 +13629,15 @@ export type Database = {
           p_status?: string
         }
         Returns: {
-          allergens_json: Json
-          calorie_max: number
-          calorie_min: number
+          category_name: string
           confidence: number
           created_at: string
+          currency: string
+          description_text: string
           id: string
-          ingredients_json: Json
           normalized_text: string
           ocr_job_id: string
+          price_cents: number
           requires_review: boolean
           source_text: string
           status: string
@@ -12781,6 +13789,14 @@ export type Database = {
         }
         Returns: undefined
       }
+      log_admin_bulk_operation_v1: {
+        Args: {
+          p_affected_ids: string[]
+          p_metadata?: Json
+          p_operation_type: string
+        }
+        Returns: undefined
+      }
       log_business_action_v1: {
         Args: {
           p_action: string
@@ -12828,6 +13844,17 @@ export type Database = {
         Returns: boolean
       }
       mask_contact_tokens_v1: { Args: { p_text: string }; Returns: string }
+      match_google_catalog_to_businesses_v1: {
+        Args: {
+          p_batch_size?: number
+          p_city?: string
+          p_loose_min_sim?: number
+          p_loose_radius_m?: number
+          p_tight_min_sim?: number
+          p_tight_radius_m?: number
+        }
+        Returns: number
+      }
       nearby_businesses_v2: {
         Args: {
           p_category?: string
@@ -12847,6 +13874,7 @@ export type Database = {
           district: string
           id: string
           is_active: boolean
+          is_open_now: boolean
           is_verified: boolean
           lat: number
           lng: number
@@ -12900,6 +13928,10 @@ export type Database = {
       owner_bulk_import_menu_items_v1: {
         Args: { p_menu_id: string; p_rows: Json }
         Returns: Json
+      }
+      owner_clear_review_reply_v1: {
+        Args: { p_review_id: string }
+        Returns: undefined
       }
       owner_create_chain_v1: {
         Args: { p_business_id: string; p_chain_name: string }
@@ -13186,6 +14218,13 @@ export type Database = {
           verify_code: string
         }[]
       }
+      owner_list_team_member_contacts_v1: {
+        Args: { p_business_id: string }
+        Returns: {
+          phone: string
+          user_id: string
+        }[]
+      }
       owner_override_price_suggestion_v1: {
         Args: {
           p_force_price_cents?: number
@@ -13227,6 +14266,10 @@ export type Database = {
       owner_reorder_menu_sections_v1: {
         Args: { p_menu_id: string; p_section_ids: string[] }
         Returns: Json
+      }
+      owner_reply_review_v1: {
+        Args: { p_reply: string; p_review_id: string }
+        Returns: string
       }
       owner_restore_menu_item_photo_v1: {
         Args: { p_photo_id: string }
@@ -13490,6 +14533,10 @@ export type Database = {
         }[]
       }
       public_menu_share_view_v1: { Args: { p_menu_id: string }; Returns: Json }
+      purge_audit_logs_v1: {
+        Args: { p_older_than_days?: number }
+        Returns: number
+      }
       purge_expired_business_audit_log: { Args: never; Returns: undefined }
       purge_rate_limit_buckets_v1: { Args: never; Returns: undefined }
       recompute_business_last_review_at: {
@@ -13544,11 +14591,23 @@ export type Database = {
       request_header_v1: { Args: { p_name: string }; Returns: string }
       request_ip_v1: { Args: never; Returns: unknown }
       resolve_actor_role_v1: { Args: { p_user_id: string }; Returns: string }
+      resolve_report_v1: {
+        Args: {
+          p_admin_note?: string
+          p_new_status: string
+          p_report_id: string
+        }
+        Returns: undefined
+      }
       revoke_team_member_v1: {
         Args: { p_business_id: string; p_membership_id: string }
         Returns: Json
       }
       round_coord_3dp_v1: { Args: { p_value: number }; Returns: number }
+      route_google_business_links_v1: {
+        Args: { p_batch_size?: number; p_city?: string }
+        Returns: number
+      }
       sanitize_geo_jsonb_v1: { Args: { p_meta: Json }; Returns: Json }
       sanitize_plain_text_v1: { Args: { p_text: string }; Returns: string }
       scan_loyalty_qr_v1: {
@@ -13873,6 +14932,7 @@ export type Database = {
         Args: { p_is_special: boolean; p_menu_item_id: string; p_note?: string }
         Returns: Json
       }
+      slugify_tr: { Args: { input: string }; Returns: string }
       st_3dclosestpoint: {
         Args: { geom1: unknown; geom2: unknown }
         Returns: unknown
@@ -14514,6 +15574,15 @@ export type Database = {
         Args: { p_business_id: string; p_note?: string }
         Returns: Json
       }
+      submit_content_report_v3: {
+        Args: {
+          p_description?: string
+          p_reason: string
+          p_target_id: string
+          p_target_type: string
+        }
+        Returns: string
+      }
       submit_group_offer_v1: {
         Args: {
           p_business_id: string
@@ -14828,10 +15897,24 @@ export type Database = {
         Args: { p_value: boolean }
         Returns: undefined
       }
-      update_table_order_status_v1: {
-        Args: { p_order_id: string; p_status: string }
+      update_table_order_staff_note_v1: {
+        Args: {
+          p_business_id: string
+          p_order_id: string
+          p_staff_note: string
+        }
         Returns: Json
       }
+      update_table_order_status_v1:
+        | { Args: { p_order_id: string; p_status: string }; Returns: Json }
+        | {
+            Args: {
+              p_business_id: string
+              p_order_id: string
+              p_status: string
+            }
+            Returns: Json
+          }
       update_team_member_v1: {
         Args: {
           p_business_id: string
@@ -14981,6 +16064,38 @@ export type Database = {
       }
     }
     Enums: {
+      admin_permission_key:
+        | "page:isletmeler"
+        | "page:zincirler"
+        | "page:kuyruklar"
+        | "page:isletme-basvurulari"
+        | "page:raporlar"
+        | "page:kullanicilar"
+        | "page:yorumlar"
+        | "page:itirazlar"
+        | "page:fis-basvurulari"
+        | "page:cop-kutusu"
+        | "page:olaylar"
+        | "page:konumlar"
+        | "page:analitik"
+        | "page:musteri-destek"
+        | "page:oneriler"
+        | "page:fiyat-onerileri"
+        | "page:fraud-tespiti"
+        | "page:fotograf-moderasyon"
+        | "page:feature-flags"
+        | "page:api-anahtarlari"
+        | "page:roller"
+        | "page:gozlemlenebilirlik"
+        | "page:gelistirme-araclari"
+        | "page:kvkk-gdpr"
+        | "page:gecici-yuklemeler"
+        | "page:arama"
+        | "page:itirazlar-claims"
+        | "page:denetim-kaydi"
+        | "page:toplu-islemler"
+        | "page:gorsel-kutuphanesi"
+        | "page:kara-liste"
       contrib_status: "pending" | "approved" | "rejected"
       crowd_level: "quiet" | "normal" | "busy"
       menu_price_suggestion_status: "pending" | "approved" | "rejected"
@@ -15007,6 +16122,468 @@ export type Database = {
       }
     }
   }
+  storage: {
+    Tables: {
+      buckets: {
+        Row: {
+          allowed_mime_types: string[] | null
+          avif_autodetection: boolean | null
+          created_at: string | null
+          file_size_limit: number | null
+          id: string
+          name: string
+          owner: string | null
+          owner_id: string | null
+          public: boolean | null
+          type: Database["storage"]["Enums"]["buckettype"]
+          updated_at: string | null
+          versioning_status: string
+        }
+        Insert: {
+          allowed_mime_types?: string[] | null
+          avif_autodetection?: boolean | null
+          created_at?: string | null
+          file_size_limit?: number | null
+          id: string
+          name: string
+          owner?: string | null
+          owner_id?: string | null
+          public?: boolean | null
+          type?: Database["storage"]["Enums"]["buckettype"]
+          updated_at?: string | null
+          versioning_status?: string
+        }
+        Update: {
+          allowed_mime_types?: string[] | null
+          avif_autodetection?: boolean | null
+          created_at?: string | null
+          file_size_limit?: number | null
+          id?: string
+          name?: string
+          owner?: string | null
+          owner_id?: string | null
+          public?: boolean | null
+          type?: Database["storage"]["Enums"]["buckettype"]
+          updated_at?: string | null
+          versioning_status?: string
+        }
+        Relationships: []
+      }
+      buckets_analytics: {
+        Row: {
+          created_at: string
+          deleted_at: string | null
+          format: string
+          id: string
+          name: string
+          type: Database["storage"]["Enums"]["buckettype"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          deleted_at?: string | null
+          format?: string
+          id?: string
+          name: string
+          type?: Database["storage"]["Enums"]["buckettype"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          deleted_at?: string | null
+          format?: string
+          id?: string
+          name?: string
+          type?: Database["storage"]["Enums"]["buckettype"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      buckets_vectors: {
+        Row: {
+          created_at: string
+          id: string
+          type: Database["storage"]["Enums"]["buckettype"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          type?: Database["storage"]["Enums"]["buckettype"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          type?: Database["storage"]["Enums"]["buckettype"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      migrations: {
+        Row: {
+          executed_at: string | null
+          hash: string
+          id: number
+          name: string
+        }
+        Insert: {
+          executed_at?: string | null
+          hash: string
+          id: number
+          name: string
+        }
+        Update: {
+          executed_at?: string | null
+          hash?: string
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
+      objects: {
+        Row: {
+          archived_at: string | null
+          bucket_id: string | null
+          created_at: string | null
+          id: string
+          is_delete_marker: boolean
+          is_versioned: boolean
+          last_accessed_at: string | null
+          metadata: Json | null
+          name: string | null
+          owner: string | null
+          owner_id: string | null
+          path_tokens: string[] | null
+          updated_at: string | null
+          user_metadata: Json | null
+          version: string | null
+        }
+        Insert: {
+          archived_at?: string | null
+          bucket_id?: string | null
+          created_at?: string | null
+          id?: string
+          is_delete_marker?: boolean
+          is_versioned?: boolean
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          name?: string | null
+          owner?: string | null
+          owner_id?: string | null
+          path_tokens?: string[] | null
+          updated_at?: string | null
+          user_metadata?: Json | null
+          version?: string | null
+        }
+        Update: {
+          archived_at?: string | null
+          bucket_id?: string | null
+          created_at?: string | null
+          id?: string
+          is_delete_marker?: boolean
+          is_versioned?: boolean
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          name?: string | null
+          owner?: string | null
+          owner_id?: string | null
+          path_tokens?: string[] | null
+          updated_at?: string | null
+          user_metadata?: Json | null
+          version?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "objects_bucketId_fkey"
+            columns: ["bucket_id"]
+            isOneToOne: false
+            referencedRelation: "buckets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      s3_multipart_uploads: {
+        Row: {
+          bucket_id: string
+          created_at: string
+          id: string
+          in_progress_size: number
+          key: string
+          metadata: Json | null
+          owner_id: string | null
+          upload_signature: string
+          user_metadata: Json | null
+          version: string
+        }
+        Insert: {
+          bucket_id: string
+          created_at?: string
+          id: string
+          in_progress_size?: number
+          key: string
+          metadata?: Json | null
+          owner_id?: string | null
+          upload_signature: string
+          user_metadata?: Json | null
+          version: string
+        }
+        Update: {
+          bucket_id?: string
+          created_at?: string
+          id?: string
+          in_progress_size?: number
+          key?: string
+          metadata?: Json | null
+          owner_id?: string | null
+          upload_signature?: string
+          user_metadata?: Json | null
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s3_multipart_uploads_bucket_id_fkey"
+            columns: ["bucket_id"]
+            isOneToOne: false
+            referencedRelation: "buckets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      s3_multipart_uploads_parts: {
+        Row: {
+          bucket_id: string
+          created_at: string
+          etag: string
+          id: string
+          key: string
+          owner_id: string | null
+          part_number: number
+          size: number
+          upload_id: string
+          version: string
+        }
+        Insert: {
+          bucket_id: string
+          created_at?: string
+          etag: string
+          id?: string
+          key: string
+          owner_id?: string | null
+          part_number: number
+          size?: number
+          upload_id: string
+          version: string
+        }
+        Update: {
+          bucket_id?: string
+          created_at?: string
+          etag?: string
+          id?: string
+          key?: string
+          owner_id?: string | null
+          part_number?: number
+          size?: number
+          upload_id?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s3_multipart_uploads_parts_bucket_id_fkey"
+            columns: ["bucket_id"]
+            isOneToOne: false
+            referencedRelation: "buckets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "s3_multipart_uploads_parts_upload_id_fkey"
+            columns: ["upload_id"]
+            isOneToOne: false
+            referencedRelation: "s3_multipart_uploads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vector_indexes: {
+        Row: {
+          bucket_id: string
+          created_at: string
+          data_type: string
+          dimension: number
+          distance_metric: string
+          id: string
+          metadata_configuration: Json | null
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          bucket_id: string
+          created_at?: string
+          data_type: string
+          dimension: number
+          distance_metric: string
+          id?: string
+          metadata_configuration?: Json | null
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          bucket_id?: string
+          created_at?: string
+          data_type?: string
+          dimension?: number
+          distance_metric?: string
+          id?: string
+          metadata_configuration?: Json | null
+          name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vector_indexes_bucket_id_fkey"
+            columns: ["bucket_id"]
+            isOneToOne: false
+            referencedRelation: "buckets_vectors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      allow_any_operation: {
+        Args: { expected_operations: string[] }
+        Returns: boolean
+      }
+      allow_only_operation: {
+        Args: { expected_operation: string }
+        Returns: boolean
+      }
+      can_insert_object: {
+        Args: { bucketid: string; metadata: Json; name: string; owner: string }
+        Returns: undefined
+      }
+      extension: { Args: { name: string }; Returns: string }
+      filename: { Args: { name: string }; Returns: string }
+      foldername: { Args: { name: string }; Returns: string[] }
+      get_common_prefix: {
+        Args: { p_delimiter: string; p_key: string; p_prefix: string }
+        Returns: string
+      }
+      get_size_by_bucket: {
+        Args: never
+        Returns: {
+          bucket_id: string
+          size: number
+        }[]
+      }
+      list_multipart_uploads_with_delimiter: {
+        Args: {
+          bucket_id: string
+          delimiter_param: string
+          max_keys?: number
+          next_key_token?: string
+          next_upload_token?: string
+          prefix_param: string
+        }
+        Returns: {
+          created_at: string
+          id: string
+          key: string
+        }[]
+      }
+      list_objects_with_delimiter: {
+        Args: {
+          _bucket_id: string
+          delimiter_param: string
+          max_keys?: number
+          next_token?: string
+          prefix_param: string
+          sort_order?: string
+          start_after?: string
+        }
+        Returns: {
+          created_at: string
+          id: string
+          last_accessed_at: string
+          metadata: Json
+          name: string
+          updated_at: string
+        }[]
+      }
+      operation: { Args: never; Returns: string }
+      search: {
+        Args: {
+          bucketname: string
+          levels?: number
+          limits?: number
+          offsets?: number
+          prefix: string
+          search?: string
+          sortcolumn?: string
+          sortorder?: string
+        }
+        Returns: {
+          created_at: string
+          id: string
+          last_accessed_at: string
+          metadata: Json
+          name: string
+          updated_at: string
+        }[]
+      }
+      search_by_timestamp: {
+        Args: {
+          p_bucket_id: string
+          p_level: number
+          p_limit: number
+          p_prefix: string
+          p_sort_column: string
+          p_sort_column_after: string
+          p_sort_order: string
+          p_start_after: string
+        }
+        Returns: {
+          created_at: string
+          id: string
+          key: string
+          last_accessed_at: string
+          metadata: Json
+          name: string
+          updated_at: string
+        }[]
+      }
+      search_v2: {
+        Args: {
+          bucket_name: string
+          levels?: number
+          limits?: number
+          prefix: string
+          sort_column?: string
+          sort_column_after?: string
+          sort_order?: string
+          start_after?: string
+        }
+        Returns: {
+          created_at: string
+          id: string
+          key: string
+          last_accessed_at: string
+          metadata: Json
+          name: string
+          updated_at: string
+        }[]
+      }
+    }
+    Enums: {
+      buckettype: "STANDARD" | "ANALYTICS" | "VECTOR"
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
 }
 
 type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
@@ -15017,12 +16594,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -15046,11 +16623,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -15071,11 +16648,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -15096,11 +16673,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -15113,11 +16690,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -15127,8 +16704,44 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {
+      admin_permission_key: [
+        "page:isletmeler",
+        "page:zincirler",
+        "page:kuyruklar",
+        "page:isletme-basvurulari",
+        "page:raporlar",
+        "page:kullanicilar",
+        "page:yorumlar",
+        "page:itirazlar",
+        "page:fis-basvurulari",
+        "page:cop-kutusu",
+        "page:olaylar",
+        "page:konumlar",
+        "page:analitik",
+        "page:musteri-destek",
+        "page:oneriler",
+        "page:fiyat-onerileri",
+        "page:fraud-tespiti",
+        "page:fotograf-moderasyon",
+        "page:feature-flags",
+        "page:api-anahtarlari",
+        "page:roller",
+        "page:gozlemlenebilirlik",
+        "page:gelistirme-araclari",
+        "page:kvkk-gdpr",
+        "page:gecici-yuklemeler",
+        "page:arama",
+        "page:itirazlar-claims",
+        "page:denetim-kaydi",
+        "page:toplu-islemler",
+        "page:gorsel-kutuphanesi",
+        "page:kara-liste",
+      ],
       contrib_status: ["pending", "approved", "rejected"],
       crowd_level: ["quiet", "normal", "busy"],
       menu_price_suggestion_status: ["pending", "approved", "rejected"],
@@ -15143,6 +16756,11 @@ export const Constants = {
       suspended_claim_status: ["pending", "approved", "rejected", "fulfilled"],
       suspended_meal_status: ["active", "claimed", "expired", "cancelled"],
       translation_entity_type: ["business", "category", "item"],
+    },
+  },
+  storage: {
+    Enums: {
+      buckettype: ["STANDARD", "ANALYTICS", "VECTOR"],
     },
   },
 } as const

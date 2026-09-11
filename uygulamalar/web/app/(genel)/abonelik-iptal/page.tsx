@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
-import { verifyUnsubscribeToken } from '@/src/lib/email/unsubscribe-token';
+import { verifyUnsubscribeToken, type UnsubscribeTokenPayload } from '@/src/lib/email/unsubscribe-token';
 import { rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { logger } from '@/src/lib/kayitci';
 import { appConfig } from '@/src/lib/ayarlar';
@@ -74,6 +75,38 @@ function AlreadyUnsubscribedScreen({ isMkt }: { isMkt: boolean }) {
         >
           Ana Sayfaya Dön
         </Link>
+      </div>
+    </main>
+  );
+}
+
+function ConfirmScreen({
+  isMkt,
+  token,
+  action,
+}: {
+  isMkt: boolean;
+  token: string;
+  action: (formData: FormData) => Promise<void>;
+}) {
+  return (
+    <main className="min-h-screen bg-bg flex items-center justify-center px-4">
+      <div className="mx-auto max-w-md text-center">
+        <h1 className="mb-3 text-2xl font-black text-textStrong">Aboneliği İptal Et</h1>
+        <p className="mb-8 text-sm leading-relaxed text-text">
+          {isMkt
+            ? 'Yeedoy pazarlama e-postalarından çıkmak istediğinizi onaylayın.'
+            : 'Bu işletmenin e-posta kampanyalarından çıkmak istediğinizi onaylayın.'}
+        </p>
+        <form action={action}>
+          <input type="hidden" name="token" value={token} />
+          <button
+            type="submit"
+            className="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-extrabold text-white hover:opacity-90"
+          >
+            Aboneliği İptal Et
+          </button>
+        </form>
       </div>
     </main>
   );
@@ -164,15 +197,18 @@ function NoSecretScreen() {
 // Veri işleme (server component içinde çalışır)
 // ---------------------------------------------------------------------------
 
-type ProcessResult =
-  | { status: 'success'; isMkt: boolean }
+type CheckResult =
+  | { status: 'ready'; isMkt: boolean; payload: UnsubscribeTokenPayload }
   | { status: 'already_unsubscribed'; isMkt: boolean }
   | { status: 'expired' }
   | { status: 'invalid' }
   | { status: 'no_secret' }
   | { status: 'rate_limited' };
 
-async function processUnsubscribe(token: string, ip: string): Promise<ProcessResult> {
+// Salt-okunur: yalnızca token'ı doğrular ve mevcut durumu okur, hiçbir yazma
+// yapmaz. GET render'ında (bot/link-preview tarafından tetiklenebilir) ve
+// Server Action'ın kendi içinde yeniden doğrulama için güvenle çağrılabilir.
+async function checkUnsubscribeStatus(token: string, ip: string): Promise<CheckResult> {
   // HMAC secret yoksa konfigürasyon hatası
   if (!process.env.UNSUBSCRIBE_HMAC_SECRET?.trim()) {
     logger.warn('abonelik-iptal: UNSUBSCRIBE_HMAC_SECRET not configured');
@@ -187,7 +223,7 @@ async function processUnsubscribe(token: string, ip: string): Promise<ProcessRes
   }
 
   // Token doğrulama
-  let payload;
+  let payload: UnsubscribeTokenPayload | null;
   try {
     payload = verifyUnsubscribeToken(token);
   } catch {
@@ -220,7 +256,6 @@ async function processUnsubscribe(token: string, ip: string): Promise<ProcessRes
   const isMkt = payload.type === 'mkt';
 
   if (isMkt) {
-    // Global pazarlama izni iptali — user_profiles tablosu
     const { data: existing, error: readErr } = await supabase
       .from('user_profiles')
       .select('marketing_email_opt_in')
@@ -232,30 +267,12 @@ async function processUnsubscribe(token: string, ip: string): Promise<ProcessRes
       return { status: 'invalid' };
     }
 
-    // Zaten kapalıysa idempotent başarı
     if (existing && (existing as Record<string, unknown>).marketing_email_opt_in === false) {
       return { status: 'already_unsubscribed', isMkt: true };
     }
 
-    const { error: updateErr } = await supabase
-      .from('user_profiles')
-      .update({
-        marketing_email_opt_in: false,
-        marketing_email_opted_in_at: null,
-        updated_at: new Date().toISOString(),
-      } as Record<string, unknown>)
-      .eq('user_id', payload.userId);
-
-    if (updateErr) {
-      logger.warn('abonelik-iptal: user_profiles update error', { code: updateErr.code });
-      return { status: 'invalid' };
-    }
-
-    logger.info('abonelik-iptal: global marketing opt-out successful', { userId: payload.userId });
-    return { status: 'success', isMkt: true };
-
+    return { status: 'ready', isMkt: true, payload };
   } else {
-    // İşletme bazlı abonelik iptali — business_follows tablosu
     const businessId = payload.businessId!;
 
     const { data: existing, error: readErr } = await supabase
@@ -280,6 +297,42 @@ async function processUnsubscribe(token: string, ip: string): Promise<ProcessRes
       return { status: 'already_unsubscribed', isMkt: false };
     }
 
+    return { status: 'ready', isMkt: false, payload };
+  }
+}
+
+// Gerçek yazma işlemi — yalnızca kullanıcının açıkça gönderdiği Server Action
+// içinden çağrılır, GET render'ından asla.
+async function writeUnsubscribe(payload: UnsubscribeTokenPayload): Promise<boolean> {
+  const serviceRoleKey = appConfig.serviceRoleKey();
+  if (!serviceRoleKey) {
+    logger.warn('abonelik-iptal: SUPABASE_SERVICE_ROLE_KEY not configured');
+    return false;
+  }
+
+  const supabase = createClient(appConfig.supabaseUrl(), serviceRoleKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+
+  if (payload.type === 'mkt') {
+    const { error: updateErr } = await supabase
+      .from('user_profiles')
+      .update({
+        marketing_email_opt_in: false,
+        marketing_email_opted_in_at: null,
+        updated_at: new Date().toISOString(),
+      } as Record<string, unknown>)
+      .eq('user_id', payload.userId);
+
+    if (updateErr) {
+      logger.warn('abonelik-iptal: user_profiles update error', { code: updateErr.code });
+      return false;
+    }
+
+    logger.info('abonelik-iptal: global marketing opt-out successful', { userId: payload.userId });
+    return true;
+  } else {
+    const businessId = payload.businessId!;
     const { error: updateErr } = await supabase
       .from('business_follows')
       .update({ is_subscribed_email: false } as Record<string, unknown>)
@@ -288,14 +341,32 @@ async function processUnsubscribe(token: string, ip: string): Promise<ProcessRes
 
     if (updateErr) {
       logger.warn('abonelik-iptal: business_follows update error', { code: updateErr.code });
-      return { status: 'invalid' };
+      return false;
     }
 
     logger.info('abonelik-iptal: business subscription opt-out successful', {
       userId: payload.userId,
     });
-    return { status: 'success', isMkt: false };
+    return true;
   }
+}
+
+async function confirmUnsubscribeAction(formData: FormData): Promise<void> {
+  'use server';
+  const token = String(formData.get('token') ?? '');
+  const headersList = await headers();
+  const ip = getClientIp(headersList) ?? 'unknown';
+
+  if (token) {
+    // Server Action, formu gönderen kullanıcının isteğiyle tetiklenir — token'ı
+    // burada yeniden doğrulayıp mevcut durumu kontrol ederek TOCTOU'yu önlüyoruz.
+    const result = await checkUnsubscribeStatus(token, ip);
+    if (result.status === 'ready') {
+      await writeUnsubscribe(result.payload);
+    }
+  }
+
+  redirect(`/abonelik-iptal?${new URLSearchParams({ token, confirmed: '1' }).toString()}`);
 }
 
 // ---------------------------------------------------------------------------
@@ -309,6 +380,7 @@ export default async function AbonelikIptalPage({
 }) {
   const resolvedParams = await searchParams;
   const token = typeof resolvedParams.token === 'string' ? resolvedParams.token : null;
+  const justConfirmed = resolvedParams.confirmed === '1';
 
   if (!token) {
     return <InvalidScreen />;
@@ -318,13 +390,20 @@ export default async function AbonelikIptalPage({
   const headersList = await headers();
   const ip = getClientIp(headersList) ?? 'unknown';
 
-  const result = await processUnsubscribe(token, ip);
+  // Salt-okunur kontrol — bu GET render'ı hiçbir yazma yapmaz (bot/link-preview
+  // taramaları güvenle bu sayfayı açabilir). Gerçek iptal yalnızca kullanıcının
+  // ConfirmScreen'deki formu göndermesiyle confirmUnsubscribeAction üzerinden olur.
+  const result = await checkUnsubscribeStatus(token, ip);
 
   switch (result.status) {
-    case 'success':
-      return <SuccessScreen isMkt={result.isMkt} />;
+    case 'ready':
+      // Server Action'dan hemen sonra redirect edildiyse ve durum hâlâ 'ready'
+      // görünüyorsa (ör. yazma başarısız oldu) kullanıcıyı tekrar onay ekranına al.
+      return <ConfirmScreen isMkt={result.isMkt} token={token} action={confirmUnsubscribeAction} />;
     case 'already_unsubscribed':
-      return <AlreadyUnsubscribedScreen isMkt={result.isMkt} />;
+      return justConfirmed
+        ? <SuccessScreen isMkt={result.isMkt} />
+        : <AlreadyUnsubscribedScreen isMkt={result.isMkt} />;
     case 'expired':
       return <ExpiredScreen />;
     case 'no_secret':

@@ -626,11 +626,28 @@ export function HaritaIstemcisi({ initialBusinesses }: Props) {
       buildClusterIndex(initialBusinesses);
       renderClusters();
 
-      if ('geolocation' in navigator) {
+      // 'yd_konum' KonumIzniIstemcisi/YakindakiIsletmeler/AnlikArama ile
+      // paylaşılan konum önbelleği — varsa aynı sayfada ikinci bir
+      // geolocation isteği/izin promptu tetiklemeden doğrudan kullanılır.
+      let cachedCoords: { lat: number; lng: number } | null = null;
+      try {
+        const stored = sessionStorage.getItem('yd_konum');
+        if (stored) cachedCoords = JSON.parse(stored);
+      } catch { /* ignore */ }
+
+      if (cachedCoords && isFinite(cachedCoords.lat) && isFinite(cachedCoords.lng)) {
+        map.flyTo({
+          center: [cachedCoords.lng, cachedCoords.lat],
+          zoom: GEOLOCATED_ZOOM,
+          duration: 1200,
+        });
+      } else if ('geolocation' in navigator) {
         navigator.geolocation.getCurrentPosition(
           (pos) => {
+            const { latitude: lat, longitude: lng } = pos.coords;
+            try { sessionStorage.setItem('yd_konum', JSON.stringify({ lat, lng })); } catch { /* ignore */ }
             map.flyTo({
-              center: [pos.coords.longitude, pos.coords.latitude],
+              center: [lng, lat],
               zoom: GEOLOCATED_ZOOM,
               duration: 1200,
             });

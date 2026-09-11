@@ -83,12 +83,21 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
   }, [redirectTo, router]);
 
   async function handleOAuth(provider: 'google' | 'apple') {
+    setError('');
     setOAuthProvider(provider);
     const supabase = createSupabaseBrowserClient();
     const callbackUrl = new URL('/auth/callback', window.location.origin);
     if (redirectTo) callbackUrl.searchParams.set('redirect', redirectTo);
-    await supabase.auth.signInWithOAuth({ provider, options: { redirectTo: callbackUrl.toString() } });
-    setOAuthProvider(null);
+    const { error: oauthError } = await supabase.auth.signInWithOAuth({ provider, options: { redirectTo: callbackUrl.toString() } });
+    // Başarılıysa tarayıcı sağlayıcının sayfasına yönlendirilir ve buraya
+    // hiç dönülmez — setOAuthProvider(null) yalnızca hata durumunda anlamlı,
+    // ama supabase-js hatayı fırlatmadığı için önceden hiç kontrol edilmiyordu:
+    // sağlayıcı yapılandırılmamışsa/ağ hatasında buton sessizce spinner'ı
+    // durdurup hiçbir geri bildirim vermiyordu.
+    if (oauthError) {
+      setError(hataMesaji(oauthError));
+      setOAuthProvider(null);
+    }
   }
 
   function validateField(field: 'firstName' | 'email' | 'password' | 'confirmPassword', values: { firstName: string; email: string; password: string; confirmPassword: string }): string {
@@ -227,6 +236,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
             <div className="mb-7 flex border-b border-border">
               <Link
                 href="/giris"
+                aria-current={mode === 'giris' ? 'page' : undefined}
                 className={`flex items-center gap-2 px-1 pb-3 text-sm font-extrabold transition-colors ${
                   mode === 'giris' ? 'border-b-2 border-primary text-primary' : 'text-muted hover:text-textStrong'
                 }`}
@@ -239,6 +249,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
               </Link>
               <Link
                 href="/giris?tab=kayit"
+                aria-current={mode === 'kayit' ? 'page' : undefined}
                 className={`ml-6 flex items-center gap-2 px-1 pb-3 text-sm font-extrabold transition-colors ${
                   mode === 'kayit' ? 'border-b-2 border-primary text-primary' : 'text-muted hover:text-textStrong'
                 }`}

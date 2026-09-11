@@ -43,6 +43,22 @@ export async function submitReservation(
   }
 
   const d = parsed.data;
+
+  // create_reservation_v1 kimliksiz (anon) çağrılabiliyor ve kendi içinde
+  // rate-limit yapmıyor — yalnızca IP'ye dayalı üstteki limit rotasyonlu
+  // proxy/VPN ile kolayca aşılabilir. İşletme ve telefon başına ikinci bir
+  // kova ekleyerek tek bir hedefin (ya da tek bir kimliğin) IP'den bağımsız
+  // spam edilmesi engelleniyor — login rate-limit'inde (S-3) kurulan aynı
+  // "IP + ikincil kimlik" deseni.
+  const bizRl = rateLimit(`reservation:biz:${d.business_id}`, 20, 60_000);
+  if (!bizRl.ok) {
+    return { error: 'Bu işletme için çok fazla rezervasyon isteği gönderildi. Lütfen bir dakika bekleyin.' };
+  }
+  const normalizedPhone = d.guest_phone.replace(/\D/g, '');
+  const phoneRl = rateLimit(`reservation:phone:${normalizedPhone}`, 3, 60_000);
+  if (!phoneRl.ok) {
+    return { error: 'Çok fazla istek gönderildi. Lütfen bir dakika bekleyin.' };
+  }
   const supabase = await createSupabaseServerClient();
 
   const { data, error } = await (supabase as any).rpc('create_reservation_v1', {

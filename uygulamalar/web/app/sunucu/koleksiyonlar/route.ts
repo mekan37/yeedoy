@@ -33,24 +33,20 @@ export async function POST(request: Request) {
 
   const { name, description } = parsed.data;
 
+  // create_collection_v1'in gerçek imzası (p_title, p_is_public, p_description) —
+  // önceden burada (p_name, p_description) ile çağrılıyordu, bu da RPC'nin HER
+  // ZAMAN hata vermesine ve aşağıdaki "fallback" doğrudan insert'in de var
+  // olmayan `name`/`description` sütunlarına yazmaya çalışıp yine her zaman
+  // başarısız olmasına yol açıyordu — özellik canlıda tamamen bozuktu. Kök
+  // neden (yanlış param adları + eksik description sütunu) migration'da
+  // düzeltildi; artık RPC hatasını gizleyen bir fallback'e gerek yok.
   const { data, error } = await supabaseAny.rpc('create_collection_v1', {
-    p_name: name,
+    p_title: name,
     p_description: description ?? null,
   });
 
-  if (error) {
-    // Fallback: direct insert if RPC not available
-    const { data: inserted, error: insertError } = await supabaseAny
-      .from('collections')
-      .insert({ user_id: user.id, name, description: description ?? null })
-      .select('id, name')
-      .single();
-
-    if (insertError) {
-      return NextResponse.json({ error: 'insert_failed' }, { status: 500 });
-    }
-
-    return NextResponse.json({ ok: true, collection: inserted });
+  if (error || data?.ok === false) {
+    return NextResponse.json({ error: 'insert_failed' }, { status: 500 });
   }
 
   return NextResponse.json({ ok: true, collection: data });

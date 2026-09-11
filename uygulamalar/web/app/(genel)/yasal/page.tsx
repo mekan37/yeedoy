@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
+// Next.js route segment config bir import'u değil yalnızca literal bir sayıyı
+// kabul ediyor (derleme zamanı statik analiz) — bkz. src/lib/revalidate.ts
+// için bu değerin adlandırılmış karşılığı (REVALIDATE.DAILY).
 export const revalidate = 86400;
 
 export const metadata: Metadata = {

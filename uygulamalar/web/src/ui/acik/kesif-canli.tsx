@@ -206,17 +206,17 @@ export function KesifCanli({
     <div className="space-y-5">
       {/* Arama */}
       <div className="space-y-1.5">
-        <label className="text-xs font-black text-textStrong">Arama</label>
+        <label htmlFor="kesif-arama-input" className="text-xs font-black text-textStrong">Arama</label>
         <div className="relative">
           <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-muted" aria-hidden="true">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" /></svg>
           </span>
           <input
+            id="kesif-arama-input"
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="İşletme ara..."
-            aria-label="İşletme ara"
             className="w-full rounded-xl border border-border bg-surface py-2.5 pl-9 pr-3 text-sm font-bold text-textStrong placeholder:text-muted focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
           />
         </div>
@@ -241,12 +241,13 @@ export function KesifCanli({
 
       {/* Şehir */}
       <div className="space-y-1.5">
-        <label className="text-xs font-black text-textStrong">Şehir</label>
+        <label htmlFor="kesif-sehir-input" className="text-xs font-black text-textStrong">Şehir</label>
         <div className="relative">
           <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-muted" aria-hidden="true">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
           </span>
           <input
+            id="kesif-sehir-input"
             type="text"
             value={city}
             onChange={(e) => setCity(e.target.value)}
@@ -258,9 +259,10 @@ export function KesifCanli({
 
       {/* Sıralama */}
       <div className="space-y-1.5">
-        <label className="text-xs font-black text-textStrong">Sıralama</label>
+        <label htmlFor="kesif-siralama-select" className="text-xs font-black text-textStrong">Sıralama</label>
         <div className="relative">
           <select
+            id="kesif-siralama-select"
             value={sort}
             onChange={(e) => setSort(e.target.value)}
             className="w-full appearance-none rounded-xl border border-border bg-surface py-2.5 pl-3 pr-8 text-sm font-extrabold text-textStrong focus:border-primary focus:outline-hidden focus:ring-2 focus:ring-primary/20"
@@ -334,6 +336,8 @@ export function KesifCanli({
         <button
           type="button"
           onClick={() => setSidebarOpen((v) => !v)}
+          aria-expanded={sidebarOpen}
+          aria-controls="kesif-mobil-filtre-paneli"
           className="flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-sm font-extrabold text-textStrong shadow-yd1 hover:border-primary/30"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -346,7 +350,7 @@ export function KesifCanli({
 
       {/* Mobil filtre paneli */}
       {sidebarOpen && (
-        <div className="mb-5 rounded-2xl border border-border bg-card p-4 shadow-yd2 xl:hidden">
+        <div id="kesif-mobil-filtre-paneli" className="mb-5 rounded-2xl border border-border bg-card p-4 shadow-yd2 xl:hidden">
           {SidebarContent}
         </div>
       )}

@@ -24,6 +24,7 @@ import {
   type AltPuanOrt,
 } from './isletme-detay-tablari';
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.STANDARD (300)
 export const revalidate = 300;
 
 export async function generateStaticParams(): Promise<Array<{ slug: string }>> {

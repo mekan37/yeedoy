@@ -1,8 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { rateLimit } from '@/src/lib/oran-siniri';
 
 const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
 const ALLOWED_TYPES = new Set(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'application/pdf']);
+
+// İstemcinin beyan ettiği Content-Type sahtelenebilir — ilk baytlar (magic
+// number) beyan edilen türle eşleşmiyorsa reddedilir. Aynı desen S-1'de
+// (medya/yukleme-yardimcisi.ts) kuruldu; bu route PDF de kabul ettiği ve
+// public değil signed-URL/private bucket kullandığı için o helper'ı doğrudan
+// çağırmak yerine aynı kontrolü burada tekrarlıyor.
+async function magicBytesEslesiyorMu(file: File, mimeType: string): Promise<boolean> {
+  const head = new Uint8Array(await file.slice(0, 8).arrayBuffer());
+  const startsWith = (bytes: number[]) => bytes.every((b, i) => head[i] === b);
+  switch (mimeType) {
+    case 'image/jpeg':
+    case 'image/jpg':
+      return startsWith([0xff, 0xd8, 0xff]);
+    case 'image/png':
+      return startsWith([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+    case 'image/webp':
+      return startsWith([0x52, 0x49, 0x46, 0x46]); // 'RIFF' (WEBP imzası bayt 8-11'de, 8 baytlık head'i aşar — RIFF yeterli ayırt edici)
+    case 'application/pdf':
+      return startsWith([0x25, 0x50, 0x44, 0x46]); // '%PDF'
+    default:
+      return false;
+  }
+}
 
 export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServerClient();
@@ -11,6 +35,13 @@ export async function POST(request: NextRequest) {
 
   if (!user) {
     return NextResponse.json({ error: 'Giriş yapmanız gerekiyor.' }, { status: 401 });
+  }
+
+  // Sahiplik kanıtı yükleme nadir bir işlemdir — dakikada 5 yeterince
+  // cömert, kötüye kullanımı (depolama maliyeti / spam) sınırlar.
+  const rl = rateLimit(`sahiplik-kaniti:${user.id}`, 5, 60_000);
+  if (!rl.ok) {
+    return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
   let formData: FormData;
@@ -31,6 +62,10 @@ export async function POST(request: NextRequest) {
 
   if (!ALLOWED_TYPES.has(file.type)) {
     return NextResponse.json({ error: 'Sadece PDF, JPG ve PNG dosyaları kabul edilir.' }, { status: 400 });
+  }
+
+  if (!(await magicBytesEslesiyorMu(file, file.type))) {
+    return NextResponse.json({ error: 'Dosya içeriği beyan edilen türle eşleşmiyor.' }, { status: 400 });
   }
 
   const MIME_TO_EXT: Record<string, string> = {

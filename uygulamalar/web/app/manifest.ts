@@ -2,9 +2,9 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Yeedoy QR Menu',
+    name: 'Yeedoy',
     short_name: 'Yeedoy',
-    description: 'High-performance public digital restaurant menu and QR generation experience.',
+    description: 'Restoranları, kafeleri ve menüleri keşfet; fiyatları karşılaştır, gerçek kullanıcı yorumlarını oku.',
     start_url: '/',
     display: 'standalone',
     background_color: '#F9FAFB',

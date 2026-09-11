@@ -13,6 +13,7 @@ import { KonumIzniIstemcisi } from '@/src/ui/acik/konum-izni';
 import { YakindakiIsletmeler } from '@/src/ui/acik/yakin-isletmeler';
 import { getPriceLevelFromBusiness } from '@/src/lib/fiyat-seviyesi';
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.SHORT (60)
 export const revalidate = 60;
 
 export const metadata: Metadata = {

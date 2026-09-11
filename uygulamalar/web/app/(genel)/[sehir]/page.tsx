@@ -7,6 +7,7 @@ import { Container } from '@/src/ui/acik/ortak';
 import { appConfig } from '@/src/lib/ayarlar';
 import { createSupabasePublicClient } from '@/src/lib/taban/acik';
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.LONG (3600)
 export const revalidate = 3600;
 
 type Props = { params: Promise<{ sehir: string }> };
@@ -82,15 +83,14 @@ export default async function CityHubPage({ params }: Props) {
 
   const supabase = createSupabasePublicClient();
 
-  // İlçe + kategori sayıları
+  // İlçe + kategori dağılımı — Postgres tarafında GROUP BY ile hesaplanıyor
+  // (bkz. get_city_hub_stats_v1). Önceden ham satırlar LIMIT 2000 ile çekilip
+  // JS'te sayılıyordu — 2000'den fazla aktif işletmesi olan bir şehirde
+  // (İstanbul gibi) bu sayımları sessizce yanlış/eksik yapıyordu.
   const { data: combos } = await (supabase as any)
-    .from('businesses')
-    .select('district, category')
-    .eq('is_active', true)
-    .ilike('city', cityLabel)
-    .not('district', 'is', null)
-    .not('category', 'is', null)
-    .limit(2000) as { data: Array<{ district: string; category: string }> | null };
+    .rpc('get_city_hub_stats_v1', { p_city: cityLabel }) as {
+      data: Array<{ district: string; category: string; item_count: number }> | null
+    };
 
   if (!combos || combos.length === 0) {
     return (
@@ -106,14 +106,16 @@ export default async function CityHubPage({ params }: Props) {
     );
   }
 
-  // İlçe → işletme sayısı
+  // İlçe → işletme sayısı (combos zaten ilçe x kategori bazında gruplanmış geliyor)
   const districtCount = new Map<string, number>();
   const districtCategories = new Map<string, Set<string>>();
+  let totalCount = 0;
   for (const row of combos) {
     const d = row.district;
-    districtCount.set(d, (districtCount.get(d) ?? 0) + 1);
+    districtCount.set(d, (districtCount.get(d) ?? 0) + row.item_count);
     if (!districtCategories.has(d)) districtCategories.set(d, new Set());
     districtCategories.get(d)!.add(row.category);
+    totalCount += row.item_count;
   }
 
   const districts = Array.from(districtCount.entries())
@@ -123,7 +125,7 @@ export default async function CityHubPage({ params }: Props) {
   // Popüler kategoriler (tüm şehir genelinde)
   const categoryCount = new Map<string, number>();
   for (const row of combos) {
-    categoryCount.set(row.category, (categoryCount.get(row.category) ?? 0) + 1);
+    categoryCount.set(row.category, (categoryCount.get(row.category) ?? 0) + row.item_count);
   }
   const topCategories = Array.from(categoryCount.entries())
     .sort((a, b) => b[1] - a[1])
@@ -161,7 +163,7 @@ export default async function CityHubPage({ params }: Props) {
           {cityLabel}
         </h1>
         <p className="mb-8 text-muted">
-          {combos.length} işletme · {districts.length} ilçe
+          {totalCount} işletme · {districts.length} ilçe
         </p>
 
         {/* Popüler kategoriler */}

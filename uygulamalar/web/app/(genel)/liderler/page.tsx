@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.STANDARD (300)
 export const revalidate = 300;
 
 export const metadata: Metadata = {

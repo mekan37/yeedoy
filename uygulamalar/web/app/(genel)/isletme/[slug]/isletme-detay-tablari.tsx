@@ -276,10 +276,9 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
     <article className="border-b border-border pb-5 last:border-0 last:pb-0">
       {/* User row */}
       <div className="flex items-start gap-3">
-        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-black overflow-hidden ${avatarUrl ? '' : renk}`}>
+        <div className={`relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-black overflow-hidden ${avatarUrl ? '' : renk}`}>
           {avatarUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={avatarUrl} alt={isim} className="h-full w-full object-cover" />
+            <Image src={avatarUrl} alt={isim} fill sizes="40px" className="object-cover" />
           ) : baslHarf}
         </div>
         <div className="min-w-0 flex-1">
@@ -306,8 +305,7 @@ function YorumKartiDetay({ yorum, businessId }: { yorum: YorumDetay; businessId:
         <div className="mt-3 flex flex-wrap gap-2">
           {yorum.photos.map((url, i) => (
             <a key={url} href={url} target="_blank" rel="noopener noreferrer" className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-border">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={url} alt={`Yorum fotoğrafı ${i + 1}`} loading="lazy" className="h-full w-full object-cover" />
+              <Image src={url} alt={`Yorum fotoğrafı ${i + 1}`} fill sizes="64px" className="object-cover" />
             </a>
           ))}
         </div>
@@ -647,8 +645,7 @@ function KampanyaKartiDetay({ k, onSec }: { k: KampanyaBilgi; onSec: (k: Kampany
     >
       {gorselUrl ? (
         <div className="relative w-full overflow-hidden" style={{ aspectRatio: '16/10' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={gorselUrl} alt={k.title} className="h-full w-full object-cover" loading="lazy" />
+          <Image src={gorselUrl} alt={k.title} fill sizes="(max-width: 640px) 100vw, 400px" className="object-cover" />
           <div className="absolute inset-x-0 bottom-0 h-12 bg-linear-to-t from-black/50 to-transparent" aria-hidden="true" />
         </div>
       ) : (
@@ -1125,9 +1122,8 @@ function YorumlarIcerik({
               </Link>
             </div>
             <div className="flex items-start gap-3">
-              <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full border border-border bg-cardAlt">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={businessLogoUrl} alt={businessName} className="h-full w-full object-cover" />
+              <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-full border border-border bg-cardAlt">
+                <Image src={businessLogoUrl} alt={businessName} fill sizes="32px" className="object-cover" />
               </div>
               <div>
                 <p className="text-xs font-black text-textStrong">{businessName}</p>
@@ -1233,8 +1229,14 @@ export function IsletmeDetayTablari(props: IsletmeDetayTablariProps) {
                   <div className="flex flex-wrap gap-2">
                     {mealCards.map((mc) => (
                       <div key={mc.key} className="flex h-8 items-center gap-1.5 rounded-lg border border-border bg-bg px-2.5">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={`/meal-cards/meal_card_${mc.key}.png`} alt={mc.name} className="h-4 w-auto max-w-[60px] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                        <Image
+                          src={`/meal-cards/meal_card_${mc.key}.png`}
+                          alt={mc.name}
+                          width={60}
+                          height={16}
+                          className="h-4 w-auto max-w-[60px] object-contain"
+                          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                        />
                         <span className="text-xs font-bold text-textStrong">{mc.name}</span>
                       </div>
                     ))}
@@ -1641,8 +1643,7 @@ function MenuUrunKarti({ item }: { item: AcikMenuUrunKarti }) {
     <div className="overflow-hidden rounded-[16px] border border-border bg-card shadow-yd1">
       {item.imageUrl && (
         <div className="relative h-28 overflow-hidden bg-cardAlt">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={item.imageUrl} alt={item.name} className="h-full w-full object-cover" loading="lazy" />
+          <Image src={item.imageUrl} alt={item.name} fill sizes="(max-width: 640px) 50vw, 200px" className="object-cover" />
         </div>
       )}
       <div className="p-3">

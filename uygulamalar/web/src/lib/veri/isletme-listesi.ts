@@ -37,7 +37,7 @@ export async function fetchIsletmelerListesi(params: IsletmeListesiParams = {}):
 
   let statsQ = sb
     .from('businesses_with_stats')
-    .select('id,name,category,city,district,is_verified,is_active,reviews_count,avg_rating')
+    .select('id,name,category,city,district,is_verified,is_active,reviews_count,avg_rating', { count: 'exact' })
     .eq('is_active', true)
     .limit(limit);
 
@@ -59,7 +59,7 @@ export async function fetchIsletmelerListesi(params: IsletmeListesiParams = {}):
       .order('reviews_count', { ascending: false, nullsFirst: false });
   }
 
-  const { data: statsRows } = await statsQ as { data: any[] | null };
+  const { data: statsRows, count } = await statsQ as { data: any[] | null; count: number | null };
   const rows = statsRows ?? [];
 
   const detailMap = new Map<string, { slug: string; public_slug: string | null; logo_url: string | null; cover_url: string | null }>();
@@ -89,5 +89,5 @@ export async function fetchIsletmelerListesi(params: IsletmeListesiParams = {}):
     };
   });
 
-  return { data, total: data.length };
+  return { data, total: count ?? data.length };
 }

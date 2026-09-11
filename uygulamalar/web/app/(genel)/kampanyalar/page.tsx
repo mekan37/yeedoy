@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   openGraph: { title: 'Kampanyalar | Yeedoy', description: 'En güncel fırsatlar Yeedoy\'da.' },
 };
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.STANDARD (300)
 export const revalidate = 300;
 
 export default async function KampanyalarPage() {

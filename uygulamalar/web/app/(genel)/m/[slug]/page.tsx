@@ -19,17 +19,23 @@ import { isUuid, normalizeDisplayParams } from '@/src/lib/yol-normalizasyonu';
 import { jsonLd } from '@/src/lib/json-ld';
 
 function getTodayHours(weekly: BusinessHoursInfo['weekly']): string | null {
-  const today = new Date().getDay();
+  // Sunucu UTC'de çalışıyor (Vercel) — new Date().getDay() TR saatiyle günün
+  // sınırına yakın (00:00-02:59 TR) bir önceki günü döndürebilirdi. Türkiye
+  // DST kullanmadığından (2016'dan beri sabit UTC+3) sabit ofset güvenli —
+  // aynı desen pazar-okuma.ts'deki is_open_now hesabında da kullanılıyor.
+  const nowIstanbul = new Date(Date.now() + 3 * 60 * 60 * 1000);
+  const today = nowIstanbul.getUTCDay();
   const entry = weekly.find((h) => h.day_of_week === today && !h.is_closed);
   if (!entry) return null;
   const fmt = (t: string) => t.slice(0, 5);
   return `${fmt(entry.open_time)} - ${fmt(entry.close_time)}`;
 }
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.STANDARD (300)
 export const revalidate = 300;
 
 // Pre-render the 100 most recently active public menu pages at build time.
-// On-demand revalidation (POST /sunucu/yeniden-dogrulama) handles the rest.
+// On-demand revalidation (POST /api/revalidate) handles the rest.
 export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
   try {
     const { createSupabasePublicClient } = await import('@/src/lib/taban/acik');

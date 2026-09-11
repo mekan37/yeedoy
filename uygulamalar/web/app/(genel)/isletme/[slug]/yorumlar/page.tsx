@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { AppSectionHeader } from '@/src/ui/bilesenler/uygulama-bolum-basligi';
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.MEDIUM (120)
 export const revalidate = 120;
 
 type SortOption = 'newest' | 'top' | 'verified';

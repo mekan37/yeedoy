@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   const title = (rawTitle
     .replace(/[<>"'&]/g, (c) => ({'<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','&':'&amp;'}[c] ?? c))
     .slice(0, 120)
-    .trim()) || 'Yeedoy QR Menu';
+    .trim()) || 'Yeedoy';
 
   return new ImageResponse(
     (
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
         }}
       >
         <div style={{ fontSize: 28, letterSpacing: 6, textTransform: 'uppercase', opacity: 0.82 }}>
-          Yeedoy QR Menu
+          Yeedoy
         </div>
         <div style={{ marginTop: 18, fontSize: 60, fontWeight: 800, lineHeight: 1.1 }}>{title}</div>
       </div>

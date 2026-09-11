@@ -16,6 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+// bkz. src/lib/revalidate.ts — REVALIDATE.STANDARD (300)
 export const revalidate = 300;
 
 export default async function EmbedViewerPage({ params }: Props) {
