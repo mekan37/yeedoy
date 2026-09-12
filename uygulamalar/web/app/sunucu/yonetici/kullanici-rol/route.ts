@@ -4,9 +4,12 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
 import { z } from 'zod';
 
+// 'admin' bilerek yok: bu route yalnızca app_metadata.role yazıyor, gerçek
+// admin panel erişimi admin_users tablosundan geliyor — buradan asla
+// verilemez (bkz. rol-degistir-istemci.tsx).
 const schema = z.object({
   userId: z.string().uuid(),
-  role: z.enum(['user', 'community_mod', 'admin']),
+  role: z.enum(['user', 'community_mod']),
 });
 
 export async function PATCH(req: Request) {

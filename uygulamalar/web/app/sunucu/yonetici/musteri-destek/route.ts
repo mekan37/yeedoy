@@ -4,6 +4,7 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { z } from 'zod';
 import { sendEmail } from '@/src/lib/eposta';
 import { appConfig } from '@/src/lib/ayarlar';
+import { logger } from '@/src/lib/kayitci';
 
 const schema = z.object({
   ticketId: z.string().uuid(),
@@ -98,18 +99,25 @@ export async function POST(req: Request) {
     .update({ status: 'in_progress', updated_at: new Date().toISOString(), assigned_to: user?.id })
     .eq('id', ticketId);
 
-  // best-effort — e-posta gönderimi başarısız olsa da yanıt akışını engellemez
+  // Yorum "best-effort" diyordu ama await'lenen sendEmail try/catch'siz
+  // olduğu için reddedilince tüm POST 500 ile başarısız görünüyordu — mesaj
+  // zaten eklenmiş/durum zaten güncellenmişken istemci yanıtı retry edip
+  // support_ticket_messages'a mükerrer satır ekleyebiliyordu.
   const { data: ticketRow } = await supabaseAny
     .from('support_tickets')
     .select('subject, requester_email')
     .eq('id', ticketId)
     .maybeSingle();
   if (ticketRow?.requester_email) {
-    await sendEmail({
-      to: ticketRow.requester_email,
-      subject: `Destek talebinize yanıt geldi: ${ticketRow.subject}`,
-      html: `<p>Merhaba,</p><p>"${ticketRow.subject}" konulu destek talebinize yeni bir yanıt geldi.</p><p><a href="${appConfig.siteUrl()}/sahip/destek">Talebi görüntülemek için tıklayın</a>.</p>`,
-    });
+    try {
+      await sendEmail({
+        to: ticketRow.requester_email,
+        subject: `Destek talebinize yanıt geldi: ${ticketRow.subject}`,
+        html: `<p>Merhaba,</p><p>"${ticketRow.subject}" konulu destek talebinize yeni bir yanıt geldi.</p><p><a href="${appConfig.siteUrl()}/sahip/destek">Talebi görüntülemek için tıklayın</a>.</p>`,
+      });
+    } catch (err) {
+      logger.error('musteri-destek: yanıt e-postası gönderilemedi', { error: String(err), ticketId });
+    }
   }
 
   return NextResponse.json({ ok: true });

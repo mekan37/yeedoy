@@ -90,6 +90,7 @@ export async function PATCH(req: Request) {
       count: affectedCount,
       action: data.action,
       operator: user.id,
+      target_ids: data.ids,
     })
     .then(({ error: logError }: { error: { message: string } | null }) => {
       if (logError) logger.error('[toplu-islemler] audit log insert failed:', { message: logError.message });

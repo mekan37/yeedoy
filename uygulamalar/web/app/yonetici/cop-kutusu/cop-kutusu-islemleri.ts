@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { hasPermission } from '@/src/lib/yetki-kontrol';
 
 async function logAudit(supabase: any, action: string, menuId: string) {
   await supabase
@@ -14,6 +15,10 @@ export async function adminRestoreMenu(menuId: string): Promise<{ error?: string
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Yetkisiz' };
+  // RPC zaten is_admin() OR has_business_permission_v1() ile korunuyor
+  // (gerçek yetkisiz erişim mümkün değildi) — ikinci katman burada da
+  // savunma-derinliği için ekleniyor.
+  if (!(await hasPermission('page:cop-kutusu'))) return { error: 'Yetkisiz' };
 
   const { data, error } = await (supabase).rpc('owner_restore_menu_v1', { p_menu_id: menuId }) as {
     data: { ok: boolean; code?: string } | null;
@@ -30,6 +35,7 @@ export async function adminPermanentlyDeleteMenu(menuId: string): Promise<{ erro
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Yetkisiz' };
+  if (!(await hasPermission('page:cop-kutusu'))) return { error: 'Yetkisiz' };
 
   const { data, error } = await (supabase).rpc('owner_permanently_delete_menu_v1', { p_menu_id: menuId }) as {
     data: { ok: boolean; code?: string } | null;

@@ -48,6 +48,14 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   }
 
+  // Yalnızca is_admin()'e dayanıyordu — page:arama izni olmayan bir admin
+  // bile service_role ile tam kullanıcı PII'sini arayabiliyordu.
+  const supabaseAny = supabase as unknown as { rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown }> };
+  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:arama' });
+  if (!yetkili) {
+    return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+  }
+
   const serviceClient = createSupabaseServiceClient();
   const searchClient = serviceClient ?? supabase;
   const results = await searchAdminIndex(searchClient, parsed.data.q, {

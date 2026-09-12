@@ -4,9 +4,11 @@ import { notFound } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
 import { checkAdminAccess } from '@/src/lib/auth/admin-guard';
+import { hasPermission } from '@/src/lib/yetki-kontrol';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
+import { YetkisizErisim } from '@/src/ui/bilesenler/yetkisiz-erisim';
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -17,7 +19,8 @@ type Props = { params: Promise<{ id: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const guard = await checkAdminAccess();
-  if (!guard.authorized) {
+  const yetkili = guard.authorized && await hasPermission('page:kullanicilar');
+  if (!yetkili) {
     return { title: 'Kullanıcı | Yonetici Paneli', robots: { index: false, follow: false } };
   }
   const serviceClient = createSupabaseServiceClient();
@@ -37,6 +40,19 @@ const ROLE_MAP: Record<string, { label: string; className: string }> = {
 
 export default async function AdminUserDetailPage({ params }: Props) {
   const { id } = await params;
+  // Sayfa yalnızca is_admin()'e (layout guard'ı) dayanıyordu — page:kullanicilar
+  // izni olmayan bir admin bile URL'i bilerek girip service_role ile tam
+  // PII'ye erişebiliyordu.
+  const yetkili = await hasPermission('page:kullanicilar');
+  if (!yetkili) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Yönetici" title="Kullanıcı Detayı" description="Bu sayfayı görüntüleme yetkiniz yok." />
+        <PanelIcerikYuzeyi className="pt-6"><YetkisizErisim sayfaAdi="Kullanıcı Detayı" /></PanelIcerikYuzeyi>
+      </div>
+    );
+  }
+
   const supabase = await createSupabaseServerClient();
   const serviceClient = createSupabaseServiceClient();
 
@@ -109,6 +125,12 @@ export default async function AdminUserDetailPage({ params }: Props) {
                   <dd className="mt-0.5 text-textStrong">
                     {new Date(user.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}
                   </dd>
+                </div>
+                <div>
+                  {/* Salt-okunur — DSAR consent_withdraw taleplerini doğrulamak için.
+                      Buradan yazma eklenmemeli, tek yazma yolu kullanıcının kendi ayarı. */}
+                  <dt className="text-xs font-bold uppercase tracking-wide text-muted">Pazarlama E-postası İzni</dt>
+                  <dd className="mt-0.5 text-textStrong">{user.marketing_email_opt_in ? 'Açık' : 'Kapalı'}</dd>
                 </div>
                 {user.bio && (
                   <div>
@@ -201,6 +223,7 @@ type AdminUserDetail = {
   bio: string | null;
   avatar_url: string | null;
   created_at: string;
+  marketing_email_opt_in: boolean;
 };
 
 async function getAdminUserDetail(supabase: any, id: string): Promise<AdminUserDetail | null> {
@@ -209,7 +232,7 @@ async function getAdminUserDetail(supabase: any, id: string): Promise<AdminUserD
 
   const { data: profile } = await supabase
     .from('user_profiles')
-    .select('user_id, display_name, avatar_url, bio, created_at')
+    .select('user_id, display_name, avatar_url, bio, created_at, marketing_email_opt_in')
     .eq('user_id', id)
     .maybeSingle();
 
@@ -223,6 +246,7 @@ async function getAdminUserDetail(supabase: any, id: string): Promise<AdminUserD
     bio: profile?.bio ?? null,
     avatar_url: profile?.avatar_url ?? null,
     created_at: user.created_at ?? profile?.created_at ?? new Date(0).toISOString(),
+    marketing_email_opt_in: profile?.marketing_email_opt_in ?? false,
   };
 }
 

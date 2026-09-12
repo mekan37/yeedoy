@@ -21,6 +21,7 @@ export function AnahtarTablosu({ keys }: { keys: ApiKey[] }) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [bulkSending, setBulkSending] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [bulkError, setBulkError] = useState<string | null>(null);
 
   const revocableIds = keys.filter((k) => k.is_active).map((k) => k.id);
 
@@ -33,8 +34,18 @@ export function AnahtarTablosu({ keys }: { keys: ApiKey[] }) {
     if (selected.size === 0) return;
     if (!confirm(`${selected.size} API anahtarı iptal edilecek. Devam et?`)) return;
     setBulkSending(true);
+    setBulkError(null);
     try {
-      await Promise.all([...selected].map((id) => revoke(id)));
+      // Promise.all + paylaşılan rate-limit kovası (10/saat, DELETE POST ile
+      // ortak) yüzünden bazı istekler sessizce başarısız olabiliyordu —
+      // router.refresh() koşulsuz çağrılıp kullanıcı hiçbir şey fark
+      // etmiyordu. Artık her isteğin gerçek sonucu kontrol ediliyor.
+      const ids = [...selected];
+      const results = await Promise.allSettled(ids.map((id) => revoke(id)));
+      const failedCount = results.filter((r) => r.status === 'rejected' || !r.value.ok).length;
+      if (failedCount > 0) {
+        setBulkError(`${failedCount}/${ids.length} anahtar iptal edilemedi (hız sınırı olabilir) — lütfen tekrar deneyin.`);
+      }
       setSelected(new Set());
       router.refresh();
     } finally {
@@ -44,8 +55,13 @@ export function AnahtarTablosu({ keys }: { keys: ApiKey[] }) {
 
   const handleRevoke = (id: string) => {
     if (!confirm('Bu API anahtarı iptal edilecek. Devam et?')) return;
+    setBulkError(null);
     startTransition(async () => {
-      await revoke(id);
+      const res = await revoke(id);
+      if (!res.ok) {
+        setBulkError('Anahtar iptal edilemedi (hız sınırı olabilir) — lütfen tekrar deneyin.');
+        return;
+      }
       router.refresh();
     });
   };
@@ -68,6 +84,9 @@ export function AnahtarTablosu({ keys }: { keys: ApiKey[] }) {
             Seçimi Temizle
           </button>
         </div>
+      )}
+      {bulkError && (
+        <div className="rounded-xl border border-danger/30 bg-danger/6 px-4 py-3 text-xs font-bold text-danger">{bulkError}</div>
       )}
 
       <div className="overflow-hidden rounded-2xl border border-border bg-card">

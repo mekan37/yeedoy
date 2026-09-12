@@ -13,12 +13,25 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+// privacy_requests.request_type CHECK kısıtındaki 13 gerçek değerle birebir
+// eşleşiyor — önceki liste 3 hiç var olmayan kod (data_deletion,
+// data_correction, consent_withdraw) içeriyordu, gerçek değerlerin çoğu
+// (access, rectification, erasure, restriction, objection, portability,
+// delete_*, other) hiç etiketlenmemişti ve panelde ham kod olarak görünüyordu.
 const REQUEST_TYPE_LABELS: Record<string, string> = {
-  data_export:    'Veri Dışa Aktarma',
-  data_deletion:  'Hesap Silme',
-  data_correction: 'Veri Düzeltme',
-  consent_withdraw: 'Onay Geri Çekme',
+  data_export: 'Veri Dışa Aktarma',
   privacy_application: 'Gizlilik Başvurusu',
+  access: 'Verilere Erişim',
+  rectification: 'Veri Düzeltme',
+  erasure: 'Hesap/Veri Silme',
+  restriction: 'İşlemenin Kısıtlanması',
+  objection: 'İtiraz',
+  portability: 'Veri Taşınabilirliği',
+  delete_data: 'Veri Silme',
+  delete_interactions: 'Etkileşim Verisi Silme',
+  delete_support: 'Destek Kaydı Silme',
+  delete_owner_claims: 'Sahiplenme Talebi Silme',
+  other: 'Diğer',
 };
 
 export default async function KvkkGdprPage() {

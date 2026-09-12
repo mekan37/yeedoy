@@ -3,10 +3,13 @@
 import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 
+// 'admin' seçeneği kasıtlı olarak yok: bu dropdown yalnızca app_metadata.role
+// yazıyor — gerçek admin panel erişimi ayrı bir tablo olan admin_users'a
+// bağlı, buradan hiç etkilenmiyor. "Admin" seçmek hiçbir gerçek yetki
+// vermeden admin gibi görünen bir rozet üretiyordu (yanıltıcıydı).
 const ASSIGNABLE_ROLES = [
   { value: 'user', label: 'Kullanıcı' },
   { value: 'community_mod', label: 'Moderatör' },
-  { value: 'admin', label: 'Admin' },
 ];
 
 export function RolDegistirIstemci({

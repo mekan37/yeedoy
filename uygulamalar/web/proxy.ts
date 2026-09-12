@@ -98,9 +98,10 @@ function buildSubdomainPanelRewrite(
 // Turkish-language aliases for the same panels
 const YONETICI_PREFIX = '/yonetici';  // canonical Turkish path for the admin panel
 const SAHIP_PREFIX = '/sahip';        // owner panel pages (canonical Turkish path)
-// /sunucu/yonetici/* routes are NOT rewritten by subdomain logic — guard
-// them explicitly at the middleware level.
+// /sunucu/yonetici/* and /api/yonetici/* routes are NOT rewritten by
+// subdomain logic — guard them explicitly at the middleware level.
 const SUNUCU_YONETICI_PREFIX = '/sunucu/yonetici';
+const API_YONETICI_PREFIX = '/api/yonetici';
 const LOGIN_PATH = '/giris';
 // Owner routes redirect unauthenticated users to the canonical login page.
 const OWNER_LOGIN_PATH = '/giris';
@@ -131,15 +132,28 @@ async function guardPanelRoute(
   const isOwnerRoute =
     startsWithSegment(effectivePathname, SAHIP_PREFIX) && !OWNER_PUBLIC_PATHS.includes(effectivePathname);
   const isAdminRoute = startsWithSegment(effectivePathname, YONETICI_PREFIX);
-  // /sunucu/yonetici/* sits outside the panel prefix — guard it with the
-  // same admin-role logic.
-  const isAdminApiRoute = startsWithSegment(effectivePathname, SUNUCU_YONETICI_PREFIX);
+  // /sunucu/yonetici/* ve /api/yonetici/* panel prefix'inin dışında —
+  // aynı admin-rol mantığıyla burada korunuyor. (/api/yonetici/* route'ları
+  // ayrıca kendi içlerinde checkAdminAccess() ile de korunuyor — bu ikinci
+  // katman savunma-derinliği içindir.)
+  const isAdminApiRoute =
+    startsWithSegment(effectivePathname, SUNUCU_YONETICI_PREFIX) ||
+    startsWithSegment(effectivePathname, API_YONETICI_PREFIX);
 
   if (!isOwnerRoute && !isAdminRoute && !isAdminApiRoute) return null;
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!supabaseUrl || !supabaseAnonKey) return null;
+  if (!supabaseUrl || !supabaseAnonKey) {
+    // Eskiden `return null` idi — Supabase env değişkenleri eksikse (yanlış
+    // yapılandırma/deploy hatası) guard tamamen atlanıp panel/admin route'ları
+    // KİMLİKSİZ servis ediliyordu (fail-open). Artık fail-closed: env eksikken
+    // hiçbir korumalı route'a erişilemez.
+    console.error('[middleware] Supabase env eksik, panel guard fail-closed devrede', `pathname=${pathname}`);
+    const forbiddenUrl = request.nextUrl.clone();
+    forbiddenUrl.pathname = '/forbidden';
+    return NextResponse.redirect(forbiddenUrl);
+  }
 
   const response = NextResponse.next({ request: { headers: requestHeaders } });
 
