@@ -63,20 +63,21 @@ export async function PATCH(req: Request) {
       p_status: newStatus,
     });
     if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
-  } else {
-    const update =
-      data.action === 'ban'
-        ? { shadow_banned: true }
-        : data.action === 'clear'
-          ? { shadow_banned: false }
-          : null;
-
-    if (update) {
-      const { error } = await supabaseAny
-        .from('user_profiles')
-        .update(update)
-        .in('user_id', data.ids);
-      if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
+  } else if (data.action === 'ban' || data.action === 'clear') {
+    // user_profiles'ta admin için UPDATE RLS policy'si yok — doğrudan tablo
+    // yazması RLS tarafından sessizce 0 satır güncelliyordu (P0: "başarılı"
+    // dönüp hiçbir şey yapmıyordu). Artık is_admin() guard'lı, gerçek
+    // etkilenen satır sayısını döndüren bir RPC üzerinden yapılıyor.
+    const { data: affected, error } = await supabaseAny.rpc('admin_set_shadow_banned_v1', {
+      p_user_ids: data.ids,
+      p_banned: data.action === 'ban',
+    });
+    if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
+    if ((affected ?? 0) !== data.ids.length) {
+      return NextResponse.json(
+        { ok: true, count: affected ?? 0, requested: data.ids.length, partial: true },
+        { status: 207 },
+      );
     }
   }
 

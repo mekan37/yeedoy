@@ -25,15 +25,17 @@ export async function PATCH(req: Request) {
   const { photoId, action } = parsed.data;
   const newStatus = action === 'approve' ? 'approved' : 'rejected';
 
-  const { error } = await supabaseAny
-    .from('business_media')
-    .update({
-      status: newStatus,
-      is_hidden: action === 'reject',
-      moderation_note: action === 'reject' ? `Rejected by admin ${user.id}` : null,
-    })
-    .eq('id', photoId);
+  // business_media'da admin için UPDATE RLS policy'si yok — doğrudan tablo
+  // yazması RLS tarafından sessizce 0 satır güncelliyordu (P0: reddedilen
+  // fotoğraf yayında kalmaya devam ediyordu ama UI "başarılı" gösteriyordu).
+  const { data: affected, error } = await supabaseAny.rpc('admin_moderate_business_media_v1', {
+    p_photo_id: photoId,
+    p_status: newStatus,
+    p_is_hidden: action === 'reject',
+    p_moderation_note: action === 'reject' ? `Rejected by admin ${user.id}` : null,
+  });
 
   if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
+  if ((affected ?? 0) === 0) return NextResponse.json({ error: 'not_found' }, { status: 404 });
   return NextResponse.json({ ok: true });
 }

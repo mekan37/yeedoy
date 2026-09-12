@@ -59,7 +59,11 @@ function buildCsp(nonce: string, isEmbed: boolean): string {
 //   OWNER_HOSTNAMES = "isletme.yeedoy.com,isletme.localhost"
 //   ADMIN_HOSTNAME  = "ops.yeedoy.com,ops.localhost"   ← keep secret
 
-function rewriteSubdomainPanel(request: NextRequest, requestHeaders: Headers): NextResponse | null {
+// Saf hesaplama — henüz bir NextResponse üretmez. guardPanelRoute'un rewrite
+// hedefine göre (host'un gerçek istek path'ine göre değil) yetki kontrolü
+// yapabilmesi için rewrite kararı ile response üretimi bilerek ayrıldı — bkz.
+// proxy() içindeki sıralama notu (P0: admin subdomain guard bypass).
+function resolveSubdomainPanelTarget(request: NextRequest): { pathname: string } | null {
   const hostname = request.headers.get('host')?.split(':')[0] ?? '';
   const { pathname } = request.nextUrl;
 
@@ -76,8 +80,16 @@ function rewriteSubdomainPanel(request: NextRequest, requestHeaders: Headers): N
   const prefix = isOwnerHost ? '/sahip' : '/yonetici';
   // Root → /sahip or /yonetici, sub-paths → /sahip/path or /yonetici/path
   const suffix = pathname === '/' ? '' : pathname;
+  return { pathname: `${prefix}${suffix}` };
+}
+
+function buildSubdomainPanelRewrite(
+  request: NextRequest,
+  requestHeaders: Headers,
+  targetPathname: string,
+): NextResponse {
   const url = request.nextUrl.clone();
-  url.pathname = `${prefix}${suffix}`;
+  url.pathname = targetPathname;
   // Use rewrite so URL bar stays as isletme.yeedoy.com/...
   return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
 }
@@ -93,8 +105,19 @@ const LOGIN_PATH = '/giris';
 // Owner routes redirect unauthenticated users to the canonical login page.
 const OWNER_LOGIN_PATH = '/giris';
 
-async function guardPanelRoute(request: NextRequest, requestHeaders: Headers): Promise<NextResponse | null> {
+async function guardPanelRoute(
+  request: NextRequest,
+  requestHeaders: Headers,
+  effectivePathname: string,
+): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl;
+  // Yetki kontrolü, admin/owner subdomain rewrite'ının HEDEF path'ine göre
+  // yapılır (effectivePathname) — ham istek path'ine göre değil. ops.yeedoy.com
+  // üzerinden gelen bir istekte gerçek pathname '/arama' gibi görünüp
+  // YONETICI_PREFIX ile hiç eşleşmiyordu, guard tamamen atlanıyordu (P0).
+  // Redirect hedefleri (login/forbidden) ise kullanıcının tarayıcıda gördüğü
+  // GERÇEK host+path'e göre kurulmalı, bu yüzden onlarda hâlâ ham `pathname`
+  // kullanılıyor.
   // Path-segment-aware prefix match — a plain pathname.startsWith(SAHIP_PREFIX)
   // also matches unrelated sibling routes like /sahiplen (string prefix, not
   // path segment), which incorrectly pulled the public "claim your business"
@@ -106,11 +129,11 @@ async function guardPanelRoute(request: NextRequest, requestHeaders: Headers): P
   // Exclude public owner pages from the auth guard
   const OWNER_PUBLIC_PATHS = [OWNER_LOGIN_PATH, '/sahip'];
   const isOwnerRoute =
-    startsWithSegment(pathname, SAHIP_PREFIX) && !OWNER_PUBLIC_PATHS.includes(pathname);
-  const isAdminRoute = startsWithSegment(pathname, YONETICI_PREFIX);
+    startsWithSegment(effectivePathname, SAHIP_PREFIX) && !OWNER_PUBLIC_PATHS.includes(effectivePathname);
+  const isAdminRoute = startsWithSegment(effectivePathname, YONETICI_PREFIX);
   // /sunucu/yonetici/* sits outside the panel prefix — guard it with the
   // same admin-role logic.
-  const isAdminApiRoute = startsWithSegment(pathname, SUNUCU_YONETICI_PREFIX);
+  const isAdminApiRoute = startsWithSegment(effectivePathname, SUNUCU_YONETICI_PREFIX);
 
   if (!isOwnerRoute && !isAdminRoute && !isAdminApiRoute) return null;
 
@@ -261,10 +284,19 @@ export async function proxy(request: NextRequest) {
   };
 
   // ── Panel subdomain rewrite (isletme.* / ops.*) ───────────────────────────
-  // Must run before the custom-domain slug lookup so panel subdomains are not
-  // mistakenly treated as business custom domains.
-  const subdomainRewrite = rewriteSubdomainPanel(request, requestHeaders);
-  if (subdomainRewrite) return applyCsp(subdomainRewrite);
+  // Rewrite hedefi burada hesaplanır ama HENÜZ uygulanmaz — guardPanelRoute'un
+  // bu hedefe göre yetki kontrolü yapması gerekiyor. Önceden rewrite hemen
+  // uygulanıp erken return edilirdi; guardPanelRoute'a hiç ulaşılmadığından
+  // admin subdomain'i (ops.*) üzerinden gelen istekler tamamen kimliksiz
+  // servis ediliyordu (P0). Guard artık rewrite'tan ÖNCE, hedef path'e göre
+  // çalışıyor.
+  const subdomainTarget = resolveSubdomainPanelTarget(request);
+  const panelGuard = await guardPanelRoute(request, requestHeaders, subdomainTarget?.pathname ?? pathname);
+  if (panelGuard) return applyCsp(panelGuard);
+
+  if (subdomainTarget) {
+    return applyCsp(buildSubdomainPanelRewrite(request, requestHeaders, subdomainTarget.pathname));
+  }
 
   // ── Custom domain rewrite ─────────────────────────────────────────────────
   // If the request comes in on a custom domain (not yeedoy.com / localhost),
@@ -288,9 +320,6 @@ export async function proxy(request: NextRequest) {
       return applyCsp(NextResponse.rewrite(url, { request: { headers: requestHeaders } }));
     }
   }
-
-  const panelGuard = await guardPanelRoute(request, requestHeaders);
-  if (panelGuard) return applyCsp(panelGuard);
 
   const routeGuard = normalizePublicRoute(request, nonce);
   if (routeGuard) {

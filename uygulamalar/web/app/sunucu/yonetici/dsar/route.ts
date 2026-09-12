@@ -24,16 +24,16 @@ export async function PATCH(req: Request) {
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
 
   const { id, status } = parsed.data;
-  const update = {
-    status,
-    resolved_at: status === 'resolved' || status === 'rejected' ? new Date().toISOString() : null,
-  };
 
-  const { error } = await supabaseAny
-    .from('privacy_requests')
-    .update(update)
-    .eq('id', id);
+  // privacy_requests'te admin için UPDATE RLS policy'si yok — doğrudan tablo
+  // yazması RLS tarafından sessizce 0 satır güncelliyordu (P0: KVKK silme
+  // talebi sonsuza kadar "submitted" kalıyordu ama UI "başarılı" gösteriyordu).
+  const { data: affected, error } = await supabaseAny.rpc('admin_update_privacy_request_status_v1', {
+    p_id: id,
+    p_status: status,
+  });
 
   if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
+  if ((affected ?? 0) === 0) return NextResponse.json({ error: 'not_found' }, { status: 404 });
   return NextResponse.json({ ok: true });
 }

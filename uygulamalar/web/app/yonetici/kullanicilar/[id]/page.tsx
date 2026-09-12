@@ -3,14 +3,23 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
+import { checkAdminAccess } from '@/src/lib/auth/admin-guard';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelActionButton } from '@/src/ui/bilesenler/panel-eylem-dugmesi';
 
 type Props = { params: Promise<{ id: string }> };
 
+// generateMetadata, layout'un guard'ından (checkAdminAccess redirect'i) BAĞIMSIZ
+// çalışabilir — service_role ile hedef kullanıcının e-posta/adını doğrudan sayfa
+// başlığına yazıyordu, admin subdomain bypass'ıyla (P0) birleşince kimliksiz PII
+// sızıntısı oluyordu. Burada da ayrıca guard'lanıyor.
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
+  const guard = await checkAdminAccess();
+  if (!guard.authorized) {
+    return { title: 'Kullanıcı | Yonetici Paneli', robots: { index: false, follow: false } };
+  }
   const serviceClient = createSupabaseServiceClient();
   const user = serviceClient ? await getAdminUserDetail(serviceClient, id) : null;
   return {
