@@ -6,6 +6,7 @@ import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-sect
 import { MetricCard } from '@/src/ui/bilesenler/olcum-karti';
 import { YetkisizErisim } from '@/src/ui/bilesenler/yetkisiz-erisim';
 import { DsarYonetimi } from './dsar-istemci';
+import { HesapSilmeYonetimi } from './hesap-silme-istemci';
 import { PolitikaYonetimi } from './politika-istemci';
 
 export const metadata: Metadata = {
@@ -73,6 +74,17 @@ export default async function KvkkGdprPage() {
   const processing = allRequests.filter(r => r.status === 'in_review');
   const completed = allRequests.filter(r => r.status === 'resolved');
 
+  // account_deletion_requests: mobil uygulamadan gelen resmi KVKK hesap silme
+  // talepleri — önceden bu tabloyu işleyecek hiçbir admin aracı yoktu,
+  // talepler sonsuza dek 'requested' kalıyordu.
+  const { data: deletionRequests } = await (supabase as unknown as { rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown }> })
+    .rpc('admin_list_account_deletion_requests_v1', { p_limit: 200 }) as { data: Array<{
+      id: string; user_id: string; email: string | null; display_name: string | null;
+      reason: string | null; status: string; requested_at: string; completed_at: string | null;
+    }> | null };
+  const allDeletionRequests = deletionRequests ?? [];
+  const pendingDeletionCount = allDeletionRequests.filter((r) => r.status === 'requested').length;
+
   const { data: legalDocs } = await (supabase)
     .from('legal_documents')
     .select('id, slug, title, description, content, is_published, sort_order, updated_at')
@@ -93,11 +105,12 @@ export default async function KvkkGdprPage() {
       <PanelIcerikYuzeyi className="pt-6">
         <div className="flex flex-col gap-6">
           {/* Compliance stats */}
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
             <MetricCard title="Bekleyen DSAR" value={pending.length} icon={<FileIcon />} />
             <MetricCard title="İşlemdeki" value={processing.length} icon={<ClockIcon />} />
             <MetricCard title="Tamamlanan" value={completed.length} icon={<CheckIcon />} />
             <MetricCard title="Yayındaki Politika" value={publishedDocCount} icon={<ShieldIcon />} />
+            <MetricCard title="Bekleyen Hesap Silme" value={pendingDeletionCount} icon={<FileIcon />} />
           </div>
 
           {/* DSAR Management */}
@@ -114,6 +127,19 @@ export default async function KvkkGdprPage() {
               <p className="px-5 py-8 text-center text-sm text-muted">Henüz DSAR talebi yok</p>
             ) : (
               <DsarYonetimi requests={allRequests} requestTypeLabels={REQUEST_TYPE_LABELS} />
+            )}
+          </PanelBolumKarti>
+
+          {/* Account deletion requests */}
+          <PanelBolumKarti
+            title="Hesap Silme Talepleri"
+            description="Mobil uygulamadan gönderilen resmi hesap silme talepleri. Silme geri alınamaz."
+            noPadding
+          >
+            {allDeletionRequests.length === 0 ? (
+              <p className="px-5 py-8 text-center text-sm text-muted">Henüz hesap silme talebi yok</p>
+            ) : (
+              <HesapSilmeYonetimi requests={allDeletionRequests} />
             )}
           </PanelBolumKarti>
 
