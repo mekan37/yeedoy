@@ -1,12 +1,24 @@
 import { NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { rateLimit } from '@/src/lib/oran-siniri';
 import { z } from 'zod';
 
 const patchSchema = z.object({
   id: z.string().min(1),
   enabled: z.boolean().optional(),
   rollout_percent: z.number().int().min(0).max(100).optional(),
-});
+}).strict();
+
+const postSchema = z.object({
+  key: z.string().regex(/^[a-z0-9_]+$/).min(1).max(100),
+  description: z.string().max(500).optional(),
+  rollout_percent: z.number().int().min(0).max(100),
+  environment: z.enum(['staging', 'production']).default('staging'),
+  project: z.string().max(100).optional(),
+  type: z.string().max(50).optional(),
+  is_draft: z.boolean().optional(),
+  region: z.string().max(10).optional(),
+}).strict();
 
 // Toggle flag / rollout güncelle
 export async function PATCH(request: Request) {
@@ -54,20 +66,15 @@ export async function POST(request: Request) {
   const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:feature-flags' });
   if (!yetkili) return NextResponse.json({ ok: false, error: 'forbidden' }, { status: 403 });
 
-  const body = await request.json() as {
-    key: string;
-    description: string;
-    rollout_percent: number;
-    environment: string;
-    project?: string;
-    type?: string;
-    is_draft?: boolean;
-    region?: string; // 'TR' | '' (boş = tüm bölgeler)
-  };
+  const rl = await rateLimit(`feature-flag-create:${user.id}`, 20, 3_600_000);
+  if (!rl.ok) return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
 
-  if (!body.key || !/^[a-z0-9_]+$/.test(body.key)) {
-    return NextResponse.json({ ok: false, error: 'Geçersiz flag anahtarı' }, { status: 400 });
-  }
+  // safeParse hiç yoktu — ham gövde (bozuk JSON, eksik rollout_percent →
+  // NaN) doğrudan production kill-switch tablosuna yazılabiliyordu.
+  const rawBody = await request.json().catch(() => null);
+  const parsed = postSchema.safeParse(rawBody);
+  if (!parsed.success) return NextResponse.json({ ok: false, error: 'invalid_input' }, { status: 400 });
+  const body = parsed.data;
 
   const { error } = await supabaseAny.from('runtime_feature_flags').insert({
     key: body.key,

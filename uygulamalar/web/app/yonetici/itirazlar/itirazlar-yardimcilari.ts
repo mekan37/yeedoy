@@ -1,3 +1,5 @@
+import { csvHucre } from '@/src/lib/csv-guvenli';
+
 export type ItirazDurumu = 'pending' | 'reviewing' | 'approved' | 'rejected';
 
 export const DURUM_ETIKETLERI: Record<ItirazDurumu, string> = {
@@ -61,8 +63,7 @@ export function itirazlarCsvOlustur(rows: ItirazSatiri[]): string {
     DURUM_ETIKETLERI[itirazDurumu(r)],
     new Date(r.createdAt).toLocaleDateString('tr-TR'),
   ]);
-  const kacis = (v: string) => `"${v.replace(/"/g, '""')}"`;
-  return [basliklar, ...satirlar].map((satir) => satir.map(kacis).join(',')).join('\n');
+  return [basliklar, ...satirlar].map((satir) => satir.map(csvHucre).join(',')).join('\n');
 }
 
 export function yuzdeDegisim(bu: number, onceki: number): number {

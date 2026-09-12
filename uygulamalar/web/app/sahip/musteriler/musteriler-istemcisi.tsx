@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { clsx } from 'clsx';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { csvHucre } from '@/src/lib/csv-guvenli';
 import {
   MUSTERI_TURU_ETIKETI, filtrelenmisMusteriler, musteriTuruBelirle, toplamEtkilesim, type MusteriTuru,
 } from './musteriler-yardimcilari';
@@ -110,7 +111,7 @@ export function MusterilerIstemcisi({
       m.display_name, MUSTERI_TURU_ETIKETI[m.tur], new Date(m.last_interaction_at).toLocaleDateString('tr-TR'),
       String(m.toplam), String(m.review_count), String(m.reservation_count),
     ]);
-    const csv = [basliklar, ...satirlar].map((row) => row.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+    const csv = [basliklar, ...satirlar].map((row) => row.map(csvHucre).join(',')).join('\n');
     const blob = new Blob([`﻿${csv}`], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

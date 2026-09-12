@@ -1,3 +1,5 @@
+import { csvHucre } from '@/src/lib/csv-guvenli';
+
 export interface KullaniciSatiri {
   id: string;
   displayName: string | null;
@@ -30,8 +32,7 @@ export function kullanicilarCsvOlustur(rows: KullaniciSatiri[]): string {
     r.lastSignInAt ? new Date(r.lastSignInAt).toLocaleDateString('tr-TR') : '',
     r.shadowBanned ? 'Engellendi' : 'Aktif',
   ]);
-  const kacis = (v: string) => `"${v.replace(/"/g, '""')}"`;
-  return [basliklar, ...satirlar].map((satir) => satir.map(kacis).join(',')).join('\n');
+  return [basliklar, ...satirlar].map((satir) => satir.map(csvHucre).join(',')).join('\n');
 }
 
 export function yuzdeDegisim(bu: number, onceki: number): number {

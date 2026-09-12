@@ -1,3 +1,5 @@
+import { csvHucre } from '@/src/lib/csv-guvenli';
+
 export interface BasvuruSatiri {
   id: string;
   name: string;
@@ -26,8 +28,7 @@ export function basvurularCsvOlustur(rows: BasvuruSatiri[]): string {
     DURUM_ETIKETLERI[durumAnahtari(r)] ?? r.status,
     new Date(r.createdAt).toLocaleDateString('tr-TR'),
   ]);
-  const kacis = (v: string) => `"${v.replace(/"/g, '""')}"`;
-  return [basliklar, ...satirlar].map((satir) => satir.map(kacis).join(',')).join('\n');
+  return [basliklar, ...satirlar].map((satir) => satir.map(csvHucre).join(',')).join('\n');
 }
 
 export type DurumAnahtari = 'pending' | 'reviewing' | 'approved' | 'rejected';

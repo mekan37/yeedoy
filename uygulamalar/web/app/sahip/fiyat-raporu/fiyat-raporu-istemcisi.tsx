@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { clsx } from 'clsx';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { csvHucre } from '@/src/lib/csv-guvenli';
 
 export type FiyatSatiri = {
   menu_item_id: string;
@@ -119,7 +120,7 @@ export function FiyatRaporuIstemcisi({
       r.item_name, r.category ?? '', (r.business_price_cents / 100).toFixed(2), (r.city_avg_cents / 100).toFixed(2),
       (r.city_min_cents / 100).toFixed(2), (r.city_max_cents / 100).toFixed(2), String(r.city_sample_count), r.diff_pct.toFixed(1),
     ]);
-    const csv = [basliklar, ...satirlar].map((row) => row.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+    const csv = [basliklar, ...satirlar].map((row) => row.map(csvHucre).join(',')).join('\n');
     const blob = new Blob([`﻿${csv}`], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

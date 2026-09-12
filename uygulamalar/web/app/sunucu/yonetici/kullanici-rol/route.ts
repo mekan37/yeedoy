@@ -19,15 +19,20 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
+  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+  // page:roller izni atlanıyordu — bu izne sahip olmayan bir admin bile başka
+  // kullanıcıların rolünü (community_mod/admin) değiştirebiliyordu.
+  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:roller' });
+  if (!yetkili) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+
   const rl = await rateLimit(`rol:${user.id}`, 30, 3_600_000); // 30/hour
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
-  const { data: dbRate } = await supabaseAny.rpc('consume_rate_limit_v1', {
+  const { data: dbRate, error: dbRateError } = await supabaseAny.rpc('consume_rate_limit_v1', {
     p_action: 'admin_role_assign',
-    p_limit: 30,
+    p_daily_limit: 30,
   });
-  if (dbRate && (dbRate as { ok?: boolean }).ok === false) {
+  if (dbRateError || (dbRate as { ok?: boolean } | null)?.ok === false) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
@@ -60,5 +65,18 @@ export async function PATCH(req: Request) {
   });
 
   if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
+
+  // Bu değişiklik hiçbir depoya yazılmıyordu — "kim, kimin rolünü ne zaman
+  // değiştirdi" sorusu cevaplanamıyordu.
+  await supabaseAny
+    .rpc('log_admin_action_v1', {
+      p_action: 'user_role_change',
+      p_target_table: 'auth.users',
+      p_target_id: userId,
+      p_meta: { from: currentRole, to: role },
+    })
+    .then(() => {})
+    .catch(() => {});
+
   return NextResponse.json({ ok: true });
 }

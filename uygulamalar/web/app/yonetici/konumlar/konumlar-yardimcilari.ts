@@ -1,3 +1,5 @@
+import { csvHucre } from '@/src/lib/csv-guvenli';
+
 export interface IlSatiri {
   name: string;
   businessCount: number;
@@ -29,8 +31,7 @@ export function ilCsvOlustur(rows: IlSatiri[]): string {
     `%${aktiflikOrani(r.businessCount, r.activeCount)}`,
     String(r.districtCount),
   ]);
-  const kacis = (v: string) => `"${v.replace(/"/g, '""')}"`;
-  return [basliklar, ...satirlar].map((satir) => satir.map(kacis).join(',')).join('\n');
+  return [basliklar, ...satirlar].map((satir) => satir.map(csvHucre).join(',')).join('\n');
 }
 
 export function ilceCsvOlustur(rows: IlceSatiri[]): string {
@@ -44,6 +45,5 @@ export function ilceCsvOlustur(rows: IlceSatiri[]): string {
     String(r.verifiedCount),
     `%${aktiflikOrani(r.businessCount, r.activeCount)}`,
   ]);
-  const kacis = (v: string) => `"${v.replace(/"/g, '""')}"`;
-  return [basliklar, ...satirlar].map((satir) => satir.map(kacis).join(',')).join('\n');
+  return [basliklar, ...satirlar].map((satir) => satir.map(csvHucre).join(',')).join('\n');
 }

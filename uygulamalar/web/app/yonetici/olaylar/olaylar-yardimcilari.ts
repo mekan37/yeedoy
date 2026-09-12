@@ -1,3 +1,5 @@
+import { csvHucre } from '@/src/lib/csv-guvenli';
+
 export type SonucTuru = 'success' | 'warning' | 'error' | 'info';
 export type OlayKaynagi = 'analytics_events' | 'edge_rate_limit_events' | 'admin_audit_log' | 'reports';
 
@@ -164,6 +166,5 @@ export function olaylarCsvOlustur(rows: OlaySatiri[]): string {
     SONUC_ETIKETLERI[r.sonuc],
     r.source,
   ]);
-  const kacis = (v: string) => `"${v.replace(/"/g, '""')}"`;
-  return [basliklar, ...satirlar].map((satir) => satir.map(kacis).join(',')).join('\n');
+  return [basliklar, ...satirlar].map((satir) => satir.map(csvHucre).join(',')).join('\n');
 }

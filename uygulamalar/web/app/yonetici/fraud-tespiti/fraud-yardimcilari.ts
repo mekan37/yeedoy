@@ -1,3 +1,5 @@
+import { csvHucre } from '@/src/lib/csv-guvenli';
+
 export interface FraudRaporu {
   id: string;
   target_type: string;
@@ -30,6 +32,6 @@ export function raporCsvOlustur(rows: FraudRaporu[], hedefEtiketleri: Record<str
     r.details ?? '',
     durumEtiketleri[r.status] ?? r.status,
     new Date(r.created_at).toLocaleString('tr-TR'),
-  ].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(','));
+  ].map(csvHucre).join(','));
   return [header.join(','), ...lines].join('\n');
 }

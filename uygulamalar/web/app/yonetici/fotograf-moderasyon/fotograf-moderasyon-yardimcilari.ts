@@ -1,3 +1,5 @@
+import { csvHucre } from '@/src/lib/csv-guvenli';
+
 export interface ModerasyonFotografi {
   id: string;
   business_id: string;
@@ -51,6 +53,6 @@ export function fotografCsvOlustur(rows: ModerasyonFotografi[]): string {
     STATUS_ETIKETLERI[p.status] ?? p.status,
     p.is_hidden ? 'Evet' : 'Hayır',
     new Date(p.created_at).toLocaleString('tr-TR'),
-  ].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(','));
+  ].map(csvHucre).join(','));
   return [header.join(','), ...lines].join('\n');
 }

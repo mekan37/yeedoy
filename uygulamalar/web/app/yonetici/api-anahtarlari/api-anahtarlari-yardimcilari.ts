@@ -1,3 +1,5 @@
+import { csvHucre } from '@/src/lib/csv-guvenli';
+
 export interface ApiKey {
   id: string;
   name: string;
@@ -91,6 +93,6 @@ export function anahtarCsvOlustur(rows: ApiKey[]): string {
     new Date(k.created_at).toLocaleString('tr-TR'),
     k.last_used_at ? new Date(k.last_used_at).toLocaleString('tr-TR') : 'Hiç kullanılmadı',
     k.expires_at ? new Date(k.expires_at).toLocaleString('tr-TR') : 'Sınırsız',
-  ].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(','));
+  ].map(csvHucre).join(','));
   return [header.join(','), ...lines].join('\n');
 }

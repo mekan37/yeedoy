@@ -1,3 +1,5 @@
+import { csvHucre } from '@/src/lib/csv-guvenli';
+
 export interface FiyatOneriSatiri {
   id: string;
   itemName: string;
@@ -56,6 +58,5 @@ export function fiyatOnerileriCsvOlustur(rows: FiyatOneriSatiri[]): string {
     DURUM_ETIKETLERI[durumAnahtari(r.status)],
     new Date(r.createdAt).toLocaleDateString('tr-TR'),
   ]);
-  const kacis = (v: string) => `"${v.replace(/"/g, '""')}"`;
-  return [basliklar, ...satirlar].map((satir) => satir.map(kacis).join(',')).join('\n');
+  return [basliklar, ...satirlar].map((satir) => satir.map(csvHucre).join(',')).join('\n');
 }

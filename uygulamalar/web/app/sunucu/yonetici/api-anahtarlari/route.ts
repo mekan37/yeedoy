@@ -4,8 +4,19 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { randomBytes, createHash } from 'crypto';
 import { z } from 'zod';
 
-const postSchema = z.object({ name: z.string().min(1).max(100) });
-const deleteSchema = z.object({ id: z.string().uuid() });
+// scope: UI'nin sunduğu seçenekler + geriye dönük uyumluluk için RATE_LIMITS'te
+// tanımlı eski anahtarlar (bkz. app/yonetici/api-anahtarlari/page.tsx).
+const API_KEY_SCOPES = [
+  'read', 'write', 'read,write', 'read_write', 'admin',
+  'menu:read', 'read:businesses', 'read:menus',
+] as const;
+
+const postSchema = z.object({
+  name: z.string().trim().min(1).max(60), // DB check constraint: char_length(name) <= 60
+  scope: z.enum(API_KEY_SCOPES).default('read'),
+  expiresDays: z.number().int().min(0).max(3650).default(0), // 0 = sınırsız, üst sınır 10 yıl
+}).strict();
+const deleteSchema = z.object({ id: z.string().uuid() }).strict();
 
 function generateApiKey() {
   const raw = randomBytes(32).toString('hex');
@@ -27,11 +38,11 @@ export async function POST(request: Request) {
   const rl = await rateLimit(`apikey:${user.id}`, 10, 3_600_000); // 10/hour
   if (!rl.ok) return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
 
-  const { data: dbRate } = await supabaseAny.rpc('consume_rate_limit_v1', {
+  const { data: dbRate, error: dbRateError } = await supabaseAny.rpc('consume_rate_limit_v1', {
     p_action: 'admin_apikey_write',
-    p_limit: 10,
+    p_daily_limit: 10,
   });
-  if (dbRate && (dbRate as { ok?: boolean }).ok === false) {
+  if (dbRateError || (dbRate as { ok?: boolean } | null)?.ok === false) {
     return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
   }
 
@@ -40,22 +51,24 @@ export async function POST(request: Request) {
   if (!parsedPost.success) {
     return NextResponse.json({ ok: false, error: 'invalid_input' }, { status: 400 });
   }
-  const body = rawBodyPost as { name: string; scope?: string; expiresDays?: number };
+  // Doğrulanan gövde atılıp ham istek gövdesi kullanılıyordu — güvenmediğimiz
+  // scope='admin:*' veya expiresDays=1e15 gibi değerler doğrudan DB'ye
+  // yazılabiliyordu (mass assignment). Yalnızca parsed.data kullanılıyor.
+  const body = parsedPost.data;
 
   const rawKey = generateApiKey();
   const keyHash = createHash('sha256').update(rawKey).digest('hex');
   const prefix = rawKey.slice(0, 10);
 
-  const expiresDays = body.expiresDays ?? 0;
-  const expiresAt = expiresDays > 0
-    ? new Date(Date.now() + expiresDays * 86400000).toISOString()
+  const expiresAt = body.expiresDays > 0
+    ? new Date(Date.now() + body.expiresDays * 86400000).toISOString()
     : null;
 
   const { error } = await supabaseAny.from('api_keys').insert({
-    name: body.name.trim(),
+    name: body.name,
     key_hash: keyHash,
     prefix,
-    scope: body.scope ?? 'read',
+    scope: body.scope,
     created_by: user.id,
     expires_at: expiresAt,
     is_active: true,
@@ -83,11 +96,11 @@ export async function DELETE(request: Request) {
   const rl2 = await rateLimit(`apikey:${user.id}`, 10, 3_600_000); // shared 10/hour bucket with POST
   if (!rl2.ok) return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
 
-  const { data: dbRate2 } = await supabaseAny.rpc('consume_rate_limit_v1', {
+  const { data: dbRate2, error: dbRate2Error } = await supabaseAny.rpc('consume_rate_limit_v1', {
     p_action: 'admin_apikey_write',
-    p_limit: 10,
+    p_daily_limit: 10,
   });
-  if (dbRate2 && (dbRate2 as { ok?: boolean }).ok === false) {
+  if (dbRate2Error || (dbRate2 as { ok?: boolean } | null)?.ok === false) {
     return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 });
   }
 

@@ -1,3 +1,5 @@
+import { csvHucre } from '@/src/lib/csv-guvenli';
+
 export interface ZincirSatiri {
   id: string;
   name: string;
@@ -21,8 +23,7 @@ export function zincirlerCsvOlustur(rows: ZincirSatiri[]): string {
     r.isVerified ? 'Onaylı' : 'Onaysız',
     new Date(r.createdAt).toLocaleDateString('tr-TR'),
   ]);
-  const kacis = (v: string) => `"${v.replace(/"/g, '""')}"`;
-  return [basliklar, ...satirlar].map((satir) => satir.map(kacis).join(',')).join('\n');
+  return [basliklar, ...satirlar].map((satir) => satir.map(csvHucre).join(',')).join('\n');
 }
 
 export function yuzdeDegisim(bu: number, onceki: number): number {

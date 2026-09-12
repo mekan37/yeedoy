@@ -1,4 +1,5 @@
 import type { AdminPermissionKey } from '@/src/lib/admin-izinler';
+import { csvHucre } from '@/src/lib/csv-guvenli';
 
 export interface AdminRole {
   id: string;
@@ -41,6 +42,6 @@ export function rolCsvOlustur(rows: AdminRole[]): string {
     r.is_active ? 'Aktif' : 'Pasif',
     new Date(r.updated_at).toLocaleString('tr-TR'),
     r.updated_by_name ?? '',
-  ].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(','));
+  ].map(csvHucre).join(','));
   return [header.join(','), ...lines].join('\n');
 }

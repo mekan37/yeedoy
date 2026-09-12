@@ -50,8 +50,19 @@ export default async function AdminUsersPage({ searchParams }: Props) {
     );
   }
 
-  const { data: authData } = await (serviceClient).auth.admin.listUsers({ page: 1, perPage: 1000 });
-  const authUsers = (authData?.users ?? []) as any[];
+  // listUsers tek sayfayla (page:1) sınırlıydı — platform 1000 kullanıcıyı
+  // geçtiğinde varsayılan created_at artan sıralama nedeniyle EN YENİ
+  // kullanıcılar panelde hiç görünmüyordu (arama/ban/rol değiştirme
+  // hiçbiri onlara ulaşamıyordu). Tüm sayfalar bitene kadar çekiliyor
+  // (üst sınır: 20 sayfa = 20.000 kullanıcı, aşırı büyük ortamlarda tek
+  // seferde çekmeyi sınırlamak için).
+  const authUsers: any[] = [];
+  for (let p = 1; p <= 20; p++) {
+    const { data: authData } = await (serviceClient).auth.admin.listUsers({ page: p, perPage: 1000 });
+    const pageUsers = (authData?.users ?? []) as any[];
+    authUsers.push(...pageUsers);
+    if (pageUsers.length < 1000) break;
+  }
   const userIds = authUsers.map((u) => u.id);
 
   const [{ data: profiles }, { data: approvedClaims }] = await Promise.all([

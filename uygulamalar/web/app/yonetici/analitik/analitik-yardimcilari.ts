@@ -1,3 +1,5 @@
+import { csvHucre } from '@/src/lib/csv-guvenli';
+
 export function yuzdeDegisim(bu: number, onceki: number): number {
   if (onceki === 0) return bu > 0 ? 100 : 0;
   return Math.round(((bu - onceki) / onceki) * 100);
@@ -47,6 +49,5 @@ export function gunEtiketi(d: Date): string {
 }
 
 export function csvOlustur(basliklar: string[], satirlar: string[][]): string {
-  const kacis = (v: string) => `"${v.replace(/"/g, '""')}"`;
-  return [basliklar, ...satirlar].map((satir) => satir.map(kacis).join(',')).join('\n');
+  return [basliklar, ...satirlar].map((satir) => satir.map(csvHucre).join(',')).join('\n');
 }

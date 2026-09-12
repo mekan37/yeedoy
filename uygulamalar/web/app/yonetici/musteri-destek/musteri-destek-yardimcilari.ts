@@ -1,3 +1,5 @@
+import { csvHucre } from '@/src/lib/csv-guvenli';
+
 export interface DestekTalebi {
   id: string;
   subject: string;
@@ -69,6 +71,6 @@ export function destekCsvOlustur(rows: DestekTalebi[]): string {
     t.requester_email ?? '',
     new Date(t.created_at).toLocaleString('tr-TR'),
     new Date(t.updated_at).toLocaleString('tr-TR'),
-  ].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(','));
+  ].map(csvHucre).join(','));
   return [header.join(','), ...lines].join('\n');
 }

@@ -1,3 +1,5 @@
+import { csvHucre } from '@/src/lib/csv-guvenli';
+
 export interface FeatureFlag {
   key: string;
   enabled: boolean;
@@ -70,6 +72,6 @@ export function flagCsvOlustur(rows: FeatureFlag[]): string {
     hedefKitleEtiket(f.allowed_regions),
     f.updated_by_name ?? '',
     new Date(f.updated_at).toLocaleString('tr-TR'),
-  ].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(','));
+  ].map(csvHucre).join(','));
   return [header.join(','), ...lines].join('\n');
 }

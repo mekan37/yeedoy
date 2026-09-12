@@ -22,8 +22,10 @@ export function ItirazSatiriRow({
 
   function handleDecide(decision: 'approved' | 'rejected') {
     startTransition(async () => {
-      await decideAppeal(row.id, decision);
-      setOverride({ status: decision, assignedToName: null });
+      try {
+        await decideAppeal(row.id, decision);
+        setOverride({ status: decision, assignedToName: null });
+      } catch { /* hata durumunda satır eski durumunda kalır */ }
     });
   }
   function handleReviewToggle() {

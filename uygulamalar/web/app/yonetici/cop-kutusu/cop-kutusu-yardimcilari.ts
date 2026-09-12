@@ -1,3 +1,5 @@
+import { csvHucre } from '@/src/lib/csv-guvenli';
+
 export interface SilinmisMenuSatiri {
   id: string;
   title: string;
@@ -26,6 +28,5 @@ export function silinmisMenulerCsvOlustur(rows: SilinmisMenuSatiri[]): string {
     new Date(r.updatedAt).toLocaleDateString('tr-TR'),
     r.activeTo ? new Date(r.activeTo).toLocaleDateString('tr-TR') : '',
   ]);
-  const kacis = (v: string) => `"${v.replace(/"/g, '""')}"`;
-  return [basliklar, ...satirlar].map((satir) => satir.map(kacis).join(',')).join('\n');
+  return [basliklar, ...satirlar].map((satir) => satir.map(csvHucre).join(',')).join('\n');
 }

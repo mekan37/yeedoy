@@ -1,4 +1,5 @@
 import type { FisGonderim } from '@/src/lib/veri/admin/fis-gonderimleri-types';
+import { csvHucre } from '@/src/lib/csv-guvenli';
 
 export function fisNoOlustur(receiptId: string, createdAt: string): string {
   const yil = new Date(createdAt).getFullYear();
@@ -17,6 +18,5 @@ export function fisCsvOlustur(rows: FisGonderim[]): string {
     r.review_status,
     new Date(r.created_at).toLocaleDateString('tr-TR'),
   ]);
-  const kacis = (v: string) => `"${v.replace(/"/g, '""')}"`;
-  return [basliklar, ...satirlar].map((satir) => satir.map(kacis).join(',')).join('\n');
+  return [basliklar, ...satirlar].map((satir) => satir.map(csvHucre).join(',')).join('\n');
 }

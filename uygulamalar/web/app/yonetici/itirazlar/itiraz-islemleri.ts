@@ -8,10 +8,19 @@ export async function decideAppeal(appealId: string, decision: 'approved' | 'rej
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return;
 
-  await (supabase)
-    .from('moderation_appeals')
-    .update({ status: decision, decided_by: user.id, decided_at: new Date().toISOString() })
-    .eq('id', appealId);
+  // Doğrudan tablo yazması hem ikinci katman yetki kontrolü içermiyordu
+  // (yalnızca RLS'e güveniyordu — admin_users/community_mod olmayan biri
+  // için sessizce 0 satır güncellenirdi) hem de hata hiç kontrol
+  // edilmiyordu. Zaten var olan, guard'lı ve gerçek satır kontrolü yapan
+  // RPC'ye taşındı.
+  const { data, error } = await (supabase).rpc('admin_decide_moderation_appeal_v1', {
+    p_appeal_id: appealId,
+    p_decision: decision,
+  }) as { data: { ok: boolean; error?: string } | null; error: { message: string } | null };
+
+  if (error || !data?.ok) {
+    throw new Error('İtiraz kararı kaydedilemedi.');
+  }
 
   revalidatePath('/yonetici/itirazlar');
 }
