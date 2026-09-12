@@ -1,3 +1,5 @@
+import { logger } from '@/src/lib/kayitci';
+
 export type AdminSearchType = 'businesses' | 'users' | 'all';
 
 export type AdminSearchResult = {
@@ -260,7 +262,13 @@ async function searchMenuItems(supabase: SupabaseLike, query: string, limit: num
 
 async function safeQuery(query: PromiseLike<QueryResult>): Promise<QueryResult> {
   const result = await query;
-  if (result.error) return { data: [] };
+  if (result.error) {
+    // Önceden hata tamamen yutuluyordu — admin "sonuç yok" ile "sorgu
+    // patladı"yı ayırt edemiyordu. UI hâlâ boş sonuç görüyor (fail-safe)
+    // ama artık sunucu loglarında görünür.
+    logger.error('yonetici-arama: alt sorgu başarısız', { message: result.error.message });
+    return { data: [] };
+  }
   return result;
 }
 
@@ -272,8 +280,12 @@ function makeResult(input: AdminSearchResult): AdminSearchResult {
   };
 }
 
+// PostgREST'in .or() filtre string'i virgülle koşul ayırıyor, nokta ile
+// column.op.value söz dizimini kuruyor, parantezle grupluyor — bu 4 karakter
+// temizlenmezse kullanıcı girdisi filtre string'inden "kaçıp" başka bir
+// koşul/kolon enjekte edebiliyordu (PostgREST filtre injection).
 function toIlikePattern(value: string) {
-  return `*${value.replace(/[,*]/g, ' ').trim().replace(/\s+/g, '%')}*`;
+  return `*${value.replace(/[,*().]/g, ' ').trim().replace(/\s+/g, '%')}*`;
 }
 
 function text(...values: unknown[]) {

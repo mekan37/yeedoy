@@ -27,6 +27,12 @@ async function guard(sb: SupabaseAny, userId: string): Promise<NextResponse | nu
   const { data: isAdmin } = await sb.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
+  // RPC'ler zaten has_permission_v1('page:roller') ile korunuyor (istismar
+  // edilemiyordu) ama route seviyesinde hiç kontrol yoktu — panelin geri
+  // kalanıyla tutarlılık için burada da ekleniyor.
+  const { data: yetkili } = await sb.rpc('has_permission_v1', { p_permission: 'page:roller' });
+  if (!yetkili) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+
   const rl = await rateLimit(`roller:${userId}`, 30, 3_600_000);
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 

@@ -10,7 +10,6 @@ export const runtime = 'nodejs';
 
 const CreateMenuSchema = z.object({
   name: z.string().min(1).max(200),
-  description: z.string().optional(),
   is_active: z.boolean().default(true),
 });
 
@@ -88,7 +87,7 @@ export async function POST(request: Request, context: RouteContext) {
     return NextResponse.json({ error: 'not_found' }, { status: 404 });
   }
 
-  const { name, description, is_active } = parsed.data;
+  const { name, is_active } = parsed.data;
 
   const { data: created, error: insertError } = await (serviceClient)
     .from('menus')
@@ -113,7 +112,7 @@ export async function POST(request: Request, context: RouteContext) {
     action: AUDIT.MENU_CREATE,
     resourceType: 'menu',
     resourceId: created.id,
-    newData: { business_id: businessId, title: name, description, status: created.status },
+    newData: { business_id: businessId, title: name, status: created.status },
     request,
   });
 

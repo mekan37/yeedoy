@@ -2,6 +2,18 @@ import { Resend } from 'resend';
 import { appConfig } from '@/src/lib/ayarlar';
 import { logger } from '@/src/lib/kayitci';
 
+// Kullanıcı girdisi (ör. destek talebi başlığı) e-posta HTML gövdesine
+// doğrudan enterpole edildiğinde phishing/link injection riski oluşturuyordu
+// — gönderilen e-posta içeriğine giden her kullanıcı girdisi bununla kaçışlanmalı.
+export function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 let client: Resend | null | undefined;
 
 function getClient(): Resend | null {

@@ -13,13 +13,11 @@ type CreatedMenu = { id: string; name: string; business_id: string };
 
 type FormState = {
   name: string;
-  description: string;
   is_active: boolean;
 };
 
 const EMPTY_FORM: FormState = {
   name: '',
-  description: '',
   is_active: true,
 };
 
@@ -57,7 +55,6 @@ export function YeniMenuIstemcisi({ businessId }: { businessId: string }) {
           name: form.name.trim(),
           is_active: form.is_active,
         };
-        if (form.description.trim()) body.description = form.description.trim();
 
         const res = await fetch(`/sunucu/yonetici/isletmeler/${businessId}/menuler`, {
           method: 'POST',
@@ -154,19 +151,6 @@ export function YeniMenuIstemcisi({ businessId }: { businessId: string }) {
                 className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30"
               />
               {errors.name && <p className="mt-1 text-xs text-(--yd-color-danger)">{errors.name}</p>}
-            </div>
-
-            {/* Açıklama */}
-            <div className="mb-4">
-              <FieldLabel htmlFor="menu-description">{t.fieldMenuDescription}</FieldLabel>
-              <textarea
-                id="menu-description"
-                value={form.description}
-                onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-                placeholder="Menü hakkında kısa açıklama..."
-                rows={3}
-                className="w-full rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-textStrong placeholder:text-muted focus:outline-hidden focus:ring-2 focus:ring-primary/30 resize-none"
-              />
             </div>
 
             {/* Aktif toggle */}
