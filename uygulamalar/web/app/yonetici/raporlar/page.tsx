@@ -48,7 +48,7 @@ export default async function AdminReportsPage({ searchParams }: Props) {
   const { q = '', status = '', hedef = '', page = '1' } = await searchParams;
   const pageNum = Math.max(1, parseInt(page, 10) || 1);
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as any;
+  const sb = supabase;
 
   const buAyBasi = new Date(new Date().setDate(1)).toISOString();
   const gecenAyBasi = new Date(new Date(new Date().setDate(1)).setMonth(new Date().getMonth() - 1)).toISOString();
@@ -62,7 +62,7 @@ export default async function AdminReportsPage({ searchParams }: Props) {
     buAyRes,
     gecenAyRes,
   ] = await Promise.all([
-    sb.rpc('admin_list_reports_v5', { p_status: status || null, p_limit: 200, p_offset: 0, p_q: q.trim() || null }),
+    sb.rpc('admin_list_reports_v5', { p_status: status || undefined, p_limit: 200, p_offset: 0, p_q: q.trim() || undefined }),
     sb.from('reports').select('id', { count: 'exact', head: true }),
     sb.from('reports').select('id', { count: 'exact', head: true }).eq('status', 'open'),
     sb.from('reports').select('id', { count: 'exact', head: true }).eq('status', 'reviewing'),

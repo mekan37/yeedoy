@@ -56,7 +56,7 @@ export default async function KomboOnerileriPage({
   let fetchError: string | null = null;
 
   try {
-    const { data, error: rpcError } = await (supabase as any).rpc(
+    const { data, error: rpcError } = await (supabase).rpc(
       'get_smart_recommendations_v1',
       {
         p_city: city,
@@ -73,7 +73,7 @@ export default async function KomboOnerileriPage({
 
     if (items.length > 0) {
       const ids = items.map((i) => i.business_id);
-      const { data: slugRows } = await (supabase as any)
+      const { data: slugRows } = await (supabase)
         .from('businesses')
         .select('id, slug')
         .in('id', ids);

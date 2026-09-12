@@ -24,15 +24,15 @@ export default async function OwnerOnboardingPage() {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const businessIds = await getOwnerBusinessIds(supabase as any, user!.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user!.id);
 
   const [{ data: submissions }, { data: profile }] = await Promise.all([
-    (supabase as any)
+    (supabase)
       .from('business_submissions')
       .select('id, status')
       .eq('submitted_by', user!.id)
       .limit(1),
-    (supabase as any)
+    (supabase)
       .from('user_profiles')
       .select('display_name')
       .eq('user_id', user!.id)
@@ -41,11 +41,11 @@ export default async function OwnerOnboardingPage() {
 
   const hasBusiness = businessIds.length > 0;
   const hasSubmission = (submissions ?? []).length > 0;
-  const submissionPending = hasSubmission && submissions[0]?.status === 'new';
+  const submissionPending = hasSubmission && (submissions ?? [])[0]?.status === 'new';
   const firstName = (profile?.display_name as string | null)?.trim().split(/\s+/)[0] || null;
 
   const { data: planData } = hasBusiness
-    ? ((await (supabase as any).rpc('get_my_plan_v1', { p_business_id: businessIds[0] })) as {
+    ? ((await (supabase).rpc('get_my_plan_v1', { p_business_id: businessIds[0] })) as {
         data: { plan_tier: string; features: Array<{ feature_key: string; enabled: boolean }> } | null;
       })
     : { data: null };
@@ -64,10 +64,10 @@ export default async function OwnerOnboardingPage() {
       // business_hours 2026-08-19'daki Google Maps V5 import'undan bu yana
       // terk edildi (canlıda 1 satır) — güncel veri business_weekly_hours'ta
       // (bkz. saat-islemleri.ts / upsert_business_hours_v1).
-      (supabase as any).from('business_weekly_hours').select('id', { count: 'exact', head: true }).in('business_id', businessIds),
-      (supabase as any).from('businesses').select('logo_url, cover_url').in('id', businessIds),
-      (supabase as any).from('campaigns').select('id', { count: 'exact', head: true }).in('business_id', businessIds),
-      (supabase as any).from('menus').select('id').in('business_id', businessIds),
+      (supabase).from('business_weekly_hours').select('id', { count: 'exact', head: true }).in('business_id', businessIds),
+      (supabase).from('businesses').select('logo_url, cover_url').in('id', businessIds),
+      (supabase).from('campaigns').select('id', { count: 'exact', head: true }).in('business_id', businessIds),
+      (supabase).from('menus').select('id').in('business_id', businessIds),
     ]);
     hasHours = (hoursCount ?? 0) > 0;
     hasPhotos = (bizRows ?? []).some((b: { logo_url: string | null; cover_url: string | null }) => b.logo_url && b.cover_url);
@@ -75,10 +75,10 @@ export default async function OwnerOnboardingPage() {
 
     const menuIds = ((menuRows ?? []) as Array<{ id: string }>).map((m) => m.id);
     if (menuIds.length > 0) {
-      const { data: sectionRows } = await (supabase as any).from('menu_sections').select('id').in('menu_id', menuIds);
+      const { data: sectionRows } = await (supabase).from('menu_sections').select('id').in('menu_id', menuIds);
       const sectionIds = ((sectionRows ?? []) as Array<{ id: string }>).map((s) => s.id);
       if (sectionIds.length > 0) {
-        const { count } = await (supabase as any).from('menu_items').select('id', { count: 'exact', head: true }).in('section_id', sectionIds);
+        const { count } = await (supabase).from('menu_items').select('id', { count: 'exact', head: true }).in('section_id', sectionIds);
         itemCount = count ?? 0;
       }
     }

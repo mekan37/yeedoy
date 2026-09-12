@@ -37,7 +37,7 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
   if (!user) redirect('/giris?redirect=/sahip/ekip');
 
   const [businesses, cookieStore] = await Promise.all([
-    getOwnerBusinesses<{ id: string; name: string }>(supabase as any, user.id, 'id, name'),
+    getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name'),
     cookies(),
   ]);
 
@@ -58,7 +58,7 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
   const cookieId = cookieStore.get(AKTIF_ISLETME_COOKIE_NAME)?.value;
   const activeBusiness = businesses.find((b) => b.id === cookieId) ?? businesses[0];
 
-  const { data: rawMembers } = await (supabase as any).rpc('list_team_members_v1', {
+  const { data: rawMembers } = await (supabase).rpc('list_team_members_v1', {
     p_business_id: activeBusiness.id,
   }) as { data: RawTeamMember[] | null };
   const members = rawMembers ?? [];
@@ -67,15 +67,13 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
   const profileMap = new Map<string, { display_name: string | null; avatar_url: string | null; phone: string | null }>();
   if (userIds.length > 0) {
     const [{ data: profiles }, { data: contacts }] = await Promise.all([
-      (supabase as any)
+      (supabase)
         .from('user_profiles')
         .select('user_id, display_name, avatar_url')
-        .in('user_id', userIds) as Promise<{
-          data: Array<{ user_id: string; display_name: string | null; avatar_url: string | null }> | null;
-        }>,
-      (supabase as any).rpc('owner_list_team_member_contacts_v1', {
+        .in('user_id', userIds),
+      (supabase).rpc('owner_list_team_member_contacts_v1', {
         p_business_id: activeBusiness.id,
-      }) as Promise<{ data: Array<{ user_id: string; phone: string | null }> | null }>,
+      }) as unknown as Promise<{ data: Array<{ user_id: string; phone: string | null }> | null }>,
     ]);
     const phoneMap = new Map((contacts ?? []).map((c) => [c.user_id, c.phone]));
     for (const p of profiles ?? []) {

@@ -55,10 +55,10 @@ export async function updateBusiness(
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum bulunamadı' };
 
-  const canManageBusiness = await hasOwnerBusiness(supabase as any, user.id, businessId);
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId);
   if (!canManageBusiness) return { error: 'Yetkiniz yok' };
 
-  const { error } = await (supabase as any)
+  const { error } = await (supabase)
     .from('businesses')
     .update({
       name: parsed.data.name,
@@ -95,7 +95,7 @@ export async function updateMealCardProviders(
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum bulunamadı' };
 
-  const { data, error } = await (supabase as any).rpc(
+  const { data, error } = await (supabase).rpc(
     'owner_update_business_meal_card_providers_v1',
     { p_business_id: businessId, p_provider_keys: keys },
   ) as { data: { ok: boolean; code?: string; message?: string } | null; error: { message: string } | null };

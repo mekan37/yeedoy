@@ -154,7 +154,7 @@ export function KonumSecici() {
     (async () => {
       try {
         const sb = createSupabaseBrowserClient();
-        const { data, error } = await (sb as any).rpc('get_public_business_cities_v1', { p_limit: 80 });
+        const { data, error } = await (sb).rpc('get_public_business_cities_v1', { p_limit: 80 });
         if (error) throw error;
         const cities = ((data ?? []) as Array<{ city: string }>).map((r) => r.city).filter(Boolean);
         // RPC işletme sayısına göre sıralı döner (en sık kullanılan ilk 80 şehri seçmek için) —

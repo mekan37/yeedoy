@@ -26,7 +26,7 @@ export async function notEkle(businessId: string, userId: string, note: string):
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
-    const { error } = (await (supabase as any).rpc('add_customer_note_v1', {
+    const { error } = (await (supabase).rpc('add_customer_note_v1', {
       p_business_id: d.business_id,
       p_user_id: d.user_id,
       p_note: d.note,
@@ -54,7 +54,7 @@ export async function etiketEkle(businessId: string, userId: string, tag: string
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
-    const { error } = (await (supabase as any).rpc('add_customer_tag_v1', {
+    const { error } = (await (supabase).rpc('add_customer_tag_v1', {
       p_business_id: d.business_id,
       p_user_id: d.user_id,
       p_tag: d.tag,
@@ -79,7 +79,7 @@ export async function etiketSil(tagId: string, userId: string): Promise<EylemSon
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
-    const { error } = (await (supabase as any).rpc('remove_customer_tag_v1', {
+    const { error } = (await (supabase).rpc('remove_customer_tag_v1', {
       p_tag_id: d.tag_id,
     })) as { error: { message: string } | null };
 

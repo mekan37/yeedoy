@@ -37,7 +37,7 @@ export default async function AdminChainDetailPage({ params }: Props) {
   const { id } = await params;
   const supabase = await createSupabaseServerClient();
 
-  const { data, error } = await (supabase as any).rpc('admin_get_chain_detail_v1', { p_chain_id: id });
+  const { data, error } = await (supabase).rpc('admin_get_chain_detail_v1', { p_chain_id: id });
 
   if (error || !data || (data as DetailRow[]).length === 0) notFound();
 

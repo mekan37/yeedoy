@@ -38,30 +38,25 @@ export default async function FraudTespitiPage({ searchParams }: Props) {
   const { durum = '', hedef = '', tarih = '', q = '', page = '1' } = await searchParams;
   const pageNum = Math.max(1, parseInt(page, 10) || 1);
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as any;
+  const sb = supabase;
 
   const now = Date.now();
   const yediGunOnce = new Date(now - 7 * DAY).toISOString();
 
-  async function detectSpamReviews() {
-    try {
-      return await sb.rpc('detect_spam_reviews_v1', { p_days: 7, p_min_count: 5 });
-    } catch {
-      return { data: [] };
-    }
-  }
+  // NOT: 'detect_spam_reviews_v1' RPC'si veritabanında hiç oluşturulmamış
+  // (migration geçmişinde de yok) — spam kullanıcı tespiti şu an backend'i
+  // olmayan, tamamlanmamış bir özellik. Liste kasıtlı olarak boş dönüyor.
+  const suphelKullanicilar: SuphelKullanici[] = [];
 
-  const [{ data: allReports }, spamRes, yeniKayitRes] = await Promise.all([
+  const [{ data: allReports }, yeniKayitRes] = await Promise.all([
     sb.from('reports')
       .select('id, target_type, target_id, reason, details, status, created_at, admin_note')
       .order('created_at', { ascending: false })
-      .limit(FETCH_LIMIT) as Promise<{ data: FraudRaporu[] | null }>,
-    detectSpamReviews(),
+      .limit(FETCH_LIMIT) as unknown as Promise<{ data: FraudRaporu[] | null }>,
     sb.from('user_profiles').select('user_id', { count: 'exact', head: true }).gte('created_at', yediGunOnce),
   ]);
 
   const reports: FraudRaporu[] = allReports ?? [];
-  const suphelKullanicilar: SuphelKullanici[] = (spamRes.data ?? []) as SuphelKullanici[];
 
   // ── Tarih filtresi ──
   const tarihSinir = tarih === '7g' ? now - 7 * DAY : tarih === '30g' ? now - 30 * DAY : tarih === '90g' ? now - 90 * DAY : null;

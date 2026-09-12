@@ -66,7 +66,7 @@ export default async function AdminReviewsPage({ searchParams }: Props) {
     sb.from('reviews').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
     sb.from('reviews').select('id', { count: 'exact', head: true }).eq('status', 'rejected'),
     sb.from('reviews').select('rating').limit(5000),
-    (supabase as any).rpc('get_business_categories_v1'),
+    (supabase).rpc('get_business_categories_v1'),
   ]);
 
   const reviews = (reviewsRaw ?? []) as any[];

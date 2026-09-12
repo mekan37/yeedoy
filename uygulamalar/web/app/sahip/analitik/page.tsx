@@ -74,7 +74,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
   const { data: { user } } = await supabase.auth.getUser();
 
   const businesses = user
-    ? await getOwnerBusinesses<{ id: string; name: string }>(supabase as any, user.id, 'id, name')
+    ? await getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name')
     : [];
 
   const businessIds = businesses.map((b: { id: string }) => b.id);
@@ -94,7 +94,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
     );
   }
 
-  const { data: planData } = (await (supabase as any).rpc('get_my_plan_v1', {
+  const { data: planData } = (await (supabase).rpc('get_my_plan_v1', {
     p_business_id: businessIds[0],
   })) as { data: { features: Array<{ feature_key: string; limit_value: number | null }> } | null };
 
@@ -112,7 +112,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
   // Yoğun saatler: ilk işletme için RPC çağrısı (tek business_id alıyor)
   const yogunSaatler = await getYogunSaatler(businessIds[0]);
 
-  const sb = supabase as any;
+  const sb = supabase;
 
   // ── Paralel sorgular ────────────────────────────────────────────────────────
   const [
@@ -202,7 +202,9 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
   ]);
 
   type HamOlay = { created_at: string; event_name: string; source: string | null };
-  const tumHamOlaylar: HamOlay[] = rawEvents.data ?? [];
+  const tumHamOlaylar: HamOlay[] = (rawEvents.data ?? []).filter(
+    (e): e is HamOlay => e.created_at != null,
+  );
 
   // Güncel dönem / önceki dönem ayrımı
   const simdiMs = now - gunSayisi * 86400000;

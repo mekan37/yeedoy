@@ -35,7 +35,7 @@ export default async function AdminTrashPage({ searchParams }: Props) {
   const { q = '', kategori = '', date_from = '', date_to = '', page = '1' } = await searchParams;
   const pageNum = Math.max(1, parseInt(page, 10) || 1);
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as any;
+  const sb = supabase;
 
   const otuzGunOnce = new Date(Date.now() - 30 * 86400000).toISOString();
   const simdi = new Date().toISOString();
@@ -48,7 +48,9 @@ export default async function AdminTrashPage({ searchParams }: Props) {
       .limit(1000),
     sb.from('menus').select('id', { count: 'exact', head: true }).eq('status', 'archived'),
     sb.from('menus').select('id', { count: 'exact', head: true }).eq('status', 'archived').gte('updated_at', otuzGunOnce),
-    sb.from('admin_audit_log').select('id, action, target_id, created_at').eq('target_table', 'menus').order('created_at', { ascending: false }).limit(8)
+    Promise.resolve(
+      sb.from('admin_audit_log').select('id, action, target_id, created_at').eq('target_table', 'menus').order('created_at', { ascending: false }).limit(8),
+    )
       .then((r: any) => r).catch(() => ({ data: [] })),
   ]);
 

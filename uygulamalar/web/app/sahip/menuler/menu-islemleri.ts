@@ -23,12 +23,12 @@ export async function createOwnerMenu(formData: FormData) {
     redirect(`/giris?redirect=${encodeURIComponent('/sahip/menuler')}`);
   }
 
-  const isOwner = await hasOwnerBusiness(supabase as any, user.id, businessId);
+  const isOwner = await hasOwnerBusiness(supabase, user.id, businessId);
   if (!isOwner) {
     redirect('/sahip/menuler?hata=forbidden');
   }
 
-  const { data, error } = await (supabase as any)
+  const { data, error } = await (supabase)
     .from('menus')
     .insert({
       business_id: businessId,
@@ -71,12 +71,12 @@ export async function createExternalMenu(formData: FormData) {
     redirect(`/giris?redirect=${encodeURIComponent('/sahip/menuler')}`);
   }
 
-  const isOwner = await hasOwnerBusiness(supabase as any, user.id, businessId);
+  const isOwner = await hasOwnerBusiness(supabase, user.id, businessId);
   if (!isOwner) {
     redirect('/sahip/menuler?hata=forbidden');
   }
 
-  const { error } = await (supabase as any)
+  const { error } = await (supabase)
     .from('menus')
     .insert({
       business_id: businessId,
@@ -114,7 +114,7 @@ export async function updateExternalMenuUrl(formData: FormData) {
   if (!user) redirect('/giris');
 
   // Ownership check — menü sahibi mi?
-  const { data: menu } = await (supabase as any)
+  const { data: menu } = await (supabase)
     .from('menus')
     .select('business_id')
     .eq('id', menuId)
@@ -122,10 +122,10 @@ export async function updateExternalMenuUrl(formData: FormData) {
 
   if (!menu) redirect('/sahip/menuler?hata=not_found');
 
-  const isOwner = await hasOwnerBusiness(supabase as any, user.id, menu.business_id);
+  const isOwner = await hasOwnerBusiness(supabase, user.id, menu.business_id);
   if (!isOwner) redirect('/sahip/menuler?hata=forbidden');
 
-  await (supabase as any)
+  await (supabase)
     .from('menus')
     .update({ external_url: externalUrl })
     .eq('id', menuId);
@@ -150,7 +150,7 @@ export async function activateMenu(menuId: string, businessId: string): Promise<
     return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
   }
 
-  const { error } = await (supabase as any).rpc('set_active_menu_v1', {
+  const { error } = await (supabase).rpc('set_active_menu_v1', {
     p_menu_id: menuId,
     p_business_id: businessId,
   }) as { error: { message: string } | null };
@@ -160,7 +160,7 @@ export async function activateMenu(menuId: string, businessId: string): Promise<
   }
 
   // Ziyaretçilerin gördüğü genel menü sayfalarını birkaç saniye içinde güncelle
-  const { data: biz } = await (supabase as any)
+  const { data: biz } = await (supabase)
     .from('businesses')
     .select('slug, public_slug')
     .eq('id', businessId)

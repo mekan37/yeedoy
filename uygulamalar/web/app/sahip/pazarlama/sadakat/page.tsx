@@ -21,11 +21,11 @@ export default async function SadakatSayfasi() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/giris?redirect=/sahip/pazarlama/sadakat');
 
-  const businessIds = await getOwnerBusinessIds(supabase as any, user.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user.id);
   const businessId = businessIds[0];
   if (!businessId) redirect('/sahip');
 
-  const sb = supabase as any;
+  const sb = supabase;
 
   const { data: plan } = (await sb.rpc('get_my_plan_v1', { p_business_id: businessId })) as {
     data: { plan_tier: string; features: Array<{ feature_key: string; enabled: boolean }> } | null;
@@ -60,7 +60,7 @@ export default async function SadakatSayfasi() {
 
   const [{ data: members }, { count: aktifKampanyaSayisi }] = await Promise.all([
     program
-      ? (sb.rpc('get_business_loyalty_members_v1', { p_business_id: businessId }) as Promise<{ data: SadakatUyesi[] | null }>)
+      ? (sb.rpc('get_business_loyalty_members_v1', { p_business_id: businessId }) as unknown as Promise<{ data: SadakatUyesi[] | null }>)
       : Promise.resolve({ data: null as SadakatUyesi[] | null }),
     sb.from('campaigns').select('id', { count: 'exact', head: true }).eq('business_id', businessId).eq('status', 'active'),
   ]);

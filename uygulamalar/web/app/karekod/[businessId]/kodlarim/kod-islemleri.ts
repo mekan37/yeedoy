@@ -46,15 +46,15 @@ export async function upsertQrCode(
   if (!parsed.success) return { error: 'Geçersiz form verisi' };
 
   const d = parsed.data;
-  const { error } = await (supabase as any).rpc('owner_upsert_qr_code_v1', {
+  const { error } = await (supabase).rpc('owner_upsert_qr_code_v1', {
     p_business_id: d.business_id,
     p_name:        d.name,
     p_type:        d.type,
-    p_description: d.description ?? null,
-    p_target_url:  d.target_url || null,
+    p_description: d.description ?? undefined,
+    p_target_url:  d.target_url || undefined,
     p_language:    d.language,
     p_is_active:   d.is_active,
-    p_id:          d.id ?? null,
+    p_id:          d.id ?? undefined,
   }) as { error: { message: string } | null };
 
   if (error) return { error: error.message };
@@ -76,7 +76,7 @@ export async function deleteQrCode(
   const parsed = z.object({ id: z.string().uuid(), businessId: z.string().uuid() }).safeParse({ id, businessId });
   if (!parsed.success) return { error: 'Geçersiz istek parametreleri.' };
 
-  const { error } = await (supabase as any).rpc('owner_delete_qr_code_v1', {
+  const { error } = await (supabase).rpc('owner_delete_qr_code_v1', {
     p_id:          parsed.data.id,
     p_business_id: parsed.data.businessId,
   }) as { error: { message: string } | null };

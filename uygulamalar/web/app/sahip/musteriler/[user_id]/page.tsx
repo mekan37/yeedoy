@@ -25,23 +25,23 @@ export default async function MusteriDetaySayfasi({
   } = await supabase.auth.getUser();
   if (!user) redirect('/giris?redirect=/sahip/musteriler');
 
-  const businessIds = await getOwnerBusinessIds(supabase as any, user.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user.id);
   const businessId = businessIds[0];
   if (!businessId) redirect('/sahip');
 
   const [{ data: musteriler }, { data: olaylar }, { data: businessChain }] = await Promise.all([
-    (supabase as any).rpc('get_business_customers_v1', { p_business_id: businessId }) as Promise<{
+    (supabase).rpc('get_business_customers_v1', { p_business_id: businessId }) as unknown as Promise<{
       data: MusteriOzet[] | null;
     }>,
-    (supabase as any).rpc('get_customer_timeline_v1', {
+    (supabase).rpc('get_customer_timeline_v1', {
       p_business_id: businessId,
       p_user_id: musteriId,
-    }) as Promise<{ data: ZamanCizelgesiOlayi[] | null }>,
-    (supabase as any)
+    }) as unknown as Promise<{ data: ZamanCizelgesiOlayi[] | null }>,
+    (supabase)
       .from('businesses')
       .select('chain_id')
       .eq('id', businessId)
-      .maybeSingle() as Promise<{ data: { chain_id: string | null } | null }>,
+      .maybeSingle(),
   ]);
 
   const musteri = (musteriler ?? []).find((m) => m.user_id === musteriId);

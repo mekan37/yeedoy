@@ -20,13 +20,13 @@ export function ZincirOlusturFormu() {
     }
     startTransition(async () => {
       const supabase = createSupabaseBrowserClient();
-      const { data, error: rpcError } = await (supabase as any).rpc('admin_create_chain_v1', {
+      const { data, error: rpcError } = await (supabase).rpc('admin_create_chain_v1', {
         p_name: name,
-        p_slug: String(fd.get('slug') ?? '').trim() || null,
-        p_category: String(fd.get('category') ?? '').trim() || null,
-        p_description: String(fd.get('description') ?? '').trim() || null,
-        p_website: String(fd.get('website') ?? '').trim() || null,
-      });
+        p_slug: String(fd.get('slug') ?? '').trim() || undefined,
+        p_category: String(fd.get('category') ?? '').trim() || undefined,
+        p_description: String(fd.get('description') ?? '').trim() || undefined,
+        p_website: String(fd.get('website') ?? '').trim() || undefined,
+      }) as { data: { ok: boolean; chain_id: string } | null; error: unknown };
       if (rpcError || !data?.ok) {
         setError('Zincir oluşturulamadı. Lütfen tekrar deneyin.');
         return;

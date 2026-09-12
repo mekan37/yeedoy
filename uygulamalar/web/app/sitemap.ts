@@ -61,7 +61,7 @@ async function buildStaticAndGeoSitemap(): Promise<MetadataRoute.Sitemap> {
     const PAGE = 1000;
     let from = 0;
     for (;;) {
-      const { data: combos } = await (supabase as any)
+      const { data: combos } = await (supabase)
         .from('businesses')
         .select('city, district, category')
         .eq('is_active', true)
@@ -127,7 +127,7 @@ async function buildBusinessChunkSitemap(chunkIndex: number): Promise<MetadataRo
       const pageTo = Math.min(pageFrom + PAGE - 1, to);
       if (pageFrom > to) break;
 
-      const { data: businesses } = await (supabase as any)
+      const { data: businesses } = await (supabase)
         .from('businesses')
         .select('slug, created_at')
         .eq('is_active', true)

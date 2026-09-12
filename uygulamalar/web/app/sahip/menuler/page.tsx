@@ -37,7 +37,7 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
   const { data: { user } } = await supabase.auth.getUser();
 
   const businesses = await getOwnerBusinesses<{ id: string; name: string }>(
-    supabase as any,
+    supabase,
     user!.id,
     'id, name',
   );
@@ -47,7 +47,7 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
 
   type MenuRow = { id: string; business_id: string; title: string; status: string; kind: string | null; external_url: string | null; created_at: string };
   const { data: menus } = businessIds.length > 0
-    ? await (supabase as any)
+    ? await (supabase)
         .from('menus')
         .select('id, business_id, title, status, kind, external_url, created_at')
         .in('business_id', businessIds)

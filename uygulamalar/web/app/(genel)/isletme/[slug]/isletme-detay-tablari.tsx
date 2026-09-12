@@ -492,7 +492,7 @@ function YorumYapForm({ businessId, businessSlug }: { businessId: string; busine
           if (res.ok && payload?.data?.url) yuklenenUrller.push(payload.data.url);
         }
         if (yuklenenUrller.length > 0) {
-          const { error: fotoErr } = await (sb as any).from('review_photos').insert(
+          const { error: fotoErr } = await (sb).from('review_photos').insert(
             yuklenenUrller.map((url) => ({
               review_id: yeniYorumId,
               business_id: businessId,
@@ -817,7 +817,7 @@ function YorumlarIcerik({
   const fotograflariGetir = useCallback(async (reviewIds: string[]): Promise<Record<string, string[]>> => {
     if (reviewIds.length === 0) return {};
     const sb = createSupabaseBrowserClient();
-    const { data } = await (sb as any)
+    const { data } = await (sb)
       .from('review_photos')
       .select('review_id, url')
       .in('review_id', reviewIds)
@@ -841,7 +841,7 @@ function YorumlarIcerik({
       return { data: [], bitti: true };
     }
     const sb = createSupabaseBrowserClient();
-    let q = (sb as any)
+    let q = (sb)
       .from('reviews')
       .select('id, rating, overall_rating, content, title, created_at, helpful_count, taste_rating, service_speed_rating, atmosphere_rating, price_performance_rating, cleanliness_rating, owner_reply, user_id')
       .eq('business_id', businessId)
@@ -858,7 +858,7 @@ function YorumlarIcerik({
     const uids = [...new Set(reviewsData.map((r: any) => r.user_id).filter(Boolean))] as string[];
     let pMap: Record<string, { display_name: string; avatar_url: string | null }> = {};
     if (uids.length > 0) {
-      const { data: profs } = await (sb as any)
+      const { data: profs } = await (sb)
         .from('user_profiles')
         .select('user_id, display_name, avatar_url')
         .in('user_id', uids);
@@ -896,7 +896,7 @@ function YorumlarIcerik({
         let verifiedIds = dogrulanmisIdler;
         if (siralama === 'dogrulandi' && verifiedIds === null) {
           const sb = createSupabaseBrowserClient();
-          const { data } = await (sb as any).rpc('get_business_checkin_user_ids_v1', { p_business_id: businessId });
+          const { data } = await (sb).rpc('get_business_checkin_user_ids_v1', { p_business_id: businessId });
           verifiedIds = Array.isArray(data) ? data : [];
           if (iptal) return;
           setDogrulanmisIdler(verifiedIds);
@@ -904,7 +904,7 @@ function YorumlarIcerik({
         let fotoIds = fotografliIdler;
         if (sadeceFotograf && fotoIds === null) {
           const sb = createSupabaseBrowserClient();
-          const { data } = await (sb as any)
+          const { data } = await (sb)
             .from('review_photos')
             .select('review_id')
             .eq('business_id', businessId);

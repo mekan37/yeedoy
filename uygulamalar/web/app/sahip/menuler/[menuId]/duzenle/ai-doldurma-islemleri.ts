@@ -32,7 +32,7 @@ export async function aiIleAlerjenKaloriDoldur(
   const ownerBusinessIds = await getOwnerBusinessIds(supabase, user.id);
   if (!ownerBusinessIds.includes(businessId)) return { error: 'Bu işletme için yetkiniz yok' };
 
-  const { error: limitError } = (await (supabase as any).rpc('_check_plan_limit_v1', {
+  const { error: limitError } = (await (supabase).rpc('_check_plan_limit_v1', {
     p_business_id: businessId,
     p_feature_key: 'allergen_ai',
   })) as { error: { message: string } | null };
@@ -90,7 +90,7 @@ export async function aiIleGorselUret(
   const ownerBusinessIds = await getOwnerBusinessIds(supabase, user.id);
   if (!ownerBusinessIds.includes(businessId)) return { error: 'Bu işletme için yetkiniz yok' };
 
-  const { error: limitError } = (await (supabase as any).rpc('_check_plan_limit_v1', {
+  const { error: limitError } = (await (supabase).rpc('_check_plan_limit_v1', {
     p_business_id: businessId,
     p_feature_key: 'ai_image_gen',
   })) as { error: { message: string } | null };

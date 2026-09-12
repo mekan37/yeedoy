@@ -30,8 +30,8 @@ export default async function YemekGunluguPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/giris?redirect=/yemek-gunlugum');
 
-  const { data: entries } = await (supabase as any).rpc('get_my_food_journal_v1', { p_limit: 100 });
-  const { data: summary } = await (supabase as any).rpc('get_my_spending_summary_v1', { p_months: 3 });
+  const { data: entries } = await (supabase).rpc('get_my_food_journal_v1', { p_limit: 100 });
+  const { data: summary } = await (supabase).rpc('get_my_spending_summary_v1', { p_months: 3 });
 
   const list = (entries ?? []) as any[];
   const months = (summary ?? []) as any[];

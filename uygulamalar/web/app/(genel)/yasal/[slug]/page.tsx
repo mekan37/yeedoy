@@ -131,7 +131,7 @@ export default async function LegalDocPage({ params }: { params: Promise<{ slug:
   let body = '';
   try {
     const supabase = await createSupabaseServerClient();
-    const { data } = await (supabase as any)
+    const { data } = await (supabase)
       .from('legal_documents')
       .select('title, content')
       .eq('slug', slug)

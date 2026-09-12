@@ -41,10 +41,10 @@ export async function getDomainDurumu(businessId: string): Promise<DomainDurumu>
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const canManage = await hasOwnerBusiness(supabase as any, user.id, businessId);
+  const canManage = await hasOwnerBusiness(supabase, user.id, businessId);
   if (!canManage) return null;
 
-  const { data, error } = await (supabase as any).rpc('get_custom_domain_v1', {
+  const { data, error } = await (supabase).rpc('get_custom_domain_v1', {
     p_business_id: businessId,
   });
 
@@ -70,10 +70,10 @@ export async function domainEkle(
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { basarili: false, hata: 'Oturum açmanız gerekiyor.' };
 
-  const canManage = await hasOwnerBusiness(supabase as any, user.id, businessId);
+  const canManage = await hasOwnerBusiness(supabase, user.id, businessId);
   if (!canManage) return { basarili: false, hata: 'Bu işletmeye erişim yetkiniz yok.' };
 
-  const { data, error } = await (supabase as any).rpc('upsert_custom_domain_v1', {
+  const { data, error } = await (supabase).rpc('upsert_custom_domain_v1', {
     p_business_id: businessId,
     p_domain: hostname,
   });
@@ -114,7 +114,7 @@ export async function domainDogrula(
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { basarili: false, hata: 'Oturum açmanız gerekiyor.' };
 
-  const canManage = await hasOwnerBusiness(supabase as any, user.id, businessId);
+  const canManage = await hasOwnerBusiness(supabase, user.id, businessId);
   if (!canManage) return { basarili: false, hata: 'Bu işletmeye erişim yetkiniz yok.' };
 
   const { data: { session } } = await supabase.auth.getSession();
@@ -184,10 +184,10 @@ export async function domainSil(businessId: string): Promise<DomainIslemSonucu> 
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { basarili: false, hata: 'Oturum açmanız gerekiyor.' };
 
-  const canManage = await hasOwnerBusiness(supabase as any, user.id, businessId);
+  const canManage = await hasOwnerBusiness(supabase, user.id, businessId);
   if (!canManage) return { basarili: false, hata: 'Bu işletmeye erişim yetkiniz yok.' };
 
-  const { error } = await (supabase as any).rpc('delete_custom_domain_v1', {
+  const { error } = await (supabase).rpc('delete_custom_domain_v1', {
     p_business_id: businessId,
   });
 

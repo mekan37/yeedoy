@@ -119,7 +119,7 @@ export default function BildirimTercihlerPage() {
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) return;
       setUserId(user.id);
-      (supabase as any)
+      (supabase)
         .from('notification_preferences')
         .select('notification_type, enabled')
         .eq('user_id', user.id)
@@ -143,7 +143,7 @@ export default function BildirimTercihlerPage() {
     setSaving(key);
     try {
       const supabase = createSupabaseBrowserClient();
-      const { error } = await (supabase as any).from('notification_preferences').upsert(
+      const { error } = await (supabase).from('notification_preferences').upsert(
         {
           user_id: userId,
           notification_type: key,

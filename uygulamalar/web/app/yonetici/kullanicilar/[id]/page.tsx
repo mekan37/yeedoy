@@ -12,7 +12,7 @@ type Props = { params: Promise<{ id: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const serviceClient = createSupabaseServiceClient();
-  const user = serviceClient ? await getAdminUserDetail(serviceClient as any, id) : null;
+  const user = serviceClient ? await getAdminUserDetail(serviceClient, id) : null;
   return {
     title: user ? `${user.display_name ?? user.email ?? user.id} | Yonetici Paneli` : 'Kullanıcı | Yonetici Paneli',
     robots: { index: false, follow: false },
@@ -31,24 +31,24 @@ export default async function AdminUserDetailPage({ params }: Props) {
   const supabase = await createSupabaseServerClient();
   const serviceClient = createSupabaseServiceClient();
 
-  const user = serviceClient ? await getAdminUserDetail(serviceClient as any, id) : null;
+  const user = serviceClient ? await getAdminUserDetail(serviceClient, id) : null;
 
   if (!user) notFound();
 
   const [claimsRes, reviewsRes, submissionsRes] = await Promise.all([
-    (supabase as any)
+    (supabase)
       .from('owner_claims')
       .select('id, status, created_at, businesses(name)')
       .eq('user_id', id)
       .order('created_at', { ascending: false })
       .limit(10),
-    (supabase as any)
+    (supabase)
       .from('reviews')
       .select('id, rating, content, created_at, businesses(name)')
       .eq('user_id', id)
       .order('created_at', { ascending: false })
       .limit(10),
-    (supabase as any)
+    (supabase)
       .from('business_submissions')
       .select('id, name, status, created_at')
       .eq('submitted_by', id)

@@ -17,7 +17,7 @@ export default async function OwnerHoursPage() {
 
   const list = user
     ? await getOwnerBusinesses<{ id: string; name: string; created_at: string | null }>(
-      supabase as any,
+      supabase,
       user.id,
       'id, name, created_at',
     )
@@ -44,7 +44,7 @@ export default async function OwnerHoursPage() {
   const hoursMap = new Map<string, WeeklyHourRow[]>();
   await Promise.all(
     list.map(async (b) => {
-      const { data } = await (supabase as any).rpc('get_business_hours_v1', {
+      const { data } = await (supabase).rpc('get_business_hours_v1', {
         p_business_id: b.id,
       }) as { data: { weekly: WeeklyHourRow[]; special: unknown[]; is_open_now: boolean | null } | null };
       if (data?.weekly && data.weekly.length > 0) {

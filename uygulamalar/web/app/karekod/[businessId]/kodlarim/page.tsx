@@ -43,7 +43,7 @@ export default async function KodlarimPage({ params }: Props) {
   const siteUrl = appConfig.siteUrl().replace(/\/$/, '');
 
   const supabase = await createSupabaseServerClient();
-  const { data: result } = await (supabase as any).rpc('owner_list_qr_codes_v1', {
+  const { data: result } = await (supabase).rpc('owner_list_qr_codes_v1', {
     p_business_id: businessId,
   }) as { data: { codes: QrCode[]; stats: QrStats } | null };
 
@@ -55,7 +55,7 @@ export default async function KodlarimPage({ params }: Props) {
     unique_visitors: 0,
   };
 
-  const { data: planData } = await (supabase as any).rpc('get_my_plan_v1', {
+  const { data: planData } = await (supabase).rpc('get_my_plan_v1', {
     p_business_id: businessId,
   }) as { data: { plan_tier: string; features: Array<{ feature_key: string; enabled: boolean }> } | null };
   const showQrWatermark = planData?.features.find((f) => f.feature_key === 'qr_watermark')?.enabled ?? true;

@@ -15,7 +15,7 @@ export function AlarmToggle({ alertId, isActive, itemName }: { alertId: string; 
     const next = !active;
     setActive(next);
     startTransition(async () => {
-      const { error } = await (createSupabaseBrowserClient() as any).from('price_alerts').update({ is_active: next }).eq('id', alertId);
+      const { error } = await (createSupabaseBrowserClient()).from('price_alerts').update({ is_active: next }).eq('id', alertId);
       if (error) {
         setActive(!next);
         toast('Fiyat alarmı güncellenemedi. Lütfen tekrar deneyin.', 'danger');

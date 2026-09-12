@@ -52,8 +52,8 @@ export default async function AdminDevToolsPage() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const [{ count: tempUploadsCount }, { count: rateLimitToday }] = await Promise.all([
-    (supabase as any).from('temp_uploads').select('id', { count: 'exact', head: true }),
-    (supabase as any).from('edge_rate_limit_events').select('id', { count: 'exact', head: true }).gte('created_at', today.toISOString()),
+    (supabase).from('temp_uploads').select('id', { count: 'exact', head: true }),
+    (supabase).from('edge_rate_limit_events').select('id', { count: 'exact', head: true }).gte('created_at', today.toISOString()),
   ]);
 
   const now = new Date();

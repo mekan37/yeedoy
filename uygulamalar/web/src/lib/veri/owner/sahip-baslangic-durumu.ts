@@ -34,7 +34,7 @@ export async function getOnboardingStatus(): Promise<OnboardingFlags & { complet
     return { hasBusiness: false, hasPublishedMenu: false, hasQrCode: false, hasTeamMember: false, complete: false };
   }
 
-  const businessIds = await getOwnerBusinessIds(supabase as any, user.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user.id);
   const hasBusiness = businessIds.length > 0;
 
   if (!hasBusiness) {
@@ -42,12 +42,12 @@ export async function getOnboardingStatus(): Promise<OnboardingFlags & { complet
   }
 
   const [menuResult, qrResult, hasTeamMember] = await Promise.all([
-    (supabase as any)
+    (supabase)
       .from('menus')
       .select('id', { count: 'exact', head: true })
       .in('business_id', businessIds)
       .eq('status', 'published'),
-    (supabase as any)
+    (supabase)
       .from('business_qr_codes')
       .select('id', { count: 'exact', head: true })
       .in('business_id', businessIds),

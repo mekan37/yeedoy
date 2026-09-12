@@ -92,7 +92,7 @@ export async function POST(request: Request) {
   // akışını asla engellemez. Rol yönlendirmesinden ÖNCE çalışmalı ki az önce
   // bağlanan üyelik görülebilsin.
   try {
-    await (supabase as any).rpc('claim_pending_team_invites_v1');
+    await (supabase).rpc('claim_pending_team_invites_v1');
   } catch (claimError) {
     // best-effort — giriş akışını asla engellemez, ama sessizce yutmak yerine logla
     logger.warn('giris: claim_pending_team_invites_v1 başarısız', { userId: data.session.user.id, error: claimError });
@@ -100,7 +100,7 @@ export async function POST(request: Request) {
 
   const effectiveRedirect = parsed.data.redirectTo
     ? redirectTo
-    : await resolveRoleBasedRedirect(supabase as any, data.session.user.id);
+    : await resolveRoleBasedRedirect(supabase, data.session.user.id);
 
   if (wantsHtmlRedirect) {
     const redirectResponse = NextResponse.redirect(new URL(effectiveRedirect, appConfig.siteUrl()), 303);

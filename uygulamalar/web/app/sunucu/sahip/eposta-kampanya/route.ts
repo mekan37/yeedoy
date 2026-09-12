@@ -96,7 +96,7 @@ export async function POST(request: Request) {
     fromEmail: process.env.EMAIL_FROM?.trim() || 'noreply@yeedoy.com',
   });
 
-  const { error: updateError } = await (supabase as any)
+  const { error: updateError } = await (supabase)
     .from('email_campaigns')
     .update({
       sent_count: emailResult.success_count,

@@ -51,7 +51,7 @@ export default async function AdminChainsPage({ searchParams }: Props) {
   const pageNum = Math.max(1, parseInt(page, 10) || 1);
 
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as any;
+  const sb = supabase;
 
   const buAyBasi = new Date(new Date().setDate(1)).toISOString();
   const gecenAyBasi = new Date(new Date(new Date().setDate(1)).setMonth(new Date().getMonth() - 1)).toISOString();
@@ -65,7 +65,7 @@ export default async function AdminChainsPage({ searchParams }: Props) {
     buAyYeniRes,
     gecenAyYeniRes,
   ] = await Promise.all([
-    sb.rpc('admin_list_chains_v1', { p_q: q.trim() || null, p_limit: 500, p_offset: 0 }),
+    sb.rpc('admin_list_chains_v1', { p_q: q.trim() || undefined, p_limit: 500, p_offset: 0 }),
     sb.from('chains').select('id', { count: 'exact', head: true }),
     sb.from('chains').select('id', { count: 'exact', head: true }).eq('is_verified', true),
     sb.from('businesses').select('id', { count: 'exact', head: true }).not('chain_id', 'is', null),
@@ -74,7 +74,7 @@ export default async function AdminChainsPage({ searchParams }: Props) {
     sb.from('chains').select('id', { count: 'exact', head: true }).gte('created_at', gecenAyBasi).lt('created_at', buAyBasi),
   ]);
 
-  let sonGuncellemeler: Array<{ id: string; action: string; target_id: string; created_at: string }> = [];
+  let sonGuncellemeler: Array<{ id: string; action: string; target_id: string | null; created_at: string }> = [];
   try {
     const { data, error } = await sb
       .from('admin_audit_log')

@@ -48,8 +48,11 @@ export async function destekTalebiOlustur(
   if (!trimmedSubject || !trimmedMessage) {
     return { error: 'Konu ve mesaj boş olamaz' };
   }
+  if (!businessId) {
+    return { error: 'Bir işletme seçmelisiniz' };
+  }
 
-  const { data: ticketId, error: rpcError } = (await (supabase as any).rpc('create_support_ticket_v1', {
+  const { data: ticketId, error: rpcError } = (await (supabase).rpc('create_support_ticket_v1', {
     p_business_id: businessId,
     p_category: category,
     p_subject: trimmedSubject,
@@ -67,7 +70,7 @@ export async function destekTalebiListele(): Promise<{ error: string } | { ticke
   if (!context.ok) return { error: context.error };
   const { supabase, user } = context;
 
-  const { data, error } = (await (supabase as any)
+  const { data, error } = (await (supabase)
     .from('support_tickets')
     .select('id, subject, status, category, business_id, created_at, updated_at')
     .eq('user_id', user.id)
@@ -87,7 +90,7 @@ export async function destekTalebiDetay(
   if (!context.ok) return { error: context.error };
   const { supabase, user } = context;
 
-  const { data: ticket, error: ticketError } = (await (supabase as any)
+  const { data: ticket, error: ticketError } = (await (supabase)
     .from('support_tickets')
     .select('id, subject, status, category, business_id, created_at, updated_at')
     .eq('id', ticketId)
@@ -97,7 +100,7 @@ export async function destekTalebiDetay(
   if (ticketError) return { error: ticketError.message };
   if (!ticket) return { error: 'Talep bulunamadı' };
 
-  const { data: messages, error: messagesError } = (await (supabase as any)
+  const { data: messages, error: messagesError } = (await (supabase)
     .from('support_ticket_messages')
     .select('id, sender, message, created_at')
     .eq('ticket_id', ticketId)
@@ -121,7 +124,7 @@ export async function destekMesajGonder(ticketId: string, message: string): Prom
   const trimmedMessage = message.trim();
   if (!trimmedMessage) return { error: 'Mesaj boş olamaz' };
 
-  const { data: ticket, error: ticketError } = (await (supabase as any)
+  const { data: ticket, error: ticketError } = (await (supabase)
     .from('support_tickets')
     .select('id')
     .eq('id', ticketId)
@@ -131,7 +134,7 @@ export async function destekMesajGonder(ticketId: string, message: string): Prom
   if (ticketError) return { error: ticketError.message };
   if (!ticket) return { error: 'Talep bulunamadı' };
 
-  const { error: messageError } = (await (supabase as any).from('support_ticket_messages').insert({
+  const { error: messageError } = (await (supabase).from('support_ticket_messages').insert({
     ticket_id: ticketId,
     sender: 'user',
     message: trimmedMessage,
@@ -141,7 +144,7 @@ export async function destekMesajGonder(ticketId: string, message: string): Prom
   if (messageError) return { error: messageError.message };
 
   // best-effort — mesaj zaten kaydedildi, updated_at güncellemesi kritik değil
-  await (supabase as any).rpc('touch_support_ticket_v1', { p_ticket_id: ticketId });
+  await (supabase).rpc('touch_support_ticket_v1', { p_ticket_id: ticketId });
 
   revalidatePath('/sahip/destek');
   return null;

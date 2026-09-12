@@ -106,7 +106,7 @@ export function FavorilerListesi({ favoriler, yorumSayisi, ziyaretSayisi, helpfu
       const sb = createSupabaseBrowserClient();
       const { data: { session } } = await sb.auth.getSession();
       if (!session) return;
-      const { error } = await (sb as any).from('favorites').delete()
+      const { error } = await (sb).from('favorites').delete()
         .eq('user_id', session.user.id)
         .eq('business_id', businessId);
       if (error) throw error;

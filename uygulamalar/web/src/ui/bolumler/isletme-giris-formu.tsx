@@ -152,7 +152,7 @@ export function IsletmeGirisFormu({ initialTab = 'giris' }: Props) {
       }
 
       const userId = signUpData.session.user.id;
-      const { error: profileError } = await (supabase as any).from('user_profiles').insert({
+      const { error: profileError } = await (supabase).from('user_profiles').insert({
         user_id: userId,
         display_name: fullName.trim(),
         ...(normalizedPhone && { phone: normalizedPhone }),
@@ -162,14 +162,14 @@ export function IsletmeGirisFormu({ initialTab = 'giris' }: Props) {
         return;
       }
 
-      const { data: rpcData, error: rpcError } = await (supabase as any).rpc('owner_submit_new_business_v1', {
+      const { data: rpcData, error: rpcError } = await (supabase).rpc('owner_submit_new_business_v1', {
         p_name: businessName.trim(),
         p_city: city.trim(),
         p_district: city.trim(),
         p_category: category,
         p_address: '',
-        p_phone: normalizedPhone,
-        p_website: null,
+        p_phone: normalizedPhone ?? undefined,
+        p_website: undefined,
       }) as { data: { ok: boolean } | null; error: unknown };
 
       if (rpcError || !rpcData?.ok) {

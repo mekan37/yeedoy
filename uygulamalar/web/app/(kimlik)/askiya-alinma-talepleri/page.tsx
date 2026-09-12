@@ -21,12 +21,22 @@ export default async function ClaimsPage() {
   type ClaimRow = { id: string; status: string; reason: string | null; created_at: string; resolved_at: string | null; businesses: { name: string; slug: string } | null };
   let list: ClaimRow[] = [];
 
+  // 'suspended_claims' tablosu şemada henüz yok — 42P01 durumunda sessizce
+  // boş liste gösteriliyor, bu yüzden tip burada dar bir sözleşmeyle sağlanıyor.
+  interface SuspansTalepSorgusu extends PromiseLike<{ data: ClaimRow[] | null; error: { code?: string } | null }> {
+    eq: (column: string, value: unknown) => SuspansTalepSorgusu;
+    order: (column: string, opts?: { ascending?: boolean }) => SuspansTalepSorgusu;
+  }
   try {
-    const { data, error } = await (supabase as any)
+    const { data, error } = await (
+      supabase as unknown as {
+        from: (t: string) => { select: (cols: string) => SuspansTalepSorgusu };
+      }
+    )
       .from('suspended_claims')
       .select('id, status, reason, created_at, resolved_at, businesses(name, slug)')
       .eq('user_id', user!.id)
-      .order('created_at', { ascending: false }) as { data: ClaimRow[] | null; error: any };
+      .order('created_at', { ascending: false });
     if (!error || error.code !== '42P01') list = data ?? [];
   } catch {
     list = [];

@@ -10,11 +10,11 @@ export default async function OcrSayfasi() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/giris?redirect=/sahip/menu/ocr');
 
-  const businessIds = await getOwnerBusinessIds(supabase as any, user.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user.id);
   const businessId = businessIds[0];
   if (!businessId) redirect('/sahip');
 
-  const { data: menus } = await (supabase as any)
+  const { data: menus } = await (supabase)
     .from('menus')
     .select('id, title, menu_sections(id, title)')
     .eq('business_id', businessId) as {

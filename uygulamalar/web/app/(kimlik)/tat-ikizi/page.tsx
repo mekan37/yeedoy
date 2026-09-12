@@ -24,7 +24,7 @@ export default async function TatIkiziPage() {
   let fetchError: string | null = null;
 
   try {
-    const { data, error: rpcError } = await (supabase as any).rpc(
+    const { data, error: rpcError } = await (supabase).rpc(
       'get_taste_matches_hybrid_v1',
       {
         p_limit: 20,
@@ -38,7 +38,7 @@ export default async function TatIkiziPage() {
 
     if (raw.length > 0) {
       const ids = raw.map((m) => m.user_id);
-      const { data: profiles } = await (supabase as any)
+      const { data: profiles } = await (supabase)
         .from('user_profiles')
         .select('user_id, display_name, avatar_url')
         .in('user_id', ids);

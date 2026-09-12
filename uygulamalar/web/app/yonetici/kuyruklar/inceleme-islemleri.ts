@@ -13,12 +13,12 @@ async function logAudit(supabase: any, action: string, submissionId: string) {
 export async function approveSubmission(submissionId: string) {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
+  const { data: isAdmin } = await (supabase).rpc('is_admin');
   if (!isAdmin || !user) return;
 
-  const { data, error } = await (supabase as any).rpc('admin_approve_business_submission_v1', {
+  const { data, error } = await (supabase).rpc('admin_approve_business_submission_v1', {
     p_submission_id: submissionId,
-  });
+  }) as { data: { ok: boolean } | null; error: { message: string } | null };
   if (error || !data?.ok) {
     throw new Error('Başvuru onaylanamadı.');
   }
@@ -30,13 +30,13 @@ export async function approveSubmission(submissionId: string) {
 export async function rejectSubmission(submissionId: string, note?: string | null) {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
+  const { data: isAdmin } = await (supabase).rpc('is_admin');
   if (!isAdmin || !user) return;
 
-  const { data, error } = await (supabase as any).rpc('admin_reject_business_submission_v1', {
+  const { data, error } = await (supabase).rpc('admin_reject_business_submission_v1', {
     p_submission_id: submissionId,
-    p_note: note ?? null,
-  });
+    p_note: note ?? undefined,
+  }) as { data: { ok: boolean } | null; error: { message: string } | null };
   if (error || !data?.ok) {
     throw new Error('Başvuru reddedilemedi.');
   }
@@ -47,13 +47,13 @@ export async function rejectSubmission(submissionId: string, note?: string | nul
 
 export async function setSubmissionReview(submissionId: string, inReview: boolean) {
   const supabase = await createSupabaseServerClient();
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
+  const { data: isAdmin } = await (supabase).rpc('is_admin');
   if (!isAdmin) return;
 
-  const { data, error } = await (supabase as any).rpc('admin_set_submission_review_v1', {
+  const { data, error } = await (supabase).rpc('admin_set_submission_review_v1', {
     p_submission_id: submissionId,
     p_in_review: inReview,
-  });
+  }) as { data: { ok: boolean } | null; error: { message: string } | null };
   if (error || !data?.ok) {
     throw new Error('İşlem gerçekleştirilemedi.');
   }

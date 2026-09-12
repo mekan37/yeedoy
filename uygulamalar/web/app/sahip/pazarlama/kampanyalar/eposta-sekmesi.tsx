@@ -49,7 +49,7 @@ export function EpostaSekmesi({ businessId, etiketler, kampanyalar, initialEmail
     istenenSegmentRef.current = value;
     startTransition(async () => {
       const supabase = createSupabaseBrowserClient();
-      const { data } = await (supabase as any).rpc('estimate_email_segment_v1', {
+      const { data } = await (supabase).rpc('estimate_email_segment_v1', {
         p_business_id: businessId,
         p_segment: value,
       });

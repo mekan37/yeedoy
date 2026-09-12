@@ -19,7 +19,7 @@ const PAGE_SIZE = 20;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const supabase = await createSupabaseServerClient();
-  const { data } = await (supabase as any)
+  const { data } = await (supabase)
     .from('businesses')
     .select('name')
     .eq('slug', slug)
@@ -58,14 +58,14 @@ export default async function BusinessReviewsPage({ params, searchParams }: Prop
   const supabase = await createSupabaseServerClient();
 
   type Biz = { id: string; name: string; slug: string };
-  const { data: biz } = await (supabase as any)
+  const { data: biz } = await (supabase)
     .from('businesses')
     .select('id, name, slug')
     .eq('slug', slug)
     .single() as { data: Biz | null };
   if (!biz) notFound();
 
-  const { data: reviews, count } = await (supabase as any).rpc(
+  const { data: reviews, count } = await (supabase).rpc(
     'get_business_reviews_v3',
     { p_business_id: biz.id, p_sort: sort, p_limit: PAGE_SIZE, p_offset: offset },
     { count: 'exact' },

@@ -4,7 +4,7 @@ import { createServerClient } from '@supabase/ssr';
 import { appConfig } from '@/src/lib/ayarlar';
 import { sanitizeInternalRedirect } from '@/src/lib/guvenli-yonlendirme';
 import { logger } from '@/src/lib/kayitci';
-import type { Database } from '@/src/lib/taban/veri-tanimlari';
+import type { Database, TablesInsert } from '@/src/lib/taban/veri-tanimlari';
 
 // user_metadata kullanıcının kendi updateUser() çağrısıyla değiştirebildiği,
 // güvenilmeyen bir alan — beklenmeyen tipte (obje/array) veya aşırı uzun
@@ -64,7 +64,7 @@ export async function GET(request: Request) {
   // Profil yoksa oluştur (e-posta kayıt veya OAuth)
   if (sessionData.user) {
     const user = sessionData.user;
-    const { data: existing } = await (supabase as any)
+    const { data: existing } = await (supabase)
       .from('user_profiles')
       .select('user_id')
       .eq('user_id', user.id)
@@ -81,7 +81,7 @@ export async function GET(request: Request) {
         sanitizeMetaString(user.email?.split('@')[0], 60) ||
         'Kullanıcı';
 
-      const profileRow: Record<string, unknown> = {
+      const profileRow: TablesInsert<'user_profiles'> = {
         user_id: user.id,
         display_name: displayName,
       };
@@ -92,7 +92,7 @@ export async function GET(request: Request) {
       if (district) profileRow.district = district;
       if (phone)    profileRow.phone    = phone;
 
-      const { error: insertErr } = await (supabase as any).from('user_profiles').insert(profileRow);
+      const { error: insertErr } = await (supabase).from('user_profiles').insert(profileRow);
       if (insertErr) {
         logger.warn('auth/callback: user_profiles insert error', { code: insertErr.code, userId: user.id });
       }

@@ -13,7 +13,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
   let bekleyenBildirimSayisi = 0;
   try {
     const supabase = await createSupabaseServerClient();
-    const sb = supabase as any;
+    const sb = supabase;
     const [itirazRes, oneriRes, sahiplenmeRes, incelemeRes] = await Promise.all([
       sb.from('moderation_appeals').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
       sb.from('business_suggestions').select('id', { count: 'exact', head: true }).eq('status', 'pending'),

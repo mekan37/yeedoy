@@ -45,7 +45,7 @@ export default async function OwnerSettingsPage() {
   }
 
   const user = authData.user;
-  const { data: claimData, error: claimError } = await (supabase as any)
+  const { data: claimData, error: claimError } = await (supabase)
     .from('owner_claims')
     .select('business_id')
     .eq('user_id', user.id)
@@ -62,7 +62,7 @@ export default async function OwnerSettingsPage() {
   if (!service) redirect('/sahip/gosterge-panosu');
 
   const [businessResult, profileResult, hoursResult] = await Promise.all([
-    (service as any)
+    (service)
       .from('businesses')
       .select(
         'id, name, category, description, phone, email, address, city, district, ' +
@@ -72,12 +72,12 @@ export default async function OwnerSettingsPage() {
       )
       .eq('id', businessId)
       .single(),
-    (supabase as any)
+    (supabase)
       .from('user_profiles')
       .select('display_name')
       .eq('user_id', user.id)
       .maybeSingle(),
-    (supabase as any).rpc('get_business_hours_v1', {
+    (supabase).rpc('get_business_hours_v1', {
       p_business_id: businessId,
     }),
   ]) as [
@@ -100,7 +100,7 @@ export default async function OwnerSettingsPage() {
 
   let notificationPrefs: Record<string, boolean> = {};
   try {
-    const { data: prefRows } = await (supabase as any)
+    const { data: prefRows } = await (supabase)
       .from('notification_preferences')
       .select('notification_type, enabled')
       .eq('user_id', user.id);

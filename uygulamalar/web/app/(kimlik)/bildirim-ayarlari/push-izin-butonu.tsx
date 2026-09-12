@@ -49,10 +49,12 @@ async function savePushToken(token: string): Promise<boolean> {
   const supabase = createSupabaseBrowserClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return false;
-  const { error } = await (supabase as any).from('push_subscriptions').upsert(
-    { user_id: user.id, token, platform: 'web', updated_at: new Date().toISOString() },
-    { onConflict: 'user_id,platform' },
-  );
+  // 'push_subscriptions' tablosu şemada yok — kayıt register_user_device_v1
+  // RPC'si üzerinden user_devices tablosuna yapılıyor.
+  const { error } = await (supabase).rpc('register_user_device_v1', {
+    p_fcm_token: token,
+    p_platform: 'web',
+  });
   return !error;
 }
 

@@ -56,7 +56,7 @@ export default async function OwnerPriceReportPage() {
 
   const [businesses, cookieStore] = await Promise.all([
     getOwnerBusinesses<{ id: string; name: string; city: string | null; district: string | null; is_active: boolean | null }>(
-      supabase as any, user.id, 'id, name, city, district, is_active',
+      supabase, user.id, 'id, name, city, district, is_active',
     ),
     cookies(),
   ]);
@@ -75,7 +75,7 @@ export default async function OwnerPriceReportPage() {
   const cookieId = cookieStore.get(AKTIF_ISLETME_COOKIE_NAME)?.value;
   const biz = activeBusinesses.find((b) => b.id === cookieId) ?? activeBusinesses[0];
 
-  const sb = supabase as any;
+  const sb = supabase;
   const [{ data: rows }, { data: competitors }, pricedVar] = await Promise.all([
     safeRpc(sb.rpc('get_business_price_comparison_v1', { p_business_id: biz.id, p_limit: 50 })),
     safeRpc(sb.rpc('get_business_price_competitors_v1', { p_business_id: biz.id, p_limit: 20 })),

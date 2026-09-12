@@ -18,7 +18,7 @@ export default async function SahiplenTalepPage({ searchParams }: Props) {
   // İşletme detayını çek
   const supabase = await createSupabaseServerClient();
 
-  const { data: business } = await (supabase as any)
+  const { data: business } = await (supabase)
     .from('businesses')
     .select('id, name, category, city, district, address')
     .eq('id', businessId)
@@ -36,7 +36,7 @@ export default async function SahiplenTalepPage({ searchParams }: Props) {
   }
 
   // Daha önce talep var mı?
-  const { data: existingClaim } = await (supabase as any)
+  const { data: existingClaim } = await (supabase)
     .from('owner_claims')
     .select('id, status')
     .eq('user_id', user.id)

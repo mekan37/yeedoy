@@ -8,10 +8,10 @@ export async function surescDolanlariTemizle(): Promise<{ deleted?: number; erro
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Yetkisiz' };
 
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
+  const { data: isAdmin } = await (supabase).rpc('is_admin');
   if (!isAdmin) return { error: 'Yetkisiz' };
 
-  const { data, error } = await (supabase as any)
+  const { data, error } = await (supabase)
     .from('temp_uploads')
     .delete()
     .lt('expires_at', new Date().toISOString())

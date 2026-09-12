@@ -20,7 +20,7 @@ export default async function ForbiddenPage() {
     const { data: { user: sessionUser }, error } = await supabase.auth.getUser();
     if (!error && sessionUser) {
       user = sessionUser;
-      const { data: profile } = await (supabase as any)
+      const { data: profile } = await (supabase)
         .from('user_profiles')
         .select('display_name, avatar_url')
         .eq('user_id', sessionUser.id)

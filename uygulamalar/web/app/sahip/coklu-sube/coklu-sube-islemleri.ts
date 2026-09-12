@@ -19,7 +19,7 @@ export async function subeYonetimVerisiGetir(businessId: string): Promise<{ erro
   const context = await requireUser();
   if (!context.ok) return { error: context.error };
 
-  const { data, error } = (await (context.supabase as any).rpc('owner_get_chain_overview_v1', {
+  const { data, error } = (await (context.supabase).rpc('owner_get_chain_overview_v1', {
     p_business_id: businessId,
   })) as { data: CokluSubeOverview | null; error: { message: string } | null };
 
@@ -37,7 +37,7 @@ export async function zincirOlustur(
   const trimmed = chainName.trim();
   if (!trimmed) return { error: 'Zincir adı boş olamaz' };
 
-  const { data, error } = (await (context.supabase as any).rpc('owner_create_chain_v1', {
+  const { data, error } = (await (context.supabase).rpc('owner_create_chain_v1', {
     p_business_id: businessId,
     p_chain_name: trimmed,
   })) as { data: string | null; error: { message: string } | null };
@@ -55,10 +55,10 @@ export async function subeEkle(
   const context = await requireUser();
   if (!context.ok) return { error: context.error };
 
-  const { error } = (await (context.supabase as any).rpc('owner_add_business_to_chain_v1', {
+  const { error } = (await (context.supabase).rpc('owner_add_business_to_chain_v1', {
     p_chain_id: chainId,
     p_business_id: businessId,
-    p_branch_label: branchLabel.trim() || null,
+    p_branch_label: branchLabel.trim(),
   })) as { error: { message: string } | null };
 
   if (error) return { error: error.message };
@@ -70,7 +70,7 @@ export async function subeCikar(businessId: string): Promise<{ error: string } |
   const context = await requireUser();
   if (!context.ok) return { error: context.error };
 
-  const { error } = (await (context.supabase as any).rpc('owner_remove_business_from_chain_v1', {
+  const { error } = (await (context.supabase).rpc('owner_remove_business_from_chain_v1', {
     p_business_id: businessId,
   })) as { error: { message: string } | null };
 
@@ -83,7 +83,7 @@ export async function subeSirasiGuncelle(businessId: string, newSortOrder: numbe
   const context = await requireUser();
   if (!context.ok) return { error: context.error };
 
-  const { error } = (await (context.supabase as any).rpc('owner_reorder_chain_branch_v1', {
+  const { error } = (await (context.supabase).rpc('owner_reorder_chain_branch_v1', {
     p_business_id: businessId,
     p_new_sort_order: newSortOrder,
   })) as { error: { message: string } | null };
@@ -97,7 +97,7 @@ export async function eklenebilirIsletmeleriListele(): Promise<{ error: string }
   const context = await requireUser();
   if (!context.ok) return { error: context.error };
 
-  const { data, error } = (await (context.supabase as any).rpc('owner_list_addable_businesses_v1')) as {
+  const { data, error } = (await (context.supabase).rpc('owner_list_addable_businesses_v1')) as {
     data: AddableBusiness[] | null;
     error: { message: string } | null;
   };

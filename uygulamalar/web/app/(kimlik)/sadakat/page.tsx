@@ -26,7 +26,7 @@ export default async function SadakatPage() {
 
   const qrDataUrl = await QRCode.toDataURL(user.id, { margin: 1, width: 220 });
 
-  const { data: cards } = (await (supabase as any).rpc('get_my_loyalty_cards_v1')) as {
+  const { data: cards } = (await (supabase).rpc('get_my_loyalty_cards_v1')) as {
     data: SadakatKarti[] | null;
   };
   const list = cards ?? [];

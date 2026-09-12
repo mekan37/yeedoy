@@ -16,7 +16,7 @@ type Props = { params: Promise<{ menuId: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { menuId } = await params;
   const supabase = await createSupabaseServerClient();
-  const { data } = await (supabase as any).from('menus').select('title').eq('id', menuId).single() as { data: { title: string } | null };
+  const { data } = await (supabase).from('menus').select('title').eq('id', menuId).single() as { data: { title: string } | null };
   return {
     title: data ? `${data.title} | Sahip Paneli` : 'Menü | Sahip Paneli',
     robots: { index: false, follow: false },

@@ -161,13 +161,15 @@ export default async function HomePage() {
   const topBusinesses = await getTopMarketplaceBusinesses(6).catch(() => [] as AcikIsletmeKarti[]);
 
   const supabase = createSupabasePublicClient();
-  const campaigns = await (supabase as any)
-    .from('business_campaigns')
-    .select('id,title,discount_pct,businesses(name,slug)')
-    .eq('is_active', true)
-    .gte('valid_until', new Date().toISOString())
-    .order('discount_pct', { ascending: false })
-    .limit(3)
+  const campaigns = await Promise.resolve(
+    (supabase)
+      .from('campaigns')
+      .select('id,title,discount_percent,businesses(name,slug)')
+      .eq('status', 'active')
+      .or(`ends_at.is.null,ends_at.gt.${new Date().toISOString()}`)
+      .order('discount_percent', { ascending: false })
+      .limit(3),
+  )
     .then((r: any) => (r?.data as any[]) ?? [])
     .catch(() => []);
 

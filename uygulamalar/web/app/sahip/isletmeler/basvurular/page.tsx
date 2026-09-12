@@ -21,7 +21,7 @@ export default async function OwnerBusinessSubmissionsPage() {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const { data: submissions } = await (supabase as any)
+  const { data: submissions } = await (supabase)
     .from('business_submissions')
     .select('id, name, city, district, category, status, admin_note, created_at')
     .eq('submitted_by', user!.id)

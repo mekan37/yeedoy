@@ -22,17 +22,19 @@ export function logAudit(params: AuditParams): void {
   const ip = (params.request ? getClientIp(params.request.headers) : null) ?? undefined;
   const userAgent = params.request?.headers.get('user-agent') ?? undefined;
 
-  void (params.supabase as any).from('audit_logs').insert({
-    user_id: params.userId,
-    action: params.action,
-    resource_type: params.resourceType,
-    resource_id: params.resourceId,
-    old_data: params.oldData,
-    new_data: params.newData,
-    metadata: params.metadata,
-    ip_address: ip,
-    user_agent: userAgent,
-  }).then(() => {}).catch((err: unknown) => {
+  void Promise.resolve(
+    (params.supabase).from('audit_logs').insert({
+      user_id: params.userId,
+      action: params.action,
+      resource_type: params.resourceType,
+      resource_id: params.resourceId,
+      old_data: params.oldData,
+      new_data: params.newData,
+      metadata: params.metadata,
+      ip_address: ip,
+      user_agent: userAgent,
+    }),
+  ).then(() => {}).catch((err: unknown) => {
     console.error('[audit] failed to write audit log', { action: params.action, err });
   });
 }

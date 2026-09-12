@@ -5,13 +5,13 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 export async function approveClaim(claimId: string) {
   const supabase = await createSupabaseServerClient();
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
+  const { data: isAdmin } = await (supabase).rpc('is_admin');
   if (!isAdmin) return;
 
-  const { error } = await (supabase as any).rpc('admin_decide_owner_claim_v1', {
+  const { error } = await (supabase).rpc('admin_decide_owner_claim_v1', {
     p_claim_id: claimId,
     p_decision: 'approved',
-    p_note: null,
+    p_note: undefined,
   });
   if (error) {
     throw new Error('Sahiplenme talebi onaylanamadı.');
@@ -21,13 +21,13 @@ export async function approveClaim(claimId: string) {
 
 export async function rejectClaim(claimId: string, note?: string | null) {
   const supabase = await createSupabaseServerClient();
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
+  const { data: isAdmin } = await (supabase).rpc('is_admin');
   if (!isAdmin) return;
 
-  const { error } = await (supabase as any).rpc('admin_decide_owner_claim_v1', {
+  const { error } = await (supabase).rpc('admin_decide_owner_claim_v1', {
     p_claim_id: claimId,
     p_decision: 'rejected',
-    p_note: note ?? null,
+    p_note: note ?? undefined,
   });
   if (error) {
     throw new Error('Sahiplenme talebi reddedilemedi.');

@@ -139,8 +139,8 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
   const { data: { user } } = await supabase.auth.getUser();
 
   const [bizIds, profileRes] = await Promise.all([
-    getOwnerBusinessIds(supabase as any, user!.id),
-    (supabase as any)
+    getOwnerBusinessIds(supabase, user!.id),
+    (supabase)
       .from('user_profiles')
       .select('display_name, owner_onboarding_redirected_at')
       .eq('user_id', user!.id)
@@ -152,7 +152,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
   // Başlangıç Rehberi'ne yönlendirilir — sonraki tüm açılışlarda buraya
   // (Genel Bakış'a) doğrudan gelir. bkz. migration 20260817000006.
   if (bizIds.length > 0 && !profileRes.data?.owner_onboarding_redirected_at) {
-    await (supabase as any)
+    await (supabase)
       .from('user_profiles')
       .update({ owner_onboarding_redirected_at: new Date().toISOString() })
       .eq('user_id', user!.id);
@@ -164,7 +164,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
 
   // Bekleyen talep var mı?
   const hasPendingClaim = bizIds.length === 0 && await (async () => {
-    const { data } = await (supabase as any)
+    const { data } = await (supabase)
       .from('owner_claims')
       .select('id')
       .eq('user_id', user!.id)
@@ -178,7 +178,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
 
   // ── Çoklu işletme seçimi + işletme başına detay bloğu ─────────────────────
   const ownerBusinesses = await getOwnerBusinessesByIds<BizRow>(
-    supabase as any,
+    supabase,
     bizIds,
     'id, name, slug, category, city, district, logo_url, cover_url, is_verified, is_active',
   );
@@ -218,13 +218,13 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
     };
 
     const [statsRes, favRes, viewsRes, opensRes, qrRes, reviewTrendRes, reviewDetailRes, planResults] = await Promise.all([
-      (supabase as any).from('businesses_with_stats').select('id, avg_rating, reviews_count').in('id', selectedIds),
-      (supabase as any).from('favorites').select('business_id, created_at').in('business_id', selectedIds).gte('created_at', since14d),
-      (supabase as any).from('analytics_events').select('business_id, created_at').in('business_id', selectedIds).eq('event_name', 'business_page_view').gte('created_at', since14d),
-      (supabase as any).from('analytics_events').select('business_id, created_at').in('business_id', selectedIds).eq('event_name', 'menu_view').gte('created_at', since14d),
-      (supabase as any).from('analytics_events').select('business_id, created_at').in('business_id', selectedIds).eq('event_name', 'qr_scanned').gte('created_at', since14d),
-      (supabase as any).from('reviews').select('business_id, created_at').in('business_id', selectedIds).gte('created_at', since14d),
-      (supabase as any)
+      (supabase).from('businesses_with_stats').select('id, avg_rating, reviews_count').in('id', selectedIds),
+      (supabase).from('favorites').select('business_id, created_at').in('business_id', selectedIds).gte('created_at', since14d),
+      (supabase).from('analytics_events').select('business_id, created_at').in('business_id', selectedIds).eq('event_name', 'business_page_view').gte('created_at', since14d),
+      (supabase).from('analytics_events').select('business_id, created_at').in('business_id', selectedIds).eq('event_name', 'menu_view').gte('created_at', since14d),
+      (supabase).from('analytics_events').select('business_id, created_at').in('business_id', selectedIds).eq('event_name', 'qr_scanned').gte('created_at', since14d),
+      (supabase).from('reviews').select('business_id, created_at').in('business_id', selectedIds).gte('created_at', since14d),
+      (supabase)
         .from('reviews')
         .select('id, business_id, user_id, rating, content, status, created_at, owner_reply, owner_replied_at')
         .in('business_id', selectedIds)
@@ -232,9 +232,10 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
         .limit(300),
       Promise.all(
         selectedIds.map((id) =>
-          (supabase as any)
-            .rpc('get_my_plan_v1', { p_business_id: id })
-            .then((r: { data: PlanOzetVerisi | null }) => [id, r?.data ?? undefined] as const)
+          Promise.resolve(
+            (supabase).rpc('get_my_plan_v1', { p_business_id: id }),
+          )
+            .then((r: any) => [id, (r?.data as PlanOzetVerisi | null) ?? undefined] as const)
             .catch(() => [id, undefined] as const),
         ),
       ),
@@ -243,14 +244,16 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
     // Bugün açık mı + kapanış saati — sadece ilk seçili işletme için (kart tek işletme gösteriyor).
     const saatResults = await Promise.all(
       selectedIds.map((id) =>
-        (supabase as any)
-          .rpc('get_business_hours_v1', { p_business_id: id })
-          .then((r: { data: { weekly?: Array<{ day_of_week: number; close_time: string; is_closed: boolean }>; is_open_now?: boolean } | null }) => {
+        Promise.resolve(
+          (supabase).rpc('get_business_hours_v1', { p_business_id: id }),
+        )
+          .then((r: any) => {
+            const data = r?.data as { weekly?: Array<{ day_of_week: number; close_time: string; is_closed: boolean }>; is_open_now?: boolean } | null;
             const nowIstanbul = new Date(Date.now() + 3 * 60 * 60 * 1000);
             const todayDow = nowIstanbul.getUTCDay();
-            const today = r?.data?.weekly?.find((row) => row.day_of_week === todayDow);
+            const today = data?.weekly?.find((row) => row.day_of_week === todayDow);
             return [id, {
-              isOpenNow: r?.data?.is_open_now ?? null,
+              isOpenNow: data?.is_open_now ?? null,
               closeTime: today && !today.is_closed ? today.close_time : null,
             }] as const;
           })
@@ -262,15 +265,20 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
     for (const row of ((statsRes.data ?? []) as Array<{ id: string; avg_rating: number | null; reviews_count: number | null }>)) {
       statsMap.set(row.id, row);
     }
+    const gecerliSatirlar = (
+      rows: Array<{ business_id: string | null; created_at: string | null }>,
+    ): Array<{ business_id: string; created_at: string }> =>
+      rows.filter((r): r is { business_id: string; created_at: string } => Boolean(r.business_id && r.created_at));
+
     for (const [id, count] of bucketize(favRes.data ?? [])) favByBiz.set(id, count);
-    for (const [id, count] of bucketize(viewsRes.data ?? [])) viewsByBiz.set(id, count);
-    for (const [id, count] of bucketize(opensRes.data ?? [])) opensByBiz.set(id, count);
-    for (const [id, count] of bucketize(qrRes.data ?? [])) qrByBiz.set(id, count);
-    for (const [id, count] of bucketize(reviewTrendRes.data ?? [])) reviewTrendByBiz.set(id, count);
+    for (const [id, count] of bucketize(gecerliSatirlar(viewsRes.data ?? []))) viewsByBiz.set(id, count);
+    for (const [id, count] of bucketize(gecerliSatirlar(opensRes.data ?? []))) opensByBiz.set(id, count);
+    for (const [id, count] of bucketize(gecerliSatirlar(qrRes.data ?? []))) qrByBiz.set(id, count);
+    for (const [id, count] of bucketize(gecerliSatirlar(reviewTrendRes.data ?? []))) reviewTrendByBiz.set(id, count);
 
     // Görüntülenme Grafiği — trend hesaplamasıyla aynı business_page_view satırlarından, günlük kırılım
     dailyViewsByBiz = dailyByBusiness(
-      (viewsRes.data ?? []).filter((r: { created_at: string }) => r.created_at >= since7d),
+      gecerliSatirlar(viewsRes.data ?? []).filter((r) => r.created_at >= since7d),
       selectedIds,
     );
 
@@ -286,7 +294,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
 
     const reviewerIds = Array.from(new Set(detailRows.map((r) => r.user_id).filter((id): id is string => Boolean(id))));
     if (reviewerIds.length > 0) {
-      const { data: profiles } = await (supabase as any)
+      const { data: profiles } = await (supabase)
         .from('user_profiles').select('user_id, display_name, avatar_url').in('user_id', reviewerIds);
       for (const p of ((profiles ?? []) as Array<{ user_id: string; display_name: string | null; avatar_url: string | null }>)) {
         profileMap.set(p.user_id, { display_name: p.display_name, avatar_url: p.avatar_url });

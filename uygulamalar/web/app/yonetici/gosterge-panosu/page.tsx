@@ -27,7 +27,7 @@ export default async function AdminDashboardPage({ searchParams }: Props) {
     : 30;
 
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as any;
+  const sb = supabase;
 
   const now = Date.now();
   const buHaftaBasi = new Date(now - 7 * 86400000).toISOString();
@@ -76,7 +76,7 @@ export default async function AdminDashboardPage({ searchParams }: Props) {
     sb.from('edge_rate_limit_events').select('id', { count: 'exact', head: true }).gte('created_at', new Date(now - 86400000).toISOString()),
   ]);
 
-  let sonAktiviteler: Array<{ id: string; action: string; target_table: string; created_at: string }> = [];
+  let sonAktiviteler: Array<{ id: string; action: string; target_table: string | null; created_at: string }> = [];
   try {
     const { data, error } = await sb
       .from('admin_audit_log')
@@ -89,9 +89,10 @@ export default async function AdminDashboardPage({ searchParams }: Props) {
   }
 
   // ── Günlük trend (3 seri) ────────────────────────────────────────────
-  function gunlukSayimYap(rows: Array<{ created_at: string }>): Record<string, number> {
+  function gunlukSayimYap(rows: Array<{ created_at: string | null }>): Record<string, number> {
     const acc: Record<string, number> = {};
     for (const r of rows ?? []) {
+      if (!r.created_at) continue;
       const d = new Date(r.created_at);
       const gun = `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}`;
       acc[gun] = (acc[gun] ?? 0) + 1;
@@ -280,7 +281,7 @@ export default async function AdminDashboardPage({ searchParams }: Props) {
                   {sonAktiviteler.map((a) => (
                     <div key={a.id} className="flex items-start justify-between gap-3">
                       <p className="text-xs font-bold text-textStrong">
-                        {TABLE_LABELS[a.target_table] ?? a.target_table} {ACTION_LABELS[a.action] ?? a.action}
+                        {(a.target_table ? TABLE_LABELS[a.target_table] : null) ?? a.target_table} {ACTION_LABELS[a.action] ?? a.action}
                       </p>
                       <span className="shrink-0 text-[11px] text-muted">{zamanFarki(a.created_at)}</span>
                     </div>

@@ -39,7 +39,7 @@ export default async function FeatureFlagsPage({ searchParams }: Props) {
 
   const { q = '', proje = '', ortam = '', durum = '', tur = '' } = await searchParams;
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as any;
+  const sb = supabase;
 
   const { data: rawFlags } = await sb
     .from('runtime_feature_flags')

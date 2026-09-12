@@ -21,7 +21,7 @@ export default async function CokluSubeSayfasi() {
   const businessIds = await getOwnerBusinessIds(supabase, user.id);
   if (businessIds.length === 0) redirect('/sahip');
 
-  const { data: chainedBusinessId } = (await (supabase as any).rpc('owner_find_chained_business_v1')) as {
+  const { data: chainedBusinessId } = (await (supabase).rpc('owner_find_chained_business_v1')) as {
     data: string | null;
   };
   const anchorBusinessId = chainedBusinessId ?? businessIds[0];

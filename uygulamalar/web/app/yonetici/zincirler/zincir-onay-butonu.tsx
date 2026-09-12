@@ -13,7 +13,7 @@ export function ZincirOnayButonu({ chainId, isVerified, className }: { chainId: 
     setError(null);
     startTransition(async () => {
       const supabase = createSupabaseBrowserClient();
-      const { error: rpcError } = await (supabase as any).rpc('admin_update_chain_v1', {
+      const { error: rpcError } = await (supabase).rpc('admin_update_chain_v1', {
         p_chain_id: chainId,
         p_is_verified: !isVerified,
       });

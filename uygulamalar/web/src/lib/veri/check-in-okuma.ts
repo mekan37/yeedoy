@@ -7,7 +7,7 @@ export async function getMyCheckInToday(businessId: string): Promise<boolean> {
   } = await supabase.auth.getUser();
   if (!user) return false;
 
-  const { data } = await (supabase as any).rpc('get_my_checkin_today_v1', {
+  const { data } = await (supabase).rpc('get_my_checkin_today_v1', {
     p_business_id: businessId,
   });
 

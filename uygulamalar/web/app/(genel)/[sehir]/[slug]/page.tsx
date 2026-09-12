@@ -52,6 +52,44 @@ function slugify(text: string): string {
 
 type PageMode = 'district' | 'category';
 
+// avg_rating/review_count 'businesses' tablosunda yok (yalnızca slug alanları
+// içermeyen businesses_with_stats view'inde var) — puanlar reviews tablosundan
+// ayrıca hesaplanıp ekleniyor. median_price_cents için de hazır bir kaynak
+// yok, bu yüzden null bırakılıyor (pazar-okuma.ts'teki mevcut davranışla aynı).
+const BASE_SELECT = 'id,name,slug,public_slug,category,city,district,is_verified,price_level,district_slug,category_slug';
+
+async function enrichWithRatings(
+  supabase: ReturnType<typeof createSupabasePublicClient>,
+  rows: LocalBusiness[],
+): Promise<LocalBusiness[]> {
+  if (rows.length === 0) return rows;
+  const ids = rows.map((r) => r.id);
+  try {
+    const { data: reviewRows } = await (supabase)
+      .from('reviews')
+      .select('business_id, rating')
+      .in('business_id', ids)
+      .eq('status', 'approved');
+    const buckets = new Map<string, number[]>();
+    for (const r of (reviewRows ?? []) as Array<{ business_id: string; rating: number }>) {
+      const list = buckets.get(r.business_id) ?? [];
+      list.push(r.rating);
+      buckets.set(r.business_id, list);
+    }
+    return rows.map((b) => {
+      const ratings = buckets.get(b.id);
+      const avg = ratings && ratings.length > 0 ? ratings.reduce((s, v) => s + v, 0) / ratings.length : null;
+      return { ...b, avg_rating: avg, review_count: ratings?.length ?? 0, median_price_cents: null };
+    });
+  } catch {
+    return rows.map((b) => ({ ...b, avg_rating: null, review_count: 0, median_price_cents: null }));
+  }
+}
+
+function sortByRating(list: LocalBusiness[]): LocalBusiness[] {
+  return [...list].sort((a, b) => (b.avg_rating ?? 0) - (a.avg_rating ?? 0));
+}
+
 // cache() memoizes per-request: generateMetadata + page component share one DB call.
 // Deterministic resolution: district_slug exact match wins over category_slug exact match.
 // Partial ilike fallback covers categories whose slugify() output differs from category_slug
@@ -65,20 +103,20 @@ const resolveMode = cache(async (
     const supabase = createSupabasePublicClient();
 
     // Single OR query — hits partial indexes on district_slug and category_slug.
-    const { data } = await (supabase as any)
+    const { data } = await (supabase)
       .from('businesses')
-      .select('id,name,slug,public_slug,category,city,district,is_verified,avg_rating,review_count,price_level,median_price_cents,district_slug,category_slug')
+      .select(BASE_SELECT)
       .eq('is_active', true)
       .eq('city_slug', citySlug)
       .or(`district_slug.eq.${escapePostgrestValue(slugParam)},category_slug.eq.${escapePostgrestValue(slugParam)}`)
-      .order('avg_rating', { ascending: false })
-      .limit(60);
+      .limit(300);
 
-    const allResults: LocalBusiness[] = data ?? [];
+    const validRows = (data ?? []).filter((b): b is typeof b & { slug: string } => Boolean(b.slug));
+    const allResults: LocalBusiness[] = await enrichWithRatings(supabase, validRows);
 
     // District is always preferred when both match (deterministic — no count comparison).
-    const districtBiz = allResults.filter((b) => b.district_slug === slugParam);
-    const categoryBiz = allResults.filter((b) => b.category_slug === slugParam);
+    const districtBiz = sortByRating(allResults.filter((b) => b.district_slug === slugParam)).slice(0, 60);
+    const categoryBiz = sortByRating(allResults.filter((b) => b.category_slug === slugParam)).slice(0, 60);
 
     if (districtBiz.length > 0) return { mode: 'district', businesses: districtBiz };
     if (categoryBiz.length > 0) return { mode: 'category', businesses: categoryBiz };
@@ -86,17 +124,19 @@ const resolveMode = cache(async (
     // Partial match fallback: covers categories stored with different Turkish char mapping
     // (e.g. URL "kahvalti" while DB category is "Kahvaltı" → category_slug "kahvalti").
     // This path is uncommon after migration but preserves backward compatibility.
-    const { data: partialData } = await (supabase as any)
+    const { data: partialData } = await (supabase)
       .from('businesses')
-      .select('id,name,slug,public_slug,category,city,district,is_verified,avg_rating,review_count,price_level,median_price_cents')
+      .select(BASE_SELECT)
       .eq('is_active', true)
       .eq('city_slug', citySlug)
       .ilike('category', `%${slugParam.replace(/-/g, ' ')}%`)
-      .order('avg_rating', { ascending: false })
-      .limit(60);
+      .limit(300);
 
-    if ((partialData?.length ?? 0) > 0) {
-      return { mode: 'category', businesses: partialData };
+    const validPartialRows = (partialData ?? []).filter((b): b is typeof b & { slug: string } => Boolean(b.slug));
+    const partialResults = sortByRating(await enrichWithRatings(supabase, validPartialRows)).slice(0, 60);
+
+    if (partialResults.length > 0) {
+      return { mode: 'category', businesses: partialResults };
     }
 
     return { mode: 'category', businesses: [] };

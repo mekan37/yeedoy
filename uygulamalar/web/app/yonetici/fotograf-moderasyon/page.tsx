@@ -37,7 +37,7 @@ export default async function FotografModerasyonPage({ searchParams }: Props) {
   const { durum = 'pending', tur = '', kategori = '', q = '', page = '1' } = await searchParams;
   const pageNum = Math.max(1, parseInt(page, 10) || 1);
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as any;
+  const sb = supabase;
 
   const now = Date.now();
   const yediGunOnce = new Date(now - 7 * DAY).toISOString();
@@ -67,12 +67,14 @@ export default async function FotografModerasyonPage({ searchParams }: Props) {
   ]);
   const bilinenTurToplam = (logoRes.count ?? 0) + (coverRes.count ?? 0) + (galleryRes.count ?? 0);
   const digerTurSayisi = Math.max(0, total - bilinenTurToplam);
-  const turDagilimi: Array<[string, number, string]> = [
-    ['Galeri', galleryRes.count ?? 0, '#2563eb'],
-    ['Logo', logoRes.count ?? 0, '#7c3aed'],
-    ['Kapak', coverRes.count ?? 0, '#059669'],
-    ['Diğer', digerTurSayisi, '#94a3b8'],
-  ].filter(([, n]) => n > 0) as Array<[string, number, string]>;
+  const turDagilimi: Array<[string, number, string]> = (
+    [
+      ['Galeri', galleryRes.count ?? 0, '#2563eb'],
+      ['Logo', logoRes.count ?? 0, '#7c3aed'],
+      ['Kapak', coverRes.count ?? 0, '#059669'],
+      ['Diğer', digerTurSayisi, '#94a3b8'],
+    ] as Array<[string, number, string]>
+  ).filter(([, n]) => n > 0);
 
   // ── Ana liste sorgusu (server-side filtre + sayfalama) ──
   let query = sb

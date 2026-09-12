@@ -34,7 +34,7 @@ export default async function BildirimAyarlariPage() {
 
   let prefs: Record<string, boolean> = {};
   try {
-    const { data } = await (supabase as any)
+    const { data } = await (supabase)
       .from('notification_preferences')
       .select('notification_type, enabled')
       .eq('user_id', user!.id);
@@ -51,7 +51,9 @@ export default async function BildirimAyarlariPage() {
   // migration 20260620000001 uygulanmadan önce sütun yoktur; hata durumunda false default.
   let marketingEmailEnabled = false;
   try {
-    const { data: envelope } = await (supabase as any).rpc('get_my_profile_private_v1');
+    const { data: envelope } = await (supabase).rpc('get_my_profile_private_v1') as unknown as {
+      data: { ok: boolean; profile: { marketing_email_opt_in?: boolean } | null } | null;
+    };
     const profileData = envelope?.profile;
     if (profileData && typeof profileData.marketing_email_opt_in === 'boolean') {
       marketingEmailEnabled = profileData.marketing_email_opt_in;

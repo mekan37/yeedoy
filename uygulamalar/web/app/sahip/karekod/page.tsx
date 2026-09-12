@@ -17,19 +17,23 @@ export default async function OwnerQrPage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   const list = await getOwnerBusinesses<{ id: string; name: string; slug: string | null }>(
-    supabase as any,
+    supabase,
     user!.id,
     'id, name, slug',
   );
 
   const watermarkDurumu: Array<readonly [string, boolean]> = await Promise.all(
     list.map((b) =>
-      (supabase as any)
-        .rpc('get_my_plan_v1', { p_business_id: b.id })
-        .then((r: { data: { features: Array<{ feature_key: string; enabled: boolean }> } | null }) => [
-          b.id,
-          r?.data?.features.find((f) => f.feature_key === 'qr_watermark')?.enabled ?? true,
-        ] as const)
+      Promise.resolve(
+        (supabase).rpc('get_my_plan_v1', { p_business_id: b.id }),
+      )
+        .then((r: any) => {
+          const data = r?.data as { features: Array<{ feature_key: string; enabled: boolean }> } | null;
+          return [
+            b.id,
+            data?.features.find((f) => f.feature_key === 'qr_watermark')?.enabled ?? true,
+          ] as const;
+        })
         .catch(() => [b.id, true] as const),
     ),
   );

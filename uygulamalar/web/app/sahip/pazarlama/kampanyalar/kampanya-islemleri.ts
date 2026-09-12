@@ -68,17 +68,17 @@ export async function kampanyaKaydet(
     }
 
     const supabase = await createSupabaseServerClient();
-    const { error } = await (supabase as any).rpc('owner_upsert_campaign_v1', {
+    const { error } = await (supabase).rpc('owner_upsert_campaign_v1', {
       p_business_id:     d.business_id,
       p_title:           d.title,
       p_type:            d.type,
       p_status:          d.status,
-      p_description:     d.description ?? null,
-      p_discount_percent: d.discount_percent ?? null,
-      p_starts_at:       startsAtIso,
-      p_ends_at:         endsAtIso,
-      p_image_url:       d.image_url ?? null,
-      p_id:              d.id ?? null,
+      p_description:     d.description ?? undefined,
+      p_discount_percent: d.discount_percent ?? undefined,
+      p_starts_at:       startsAtIso ?? undefined,
+      p_ends_at:         endsAtIso ?? undefined,
+      p_image_url:       d.image_url ?? undefined,
+      p_id:              d.id ?? undefined,
     }) as { error: { message: string } | null };
 
     if (error) return { error: error.message };
@@ -98,7 +98,7 @@ export async function kampanyaSil(
     }
 
     const supabase = await createSupabaseServerClient();
-    const { error } = await (supabase as any).rpc('owner_delete_campaign_v1', {
+    const { error } = await (supabase).rpc('owner_delete_campaign_v1', {
       p_id:          id,
       p_business_id: businessId,
     }) as { error: { message: string } | null };

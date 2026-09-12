@@ -25,17 +25,17 @@ export default async function OwnerTrashPage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   const bizList = user
-    ? await getOwnerBusinesses<{ id: string; name: string }>(supabase as any, user.id, 'id, name')
+    ? await getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name')
     : [];
 
   const trashResults = await Promise.all(
     bizList.map((b) =>
-      (supabase as any)
+      (supabase)
         .rpc('list_owner_menu_trash_v1', { p_business_id: b.id })
-        .then((res: { data: TrashRow[] | null }) => ({
+        .then((res: any) => ({
           businessId: b.id,
           bizName: b.name,
-          rows: res.data ?? [],
+          rows: (res.data ?? []) as TrashRow[],
         })),
     ),
   );
@@ -45,11 +45,11 @@ export default async function OwnerTrashPage() {
   const archivedMenuIds = trashResults.flatMap((r) => r.rows.filter((row: TrashRow) => row.entity_type === 'menu').map((row: TrashRow) => row.entity_id));
   const menuItemCounts = new Map<string, number>();
   if (archivedMenuIds.length > 0) {
-    const { data: sectionRows } = await (supabase as any).from('menu_sections').select('id, menu_id').in('menu_id', archivedMenuIds);
+    const { data: sectionRows } = await (supabase).from('menu_sections').select('id, menu_id').in('menu_id', archivedMenuIds);
     const sectionToMenu = new Map<string, string>((sectionRows ?? []).map((s: { id: string; menu_id: string }) => [s.id, s.menu_id]));
     const sectionIds = Array.from(sectionToMenu.keys());
     if (sectionIds.length > 0) {
-      const { data: itemRows } = await (supabase as any).from('menu_items').select('section_id').in('section_id', sectionIds);
+      const { data: itemRows } = await (supabase).from('menu_items').select('section_id').in('section_id', sectionIds);
       for (const item of (itemRows ?? []) as Array<{ section_id: string }>) {
         const menuId = sectionToMenu.get(item.section_id);
         if (!menuId) continue;

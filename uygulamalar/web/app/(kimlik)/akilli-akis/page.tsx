@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default async function AkilliAkisPage() {
   const supabase = await createSupabaseServerClient();
-  const { data } = (await (supabase as any).rpc('get_smart_feed_v2', {
+  const { data } = (await (supabase).rpc('get_smart_feed_v2', {
     p_limit: 20,
     p_offset: 0,
   })) as { data: SmartFeedEvent[] | null };

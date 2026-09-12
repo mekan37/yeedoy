@@ -5,9 +5,21 @@ import { toast } from '@/src/lib/toast-deposu';
 
 import { useState, useTransition } from 'react';
 
+// 'user_perks' tablosu şemada henüz yok (planlanan bir özellik) — bkz. ./page.tsx.
+interface AvantajGuncellemeSorgusu extends PromiseLike<{ error: { code?: string } | null }> {
+  eq: (column: string, value: unknown) => AvantajGuncellemeSorgusu;
+}
+
 async function markPerkUsed(perkId: string): Promise<boolean> {
   const supabase = createSupabaseBrowserClient();
-  const { error } = await (supabase as any).from('user_perks').update({ is_used: true }).eq('id', perkId);
+  const { error } = await (
+    supabase as unknown as {
+      from: (t: string) => { update: (values: Record<string, unknown>) => AvantajGuncellemeSorgusu };
+    }
+  )
+    .from('user_perks')
+    .update({ is_used: true })
+    .eq('id', perkId);
   if (error) {
     toast('Avantaj kullanılamadı. Lütfen tekrar deneyin.', 'danger');
     return false;

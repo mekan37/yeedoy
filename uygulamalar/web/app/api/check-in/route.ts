@@ -21,7 +21,7 @@ export async function POST(req: Request) {
   } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
 
-  const { data, error } = await (supabase as any).rpc('submit_checkin_v1', {
+  const { data, error } = await (supabase).rpc('submit_checkin_v1', {
     p_business_id: parsed.data.businessId,
   });
 

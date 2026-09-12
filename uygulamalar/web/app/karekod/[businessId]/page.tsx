@@ -87,7 +87,7 @@ export default async function QrPage({ params, searchParams }: QrPageProps) {
   }
 
   const supabase = await createSupabaseServerClient();
-  const { data: planData } = await (supabase as any).rpc('get_my_plan_v1', {
+  const { data: planData } = await (supabase).rpc('get_my_plan_v1', {
     p_business_id: businessId,
   }) as { data: { plan_tier: string; features: Array<{ feature_key: string; enabled: boolean }> } | null };
   const showQrWatermark = planData?.features.find((f) => f.feature_key === 'qr_watermark')?.enabled ?? true;

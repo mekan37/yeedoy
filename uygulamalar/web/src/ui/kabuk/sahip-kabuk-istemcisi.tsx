@@ -96,7 +96,7 @@ function useCurrentUser() {
     const supabase = createSupabaseBrowserClient();
     void supabase.auth.getSession().then(async ({ data }) => {
       if (!data.session?.user) return;
-      const { data: profile } = await (supabase as any)
+      const { data: profile } = await (supabase)
         .from('user_profiles')
         .select('display_name, avatar_url')
         .eq('user_id', data.session.user.id)

@@ -38,6 +38,7 @@ type SearchOptions = {
 
 type SupabaseLike = {
   from: (table: string) => any;
+  rpc: (fn: any, args?: Record<string, unknown>) => any;
 };
 
 type QueryResult = {
@@ -127,7 +128,7 @@ async function searchUsers(supabase: SupabaseLike, query: string, limit: number)
   const shadowBannedMap = new Map<string, boolean>();
   if (userIds.length > 0) {
     const privateResult = await safeQuery(
-      (supabase as any).rpc('admin_list_user_profiles_private_v1', { p_user_ids: userIds }),
+      (supabase).rpc('admin_list_user_profiles_private_v1', { p_user_ids: userIds }),
     );
     for (const row of privateResult.data ?? []) {
       shadowBannedMap.set(row.user_id as string, Boolean(row.shadow_banned));

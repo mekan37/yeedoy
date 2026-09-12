@@ -2,13 +2,13 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSupabaseServerClient } from '@/src/lib/taban/sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
+import type { TablesInsert } from '@/src/lib/taban/veri-tanimlari';
 import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
 import { logger } from '@/src/lib/kayitci';
 import { logAudit, AUDIT } from '@/src/lib/denetim';
 
 export const runtime = 'nodejs';
 
-const ADMIN_ROLES = ['super_admin', 'admin', 'community_mod'] as const;
 
 const CreateBusinessSchema = z.object({
   name: z.string().min(2).max(200),
@@ -45,13 +45,11 @@ async function assertAdmin(request: Request) {
     return { ok: false as const, status: 401, identity };
   }
 
-  const { data: profile, error: profileError } = await (supabase as any)
-    .from('user_profiles')
-    .select('role')
-    .eq('id', user.id)
-    .maybeSingle();
+  // 'user_profiles' tablosunda 'role' kolonu yok — admin kontrolü diğer
+  // yonetici route'larıyla tutarlı şekilde is_admin() RPC'si üzerinden yapılıyor.
+  const { data: isAdmin } = await (supabase).rpc('is_admin');
 
-  if (profileError || !profile || !ADMIN_ROLES.includes(profile.role)) {
+  if (!isAdmin) {
     return { ok: false as const, status: 403, identity };
   }
 
@@ -117,7 +115,7 @@ export async function POST(request: Request) {
     .replace(/^-|-$/g, '');
   const slug = `${slugBase}-${Date.now().toString(36)}`;
 
-  const insertRow: Record<string, unknown> = {
+  const insertRow: TablesInsert<'businesses'> = {
     name,
     category,
     city,
@@ -142,7 +140,7 @@ export async function POST(request: Request) {
     insertRow.reservation_url = website;
   }
 
-  const { data: created, error: insertError } = await (serviceClient as any)
+  const { data: created, error: insertError } = await (serviceClient)
     .from('businesses')
     .insert(insertRow)
     .select('id, name, slug')
@@ -154,7 +152,7 @@ export async function POST(request: Request) {
   }
 
   logAudit({
-    supabase: serviceClient as any,
+    supabase: serviceClient,
     userId: guard.userId,
     action: AUDIT.BUSINESS_CREATE,
     resourceType: 'business',

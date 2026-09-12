@@ -34,7 +34,7 @@ export default async function RollerPage({ searchParams }: Props) {
 
   const { q = '', durum = '' } = await searchParams;
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as any;
+  const sb = supabase;
 
   const [{ data: rawRoles }, { data: rawMembers }] = await Promise.all([
     sb.from('admin_roles').select('id, name, description, is_system, is_active, permissions, created_at, updated_at, updated_by').order('created_at', { ascending: true }),

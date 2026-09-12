@@ -16,12 +16,12 @@ export default async function SahipPremiumSayfasi() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/giris?redirect=/sahip/premium');
 
-  const businessIds = await getOwnerBusinessIds(supabase as any, user.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user.id);
   const businessId = businessIds[0];
 
   let currentTier: PlanTierId | null = null;
   if (businessId) {
-    const { data } = (await (supabase as any).rpc('get_my_plan_v1', { p_business_id: businessId })) as {
+    const { data } = (await (supabase).rpc('get_my_plan_v1', { p_business_id: businessId })) as {
       data: { plan_tier: PlanTierId } | null;
     };
     currentTier = data?.plan_tier ?? null;

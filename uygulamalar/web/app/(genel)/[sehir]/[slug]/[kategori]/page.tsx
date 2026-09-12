@@ -34,7 +34,7 @@ export async function generateStaticParams() {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
     const supabase = createSupabasePublicClient();
-    const { data } = await (supabase as any)
+    const { data } = await (supabase)
       .from('businesses')
       .select('city,district,category')
       .eq('is_active', true)
@@ -69,20 +69,41 @@ function slug2label(s: string) {
     .join(' ');
 }
 
+// avg_rating/review_count 'businesses' tablosunda yok — puanlar reviews
+// tablosundan ayrıca hesaplanıp ekleniyor (bkz. ../page.tsx aynı kalıp).
 async function fetchBusinesses(city: string, district: string, category: string): Promise<LocalBusiness[]> {
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) return [];
   try {
     const supabase = createSupabasePublicClient();
-    const { data } = await (supabase as any)
+    const { data } = await (supabase)
       .from('businesses')
-      .select('id,name,slug,public_slug,category,city,district,is_verified,avg_rating,review_count,price_level,median_price_cents')
+      .select('id,name,slug,public_slug,category,city,district,is_verified,price_level')
       .eq('is_active', true)
       .ilike('city', city)
       .ilike('district', district)
       .ilike('category', `%${category}%`)
-      .order('avg_rating', { ascending: false })
-      .limit(40);
-    return (data ?? []) as LocalBusiness[];
+      .limit(200);
+    const rows = (data ?? []).filter((b): b is typeof b & { slug: string } => Boolean(b.slug));
+    if (rows.length === 0) return [];
+
+    const ids = rows.map((r) => r.id);
+    const { data: reviewRows } = await (supabase)
+      .from('reviews')
+      .select('business_id, rating')
+      .in('business_id', ids)
+      .eq('status', 'approved');
+    const buckets = new Map<string, number[]>();
+    for (const r of (reviewRows ?? []) as Array<{ business_id: string; rating: number }>) {
+      const list = buckets.get(r.business_id) ?? [];
+      list.push(r.rating);
+      buckets.set(r.business_id, list);
+    }
+    const enriched: LocalBusiness[] = rows.map((b) => {
+      const ratings = buckets.get(b.id);
+      const avg = ratings && ratings.length > 0 ? ratings.reduce((s, v) => s + v, 0) / ratings.length : null;
+      return { ...b, avg_rating: avg, review_count: ratings?.length ?? 0, median_price_cents: null };
+    });
+    return enriched.sort((a, b) => (b.avg_rating ?? 0) - (a.avg_rating ?? 0)).slice(0, 40);
   } catch {
     return [];
   }

@@ -116,9 +116,9 @@ export default async function AdminBusinessesPage({ searchParams }: Props) {
     searchClient.from('businesses').select('id', { count: 'exact', head: true }).gte('created_at', buHaftaBasi),
     searchClient.from('businesses').select('id', { count: 'exact', head: true }).gte('created_at', oncekiHaftaBasi).lt('created_at', buHaftaBasi),
     searchClient.from('business_submissions').select('id, name, city, district, created_at', { count: 'exact' }).eq('status', 'new').order('created_at', { ascending: false }).limit(5),
-    (supabase as any).rpc('get_business_cities_v1', { p_limit: 150 }),
-    (supabase as any).rpc('get_business_categories_v1'),
-    (supabase as any).rpc('get_business_districts_v1', { p_city: city.trim() || null }),
+    (supabase).rpc('get_business_cities_v1', { p_limit: 150 }),
+    (supabase).rpc('get_business_categories_v1'),
+    (supabase).rpc('get_business_districts_v1', { p_city: city.trim() || undefined }),
   ]);
 
   const list = businesses;

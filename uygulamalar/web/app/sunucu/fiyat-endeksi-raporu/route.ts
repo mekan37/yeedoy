@@ -10,17 +10,11 @@ export const revalidate = 3600;
 export async function GET() {
   try {
     const supabase = createSupabasePublicClient();
-    const { data } = await (supabase as any).rpc('get_regional_price_index_v2', {
-      p_city: null,
-      p_district: null,
+    const { data } = await (supabase).rpc('get_regional_price_index_v2', {
+      p_city: undefined,
+      p_district: undefined,
       p_limit: 50,
-    }) as { data: Array<{
-      category: string;
-      median_price_cents: number;
-      avg_price_cents: number;
-      sample_count: number;
-      updated_in_30d: number;
-    }> | null };
+    });
 
     const rows = (data ?? []).filter((r) => r.sample_count >= 3);
     const now = new Date();

@@ -41,7 +41,7 @@ export default async function AdminAppealsPage({ searchParams }: Props) {
   const { q = '', status = '', kaynak = '', page = '1' } = await searchParams;
   const pageNum = Math.max(1, parseInt(page, 10) || 1);
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as any;
+  const sb = supabase;
 
   const buAyBasi = new Date(new Date().setDate(1)).toISOString();
   const gecenAyBasi = new Date(new Date(new Date().setDate(1)).setMonth(new Date().getMonth() - 1)).toISOString();

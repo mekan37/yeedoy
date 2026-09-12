@@ -42,7 +42,7 @@ export async function POST(req: Request) {
   if (!canManage) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
   // 10 fotoğraf limiti (rejected olmayanlar)
-  const { count: existingCount } = await (supabase as any)
+  const { count: existingCount } = await (supabase)
     .from('business_media')
     .select('id', { count: 'exact', head: true })
     .eq('business_id', parsed.data.businessId)
@@ -73,7 +73,7 @@ export async function POST(req: Request) {
   const url = uploadResult.data.url;
 
   // DB kaydı: add_business_media_v1 RPC
-  const { data: rpcResult } = await (supabase as any).rpc('add_business_media_v1', {
+  const { data: rpcResult } = await (supabase).rpc('add_business_media_v1', {
     p_business_id: parsed.data.businessId,
     p_url: url,
     p_url_large: url,
@@ -89,7 +89,7 @@ export async function POST(req: Request) {
   }
 
   // Yeni eklenen kaydı geri döndür
-  const { data: inserted } = await (supabase as any)
+  const { data: inserted } = await (supabase)
     .from('business_media')
     .select('id, url, url_thumb, status, kind, created_at')
     .eq('business_id', parsed.data.businessId)
@@ -120,7 +120,7 @@ export async function DELETE(req: Request) {
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
 
   // Fotoğrafın sahibini kontrol et
-  const { data: photo } = await (supabase as any)
+  const { data: photo } = await (supabase)
     .from('business_media')
     .select('id, url, business_id')
     .eq('id', parsed.data.id)

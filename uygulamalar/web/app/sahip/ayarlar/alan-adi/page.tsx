@@ -18,7 +18,7 @@ export default async function OwnerSettingsDomainPage() {
 
   const list = user
     ? await getOwnerBusinesses<{ id: string; name: string }>(
-      supabase as any,
+      supabase,
       user.id,
       'id, name',
     )

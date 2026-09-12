@@ -19,11 +19,11 @@ export default async function PlanSayfasi() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/giris?redirect=/sahip/ayarlar/plan');
 
-  const businessIds = await getOwnerBusinessIds(supabase as any, user.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user.id);
   const businessId = businessIds[0];
   if (!businessId) redirect('/sahip');
 
-  const { data, error } = (await (supabase as any).rpc('get_my_plan_v1', {
+  const { data, error } = (await (supabase).rpc('get_my_plan_v1', {
     p_business_id: businessId,
   })) as {
     data: {

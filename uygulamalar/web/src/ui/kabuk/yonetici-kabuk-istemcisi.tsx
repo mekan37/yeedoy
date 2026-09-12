@@ -77,7 +77,7 @@ function useCurrentAdmin() {
       if (!user) return;
       const localPart = user.email?.split('@')[0] ?? 'Admin';
       const displayName = localPart.charAt(0).toUpperCase() + localPart.slice(1);
-      const { data: roleRows } = await (supabase as any).rpc('get_my_admin_role_v1');
+      const { data: roleRows } = await (supabase).rpc('get_my_admin_role_v1');
       const roleRow = Array.isArray(roleRows) ? roleRows[0] : null;
       setAdmin({
         email: user.email ?? null,

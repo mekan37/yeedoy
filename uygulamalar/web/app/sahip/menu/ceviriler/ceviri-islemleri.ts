@@ -97,11 +97,11 @@ async function fetchRowsForLocale(
   | { success: true; items: Record<string, unknown>[]; total: number }
   | { success: false; hata: string }
 > {
-  const { data, error } = await (supabase as any).rpc(
+  const { data, error } = await (supabase).rpc(
     'list_menu_item_translations_v1',
     {
       p_business_id: businessId,
-      p_menu_id: menuId ?? null,
+      p_menu_id: menuId ?? undefined,
       p_locale: locale,
       p_limit: 200,
       p_offset: 0,
@@ -153,11 +153,11 @@ export async function menuCevirisiniKaydet(
     return { success: false, hata: 'Bu işletmeye erişim yetkiniz yok.' };
   }
 
-  const { error } = await (supabase as any).rpc('upsert_menu_item_translation_v1', {
+  const { error } = await (supabase).rpc('upsert_menu_item_translation_v1', {
     p_item_id: itemId,
     p_locale: locale,
     p_name: trimmedName,
-    p_description: description.trim() || null,
+    p_description: description.trim() || undefined,
   });
 
   if (error) {

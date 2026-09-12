@@ -13,7 +13,7 @@ type Props = { params: Promise<{ id: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const supabase = await createSupabaseServerClient();
-  const { data } = await (supabase as any).from('businesses').select('name').eq('id', id).single() as { data: { name: string } | null };
+  const { data } = await (supabase).from('businesses').select('name').eq('id', id).single() as { data: { name: string } | null };
   return {
     title: data ? `${data.name} | Sahip Paneli` : 'İşletme | Sahip Paneli',
     robots: { index: false, follow: false },
@@ -26,10 +26,10 @@ export default async function BusinessDetailPage({ params }: Props) {
   const { data: { user } } = await supabase.auth.getUser();
 
   type FullBiz = { id: string; name: string; slug: string | null; category: string; description: string | null; phone: string | null; address: string | null; city: string | null; district: string | null; neighborhood: string | null; lat: number | null; lng: number | null; is_active: boolean; logo_url: string | null; cover_url: string | null; reservation_url: string | null; order_yemeksepeti_url: string | null; order_trendyolgo_url: string | null; order_getir_url: string | null };
-  const canManageBusiness = await hasOwnerBusiness(supabase as any, user!.id, id);
+  const canManageBusiness = await hasOwnerBusiness(supabase, user!.id, id);
   if (!canManageBusiness) notFound();
 
-  const { data: business } = await (supabase as any)
+  const { data: business } = await (supabase)
     .from('businesses')
     .select(
       'id, name, slug, category, description, phone, address, city, district, ' +
@@ -45,13 +45,13 @@ export default async function BusinessDetailPage({ params }: Props) {
   type SelectedMealCardRow = { key: string };
 
   const [allProvidersResult, selectedProvidersResult] = await Promise.all([
-    (supabase as any)
+    (supabase)
       .from('meal_card_providers')
       .select('id, key, name, asset_name, sort_order')
       .eq('is_active', true)
-      .order('sort_order') as Promise<{ data: MealCardProviderRow[] | null }>,
-    (supabase as any)
-      .rpc('get_business_meal_card_providers_v1', { p_business_id: id }) as Promise<{ data: SelectedMealCardRow[] | null }>,
+      .order('sort_order'),
+    (supabase)
+      .rpc('get_business_meal_card_providers_v1', { p_business_id: id }) as unknown as Promise<{ data: SelectedMealCardRow[] | null }>,
   ]);
 
   const allProviders: MealCardProvider[] = (allProvidersResult.data ?? []).map((row) => ({

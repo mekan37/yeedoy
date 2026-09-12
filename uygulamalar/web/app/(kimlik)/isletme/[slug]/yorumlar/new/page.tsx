@@ -88,7 +88,7 @@ export default function YeniYorumSayfasi() {
     const supabase = createSupabaseBrowserClient();
     Promise.all([
       supabase.auth.getUser(),
-      (supabase as any)
+      (supabase)
         .from('businesses')
         .select('id, name')
         .or(`slug.eq.${escapePostgrestValue(slug)},public_slug.eq.${escapePostgrestValue(slug)}`)

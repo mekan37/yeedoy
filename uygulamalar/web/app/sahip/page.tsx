@@ -35,7 +35,7 @@ export default async function OwnerLandingPage() {
     const supabase = await createSupabaseServerClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (!authError && user) {
-      const { data: claim } = await (supabase as any)
+      const { data: claim } = await (supabase)
         .from('owner_claims')
         .select('id')
         .eq('user_id', user.id)

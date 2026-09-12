@@ -17,13 +17,13 @@ export async function resolveHedefMenuId(): Promise<string | null> {
   ]);
   if (!user) return null;
 
-  const businessIds = await getOwnerBusinessIds(supabase as any, user.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user.id);
   if (businessIds.length === 0) return null;
 
   const cookieId = cookieStore.get(AKTIF_ISLETME_COOKIE_NAME)?.value;
   const businessId = cookieId && businessIds.includes(cookieId) ? cookieId : businessIds[0];
 
-  const { data: menus } = await (supabase as any)
+  const { data: menus } = await (supabase)
     .from('menus')
     .select('id, kind, created_at')
     .eq('business_id', businessId)

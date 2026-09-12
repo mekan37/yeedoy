@@ -27,7 +27,7 @@ export default async function OwnerLayout({ children }: { children: ReactNode })
     ]);
 
     if (user) {
-      const bizIds = await getOwnerBusinessIds(supabase as any, user.id);
+      const bizIds = await getOwnerBusinessIds(supabase, user.id);
       isletmeSayisi = bizIds.length;
 
       if (bizIds.length > 0) {
@@ -40,8 +40,8 @@ export default async function OwnerLayout({ children }: { children: ReactNode })
             logo_url: string | null;
             is_verified: boolean | null;
             is_active: boolean | null;
-          }>(supabase as any, bizIds, 'id, name, slug, category, logo_url, is_verified, is_active'),
-          (supabase as any)
+          }>(supabase, bizIds, 'id, name, slug, category, logo_url, is_verified, is_active'),
+          (supabase)
             .from('reviews')
             .select('id', { count: 'exact', head: true })
             .in('business_id', bizIds)

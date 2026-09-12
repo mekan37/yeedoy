@@ -15,7 +15,7 @@ export default async function OwnerPhotosPage() {
   if (!user) return null;
 
   // İşletmeleri al
-  const { data: claims } = await (supabase as any)
+  const { data: claims } = await (supabase)
     .from('owner_claims')
     .select('business_id, businesses(id, name)')
     .eq('user_id', user.id)
@@ -32,7 +32,7 @@ export default async function OwnerPhotosPage() {
 
   // İşletmeye ait fotoğrafları çek
   const { data: photos } = businessIds.length > 0
-    ? await (supabase as any)
+    ? await (supabase)
         .from('business_media')
         .select('id, business_id, url, url_thumb, status, kind, created_at')
         .in('business_id', businessIds)

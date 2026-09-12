@@ -50,7 +50,7 @@ export async function GET(request: Request) {
 
   const serviceClient = createSupabaseServiceClient();
   const searchClient = serviceClient ?? supabase;
-  const results = await searchAdminIndex(searchClient as any, parsed.data.q, {
+  const results = await searchAdminIndex(searchClient, parsed.data.q, {
     type: parsed.data.type,
     limit: parsed.data.limit,
   });

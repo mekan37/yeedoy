@@ -9,7 +9,7 @@ export async function inviteUser(email: string): Promise<{ error: string } | { s
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum açmanız gerekiyor.' };
 
-  const { data: isAdmin } = await (supabase as any).rpc('is_admin');
+  const { data: isAdmin } = await (supabase).rpc('is_admin');
   if (!isAdmin) return { error: 'Yetkiniz yok.' };
 
   const rl = await rateLimit(`kullanici-davet:${user.id}`, 20, 3_600_000);

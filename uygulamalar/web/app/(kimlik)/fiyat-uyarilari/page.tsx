@@ -18,7 +18,7 @@ export default async function PriceAlertsPage() {
 
   let list: AlertRow[] = [];
   try {
-    const { data, error } = await (supabase as any)
+    const { data, error } = await (supabase)
       .from('price_alerts')
       .select('id, target_price_cents, currency, is_active, current_price_cents, notified_at, created_at, menu_items(name, businesses(name, slug))')
       .eq('user_id', user!.id)

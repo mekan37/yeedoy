@@ -15,7 +15,10 @@ export async function adminRestoreMenu(menuId: string): Promise<{ error?: string
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Yetkisiz' };
 
-  const { data, error } = await (supabase as any).rpc('owner_restore_menu_v1', { p_menu_id: menuId });
+  const { data, error } = await (supabase).rpc('owner_restore_menu_v1', { p_menu_id: menuId }) as {
+    data: { ok: boolean; code?: string } | null;
+    error: { message: string } | null;
+  };
   if (error || !data?.ok) return { error: data?.code ?? error?.message ?? 'Geri yüklenemedi' };
 
   await logAudit(supabase, 'restore', menuId);
@@ -28,7 +31,10 @@ export async function adminPermanentlyDeleteMenu(menuId: string): Promise<{ erro
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Yetkisiz' };
 
-  const { data, error } = await (supabase as any).rpc('owner_permanently_delete_menu_v1', { p_menu_id: menuId });
+  const { data, error } = await (supabase).rpc('owner_permanently_delete_menu_v1', { p_menu_id: menuId }) as {
+    data: { ok: boolean; code?: string } | null;
+    error: { message: string } | null;
+  };
   if (error || !data?.ok) return { error: data?.code ?? error?.message ?? 'Kalıcı silinemedi' };
 
   await logAudit(supabase, 'delete', menuId);

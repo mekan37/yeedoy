@@ -21,11 +21,11 @@ export default async function DestekSayfasi() {
   const businessIds = await getOwnerBusinessIds(supabase, user.id);
   const { data: businessRows } =
     businessIds.length > 0
-      ? await (supabase as any).from('businesses').select('id, name').in('id', businessIds)
+      ? await (supabase).from('businesses').select('id, name').in('id', businessIds)
       : { data: [] };
   const businesses = (businessRows ?? []) as Array<{ id: string; name: string }>;
 
-  const { data: ticketRows } = await (supabase as any)
+  const { data: ticketRows } = await (supabase)
     .from('support_tickets')
     .select('id, subject, status, category, business_id, created_at, updated_at')
     .eq('user_id', user.id)

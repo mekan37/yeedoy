@@ -51,7 +51,7 @@ export default async function MusteriDestekPage({ searchParams }: Props) {
   const { durum = 'all', kategori = '', oncelik = '', tarih = '', q = '', page = '1' } = await searchParams;
   const pageNum = Math.max(1, parseInt(page, 10) || 1);
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as any;
+  const sb = supabase;
 
   const { data: allTickets } = await sb
     .from('support_tickets')

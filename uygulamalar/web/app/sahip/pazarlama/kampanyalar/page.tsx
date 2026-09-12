@@ -18,7 +18,7 @@ export default async function SahipKampanyalarSayfasi() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/giris?redirect=/sahip/pazarlama/kampanyalar');
 
-  const { data: claim } = await (supabase as any)
+  const { data: claim } = await (supabase)
     .from('owner_claims')
     .select('business_id')
     .eq('user_id', user.id)
@@ -41,14 +41,14 @@ export default async function SahipKampanyalarSayfasi() {
   type EmailListSonucu = { data: { total: number; items: EpostaKampanyaOzet[] } | null };
 
   const [listRes, statsRes, etiketRes, emailListRes] = await Promise.all([
-    (supabase as any).rpc('owner_list_campaigns_v1', {
+    (supabase).rpc('owner_list_campaigns_v1', {
       p_business_id: businessId, p_page: 1, p_page_size: 100,
-    }) as Promise<ListSonucu>,
-    (supabase as any).rpc('owner_get_campaign_stats_v1', {
+    }) as unknown as Promise<ListSonucu>,
+    (supabase).rpc('owner_get_campaign_stats_v1', {
       p_business_id: businessId, p_period_days: 7,
-    }) as Promise<StatsSonucu>,
-    (supabase as any).rpc('list_customer_tags_v1', { p_business_id: businessId }) as Promise<EtiketSonucu>,
-    (supabase as any).rpc('list_email_campaigns_v1', { p_business_id: businessId }) as Promise<EmailListSonucu>,
+    }) as unknown as Promise<StatsSonucu>,
+    (supabase).rpc('list_customer_tags_v1', { p_business_id: businessId }) as unknown as Promise<EtiketSonucu>,
+    (supabase).rpc('list_email_campaigns_v1', { p_business_id: businessId }) as unknown as Promise<EmailListSonucu>,
   ]);
 
   const campaigns: Kampanya[] = listRes.data?.campaigns ?? [];

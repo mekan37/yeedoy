@@ -153,7 +153,7 @@ export function ProfilAyarlariFormu({ initial }: { initial: ProfilAyarlariBaslan
         .upload(path, compressed, { upsert: true, contentType: 'image/webp' });
       if (upErr) throw upErr;
       const publicUrl = sb.storage.from(AVATAR_BUCKET).getPublicUrl(path).data.publicUrl;
-      const { error: dbErr } = await (sb as any).from('user_profiles').update({ avatar_url: publicUrl }).eq('user_id', userId);
+      const { error: dbErr } = await (sb).from('user_profiles').update({ avatar_url: publicUrl }).eq('user_id', userId);
       if (dbErr) throw dbErr;
       setAvatarUrl(publicUrl);
       toast('Profil fotoğrafı güncellendi', 'success');
@@ -173,7 +173,7 @@ export function ProfilAyarlariFormu({ initial }: { initial: ProfilAyarlariBaslan
     setAvatarPreview(null);
     setAvatarUrl(null);
     const sb = createSupabaseBrowserClient();
-    const { error } = await (sb as any).from('user_profiles').update({ avatar_url: null }).eq('user_id', userId);
+    const { error } = await (sb).from('user_profiles').update({ avatar_url: null }).eq('user_id', userId);
     if (error) {
       setAvatarUrl(previousUrl);
       setAvatarPreview(previousUrl);
@@ -191,8 +191,8 @@ export function ProfilAyarlariFormu({ initial }: { initial: ProfilAyarlariBaslan
     setSaveError('');
     try {
       const sb = createSupabaseBrowserClient();
-      const displayName = [firstName, lastName].filter(Boolean).join(' ').trim() || null;
-      const { error: err } = await (sb as any)
+      const displayName = [firstName, lastName].filter(Boolean).join(' ').trim() || undefined;
+      const { error: err } = await (sb)
         .from('user_profiles')
         .update({
           display_name: displayName,

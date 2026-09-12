@@ -18,10 +18,10 @@ export default async function SuggestionsPage() {
   type SugRow = { id: string; name: string; city: string | null; category: string | null; status: string; created_at: string };
   let list: SugRow[] = [];
   try {
-    const { data, error } = await (supabase as any)
+    const { data, error } = await (supabase)
       .from('business_suggestions')
       .select('id, name, city, category, status, created_at')
-      .eq('submitted_by_email', user!.email ?? '')
+      .eq('user_id', user!.id)
       .order('created_at', { ascending: false }) as { data: SugRow[] | null; error: any };
     if (!error || error.code !== '42P01') list = data ?? [];
   } catch { list = []; }
@@ -35,7 +35,7 @@ export default async function SuggestionsPage() {
 
         {/* Inline form */}
         <div className="mb-8">
-          <OneriFormu userEmail={user!.email ?? ''} />
+          <OneriFormu />
         </div>
 
         {/* Suggestion list */}

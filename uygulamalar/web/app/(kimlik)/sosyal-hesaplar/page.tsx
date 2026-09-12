@@ -84,9 +84,10 @@ export default function SosyalHesaplarPage() {
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) return;
       setUserId(user.id);
-      (supabase as any)
+      (supabase)
         .rpc('get_my_profile_private_v1')
-        .then(({ data: envelope }: { data: { ok: boolean; profile: ProfileRow | null } | null }) => {
+        .then((r: any) => {
+          const envelope = r?.data as { ok: boolean; profile: ProfileRow | null } | null;
           if (envelope?.profile?.social_links) {
             setLinks(envelope.profile.social_links);
           }
@@ -107,7 +108,7 @@ export default function SosyalHesaplarPage() {
         if (val) cleaned[key] = val;
       }
       const supabase = createSupabaseBrowserClient();
-      const { error } = await (supabase as any)
+      const { error } = await (supabase)
         .from('user_profiles')
         .update({ social_links: cleaned, updated_at: new Date().toISOString() })
         .eq('user_id', userId);

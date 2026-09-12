@@ -42,7 +42,7 @@ export default async function OnerilerimPage() {
   let fetchError = false;
 
   try {
-    const { data, error } = await (supabase as any)
+    const { data, error } = await (supabase)
       .from('business_suggestions')
       .select('id, name, city, category, status, created_at')
       .eq('user_id', user!.id)

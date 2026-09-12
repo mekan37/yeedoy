@@ -398,15 +398,15 @@ export function IsletmeOnerFormu() {
     const sb = createSupabaseBrowserClient();
     // Rate-limited RPC (submit_business_suggestion_v1) — 20260708000001 migration.
     // Direct anon INSERT policy kaldırıldı; artık sadece RPC üzerinden gönderim yapılır.
-    const { error: err } = await (sb as any).rpc('submit_business_suggestion_v1', {
+    const { error: err } = await (sb).rpc('submit_business_suggestion_v1', {
       p_name:     form.name.trim(),
       p_category: form.category,
-      p_city:     form.city     || null,
-      p_district: form.district || null,
-      p_address:  form.address  || null,
-      p_phone:    form.phone    || null,
-      p_website:  form.website  || null,
-      p_notes:    ekBilgiler    || null,
+      p_city:     form.city     || undefined,
+      p_district: form.district || undefined,
+      p_address:  form.address  || undefined,
+      p_phone:    form.phone    || undefined,
+      p_website:  form.website  || undefined,
+      p_notes:    ekBilgiler    || undefined,
     });
     if (err) throw err;
     setSubmitted(true);
@@ -422,7 +422,7 @@ export function IsletmeOnerFormu() {
 
       // ── Duplicate tarama ──────────────────────────────────────────────────
       const anahtar = ilkAnlamliKelime(form.name.trim());
-      let query = (sb as any)
+      let query = (sb)
         .from('businesses')
         .select('id, name, category, city, district, address, is_verified, slug, public_slug')
         .eq('is_active', true)

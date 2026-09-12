@@ -170,7 +170,7 @@ export function FavoriteButton({
         const sb = createSupabaseBrowserClient();
         const { data: { session } } = await sb.auth.getSession();
         if (!session || cancelled) return;
-        const { data } = await (sb as any)
+        const { data } = await (sb)
           .from('favorites')
           .select('id')
           .eq('user_id', session.user.id)
@@ -202,12 +202,12 @@ export function FavoriteButton({
 
     try {
       if (next) {
-        await (sb as any).from('favorites').upsert(
+        await (sb).from('favorites').upsert(
           { user_id: session.user.id, business_id: businessId },
           { onConflict: 'user_id,business_id', ignoreDuplicates: true },
         );
       } else {
-        await (sb as any).from('favorites').delete()
+        await (sb).from('favorites').delete()
           .eq('user_id', session.user.id)
           .eq('business_id', businessId);
       }
@@ -489,7 +489,12 @@ export function FiyatTakipDugmesi({ businessId }: { businessId: string }) {
     }
     setStatus('loading');
     try {
-      await (supabase as any).rpc('toggle_price_alert_v1', { p_business_id: businessId });
+      // NOT: 'toggle_price_alert_v1' RPC'si hiç oluşturulmamış ve price_alerts
+      // tablosunda business_id kolonu yok (sorgu/şehir bazlı bir yapı) — bu
+      // buton hiçbir yerde render edilmiyor, backend'i olmayan tamamlanmamış
+      // bir özellik.
+      await (supabase as unknown as { rpc: (fn: string, args: Record<string, unknown>) => Promise<unknown> })
+        .rpc('toggle_price_alert_v1', { p_business_id: businessId });
       setStatus('active');
       toast('Fiyat alarmı eklendi', 'success');
       window.setTimeout(() => setStatus('idle'), 3000);
@@ -552,7 +557,7 @@ export function CheckinDugmesi({ businessId, className }: { businessId: string; 
       return;
     }
     setStatus('loading');
-    const { error } = await (supabase as any).rpc('submit_checkin_v1', { p_business_id: businessId });
+    const { error } = await (supabase).rpc('submit_checkin_v1', { p_business_id: businessId });
     if (!error) {
       setStatus('done');
       toast('Check-in yapıldı!', 'success');

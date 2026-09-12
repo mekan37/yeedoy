@@ -29,11 +29,11 @@ export async function updateReservationStatus(
   if (!parsed.success) return { error: 'Geçersiz istek parametreleri.' };
 
   const d = parsed.data;
-  const { error } = await (supabase as any).rpc('owner_update_reservation_status_v1', {
+  const { error } = await (supabase).rpc('owner_update_reservation_status_v1', {
     p_id:          d.id,
     p_business_id: d.businessId,
     p_status:      d.status,
-    p_owner_note:  d.ownerNote ?? null,
+    p_owner_note:  d.ownerNote ?? undefined,
   });
 
   if (error) {

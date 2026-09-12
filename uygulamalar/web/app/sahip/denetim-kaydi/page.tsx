@@ -35,18 +35,18 @@ export default async function SahipDenetimKaydiSayfasi({ searchParams }: Props) 
   if (!user) return null;
 
   const [{ data: ownerBiz }, { data: teamBiz }, { data: ownProfile }] = await Promise.all([
-    (supabase as any)
+    (supabase)
       .from('owner_claims')
       .select('business_id, businesses(id, name)')
       .eq('user_id', user.id)
       .eq('status', 'approved'),
-    (supabase as any)
+    (supabase)
       .from('business_team_memberships')
       .select('business_id, businesses(id, name)')
       .eq('user_id', user.id)
       .not('accepted_at', 'is', null)
       .is('revoked_at', null),
-    (supabase as any)
+    (supabase)
       .from('user_profiles')
       .select('user_id, display_name')
       .eq('user_id', user.id)
@@ -77,24 +77,39 @@ export default async function SahipDenetimKaydiSayfasi({ searchParams }: Props) 
     );
   }
 
-  const { data: memberRows } = await (supabase as any)
+  const { data: memberRows } = await (supabase)
     .from('business_team_memberships')
-    .select('user_id, role, user_profiles(user_id, display_name)')
+    .select('user_id, role')
     .in('business_id', businessIds)
     .not('accepted_at', 'is', null)
     .is('revoked_at', null);
 
-  type UyeBirlestirmeSatiri = { user_id: string; role: string; user_profiles: { user_id: string; display_name: string } | null };
+  // business_team_memberships.user_id -> user_profiles arasında FK yok (PostgREST
+  // embed edemiyor), bu yüzden isim eşlemesi ayrı bir sorguyla yapılıyor.
+  type UyeSatiri = { user_id: string; role: string };
+  const memberRowsTyped = (memberRows ?? []) as UyeSatiri[];
+  const memberUserIds = memberRowsTyped.map((m) => m.user_id).filter(Boolean);
+  const displayNameMap = new Map<string, string>();
+  if (memberUserIds.length > 0) {
+    const { data: profileRows } = await (supabase)
+      .from('user_profiles')
+      .select('user_id, display_name')
+      .in('user_id', memberUserIds);
+    for (const p of (profileRows ?? []) as Array<{ user_id: string; display_name: string | null }>) {
+      displayNameMap.set(p.user_id, p.display_name ?? 'Kullanıcı');
+    }
+  }
+
   const memberMap = new Map<string, UyeSecenegi>();
 
   const ownDisplayName = (ownProfile as { display_name: string } | null)?.display_name ?? 'Ben';
   memberMap.set(user.id, { user_id: user.id, display_name: ownDisplayName, role: 'owner' });
 
-  for (const m of (memberRows ?? []) as UyeBirlestirmeSatiri[]) {
+  for (const m of memberRowsTyped) {
     if (!memberMap.has(m.user_id)) {
       memberMap.set(m.user_id, {
         user_id: m.user_id,
-        display_name: m.user_profiles?.display_name ?? 'Kullanıcı',
+        display_name: displayNameMap.get(m.user_id) ?? 'Kullanıcı',
         role: m.role,
       });
     }
@@ -102,18 +117,18 @@ export default async function SahipDenetimKaydiSayfasi({ searchParams }: Props) 
   const members = Array.from(memberMap.values());
 
   const offset = (page - 1) * SAYFA_BOYUTU;
-  const { data: result } = await (supabase as any).rpc('get_business_audit_log_v1', {
+  const { data: result } = await (supabase).rpc('get_business_audit_log_v1', {
     p_business_ids: businessIds,
-    p_actor_id: actor || null,
-    p_action: action || null,
-    p_date_from: from || null,
-    p_date_to: to || null,
+    p_actor_id: actor || undefined,
+    p_action: action || undefined,
+    p_date_from: from || undefined,
+    p_date_to: to || undefined,
     p_limit: SAYFA_BOYUTU,
     p_offset: offset,
-  });
+  }) as { data: { rows: DenetimKaydiSatiri[]; total: number } | null };
 
-  const logRows = (result?.rows ?? []) as DenetimKaydiSatiri[];
-  const total = (result?.total ?? 0) as number;
+  const logRows = result?.rows ?? [];
+  const total = result?.total ?? 0;
 
   return (
     <div className="flex flex-col">

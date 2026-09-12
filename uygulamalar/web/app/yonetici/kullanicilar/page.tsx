@@ -37,7 +37,7 @@ export default async function AdminUsersPage({ searchParams }: Props) {
 
   const supabase = await createSupabaseServerClient();
   const serviceClient = createSupabaseServiceClient();
-  const sb = supabase as any;
+  const sb = supabase;
 
   if (!serviceClient) {
     return (
@@ -50,12 +50,12 @@ export default async function AdminUsersPage({ searchParams }: Props) {
     );
   }
 
-  const { data: authData } = await (serviceClient as any).auth.admin.listUsers({ page: 1, perPage: 1000 });
+  const { data: authData } = await (serviceClient).auth.admin.listUsers({ page: 1, perPage: 1000 });
   const authUsers = (authData?.users ?? []) as any[];
   const userIds = authUsers.map((u) => u.id);
 
   const [{ data: profiles }, { data: approvedClaims }] = await Promise.all([
-    userIds.length > 0 ? (serviceClient as any).from('user_profiles').select('user_id, display_name, phone, city, shadow_banned, created_at').in('user_id', userIds) : Promise.resolve({ data: [] }),
+    userIds.length > 0 ? (serviceClient).from('user_profiles').select('user_id, display_name, phone, city, shadow_banned, created_at').in('user_id', userIds) : Promise.resolve({ data: [] }),
     userIds.length > 0 ? sb.from('owner_claims').select('user_id').eq('status', 'approved').in('user_id', userIds) : Promise.resolve({ data: [] }),
   ]);
 

@@ -109,7 +109,7 @@ export async function adminKonumlariGetir(
     const supabase =
       supabaseOrPromise instanceof Promise ? await supabaseOrPromise : supabaseOrPromise;
 
-    let query = (supabase as any)
+    let query = (supabase)
       .from('businesses')
       .select(
         'id, name, city, district, category, city_slug, district_slug, category_slug, lat, lng, is_active, is_verified',
@@ -171,7 +171,7 @@ export async function adminKonumOzetiniGetir(): Promise<KonumOzet> {
     const supabase =
       supabaseOrPromise instanceof Promise ? await supabaseOrPromise : supabaseOrPromise;
 
-    const sb = supabase as any;
+    const sb = supabase;
     const [toplam, koordinatsiz, sehirsiz, ilcesiz, slugsuz] = await Promise.all([
       sb.from('businesses').select('*', { count: 'exact', head: true }),
       sb

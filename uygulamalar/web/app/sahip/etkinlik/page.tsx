@@ -16,26 +16,43 @@ export default async function OwnerEtkinlikPage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   const businesses = user
-    ? await getOwnerBusinesses<{ id: string; name: string }>(supabase as any, user.id, 'id, name')
+    ? await getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name')
     : [];
 
   const businessIds = businesses.map((b) => b.id);
 
-  // Fetch events
-  const { data: events } = businessIds.length > 0
-    ? await (supabase as any)
+  type EtkinlikSatiri = {
+    id: string; business_id: string; title: string; description: string;
+    event_date: string; end_date: string | null; capacity: number | null;
+    ticket_price: number | null; tickets_sold: number; status: string; created_at: string;
+  };
+
+  // 'business_events' tablosu şemada henüz yok (planlanan bir özellik) —
+  // 42P01 durumunda sessizce boş liste gösteriliyor, sayfa çökmüyor.
+  interface EtkinlikSorgusu extends PromiseLike<{ data: EtkinlikSatiri[] | null; error: { code?: string } | null }> {
+    in: (column: string, values: string[]) => EtkinlikSorgusu;
+    order: (column: string, opts?: { ascending?: boolean }) => EtkinlikSorgusu;
+    limit: (n: number) => EtkinlikSorgusu;
+  }
+
+  let allEvents: EtkinlikSatiri[] = [];
+  if (businessIds.length > 0) {
+    try {
+      const { data, error } = await (
+        supabase as unknown as {
+          from: (t: string) => { select: (cols: string) => EtkinlikSorgusu };
+        }
+      )
         .from('business_events')
         .select('id, business_id, title, description, event_date, end_date, capacity, ticket_price, tickets_sold, status, created_at')
         .in('business_id', businessIds)
         .order('event_date', { ascending: true })
-        .limit(50)
-    : { data: [] };
-
-  const allEvents = (events ?? []) as Array<{
-    id: string; business_id: string; title: string; description: string;
-    event_date: string; end_date: string | null; capacity: number | null;
-    ticket_price: number | null; tickets_sold: number; status: string; created_at: string;
-  }>;
+        .limit(50);
+      if (!error || error.code !== '42P01') allEvents = data ?? [];
+    } catch {
+      allEvents = [];
+    }
+  }
 
   const now = new Date();
   const upcoming = allEvents.filter(e => new Date(e.event_date) >= now && e.status === 'active');

@@ -15,18 +15,32 @@ export default async function SahipProfilimSayfasi() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/giris?redirect=/sahip/profilim');
 
-  const businessIds = await getOwnerBusinessIds(supabase as any, user.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user.id);
 
   const [{ data: profileEnvelope }, { data: plan }, { data: prefRows }] = await Promise.all([
-    (supabase as any).rpc('get_my_profile_private_v1'),
+    (supabase).rpc('get_my_profile_private_v1') as unknown as Promise<{
+      data: {
+        ok: boolean;
+        profile: {
+          display_name: string | null;
+          avatar_url: string | null;
+          bio: string | null;
+          phone: string | null;
+          birth_date: string | null;
+          gender: string | null;
+        } | null;
+      } | null;
+    }>,
     businessIds.length > 0
-      ? (supabase as any).rpc('get_my_plan_v1', { p_business_id: businessIds[0] })
+      ? (supabase).rpc('get_my_plan_v1', { p_business_id: businessIds[0] })
       : Promise.resolve({ data: null }),
-    (supabase as any)
-      .from('notification_preferences')
-      .select('notification_type, enabled')
-      .eq('user_id', user.id)
-      .then((res: { data: Array<{ notification_type: string; enabled: boolean }> | null }) => res)
+    Promise.resolve(
+      (supabase)
+        .from('notification_preferences')
+        .select('notification_type, enabled')
+        .eq('user_id', user.id),
+    )
+      .then((res) => res)
       .catch(() => ({ data: [] as Array<{ notification_type: string; enabled: boolean }> })),
   ]);
 

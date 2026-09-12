@@ -29,7 +29,7 @@ export async function getSessionUser() {
     const supabase = await createSupabaseServerClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return null;
-    const { data: profile } = await (supabase as any)
+    const { data: profile } = await (supabase)
       .from('user_profiles')
       .select('display_name, avatar_url')
       .eq('user_id', user.id)
@@ -45,20 +45,35 @@ export async function getSessionUser() {
   }
 }
 
+// 'notifications' / 'user_notifications' üretilen Database tipinde yok (henüz
+// oluşturulmamış tablolar) — 42P01 ile runtime'da yoklanıyor, bu yüzden dar
+// bir sözleşmeyle tip güvenliğini burada tek noktada bırakıyoruz.
+interface AdaySayimSonucu extends PromiseLike<{ count: number | null; error: { code?: string } | null }> {
+  eq: (column: string, value: unknown) => AdaySayimSonucu;
+}
+function adaySayimTablosu(
+  sb: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+  table: string,
+) {
+  return (
+    sb as unknown as {
+      from: (t: string) => { select: (col: string, opts: { count: 'exact'; head: true }) => AdaySayimSonucu };
+    }
+  ).from(table);
+}
+
 export async function getUnreadCount(userId: string): Promise<number> {
   try {
     const supabase = await createSupabaseServerClient();
-    const { count, error } = await (supabase as any)
-      .from('notifications')
+    const { count, error } = await adaySayimTablosu(supabase, 'notifications')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', userId)
-      .eq('is_read', false) as { count: number | null; error: { code?: string } | null };
+      .eq('is_read', false);
     if (error?.code === '42P01') {
-      const { count: c2 } = await (supabase as any)
-        .from('user_notifications')
+      const { count: c2 } = await adaySayimTablosu(supabase, 'user_notifications')
         .select('id', { count: 'exact', head: true })
         .eq('user_id', userId)
-        .eq('is_read', false) as { count: number | null };
+        .eq('is_read', false);
       return c2 ?? 0;
     }
     return count ?? 0;

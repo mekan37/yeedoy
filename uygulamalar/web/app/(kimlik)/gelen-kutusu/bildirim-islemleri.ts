@@ -5,6 +5,23 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 const CANDIDATE_TABLES = ['notifications', 'user_notifications'] as const;
 
+// Her iki aday tablo da üretilen Database tipinde yok (henüz oluşturulmamış/
+// kaldırılmış) — bu yüzden generic Supabase istemcisi bu isimleri kabul etmez.
+// Var olup olmadığını 42P01 ile runtime'da yoklayan bu döngü kasıtlı; tip
+// güvenliğini burada tek noktada, dar bir sözleşmeyle bırakıyoruz.
+interface AdaySorguSonucu extends PromiseLike<{ error: { code?: string } | null }> {
+  eq: (column: string, value: unknown) => AdaySorguSonucu;
+  lt: (column: string, value: unknown) => AdaySorguSonucu;
+}
+interface AdayTabloIstemcisi {
+  update: (values: Record<string, unknown>) => AdaySorguSonucu;
+  delete: () => AdaySorguSonucu;
+}
+type AdayDestekliSupabase = Awaited<ReturnType<typeof createSupabaseServerClient>>;
+function adayTablo(sb: AdayDestekliSupabase, table: string): AdayTabloIstemcisi {
+  return (sb as unknown as { from: (t: string) => AdayTabloIstemcisi }).from(table);
+}
+
 export async function hepsiniOkunduIsaretle(): Promise<{ ok: boolean; error?: string }> {
   const supabase = await createSupabaseServerClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -13,11 +30,10 @@ export async function hepsiniOkunduIsaretle(): Promise<{ ok: boolean; error?: st
   let updated = false;
 
   for (const table of CANDIDATE_TABLES) {
-    const { error } = await (supabase as any)
-      .from(table)
+    const { error } = await adayTablo(supabase, table)
       .update({ is_read: true })
       .eq('user_id', user.id)
-      .eq('is_read', false) as { error: { code?: string } | null };
+      .eq('is_read', false);
 
     if (!error) {
       // Başarılı — 0 row güncellenmiş olsa da bu success
@@ -53,11 +69,10 @@ export async function bildirimiOkunduIsaretle(notifId: string): Promise<{ ok: bo
   let updated = false;
 
   for (const table of CANDIDATE_TABLES) {
-    const { error } = await (supabase as any)
-      .from(table)
+    const { error } = await adayTablo(supabase, table)
       .update({ is_read: true })
       .eq('id', notifId)
-      .eq('user_id', user.id) as { error: { code?: string } | null };
+      .eq('user_id', user.id);
 
     if (!error) {
       updated = true;
@@ -89,11 +104,10 @@ export async function bildirimiSil(notifId: string): Promise<{ ok: boolean; erro
   let deleted = false;
 
   for (const table of CANDIDATE_TABLES) {
-    const { error } = await (supabase as any)
-      .from(table)
+    const { error } = await adayTablo(supabase, table)
       .delete()
       .eq('id', notifId)
-      .eq('user_id', user.id) as { error: { code?: string } | null };
+      .eq('user_id', user.id);
 
     if (!error) {
       deleted = true;
@@ -126,12 +140,11 @@ export async function eskiBildirimleriSil(): Promise<{ ok: boolean; error?: stri
   let deleted = false;
 
   for (const table of CANDIDATE_TABLES) {
-    const { error } = await (supabase as any)
-      .from(table)
+    const { error } = await adayTablo(supabase, table)
       .delete()
       .eq('user_id', user.id)
       .eq('is_read', true)
-      .lt('created_at', otuzGunOnce) as { error: { code?: string } | null };
+      .lt('created_at', otuzGunOnce);
 
     if (!error) {
       deleted = true;

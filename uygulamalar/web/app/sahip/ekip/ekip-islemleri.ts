@@ -30,12 +30,12 @@ export async function addTeamMember(formData: FormData): Promise<void> {
     redirect('/sahip/ekip?durum=sifre_kisa');
   }
 
-  const canManageBusiness = await hasOwnerBusiness(supabase as any, user.id, businessId);
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId);
   if (!canManageBusiness) {
     redirect('/sahip/ekip?durum=yetkisiz');
   }
 
-  const { data: business } = await (supabase as any)
+  const { data: business } = await (supabase)
     .from('businesses')
     .select('name')
     .eq('id', businessId)
@@ -50,7 +50,7 @@ export async function addTeamMember(formData: FormData): Promise<void> {
       redirect('/sahip/ekip?durum=servis_yok');
     }
 
-    const { data: created, error: createErr } = await (serviceClient as any).auth.admin.createUser({
+    const { data: created, error: createErr } = await (serviceClient).auth.admin.createUser({
       email,
       password,
       email_confirm: true,
@@ -67,7 +67,7 @@ export async function addTeamMember(formData: FormData): Promise<void> {
       mode = 'created';
       if (created.user) {
         try {
-          await (serviceClient as any)
+          await (serviceClient)
             .from('user_profiles')
             .insert({ user_id: created.user.id, display_name: fullName || email.split('@')[0] });
         } catch (profileError) {
@@ -78,12 +78,12 @@ export async function addTeamMember(formData: FormData): Promise<void> {
     }
   }
 
-  const { data, error } = await (supabase as any).rpc('upsert_team_member_v1', {
+  const { data, error } = await (supabase).rpc('upsert_team_member_v1', {
     p_business_id: businessId,
     p_email: email,
     p_role: role,
     p_scope: 'this_business',
-  });
+  }) as { data: { ok: boolean; code?: string } | null; error: { code?: string } | null };
 
   if (error || data?.ok === false) {
     const code = data?.code ?? error?.code ?? 'hata';
@@ -130,15 +130,15 @@ export async function changeTeamMemberRole(businessId: string, email: string, ro
   const normalizedRole = role.trim().toLowerCase();
   if (!ROLE_VALUES.has(normalizedRole)) return { error: 'Geçerli bir rol seçin' };
 
-  const canManageBusiness = await hasOwnerBusiness(supabase as any, user.id, businessId);
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId);
   if (!canManageBusiness) return { error: 'Bu işletme için ekip yönetimi yetkiniz yok' };
 
-  const { data, error } = await (supabase as any).rpc('upsert_team_member_v1', {
+  const { data, error } = await (supabase).rpc('upsert_team_member_v1', {
     p_business_id: businessId,
     p_email: email.trim().toLowerCase(),
     p_role: normalizedRole,
     p_scope: 'this_business',
-  });
+  }) as { data: { ok: boolean; code?: string } | null; error: { message: string } | null };
 
   if (error) return { error: error.message };
   if (data?.ok === false) return { error: data?.code === 'forbidden' ? 'Bu işletme için ekip yönetimi yetkiniz yok' : 'Rol güncellenemedi' };
@@ -152,13 +152,13 @@ export async function removeTeamMember(businessId: string, membershipId: string)
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum bulunamadı' };
 
-  const canManageBusiness = await hasOwnerBusiness(supabase as any, user.id, businessId);
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId);
   if (!canManageBusiness) return { error: 'Bu işletme için ekip yönetimi yetkiniz yok' };
 
-  const { data, error } = await (supabase as any).rpc('revoke_team_member_v1', {
+  const { data, error } = await (supabase).rpc('revoke_team_member_v1', {
     p_business_id: businessId,
     p_membership_id: membershipId,
-  });
+  }) as { data: { ok: boolean } | null; error: { message: string } | null };
 
   if (error) return { error: error.message };
   if (data?.ok === false) return { error: 'Üye kaldırılamadı' };

@@ -184,11 +184,11 @@ export default async function FiyatEndeksiPage() {
   const siteUrl = SITE_URL();
 
   // Canlı veri: get_regional_price_index_v2 anon GRANT mevcut
-  const { data } = await (supabase as any).rpc('get_regional_price_index_v2', {
-    p_city: null,
-    p_district: null,
+  const { data } = await (supabase).rpc('get_regional_price_index_v2', {
+    p_city: undefined,
+    p_district: undefined,
     p_limit: 20,
-  }) as { data: PriceRow[] | null };
+  });
 
   const rows = (data ?? []).filter((r) => r.sample_count >= 3);
   const totalSamples = rows.reduce((s, r) => s + r.sample_count, 0);

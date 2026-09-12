@@ -8,7 +8,7 @@ type NotificationType = { key: string; label: string; description: string };
 
 async function togglePref(userId: string, notificationKey: string, enabled: boolean) {
   const supabase = createSupabaseBrowserClient();
-  const { error } = await (supabase as any).from('notification_preferences').upsert(
+  const { error } = await (supabase).from('notification_preferences').upsert(
     { user_id: userId, notification_type: notificationKey, enabled, updated_at: new Date().toISOString() },
     { onConflict: 'user_id,notification_type' },
   );

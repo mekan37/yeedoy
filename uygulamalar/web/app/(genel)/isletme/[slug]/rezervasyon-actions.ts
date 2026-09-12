@@ -61,16 +61,16 @@ export async function submitReservation(
   }
   const supabase = await createSupabaseServerClient();
 
-  const { data, error } = await (supabase as any).rpc('create_reservation_v1', {
+  const { data, error } = await (supabase).rpc('create_reservation_v1', {
     p_business_id: d.business_id,
     p_guest_name: d.guest_name,
     p_guest_phone: d.guest_phone,
-    p_guest_email: d.guest_email || null,
+    p_guest_email: d.guest_email || undefined,
     p_party_size: d.party_size,
     p_date: d.reservation_date,
     p_time: d.reservation_time,
     p_channel: 'web',
-    p_special_request: d.special_request || null,
+    p_special_request: d.special_request || undefined,
   });
 
   if (error) {

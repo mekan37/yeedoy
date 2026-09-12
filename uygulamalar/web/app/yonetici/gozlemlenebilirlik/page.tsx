@@ -24,7 +24,7 @@ export default async function AdminObservabilityPage() {
   }
 
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as any;
+  const sb = supabase;
 
   const since1h = new Date(Date.now() - 60 * 60 * 1000).toISOString();
   const since24h = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();

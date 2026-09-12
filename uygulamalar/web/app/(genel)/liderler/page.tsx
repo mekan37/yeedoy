@@ -58,7 +58,7 @@ export default async function LiderlerPage() {
   let entries: LeaderEntry[] = [];
 
   try {
-    const { data: rows, error } = await (supabase as any).rpc(
+    const { data: rows, error } = await (supabase).rpc(
       'get_weekly_contributor_leaderboard_v1',
       { p_limit: 20 },
     ) as { data: LeaderboardRow[] | null; error: { message?: string } | null };
@@ -66,7 +66,7 @@ export default async function LiderlerPage() {
     if (!error && rows && rows.length > 0) {
       const userIds = rows.map((r) => r.user_id);
 
-      const { data: profiles } = await (supabase as any)
+      const { data: profiles } = await (supabase)
         .from('user_profiles')
         .select('user_id, display_name, avatar_url, is_gourmet')
         .in('user_id', userIds) as { data: UserProfileRow[] | null };

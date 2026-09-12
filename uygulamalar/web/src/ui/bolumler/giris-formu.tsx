@@ -194,7 +194,7 @@ export function GirisFormu({ redirectTo, panelLoginUrl, initialTab = 'giris' }: 
         });
         if (signUpError) { setError(hataMesaji(signUpError)); return; }
         if (signUpData.session) {
-          const { error: profileError } = await (supabase as any).from('user_profiles').insert({
+          const { error: profileError } = await (supabase).from('user_profiles').insert({
             user_id: signUpData.session.user.id,
             display_name: displayName,
             ...(phone.trim() && { phone: `${countryCode}${phone.trim()}` }),

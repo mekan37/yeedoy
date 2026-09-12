@@ -20,13 +20,35 @@ export default async function FollowingPage() {
 
   let list: FollowRow[] = [];
   try {
-    const { data, error } = await (supabase as any)
+    // user_follows -> user_profiles arasında FK yok (PostgREST embed edemiyor),
+    // isim/avatar eşlemesi bu yüzden ayrı bir sorguyla yapılıyor.
+    const { data, error } = await (supabase)
       .from('user_follows')
-      .select('followed_id, created_at, user_profiles!followed_id(display_name, avatar_url, bio)')
+      .select('followee_id, created_at')
       .eq('follower_id', user!.id)
-      .order('created_at', { ascending: false }) as { data: Omit<FollowRow, 'recent_review'>[] | null; error: any };
+      .order('created_at', { ascending: false }) as {
+        data: Array<{ followee_id: string; created_at: string }> | null;
+        error: any;
+      };
     if (!error || error.code !== '42P01') {
-      list = (data ?? []).map((r) => ({ ...r, recent_review: null }));
+      const rows = data ?? [];
+      const uids = rows.map((r) => r.followee_id);
+      const profileMap = new Map<string, { display_name: string | null; avatar_url: string | null; bio: string | null }>();
+      if (uids.length > 0) {
+        const { data: profiles } = await (supabase)
+          .from('user_profiles')
+          .select('user_id, display_name, avatar_url, bio')
+          .in('user_id', uids);
+        for (const p of profiles ?? []) {
+          profileMap.set(p.user_id, { display_name: p.display_name, avatar_url: p.avatar_url, bio: p.bio });
+        }
+      }
+      list = rows.map((r) => ({
+        followed_id: r.followee_id,
+        created_at: r.created_at,
+        user_profiles: profileMap.get(r.followee_id) ?? null,
+        recent_review: null,
+      }));
     }
   } catch { list = []; }
 
@@ -34,7 +56,7 @@ export default async function FollowingPage() {
   if (list.length > 0) {
     try {
       const uids = list.map((f) => f.followed_id);
-      const { data: reviews } = await (supabase as any)
+      const { data: reviews } = await (supabase)
         .from('reviews')
         .select('user_id, rating, businesses(name)')
         .in('user_id', uids)

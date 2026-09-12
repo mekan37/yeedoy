@@ -6,7 +6,7 @@ import { useState, useTransition } from 'react';
 
 const CATEGORIES = ['Restoran', 'Kafe', 'Fast Food', 'Dönerci', 'Pizza', 'Burger', 'Pide / Lahmacun', 'Pastane', 'Kahvaltı', 'Diğer'];
 
-export function OneriFormu({ userEmail }: { userEmail: string }) {
+export function OneriFormu() {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
   const [city, setCity] = useState('');
@@ -28,13 +28,14 @@ export function OneriFormu({ userEmail }: { userEmail: string }) {
     startTransition(async () => {
       try {
         const supabase = createSupabaseBrowserClient();
-        const { error: err } = await (supabase as any).from('business_suggestions').insert({
-          name: name.trim(),
-          city: city.trim() || null,
-          category: category || null,
-          notes: note.trim() || null,
-          submitted_by_email: userEmail,
-          status: 'pending',
+        // Direct INSERT policy kaldırıldı (20260708000001) — gönderim artık
+        // submit_business_suggestion_v1 RPC'si üzerinden yapılıyor; kullanıcı
+        // zaten oturum açmış olduğundan (bkz. props) e-posta ayrıca gönderilmiyor.
+        const { error: err } = await (supabase).rpc('submit_business_suggestion_v1', {
+          p_name: name.trim(),
+          p_category: category || 'Diğer',
+          p_city: city.trim() || undefined,
+          p_notes: note.trim() || undefined,
         });
         if (err) throw new Error(err.message);
         setDone(true);

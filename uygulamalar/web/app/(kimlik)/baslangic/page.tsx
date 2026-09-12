@@ -28,7 +28,17 @@ export default function OnboardingPage() {
       const supabase = createSupabaseBrowserClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        const { error } = await (supabase as any).from('user_preferences').upsert({ user_id: user.id, diet_labels: diet, preferred_cuisines: cuisines });
+        // 'user_preferences' tablosu şemada yok — diyet tercihleri gerçek
+        // user_diet_profiles boolean kolonlarına eşleniyor. Mutfak tercihi
+        // (preferred_cuisines) için şemada henüz bir tablo/kolon yok, kaydedilemiyor.
+        const { error } = await (supabase).from('user_diet_profiles').upsert({
+          user_id: user.id,
+          is_vegan: diet.includes('Vegan'),
+          is_vegetarian: diet.includes('Vejetaryen'),
+          is_gluten_free: diet.includes('Glutensiz'),
+          is_lactose_free: diet.includes('Laktozsuz'),
+          is_halal: diet.includes('Helal'),
+        });
         if (error) toast('Tercihleriniz kaydedilemedi, daha sonra profilinizden güncelleyebilirsiniz.', 'warning');
       }
       router.push('/kesif');

@@ -16,14 +16,25 @@ export default async function PerksPage() {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
+  // 'user_perks' tablosu şemada henüz yok (planlanan bir özellik) — 42P01
+  // durumunda sessizce boş liste gösteriliyor, bu yüzden tip burada dar bir
+  // sözleşmeyle (client'ın genelini any yapmadan) sağlanıyor.
+  interface KullaniciAvantajSorgusu extends PromiseLike<{ data: PerkRow[] | null; error: { code?: string } | null }> {
+    eq: (column: string, value: unknown) => KullaniciAvantajSorgusu;
+    order: (column: string, opts?: { ascending?: boolean }) => KullaniciAvantajSorgusu;
+  }
   let list: PerkRow[] = [];
   try {
-    const { data, error } = await (supabase as any)
+    const { data, error } = await (
+      supabase as unknown as {
+        from: (t: string) => { select: (cols: string) => KullaniciAvantajSorgusu };
+      }
+    )
       .from('user_perks')
       .select('id, title, description, expires_at, is_used, businesses(name, slug)')
       .eq('user_id', user!.id)
       .order('is_used')
-      .order('expires_at', { ascending: true }) as { data: PerkRow[] | null; error: any };
+      .order('expires_at', { ascending: true });
     if (!error || error.code !== '42P01') list = data ?? [];
   } catch { list = []; }
 

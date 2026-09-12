@@ -17,7 +17,7 @@ export const BUSINESS_CHUNK_SIZE = 20_000;
  */
 export async function getSitemapBusinessCount(): Promise<number> {
   const supabase = createSupabasePublicClient();
-  const { count } = await (supabase as any)
+  const { count } = await (supabase)
     .from('businesses')
     .select('id', { count: 'exact', head: true })
     .eq('is_active', true)

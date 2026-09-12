@@ -176,8 +176,8 @@ export default async function AdminLocationsPage({ searchParams }: Props) {
   // RPC "unauthorized" ile başarısız olur. Bu yüzden RPC çağrıları gerçek oturum istemcisini kullanır.
   const userClient = await createSupabaseServerClient();
   const supabase = createSupabaseServiceClient() ?? userClient;
-  const sb = supabase as any;
-  const usb = userClient as any;
+  const sb = supabase;
+  const usb = userClient;
 
   const [totalRes, activeRes, verifiedRes, konumsuzRes, districtTotalRes, provinceMapRes] = await Promise.all([
     sb.from('businesses').select('id', { count: 'exact', head: true }),

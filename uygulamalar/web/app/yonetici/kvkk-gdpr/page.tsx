@@ -35,7 +35,7 @@ export default async function KvkkGdprPage() {
   const supabase = await createSupabaseServerClient();
 
   // Fetch privacy requests (DSAR = Data Subject Access Requests)
-  const { data: requests } = await (supabase as any)
+  const { data: requests } = await (supabase)
     .from('privacy_requests')
     .select('id, user_id, request_type, status, details, created_at, resolved_at')
     .order('created_at', { ascending: false })
@@ -45,7 +45,7 @@ export default async function KvkkGdprPage() {
     }> | null };
 
   const profiles = await getProfilesByUserIds(
-    supabase as any,
+    supabase,
     (requests ?? []).map((request) => request.user_id).filter(Boolean),
   );
   const allRequests = (requests ?? []).map((request) => ({
@@ -60,7 +60,7 @@ export default async function KvkkGdprPage() {
   const processing = allRequests.filter(r => r.status === 'in_review');
   const completed = allRequests.filter(r => r.status === 'resolved');
 
-  const { data: legalDocs } = await (supabase as any)
+  const { data: legalDocs } = await (supabase)
     .from('legal_documents')
     .select('id, slug, title, description, content, is_published, sort_order, updated_at')
     .order('sort_order') as { data: Array<{

@@ -89,21 +89,33 @@ export default async function InboxPage({ searchParams }: PageProps) {
   let list: NotifRow[] = [];
   let tableError = false;
 
+  // 'notifications' / 'user_notifications' üretilen Database tipinde yok
+  // (henüz oluşturulmamış tablolar) — 42P01 ile runtime'da yoklanıyor.
+  interface BildirimSorgusu extends PromiseLike<{ data: NotifRow[] | null; error: { code?: string; message?: string } | null }> {
+    eq: (column: string, value: unknown) => BildirimSorgusu;
+    order: (column: string, opts?: { ascending?: boolean }) => BildirimSorgusu;
+    limit: (n: number) => BildirimSorgusu;
+  }
+  const bildirimTablosu = (table: string) =>
+    (
+      supabase as unknown as {
+        from: (t: string) => { select: (cols: string) => BildirimSorgusu };
+      }
+    ).from(table);
+
   try {
-    const { data, error } = await (supabase as any)
-      .from('notifications')
+    const { data, error } = await bildirimTablosu('notifications')
       .select('id, type, title, body, is_read, created_at, action_url')
       .eq('user_id', user!.id)
       .order('created_at', { ascending: false })
-      .limit(100) as { data: NotifRow[] | null; error: { code?: string; message?: string } | null };
+      .limit(100);
 
     if (error && error.code === '42P01') {
-      const { data: data2, error: error2 } = await (supabase as any)
-        .from('user_notifications')
+      const { data: data2, error: error2 } = await bildirimTablosu('user_notifications')
         .select('id, type, title, body, is_read, created_at, action_url')
         .eq('user_id', user!.id)
         .order('created_at', { ascending: false })
-        .limit(100) as { data: NotifRow[] | null; error: { code?: string } | null };
+        .limit(100);
       if (!error2 || error2.code !== '42P01') {
         list = data2 ?? [];
       } else {

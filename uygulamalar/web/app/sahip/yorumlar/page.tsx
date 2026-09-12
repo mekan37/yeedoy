@@ -26,14 +26,14 @@ export default async function OwnerReviewsPage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   const businesses = user
-    ? await getOwnerBusinesses<{ id: string; name: string }>(supabase as any, user.id, 'id, name')
+    ? await getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name')
     : [];
 
   const businessIds = businesses.map((b) => b.id);
   const businessMap = Object.fromEntries(businesses.map((b) => [b.id, b.name]));
 
   const { data: reviews } = businessIds.length > 0
-    ? await (supabase as any)
+    ? await (supabase)
         .from('reviews')
         .select('id, business_id, user_id, rating, content, status, created_at, owner_reply, owner_replied_at')
         .in('business_id', businessIds)
@@ -45,7 +45,7 @@ export default async function OwnerReviewsPage() {
 
   const userIds = Array.from(new Set(list.map((review) => review.user_id).filter((id): id is string => Boolean(id))));
   const { data: profiles } = userIds.length > 0
-    ? await (supabase as any)
+    ? await (supabase)
         .from('user_profiles')
         .select('user_id, display_name, avatar_url')
         .in('user_id', userIds)

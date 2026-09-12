@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { createSupabaseServerClient } from '@/src/lib/taban/sunucu';
 import { rateLimit } from '@/src/lib/oran-siniri';
 import { logger } from '@/src/lib/kayitci';
+import type { TablesInsert } from '@/src/lib/taban/veri-tanimlari';
 
 const reportSchema = z.object({
   targetType: z.enum(['business', 'review', 'menu_item_photo']),
@@ -34,7 +35,7 @@ export async function POST(request: Request) {
 
   const { targetType, targetId, reason, details } = parsed.data;
 
-  const insertRow: Record<string, unknown> = {
+  const insertRow: TablesInsert<'reports'> = {
     reporter_user_id: user.id,
     target_type: targetType,
     target_id: targetId,
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
   if (targetType === 'review') insertRow.review_id = targetId;
   if (targetType === 'menu_item_photo') insertRow.menu_item_photo_id = targetId;
 
-  const { error } = await (supabase as any).from('reports').insert(insertRow);
+  const { error } = await (supabase).from('reports').insert(insertRow);
 
   if (error) {
     logger.warn('Rapor eklenemedi', { targetType, targetId, error: error.message });

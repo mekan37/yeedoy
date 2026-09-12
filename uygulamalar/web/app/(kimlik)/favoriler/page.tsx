@@ -17,7 +17,7 @@ export default async function FavoritesPage() {
   // Favoriler
   let favoriler: FavIsletme[] = [];
   try {
-    const { data } = await (supabase as any)
+    const { data } = await (supabase)
       .from('favorites')
       .select('business_id, created_at, businesses!favorites_business_id_fkey(id, name, slug, category, city, district, logo_url, cover_url, is_verified)')
       .eq('user_id', user!.id)
@@ -29,7 +29,7 @@ export default async function FavoritesPage() {
   // Yorum sayısı
   let yorumSayisi = 0;
   try {
-    const { count } = await (supabase as any)
+    const { count } = await (supabase)
       .from('reviews')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', user!.id) as { count: number | null };
@@ -39,7 +39,7 @@ export default async function FavoritesPage() {
   // Ziyaret sayısı
   let ziyaretSayisi = 0;
   try {
-    const { count } = await (supabase as any)
+    const { count } = await (supabase)
       .from('visits')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', user!.id) as { count: number | null };
@@ -49,7 +49,7 @@ export default async function FavoritesPage() {
   // Beğenilen yorum sayısı
   let helpfulSayisi = 0;
   try {
-    const { data: hrData } = await (supabase as any)
+    const { data: hrData } = await (supabase)
       .from('reviews')
       .select('helpful_count')
       .eq('user_id', user!.id) as { data: { helpful_count: number }[] | null };

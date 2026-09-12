@@ -43,9 +43,9 @@ export default async function AdminBusinessSubmissionsPage({ searchParams }: Pro
   const pageNum = Math.max(1, parseInt(page, 10) || 1);
 
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as any;
+  const sb = supabase;
 
-  const rpcStatus = statusKey === 'pending' || statusKey === 'reviewing' ? 'new' : statusKey || null;
+  const rpcStatus = statusKey === 'pending' || statusKey === 'reviewing' ? 'new' : statusKey || undefined;
 
   const buAyBasi = new Date(new Date().setDate(1)).toISOString();
   const gecenAyBasi = new Date(new Date(new Date().setDate(1)).setMonth(new Date().getMonth() - 1)).toISOString();
@@ -63,9 +63,9 @@ export default async function AdminBusinessSubmissionsPage({ searchParams }: Pro
       p_status: rpcStatus,
       p_limit: 200,
       p_offset: 0,
-      p_q: q.trim() || null,
-      p_date_from: date_from ? new Date(date_from).toISOString() : null,
-      p_date_to: date_to ? new Date(date_to).toISOString() : null,
+      p_q: q.trim() || undefined,
+      p_date_from: date_from ? new Date(date_from).toISOString() : undefined,
+      p_date_to: date_to ? new Date(date_to).toISOString() : undefined,
       p_sort_key: 'created_at',
       p_sort_ascending: false,
     }),
@@ -113,12 +113,14 @@ export default async function AdminBusinessSubmissionsPage({ searchParams }: Pro
   const reddedilen = reddedilenRes.count ?? 0;
 
   const donutToplam = onaylanan + bekleyen + reddedilen + incelemedeSayisi;
-  const donutVerisi: Array<[string, number, string]> = [
-    ['Onaylandı', onaylanan, '#059669'],
-    ['Beklemede', bekleyen, '#d97706'],
-    ['Reddedildi', reddedilen, '#dc2626'],
-    ['İncelemede', incelemedeSayisi, '#7c3aed'],
-  ].filter(([, n]) => n > 0) as Array<[string, number, string]>;
+  const donutVerisi: Array<[string, number, string]> = (
+    [
+      ['Onaylandı', onaylanan, '#059669'],
+      ['Beklemede', bekleyen, '#d97706'],
+      ['Reddedildi', reddedilen, '#dc2626'],
+      ['İncelemede', incelemedeSayisi, '#7c3aed'],
+    ] as Array<[string, number, string]>
+  ).filter(([, n]) => n > 0);
 
   const queryBase = buildQueryString({ q, status: statusKey, date_from, date_to });
 

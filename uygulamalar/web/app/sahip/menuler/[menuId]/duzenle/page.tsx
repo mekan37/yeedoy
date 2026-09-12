@@ -10,7 +10,7 @@ type Props = { params: Promise<{ menuId: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { menuId } = await params;
   const supabase = await createSupabaseServerClient();
-  const { data } = await (supabase as any).from('menus').select('title').eq('id', menuId).single() as { data: { title: string } | null };
+  const { data } = await (supabase).from('menus').select('title').eq('id', menuId).single() as { data: { title: string } | null };
   return { title: data ? `${data.title} Düzenle | Sahip Paneli` : 'Menü Editörü | Sahip Paneli', robots: { index: false, follow: false } };
 }
 
@@ -33,7 +33,7 @@ export default async function MenuEditorPage({ params }: Props) {
   const allergenMap: Record<string, string[]> = {};
   const possibleAllergenMap: Record<string, string[]> = {};
   if (allItemIds.length > 0) {
-    const { data: allergenRows } = await (supabase as any)
+    const { data: allergenRows } = await (supabase)
       .from('menu_item_allergens')
       .select('item_id, allergen, status')
       .in('item_id', allItemIds) as { data: Array<{ item_id: string; allergen: string; status: string }> | null };
@@ -50,7 +50,7 @@ export default async function MenuEditorPage({ params }: Props) {
   // Batch-fetch ingredients for all items in this menu
   const ingredientMap: Record<string, string[]> = {};
   if (allItemIds.length > 0) {
-    const { data: ingredientRows } = await (supabase as any)
+    const { data: ingredientRows } = await (supabase)
       .from('menu_item_ingredients')
       .select('item_id, name')
       .in('item_id', allItemIds)

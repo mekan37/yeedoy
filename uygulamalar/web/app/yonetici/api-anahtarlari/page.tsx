@@ -39,7 +39,7 @@ export default async function ApiAnahtarlariPage({ searchParams }: Props) {
 
   const { q = '', scope = '', durum = '' } = await searchParams;
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as any;
+  const sb = supabase;
 
   const { data: rawKeys } = await sb
     .from('api_keys')

@@ -46,7 +46,7 @@ export function AvatarYukleme({ userId, avatarUrl, displayName, initials, size =
 
         const publicUrl = sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
 
-        const { error: dbErr } = await (sb as any)
+        const { error: dbErr } = await (sb)
           .from('user_profiles')
           .update({ avatar_url: publicUrl })
           .eq('user_id', userId);

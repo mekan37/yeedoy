@@ -26,7 +26,7 @@ export async function GET(request: Request) {
   }
 
   const businesses = await getOwnerBusinesses(
-    supabase as any,
+    supabase,
     user.id,
       'id, name, slug, public_slug, category, description, phone, city, district, address, is_active, is_verified, logo_url, cover_url, created_at',
   );

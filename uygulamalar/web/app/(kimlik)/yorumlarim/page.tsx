@@ -13,7 +13,7 @@ export default async function YorumlarimPage() {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const yorumlarRes = await ((supabase as any)
+  const yorumlarRes = await ((supabase)
     .from('reviews')
     .select('id, content, title, rating, overall_rating, created_at, businesses ( name, category, district, slug )')
     .eq('user_id', user!.id)

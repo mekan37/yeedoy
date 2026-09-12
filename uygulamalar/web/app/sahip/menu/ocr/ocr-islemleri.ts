@@ -11,7 +11,7 @@ async function requireOwnedBusiness(businessId: string) {
   } = await supabase.auth.getUser();
   if (!user) return { ok: false as const, error: 'Oturum bulunamadı' };
 
-  const ownerBusinessIds = await getOwnerBusinessIds(supabase as any, user.id);
+  const ownerBusinessIds = await getOwnerBusinessIds(supabase, user.id);
   if (!ownerBusinessIds.includes(businessId)) {
     return { ok: false as const, error: 'Bu işletme için yetkiniz yok' };
   }
@@ -26,7 +26,7 @@ export async function ocrTaramasiBaslat(
   const context = await requireOwnedBusiness(businessId);
   if (!context.ok) return { error: context.error };
 
-  const { data, error } = await (context.supabase as any).rpc('create_menu_ocr_job_v1', {
+  const { data, error } = await (context.supabase).rpc('create_menu_ocr_job_v1', {
     p_business_id: businessId,
     p_file_url: fileUrl,
     p_file_name: fileName,
@@ -72,7 +72,7 @@ export async function ocrTaramaDurumu(
   const context = await requireOwnedBusiness(businessId);
   if (!context.ok) return { error: context.error };
 
-  const { data: jobs, error: jobError } = await (context.supabase as any).rpc('list_menu_ocr_jobs_v1', {
+  const { data: jobs, error: jobError } = await (context.supabase).rpc('list_menu_ocr_jobs_v1', {
     p_business_id: businessId,
     p_limit: 50,
     p_offset: 0,
@@ -82,7 +82,7 @@ export async function ocrTaramaDurumu(
   const job = (jobs ?? []).find((j) => j.id === jobId);
   if (!job) return { error: 'Tarama bulunamadı' };
 
-  const { data: analizler, error: analizError } = await (context.supabase as any).rpc('list_menu_ai_analysis_v1', {
+  const { data: analizler, error: analizError } = await (context.supabase).rpc('list_menu_ai_analysis_v1', {
     p_business_id: businessId,
     p_ocr_job_id: jobId,
     p_status: 'pending_review',
@@ -132,7 +132,7 @@ export async function ocrOnerisiniMenuyeEkle(
   const context = await requireOwnedBusiness(businessId);
   if (!context.ok) return { error: context.error };
 
-  const { data, error } = await (context.supabase as any).rpc('apply_menu_ai_analysis_v1', {
+  const { data, error } = await (context.supabase).rpc('apply_menu_ai_analysis_v1', {
     p_analysis_id: analysisId,
     p_section_id: sectionId,
   }) as { data: string | null; error: { message: string } | null };
@@ -158,7 +158,7 @@ export async function ocrOnerisiniReddet(
   const context = await requireOwnedBusiness(businessId);
   if (!context.ok) return { error: context.error };
 
-  const { error } = await (context.supabase as any).rpc('reject_menu_ai_analysis_v1', {
+  const { error } = await (context.supabase).rpc('reject_menu_ai_analysis_v1', {
     p_analysis_id: analysisId,
   }) as { error: { message: string } | null };
 

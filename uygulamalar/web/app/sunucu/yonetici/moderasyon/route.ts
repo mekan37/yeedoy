@@ -112,7 +112,7 @@ export async function POST(request: Request) {
   }
 
   logAudit({
-    supabase: serviceClient as any,
+    supabase: serviceClient,
     userId: user.id,
     action: AUDIT.MODERATION_ACTION,
     resourceType: target_type,

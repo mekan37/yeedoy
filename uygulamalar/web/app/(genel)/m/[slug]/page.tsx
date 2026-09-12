@@ -40,7 +40,7 @@ export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
   try {
     const { createSupabasePublicClient } = await import('@/src/lib/taban/acik');
     const supabase = createSupabasePublicClient();
-    const { data } = await (supabase as any)
+    const { data } = await (supabase)
       .from('businesses')
       .select('slug,public_slug')
       .eq('is_active', true)

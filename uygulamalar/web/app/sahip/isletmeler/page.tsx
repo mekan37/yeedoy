@@ -26,17 +26,17 @@ export default async function OwnerBusinessesPage() {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const businessIds = await getOwnerBusinessIds(supabase as any, user!.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user!.id);
 
   const [{ data: businesses }, { data: pendingClaims }] = await Promise.all([
     businessIds.length > 0
-      ? (supabase as any)
+      ? (supabase)
           .from('businesses')
           .select('id, name, slug, logo_url, cover_url, category, city, district, is_active, created_at')
           .in('id', businessIds)
-          .order('created_at', { ascending: true }) as Promise<{ data: BizRow[] | null }>
-      : Promise.resolve({ data: [] }),
-    (supabase as any)
+          .order('created_at', { ascending: true }) as unknown as Promise<{ data: BizRow[] | null }>
+      : Promise.resolve({ data: [] as BizRow[] }),
+    (supabase)
       .from('owner_claims')
       .select('id')
       .eq('user_id', user!.id)
@@ -56,18 +56,20 @@ export default async function OwnerBusinessesPage() {
     const since14d = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
 
     const [statsRes, viewsRes, hoursResults] = await Promise.all([
-      (supabase as any).from('businesses_with_stats').select('id, avg_rating, reviews_count').in('id', ids),
-      (supabase as any).from('analytics_events').select('business_id, created_at').in('business_id', ids).eq('event_name', 'business_page_view').gte('created_at', since14d),
+      (supabase).from('businesses_with_stats').select('id, avg_rating, reviews_count').in('id', ids),
+      (supabase).from('analytics_events').select('business_id, created_at').in('business_id', ids).eq('event_name', 'business_page_view').gte('created_at', since14d),
       Promise.all(
         ids.map((id: string) =>
-          (supabase as any)
-            .rpc('get_business_hours_v1', { p_business_id: id })
-            .then((r: { data: { weekly?: Array<{ day_of_week: number; close_time: string; is_closed: boolean }>; is_open_now?: boolean } | null }) => {
+          Promise.resolve(
+            (supabase).rpc('get_business_hours_v1', { p_business_id: id }),
+          )
+            .then((r: any) => {
+              const data = r?.data as { weekly?: Array<{ day_of_week: number; close_time: string; is_closed: boolean }>; is_open_now?: boolean } | null;
               const nowIstanbul = new Date(Date.now() + 3 * 60 * 60 * 1000);
               const todayDow = nowIstanbul.getUTCDay();
-              const today = r?.data?.weekly?.find((row) => row.day_of_week === todayDow);
+              const today = data?.weekly?.find((row) => row.day_of_week === todayDow);
               return [id, {
-                isOpenNow: r?.data?.is_open_now ?? null,
+                isOpenNow: data?.is_open_now ?? null,
                 closeTime: today && !today.is_closed ? today.close_time : null,
               }] as const;
             })
@@ -76,7 +78,11 @@ export default async function OwnerBusinessesPage() {
       ),
     ]);
 
-    statsMap = new Map((statsRes.data ?? []).map((r: { id: string; avg_rating: number | null; reviews_count: number | null }) => [r.id, r]));
+    statsMap = new Map(
+      (statsRes.data ?? [])
+        .filter((r): r is { id: string; avg_rating: number | null; reviews_count: number | null } => Boolean(r.id))
+        .map((r) => [r.id, r]),
+    );
     saatByBiz = new Map(hoursResults);
 
     const trendCounts = new Map<string, { curr: number; prev: number }>();

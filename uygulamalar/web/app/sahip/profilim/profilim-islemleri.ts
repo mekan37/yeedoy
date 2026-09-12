@@ -36,7 +36,7 @@ export async function updateKisiselBilgiler(
   if (!parsed.success) return { error: 'Lütfen bilgileri kontrol edin.' };
 
   const d = parsed.data;
-  const { error } = await (supabase as any)
+  const { error } = await (supabase)
     .from('user_profiles')
     .update({
       display_name: d.display_name.trim(),

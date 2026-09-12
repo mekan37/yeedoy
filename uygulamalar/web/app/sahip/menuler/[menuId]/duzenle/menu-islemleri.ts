@@ -14,7 +14,7 @@ async function getOwnedMenuContext(menuId: string): Promise<
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: 'Oturum bulunamadı' };
 
-  const { data: menu, error } = await (supabase as any)
+  const { data: menu, error } = await (supabase)
     .from('menus')
     .select('id,business_id')
     .eq('id', menuId)
@@ -23,7 +23,7 @@ async function getOwnedMenuContext(menuId: string): Promise<
   if (error) return { ok: false, error: error.message };
   if (!menu) return { ok: false, error: 'Menü bulunamadı' };
 
-  const isOwner = await hasOwnerBusiness(supabase as any, user.id, menu.business_id);
+  const isOwner = await hasOwnerBusiness(supabase, user.id, menu.business_id);
   if (!isOwner) return { ok: false, error: 'Bu menü için yetkiniz yok' };
 
   return { ok: true, supabase, businessId: menu.business_id };
@@ -40,7 +40,7 @@ export async function updateMenuTitle(menuId: string, title: string): Promise<Ac
   if (!title.trim()) return { error: 'Başlık boş olamaz' };
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
-  const { error } = await (context.supabase as any).from('menus').update({ title: title.trim() }).eq('id', menuId);
+  const { error } = await (context.supabase).from('menus').update({ title: title.trim() }).eq('id', menuId);
   if (error) return { error: error.message };
   revalidateMenuEditor(menuId);
   return null;
@@ -49,7 +49,7 @@ export async function updateMenuTitle(menuId: string, title: string): Promise<Ac
 export async function publishMenu(menuId: string, status: 'draft' | 'published' | 'archived'): Promise<ActionResult> {
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
-  const { error } = await (context.supabase as any).from('menus').update({ status }).eq('id', menuId);
+  const { error } = await (context.supabase).from('menus').update({ status }).eq('id', menuId);
   if (error) return { error: error.message };
   revalidateMenuEditor(menuId);
   return null;
@@ -59,7 +59,7 @@ export async function createSection(menuId: string, title: string, sortOrder: nu
   if (!title.trim()) return { error: 'Bölüm adı boş olamaz' };
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
-  const { error } = await (context.supabase as any).from('menu_sections').insert({ menu_id: menuId, title: title.trim(), sort_order: sortOrder });
+  const { error } = await (context.supabase).from('menu_sections').insert({ menu_id: menuId, title: title.trim(), sort_order: sortOrder });
   if (error) return { error: error.message };
   revalidateMenuEditor(menuId);
   return null;
@@ -69,7 +69,7 @@ export async function updateSection(sectionId: string, menuId: string, title: st
   if (!title.trim()) return { error: 'Bölüm adı boş olamaz' };
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
-  const { error } = await (context.supabase as any)
+  const { error } = await (context.supabase)
     .from('menu_sections')
     .update({ title: title.trim() })
     .eq('id', sectionId)
@@ -82,7 +82,7 @@ export async function updateSection(sectionId: string, menuId: string, title: st
 export async function deleteSection(sectionId: string, menuId: string): Promise<ActionResult> {
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
-  const { error } = await (context.supabase as any).from('menu_sections').delete().eq('id', sectionId).eq('menu_id', menuId);
+  const { error } = await (context.supabase).from('menu_sections').delete().eq('id', sectionId).eq('menu_id', menuId);
   if (error) return { error: error.message };
   revalidateMenuEditor(menuId);
   return null;
@@ -105,7 +105,7 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
 
-  const { data: section } = await (context.supabase as any)
+  const { data: section } = await (context.supabase)
     .from('menu_sections')
     .select('id')
     .eq('id', sectionId)
@@ -149,13 +149,13 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
   let resolvedItemId: string;
 
   if (itemId) {
-    const { data: menuSections } = await (context.supabase as any)
+    const { data: menuSections } = await (context.supabase)
       .from('menu_sections')
       .select('id')
       .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
     const menuSectionIds = (menuSections ?? []).map((s) => s.id);
 
-    const { error: updateErr } = await (context.supabase as any)
+    const { error: updateErr } = await (context.supabase)
       .from('menu_items')
       .update(payload)
       .eq('id', itemId)
@@ -163,7 +163,7 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
     if (updateErr) return { error: updateErr.message };
     resolvedItemId = itemId;
   } else {
-    const { error: limitError } = await (context.supabase as any).rpc('_check_plan_limit_v1', {
+    const { error: limitError } = await (context.supabase).rpc('_check_plan_limit_v1', {
       p_business_id: context.businessId,
       p_feature_key: 'menu_item_count',
     }) as { error: { message: string } | null };
@@ -171,11 +171,11 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
       return { error: 'Ürün limitine ulaştınız. Daha fazla ürün eklemek için planınızı yükseltin.' };
     }
 
-    const { count } = await (context.supabase as any)
+    const { count } = await (context.supabase)
       .from('menu_items')
       .select('id', { count: 'exact', head: true })
       .eq('section_id', sectionId) as { count: number | null };
-    const { data: newItem, error: insertErr } = await (context.supabase as any)
+    const { data: newItem, error: insertErr } = await (context.supabase)
       .from('menu_items')
       .insert({ ...payload, business_id: context.businessId, sort_order: (count ?? 0) })
       .select('id')
@@ -203,7 +203,7 @@ export async function upsertItemAllergens(
     detected_by: evidence ? 'ai' : 'manual',
   }));
 
-  const { error } = await (context.supabase as any).rpc('owner_upsert_menu_item_allergens_v1', {
+  const { error } = await (context.supabase).rpc('owner_upsert_menu_item_allergens_v1', {
     p_item_id: itemId,
     p_allergens,
   }) as { error: { message: string } | null };
@@ -228,7 +228,7 @@ export async function upsertItemIngredients(
     sort_order: i,
   }));
 
-  const { error } = await (context.supabase as any).rpc('owner_upsert_menu_item_ingredients_v1', {
+  const { error } = await (context.supabase).rpc('owner_upsert_menu_item_ingredients_v1', {
     p_item_id: itemId,
     p_ingredients,
     p_diet: { is_vegan: null, is_vegetarian: null, is_gluten_free: null, is_dairy_free: null },
@@ -244,14 +244,14 @@ export async function deleteItem(itemId: string, menuId: string): Promise<Action
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
 
-  const { data: sections } = await (context.supabase as any)
+  const { data: sections } = await (context.supabase)
     .from('menu_sections')
     .select('id')
     .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
   const sectionIds = (sections ?? []).map((section) => section.id);
   if (sectionIds.length === 0) return { error: 'Bölüm bulunamadı' };
 
-  const { error } = await (context.supabase as any).from('menu_items').delete().eq('id', itemId).in('section_id', sectionIds);
+  const { error } = await (context.supabase).from('menu_items').delete().eq('id', itemId).in('section_id', sectionIds);
   if (error) return { error: error.message };
   revalidateMenuEditor(menuId);
   return null;
@@ -267,14 +267,14 @@ export async function reorderItem(
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
 
-  const { data: sections } = await (context.supabase as any)
+  const { data: sections } = await (context.supabase)
     .from('menu_sections')
     .select('id')
     .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
   const sectionIds = (sections ?? []).map((section) => section.id);
   if (sectionIds.length === 0) return { error: 'Bölüm bulunamadı' };
 
-  const { error } = await (context.supabase as any)
+  const { error } = await (context.supabase)
     .from('menu_items')
     .update({ sort_order: newSortOrder })
     .eq('id', itemId)
@@ -294,14 +294,14 @@ export async function bulkSetAvailability(
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
 
-  const { data: sections } = await (context.supabase as any)
+  const { data: sections } = await (context.supabase)
     .from('menu_sections')
     .select('id')
     .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
   const sectionIds = (sections ?? []).map((section) => section.id);
   if (sectionIds.length === 0) return { error: 'Bölüm bulunamadı' };
 
-  const { error } = await (context.supabase as any)
+  const { error } = await (context.supabase)
     .from('menu_items')
     .update({ is_available: isAvailable })
     .in('id', itemIds)
@@ -321,14 +321,14 @@ export async function bulkMoveSection(
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
 
-  const { data: sections } = await (context.supabase as any)
+  const { data: sections } = await (context.supabase)
     .from('menu_sections')
     .select('id')
     .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
   const sectionIds = (sections ?? []).map((section) => section.id);
   if (!sectionIds.includes(targetSectionId)) return { error: 'Hedef bölüm bu menüye ait değil' };
 
-  const { error } = await (context.supabase as any)
+  const { error } = await (context.supabase)
     .from('menu_items')
     .update({ section_id: targetSectionId })
     .in('id', itemIds)
@@ -347,14 +347,14 @@ export async function bulkDeleteItems(
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
 
-  const { data: sections } = await (context.supabase as any)
+  const { data: sections } = await (context.supabase)
     .from('menu_sections')
     .select('id')
     .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
   const sectionIds = (sections ?? []).map((section) => section.id);
   if (sectionIds.length === 0) return { error: 'Bölüm bulunamadı' };
 
-  const { error } = await (context.supabase as any)
+  const { error } = await (context.supabase)
     .from('menu_items')
     .delete()
     .in('id', itemIds)
@@ -372,32 +372,38 @@ export async function duplicateItem(
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
 
-  const { data: sections } = await (context.supabase as any)
+  const { data: sections } = await (context.supabase)
     .from('menu_sections')
     .select('id')
     .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
   const sectionIds = (sections ?? []).map((section) => section.id);
   if (sectionIds.length === 0) return { error: 'Bölüm bulunamadı' };
 
-  const { data: original, error: fetchErr } = await (context.supabase as any)
+  type OrijinalUrunSatiri = {
+    name: string; description: string | null; image_url: string | null; price_cents: number;
+    currency: string; is_available: boolean; section_id: string; calories_min: number | null;
+    calories_max: number | null; portion_size: number | null; portion_unit: string | null;
+    calorie_source: string | null;
+  };
+  const { data: original, error: fetchErr } = await (context.supabase)
     .from('menu_items')
     .select('name, description, image_url, price_cents, currency, is_available, section_id, calories_min, calories_max, portion_size, portion_unit, calorie_source')
     .eq('id', itemId)
     .in('section_id', sectionIds)
-    .maybeSingle() as { data: Record<string, unknown> | null; error: { message: string } | null };
+    .maybeSingle() as { data: OrijinalUrunSatiri | null; error: { message: string } | null };
   if (fetchErr) return { error: fetchErr.message };
   if (!original) return { error: 'Ürün bulunamadı' };
 
-  const { count } = await (context.supabase as any)
+  const { count } = await (context.supabase)
     .from('menu_items')
     .select('id', { count: 'exact', head: true })
-    .eq('section_id', original.section_id as string) as { count: number | null };
+    .eq('section_id', original.section_id) as { count: number | null };
 
-  const { data: copy, error: insertErr } = await (context.supabase as any)
+  const { data: copy, error: insertErr } = await (context.supabase)
     .from('menu_items')
     .insert({
       ...original,
-      name: `${original.name as string} (Kopya)`,
+      name: `${original.name} (Kopya)`,
       business_id: context.businessId,
       sort_order: count ?? 0,
     })

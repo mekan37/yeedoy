@@ -30,7 +30,7 @@ export const revalidate = 300;
 export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
   try {
     const supabase = createSupabasePublicClient();
-    const { data } = await (supabase as any)
+    const { data } = await (supabase)
       .from('businesses')
       .select('slug')
       .eq('is_active', true)
@@ -161,12 +161,16 @@ export default async function BusinessPage({ params, searchParams }: Props) {
   const [menuData, checkinCount, mealCards, similar, detayliYorumlarRaw, reviewStatsRaw, chainInfoRaw, campaignRows] =
     await Promise.all([
       getPublicMenuPageData({ businessSlugOrId: business.slug }).catch(() => null),
-      (createSupabasePublicClient() as any)
-        .rpc('get_business_recent_checkins_v1', { p_business_id: business.id, p_hours: 2 })
+      Promise.resolve(
+        (createSupabasePublicClient())
+          .rpc('get_business_recent_checkins_v1', { p_business_id: business.id, p_hours: 2 }),
+      )
         .then((r: any) => r?.data?.count ?? 0)
         .catch(() => 0),
-      (createSupabasePublicClient() as any)
-        .rpc('get_business_meal_card_providers_v1', { p_business_id: business.id })
+      Promise.resolve(
+        (createSupabasePublicClient())
+          .rpc('get_business_meal_card_providers_v1', { p_business_id: business.id }),
+      )
         .then((r: any) => (r?.data as MealCardPublicRow[]) ?? [])
         .catch(() => [] as MealCardPublicRow[]),
       business.category
@@ -175,33 +179,37 @@ export default async function BusinessPage({ params, searchParams }: Props) {
             .catch(() => [])
         : Promise.resolve([]),
       // Detaylı yorumlar (ilk 15) — FK yoktur, profil ayrı çekilir
-      (createSupabasePublicClient() as any)
+      (createSupabasePublicClient())
         .from('reviews')
         .select('id, rating, overall_rating, content, title, created_at, helpful_count, taste_rating, service_speed_rating, atmosphere_rating, price_performance_rating, cleanliness_rating, owner_reply, user_id')
         .eq('business_id', business.id)
         .eq('status', 'approved')
         .order('created_at', { ascending: false })
-        .limit(15) as Promise<{ data: any[] | null; error: any }>,
+        .limit(15),
       // İstatistik veriler (rating dağılımı + alt puan ortalamaları)
-      (createSupabasePublicClient() as any)
+      (createSupabasePublicClient())
         .from('reviews')
         .select('rating, taste_rating, service_speed_rating, atmosphere_rating, price_performance_rating, cleanliness_rating')
         .eq('business_id', business.id)
         .eq('status', 'approved')
-        .limit(500) as Promise<{ data: ReviewStatRow[] | null; error: any }>,
+        .limit(500),
       // Zincir bilgisi
-      (createSupabasePublicClient() as any)
-        .rpc('get_business_chain_info_v1', { p_business_id: business.id })
+      Promise.resolve(
+        (createSupabasePublicClient())
+          .rpc('get_business_chain_info_v1', { p_business_id: business.id }),
+      )
         .then((r: any) => (r?.data as ChainInfoRow[]) ?? [])
         .catch(() => [] as ChainInfoRow[]),
       // Aktif kampanyalar (RLS: campaigns_public_read — herkes status='active' okuyabilir)
-      (createSupabasePublicClient() as any)
-        .from('campaigns')
-        .select('id,title,description,type,discount_percent,image_url,ends_at')
-        .eq('business_id', business.id)
-        .eq('status', 'active')
-        .or(`ends_at.is.null,ends_at.gt.${new Date().toISOString()}`)
-        .order('created_at', { ascending: false })
+      Promise.resolve(
+        (createSupabasePublicClient())
+          .from('campaigns')
+          .select('id,title,description,type,discount_percent,image_url,ends_at')
+          .eq('business_id', business.id)
+          .eq('status', 'active')
+          .or(`ends_at.is.null,ends_at.gt.${new Date().toISOString()}`)
+          .order('created_at', { ascending: false }),
+      )
         .then((r: any) => (r?.data as CampaignRow[]) ?? [])
         .catch(() => [] as CampaignRow[]),
     ]);
@@ -212,7 +220,7 @@ export default async function BusinessPage({ params, searchParams }: Props) {
   try {
     const userIds = [...new Set(reviewsBase.map((r) => r.user_id).filter(Boolean))] as string[];
     if (userIds.length > 0) {
-      const { data: profs } = await (createSupabasePublicClient() as any)
+      const { data: profs } = await (createSupabasePublicClient())
         .from('user_profiles')
         .select('user_id, display_name, avatar_url')
         .in('user_id', userIds);
@@ -225,7 +233,7 @@ export default async function BusinessPage({ params, searchParams }: Props) {
   try {
     const reviewIds = reviewsBase.map((r) => r.id).filter(Boolean);
     if (reviewIds.length > 0) {
-      const { data: photoRows } = await (createSupabasePublicClient() as any)
+      const { data: photoRows } = await (createSupabasePublicClient())
         .from('review_photos')
         .select('review_id, url')
         .in('review_id', reviewIds)

@@ -243,7 +243,7 @@ export async function updateBusinessProfile(
   const service = createSupabaseServiceClient();
   if (!service) return { error: 'Servis bağlantısı kurulamadı.' };
 
-  const result = (await (service as any)
+  const result = (await (service)
     .from('businesses')
     .update({
       name: parsed.data.name,
@@ -288,7 +288,7 @@ export async function updateContactInfo(
   const service = createSupabaseServiceClient();
   if (!service) return { error: 'Servis bağlantısı kurulamadı.' };
 
-  const result = (await (service as any)
+  const result = (await (service)
     .from('businesses')
     .update({
       website_url: toNull(parsed.data.website_url),
@@ -324,10 +324,12 @@ export async function updateBusinessBranding(
   const service = createSupabaseServiceClient();
   if (!service) return { error: 'Servis bağlantısı kurulamadı.' };
 
-  const column = parsed.data.type === 'logo' ? 'logo_url' : 'cover_url';
-  const result = (await (service as any)
+  const update = parsed.data.type === 'logo'
+    ? { logo_url: parsed.data.url }
+    : { cover_url: parsed.data.url };
+  const result = (await (service)
     .from('businesses')
-    .update({ [column]: parsed.data.url })
+    .update(update)
     .eq('id', authorization.businessId)
     .select('id, slug, public_slug')
     .maybeSingle()) as BusinessMutationResult;
@@ -369,7 +371,7 @@ export async function updateReservationSettings(
   const service = createSupabaseServiceClient();
   if (!service) return { error: 'Servis bağlantısı kurulamadı.' };
 
-  const result = (await (service as any)
+  const result = (await (service)
     .from('businesses')
     .update({
       accepts_reservations: parsed.data.accepts_reservations,
@@ -462,7 +464,7 @@ export async function deactivateBusiness(
   const service = createSupabaseServiceClient();
   if (!service) return { error: 'Servis bağlantısı kurulamadı.' };
 
-  const result = (await (service as any)
+  const result = (await (service)
     .from('businesses')
     .update({ is_active: false })
     .eq('id', authorization.businessId)

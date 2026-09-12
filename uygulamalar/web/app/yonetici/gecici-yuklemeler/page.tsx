@@ -44,7 +44,7 @@ export default async function AdminTempUploadsPage({ searchParams }: Props) {
   let tableExists = true;
 
   try {
-    let query = (supabase as any)
+    let query = (supabase)
       .from('temp_uploads')
       .select('id, file_name:storage_path, file_size:bytes, user_id, created_at, expires_at, bucket:storage_bucket', { count: 'exact' })
       .order('created_at', { ascending: false })

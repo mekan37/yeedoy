@@ -36,7 +36,7 @@ const NOTIFICATION_ITEMS = [
 
 async function togglePref(userId: string, notificationType: string, enabled: boolean) {
   const supabase = createSupabaseBrowserClient();
-  const { error } = await (supabase as any).from('notification_preferences').upsert(
+  const { error } = await (supabase).from('notification_preferences').upsert(
     { user_id: userId, notification_type: notificationType, enabled, updated_at: new Date().toISOString() },
     { onConflict: 'user_id,notification_type' },
   );

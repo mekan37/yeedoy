@@ -10,7 +10,7 @@ type MenuRow = { id: string; title: string; slug: string | null };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { businessId } = await params;
   const supabase = await createSupabaseServerClient();
-  const { data } = await (supabase as any).from('businesses').select('name').eq('id', businessId).single() as { data: { name: string } | null };
+  const { data } = await (supabase).from('businesses').select('name').eq('id', businessId).single() as { data: { name: string } | null };
   return {
     // Root layout'un title.template'i ('%s | Yeedoy') zaten suffix ekliyor.
     title: data ? data.name : undefined,
@@ -25,7 +25,7 @@ export default async function EmbedViewerPage({ params }: Props) {
   const { businessId } = await params;
   const supabase = await createSupabaseServerClient();
 
-  const { data: biz } = await (supabase as any)
+  const { data: biz } = await (supabase)
     .from('businesses')
     .select('id, name, slug, description, logo_url, category, city')
     .eq('id', businessId)
@@ -33,7 +33,7 @@ export default async function EmbedViewerPage({ params }: Props) {
 
   if (!biz) notFound();
 
-  const { data: menus } = await (supabase as any)
+  const { data: menus } = await (supabase)
     .from('menus')
     .select('id, title, slug')
     .eq('business_id', businessId)

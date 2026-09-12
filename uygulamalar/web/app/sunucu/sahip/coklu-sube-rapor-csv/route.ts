@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   } = await supabase.auth.getUser();
   if (!user) return new Response('Unauthorized', { status: 401 });
 
-  const { data: overview, error } = (await (supabase as any).rpc('owner_get_chain_overview_v1', {
+  const { data: overview, error } = (await (supabase).rpc('owner_get_chain_overview_v1', {
     p_business_id: businessId,
   })) as { data: CokluSubeOverview | null; error: { message: string } | null };
 

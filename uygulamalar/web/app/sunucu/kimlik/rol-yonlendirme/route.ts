@@ -9,12 +9,12 @@ export async function GET() {
     return NextResponse.json({ redirectTo: '/giris' });
   }
 
-  const redirectTo = await resolveRoleBasedRedirect(supabase as any, user.id);
+  const redirectTo = await resolveRoleBasedRedirect(supabase, user.id);
   return NextResponse.json({ redirectTo });
 }
 
 export async function resolveRoleBasedRedirect(
-  supabase: { rpc: (fn: string) => Promise<{ data: unknown }>; from: (t: string) => any },
+  supabase: { rpc: (fn: any) => PromiseLike<{ data: unknown }>; from: (t: any) => any },
   userId: string,
 ): Promise<string> {
   const { data: isAdmin } = await supabase.rpc('is_admin') as { data: boolean | null };

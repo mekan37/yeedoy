@@ -8,8 +8,6 @@ import { logAudit, AUDIT } from '@/src/lib/denetim';
 
 export const runtime = 'nodejs';
 
-const ADMIN_ROLES = ['super_admin', 'admin', 'community_mod'] as const;
-
 const CreateMenuSchema = z.object({
   name: z.string().min(1).max(200),
   description: z.string().optional(),
@@ -24,13 +22,11 @@ async function assertAdmin(request: Request) {
 
   if (!user) return { ok: false as const, status: 401 };
 
-  const { data: profile, error: profileError } = await (supabase as any)
-    .from('user_profiles')
-    .select('role')
-    .eq('id', user.id)
-    .maybeSingle();
+  // 'user_profiles' tablosunda 'role' kolonu yok — admin kontrolü diğer
+  // yonetici route'larıyla tutarlı şekilde is_admin() RPC'si üzerinden yapılıyor.
+  const { data: isAdmin } = await (supabase).rpc('is_admin');
 
-  if (profileError || !profile || !ADMIN_ROLES.includes(profile.role)) {
+  if (!isAdmin) {
     return { ok: false as const, status: 403 };
   }
 
@@ -82,7 +78,7 @@ export async function POST(request: Request, context: RouteContext) {
   }
 
   // İşletmenin var olduğunu doğrula
-  const { data: business, error: bizError } = await (serviceClient as any)
+  const { data: business, error: bizError } = await (serviceClient)
     .from('businesses')
     .select('id')
     .eq('id', businessId)
@@ -94,7 +90,7 @@ export async function POST(request: Request, context: RouteContext) {
 
   const { name, description, is_active } = parsed.data;
 
-  const { data: created, error: insertError } = await (serviceClient as any)
+  const { data: created, error: insertError } = await (serviceClient)
     .from('menus')
     .insert({
       business_id: businessId,
@@ -112,7 +108,7 @@ export async function POST(request: Request, context: RouteContext) {
   }
 
   logAudit({
-    supabase: serviceClient as any,
+    supabase: serviceClient,
     userId: guard.userId,
     action: AUDIT.MENU_CREATE,
     resourceType: 'menu',

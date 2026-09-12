@@ -37,7 +37,7 @@ export async function programOlustur(
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
-    const { error } = (await (supabase as any).rpc('create_loyalty_program_v1', {
+    const { error } = (await (supabase).rpc('create_loyalty_program_v1', {
       p_business_id: d.business_id,
       p_mode: d.mode,
       p_name: d.name,
@@ -69,7 +69,7 @@ export async function programAktiflikDegistir(
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
-    const { error } = (await (supabase as any).rpc('set_loyalty_program_active_v1', {
+    const { error } = (await (supabase).rpc('set_loyalty_program_active_v1', {
       p_program_id: d.program_id,
       p_is_active: d.is_active,
     })) as { error: { message: string } | null };
@@ -107,7 +107,7 @@ export async function programGuncelle(
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
-    const { error } = (await (supabase as any).rpc('update_loyalty_program_v1', {
+    const { error } = (await (supabase).rpc('update_loyalty_program_v1', {
       p_program_id: d.program_id,
       p_name: d.name,
       p_reward_desc: d.reward_desc,
@@ -132,7 +132,7 @@ export async function programSil(programId: string): Promise<EylemSonucu> {
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
-    const { error } = (await (supabase as any).rpc('delete_loyalty_program_v1', {
+    const { error } = (await (supabase).rpc('delete_loyalty_program_v1', {
       p_program_id: d.program_id,
     })) as { error: { message: string } | null };
 
@@ -166,7 +166,7 @@ export async function qrOkut(
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
-    const { data, error } = (await (supabase as any).rpc('scan_loyalty_qr_v1', {
+    const { data, error } = (await (supabase).rpc('scan_loyalty_qr_v1', {
       p_business_id: d.business_id,
       p_user_id: d.user_id,
       p_amount: d.amount,
@@ -202,7 +202,7 @@ export async function odulKullan(memberId: string): Promise<OdulKullanSonucu> {
     if (!limitResult.ok) return { error: 'Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.' };
 
     const supabase = await createSupabaseServerClient();
-    const { data, error } = (await (supabase as any).rpc('redeem_loyalty_reward_v1', {
+    const { data, error } = (await (supabase).rpc('redeem_loyalty_reward_v1', {
       p_member_id: d.member_id,
     })) as { data: { member_id: string; progress: number } | null; error: { message: string } | null };
 

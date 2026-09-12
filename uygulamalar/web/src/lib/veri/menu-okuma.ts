@@ -121,7 +121,7 @@ export type StockDishImage = { id: string; image_url: string; keywords: string[]
 export const getStockDishImagesCached = unstable_cache(
   async (): Promise<StockDishImage[]> => {
     const supabase = createSupabasePublicClient();
-    const { data, error } = await (supabase as any).rpc('get_stock_dish_images_v1');
+    const { data, error } = await (supabase).rpc('get_stock_dish_images_v1');
     if (error) {
       logger.warn('getStockDishImagesCached failed', { error });
       return [];

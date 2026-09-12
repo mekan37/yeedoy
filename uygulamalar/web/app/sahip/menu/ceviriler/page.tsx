@@ -40,13 +40,13 @@ export default async function OwnerMenuTranslationsPage({ searchParams }: PagePr
 
   type BusinessRow = { id: string; name: string };
   const businesses = user
-    ? await getOwnerBusinesses<BusinessRow>(supabase as any, user.id, 'id, name')
+    ? await getOwnerBusinesses<BusinessRow>(supabase, user.id, 'id, name')
     : [];
 
   const businessIds = businesses.map((b) => b.id);
 
   const { data: menus } = businessIds.length > 0
-    ? await (supabase as any)
+    ? await (supabase)
         .from('menus')
         .select('id')
         .in('business_id', businessIds)
@@ -55,7 +55,7 @@ export default async function OwnerMenuTranslationsPage({ searchParams }: PagePr
   const menuIds = ((menus ?? []) as any[]).map((m: any) => m.id);
 
   const { data: translations } = menuIds.length > 0
-    ? await (supabase as any)
+    ? await (supabase)
         .from('menu_translations')
         .select('id, entity_type, entity_id, locale, name, created_at')
         .in('entity_id', menuIds)

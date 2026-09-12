@@ -28,7 +28,7 @@ export default async function LegalPage() {
   let useFallback = false;
 
   try {
-    const { data, error } = await (supabase as any)
+    const { data, error } = await (supabase)
       .from('legal_documents')
       .select('slug, title, updated_at')
       .eq('is_published', true)

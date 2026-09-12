@@ -10,7 +10,7 @@ type Props = { params: Promise<{ token: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { token } = await params;
   const supabase = createSupabasePublicClient();
-  const { data } = await (supabase as any)
+  const { data } = await (supabase)
     .from('collab_lists')
     .select('name')
     .eq('invite_token', token)
@@ -27,7 +27,7 @@ export default async function OyVerPage({ params }: Props) {
   const { token } = await params;
   const supabase = createSupabasePublicClient();
 
-  const { data: list } = await (supabase as any)
+  const { data: list } = await (supabase)
     .from('collab_lists')
     .select('id, name, description')
     .eq('invite_token', token)
@@ -44,7 +44,7 @@ export default async function OyVerPage({ params }: Props) {
   }
 
   // Listedeki işletmeler ve oy sayıları
-  const { data: items } = await (supabase as any)
+  const { data: items } = await (supabase)
     .from('collab_list_items')
     .select('id, business_id, businesses(id, name, slug, category, city, district)')
     .eq('list_id', list.id) as { data: Array<{
@@ -55,7 +55,7 @@ export default async function OyVerPage({ params }: Props) {
       businesses: { id: string; name: string; slug: string; category: string | null; city: string | null; district: string | null } | null;
     }> | null };
 
-  const { data: votes } = await (supabase as any)
+  const { data: votes } = await (supabase)
     .from('collab_list_votes')
     .select('item_id, vote')
     .eq('list_id', list.id) as { data: Array<{ item_id: string; vote: number }> | null };

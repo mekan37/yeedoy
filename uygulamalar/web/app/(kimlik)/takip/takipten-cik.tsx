@@ -22,9 +22,9 @@ export function TakipteCikButonu({ followedId }: { followedId: string }) {
               const supabase = createSupabaseBrowserClient();
               const { data: { user } } = await supabase.auth.getUser();
               if (user) {
-                const { error } = await (supabase as any).from('user_follows').delete()
+                const { error } = await (supabase).from('user_follows').delete()
                   .eq('follower_id', user.id)
-                  .eq('followed_id', followedId);
+                  .eq('followee_id', followedId);
                 if (error) {
                   toast('Takipten çıkılamadı. Lütfen tekrar deneyin.', 'danger');
                   return;

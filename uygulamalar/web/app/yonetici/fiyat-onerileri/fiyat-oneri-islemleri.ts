@@ -8,9 +8,9 @@ export async function approvePriceSuggestion(suggestionId: string): Promise<{ er
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Yetkisiz' };
 
-  const { data, error } = await (supabase as any).rpc('admin_approve_menu_price_suggestion_v1', {
+  const { data, error } = await (supabase).rpc('admin_approve_menu_price_suggestion_v1', {
     p_suggestion_id: suggestionId,
-  });
+  }) as { data: { ok: boolean; error?: string } | null; error: { message: string } | null };
   if (error || !data?.ok) return { error: data?.error ?? error?.message ?? 'Onaylanamadı' };
 
   revalidatePath('/yonetici/fiyat-onerileri');
@@ -22,10 +22,10 @@ export async function rejectPriceSuggestion(suggestionId: string, note?: string 
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Yetkisiz' };
 
-  const { data, error } = await (supabase as any).rpc('admin_reject_menu_price_suggestion_v1', {
+  const { data, error } = await (supabase).rpc('admin_reject_menu_price_suggestion_v1', {
     p_suggestion_id: suggestionId,
-    p_note: note ?? null,
-  });
+    p_note: note ?? undefined,
+  }) as { data: { ok: boolean; error?: string } | null; error: { message: string } | null };
   if (error || !data?.ok) return { error: data?.error ?? error?.message ?? 'Reddedilemedi' };
 
   revalidatePath('/yonetici/fiyat-onerileri');

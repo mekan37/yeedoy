@@ -65,7 +65,7 @@ export default function AkilliAkisIstemcisi({ initialItems }: Props) {
     setLoading(true);
     try {
       const supabase = createSupabaseBrowserClient();
-      const { data } = (await (supabase as any).rpc('get_smart_feed_v2', {
+      const { data } = (await (supabase).rpc('get_smart_feed_v2', {
         p_limit: 20,
         p_offset: offset,
       })) as { data: SmartFeedEvent[] | null };

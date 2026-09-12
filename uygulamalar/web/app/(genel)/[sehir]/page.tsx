@@ -30,7 +30,7 @@ function slug2label(slug: string): string {
 export async function generateStaticParams(): Promise<Array<{ sehir: string }>> {
   try {
     const supabase = createSupabasePublicClient();
-    const { data } = await (supabase as any)
+    const { data } = await (supabase)
       .from('businesses')
       .select('city')
       .eq('is_active', true)
@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonical = `${siteUrl}/${sehir}`;
 
   const supabase = createSupabasePublicClient();
-  const { count } = await (supabase as any)
+  const { count } = await (supabase)
     .from('businesses')
     .select('id', { count: 'exact', head: true })
     .eq('is_active', true)
@@ -91,7 +91,7 @@ export default async function CityHubPage({ params }: Props) {
   // (bkz. get_city_hub_stats_v1). Önceden ham satırlar LIMIT 2000 ile çekilip
   // JS'te sayılıyordu — 2000'den fazla aktif işletmesi olan bir şehirde
   // (İstanbul gibi) bu sayımları sessizce yanlış/eksik yapıyordu.
-  const { data: combos } = await (supabase as any)
+  const { data: combos } = await (supabase)
     .rpc('get_city_hub_stats_v1', { p_city: cityLabel }) as {
       data: Array<{ district: string; category: string; item_count: number }> | null
     };

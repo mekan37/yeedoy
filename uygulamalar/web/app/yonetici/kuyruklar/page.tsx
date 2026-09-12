@@ -37,7 +37,7 @@ export default async function AdminKuyruklarPage({ searchParams }: Props) {
   const bugunFiltresi = bugun === '1';
 
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as any;
+  const sb = supabase;
   const bugunBasi = new Date(new Date().setHours(0, 0, 0, 0)).toISOString();
 
   const [incelemeBekleyenRes, sahiplenmeBekleyenRes] = await Promise.all([
@@ -54,12 +54,12 @@ export default async function AdminKuyruklarPage({ searchParams }: Props) {
 
   if (tab === 'inceleme') {
     const result = await sb.rpc('admin_list_business_submissions_v2', {
-      p_status: status || null,
+      p_status: status || undefined,
       p_limit: PAGE_SIZE,
       p_offset: (pageNum - 1) * PAGE_SIZE,
-      p_q: q.trim() || null,
-      p_date_from: bugunFiltresi ? bugunBasi : null,
-      p_date_to: null,
+      p_q: q.trim() || undefined,
+      p_date_from: bugunFiltresi ? bugunBasi : undefined,
+      p_date_to: undefined,
       p_sort_key: 'created_at',
       p_sort_ascending: sort === 'oldest',
     });

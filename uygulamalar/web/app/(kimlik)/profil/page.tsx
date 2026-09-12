@@ -73,10 +73,10 @@ export default async function ProfilPage() {
   if (!user) redirect('/giris?redirect=/profil');
 
   const [profileRes, statsRes, followersRes, followingRes] = await Promise.all([
-    (supabase as any).rpc('get_my_profile_private_v1') as Promise<{ data: { ok: boolean; profile: Profile | null } | null }>,
-    (supabase as any).rpc('get_my_profile_stats') as Promise<{ data: Stats[] | null }>,
-    (supabase as any).from('user_follows').select('id', { count: 'exact', head: true }).eq('followed_id', user!.id) as Promise<{ count: number | null }>,
-    (supabase as any).from('user_follows').select('id', { count: 'exact', head: true }).eq('follower_id', user!.id) as Promise<{ count: number | null }>,
+    (supabase).rpc('get_my_profile_private_v1') as unknown as Promise<{ data: { ok: boolean; profile: Profile | null } | null }>,
+    (supabase).rpc('get_my_profile_stats') as unknown as Promise<{ data: Stats[] | null }>,
+    (supabase).from('user_follows').select('id', { count: 'exact', head: true }).eq('followee_id', user!.id),
+    (supabase).from('user_follows').select('id', { count: 'exact', head: true }).eq('follower_id', user!.id),
   ]);
 
   const profile = profileRes.data?.profile ?? null;
@@ -85,7 +85,7 @@ export default async function ProfilPage() {
   const takip = followingRes.count ?? 0;
 
   // Son yorumlar
-  const yorumlarRes = await ((supabase as any)
+  const yorumlarRes = await ((supabase)
     .from('reviews')
     .select('id, content, title, rating, overall_rating, created_at, businesses ( name, category, district, slug )')
     .eq('user_id', user!.id)
@@ -94,7 +94,7 @@ export default async function ProfilPage() {
   const yorumlar: YorumSatiri[] = yorumlarRes.data ?? [];
 
   // Favori işletmeler
-  const favIdlerRes = await ((supabase as any)
+  const favIdlerRes = await ((supabase)
     .from('favorites')
     .select('business_id')
     .eq('user_id', user!.id)
@@ -104,7 +104,7 @@ export default async function ProfilPage() {
   let favIsletmeler: FavoriIsletme[] = [];
   const ids = (favIdlerRes.data ?? []).map((r: { business_id: string }) => r.business_id);
   if (ids.length > 0) {
-    const bizRes = await ((supabase as any)
+    const bizRes = await ((supabase)
       .from('businesses')
       .select('id, name, category, district, slug, logo_url, cover_url')
       .in('id', ids)
