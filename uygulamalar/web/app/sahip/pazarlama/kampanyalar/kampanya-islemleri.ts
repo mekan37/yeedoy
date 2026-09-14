@@ -60,6 +60,11 @@ export async function kampanyaKaydet(
   if (startsAtIso === undefined || endsAtIso === undefined) {
     return { error: 'Geçersiz tarih formatı' };
   }
+  // Önceden yalnızca DB CHECK constraint'i (campaigns_dates_order)
+  // koruyordu — kullanıcı ham Postgres hata metni görüyordu.
+  if (startsAtIso && endsAtIso && endsAtIso <= startsAtIso) {
+    return { error: 'Bitiş tarihi başlangıç tarihinden sonra olmalı' };
+  }
 
   return withAuth(async (userId) => {
     const limitResult = await rateLimit(`kampanya-kaydet:${userId}`, 20, 60_000);
@@ -79,12 +84,22 @@ export async function kampanyaKaydet(
       p_ends_at:         endsAtIso ?? undefined,
       p_image_url:       d.image_url ?? undefined,
       p_id:              d.id ?? undefined,
-    }) as { error: { message: string } | null };
+    }) as { error: { message: string; code?: string } | null };
 
-    if (error) return { error: error.message };
+    if (error) return { error: kampanyaHataMesaji(error) };
     revalidatePath(REVALIDATE);
     return null;
   });
+}
+
+// DB CHECK constraint ihlalleri ham İngilizce Postgres hatası olarak
+// çağırana sızıyordu (zod'un TS tarafında yakaladığı aynı kısıtları,
+// server action doğrudan çağrılırsa DB seviyesinde tekrar ediyor).
+function kampanyaHataMesaji(error: { message: string; code?: string }): string {
+  if (error.code === '23514' && error.message.includes('campaigns_dates_order')) {
+    return 'Bitiş tarihi başlangıç tarihinden sonra olmalı';
+  }
+  return error.message;
 }
 
 export async function kampanyaSil(
