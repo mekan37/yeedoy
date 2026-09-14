@@ -30,6 +30,9 @@ export async function GET(request: Request) {
   const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return new Response('Forbidden', { status: 403 });
 
+  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:raporlar' });
+  if (!yetkili) return new Response('forbidden', { status: 403 });
+
   let query = supabaseAny
     .from('reports')
     .select('id, target_type, reason, details, status, created_at')

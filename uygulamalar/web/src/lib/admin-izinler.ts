@@ -4,9 +4,10 @@ export type AdminPermissionKey =
   | 'page:fis-basvurulari' | 'page:cop-kutusu' | 'page:olaylar' | 'page:konumlar'
   | 'page:analitik' | 'page:musteri-destek' | 'page:oneriler' | 'page:fiyat-onerileri'
   | 'page:fraud-tespiti' | 'page:fotograf-moderasyon' | 'page:feature-flags'
-  | 'page:api-anahtarlari' | 'page:roller' | 'page:gozlemlenebilirlik'
+  | 'page:roller' | 'page:gozlemlenebilirlik'
   | 'page:gelistirme-araclari' | 'page:kvkk-gdpr' | 'page:gecici-yuklemeler'
-  | 'page:gorsel-kutuphanesi' | 'page:yoresel-mutfak' | 'page:kara-liste';
+  | 'page:gorsel-kutuphanesi' | 'page:yoresel-mutfak' | 'page:kara-liste'
+  | 'page:arama';
 
 export interface AdminPermissionInfo {
   key: AdminPermissionKey;
@@ -41,12 +42,12 @@ export const ADMIN_PERMISSIONS: AdminPermissionInfo[] = [
   { key: 'page:fraud-tespiti', label: 'Fraud Tespiti', group: 'Güvenlik ve Sistem', href: '/yonetici/fraud-tespiti' },
   { key: 'page:fotograf-moderasyon', label: 'Fotoğraf Moderasyon', group: 'Güvenlik ve Sistem', href: '/yonetici/fotograf-moderasyon' },
   { key: 'page:feature-flags', label: 'Feature Flags', group: 'Güvenlik ve Sistem', href: '/yonetici/feature-flags' },
-  { key: 'page:api-anahtarlari', label: 'API Anahtarları', group: 'Güvenlik ve Sistem', href: '/yonetici/api-anahtarlari' },
   { key: 'page:roller', label: 'Roller', group: 'Güvenlik ve Sistem', href: '/yonetici/roller' },
   { key: 'page:gozlemlenebilirlik', label: 'Gözlemlenebilirlik', group: 'Güvenlik ve Sistem', href: '/yonetici/gozlemlenebilirlik' },
   { key: 'page:gelistirme-araclari', label: 'Geliştirici Araçları', group: 'Güvenlik ve Sistem', href: '/yonetici/gelistirme-araclari' },
   { key: 'page:kvkk-gdpr', label: 'KVKK / GDPR', group: 'Güvenlik ve Sistem', href: '/yonetici/kvkk-gdpr' },
   { key: 'page:gecici-yuklemeler', label: 'Geçici Yüklemeler', group: 'Güvenlik ve Sistem', href: '/yonetici/gecici-yuklemeler' },
+  { key: 'page:arama', label: 'Arama', group: 'Operasyon', href: '/yonetici/arama' },
 ];
 
 export const ADMIN_PERMISSION_GROUPS = Array.from(new Set(ADMIN_PERMISSIONS.map((p) => p.group)));

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
+import { hasPermission } from '@/src/lib/yetki-kontrol';
 import {
   ADMIN_SEARCH_CATEGORY_BADGES,
   ADMIN_SEARCH_CATEGORY_LABELS,
@@ -12,6 +13,7 @@ import {
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { PanelEmptyState } from '@/src/ui/bilesenler/panel-bos-durum';
+import { YetkisizErisim } from '@/src/ui/bilesenler/yetkisiz-erisim';
 
 export const metadata: Metadata = {
   title: 'Arama | Yonetici Paneli',
@@ -27,6 +29,16 @@ const TYPE_FILTERS = [
 ];
 
 export default async function AdminSearchPage({ searchParams }: Props) {
+  const yetkili = await hasPermission('page:arama');
+  if (!yetkili) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Yönetici" title="Arama" description="Bu sayfayı görüntüleme yetkiniz yok." />
+        <PanelIcerikYuzeyi className="pt-6"><YetkisizErisim sayfaAdi="Arama" /></PanelIcerikYuzeyi>
+      </div>
+    );
+  }
+
   const { q: rawQ = '', type: rawType = 'businesses' } = await searchParams;
   const q = rawQ.trim();
   const type = normalizeAdminSearchType(rawType);

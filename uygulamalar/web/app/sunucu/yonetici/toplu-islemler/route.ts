@@ -33,6 +33,13 @@ export async function PATCH(req: Request) {
   const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
+  // Tek seferde 200'e kadar kayıtta (işletme/yorum/kullanıcı) toplu işlem —
+  // ilgili sayfanın izninden (page:isletmeler vb.) ayrı, kendi başına bir
+  // izin anahtarı (page:toplu-islemler) DB enum'unda vardı ama hiç
+  // kontrol edilmiyordu.
+  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:toplu-islemler' });
+  if (!yetkili) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+
   const rl = await rateLimit(`toplu:${user.id}`, 10, 3_600_000); // 10/hour
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
