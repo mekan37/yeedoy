@@ -23,7 +23,12 @@ export const metadata: Metadata = {
 
 type Props = { searchParams: Promise<{ q?: string; tarih?: string; tur?: string; sonuc?: string; page?: string }> };
 const PAGE_SIZE = 20;
-const SOURCE_LIMIT = 1000;
+// Canlıda doğrulandı: admin_audit_log tek başına son 30 günde ~7.800 satır
+// üretiyor — eski 1000 limiti "Son 30 Gün" filtresini fiilen "son 3-4 gün"e
+// indirgiyordu. 5000'e çıkarmak (+ aşağıdaki tarih taban filtresi) gerçek
+// dünya hacmini çok daha iyi kapsıyor; tam DB-taraflı UNION+pagination hâlâ
+// ayrı bir yeniden yazım gerektiriyor (bkz. denetim raporu).
+const SOURCE_LIMIT = 5000;
 
 const TARIH_SECENEKLERI = [
   { value: 'all', label: 'Tümü' },
@@ -52,11 +57,26 @@ export default async function AdminEventsPage({ searchParams }: Props) {
   const dunBasi = new Date(bugunBasi.getTime() - 86400000);
   const otuzGunOnce = new Date(Date.now() - 30 * 86400000).toISOString();
 
+  // tarih filtresi önceden DB'ye hiç gitmiyordu — önce her kaynaktan en
+  // yeni 1000 satır çekilip SONRA bellekte tarihe göre filtreleniyordu.
+  // Bir kaynakta (ör. analytics_events) yoğun trafikte 1000'den fazla
+  // güncel olay varsa, "Son 24 Saat/7 Gün/30 Gün" filtresi seçilse bile o
+  // pencerenin eski uçtaki gerçek kayıtları sessizce düşüyordu. Metrik
+  // kartları ve "Son 30 Gün Trendi" grafiği (`mapped`) her zaman en az 30
+  // günlük veriye ihtiyaç duyduğu için — tarih filtresi 'all' DIŞINDA
+  // seçiliyken sorguya her zaman 30 günlük bir taban .gte() ile ekleniyor
+  // (24 saat/7 gün seçimleri zaten bu pencerenin alt kümesi, bellek-içi
+  // `filtreli` adımı doğru şekilde daraltıyor). 'all' seçiliyken eskisi
+  // gibi tarih sınırı yok, yalnızca SOURCE_LIMIT geçerli.
+  function tarihFiltreli(query: any) {
+    return tarih !== 'all' ? query.gte('created_at', otuzGunOnce) : query;
+  }
+
   const [analyticsRes, rateLimitRes, auditRes, reportsRes] = await Promise.all([
-    safeQuery(sb.from('analytics_events').select('id, event_name, created_at, business_id, user_id, source').order('created_at', { ascending: false }).limit(SOURCE_LIMIT)),
-    safeQuery(sb.from('edge_rate_limit_events').select('id, action, user_id, ip_hash, scope, created_at').order('created_at', { ascending: false }).limit(SOURCE_LIMIT)),
-    safeQuery(sb.from('admin_audit_log').select('id, action, target_table, target_id, meta, actor_id, actor_role, ip, created_at').order('created_at', { ascending: false }).limit(SOURCE_LIMIT)),
-    safeQuery(sb.from('reports').select('id, target_type, reason, details, status, created_at, business_id, review_id, reporter_user_id, user_id').order('created_at', { ascending: false }).limit(SOURCE_LIMIT)),
+    safeQuery(tarihFiltreli(sb.from('analytics_events').select('id, event_name, created_at, business_id, user_id, source').order('created_at', { ascending: false })).limit(SOURCE_LIMIT)),
+    safeQuery(tarihFiltreli(sb.from('edge_rate_limit_events').select('id, action, user_id, ip_hash, scope, created_at').order('created_at', { ascending: false })).limit(SOURCE_LIMIT)),
+    safeQuery(tarihFiltreli(sb.from('admin_audit_log').select('id, action, target_table, target_id, meta, actor_id, actor_role, ip, created_at').order('created_at', { ascending: false })).limit(SOURCE_LIMIT)),
+    safeQuery(tarihFiltreli(sb.from('reports').select('id, target_type, reason, details, status, created_at, business_id, review_id, reporter_user_id, user_id').order('created_at', { ascending: false })).limit(SOURCE_LIMIT)),
   ]);
 
   // ── Hedef adlarını topluca çözümle — "menu_item.created" yerine "Menü Ürünü Eklendi: Kahve Dünyası"
