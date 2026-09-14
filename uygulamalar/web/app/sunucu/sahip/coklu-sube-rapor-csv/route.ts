@@ -1,6 +1,7 @@
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import type { CokluSubeOverview } from '@/app/sahip/coklu-sube/coklu-sube-yardimcilari';
 import { csvHucre } from '@/src/lib/csv-guvenli';
+import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -12,6 +13,12 @@ export async function GET(request: Request) {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return new Response('Unauthorized', { status: 401 });
+
+  // Uygulama katmanı guard'ı — önceden tek savunma katmanı RPC gövdesiydi
+  // (owner_get_chain_overview_v1 kendi içinde kontrol ediyor, ama bir RPC
+  // regresyonu doğrudan cross-tenant açığa dönüşebilirdi).
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId);
+  if (!canManageBusiness) return new Response('forbidden', { status: 403 });
 
   const { data: overview, error } = (await (supabase).rpc('owner_get_chain_overview_v1', {
     p_business_id: businessId,

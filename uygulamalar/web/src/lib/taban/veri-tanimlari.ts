@@ -5682,6 +5682,8 @@ export type Database = {
           category_id: string | null
           created_at: string
           currency: string
+          deleted_at: string | null
+          deleted_by: string | null
           description: string | null
           id: string
           image_url: string | null
@@ -5707,6 +5709,8 @@ export type Database = {
           category_id?: string | null
           created_at?: string
           currency?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
           description?: string | null
           id?: string
           image_url?: string | null
@@ -5732,6 +5736,8 @@ export type Database = {
           category_id?: string | null
           created_at?: string
           currency?: string
+          deleted_at?: string | null
+          deleted_by?: string | null
           description?: string | null
           id?: string
           image_url?: string | null
@@ -14295,6 +14301,10 @@ export type Database = {
       }
       owner_soft_delete_menu_item_photo_v1: {
         Args: { p_photo_id: string }
+        Returns: Json
+      }
+      owner_soft_delete_menu_item_v1: {
+        Args: { p_item_id: string }
         Returns: Json
       }
       owner_submit_new_business_v1: {

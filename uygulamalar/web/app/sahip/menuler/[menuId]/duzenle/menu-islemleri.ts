@@ -203,12 +203,15 @@ export async function upsertItemAllergens(
     detected_by: evidence ? 'ai' : 'manual',
   }));
 
-  const { error } = await (context.supabase).rpc('owner_upsert_menu_item_allergens_v1', {
+  const { data, error } = await (context.supabase).rpc('owner_upsert_menu_item_allergens_v1', {
     p_item_id: itemId,
     p_allergens,
-  }) as { error: { message: string } | null };
+  }) as { data: { ok: boolean; error?: string } | null; error: { message: string } | null };
 
   if (error) return { error: error.message };
+  // RPC exception fırlatmıyor, {ok:false} dönebiliyor — kontrol edilmezse
+  // panel "kaydedildi" derken alerjen listesi eski hâliyle kalabiliyordu.
+  if (data?.ok === false) return { error: data.error ?? 'Alerjen bilgisi kaydedilemedi' };
   revalidateMenuEditor(menuId);
   return null;
 }
@@ -228,14 +231,15 @@ export async function upsertItemIngredients(
     sort_order: i,
   }));
 
-  const { error } = await (context.supabase).rpc('owner_upsert_menu_item_ingredients_v1', {
+  const { data, error } = await (context.supabase).rpc('owner_upsert_menu_item_ingredients_v1', {
     p_item_id: itemId,
     p_ingredients,
     p_diet: { is_vegan: null, is_vegetarian: null, is_gluten_free: null, is_dairy_free: null },
     p_detected_by: 'manual',
-  }) as { error: { message: string } | null };
+  }) as { data: { ok: boolean; error?: string } | null; error: { message: string } | null };
 
   if (error) return { error: error.message };
+  if (data?.ok === false) return { error: data.error ?? 'Malzeme bilgisi kaydedilemedi' };
   revalidateMenuEditor(menuId);
   return null;
 }
@@ -251,8 +255,20 @@ export async function deleteItem(itemId: string, menuId: string): Promise<Action
   const sectionIds = (sections ?? []).map((section) => section.id);
   if (sectionIds.length === 0) return { error: 'Bölüm bulunamadı' };
 
-  const { error } = await (context.supabase).from('menu_items').delete().eq('id', itemId).in('section_id', sectionIds);
+  const { data: item } = await (context.supabase)
+    .from('menu_items')
+    .select('id')
+    .eq('id', itemId)
+    .in('section_id', sectionIds)
+    .maybeSingle() as { data: { id: string } | null };
+  if (!item) return { error: 'Ürün bulunamadı' };
+
+  // Kalıcı silme yerine çöp kutusuna taşıma — kalıcı silme yalnızca
+  // /sahip/cop-kutusu üzerinden owner_permanently_delete_menu_item_v1 ile yapılır.
+  const { data, error } = await (context.supabase).rpc('owner_soft_delete_menu_item_v1', { p_item_id: itemId }) as
+    { data: { ok: boolean; code?: string } | null; error: { message: string } | null };
   if (error) return { error: error.message };
+  if (data?.ok === false) return { error: data.code ?? 'Ürün silinemedi' };
   revalidateMenuEditor(menuId);
   return null;
 }
@@ -354,12 +370,18 @@ export async function bulkDeleteItems(
   const sectionIds = (sections ?? []).map((section) => section.id);
   if (sectionIds.length === 0) return { error: 'Bölüm bulunamadı' };
 
-  const { error } = await (context.supabase)
+  const { data: items } = await (context.supabase)
     .from('menu_items')
-    .delete()
+    .select('id')
     .in('id', itemIds)
-    .in('section_id', sectionIds);
-  if (error) return { error: error.message };
+    .in('section_id', sectionIds) as { data: Array<{ id: string }> | null };
+
+  // Kalıcı silme yerine çöp kutusuna taşıma — bkz. deleteItem.
+  for (const item of items ?? []) {
+    const { error } = await (context.supabase).rpc('owner_soft_delete_menu_item_v1', { p_item_id: item.id }) as
+      { error: { message: string } | null };
+    if (error) return { error: error.message };
+  }
 
   revalidateMenuEditor(menuId);
   return null;
@@ -394,6 +416,17 @@ export async function duplicateItem(
   if (fetchErr) return { error: fetchErr.message };
   if (!original) return { error: 'Ürün bulunamadı' };
 
+  // upsertItem'daki gibi plan limiti kontrolü — önceden duplicateItem bu
+  // kontrolü hiç çağırmadığı için free plandaki bir sahip kopyalama
+  // üzerinden limitsiz ürün üretebiliyordu.
+  const { error: limitError } = await (context.supabase).rpc('_check_plan_limit_v1', {
+    p_business_id: context.businessId,
+    p_feature_key: 'menu_item_count',
+  }) as { error: { message: string } | null };
+  if (limitError) {
+    return { error: 'Ürün limitine ulaştınız. Daha fazla ürün eklemek için planınızı yükseltin.' };
+  }
+
   const { count } = await (context.supabase)
     .from('menu_items')
     .select('id', { count: 'exact', head: true })
@@ -410,7 +443,38 @@ export async function duplicateItem(
     .select('id')
     .single() as { data: { id: string } | null; error: { message: string } | null };
   if (insertErr) return { error: insertErr.message };
+  const copyId = copy?.id ?? '';
+
+  // Alerjen/malzeme/çeviri satırları önceden hiç kopyalanmıyordu — kopya
+  // üründe "alerjen bilgisi yok" gibi görünüp halka açık menüde yanlış
+  // (veya eksik) bilgi yayınlanmasına yol açıyordu.
+  const [{ data: allergens }, { data: ingredients }, { data: dietTags }, { data: translations }] = await Promise.all([
+    (context.supabase).from('menu_item_allergens').select('allergen, status, evidence').eq('item_id', itemId) as unknown as Promise<{ data: Array<{ allergen: string; status: string; evidence: string | null }> | null }>,
+    (context.supabase).from('menu_item_ingredients').select('name, confidence, category').eq('item_id', itemId).order('sort_order') as unknown as Promise<{ data: Array<{ name: string; confidence: string; category: string }> | null }>,
+    (context.supabase).from('menu_item_diet_tags').select('is_vegan, is_vegetarian, is_gluten_free, is_dairy_free').eq('item_id', itemId).maybeSingle() as unknown as Promise<{ data: { is_vegan: boolean | null; is_vegetarian: boolean | null; is_gluten_free: boolean | null; is_dairy_free: boolean | null } | null }>,
+    (context.supabase).from('menu_translations').select('locale, name, description').eq('entity_type', 'item').eq('entity_id', itemId) as unknown as Promise<{ data: Array<{ locale: string; name: string; description: string | null }> | null }>,
+  ]);
+
+  if (copyId && allergens?.length) {
+    await (context.supabase).rpc('owner_upsert_menu_item_allergens_v1', {
+      p_item_id: copyId,
+      p_allergens: allergens.map((a) => ({ allergen: a.allergen, status: a.status, evidence: a.evidence ?? undefined })),
+    });
+  }
+  if (copyId && (ingredients?.length || dietTags)) {
+    await (context.supabase).rpc('owner_upsert_menu_item_ingredients_v1', {
+      p_item_id: copyId,
+      p_ingredients: (ingredients ?? []).map((i) => ({ name: i.name, confidence: i.confidence, category: i.category })),
+      p_diet: dietTags ?? { is_vegan: null, is_vegetarian: null, is_gluten_free: null, is_dairy_free: null },
+      p_detected_by: 'manual',
+    });
+  }
+  if (copyId && translations?.length) {
+    await (context.supabase).from('menu_translations').insert(
+      translations.map((t) => ({ entity_type: 'item', entity_id: copyId, locale: t.locale, name: t.name, description: t.description })),
+    );
+  }
 
   revalidateMenuEditor(menuId);
-  return { itemId: copy?.id ?? '' };
+  return { itemId: copyId };
 }

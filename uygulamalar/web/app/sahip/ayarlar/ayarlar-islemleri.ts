@@ -3,7 +3,6 @@
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { rateLimit } from '@/src/lib/oran-siniri';
-import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 export type ActionState = { error: string } | { success: true } | null;
@@ -240,10 +239,7 @@ export async function updateBusinessProfile(
     return { error: 'Lütfen işletme bilgilerini kontrol edin.' };
   }
 
-  const service = createSupabaseServiceClient();
-  if (!service) return { error: 'Servis bağlantısı kurulamadı.' };
-
-  const result = (await (service)
+  const result = (await (authorization.supabase)
     .from('businesses')
     .update({
       name: parsed.data.name,
@@ -285,10 +281,7 @@ export async function updateContactInfo(
     return { error: 'URL alanlarına http:// veya https:// ile başlayan geçerli adresler girin.' };
   }
 
-  const service = createSupabaseServiceClient();
-  if (!service) return { error: 'Servis bağlantısı kurulamadı.' };
-
-  const result = (await (service)
+  const result = (await (authorization.supabase)
     .from('businesses')
     .update({
       website_url: toNull(parsed.data.website_url),
@@ -321,13 +314,10 @@ export async function updateBusinessBranding(
     return { error: 'Geçersiz görsel adresi.' };
   }
 
-  const service = createSupabaseServiceClient();
-  if (!service) return { error: 'Servis bağlantısı kurulamadı.' };
-
   const update = parsed.data.type === 'logo'
     ? { logo_url: parsed.data.url }
     : { cover_url: parsed.data.url };
-  const result = (await (service)
+  const result = (await (authorization.supabase)
     .from('businesses')
     .update(update)
     .eq('id', authorization.businessId)
@@ -368,10 +358,7 @@ export async function updateReservationSettings(
     };
   }
 
-  const service = createSupabaseServiceClient();
-  if (!service) return { error: 'Servis bağlantısı kurulamadı.' };
-
-  const result = (await (service)
+  const result = (await (authorization.supabase)
     .from('businesses')
     .update({
       accepts_reservations: parsed.data.accepts_reservations,
@@ -461,10 +448,7 @@ export async function deactivateBusiness(
     return { error: 'İşlem güvenli şekilde doğrulanamadı. Lütfen tekrar deneyin.' };
   }
 
-  const service = createSupabaseServiceClient();
-  if (!service) return { error: 'Servis bağlantısı kurulamadı.' };
-
-  const result = (await (service)
+  const result = (await (authorization.supabase)
     .from('businesses')
     .update({ is_active: false })
     .eq('id', authorization.businessId)

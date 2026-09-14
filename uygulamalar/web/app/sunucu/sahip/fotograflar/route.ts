@@ -131,21 +131,23 @@ export async function DELETE(req: Request) {
   const canManage = await canManageBusiness(photo.business_id);
   if (!canManage) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
+  // DB'den sil — service_role yerine kullanıcının kendi RLS'li client'ı
+  // (business_media_delete_manager politikası aynı eşiği ikinci katmanda
+  // uyguluyor; storage temizliği için service_role hâlâ gerekli).
+  await (supabase).from('business_media').delete().eq('id', parsed.data.id);
+
   const service = createSupabaseServiceClient();
-  if (!service) return NextResponse.json({ error: 'service_unavailable' }, { status: 500 });
-
-  // DB'den sil
-  await service.from('business_media').delete().eq('id', parsed.data.id);
-
-  // Storage'dan sil (best effort — yol URL'den çıkarılır)
-  try {
-    const marker = `/${BUCKET}/`;
-    const idx = photo.url.indexOf(marker);
-    if (idx !== -1) {
-      const storagePath = photo.url.slice(idx + marker.length);
-      await service.storage.from(BUCKET).remove([storagePath]);
-    }
-  } catch { /* storage temizliği opsiyonel */ }
+  if (service) {
+    // Storage'dan sil (best effort — yol URL'den çıkarılır)
+    try {
+      const marker = `/${BUCKET}/`;
+      const idx = photo.url.indexOf(marker);
+      if (idx !== -1) {
+        const storagePath = photo.url.slice(idx + marker.length);
+        await service.storage.from(BUCKET).remove([storagePath]);
+      }
+    } catch { /* storage temizliği opsiyonel */ }
+  }
 
   return NextResponse.json({ ok: true }, { status: 200 });
 }

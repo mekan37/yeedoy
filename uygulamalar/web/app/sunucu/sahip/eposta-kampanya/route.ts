@@ -4,6 +4,7 @@ import { rateLimit } from '@/src/lib/oran-siniri';
 import { generateUnsubscribeToken } from '@/src/lib/email/unsubscribe-token';
 import { sendEmailCampaign } from '@/src/lib/email/resend-client';
 import { logger } from '@/src/lib/kayitci';
+import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { epostaKampanyaGovdesi } from './sema';
 import { stripHtml, escapeHtml } from './metin-temizle';
 
@@ -32,6 +33,14 @@ export async function POST(request: Request) {
 
   const { businessId, campaignId, subject, body, targetSegment } = parsed.data;
   const safeBody = stripHtml(body).trim();
+
+  // Uygulama katmanı guard'ı — bu route müşteri e-posta listesine erişim +
+  // gerçek e-posta gönderimini tetikliyor, tek savunma katmanı RPC gövdesi
+  // olmamalı.
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId);
+  if (!canManageBusiness) {
+    return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+  }
 
   if (!process.env.UNSUBSCRIBE_HMAC_SECRET?.trim()) {
     logger.warn('eposta-kampanya: UNSUBSCRIBE_HMAC_SECRET yapılandırılmamış — kampanya iptal (6563 md.9/3)');

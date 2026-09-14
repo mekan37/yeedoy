@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
+import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
 
 const schema = z.object({
   menuItemId: z.string().uuid(),
@@ -25,6 +26,16 @@ export async function POST(request: Request) {
   const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+
+  // Uygulama katmanı guard'ı — tek savunma katmanı RPC gövdesi olmamalı.
+  const { data: menuItem } = await supabaseAny
+    .from('menu_items')
+    .select('business_id')
+    .eq('id', parsed.data.menuItemId)
+    .maybeSingle();
+  if (!menuItem) return NextResponse.json({ error: 'not_found' }, { status: 404 });
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, menuItem.business_id);
+  if (!canManageBusiness) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
   const { data, error } = await supabaseAny.rpc('set_today_special_v1', {
     p_menu_item_id: parsed.data.menuItemId,
