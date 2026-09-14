@@ -37,7 +37,7 @@ export function UrunTablosu({
   selectedIds: Set<string>;
   onToggleSelect: (itemId: string) => void;
   onToggleSelectAll: () => void;
-  onReorder: (itemId: string, newSortOrder: number) => void;
+  onReorder: (itemId: string, targetSectionId: string, newSortOrder: number) => void;
   onEdit: (itemId: string) => void;
   onDuplicate: (itemId: string) => void;
   onDelete: (itemId: string) => void;
@@ -49,7 +49,7 @@ export function UrunTablosu({
 
   function handleDrop(targetItem: Item) {
     if (!draggedId || draggedId === targetItem.id) { setDraggedId(null); return; }
-    onReorder(draggedId, targetItem.sort_order);
+    onReorder(draggedId, targetItem.section_id, targetItem.sort_order);
     setDraggedId(null);
   }
 

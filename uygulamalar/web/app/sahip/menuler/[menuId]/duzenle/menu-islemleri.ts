@@ -294,6 +294,7 @@ export async function deleteItem(itemId: string, menuId: string): Promise<Action
 export async function reorderItem(
   itemId: string,
   menuId: string,
+  targetSectionId: string,
   newSortOrder: number,
 ): Promise<ActionResult> {
   if (!Number.isInteger(newSortOrder) || newSortOrder < 0) return { error: 'Geçersiz sıralama değeri' };
@@ -301,19 +302,25 @@ export async function reorderItem(
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
 
-  const { data: sections } = await (context.supabase)
+  const { data: section } = await (context.supabase)
     .from('menu_sections')
     .select('id')
-    .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
-  const sectionIds = (sections ?? []).map((section) => section.id);
-  if (sectionIds.length === 0) return { error: 'Bölüm bulunamadı' };
+    .eq('id', targetSectionId)
+    .eq('menu_id', menuId)
+    .maybeSingle() as { data: { id: string } | null };
+  if (!section) return { error: 'Bölüm bulunamadı' };
 
-  const { error } = await (context.supabase)
-    .from('menu_items')
-    .update({ sort_order: newSortOrder })
-    .eq('id', itemId)
-    .in('section_id', sectionIds);
+  // Tek item'ın sort_order'ını set etmek diğer item'ları kaydırmıyordu —
+  // aynı sort_order'a sahip iki satır üretip sıralamayı kalıcı bozuyordu.
+  // Artık atomik bir RPC bölüm içi kaydırmayı VE bölümler arası taşımayı
+  // (gap kapatma + gap açma) tek transaction'da yapıyor.
+  const { data, error } = await (context.supabase).rpc('owner_reorder_menu_item_v1', {
+    p_item_id: itemId,
+    p_target_section_id: targetSectionId,
+    p_target_sort_order: newSortOrder,
+  }) as { data: { ok: boolean; code?: string } | null; error: { message: string } | null };
   if (error) return { error: error.message };
+  if (data?.ok === false) return { error: data.code ?? 'Sıralama güncellenemedi' };
 
   revalidateMenuEditor(menuId);
   return null;

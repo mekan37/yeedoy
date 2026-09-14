@@ -249,7 +249,7 @@ export function MenuEditorClient({
           selectedIds={selectedIds}
           onToggleSelect={toggleSelect}
           onToggleSelectAll={toggleSelectAll}
-          onReorder={(itemId, newSortOrder) => run(() => reorderItem(itemId, menuId, newSortOrder))}
+          onReorder={(itemId, targetSectionId, newSortOrder) => run(() => reorderItem(itemId, menuId, targetSectionId, newSortOrder))}
           onEdit={(itemId) => { setPreviewItemId(itemId); setEditingItemId(itemId); }}
           onDuplicate={handleDuplicate}
           onDelete={(itemId) => run(() => deleteItem(itemId, menuId))}

@@ -14269,6 +14269,10 @@ export type Database = {
         Args: { p_business_id: string; p_new_sort_order: number }
         Returns: undefined
       }
+      owner_reorder_menu_item_v1: {
+        Args: { p_item_id: string; p_target_section_id: string; p_target_sort_order: number }
+        Returns: Json
+      }
       owner_reorder_menu_sections_v1: {
         Args: { p_menu_id: string; p_section_ids: string[] }
         Returns: Json
