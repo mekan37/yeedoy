@@ -2,11 +2,15 @@
 
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { hasPermission } from '@/src/lib/yetki-kontrol';
 
 export async function approveSuggestion(suggestionId: string): Promise<{ error?: string }> {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Yetkisiz' };
+  // RPC zaten is_admin() ile korunuyor — page:oneriler kontrolü
+  // savunma-derinliği için ekleniyor.
+  if (!(await hasPermission('page:oneriler'))) return { error: 'Yetkisiz' };
 
   const { data, error } = await (supabase).rpc('admin_approve_business_suggestion_v1', {
     p_suggestion_id: suggestionId,
@@ -21,6 +25,7 @@ export async function rejectSuggestion(suggestionId: string, note?: string | nul
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Yetkisiz' };
+  if (!(await hasPermission('page:oneriler'))) return { error: 'Yetkisiz' };
 
   const { data, error } = await (supabase).rpc('admin_reject_business_suggestion_v1', {
     p_suggestion_id: suggestionId,

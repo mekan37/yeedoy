@@ -63,5 +63,15 @@ export async function GET(request: Request) {
     limit: parsed.data.limit,
   });
 
+  if (parsed.data.type === 'users' || parsed.data.type === 'all') {
+    const supabaseAny = supabase as unknown as { rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown }> };
+    await supabaseAny.rpc('log_admin_action_v1', {
+      p_action: 'user.pii_list_view',
+      p_target_table: 'user_profiles',
+      p_target_id: null,
+      p_meta: { source: 'arama', q: parsed.data.q, resultCount: results.length },
+    });
+  }
+
   return NextResponse.json({ data: results });
 }

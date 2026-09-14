@@ -65,6 +65,15 @@ export default async function AdminUsersPage({ searchParams }: Props) {
   }
   const userIds = authUsers.map((u) => u.id);
 
+  // 1000+ kullanıcının e-posta+telefonunu tek seferde döken bu sayfa hiç
+  // audit izi bırakmıyordu.
+  await (supabase as any).rpc('log_admin_action_v1', {
+    p_action: 'user.pii_list_view',
+    p_target_table: 'user_profiles',
+    p_target_id: null,
+    p_meta: { count: userIds.length, q, role, city },
+  });
+
   const [{ data: profiles }, { data: approvedClaims }] = await Promise.all([
     userIds.length > 0 ? (serviceClient).from('user_profiles').select('user_id, display_name, phone, city, shadow_banned, created_at').in('user_id', userIds) : Promise.resolve({ data: [] }),
     userIds.length > 0 ? sb.from('owner_claims').select('user_id').eq('status', 'approved').in('user_id', userIds) : Promise.resolve({ data: [] }),

@@ -64,7 +64,7 @@ export async function POST(request: Request) {
     ? new Date(Date.now() + body.expiresDays * 86400000).toISOString()
     : null;
 
-  const { error } = await supabaseAny.from('api_keys').insert({
+  const { data: inserted, error } = await supabaseAny.from('api_keys').insert({
     name: body.name,
     key_hash: keyHash,
     prefix,
@@ -74,9 +74,18 @@ export async function POST(request: Request) {
     is_active: true,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
-  });
+  }).select('id').single();
 
   if (error) return NextResponse.json({ ok: false, error: 'internal_error' }, { status: 500 });
+
+  // API anahtarı oluşturma hiçbir depoya loglanmıyordu — "kim bu anahtarı
+  // üretti" sorusu cevaplanamıyordu.
+  await supabaseAny.rpc('log_admin_action_v1', {
+    p_action: 'api_key.create',
+    p_target_table: 'api_keys',
+    p_target_id: inserted?.id ?? null,
+    p_meta: { name: body.name, prefix, scope: body.scope, expires_at: expiresAt },
+  });
 
   return NextResponse.json({ ok: true, key: rawKey });
 }
@@ -109,11 +118,26 @@ export async function DELETE(request: Request) {
   if (!parsedDelete.success) {
     return NextResponse.json({ ok: false, error: 'invalid_input' }, { status: 400 });
   }
+  const { data: existing } = await supabaseAny
+    .from('api_keys')
+    .select('name, prefix, is_active')
+    .eq('id', parsedDelete.data.id)
+    .maybeSingle();
+
   const { error } = await supabaseAny
     .from('api_keys')
     .update({ is_active: false, updated_at: new Date().toISOString() })
     .eq('id', parsedDelete.data.id);
 
   if (error) return NextResponse.json({ ok: false, error: 'internal_error' }, { status: 500 });
+
+  // API anahtarı iptali de loglanmıyordu.
+  await supabaseAny.rpc('log_admin_action_v1', {
+    p_action: 'api_key.revoke',
+    p_target_table: 'api_keys',
+    p_target_id: parsedDelete.data.id,
+    p_meta: { before: existing ?? null, after: existing ? { ...existing, is_active: false } : null },
+  });
+
   return NextResponse.json({ ok: true });
 }

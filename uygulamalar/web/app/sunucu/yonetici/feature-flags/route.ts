@@ -44,12 +44,28 @@ export async function PATCH(request: Request) {
   if (parsed.data.enabled !== undefined) update.enabled = parsed.data.enabled;
   if (parsed.data.rollout_percent !== undefined) update.rollout_percent = parsed.data.rollout_percent;
 
+  // Toggle/rollout değişimi hiçbir depoya loglanmıyordu — "kim bu flag'i
+  // kapattı" sorusu cevaplanamıyordu. Before/after snapshot ile audit'e yazılıyor.
+  const { data: before } = await supabaseAny
+    .from('runtime_feature_flags')
+    .select('key, enabled, rollout_percent')
+    .eq('key', parsed.data.id)
+    .maybeSingle();
+
   const { error } = await supabaseAny
     .from('runtime_feature_flags')
     .update(update)
     .eq('key', parsed.data.id);
 
   if (error) return NextResponse.json({ ok: false, error: 'internal_error' }, { status: 500 });
+
+  await supabaseAny.rpc('log_admin_action_v1', {
+    p_action: 'feature_flag.update',
+    p_target_table: 'runtime_feature_flags',
+    p_target_id: null,
+    p_meta: { key: parsed.data.id, before: before ?? null, after: update },
+  });
+
   return NextResponse.json({ ok: true });
 }
 
@@ -98,5 +114,13 @@ export async function POST(request: Request) {
     }
     return NextResponse.json({ ok: false, error: 'internal_error' }, { status: 500 });
   }
+
+  await supabaseAny.rpc('log_admin_action_v1', {
+    p_action: 'feature_flag.create',
+    p_target_table: 'runtime_feature_flags',
+    p_target_id: null,
+    p_meta: { key: body.key, rollout_percent: body.rollout_percent, environment: body.environment },
+  });
+
   return NextResponse.json({ ok: true });
 }

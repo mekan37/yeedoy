@@ -17,6 +17,9 @@ export async function PATCH(req: Request) {
   const { data: isAdmin } = await supabaseAny.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
+  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:kvkk-gdpr' });
+  if (!yetkili) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+
   const rl = await rateLimit(`dsar:${user.id}`, 20, 3_600_000); // 20/hour
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 

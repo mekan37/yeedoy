@@ -60,6 +60,16 @@ export default async function AdminUserDetailPage({ params }: Props) {
 
   if (!user) notFound();
 
+  // "Bir kullanıcının PII'sine kim, ne zaman erişti?" sorusu hiç
+  // cevaplanamıyordu — bu sayfa e-posta+telefon dahil tam PII'yi hiçbir
+  // audit izi bırakmadan gösteriyordu.
+  await (supabase as any).rpc('log_admin_action_v1', {
+    p_action: 'user.pii_view',
+    p_target_table: 'user_profiles',
+    p_target_id: id,
+    p_meta: {},
+  });
+
   const [claimsRes, reviewsRes, submissionsRes] = await Promise.all([
     (supabase)
       .from('owner_claims')
