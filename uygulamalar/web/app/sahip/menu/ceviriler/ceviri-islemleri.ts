@@ -140,6 +140,13 @@ export async function menuCevirisiniKaydet(
 ): Promise<CeviriKaydetSonuc> {
   const trimmedName = name.trim();
   if (!trimmedName) return { success: false, hata: 'Çeviri adı boş olamaz.' };
+  // TS DestekDil tipi yalnızca derleme zamanında kısıtlıyor — server action
+  // doğrudan çağrılırsa (TS'i atlayarak) geçersiz bir "dil" değeri,
+  // _check_translation_language_limit_v1'in dil kotasını gerçek bir dil
+  // eklemeden tüketebiliyordu.
+  if (!DESTEKLENEN_DILLER.includes(locale)) {
+    return { success: false, hata: 'Geçersiz dil.' };
+  }
 
   const supabase = await createSupabaseServerClient();
   const {

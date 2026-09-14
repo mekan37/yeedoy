@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { redirect, notFound } from 'next/navigation';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { AKTIF_ISLETME_COOKIE_NAME } from '@/src/ui/kabuk/aktif-isletme-cerezi';
 import { PanelSayfaBasligi } from '@/src/ui/yerlesim/panel-page-header';
 import { PanelIcerikYuzeyi, PanelBolumKarti } from '@/src/ui/yerlesim/panel-section-card';
 import { ZamanCizelgesi, type ZamanCizelgesiOlayi } from './zaman-cizelgesi';
@@ -25,9 +27,13 @@ export default async function MusteriDetaySayfasi({
   } = await supabase.auth.getUser();
   if (!user) redirect('/giris?redirect=/sahip/musteriler');
 
-  const businessIds = await getOwnerBusinessIds(supabase, user.id);
-  const businessId = businessIds[0];
-  if (!businessId) redirect('/sahip');
+  const [businessIds, cookieStore] = await Promise.all([
+    getOwnerBusinessIds(supabase, user.id),
+    cookies(),
+  ]);
+  if (businessIds.length === 0) redirect('/sahip');
+  const cookieId = cookieStore.get(AKTIF_ISLETME_COOKIE_NAME)?.value;
+  const businessId = businessIds.find((id) => id === cookieId) ?? businessIds[0];
 
   const [{ data: musteriler }, { data: olaylar }, { data: businessChain }] = await Promise.all([
     (supabase).rpc('get_business_customers_v1', { p_business_id: businessId }) as unknown as Promise<{

@@ -101,7 +101,10 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
   const is_available = fd.get('is_available') === 'on';
 
   if (!name) return { error: 'Ürün adı boş olamaz' };
-  if (isNaN(price_cents) || price_cents < 0) return { error: 'Geçersiz fiyat' };
+  // Üst sınır yoktu — price_cents integer kolonu, taşma ham İngilizce
+  // Postgres hatası üretiyordu. 1.000.000 TL/ürün, meşru kullanımın
+  // çok üzerinde bir tavan.
+  if (isNaN(price_cents) || price_cents < 0 || price_cents > 100_000_000) return { error: 'Geçersiz fiyat' };
 
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
@@ -132,6 +135,15 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
   const portionSizeRaw = fd.get('portion_size') ? Number(fd.get('portion_size')) : null;
   const portionUnit = (fd.get('portion_unit') as string) || null;
 
+  // calories_min/calories_max smallint kolonu (max 32767); sıra da hiç
+  // doğrulanmıyordu.
+  for (const v of [caloriesMinRaw, caloriesMaxRaw]) {
+    if (v !== null && (isNaN(v) || v < 0 || v > 32000)) return { error: 'Geçersiz kalori değeri' };
+  }
+  if (caloriesMinRaw !== null && caloriesMaxRaw !== null && caloriesMinRaw > caloriesMaxRaw) {
+    return { error: 'Minimum kalori maksimumdan büyük olamaz' };
+  }
+
   const payload = {
     name,
     description,
@@ -156,12 +168,17 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
       .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
     const menuSectionIds = (menuSections ?? []).map((s) => s.id);
 
-    const { error: updateErr } = await (context.supabase)
+    // .update() 0 satır etkilerse (itemId bu menüye ait değilse) hata
+    // dönmüyordu, çağıran "başarılı" sanıyordu — .select() ile satırın
+    // gerçekten güncellendiği doğrulanıyor.
+    const { data: updated, error: updateErr } = await (context.supabase)
       .from('menu_items')
       .update(payload)
       .eq('id', itemId)
-      .in('section_id', menuSectionIds) as { error: { message: string } | null };
+      .in('section_id', menuSectionIds)
+      .select('id') as { data: { id: string }[] | null; error: { message: string } | null };
     if (updateErr) return { error: updateErr.message };
+    if (!updated || updated.length === 0) return { error: 'Ürün bulunamadı' };
     resolvedItemId = itemId;
   } else {
     const { error: limitError } = await (context.supabase).rpc('_check_plan_limit_v1', {
