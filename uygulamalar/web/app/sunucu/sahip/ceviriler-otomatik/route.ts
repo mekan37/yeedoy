@@ -80,15 +80,46 @@ export async function POST(req: Request) {
 
   const existingSet = new Set((existing ?? []).map((e) => `${e.entity_id}:${e.locale}`));
 
-  const byEngine: Partial<Record<TranslationEngine, number>> = {};
-  const inserts: Array<{ entity_type: 'item' | 'category'; entity_id: string; locale: string; name: string; description: string | null }> = [];
+  // Önceden: tüm (entity × dil) çiftleri SIRALI çevriliyordu (200 ürün × 6
+  // dil = ~2400 sıralı harici API çağrısı olabiliyordu) ve tek bir toplu
+  // yazma yalnızca EN SONDA yapılıyordu — timeout'ta (serverless function
+  // süre sınırı) o ana kadar harcanan API kotası tamamen boşa gidiyor,
+  // hiçbir şey kaydedilmiyordu. Artık sınırlı eşzamanlılıkla çalışıyor ve
+  // her flush aralığında kısmi ilerleme kalıcı olarak yazılıyor.
+  const CONCURRENCY = 5;
+  const FLUSH_EVERY = 20;
 
+  const work: Array<{ entity: (typeof toTranslate)[number]; locale: string }> = [];
   for (const entity of toTranslate) {
     for (const locale of allowedLocales) {
       if (existingSet.has(`${entity.entity_id}:${locale}`)) continue;
+      work.push({ entity, locale });
+    }
+  }
 
+  const byEngine: Partial<Record<TranslationEngine, number>> = {};
+  let totalInserted = 0;
+  let skippedLocalesFromBulk: string[] = [];
+  let pending: Array<{ entity_type: 'item' | 'category'; entity_id: string; locale: string; name: string; description: string | null }> = [];
+
+  async function flush() {
+    if (pending.length === 0) return;
+    const { data, error } = await sb.rpc('bulk_upsert_menu_translations_v1', {
+      p_business_id: businessId,
+      p_translations: pending,
+    });
+    pending = [];
+    if (error) return;
+    const result = data as { inserted: number; skipped_locales: string[] };
+    totalInserted += result.inserted ?? 0;
+    skippedLocalesFromBulk = Array.from(new Set([...skippedLocalesFromBulk, ...(result.skipped_locales ?? [])]));
+  }
+
+  for (let i = 0; i < work.length; i += CONCURRENCY) {
+    const batch = work.slice(i, i + CONCURRENCY);
+    const results = await Promise.all(batch.map(async ({ entity, locale }) => {
       const nameResult = await translateWithFallback(entity.name, locale);
-      if (!nameResult) continue;
+      if (!nameResult) return null;
 
       let descriptionText: string | null = null;
       if (entity.description?.trim()) {
@@ -96,24 +127,23 @@ export async function POST(req: Request) {
         descriptionText = descResult?.text ?? null;
       }
 
-      inserts.push({ entity_type: entity.entity_type, entity_id: entity.entity_id, locale, name: nameResult.text, description: descriptionText });
-      byEngine[nameResult.engine] = (byEngine[nameResult.engine] ?? 0) + 1;
+      return {
+        entity_type: entity.entity_type, entity_id: entity.entity_id, locale,
+        name: nameResult.text, description: descriptionText, engine: nameResult.engine,
+      };
+    }));
+
+    for (const r of results) {
+      if (!r) continue;
+      pending.push({ entity_type: r.entity_type, entity_id: r.entity_id, locale: r.locale, name: r.name, description: r.description });
+      byEngine[r.engine] = (byEngine[r.engine] ?? 0) + 1;
     }
+
+    if (pending.length >= FLUSH_EVERY) await flush();
   }
+  await flush();
 
-  if (inserts.length === 0) {
-    return NextResponse.json({ ok: true, translated: 0, byEngine, skippedLocales: preSkippedLocales });
-  }
+  const skippedLocales = Array.from(new Set([...preSkippedLocales, ...skippedLocalesFromBulk]));
 
-  const { data: bulkResult, error } = await sb.rpc('bulk_upsert_menu_translations_v1', {
-    p_business_id: businessId,
-    p_translations: inserts,
-  });
-
-  if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
-
-  const result = bulkResult as { inserted: number; skipped_locales: string[] };
-  const skippedLocales = Array.from(new Set([...preSkippedLocales, ...(result.skipped_locales ?? [])]));
-
-  return NextResponse.json({ ok: true, translated: result.inserted, byEngine, skippedLocales });
+  return NextResponse.json({ ok: true, translated: totalInserted, byEngine, skippedLocales });
 }

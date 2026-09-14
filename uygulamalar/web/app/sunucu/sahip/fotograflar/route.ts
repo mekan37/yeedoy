@@ -21,16 +21,24 @@ const deleteSchema = z.object({
 // ── POST: Fotoğraf yükle ─────────────────────────────────────────────────────
 
 export async function POST(req: Request) {
+  // Kimlik doğrulamadan önceki kaba IP+UA sınırı yalnızca auth lookup'ını
+  // volumetrik istismara karşı koruyor — cömert tutuluyor. Asıl kullanıcı
+  // başına limit, auth'tan sonra user.id ile uygulanıyor; önceden tek
+  // limit IP+UA'ya bağlıydı, aynı ofis IP'sini paylaşan sahipler
+  // birbirinin limitini tüketiyordu.
   const identity = getRequestIdentity({
     ip: getClientIp(req.headers),
     userAgent: req.headers.get('user-agent'),
   });
-  const rl = await rateLimit(`owner-photo-upload:${identity}`, 15, 60_000);
+  const rl = await rateLimit(`owner-photo-upload-ip:${identity}`, 60, 60_000);
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+
+  const userRl = await rateLimit(`owner-photo-upload:${user.id}`, 15, 60_000);
+  if (!userRl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const formData = await req.formData().catch(() => null);
   if (!formData) return NextResponse.json({ error: 'invalid_payload' }, { status: 400 });
@@ -108,7 +116,7 @@ export async function DELETE(req: Request) {
     ip: getClientIp(req.headers),
     userAgent: req.headers.get('user-agent'),
   });
-  const rl = await rateLimit(`owner-photo-delete:${identity}`, 20, 60_000);
+  const rl = await rateLimit(`owner-photo-delete-ip:${identity}`, 80, 60_000);
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const body = await req.json().catch(() => null);
@@ -118,6 +126,9 @@ export async function DELETE(req: Request) {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+
+  const userRl = await rateLimit(`owner-photo-delete:${user.id}`, 20, 60_000);
+  if (!userRl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   // Fotoğrafın sahibini kontrol et
   const { data: photo } = await (supabase)

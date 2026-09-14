@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
-  const limit = await rateLimit(`owner-review-reply:${identity}`, 20, 60_000);
+  const limit = await rateLimit(`owner-review-reply-ip:${identity}`, 80, 60_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
@@ -34,6 +34,11 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  }
+
+  const userLimit = await rateLimit(`owner-review-reply:${user.id}`, 20, 60_000);
+  if (!userLimit.ok) {
+    return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
   const review = await getOwnedReview(supabaseAny, user.id, parsed.data.reviewId);
@@ -58,7 +63,7 @@ export async function DELETE(request: Request) {
     ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
-  const limit = await rateLimit(`owner-review-reply-delete:${identity}`, 10, 60_000);
+  const limit = await rateLimit(`owner-review-reply-delete-ip:${identity}`, 40, 60_000);
   if (!limit.ok) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
@@ -74,6 +79,11 @@ export async function DELETE(request: Request) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+  }
+
+  const userLimit = await rateLimit(`owner-review-reply-delete:${user.id}`, 10, 60_000);
+  if (!userLimit.ok) {
+    return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
   const review = await getOwnedReview(supabaseAny, user.id, parsed.data.reviewId);

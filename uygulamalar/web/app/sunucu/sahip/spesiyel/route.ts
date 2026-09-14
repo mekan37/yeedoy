@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     ip: getClientIp(request.headers),
     userAgent: request.headers.get('user-agent'),
   });
-  const limit = await rateLimit(`today-special:${identity}`, 30, 60_000);
+  const limit = await rateLimit(`today-special-ip:${identity}`, 120, 60_000);
   if (!limit.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   const body = await request.json().catch(() => null);
@@ -26,6 +26,9 @@ export async function POST(request: Request) {
   const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+
+  const userLimit = await rateLimit(`today-special:${user.id}`, 30, 60_000);
+  if (!userLimit.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   // Uygulama katmanı guard'ı — tek savunma katmanı RPC gövdesi olmamalı.
   const { data: menuItem } = await supabaseAny
