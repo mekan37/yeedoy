@@ -47,7 +47,6 @@ const adminNavSections: NavSection[] = [
       { href: '/yonetici/fraud-tespiti', label: 'Fraud Tespiti', icon: <AlertIcon /> },
       { href: '/yonetici/fotograf-moderasyon', label: 'Fotoğraf Moderasyon', icon: <ImageIcon /> },
       { href: '/yonetici/feature-flags', label: 'Feature Flags', icon: <FlagFeatureIcon /> },
-      { href: '/yonetici/api-anahtarlari', label: 'API Anahtarları', icon: <KeyIcon /> },
       { href: '/yonetici/roller', label: 'Roller', icon: <ShieldIcon /> },
       { href: '/yonetici/gozlemlenebilirlik', label: 'Gözlemlenebilirlik', icon: <ActivityIcon /> },
       { href: '/yonetici/gelistirme-araclari', label: 'Geliştirici Araçları', icon: <TerminalIcon /> },
