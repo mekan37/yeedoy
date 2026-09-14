@@ -42,6 +42,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: guard.status === 401 ? 'unauthorized' : 'forbidden' }, { status: guard.status });
   }
 
+  const supabase = await createSupabaseServerClient();
+  const sb = supabase as unknown as SbRpc;
+  const { data: yetkili } = await sb.rpc('has_permission_v1', { p_permission: 'page:isletmeler' });
+  if (!yetkili) {
+    return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+  }
+
   const formData = await request.formData().catch(() => null);
   if (!formData) {
     return NextResponse.json({ error: 'invalid_payload' }, { status: 400 });
@@ -67,9 +74,6 @@ export async function POST(request: Request) {
 
   const businessId = parsedBusinessId.data;
   const fileName = file instanceof File && file.name ? file.name : 'menu-upload';
-
-  const supabase = await createSupabaseServerClient();
-  const sb = supabase as unknown as SbRpc;
 
   // DB kaydı dış çağrıdan ÖNCE oluşturuluyor — eskiden dış extractor job'ı
   // önce başlatılıyor, DB insert'i sonra yapılıyordu; DB adımı başarısız

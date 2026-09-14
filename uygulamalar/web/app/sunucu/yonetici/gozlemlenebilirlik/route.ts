@@ -24,6 +24,11 @@ async function guard(sb: SupabaseAny, userId: string): Promise<NextResponse | nu
   const { data: isAdmin } = await sb.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
+  // admin_upsert/delete_alert_rule_v1 zaten has_permission_v1('page:gozlemlenebilirlik')
+  // ile guard'lı — burası savunma-derinliği için ekleniyor.
+  const { data: yetkili } = await sb.rpc('has_permission_v1', { p_permission: 'page:gozlemlenebilirlik' });
+  if (!yetkili) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+
   const rl = await rateLimit(`gozlem-uyari:${userId}`, 30, 3_600_000);
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
