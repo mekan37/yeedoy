@@ -8,6 +8,7 @@ import {
   menuExtractorStartSourceDiscoveryJob,
   menuExtractorPollJob,
 } from '@/src/lib/menu-analiz/disari-cagri';
+import { assertSsrfSafeUrl } from '@/src/lib/menu-analiz/url-guvenlik';
 import {
   discoveryOutcomeMessage,
   normalizeExtractResult,
@@ -47,26 +48,36 @@ export async function menuAnalizBaslatUrl(businessId: string, url: string): Prom
   const limit = await rateLimit(`menu-analiz-baslat:${guard.userId}`, 10, 60_000);
   if (!limit.ok) return { ok: false, error: 'Çok fazla istek. Lütfen biraz bekleyip tekrar deneyin.' };
 
-  const started = await menuExtractorStartSourceDiscoveryJob(trimmedUrl);
-  if (!started.ok) return { ok: false, error: started.error };
+  const urlSafety = await assertSsrfSafeUrl(trimmedUrl);
+  if (!urlSafety.ok) return { ok: false, error: 'Bu URL kabul edilemez.' };
 
   const supabase = await createSupabaseServerClient();
   const sb = supabase as unknown as SbRpc;
 
-  const { data, error } = await sb.rpc('admin_create_menu_extract_job_v1', {
+  // DB kaydı dış çağrıdan ÖNCE oluşturuluyor — eskiden dış extractor job'ı
+  // önce başlatılıyor, DB insert'i sonra yapılıyordu; DB adımı başarısız
+  // olduğunda dış iş hiçbir yerde iz bırakmadan (orphan) kalıyordu.
+  const { data: jobId, error: createError } = await sb.rpc('admin_create_menu_extract_job_v1', {
     p_business_id: businessId,
     p_source_type: 'url',
-    p_external_job_id: started.jobId,
+    p_external_job_id: null,
     p_source_url: trimmedUrl,
     p_source_file_name: null,
   });
-
-  if (error || !data) {
-    logger.error('menuAnalizBaslatUrl: job kayıt RPC hatası', { error, businessId });
-    return { ok: false, error: rpcHatasiCevir((error as { message?: string } | null)?.message, 'Analiz kaydı oluşturulamadı.') };
+  if (createError || !jobId) {
+    logger.error('menuAnalizBaslatUrl: job kayıt RPC hatası', { error: createError, businessId });
+    return { ok: false, error: rpcHatasiCevir((createError as { message?: string } | null)?.message, 'Analiz kaydı oluşturulamadı.') };
   }
 
-  return { ok: true, jobId: data as string };
+  const started = await menuExtractorStartSourceDiscoveryJob(trimmedUrl);
+  if (!started.ok) {
+    await sb.rpc('admin_fail_menu_extract_job_v1', { p_job_id: jobId, p_error_message: started.error });
+    return { ok: false, error: started.error };
+  }
+
+  await sb.rpc('admin_set_menu_extract_job_external_id_v1', { p_job_id: jobId, p_external_job_id: started.jobId });
+
+  return { ok: true, jobId: jobId as string };
 }
 
 // ─── Durum sorgulama (poll) ──────────────────────────────────────────────────

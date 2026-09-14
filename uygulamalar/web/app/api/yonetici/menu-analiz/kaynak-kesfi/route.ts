@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { checkAdminAccess } from '@/src/lib/auth/admin-guard';
 import { logger } from '@/src/lib/kayitci';
 import { menuExtractorStartSourceDiscoveryJob } from '@/src/lib/menu-analiz/disari-cagri';
+import { assertSsrfSafeUrl } from '@/src/lib/menu-analiz/url-guvenlik';
 import { getClientIp, getRequestIdentity, rateLimit } from '@/src/lib/oran-siniri';
 import { createSupabaseServerClient } from '@/src/lib/taban/sunucu';
 
@@ -40,26 +41,45 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'invalid_payload', issues: parsed.error.flatten().fieldErrors }, { status: 400 });
   }
 
-  const started = await menuExtractorStartSourceDiscoveryJob(parsed.data.website_url);
-  if (!started.ok) {
-    const error = started.code === 'AUTH_ERROR' ? 'auth_error' : started.code === 'JOB_FAILED' ? 'job_failed' : 'extractor_unavailable';
-    return NextResponse.json({ error }, { status: started.code === 'AUTH_ERROR' ? 502 : 503 });
+  // website_url işletme sahibinin girdiği bir değer olabilir — güvenmiyoruz.
+  // Doğrulama olmadan dış extractor servisine iletiliyordu, extractor'ın
+  // kendi ağı içindeki iç kaynaklara (localhost, 169.254.169.254 bulut
+  // metadata, 10/172.16/192.168) istek atmasına (SSRF) yol açabilirdi.
+  const urlSafety = await assertSsrfSafeUrl(parsed.data.website_url);
+  if (!urlSafety.ok) {
+    return NextResponse.json({ error: 'invalid_payload', issues: { website_url: ['Bu URL kabul edilemez'] } }, { status: 400 });
   }
 
   const supabase = await createSupabaseServerClient();
   const sb = supabase as unknown as SbRpc;
-  const { data: jobId, error } = await sb.rpc('admin_create_menu_extract_job_v1', {
+
+  // DB kaydı dış çağrıdan ÖNCE oluşturuluyor. Eskiden bu route hep
+  // source_type='website_discovery' gönderiyordu ama RPC yalnızca
+  // ('url','upload') kabul ediyordu — dış extractor job'ı başlatıldıktan
+  // SONRA her seferinde validation_error ile başarısız oluyordu (canlıda
+  // doğrulandı: admin_menu_extract_jobs'ta hiç 'website_discovery' satırı
+  // yoktu). RPC artık 'website_discovery'yi de kabul ediyor.
+  const { data: jobId, error: createError } = await sb.rpc('admin_create_menu_extract_job_v1', {
     p_business_id: parsed.data.business_id,
     p_source_type: 'website_discovery',
-    p_external_job_id: started.jobId,
+    p_external_job_id: null,
     p_source_url: parsed.data.website_url,
     p_source_file_name: null,
   });
-  if (error || !jobId) {
-    logger.error('menu-analiz/kaynak-kesfi: job kayıt RPC hatası', { error, businessId: parsed.data.business_id });
-    const mapped = mapCreateJobError((error as { message?: string } | null)?.message);
+  if (createError || !jobId) {
+    logger.error('menu-analiz/kaynak-kesfi: job kayıt RPC hatası', { error: createError, businessId: parsed.data.business_id });
+    const mapped = mapCreateJobError((createError as { message?: string } | null)?.message);
     return NextResponse.json({ error: mapped.error }, { status: mapped.status });
   }
+
+  const started = await menuExtractorStartSourceDiscoveryJob(parsed.data.website_url);
+  if (!started.ok) {
+    await sb.rpc('admin_fail_menu_extract_job_v1', { p_job_id: jobId, p_error_message: started.error });
+    const error = started.code === 'AUTH_ERROR' ? 'auth_error' : started.code === 'JOB_FAILED' ? 'job_failed' : 'extractor_unavailable';
+    return NextResponse.json({ error }, { status: started.code === 'AUTH_ERROR' ? 502 : 503 });
+  }
+
+  await sb.rpc('admin_set_menu_extract_job_external_id_v1', { p_job_id: jobId, p_external_job_id: started.jobId });
 
   return NextResponse.json({ data: { job_id: jobId } }, { status: 201 });
 }

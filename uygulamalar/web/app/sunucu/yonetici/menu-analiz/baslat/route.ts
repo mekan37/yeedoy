@@ -68,27 +68,32 @@ export async function POST(request: Request) {
   const businessId = parsedBusinessId.data;
   const fileName = file instanceof File && file.name ? file.name : 'menu-upload';
 
-  const started = await menuExtractorStartUploadJob(file, fileName);
-  if (!started.ok) {
-    return NextResponse.json({ error: started.error }, { status: 502 });
-  }
-
   const supabase = await createSupabaseServerClient();
   const sb = supabase as unknown as SbRpc;
 
-  const { data: jobId, error } = await sb.rpc('admin_create_menu_extract_job_v1', {
+  // DB kaydı dış çağrıdan ÖNCE oluşturuluyor — eskiden dış extractor job'ı
+  // önce başlatılıyor, DB insert'i sonra yapılıyordu; DB adımı başarısız
+  // olduğunda dış iş hiçbir yerde iz bırakmadan (orphan) kalıyordu.
+  const { data: jobId, error: createError } = await sb.rpc('admin_create_menu_extract_job_v1', {
     p_business_id: businessId,
     p_source_type: 'upload',
-    p_external_job_id: started.jobId,
+    p_external_job_id: null,
     p_source_url: null,
     p_source_file_name: fileName,
   });
-
-  if (error || !jobId) {
-    logger.error('menu-analiz/baslat: job kayıt RPC hatası', { error, businessId });
-    const mapped = mapCreateJobError((error as { message?: string } | null)?.message);
+  if (createError || !jobId) {
+    logger.error('menu-analiz/baslat: job kayıt RPC hatası', { error: createError, businessId });
+    const mapped = mapCreateJobError((createError as { message?: string } | null)?.message);
     return NextResponse.json({ error: mapped.error }, { status: mapped.status });
   }
+
+  const started = await menuExtractorStartUploadJob(file, fileName);
+  if (!started.ok) {
+    await sb.rpc('admin_fail_menu_extract_job_v1', { p_job_id: jobId, p_error_message: started.error });
+    return NextResponse.json({ error: started.error }, { status: 502 });
+  }
+
+  await sb.rpc('admin_set_menu_extract_job_external_id_v1', { p_job_id: jobId, p_external_job_id: started.jobId });
 
   return NextResponse.json({ data: { job_id: jobId } }, { status: 201 });
 }
