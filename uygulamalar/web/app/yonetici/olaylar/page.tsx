@@ -23,12 +23,6 @@ export const metadata: Metadata = {
 
 type Props = { searchParams: Promise<{ q?: string; tarih?: string; tur?: string; sonuc?: string; page?: string }> };
 const PAGE_SIZE = 20;
-// Canlıda doğrulandı: admin_audit_log tek başına son 30 günde ~7.800 satır
-// üretiyor — eski 1000 limiti "Son 30 Gün" filtresini fiilen "son 3-4 gün"e
-// indirgiyordu. 5000'e çıkarmak (+ aşağıdaki tarih taban filtresi) gerçek
-// dünya hacmini çok daha iyi kapsıyor; tam DB-taraflı UNION+pagination hâlâ
-// ayrı bir yeniden yazım gerektiriyor (bkz. denetim raporu).
-const SOURCE_LIMIT = 5000;
 
 const TARIH_SECENEKLERI = [
   { value: 'all', label: 'Tümü' },
@@ -36,6 +30,8 @@ const TARIH_SECENEKLERI = [
   { value: '7d', label: 'Son 7 Gün' },
   { value: '30d', label: 'Son 30 Gün' },
 ];
+
+type SbRpc = { rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown; error: { message?: string } | null }> };
 
 export default async function AdminEventsPage({ searchParams }: Props) {
   const yetkili = await hasPermission('page:olaylar');
@@ -51,47 +47,61 @@ export default async function AdminEventsPage({ searchParams }: Props) {
   const { q = '', tarih = 'all', tur = '', sonuc = '', page = '1' } = await searchParams;
   const pageNum = Math.max(1, parseInt(page, 10) || 1);
   const supabase = await createSupabaseServerClient();
-  const sb = (createSupabaseServiceClient() ?? supabase) as any;
+  const sb = supabase as unknown as SbRpc;
 
-  const bugunBasi = new Date(new Date().setHours(0, 0, 0, 0));
-  const dunBasi = new Date(bugunBasi.getTime() - 86400000);
-  const otuzGunOnce = new Date(Date.now() - 30 * 86400000).toISOString();
+  // Filtreleme, sayfalama ve metrik hesaplaması artık DB'de (admin_list_events_v1
+  // / admin_events_summary_v1) — önceden her kaynaktan en yeni 1000-5000 satır
+  // bellek içine çekilip TÜM bu işlemler JS'te yapılıyordu; eski/az sık
+  // kaynaklardaki kayıtlar sessizce kayboluyordu (bkz. denetim raporu).
+  const tarihSinirIso = tarih !== 'all'
+    ? new Date(Date.now() - (tarih === '24h' ? 1 : tarih === '7d' ? 7 : 30) * 86400000).toISOString()
+    : null;
 
-  // tarih filtresi önceden DB'ye hiç gitmiyordu — önce her kaynaktan en
-  // yeni 1000 satır çekilip SONRA bellekte tarihe göre filtreleniyordu.
-  // Bir kaynakta (ör. analytics_events) yoğun trafikte 1000'den fazla
-  // güncel olay varsa, "Son 24 Saat/7 Gün/30 Gün" filtresi seçilse bile o
-  // pencerenin eski uçtaki gerçek kayıtları sessizce düşüyordu. Metrik
-  // kartları ve "Son 30 Gün Trendi" grafiği (`mapped`) her zaman en az 30
-  // günlük veriye ihtiyaç duyduğu için — tarih filtresi 'all' DIŞINDA
-  // seçiliyken sorguya her zaman 30 günlük bir taban .gte() ile ekleniyor
-  // (24 saat/7 gün seçimleri zaten bu pencerenin alt kümesi, bellek-içi
-  // `filtreli` adımı doğru şekilde daraltıyor). 'all' seçiliyken eskisi
-  // gibi tarih sınırı yok, yalnızca SOURCE_LIMIT geçerli.
-  function tarihFiltreli(query: any) {
-    return tarih !== 'all' ? query.gte('created_at', otuzGunOnce) : query;
-  }
-
-  const [analyticsRes, rateLimitRes, auditRes, reportsRes] = await Promise.all([
-    safeQuery(tarihFiltreli(sb.from('analytics_events').select('id, event_name, created_at, business_id, user_id, source').order('created_at', { ascending: false })).limit(SOURCE_LIMIT)),
-    safeQuery(tarihFiltreli(sb.from('edge_rate_limit_events').select('id, action, user_id, ip_hash, scope, created_at').order('created_at', { ascending: false })).limit(SOURCE_LIMIT)),
-    safeQuery(tarihFiltreli(sb.from('admin_audit_log').select('id, action, target_table, target_id, meta, actor_id, actor_role, ip, created_at').order('created_at', { ascending: false })).limit(SOURCE_LIMIT)),
-    safeQuery(tarihFiltreli(sb.from('reports').select('id, target_type, reason, details, status, created_at, business_id, review_id, reporter_user_id, user_id').order('created_at', { ascending: false })).limit(SOURCE_LIMIT)),
+  const [listRes, summaryRes] = await Promise.all([
+    sb.rpc('admin_list_events_v1', {
+      p_since: tarihSinirIso,
+      p_tur: tur || null,
+      p_sonuc: sonuc || null,
+      p_q: q.trim() || null,
+      p_limit: PAGE_SIZE,
+      p_offset: (pageNum - 1) * PAGE_SIZE,
+    }),
+    sb.rpc('admin_events_summary_v1'),
   ]);
 
-  // ── Hedef adlarını topluca çözümle — "menu_item.created" yerine "Menü Ürünü Eklendi: Kahve Dünyası"
-  // gibi anında anlaşılır satırlar üretebilmek için. Admin/moderatör ham UUID görmemeli. ──
-  const claimTargetIds = Array.from(new Set(auditRes.filter((a: any) => a.target_table === 'owner_claims').map((a: any) => a.target_id)));
-  const menuTargetIds = Array.from(new Set(auditRes.filter((a: any) => a.target_table === 'menus').map((a: any) => a.target_id)));
-  const submissionTargetIds = Array.from(new Set(auditRes.filter((a: any) => a.target_table === 'business_submissions').map((a: any) => a.target_id)));
-  const suggestionTargetIds = Array.from(new Set(auditRes.filter((a: any) => a.target_table === 'business_suggestions').map((a: any) => a.target_id)));
-  const directBusinessTargetIds = auditRes.filter((a: any) => a.target_table === 'businesses').map((a: any) => a.target_id);
+  if (listRes.error || summaryRes.error) {
+    return (
+      <div className="flex flex-col">
+        <PanelSayfaBasligi eyebrow="Yönetim" title="Olaylar" description="Sistemde gerçekleşen olayları ve aktiviteleri görüntüleyin." />
+        <PanelIcerikYuzeyi className="pt-6">
+          <PanelEmptyState icon={<CalendarIcon />} title="Olaylar yüklenemedi" description="Lütfen sayfayı yenileyin." />
+        </PanelIcerikYuzeyi>
+      </div>
+    );
+  }
+
+  const listData = listRes.data as { rows: RawEventRow[]; total: number };
+  const summary = summaryRes.data as EventsSummary;
+  const rawRows = listData.rows ?? [];
+  const total = listData.total ?? 0;
+
+  const serviceClient = createSupabaseServiceClient();
+  const sbData = (serviceClient ?? supabase) as any;
+
+  // ── Hedef adlarını topluca çözümle — yalnızca GÜNCEL SAYFANIN (≤20 satır)
+  // target id'leri için. Önceden bu çözümleme binlerce satır için yapılıyordu. ──
+  const auditRows = rawRows.filter((r) => r.source === 'admin_audit_log');
+  const claimTargetIds = Array.from(new Set(auditRows.filter((a) => a.raw.target_table === 'owner_claims').map((a) => a.raw.target_id)));
+  const menuTargetIds = Array.from(new Set(auditRows.filter((a) => a.raw.target_table === 'menus').map((a) => a.raw.target_id)));
+  const submissionTargetIds = Array.from(new Set(auditRows.filter((a) => a.raw.target_table === 'business_submissions').map((a) => a.raw.target_id)));
+  const suggestionTargetIds = Array.from(new Set(auditRows.filter((a) => a.raw.target_table === 'business_suggestions').map((a) => a.raw.target_id)));
+  const directBusinessTargetIds = auditRows.filter((a) => a.raw.target_table === 'businesses').map((a) => a.raw.target_id);
 
   const [claimsRes, menusRes, submissionsRes, suggestionsRes] = await Promise.all([
-    claimTargetIds.length > 0 ? sb.from('owner_claims').select('id, business_id, full_name').in('id', claimTargetIds) : Promise.resolve({ data: [] }),
-    menuTargetIds.length > 0 ? sb.from('menus').select('id, title').in('id', menuTargetIds) : Promise.resolve({ data: [] }),
-    submissionTargetIds.length > 0 ? sb.from('business_submissions').select('id, name').in('id', submissionTargetIds) : Promise.resolve({ data: [] }),
-    suggestionTargetIds.length > 0 ? sb.from('business_suggestions').select('id, name').in('id', suggestionTargetIds) : Promise.resolve({ data: [] }),
+    claimTargetIds.length > 0 ? sbData.from('owner_claims').select('id, business_id, full_name').in('id', claimTargetIds) : Promise.resolve({ data: [] }),
+    menuTargetIds.length > 0 ? sbData.from('menus').select('id, title').in('id', menuTargetIds) : Promise.resolve({ data: [] }),
+    submissionTargetIds.length > 0 ? sbData.from('business_submissions').select('id, name').in('id', submissionTargetIds) : Promise.resolve({ data: [] }),
+    suggestionTargetIds.length > 0 ? sbData.from('business_suggestions').select('id, name').in('id', suggestionTargetIds) : Promise.resolve({ data: [] }),
   ]);
 
   const claimRows = (claimsRes.data ?? []) as Array<{ id: string; business_id: string | null; full_name: string | null }>;
@@ -103,95 +113,48 @@ export default async function AdminEventsPage({ searchParams }: Props) {
   const allBusinessIds = Array.from(new Set([
     ...directBusinessTargetIds,
     ...claimRows.map((c) => c.business_id).filter(Boolean),
-    ...analyticsRes.map((a: any) => a.business_id).filter(Boolean),
-    ...reportsRes.map((r: any) => r.business_id).filter(Boolean),
+    ...rawRows.filter((r) => r.source === 'analytics_events').map((r) => r.raw.business_id).filter(Boolean),
+    ...rawRows.filter((r) => r.source === 'reports').map((r) => r.raw.business_id).filter(Boolean),
   ])) as string[];
   const { data: businessRows } = allBusinessIds.length > 0
-    ? await sb.from('businesses').select('id, name').in('id', allBusinessIds)
+    ? await sbData.from('businesses').select('id, name').in('id', allBusinessIds)
     : { data: [] };
   const businessNameById = new Map<string, string>((businessRows ?? []).map((b: any) => [b.id, b.name]));
 
   const adCtx: AdCozumlemeBaglami = { businessNameById, menuNameById, submissionNameById, suggestionNameById, claimById };
 
-  let mapped: OlaySatiri[] = [
-    ...analyticsRes.map((e: any) => mapAnalyticsEvent(e, adCtx)),
-    ...rateLimitRes.map(mapRateLimitEvent),
-    ...auditRes.map((e: any) => mapAuditLog(e, adCtx)),
-    ...reportsRes.map((r: any) => mapReport(r, adCtx)),
-  ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  let pageRows: OlaySatiri[] = rawRows.map((row) => {
+    if (row.source === 'analytics_events') return mapAnalyticsEvent(row.raw, adCtx);
+    if (row.source === 'edge_rate_limit_events') return mapRateLimitEvent(row.raw);
+    if (row.source === 'admin_audit_log') return mapAuditLog(row.raw, adCtx);
+    return mapReport(row.raw, adCtx);
+  });
 
-  // Kullanıcı adlarını topluca çözümle (user_profiles)
-  const userIds = Array.from(new Set(mapped.map((r) => r.userId).filter(Boolean))) as string[];
+  // Kullanıcı adlarını topluca çözümle (user_profiles) — yalnızca güncel sayfa için.
+  const userIds = Array.from(new Set(pageRows.map((r) => r.userId).filter(Boolean))) as string[];
   if (userIds.length > 0) {
-    const { data: profiles } = await sb.from('user_profiles').select('user_id, display_name').in('user_id', userIds);
+    const { data: profiles } = await sbData.from('user_profiles').select('user_id, display_name').in('user_id', userIds);
     const nameByUser = new Map<string, string>((profiles ?? []).map((p: any) => [p.user_id as string, (p.display_name as string) ?? '—']));
-    mapped = mapped.map((r) => (r.userId ? { ...r, userName: r.userName ?? nameByUser.get(r.userId) ?? null } : r));
+    pageRows = pageRows.map((r) => (r.userId ? { ...r, userName: r.userName ?? nameByUser.get(r.userId) ?? null } : r));
   }
 
-  // ── Metrik kartları — tüm birleştirilmiş veri üzerinden gerçek sayımlar ──
-  const toplam = mapped.length;
-  const basarili = mapped.filter((r) => r.sonuc === 'success').length;
-  const uyari = mapped.filter((r) => r.sonuc === 'warning').length;
-  const hata = mapped.filter((r) => r.sonuc === 'error').length;
-  const aktifKullaniciSon24s = new Set(
-    mapped.filter((r) => new Date(r.createdAt) >= new Date(Date.now() - 86400000) && r.userId).map((r) => r.userId),
-  ).size;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
-  const bugunSayisi = mapped.filter((r) => new Date(r.createdAt) >= bugunBasi).length;
-  const dunSayisi = mapped.filter((r) => new Date(r.createdAt) >= dunBasi && new Date(r.createdAt) < bugunBasi).length;
-  const bugunBasarili = mapped.filter((r) => r.sonuc === 'success' && new Date(r.createdAt) >= bugunBasi).length;
-  const dunBasarili = mapped.filter((r) => r.sonuc === 'success' && new Date(r.createdAt) >= dunBasi && new Date(r.createdAt) < bugunBasi).length;
-  const bugunUyari = mapped.filter((r) => r.sonuc === 'warning' && new Date(r.createdAt) >= bugunBasi).length;
-  const dunUyari = mapped.filter((r) => r.sonuc === 'warning' && new Date(r.createdAt) >= dunBasi && new Date(r.createdAt) < bugunBasi).length;
-  const bugunHata = mapped.filter((r) => r.sonuc === 'error' && new Date(r.createdAt) >= bugunBasi).length;
-  const dunHata = mapped.filter((r) => r.sonuc === 'error' && new Date(r.createdAt) >= dunBasi && new Date(r.createdAt) < bugunBasi).length;
-
-  // ── Filtreleme ──
-  let filtreli = mapped;
-  if (tarih !== 'all') {
-    const sinir = tarih === '24h' ? Date.now() - 86400000 : tarih === '7d' ? Date.now() - 7 * 86400000 : Date.now() - 30 * 86400000;
-    filtreli = filtreli.filter((r) => new Date(r.createdAt).getTime() >= sinir);
-  }
-  if (tur) filtreli = filtreli.filter((r) => r.incidentType === tur);
-  if (sonuc) filtreli = filtreli.filter((r) => r.sonuc === sonuc);
-  if (q.trim()) {
-    const needle = q.trim().toLocaleLowerCase('tr-TR');
-    filtreli = filtreli.filter((r) =>
-      [olayTuruEtiketi(r.source, r.incidentType), r.description, r.userName].filter(Boolean).join(' ').toLocaleLowerCase('tr-TR').includes(needle),
-    );
-  }
-
-  const totalPages = Math.max(1, Math.ceil(filtreli.length / PAGE_SIZE));
-  const pageRows = filtreli.slice((pageNum - 1) * PAGE_SIZE, pageNum * PAGE_SIZE);
-
-  const turEtiketByDeger = new Map<string, string>();
-  for (const r of mapped) turEtiketByDeger.set(r.incidentType, olayTuruEtiketi(r.source, r.incidentType));
-  const turSecenekleri = Array.from(turEtiketByDeger.entries()).sort((a, b) => a[1].localeCompare(b[1], 'tr-TR'));
+  const turSecenekleri = (summary.tur_secenekleri ?? [])
+    .map((t) => [t.deger, olayTuruEtiketi(t.kaynak as OlayKaynagi, t.deger)] as [string, string])
+    .sort((a, b) => a[1].localeCompare(b[1], 'tr-TR'));
 
   // ── Olay Dağılımı donut ──
   const donutHam: Array<[string, number, string]> = [
-    ['Başarılı', basarili, '#059669'],
-    ['Uyarı', uyari, '#d97706'],
-    ['Hata', hata, '#dc2626'],
-    ['Bilgi', mapped.filter((r) => r.sonuc === 'info').length, '#2563eb'],
+    ['Başarılı', summary.basarili, '#059669'],
+    ['Uyarı', summary.uyari, '#d97706'],
+    ['Hata', summary.hata, '#dc2626'],
+    ['Bilgi', summary.bilgi, '#2563eb'],
   ];
   const donutVerisi = donutHam.filter(([, n]) => n > 0);
   const donutToplam = donutVerisi.reduce((s, [, n]) => s + n, 0);
 
-  // ── Son 30 gün trend ──
-  const gunlukSayim: Record<string, number> = {};
-  for (const r of mapped) {
-    if (r.createdAt < otuzGunOnce) continue;
-    const d = new Date(r.createdAt);
-    const gun = `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}`;
-    gunlukSayim[gun] = (gunlukSayim[gun] ?? 0) + 1;
-  }
-  const trendVerisi: { label: string; value: number }[] = [];
-  for (let i = 29; i >= 0; i--) {
-    const d = new Date(Date.now() - i * 86400000);
-    const label = `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1).toString().padStart(2, '0')}`;
-    trendVerisi.push({ label, value: gunlukSayim[label] ?? 0 });
-  }
+  const trendVerisi: { label: string; value: number }[] = (summary.gunluk_trend ?? []).map((t) => ({ label: t.gun, value: t.deger }));
 
   const queryBase = buildQueryString({ q, tarih, tur, sonuc });
 
@@ -205,11 +168,11 @@ export default async function AdminEventsPage({ searchParams }: Props) {
       <PanelIcerikYuzeyi className="pt-6">
         <div className="flex flex-col gap-6">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            <MetricCard title="Toplam Olay" value={toplam.toLocaleString('tr-TR')} tone="blue" icon={<CalendarIcon />} trend={{ value: yuzdeDegisim(bugunSayisi, dunSayisi), label: `Dün: ${dunSayisi.toLocaleString('tr-TR')}` }} />
-            <MetricCard title="Başarılı İşlem" value={basarili.toLocaleString('tr-TR')} tone="green" icon={<ShieldIcon />} trend={{ value: yuzdeDegisim(bugunBasarili, dunBasarili), label: toplam > 0 ? `Başarı Oranı: %${Math.round((basarili / toplam) * 100)}` : undefined }} />
-            <MetricCard title="Uyarı" value={uyari.toLocaleString('tr-TR')} tone="orange" icon={<AlertIcon />} trend={{ value: yuzdeDegisim(bugunUyari, dunUyari) }} />
-            <MetricCard title="Hata" value={hata.toLocaleString('tr-TR')} tone="pink" icon={<XCircleIcon />} trend={{ value: yuzdeDegisim(bugunHata, dunHata) }} />
-            <MetricCard title="Aktif Kullanıcı" value={aktifKullaniciSon24s.toLocaleString('tr-TR')} subtitle="Son 24 saat" tone="purple" icon={<UsersIcon />} />
+            <MetricCard title="Toplam Olay" value={summary.toplam.toLocaleString('tr-TR')} tone="blue" icon={<CalendarIcon />} trend={{ value: yuzdeDegisim(summary.bugun, summary.dun), label: `Dün: ${summary.dun.toLocaleString('tr-TR')}` }} />
+            <MetricCard title="Başarılı İşlem" value={summary.basarili.toLocaleString('tr-TR')} tone="green" icon={<ShieldIcon />} trend={{ value: yuzdeDegisim(summary.bugun_basarili, summary.dun_basarili), label: summary.toplam > 0 ? `Başarı Oranı: %${Math.round((summary.basarili / summary.toplam) * 100)}` : undefined }} />
+            <MetricCard title="Uyarı" value={summary.uyari.toLocaleString('tr-TR')} tone="orange" icon={<AlertIcon />} trend={{ value: yuzdeDegisim(summary.bugun_uyari, summary.dun_uyari) }} />
+            <MetricCard title="Hata" value={summary.hata.toLocaleString('tr-TR')} tone="pink" icon={<XCircleIcon />} trend={{ value: yuzdeDegisim(summary.bugun_hata, summary.dun_hata) }} />
+            <MetricCard title="Aktif Kullanıcı" value={summary.aktif_kullanici_son_24s.toLocaleString('tr-TR')} subtitle="Son 24 saat" tone="purple" icon={<UsersIcon />} />
           </div>
 
           <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
@@ -245,7 +208,7 @@ export default async function AdminEventsPage({ searchParams }: Props) {
                 <PanelBolumKarti noPadding>
                   <OlaylarTablosu rows={pageRows} />
                   <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-5 py-3">
-                    <p className="text-xs font-bold text-muted">Toplam {filtreli.length.toLocaleString('tr-TR')} olay</p>
+                    <p className="text-xs font-bold text-muted">Toplam {total.toLocaleString('tr-TR')} olay</p>
                     {totalPages > 1 && (
                       <div className="flex items-center gap-1">
                         {pageNum > 1 && <Link href={`?${queryBase}&page=${pageNum - 1}`} className="rounded-lg border border-border px-3 py-1.5 text-xs font-bold hover:bg-black/4">←</Link>}
@@ -276,7 +239,7 @@ export default async function AdminEventsPage({ searchParams }: Props) {
                   <Link href="/yonetici/kullanicilar" className="flex items-center justify-between rounded-xl border border-border px-3 py-2.5 text-xs font-extrabold text-textStrong transition-colors hover:border-primary/30 hover:text-primary">
                     Kullanıcılar <ArrowIcon />
                   </Link>
-                  <DisaAktarButonu rows={filtreli} />
+                  <DisaAktarButonu rows={pageRows} />
                 </div>
               </PanelBolumKarti>
 
@@ -285,6 +248,7 @@ export default async function AdminEventsPage({ searchParams }: Props) {
                   <li>• Bu liste analytics_events, edge_rate_limit_events, admin_audit_log ve reports tablolarının birleşimidir.</li>
                   <li>• IP adresi yalnızca istek üzerinden yakalanabildiğinde görünür; sistem tetiklemeli kayıtlarda genellikle boştur.</li>
                   <li>• Rate limit kayıtlarında ham IP saklanmaz, yalnızca geri döndürülemez bir hash tutulur.</li>
+                  <li>• &quot;Dışa Aktar&quot; yalnızca bu sayfadaki (görünen) satırları indirir.</li>
                 </ul>
               </PanelBolumKarti>
             </div>
@@ -301,14 +265,26 @@ function buildQueryString(input: Record<string, string>) {
   return params.toString();
 }
 
-async function safeQuery(query: PromiseLike<{ data: any[] | null; error: any }>) {
-  try {
-    const { data, error } = await query;
-    return error ? [] : (data ?? []);
-  } catch {
-    return [];
-  }
-}
+type RawEventRow = {
+  id: string;
+  created_at: string;
+  source: OlayKaynagi;
+  incident_type: string;
+  sonuc: SonucTuru;
+  user_id: string | null;
+  raw: any;
+};
+
+type EventsSummary = {
+  toplam: number; basarili: number; uyari: number; hata: number; bilgi: number;
+  bugun: number; dun: number;
+  bugun_basarili: number; dun_basarili: number;
+  bugun_uyari: number; dun_uyari: number;
+  bugun_hata: number; dun_hata: number;
+  aktif_kullanici_son_24s: number;
+  gunluk_trend: Array<{ gun: string; deger: number }>;
+  tur_secenekleri: Array<{ deger: string; kaynak: string; sayi: number }>;
+};
 
 type AdCozumlemeBaglami = {
   businessNameById: Map<string, string>;
