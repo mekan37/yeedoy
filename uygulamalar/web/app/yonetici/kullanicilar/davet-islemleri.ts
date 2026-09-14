@@ -24,5 +24,14 @@ export async function inviteUser(email: string): Promise<{ error: string } | { s
   const { error } = await serviceClient.auth.admin.inviteUserByEmail(trimmed);
   if (error) return { error: 'Davet gönderilemedi. E-posta zaten kayıtlı olabilir.' };
 
+  // Kullanıcı daveti hiçbir depoya loglanmıyordu — "kim bu e-postayı davet
+  // etti" sorusu cevaplanamıyordu.
+  await (supabase as any).rpc('log_admin_action_v1', {
+    p_action: 'user.invite',
+    p_target_table: 'auth.users',
+    p_target_id: null,
+    p_meta: { email: trimmed },
+  });
+
   return { success: true };
 }
