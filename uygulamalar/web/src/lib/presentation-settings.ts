@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { Json } from '@/src/lib/supabase/database.types';
+import type { Json } from '@/src/lib/taban/veri-tanimlari';
 import {
   defaultLangSchema,
   presentationRecordSchema,

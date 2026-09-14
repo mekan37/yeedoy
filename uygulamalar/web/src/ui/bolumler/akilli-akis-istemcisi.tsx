@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { createSupabaseBrowserClient } from '@/src/lib/supabaseClient';
+import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 
 export interface SmartFeedEvent {
   event_id: string;

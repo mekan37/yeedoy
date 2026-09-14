@@ -1,4 +1,4 @@
-import { createSupabaseBrowserClient } from '@/src/lib/supabaseClient';
+import { createSupabaseBrowserClient } from '@/src/lib/taban/istemci';
 import type { StockDishImage } from './varsayilan-yemek-gorseli';
 
 // Sayfa/sekme yüklendiğinde bir kez çekilir, aynı tarayıcı oturumunda tekrar

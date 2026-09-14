@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
+import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 type Props = { params: Promise<{ businessId: string }> };
 

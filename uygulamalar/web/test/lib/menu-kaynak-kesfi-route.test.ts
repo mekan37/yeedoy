@@ -8,6 +8,9 @@ vi.mock('@/src/lib/oran-siniri', () => ({
 }));
 vi.mock('@/src/lib/taban/sunucu', () => ({ createSupabaseServerClient: vi.fn() }));
 vi.mock('@/src/lib/menu-analiz/disari-cagri', () => ({ menuExtractorStartSourceDiscoveryJob: vi.fn() }));
+// Gerçek DNS çözümlemesi yapan assertSsrfSafeUrl testte ağa bağımlı/kırılgan
+// olmasın diye mock'lanıyor — SSRF mantığının kendisi ayrı bir test dosyasında.
+vi.mock('@/src/lib/menu-analiz/url-guvenlik', () => ({ assertSsrfSafeUrl: vi.fn(async () => ({ ok: true })) }));
 
 import { checkAdminAccess } from '@/src/lib/auth/admin-guard';
 import { menuExtractorStartSourceDiscoveryJob } from '@/src/lib/menu-analiz/disari-cagri';
@@ -36,7 +39,15 @@ describe('sourceDiscoveryRequestSchema', () => {
   it('yetkili isteği staging job olarak kaydeder ve secret bilgisini response içine koymaz', async () => {
     vi.mocked(checkAdminAccess).mockResolvedValue({ authorized: true, userId: 'admin-1' });
     vi.mocked(menuExtractorStartSourceDiscoveryJob).mockResolvedValue({ ok: true, jobId: 'external-job-1' });
-    const rpc = vi.fn(async () => ({ data: 'internal-job-1', error: null }));
+    // DB kaydı artık dış çağrıdan ÖNCE oluşturuluyor (orphan-job fix) — ilk
+    // rpc çağrısı admin_create_menu_extract_job_v1 (external_job_id=null),
+    // ikincisi admin_set_menu_extract_job_external_id_v1 (dış çağrı başarılı
+    // olduktan sonra external id'yi dolduran çağrı).
+    const rpc = vi.fn(async (fn: string) => {
+      if (fn === 'admin_create_menu_extract_job_v1') return { data: 'internal-job-1', error: null };
+      if (fn === 'admin_set_menu_extract_job_external_id_v1') return { data: null, error: null };
+      throw new Error(`unexpected rpc: ${fn}`);
+    });
     vi.mocked(createSupabaseServerClient).mockResolvedValue({ rpc } as never);
 
     const response = await POST(new Request('http://localhost/api/yonetici/menu-analiz/kaynak-kesfi', {
@@ -56,7 +67,11 @@ describe('sourceDiscoveryRequestSchema', () => {
     expect(rpc).toHaveBeenCalledWith('admin_create_menu_extract_job_v1', expect.objectContaining({
       p_source_type: 'website_discovery',
       p_source_url: 'https://ornek-restoran.com',
-      p_external_job_id: 'external-job-1',
+      p_external_job_id: null,
     }));
+    expect(rpc).toHaveBeenCalledWith('admin_set_menu_extract_job_external_id_v1', {
+      p_job_id: 'internal-job-1',
+      p_external_job_id: 'external-job-1',
+    });
   });
 });

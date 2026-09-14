@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { appConfig } from '@/src/lib/ayarlar';
-import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
+import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { BUSINESS_CHUNK_SIZE, getSitemapBusinessChunkCount } from '@/src/lib/veri/sitemap-parcalari';
 
 export const revalidate = 3600;

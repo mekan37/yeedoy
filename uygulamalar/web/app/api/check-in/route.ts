@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createSupabaseServerClient } from '@/src/lib/supabase/server';
+import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { rateLimit, getClientIp } from '@/src/lib/rate-limit';
 
 const schema = z.object({ businessId: z.string().uuid() });

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
+import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import AkilliAkisIstemcisi from '@/src/ui/bolumler/akilli-akis-istemcisi';
 import type { SmartFeedEvent } from '@/src/ui/bolumler/akilli-akis-istemcisi';
 

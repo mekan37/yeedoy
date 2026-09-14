@@ -1,4 +1,4 @@
-import { createSupabaseServerClient } from '@/src/lib/supabaseServer';
+import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 export interface BusinessBadge {
   id: string;
