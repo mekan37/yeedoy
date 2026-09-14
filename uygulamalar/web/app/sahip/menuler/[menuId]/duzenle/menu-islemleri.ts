@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { planLimitHataMesaji } from '@/src/lib/plan-limit-hata';
 
 type ActionResult = { error: string } | null;
 
@@ -166,9 +167,9 @@ export async function upsertItem(fd: FormData): Promise<{ error: string } | { it
     const { error: limitError } = await (context.supabase).rpc('_check_plan_limit_v1', {
       p_business_id: context.businessId,
       p_feature_key: 'menu_item_count',
-    }) as { error: { message: string } | null };
+    }) as { error: { code?: string; message?: string } | null };
     if (limitError) {
-      return { error: 'Ürün limitine ulaştınız. Daha fazla ürün eklemek için planınızı yükseltin.' };
+      return { error: planLimitHataMesaji(limitError, 'Ürün') };
     }
 
     const { count } = await (context.supabase)
@@ -422,9 +423,9 @@ export async function duplicateItem(
   const { error: limitError } = await (context.supabase).rpc('_check_plan_limit_v1', {
     p_business_id: context.businessId,
     p_feature_key: 'menu_item_count',
-  }) as { error: { message: string } | null };
+  }) as { error: { code?: string; message?: string } | null };
   if (limitError) {
-    return { error: 'Ürün limitine ulaştınız. Daha fazla ürün eklemek için planınızı yükseltin.' };
+    return { error: planLimitHataMesaji(limitError, 'Ürün') };
   }
 
   const { count } = await (context.supabase)

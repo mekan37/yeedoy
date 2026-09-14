@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
+import { httpUrlSchema } from '@/src/lib/guvenli-url-semasi';
 
 const UpdateBusinessSchema = z.object({
   name: z.string().min(1).max(120),
@@ -16,12 +17,12 @@ const UpdateBusinessSchema = z.object({
   neighborhood: z.string().max(120).optional(),
   lat: z.coerce.number().min(-90).max(90).optional(),
   lng: z.coerce.number().min(-180).max(180).optional(),
-  logoUrl: z.string().url().max(1000).optional(),
-  coverUrl: z.string().url().max(1000).optional(),
-  reservationUrl: z.string().url().max(1000).optional(),
-  orderYemeksepetiUrl: z.string().url().max(1000).optional(),
-  orderTrendyolgoUrl: z.string().url().max(1000).optional(),
-  orderGetirUrl: z.string().url().max(1000).optional(),
+  logoUrl: httpUrlSchema(1000).optional(),
+  coverUrl: httpUrlSchema(1000).optional(),
+  reservationUrl: httpUrlSchema(1000).optional(),
+  orderYemeksepetiUrl: httpUrlSchema(1000).optional(),
+  orderTrendyolgoUrl: httpUrlSchema(1000).optional(),
+  orderGetirUrl: httpUrlSchema(1000).optional(),
 });
 
 export async function updateBusiness(

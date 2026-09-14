@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { rateLimit } from '@/src/lib/oran-siniri';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { httpUrlSchema } from '@/src/lib/guvenli-url-semasi';
 
 export type ActionState = { error: string } | { success: true } | null;
 
@@ -28,20 +29,7 @@ type RpcResult = {
 
 const BusinessIdSchema = z.string().uuid();
 
-const OptionalUrlSchema = z
-  .string()
-  .trim()
-  .max(500)
-  .refine((value) => {
-    if (!value) return true;
-
-    try {
-      const url = new URL(value);
-      return url.protocol === 'http:' || url.protocol === 'https:';
-    } catch {
-      return false;
-    }
-  });
+const OptionalUrlSchema = z.union([z.literal(''), httpUrlSchema(500)]);
 
 const ProfileSchema = z.object({
   name: z.string().trim().min(1).max(120),

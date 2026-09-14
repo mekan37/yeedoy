@@ -133,8 +133,11 @@ export async function DELETE(req: Request) {
 
   // DB'den sil — service_role yerine kullanıcının kendi RLS'li client'ı
   // (business_media_delete_manager politikası aynı eşiği ikinci katmanda
-  // uyguluyor; storage temizliği için service_role hâlâ gerekli).
-  await (supabase).from('business_media').delete().eq('id', parsed.data.id);
+  // uyguluyor; storage temizliği için service_role hâlâ gerekli). DB
+  // silme hatası önceden yok sayılıp Storage nesnesi yine de siliniyordu
+  // — kırık görsel + yetim DB satırı üretiyordu.
+  const { error: dbDeleteError } = await (supabase).from('business_media').delete().eq('id', parsed.data.id);
+  if (dbDeleteError) return NextResponse.json({ error: 'delete_failed' }, { status: 500 });
 
   const service = createSupabaseServiceClient();
   if (service) {

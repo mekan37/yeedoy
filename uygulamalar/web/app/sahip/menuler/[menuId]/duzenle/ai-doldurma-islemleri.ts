@@ -3,6 +3,13 @@
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinessIds } from '@/src/lib/veri/owner/sahip-isletmeleri';
 
+// _check_plan_limit_v1, P0002 (yetkisiz) ve P0003 (plan limiti) için aynı
+// jenerik hatayı döndürüyordu — asıl sebep yetki eksikliği olsa bile
+// kullanıcıya "planınızda yok" gösteriliyordu.
+function planLimitYaDaYetkisiz(error: { code?: string } | null, limitMessage: string): string {
+  return error?.code === 'P0002' ? 'Bu işlem için yetkiniz yok.' : limitMessage;
+}
+
 export type AiAllergenSonuc = { code: string; status: 'confirmed' | 'possible'; evidence: string };
 
 export type AiDoldurmaSonuc =
@@ -35,8 +42,8 @@ export async function aiIleAlerjenKaloriDoldur(
   const { error: limitError } = (await (supabase).rpc('_check_plan_limit_v1', {
     p_business_id: businessId,
     p_feature_key: 'allergen_ai',
-  })) as { error: { message: string } | null };
-  if (limitError) return { error: 'Bu özellik planınızda yok. Standart kademeye yükseltin.' };
+  })) as { error: { code?: string; message?: string } | null };
+  if (limitError) return { error: planLimitYaDaYetkisiz(limitError, 'Bu özellik planınızda yok. Standart kademeye yükseltin.') };
 
   const [allergenRes, nutritionRes] = await Promise.all([
     supabase.functions.invoke('ai-allergen-detect', {
@@ -93,8 +100,8 @@ export async function aiIleGorselUret(
   const { error: limitError } = (await (supabase).rpc('_check_plan_limit_v1', {
     p_business_id: businessId,
     p_feature_key: 'ai_image_gen',
-  })) as { error: { message: string } | null };
-  if (limitError) return { error: 'Bu özellik yalnızca Pro kademede var.' };
+  })) as { error: { code?: string; message?: string } | null };
+  if (limitError) return { error: planLimitYaDaYetkisiz(limitError, 'Bu özellik yalnızca Pro kademede var.') };
 
   const { data, error } = await supabase.functions.invoke('ai-menu-image-gen', {
     body: { item_name: itemName, description, business_id: businessId },

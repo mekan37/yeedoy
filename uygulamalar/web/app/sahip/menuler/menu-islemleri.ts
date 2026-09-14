@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { rateLimit } from '@/src/lib/oran-siniri';
+import { httpUrlSchema } from '@/src/lib/guvenli-url-semasi';
 
 type ActionResult = { error: string } | null;
 
@@ -105,7 +106,7 @@ export async function updateExternalMenuUrl(formData: FormData) {
     redirect('/sahip/menuler?hata=missing_fields');
   }
 
-  try { new URL(externalUrl); } catch {
+  if (!httpUrlSchema(2000).safeParse(externalUrl).success) {
     redirect('/sahip/menuler?hata=invalid_url');
   }
 
@@ -125,10 +126,11 @@ export async function updateExternalMenuUrl(formData: FormData) {
   const isOwner = await hasOwnerBusiness(supabase, user.id, menu.business_id);
   if (!isOwner) redirect('/sahip/menuler?hata=forbidden');
 
-  await (supabase)
+  const { error } = await (supabase)
     .from('menus')
     .update({ external_url: externalUrl })
-    .eq('id', menuId);
+    .eq('id', menuId) as { error: { message: string } | null };
+  if (error) redirect('/sahip/menuler?hata=update_failed');
 
   redirect('/sahip/menuler?basari=url_updated');
 }

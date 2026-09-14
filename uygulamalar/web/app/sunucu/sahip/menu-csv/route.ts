@@ -68,12 +68,22 @@ export async function GET(req: Request) {
   });
 
   const csv = [header, ...lines].join('\n');
-  const filename = `menu-${menu.title.replace(/\s+/g, '-').toLowerCase()}.csv`;
+  // menu.title sahip tarafından girilen serbest metin — Türkçe karakterler
+  // (ç/ş/ğ/ı/ö/ü) çıplak Latin1 Content-Disposition header'ında 500'e yol
+  // açıyordu; " gibi karakterler de quoted-string'i kırabiliyordu. ASCII-only
+  // bir fallback + RFC 6266 filename*=UTF-8'' ile doğru dosya adı sağlanıyor.
+  const asciiFallback = menu.title
+    .normalize('NFKD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-zA-Z0-9-]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase() || 'menu';
+  const utf8Filename = `menu-${menu.title.trim() || 'menu'}.csv`;
 
   return new Response('﻿' + csv, {
     headers: {
       'Content-Type': 'text/csv; charset=utf-8',
-      'Content-Disposition': `attachment; filename="${filename}"`,
+      'Content-Disposition': `attachment; filename="menu-${asciiFallback}.csv"; filename*=UTF-8''${encodeURIComponent(utf8Filename)}`,
     },
   });
 }

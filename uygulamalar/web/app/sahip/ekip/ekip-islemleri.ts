@@ -2,15 +2,18 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { z } from 'zod';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { createSupabaseServiceClient } from '@/src/lib/taban/hizmet';
 import { hasOwnerBusiness } from '@/src/lib/veri/owner/sahip-isletmeleri';
-import { sendEmail } from '@/src/lib/eposta';
+import { sendEmail, escapeHtml } from '@/src/lib/eposta';
 import { appConfig } from '@/src/lib/ayarlar';
 import { logger } from '@/src/lib/kayitci';
+import { rateLimit } from '@/src/lib/oran-siniri';
 import { ROLE_LABELS } from './ekip-sabitleri';
 
 const ROLE_VALUES = new Set(['manager', 'editor', 'staff', 'viewer']);
+const emailSchema = z.string().trim().toLowerCase().email();
 
 export async function addTeamMember(formData: FormData): Promise<void> {
   const supabase = await createSupabaseServerClient();
@@ -18,14 +21,15 @@ export async function addTeamMember(formData: FormData): Promise<void> {
   if (!user) redirect('/giris?redirect=/sahip/ekip');
 
   const businessId = String(formData.get('businessId') ?? '').trim();
-  const email = String(formData.get('email') ?? '').trim().toLowerCase();
+  const emailParsed = emailSchema.safeParse(formData.get('email'));
   const fullName = String(formData.get('fullName') ?? '').trim();
   const password = String(formData.get('password') ?? '');
   const role = String(formData.get('role') ?? '').trim().toLowerCase();
 
-  if (!businessId || !email || !ROLE_VALUES.has(role)) {
+  if (!businessId || !emailParsed.success || !ROLE_VALUES.has(role)) {
     redirect('/sahip/ekip?durum=gecersiz');
   }
+  const email = emailParsed.data;
   if (password && password.length < 8) {
     redirect('/sahip/ekip?durum=sifre_kisa');
   }
@@ -33,6 +37,11 @@ export async function addTeamMember(formData: FormData): Promise<void> {
   const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId);
   if (!canManageBusiness) {
     redirect('/sahip/ekip?durum=yetkisiz');
+  }
+
+  const limit = await rateLimit(`ekip-davet:${user.id}`, 20, 3_600_000);
+  if (!limit.ok) {
+    redirect('/sahip/ekip?durum=rate_limited');
   }
 
   const { data: business } = await (supabase)
@@ -45,6 +54,18 @@ export async function addTeamMember(formData: FormData): Promise<void> {
   let mode: 'created' | 'invited' | 'linked' = 'invited';
 
   if (password) {
+    // Plan limiti önceden hiç kontrol edilmiyordu — yeni bir auth
+    // hesabı (+ user_profiles satırı) oluşturulduktan SONRA
+    // upsert_team_member_v1 içindeki limit reddediyordu, geride
+    // ekibe hiç bağlanamayan yetim bir giriş hesabı bırakıyordu.
+    const { error: limitError } = await (supabase).rpc('_check_plan_limit_v1', {
+      p_business_id: businessId,
+      p_feature_key: 'team_seat_count',
+    }) as { error: { code?: string; message?: string } | null };
+    if (limitError) {
+      redirect(limitError.code === 'P0002' ? '/sahip/ekip?durum=yetkisiz' : '/sahip/ekip?durum=plan_limit_exceeded');
+    }
+
     const serviceClient = createSupabaseServiceClient();
     if (!serviceClient) {
       redirect('/sahip/ekip?durum=servis_yok');
@@ -94,12 +115,17 @@ export async function addTeamMember(formData: FormData): Promise<void> {
 
   const roleLabel = ROLE_LABELS[role]?.label ?? role;
   const loginUrl = `${appConfig.siteUrl()}/giris`;
+  // businessName işletme sahibinin kendi girdiği serbest metin — e-posta
+  // HTML'ine kaçışsız basılıyordu (davet edilen kullanıcının e-posta
+  // istemcisine yönelik HTML enjeksiyonu).
+  const safeBusinessName = escapeHtml(businessName);
+  const safeRoleLabel = escapeHtml(roleLabel);
 
   if (mode === 'created') {
     void sendEmail({
       to: email,
       subject: `${businessName} — Yeedoy Sahip Paneli hesabınız hazır`,
-      html: `<p>${businessName} işletmesi için Yeedoy Sahip Paneli'nde <strong>${roleLabel}</strong> rolüyle bir hesap oluşturuldu.</p>
+      html: `<p>${safeBusinessName} işletmesi için Yeedoy Sahip Paneli'nde <strong>${safeRoleLabel}</strong> rolüyle bir hesap oluşturuldu.</p>
              <p>Giriş bilgilerinizi (e-posta ve şifre) işletme sahibinizden öğrenebilirsiniz.</p>
              <p><a href="${loginUrl}">${loginUrl}</a> adresinden giriş yapabilirsiniz.</p>`,
     });
@@ -107,14 +133,14 @@ export async function addTeamMember(formData: FormData): Promise<void> {
     void sendEmail({
       to: email,
       subject: `${businessName} sizi ekibine davet etti`,
-      html: `<p>${businessName} işletmesi sizi Yeedoy Sahip Paneli'nde <strong>${roleLabel}</strong> rolüyle ekibine davet etti.</p>
+      html: `<p>${safeBusinessName} işletmesi sizi Yeedoy Sahip Paneli'nde <strong>${safeRoleLabel}</strong> rolüyle ekibine davet etti.</p>
              <p>Bu e-posta adresiyle <a href="${loginUrl}">${loginUrl}</a> üzerinden kayıt olun veya giriş yapın; daveti otomatik olarak hesabınıza bağlanacaktır.</p>`,
     });
   } else {
     void sendEmail({
       to: email,
       subject: `${businessName} ekibine eklendiniz`,
-      html: `<p>${businessName} işletmesi sizi Yeedoy Sahip Paneli'nde <strong>${roleLabel}</strong> rolüyle ekibine ekledi.</p>
+      html: `<p>${safeBusinessName} işletmesi sizi Yeedoy Sahip Paneli'nde <strong>${safeRoleLabel}</strong> rolüyle ekibine ekledi.</p>
              <p>Mevcut hesabınızla <a href="${loginUrl}">${loginUrl}</a> üzerinden giriş yapabilirsiniz.</p>`,
     });
   }
