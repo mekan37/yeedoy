@@ -3,9 +3,14 @@
 import { revalidatePath } from 'next/cache';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
-async function logAudit(supabase: any, action: string, submissionId: string) {
+async function logAudit(supabase: any, action: string, submissionId: string, note?: string | null) {
   await supabase
-    .rpc('log_admin_action_v1', { p_action: action, p_target_table: 'business_submissions', p_target_id: submissionId })
+    .rpc('log_admin_action_v1', {
+      p_action: action,
+      p_target_table: 'business_submissions',
+      p_target_id: submissionId,
+      p_meta: note ? { note } : {},
+    })
     .then(() => {})
     .catch(() => {});
 }
@@ -40,7 +45,7 @@ export async function rejectSubmission(submissionId: string, note?: string | nul
   if (error || !data?.ok) {
     throw new Error('Başvuru reddedilemedi.');
   }
-  await logAudit(supabase, 'reject', submissionId);
+  await logAudit(supabase, 'reject', submissionId, note);
   revalidatePath('/yonetici/kuyruklar');
   revalidatePath('/yonetici/isletme-basvurulari');
 }

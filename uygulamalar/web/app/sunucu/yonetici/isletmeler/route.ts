@@ -106,9 +106,12 @@ export async function POST(request: Request) {
     is_active,
   } = parsed.data;
 
-  // slug oluştur — name'i normalize et
+  // slug oluştur — name'i normalize et. .toLowerCase() (locale-siz) Türkçe
+  // "İ"yi (U+0130) 'i' + combining-dot-above'a (U+0307) çeviriyor, bu da
+  // aşağıdaki ı/ğ/ş replace zincirini atlayıp slug'da kırık/çift tire
+  // bırakıyordu. .toLocaleLowerCase('tr-TR') İ→i, I→ı'yı doğru eşliyor.
   const slugBase = name
-    .toLowerCase()
+    .toLocaleLowerCase('tr-TR')
     .replace(/ğ/g, 'g').replace(/ü/g, 'u').replace(/ş/g, 's')
     .replace(/ı/g, 'i').replace(/ö/g, 'o').replace(/ç/g, 'c')
     .replace(/[^a-z0-9]+/g, '-')

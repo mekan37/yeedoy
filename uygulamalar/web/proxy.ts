@@ -142,6 +142,20 @@ async function guardPanelRoute(
 
   if (!isOwnerRoute && !isAdminRoute && !isAdminApiRoute) return null;
 
+  // fetch tabanlı /sunucu/yonetici ve /api/yonetici istemcileri bir 307
+  // redirect'i takip edip HTML forbidden sayfasını JSON sanıp parse etmeye
+  // çalışıyordu (hata yönetimi tamamen kayboluyordu). Bu iki prefix için
+  // artık düz JSON 401/403 dönülüyor; sayfa route'ları (isAdminRoute/
+  // isOwnerRoute) hâlâ /forbidden'a veya login'e redirect ediliyor.
+  const deny = (status: 401 | 403, error: string): NextResponse => {
+    if (isAdminApiRoute) {
+      return NextResponse.json({ error }, { status });
+    }
+    const forbiddenUrl = request.nextUrl.clone();
+    forbiddenUrl.pathname = '/forbidden';
+    return NextResponse.redirect(forbiddenUrl);
+  };
+
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!supabaseUrl || !supabaseAnonKey) {
@@ -150,9 +164,7 @@ async function guardPanelRoute(
     // KİMLİKSİZ servis ediliyordu (fail-open). Artık fail-closed: env eksikken
     // hiçbir korumalı route'a erişilemez.
     console.error('[middleware] Supabase env eksik, panel guard fail-closed devrede', `pathname=${pathname}`);
-    const forbiddenUrl = request.nextUrl.clone();
-    forbiddenUrl.pathname = '/forbidden';
-    return NextResponse.redirect(forbiddenUrl);
+    return deny(403, 'forbidden');
   }
 
   const response = NextResponse.next({ request: { headers: requestHeaders } });
@@ -183,6 +195,9 @@ async function guardPanelRoute(
   }
 
   if (!user) {
+    if (isAdminApiRoute) {
+      return deny(401, 'unauthorized');
+    }
     const loginUrl = request.nextUrl.clone();
     // Owner routes go to the owner-specific login page; admin/api routes use generic login.
     loginUrl.pathname = isOwnerRoute ? OWNER_LOGIN_PATH : LOGIN_PATH;
@@ -200,15 +215,11 @@ async function guardPanelRoute(
         `code=${adminCheckError.code}`,
         `pathname=${request.nextUrl.pathname}`,
       );
-      const forbiddenUrl = request.nextUrl.clone();
-      forbiddenUrl.pathname = '/forbidden';
-      return NextResponse.redirect(forbiddenUrl);
+      return deny(403, 'forbidden');
     }
 
     if (!isAdmin) {
-      const forbiddenUrl = request.nextUrl.clone();
-      forbiddenUrl.pathname = '/forbidden';
-      return NextResponse.redirect(forbiddenUrl);
+      return deny(403, 'forbidden');
     }
   }
 
