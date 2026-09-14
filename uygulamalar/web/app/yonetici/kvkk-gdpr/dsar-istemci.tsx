@@ -4,10 +4,12 @@ import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface DsarRequest {
-  id: string; request_type: string; status: string; details: string | null;
+  id: string; user_id: string; request_type: string; status: string; details: string | null;
   created_at: string; updated_at: string;
   user_profiles: { display_name: string | null; email: string | null } | null;
 }
+
+const EXPORTABLE_TYPES = new Set(['data_export', 'access', 'portability']);
 
 const STATUS_OPTIONS = [
   { value: 'in_review', label: 'İşleme Al', color: 'bg-blue-100 text-blue-700' },
@@ -118,6 +120,12 @@ export function DsarYonetimi({ requests, requestTypeLabels }: {
                         className="rounded-lg border border-border px-3 py-1.5 text-xs font-bold text-muted hover:text-textStrong">
                         E-posta Gönder
                       </a>
+                      {EXPORTABLE_TYPES.has(req.request_type) && (
+                        <a href={`/sunucu/yonetici/dsar/disa-aktar?userId=${req.user_id}`}
+                          className="rounded-lg border border-border px-3 py-1.5 text-xs font-bold text-muted hover:text-textStrong">
+                          Veriyi Dışa Aktar
+                        </a>
+                      )}
                     </div>
                     <p className="mt-2 text-[10px] text-muted">
                       Talep {new Date(req.created_at).toLocaleDateString('tr-TR')} tarihinde oluşturuldu ·

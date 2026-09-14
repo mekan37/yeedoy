@@ -58,16 +58,17 @@ export default async function KvkkGdprPage() {
       created_at: string; resolved_at: string | null;
     }> | null };
 
-  const profiles = await getProfilesByUserIds(
-    supabase,
-    (requests ?? []).map((request) => request.user_id).filter(Boolean),
-  );
+  const requestUserIds = (requests ?? []).map((request) => request.user_id).filter(Boolean);
+  const profiles = await getProfilesByUserIds(supabase, requestUserIds);
+  // Talep sahibinin e-postası önceden sabit null dönüyordu (user_profiles'ta
+  // email hiç yok, auth.users'ta) — "E-posta Gönder" linki hiç çalışmıyordu.
+  const emailByUser = await getEmailsByUserIds(supabase, requestUserIds);
   const allRequests = (requests ?? []).map((request) => ({
     ...request,
     updated_at: request.resolved_at ?? request.created_at,
     user_profiles: {
       display_name: profiles.get(request.user_id)?.display_name ?? null,
-      email: null,
+      email: emailByUser.get(request.user_id) ?? null,
     },
   }));
   const pending = allRequests.filter(r => r.status === 'submitted');
@@ -157,6 +158,14 @@ function FileIcon() { return <svg width="20" height="20" viewBox="0 0 24 24" fil
 function ClockIcon() { return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>; }
 function CheckIcon() { return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>; }
 function ShieldIcon() { return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>; }
+
+async function getEmailsByUserIds(supabase: any, userIds: string[]) {
+  const uniqueIds = [...new Set(userIds)];
+  if (uniqueIds.length === 0) return new Map<string, string | null>();
+
+  const { data } = await supabase.rpc('admin_list_user_emails_v1', { p_user_ids: uniqueIds });
+  return new Map(((data ?? []) as Array<{ user_id: string; email: string | null }>).map((row) => [row.user_id, row.email]));
+}
 
 async function getProfilesByUserIds(supabase: any, userIds: string[]) {
   const uniqueIds = [...new Set(userIds)];

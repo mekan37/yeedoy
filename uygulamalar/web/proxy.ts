@@ -100,6 +100,11 @@ const YONETICI_PREFIX = '/yonetici';  // canonical Turkish path for the admin pa
 const SAHIP_PREFIX = '/sahip';        // owner panel pages (canonical Turkish path)
 // /sunucu/yonetici/* and /api/yonetici/* routes are NOT rewritten by
 // subdomain logic — guard them explicitly at the middleware level.
+// Kural: yeni admin mutation/route'ları /sunucu/yonetici/** altına eklenir.
+// /api/yonetici/** yalnızca tarihsel bir istisna için var (menu-analiz/
+// kaynak-kesfi) — geriye dönük uyumluluk nedeniyle taşınmadı, ama yeni hiçbir
+// route buraya eklenmemeli. İkisi de burada aynı guard'dan (isAdminApiRoute)
+// geçiyor, davranış farkı yok.
 const SUNUCU_YONETICI_PREFIX = '/sunucu/yonetici';
 const API_YONETICI_PREFIX = '/api/yonetici';
 const LOGIN_PATH = '/giris';
