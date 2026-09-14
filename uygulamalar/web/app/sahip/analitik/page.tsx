@@ -3,7 +3,7 @@ import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { getOwnerBusinesses } from '@/src/lib/veri/owner/sahip-isletmeleri';
 import { getYogunSaatler } from '@/src/lib/veri/owner/mesgul-saatler';
 import {
-  buildHourBucketHeatmap,
+  buildHourBucketHeatmapFromCounts,
   findBestDay,
   findBestHourRange,
   reservationStatusBreakdown,
@@ -58,6 +58,16 @@ const KAYNAK_RENKLERI = [
 
 const GORUNTULENME_OLAYLARI = ['menu_view', 'business_impression', 'menu_link_opened', 'business_page_view'];
 
+type AnalyticsPipelineResult = {
+  daily_views_current: { day: string; count: number }[];
+  daily_views_previous: { day: string; count: number }[];
+  source_breakdown: { source: string | null; count: number }[];
+  heatmap_counts: { hour: number; weekday: number; count: number }[];
+  daily_local_trend: { day: string; menu_views: number; qr_scans: number }[];
+  hourly_distribution: { hour: number; count: number }[];
+  has_current_events: boolean;
+};
+
 // ─── Sayfa ────────────────────────────────────────────────────────────────────
 
 interface Props {
@@ -102,7 +112,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
     planData?.features.find((f) => f.feature_key === 'analytics_range_days')?.limit_value ?? 7;
 
   // Kullanıcı URL'den ?aralik=90g gönderse bile (UI bypass), aşağıdaki tüm hesaplamalar
-  // (since/sincePrev/simdiMs/goruntulenmeGunluk/vb.) bu clamp'lenmiş değeri kullanır.
+  // (since/sincePrev/goruntulenmeGunluk/vb.) bu clamp'lenmiş değeri kullanır.
   const gunSayisi = Math.min(gunSayisiIstenen, analitikLimit);
 
   const now       = Date.now();
@@ -127,7 +137,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
     shareCurr,    sharePrev_,
     resCurr,      resPrev_,
     resStatusRows,
-    // Isı haritası + ziyaretçi kaynakları + günlük trend için ham olay satırları
+    // Isı haritası + ziyaretçi kaynakları + günlük trend için DB-taraflı agregasyon
     rawEvents,
   ] = await Promise.all([
     sb.from('analytics_events').select('id', { count: 'exact', head: true })
@@ -194,40 +204,29 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
     sb.from('reservations').select('status')
       .in('business_id', businessIds).gte('created_at', since).limit(10000),
 
-    sb.from('analytics_events')
-      .select('created_at, event_name, source')
-      .in('business_id', businessIds)
-      .gte('created_at', sincePrev)
-      .limit(100000),
+    // Önceden burada 100.000 satıra kadar ham event çekilip Node.js'te
+    // 4 ayrı agregasyon yapılıyordu — limit aşımında sessiz veri kaybı
+    // riski + gereksiz veri transferi vardı. owner_analytics_pipeline_v1
+    // aynı hesaplamaları DB'de yapıp yalnızca önceden agregelenmiş
+    // sonuçları (en fazla birkaç yüz satır) döndürüyor.
+    sb.rpc('owner_analytics_pipeline_v1', {
+      p_business_ids: businessIds,
+      p_since_prev: sincePrev,
+      p_since: since,
+      p_view_events: GORUNTULENME_OLAYLARI,
+    }) as unknown as Promise<{ data: AnalyticsPipelineResult | null }>,
   ]);
 
-  type HamOlay = { created_at: string; event_name: string; source: string | null };
-  const tumHamOlaylar: HamOlay[] = (rawEvents.data ?? []).filter(
-    (e): e is HamOlay => e.created_at != null,
-  );
-
-  // Güncel dönem / önceki dönem ayrımı
-  const simdiMs = now - gunSayisi * 86400000;
-  const guncelOlaylar  = tumHamOlaylar.filter((e) => new Date(e.created_at).getTime() >= simdiMs);
-  const oncekiOlaylar  = tumHamOlaylar.filter((e) => new Date(e.created_at).getTime() <  simdiMs);
+  const pipeline: AnalyticsPipelineResult = rawEvents.data ?? {
+    daily_views_current: [], daily_views_previous: [], source_breakdown: [],
+    heatmap_counts: [], daily_local_trend: [], hourly_distribution: [], has_current_events: false,
+  };
 
   // ── Görüntülenme grafiği: bu dönem vs önceki dönem ──────────────────────────
-  const GORUNTULENME_SET = new Set(GORUNTULENME_OLAYLARI);
   const guncelGunMap: Record<string, number> = {};
+  for (const row of pipeline.daily_views_current) guncelGunMap[row.day] = row.count;
   const oncekiGunMap: Record<string, number> = {};
-
-  for (const e of guncelOlaylar) {
-    if (GORUNTULENME_SET.has(e.event_name)) {
-      const k = e.created_at.split('T')[0];
-      guncelGunMap[k] = (guncelGunMap[k] ?? 0) + 1;
-    }
-  }
-  for (const e of oncekiOlaylar) {
-    if (GORUNTULENME_SET.has(e.event_name)) {
-      const k = e.created_at.split('T')[0];
-      oncekiGunMap[k] = (oncekiGunMap[k] ?? 0) + 1;
-    }
-  }
+  for (const row of pipeline.daily_views_previous) oncekiGunMap[row.day] = row.count;
 
   const goruntulenmeGunluk: GunlukNokta[] = Array.from({ length: gunSayisi }, (_, i) => {
     const d          = new Date(now - (gunSayisi - 1 - i) * 86400000);
@@ -242,9 +241,9 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
 
   // ── Ziyaretçi kaynakları (bu dönem) ─────────────────────────────────────────
   const kaynakMap: Record<string, number> = {};
-  for (const e of guncelOlaylar) {
-    const etik = KAYNAK_ETIKETLERI[e.source ?? ''] ?? 'Diğer';
-    kaynakMap[etik] = (kaynakMap[etik] ?? 0) + 1;
+  for (const row of pipeline.source_breakdown) {
+    const etik = KAYNAK_ETIKETLERI[row.source ?? ''] ?? 'Diğer';
+    kaynakMap[etik] = (kaynakMap[etik] ?? 0) + row.count;
   }
   const kaynakToplam = Object.values(kaynakMap).reduce((a, b) => a + b, 0);
   const trafikKaynaklari: TrafikKaynagi[] = Object.entries(kaynakMap)
@@ -257,9 +256,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
     }));
 
   // ── Popüler saatler: gün × 4 saatlik blok ısı haritası (Europe/Istanbul) ────
-  const isiHaritasi = buildHourBucketHeatmap(
-    guncelOlaylar.filter((e) => GORUNTULENME_SET.has(e.event_name)),
-  );
+  const isiHaritasi = buildHourBucketHeatmapFromCounts(pipeline.heatmap_counts);
 
   // ── Eylemler listesi ─────────────────────────────────────────────────────────
   const eylemler: EylemMetrigi[] = [
@@ -280,17 +277,18 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
     (viewsCurr.count ?? 0) + (favCurr.count ?? 0) + (phoneCurr.count ?? 0) + (dirCurr.count ?? 0);
 
   // ── Sahip'e özgü: günlük menü/QR trendi + saatlik dağılım ────────────────────
+  // d.getFullYear()/getHours() gibi yerel-saat metodları server process'inin
+  // çalıştığı saat dilimini kullanıyordu (Vercel'de UTC) — pipeline RPC'si de
+  // aynı UTC gün/saat kesimini kullanıyor, davranış korunuyor.
   const gunlukMenu: Record<string, number> = {};
   const gunlukQr: Record<string, number> = {};
+  for (const row of pipeline.daily_local_trend) {
+    gunlukMenu[row.day] = row.menu_views;
+    gunlukQr[row.day] = row.qr_scans;
+  }
   const saatlikDagilim: Record<string, number> = {};
-
-  for (const o of guncelOlaylar) {
-    const d = new Date(o.created_at);
-    const gun = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    const saat = String(d.getHours()).padStart(2,'0');
-    if (o.event_name === 'menu_view') gunlukMenu[gun] = (gunlukMenu[gun] ?? 0) + 1;
-    if (o.event_name === 'qr_scanned') gunlukQr[gun] = (gunlukQr[gun] ?? 0) + 1;
-    saatlikDagilim[saat] = (saatlikDagilim[saat] ?? 0) + 1;
+  for (const row of pipeline.hourly_distribution) {
+    saatlikDagilim[String(row.hour).padStart(2, '0')] = row.count;
   }
 
   // Son N günün listesi
@@ -350,7 +348,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
         toplamEtkilesim={toplamEtkilesim}
         gunlukTrend={gunlukTrend}
         saatlikDagilim={saatlikVeri}
-        olayVarMi={guncelOlaylar.length > 0}
+        olayVarMi={pipeline.has_current_events}
         yogunSaatler={yogunSaatler}
       />
     </div>

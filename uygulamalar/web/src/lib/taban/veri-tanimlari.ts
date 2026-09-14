@@ -13917,6 +13917,15 @@ export type Database = {
         }
         Returns: undefined
       }
+      owner_analytics_pipeline_v1: {
+        Args: {
+          p_business_ids: string[]
+          p_since: string
+          p_since_prev: string
+          p_view_events: string[]
+        }
+        Returns: Json
+      }
       owner_approve_menu_price_suggestion_v1: {
         Args: { p_suggestion_id: string }
         Returns: Json

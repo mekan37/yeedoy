@@ -70,6 +70,32 @@ export function buildHourBucketHeatmap(rows: RawTimestampRow[]): HourBucketRow[]
     grid[bucketIndex][dowIndex]++;
   }
 
+  return gridToHeatmapRows(grid);
+}
+
+/**
+ * buildHourBucketHeatmap ile aynı ızgarayı, ham satırlar yerine DB'de
+ * önceden agregelenmiş (Europe/Istanbul saat, hafta günü, sayı) üçlülerinden
+ * üretir — owner_analytics_pipeline_v1 RPC'sinin döndürdüğü şekil. `weekday`
+ * burada da JS Date.getDay() kuralını izler (0=Pazar..6=Cumartesi;
+ * Postgres'in extract(dow from ...) ile birebir aynı).
+ */
+export function buildHourBucketHeatmapFromCounts(
+  rows: { hour: number; weekday: number; count: number }[],
+): HourBucketRow[] {
+  const grid = HOUR_BUCKETS.map(() => Array(7).fill(0));
+
+  for (const row of rows) {
+    const dowIndex = DOW_ORDER.indexOf(row.weekday);
+    const bucketIndex = HOUR_BUCKETS.findIndex((b) => row.hour >= b.start && row.hour < b.end);
+    if (bucketIndex === -1 || dowIndex === -1) continue;
+    grid[bucketIndex][dowIndex] += row.count;
+  }
+
+  return gridToHeatmapRows(grid);
+}
+
+function gridToHeatmapRows(grid: number[][]): HourBucketRow[] {
   const max = Math.max(...grid.flat(), 1);
 
   return HOUR_BUCKETS.map((bucket, i) => ({
