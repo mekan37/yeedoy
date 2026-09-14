@@ -66,10 +66,15 @@ interface YoneticiKabukIstemcisiProps {
   bekleyenKuyrukSayisi?: number;
   /** İtiraz + işletme başvurusu + sahiplenme talebi toplamı — topbar zil rozeti */
   bekleyenBildirimSayisi?: number;
+  /** layout.tsx'te sunucu tarafında önceden çözülmüş admin/izin bilgisi — ilk
+   * render'da izinsiz bölümlerin bir anlığına görünmesini engeller. */
+  initialAdmin?: AdminInfo | null;
 }
 
-function useCurrentAdmin() {
-  const [admin, setAdmin] = useState<{ email: string | null; displayName: string; roleLabel: string; permissions: string[] } | null>(null);
+type AdminInfo = { email: string | null; displayName: string; roleLabel: string; permissions: string[] };
+
+function useCurrentAdmin(initialAdmin: AdminInfo | null) {
+  const [admin, setAdmin] = useState<AdminInfo | null>(initialAdmin);
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
     void supabase.auth.getSession().then(async ({ data }) => {
@@ -119,8 +124,9 @@ export function YoneticiKabukIstemcisi({
   bekleyenItirazSayisi = 0,
   bekleyenKuyrukSayisi = 0,
   bekleyenBildirimSayisi = 0,
+  initialAdmin = null,
 }: YoneticiKabukIstemcisiProps) {
-  const admin = useCurrentAdmin();
+  const admin = useCurrentAdmin(initialAdmin);
 
   return (
       <PanelShell
