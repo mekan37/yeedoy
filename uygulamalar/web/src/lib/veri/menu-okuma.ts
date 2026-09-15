@@ -127,7 +127,7 @@ export const getStockDishImagesCached = unstable_cache(
       return [];
     }
     if (!Array.isArray(data)) return [];
-    return (data as any[]).map((r) => ({
+    return (data as unknown as Array<Record<string, unknown>>).map((r) => ({
       id: String(r.id),
       image_url: String(r.image_url),
       keywords: Array.isArray(r.keywords) ? r.keywords.map(String) : [],
@@ -543,14 +543,13 @@ export type PriceHistoryEntry = {
 
 export async function getMenuItemPriceHistory(menuItemId: string): Promise<PriceHistoryEntry[]> {
   const supabase = createSupabasePublicClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   try {
-    const { data, error } = await supabaseAny.rpc('get_menu_item_price_history_v1', {
+    const { data, error } = await supabase.rpc('get_menu_item_price_history_v1', {
       p_menu_item_id: menuItemId,
       p_limit: 10,
-    }) as { data: PriceHistoryEntry[] | null; error: unknown };
+    });
     if (error) return [];
-    return data ?? [];
+    return (data ?? []) as unknown as PriceHistoryEntry[];
   } catch {
     return [];
   }

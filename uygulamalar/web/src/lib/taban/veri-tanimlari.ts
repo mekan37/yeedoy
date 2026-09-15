@@ -7,11 +7,6 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-  __InternalSupabase: {
-    PostgrestVersion: "14.5"
-  }
   graphql_public: {
     Tables: {
       [_ in never]: never
@@ -765,6 +760,7 @@ export type Database = {
           id: string
           op_type: string
           operator: string | null
+          target_ids: string[] | null
         }
         Insert: {
           action: string
@@ -773,6 +769,7 @@ export type Database = {
           id?: string
           op_type: string
           operator?: string | null
+          target_ids?: string[] | null
         }
         Update: {
           action?: string
@@ -781,6 +778,7 @@ export type Database = {
           id?: string
           op_type?: string
           operator?: string | null
+          target_ids?: string[] | null
         }
         Relationships: []
       }
@@ -1257,21 +1255,18 @@ export type Database = {
         Row: {
           business_id: string
           created_at: string | null
-          follower_id: string | null
           is_subscribed_email: boolean
           user_id: string
         }
         Insert: {
           business_id: string
           created_at?: string | null
-          follower_id?: string | null
           is_subscribed_email?: boolean
           user_id: string
         }
         Update: {
           business_id?: string
           created_at?: string | null
-          follower_id?: string | null
           is_subscribed_email?: boolean
           user_id?: string
         }
@@ -2603,7 +2598,6 @@ export type Database = {
         Row: {
           accepts_reservations: boolean
           address: string | null
-          boundary_checked: boolean
           branch_label: string | null
           category: string
           category_slug: string | null
@@ -2661,7 +2655,6 @@ export type Database = {
         Insert: {
           accepts_reservations?: boolean
           address?: string | null
-          boundary_checked?: boolean
           branch_label?: string | null
           category: string
           category_slug?: string | null
@@ -2719,7 +2712,6 @@ export type Database = {
         Update: {
           accepts_reservations?: boolean
           address?: string | null
-          boundary_checked?: boolean
           branch_label?: string | null
           category?: string
           category_slug?: string | null
@@ -5443,65 +5435,6 @@ export type Database = {
           },
         ]
       }
-      menu_item_translations: {
-        Row: {
-          created_at: string
-          description: string | null
-          id: string
-          locale: string
-          menu_item_id: string
-          name: string | null
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          locale: string
-          menu_item_id: string
-          name?: string | null
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          locale?: string
-          menu_item_id?: string
-          name?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "menu_item_translations_item_id_fkey"
-            columns: ["menu_item_id"]
-            isOneToOne: false
-            referencedRelation: "business_item_trends_v1"
-            referencedColumns: ["menu_item_id"]
-          },
-          {
-            foreignKeyName: "menu_item_translations_item_id_fkey"
-            columns: ["menu_item_id"]
-            isOneToOne: false
-            referencedRelation: "menu_item_price_status_v1"
-            referencedColumns: ["menu_item_id"]
-          },
-          {
-            foreignKeyName: "menu_item_translations_item_id_fkey"
-            columns: ["menu_item_id"]
-            isOneToOne: false
-            referencedRelation: "menu_item_value_score_v1"
-            referencedColumns: ["menu_item_id"]
-          },
-          {
-            foreignKeyName: "menu_item_translations_item_id_fkey"
-            columns: ["menu_item_id"]
-            isOneToOne: false
-            referencedRelation: "menu_items"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       menu_item_variant_groups: {
         Row: {
           created_at: string
@@ -6026,7 +5959,6 @@ export type Database = {
           id: string
           kind: string | null
           source: string
-          source_image_url: string | null
           status: Database["public"]["Enums"]["menu_status"]
           title: string
           updated_at: string
@@ -6043,7 +5975,6 @@ export type Database = {
           id?: string
           kind?: string | null
           source?: string
-          source_image_url?: string | null
           status?: Database["public"]["Enums"]["menu_status"]
           title?: string
           updated_at?: string
@@ -6060,7 +5991,6 @@ export type Database = {
           id?: string
           kind?: string | null
           source?: string
-          source_image_url?: string | null
           status?: Database["public"]["Enums"]["menu_status"]
           title?: string
           updated_at?: string
@@ -6895,6 +6825,24 @@ export type Database = {
           count?: number
           key?: string
           window_end?: string
+        }
+        Relationships: []
+      }
+      rate_limit_counters: {
+        Row: {
+          count: number
+          key: string
+          reset_at: string
+        }
+        Insert: {
+          count?: number
+          key: string
+          reset_at: string
+        }
+        Update: {
+          count?: number
+          key?: string
+          reset_at?: string
         }
         Relationships: []
       }
@@ -7961,9 +7909,11 @@ export type Database = {
           bucket: string
           id: string
           last_error: string | null
+          net_request_id: number | null
           path: string
           processed_at: string | null
           reason: string
+          requested_at: string | null
           scheduled_at: string
         }
         Insert: {
@@ -7971,9 +7921,11 @@ export type Database = {
           bucket: string
           id?: string
           last_error?: string | null
+          net_request_id?: number | null
           path: string
           processed_at?: string | null
           reason: string
+          requested_at?: string | null
           scheduled_at?: string
         }
         Update: {
@@ -7981,9 +7933,11 @@ export type Database = {
           bucket?: string
           id?: string
           last_error?: string | null
+          net_request_id?: number | null
           path?: string
           processed_at?: string | null
           reason?: string
+          requested_at?: string | null
           scheduled_at?: string
         }
         Relationships: []
@@ -10180,6 +10134,10 @@ export type Database = {
         Args: { p_id: string }
         Returns: undefined
       }
+      admin_execute_account_deletion_v1: {
+        Args: { p_request_id: string }
+        Returns: Json
+      }
       admin_export_anonymous_trends_csv_v1: {
         Args: { p_days?: number }
         Returns: string
@@ -10269,6 +10227,7 @@ export type Database = {
           error_message: string
           external_job_id: string
           id: string
+          result: Json
           source_file_name: string
           source_type: string
           source_url: string
@@ -10342,6 +10301,19 @@ export type Database = {
           p_suggestion_id: string
         }
         Returns: Json
+      }
+      admin_list_account_deletion_requests_v1: {
+        Args: { p_limit?: number }
+        Returns: {
+          completed_at: string
+          display_name: string
+          email: string
+          id: string
+          reason: string
+          requested_at: string
+          status: string
+          user_id: string
+        }[]
       }
       admin_list_blacklist_terms_v1: {
         Args: { p_limit?: number; p_offset?: number; p_query?: string }
@@ -10856,7 +10828,7 @@ export type Database = {
         }[]
       }
       admin_list_stock_dish_images_v1: {
-        Args: never
+        Args: { p_limit?: number }
         Returns: {
           created_at: string
           id: string
@@ -10951,9 +10923,18 @@ export type Database = {
         }
         Returns: Json
       }
+      admin_moderate_business_media_v1: {
+        Args: {
+          p_is_hidden: boolean
+          p_moderation_note?: string
+          p_photo_id: string
+          p_status: string
+        }
+        Returns: number
+      }
       admin_moderate_reviews_v1: {
         Args: { p_ids: string[]; p_status: string }
-        Returns: undefined
+        Returns: number
       }
       admin_queue_assign_v1: {
         Args: {
@@ -11032,6 +11013,10 @@ export type Database = {
         Args: { p_achievement_id: string; p_reason?: string; p_user_id: string }
         Returns: Json
       }
+      admin_review_account_deletion_request_v1: {
+        Args: { p_id: string; p_status: string }
+        Returns: number
+      }
       admin_search_businesses_for_tagging_v1: {
         Args: { p_query: string }
         Returns: {
@@ -11083,6 +11068,10 @@ export type Database = {
       admin_set_offline_mutation_alert_settings_v1: {
         Args: { p_settings: Json }
         Returns: Json
+      }
+      admin_set_shadow_banned_v1: {
+        Args: { p_banned: boolean; p_user_ids: string[] }
+        Returns: number
       }
       admin_set_sponsorship_status_v1: {
         Args: { p_sponsorship_id: string; p_status: string }
@@ -11153,6 +11142,10 @@ export type Database = {
           p_price_cents: number
         }
         Returns: undefined
+      }
+      admin_update_privacy_request_status_v1: {
+        Args: { p_id: string; p_status: string }
+        Returns: number
       }
       admin_update_receipt_submission_review_v1: {
         Args: {
@@ -11704,6 +11697,10 @@ export type Database = {
         | { Args: { schema_name: string; table_name: string }; Returns: string }
         | { Args: { table_name: string }; Returns: string }
       enablelongtransactions: { Args: never; Returns: string }
+      enqueue_storage_deletion_v1: {
+        Args: { p_reason: string; p_url: string }
+        Returns: boolean
+      }
       enrich_businesses_from_google_catalog_v1: { Args: never; Returns: number }
       ensure_default_section_for_business_v1: {
         Args: { p_business_id: string }
@@ -12026,6 +12023,15 @@ export type Database = {
           p_latest_reviews?: number
         }
         Returns: Json
+      }
+      get_business_hours_batch_v1: {
+        Args: { p_business_ids: string[] }
+        Returns: {
+          business_id: string
+          is_open_now: boolean
+          special: Json
+          weekly: Json
+        }[]
       }
       get_business_hours_v1: { Args: { p_business_id: string }; Returns: Json }
       get_business_location_city_stats_v1: {
@@ -13160,6 +13166,10 @@ export type Database = {
           title: string
         }[]
       }
+      get_permitted_business_ids_v1: {
+        Args: { p_permission: string }
+        Returns: string[]
+      }
       get_photo_missions_v1: {
         Args: { p_city?: string; p_district?: string; p_limit?: number }
         Returns: {
@@ -13743,6 +13753,20 @@ export type Database = {
         }
         Returns: Json
       }
+      list_owner_menu_trash_batch_v1: {
+        Args: { p_business_ids: string[] }
+        Returns: {
+          business_id: string
+          entity_id: string
+          entity_type: string
+          menu_id: string
+          menu_item_id: string
+          occurred_at: string
+          photo_url: string
+          subtitle: string
+          title: string
+        }[]
+      }
       list_owner_menu_trash_v1: {
         Args: { p_business_id: string }
         Returns: {
@@ -14279,7 +14303,11 @@ export type Database = {
         Returns: undefined
       }
       owner_reorder_menu_item_v1: {
-        Args: { p_item_id: string; p_target_section_id: string; p_target_sort_order: number }
+        Args: {
+          p_item_id: string
+          p_target_section_id: string
+          p_target_sort_order: number
+        }
         Returns: Json
       }
       owner_reorder_menu_sections_v1: {
@@ -14562,6 +14590,15 @@ export type Database = {
       }
       purge_expired_business_audit_log: { Args: never; Returns: undefined }
       purge_rate_limit_buckets_v1: { Args: never; Returns: undefined }
+      rate_limit_check_v1: {
+        Args: { p_key: string; p_limit: number; p_window_ms: number }
+        Returns: {
+          ok: boolean
+          remaining: number
+          reset_at: string
+        }[]
+      }
+      rate_limit_cleanup_v1: { Args: never; Returns: undefined }
       recompute_business_last_review_at: {
         Args: { p_business_id: string }
         Returns: string
@@ -14573,6 +14610,10 @@ export type Database = {
       recompute_user_achievements_v1: {
         Args: { p_user_id: string }
         Returns: undefined
+      }
+      reconcile_storage_deletion_queue_v1: {
+        Args: { p_limit?: number }
+        Returns: number
       }
       record_user_device_fingerprint_v1: {
         Args: { p_fingerprint: string; p_user_id: string }
@@ -14613,6 +14654,10 @@ export type Database = {
       }
       request_header_v1: { Args: { p_name: string }; Returns: string }
       request_ip_v1: { Args: never; Returns: unknown }
+      request_storage_deletion_batch_v1: {
+        Args: { p_limit?: number }
+        Returns: number
+      }
       resolve_actor_role_v1: { Args: { p_user_id: string }; Returns: string }
       resolve_report_v1: {
         Args: {
@@ -15928,16 +15973,10 @@ export type Database = {
         }
         Returns: Json
       }
-      update_table_order_status_v1:
-        | { Args: { p_order_id: string; p_status: string }; Returns: Json }
-        | {
-            Args: {
-              p_business_id: string
-              p_order_id: string
-              p_status: string
-            }
-            Returns: Json
-          }
+      update_table_order_status_v1: {
+        Args: { p_business_id: string; p_order_id: string; p_status: string }
+        Returns: Json
+      }
       update_team_member_v1: {
         Args: {
           p_business_id: string
@@ -16119,6 +16158,7 @@ export type Database = {
         | "page:toplu-islemler"
         | "page:gorsel-kutuphanesi"
         | "page:kara-liste"
+        | "page:yoresel-mutfak"
       contrib_status: "pending" | "approved" | "rejected"
       crowd_level: "quiet" | "normal" | "busy"
       menu_price_suggestion_status: "pending" | "approved" | "rejected"
@@ -16242,6 +16282,101 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      iceberg_namespaces: {
+        Row: {
+          bucket_name: string
+          catalog_id: string
+          created_at: string
+          id: string
+          metadata: Json
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          bucket_name: string
+          catalog_id: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          bucket_name?: string
+          catalog_id?: string
+          created_at?: string
+          id?: string
+          metadata?: Json
+          name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "iceberg_namespaces_catalog_id_fkey"
+            columns: ["catalog_id"]
+            isOneToOne: false
+            referencedRelation: "buckets_analytics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      iceberg_tables: {
+        Row: {
+          bucket_name: string
+          catalog_id: string
+          created_at: string
+          id: string
+          location: string
+          name: string
+          namespace_id: string
+          remote_table_id: string | null
+          shard_id: string | null
+          shard_key: string | null
+          updated_at: string
+        }
+        Insert: {
+          bucket_name: string
+          catalog_id: string
+          created_at?: string
+          id?: string
+          location: string
+          name: string
+          namespace_id: string
+          remote_table_id?: string | null
+          shard_id?: string | null
+          shard_key?: string | null
+          updated_at?: string
+        }
+        Update: {
+          bucket_name?: string
+          catalog_id?: string
+          created_at?: string
+          id?: string
+          location?: string
+          name?: string
+          namespace_id?: string
+          remote_table_id?: string | null
+          shard_id?: string | null
+          shard_key?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "iceberg_tables_catalog_id_fkey"
+            columns: ["catalog_id"]
+            isOneToOne: false
+            referencedRelation: "buckets_analytics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "iceberg_tables_namespace_id_fkey"
+            columns: ["namespace_id"]
+            isOneToOne: false
+            referencedRelation: "iceberg_namespaces"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       migrations: {
         Row: {
@@ -16617,12 +16752,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends (DefaultSchemaTableNameOrOptions extends {
+  TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never) = never,
+    : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -16646,11 +16781,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends (DefaultSchemaTableNameOrOptions extends {
+  TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never) = never,
+    : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -16671,11 +16806,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends (DefaultSchemaTableNameOrOptions extends {
+  TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never) = never,
+    : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -16696,11 +16831,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never) = never,
+    : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -16713,11 +16848,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never) = never,
+    : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -16764,6 +16899,7 @@ export const Constants = {
         "page:toplu-islemler",
         "page:gorsel-kutuphanesi",
         "page:kara-liste",
+        "page:yoresel-mutfak",
       ],
       contrib_status: ["pending", "approved", "rejected"],
       crowd_level: ["quiet", "normal", "busy"],
@@ -16787,3 +16923,4 @@ export const Constants = {
     },
   },
 } as const
+

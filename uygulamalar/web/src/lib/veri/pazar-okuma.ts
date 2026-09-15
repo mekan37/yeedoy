@@ -82,11 +82,34 @@ function getFallbackBusinesses(params: MarketplaceSearchParams = {}) {
   };
 }
 
-function normalizeBusiness(row: any): AcikIsletmeKarti {
+type BusinessNormalizeInput = {
+  id: string;
+  name?: string | null;
+  slug?: string | null;
+  public_slug?: string | null;
+  category?: string | null;
+  description?: string | null;
+  city?: string | null;
+  district?: string | null;
+  address?: string | null;
+  logo_url?: string | null;
+  cover_url?: string | null;
+  is_verified?: boolean | null;
+  is_active?: boolean | null;
+  avg_rating?: number | null;
+  review_count?: number | null;
+  distance_km?: number | null;
+  price_level?: string | null;
+  median_price_cents?: number | null;
+  recent_price_verified_count?: number | null;
+  is_open_now?: boolean | null;
+};
+
+function normalizeBusiness(row: BusinessNormalizeInput): AcikIsletmeKarti {
   const slug = row.slug ?? row.public_slug ?? row.id;
   return {
     id: row.id,
-    name: row.name,
+    name: row.name ?? '',
     slug,
     publicSlug: row.public_slug ?? null,
     category: row.category ?? null,
@@ -111,7 +134,6 @@ function normalizeBusiness(row: any): AcikIsletmeKarti {
 
 export async function getMarketplaceBusinesses(params: MarketplaceSearchParams = {}) {
   const supabase = createSupabasePublicClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const page = Math.max(1, params.page ?? 1);
   const pageSize = Math.min(48, Math.max(1, params.pageSize ?? 18));
   const from = (page - 1) * pageSize;
@@ -120,7 +142,7 @@ export async function getMarketplaceBusinesses(params: MarketplaceSearchParams =
   const city = params.city?.trim();
   const category = params.category?.trim();
 
-  let query = supabaseAny
+  let query = supabase
     .from('businesses')
     .select(businessSelect, { count: 'exact' })
     .eq('is_active', true)
@@ -131,7 +153,7 @@ export async function getMarketplaceBusinesses(params: MarketplaceSearchParams =
   if (city) query = query.eq('city', city);
   if (category) query = query.eq('category', category);
 
-  const { data, error, count } = await query as { data: any[] | null; error: any; count: number | null };
+  const { data, error, count } = await query;
   if (error) {
     logger.warn('getMarketplaceBusinesses fallback', { params });
     return getFallbackBusinesses(params);
@@ -164,18 +186,28 @@ export const getMarketplaceHome = unstable_cache(
   { revalidate: 120 },
 );
 
+type TopBusinessRow = {
+  id?: string;
+  business_id?: string;
+  avg_rating?: number | null;
+  reviews_count?: number | null;
+  review_count?: number | null;
+};
+
 export async function getTopMarketplaceBusinesses(limit = 6): Promise<AcikIsletmeKarti[]> {
   const supabase = createSupabasePublicClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   try {
-    const { data, error } = await supabaseAny.rpc('get_top_businesses_period_v1', {
+    const { data, error } = await supabase.rpc('get_top_businesses_period_v1', {
       p_period: 'week',
       p_limit: limit,
-    }) as { data: any[] | null; error: any };
-    if (!error && data && data.length > 0) {
-      const byId = await getBusinessesByIds(data.map((row) => row.id ?? row.business_id).filter(Boolean));
-      return data.map((row) => ({
-        ...(byId.get(row.id ?? row.business_id) ?? normalizeBusiness(row)),
+    });
+    const rows = ((data ?? []) as unknown as TopBusinessRow[])
+      .map((row) => ({ ...row, resolvedId: row.id ?? row.business_id }))
+      .filter((row): row is TopBusinessRow & { resolvedId: string } => Boolean(row.resolvedId));
+    if (!error && rows.length > 0) {
+      const byId = await getBusinessesByIds(rows.map((row) => row.resolvedId));
+      return rows.map((row) => ({
+        ...(byId.get(row.resolvedId) ?? normalizeBusiness({ id: row.resolvedId, name: row.resolvedId })),
         avgRating: Number(row.avg_rating ?? 0) || null,
         reviewCount: Number(row.reviews_count ?? row.review_count ?? 0) || null,
       })).slice(0, limit);
@@ -189,13 +221,12 @@ export async function getTopMarketplaceBusinesses(limit = 6): Promise<AcikIsletm
 
 async function getBusinessesByIds(ids: string[]) {
   const supabase = createSupabasePublicClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   if (ids.length === 0) return new Map<string, AcikIsletmeKarti>();
-  const { data } = await supabaseAny
+  const { data } = await supabase
     .from('businesses')
     .select(businessSelect)
     .in('id', ids)
-    .eq('is_active', true) as { data: any[] | null };
+    .eq('is_active', true);
   return new Map((data ?? []).map((row) => [row.id, normalizeBusiness(row)]));
 }
 
@@ -204,21 +235,20 @@ async function getBusinessesByIds(ids: string[]) {
 // round-trip) — [sehir]/[slug]'da zaten kullanılan pattern burada da uygulandı.
 export const getMarketplaceBusinessBySlug = cache(async (slug: string) => {
   const supabase = createSupabasePublicClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
-  let { data, error } = await supabaseAny
+  let { data, error } = await supabase
     .from('businesses')
     .select(`${businessSelect},phone,lat,lng`)
     .or(`slug.eq.${escapePostgrestValue(slug)},public_slug.eq.${escapePostgrestValue(slug)}`)
     .eq('is_active', true)
-    .maybeSingle() as { data: any | null; error: any };
+    .maybeSingle();
 
   if (!data && !error && isUuid(slug)) {
-    const byId = await supabaseAny
+    const byId = await supabase
       .from('businesses')
       .select(`${businessSelect},phone,lat,lng`)
       .eq('id', slug)
       .eq('is_active', true)
-      .maybeSingle() as { data: any | null; error: any };
+      .maybeSingle();
     data = byId.data;
     error = byId.error;
   }
@@ -250,55 +280,59 @@ function isUuid(value: string) {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
 }
 
-function serializeSupabaseError(error: any) {
-  if (!error || typeof error !== 'object') return error;
-  return {
-    code: error.code,
-    message: error.message,
-    details: error.details,
-    hint: error.hint,
-  };
+// `menus` hiçbir zaman kendi `slug` kolonuna sahip olmadı — /m/[slug] rotası
+// işletmenin slug'ıyla adreslenir, menünün değil. Bu fonksiyon önceden
+// `menus.slug` seçen bir sorgu çalıştırıp (her zaman "column does not exist"
+// ile hata veren, sessizce yutulan bir sorgu) hep fallbackSlug'a düşüyordu —
+// gevşek `any` tabanlı kod bunu gizliyordu, gerçek Supabase tipleriyle ortaya
+// çıktı. Sorgunun kendisi hiçbir zaman anlamlı bir sonuç üretmediği için
+// kaldırıldı.
+export async function getBusinessMenuHref(_businessId: string, fallbackSlug: string) {
+  return `/m/${fallbackSlug}`;
 }
 
-export async function getBusinessMenuHref(businessId: string, fallbackSlug: string) {
-  const supabase = createSupabasePublicClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
-  const { data } = await supabaseAny
-    .from('menus')
-    .select('id,slug')
-    .eq('business_id', businessId)
-    .eq('status', 'published')
-    .order('version', { ascending: false })
-    .limit(1)
-    .maybeSingle() as { data: { id: string; slug: string | null } | null };
-  return `/m/${data?.slug ?? fallbackSlug}`;
-}
+type ReviewRow = {
+  id: string;
+  user_id?: string | null;
+  rating?: number | null;
+  overall_rating?: number | null;
+  content?: string | null;
+  body?: string | null;
+  created_at?: string | null;
+  verified_visit?: boolean | null;
+  is_verified?: boolean | null;
+  helpful_count?: number | null;
+  author_name?: string | null;
+  user_profiles?: { display_name: string | null } | null;
+};
 
 export async function getBusinessReviews(businessId: string, limit = 5): Promise<AcikYorumKarti[]> {
   const supabase = createSupabasePublicClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
-  let rows: any[] | null = null;
+  let rows: ReviewRow[] | null = null;
   try {
-    const { data, error } = await supabaseAny.rpc('get_business_reviews_v3', {
+    const { data, error } = await supabase.rpc('get_business_reviews_v3', {
       p_business_id: businessId,
       p_sort: 'helpful',
       p_limit: limit,
       p_offset: 0,
-    }) as { data: any[] | null; error: any };
-    if (!error && data) rows = data;
+    });
+    if (!error && data) rows = data as unknown as ReviewRow[];
   } catch {
     // fall through
   }
 
   if (!rows) {
-    const { data } = await supabaseAny
+    const { data } = await supabase
       .from('reviews')
       .select('id,rating,content,created_at,helpful_count,user_profiles!user_id(display_name)')
       .eq('business_id', businessId)
       .eq('status', 'approved')
       .order('created_at', { ascending: false })
-      .limit(limit) as { data: any[] | null };
-    rows = data ?? [];
+      .limit(limit);
+    rows = ((data ?? []) as unknown as Array<ReviewRow & { user_profiles: { display_name: string | null }[] | { display_name: string | null } | null }>).map((row) => ({
+      ...row,
+      user_profiles: Array.isArray(row.user_profiles) ? (row.user_profiles[0] ?? null) : row.user_profiles,
+    }));
   }
 
   // Enrich with author names from user_profiles (RPC doesn't join)
@@ -306,10 +340,10 @@ export async function getBusinessReviews(businessId: string, limit = 5): Promise
   const nameMap = new Map<string, string>();
   if (userIds.length > 0) {
     try {
-      const { data: profiles } = await supabaseAny
+      const { data: profiles } = await supabase
         .from('user_profiles')
         .select('user_id,display_name')
-        .in('user_id', userIds) as { data: Array<{ user_id: string; display_name: string | null }> | null };
+        .in('user_id', userIds);
       for (const p of profiles ?? []) {
         if (p.display_name) nameMap.set(p.user_id, p.display_name);
       }
@@ -321,7 +355,7 @@ export async function getBusinessReviews(businessId: string, limit = 5): Promise
   return rows.map((row) => normalizeReview(row, nameMap));
 }
 
-function normalizeReview(row: any, nameMap?: Map<string, string>): AcikYorumKarti {
+function normalizeReview(row: ReviewRow, nameMap?: Map<string, string>): AcikYorumKarti {
   const author =
     (row.user_id && nameMap?.get(row.user_id)) ??
     row.author_name ??
@@ -341,12 +375,11 @@ function normalizeReview(row: any, nameMap?: Map<string, string>): AcikYorumKart
 async function enrichBusinessCards(businesses: AcikIsletmeKarti[]) {
   if (businesses.length === 0) return businesses;
   const supabase = createSupabasePublicClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const ids = businesses.map((business) => business.id);
 
   let reviewData: Array<{ business_id: string; rating: number }> | null = null;
   try {
-    const result = await supabaseAny
+    const result = await supabase
       .from('reviews')
       .select('business_id,rating')
       .in('business_id', ids)
@@ -387,21 +420,21 @@ const DOW_LABELS: Record<number, string> = {
 // Display order for the hours list (Mon→Sun)
 const DOW_ORDER = [1, 2, 3, 4, 5, 6, 0];
 
+type BusinessHoursRpcResult = {
+  weekly: Array<{ day_of_week: number; open_time: string; close_time: string; is_closed: boolean }>;
+  special: unknown[];
+  is_open_now: boolean | null;
+};
+
 async function getBusinessHoursRows(businessId: string) {
   const supabase = createSupabasePublicClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
   // Use get_business_hours_v1 which reads business_weekly_hours (canonical table).
   // is_open_now is computed server-side with Europe/Istanbul timezone — no client Date math.
-  const { data } = await supabaseAny.rpc('get_business_hours_v1', {
+  const { data: rawData } = await supabase.rpc('get_business_hours_v1', {
     p_business_id: businessId,
-  }) as {
-    data: {
-      weekly: Array<{ day_of_week: number; open_time: string; close_time: string; is_closed: boolean }>;
-      special: unknown[];
-      is_open_now: boolean | null;
-    } | null;
-  };
+  });
+  const data = rawData as unknown as BusinessHoursRpcResult | null;
 
   if (!data?.weekly || data.weekly.length === 0) return [];
 
