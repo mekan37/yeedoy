@@ -2036,6 +2036,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get authErrorGeneric => 'Giriş başarısız. Lütfen tekrar deneyin.';
 
   @override
+  String get authSessionExpired =>
+      'Oturumunuz sona erdi. Lütfen tekrar giriş yapın.';
+
+  @override
   String get drawerTopBusinesses => 'Top İşletmeler';
 
   @override

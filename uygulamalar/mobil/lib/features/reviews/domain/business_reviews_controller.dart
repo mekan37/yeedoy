@@ -84,14 +84,14 @@ class BusinessReviewsController extends Notifier<BusinessReviewsState> {
         limit: pageSize,
         offset: 0,
       );
-      if (reqId != _requestId) return;
+      if (!ref.mounted || reqId != _requestId) return;
       state = state.copyWith(
         isLoading: false,
         items: list,
         hasMore: list.length == pageSize,
       );
     } catch (e) {
-      if (reqId != _requestId) return;
+      if (!ref.mounted || reqId != _requestId) return;
       state = state.copyWith(isLoading: false, error: e);
     }
   }
@@ -110,14 +110,14 @@ class BusinessReviewsController extends Notifier<BusinessReviewsState> {
         limit: pageSize,
         offset: state.items.length,
       );
-      if (baseReqId != _requestId || loadMoreId != _loadMoreId) return;
+      if (!ref.mounted || baseReqId != _requestId || loadMoreId != _loadMoreId) return;
       state = state.copyWith(
         isLoadingMore: false,
         items: [...state.items, ...list],
         hasMore: list.length == pageSize,
       );
     } catch (e) {
-      if (baseReqId != _requestId || loadMoreId != _loadMoreId) return;
+      if (!ref.mounted || baseReqId != _requestId || loadMoreId != _loadMoreId) return;
       state = state.copyWith(isLoadingMore: false, error: e);
     }
   }

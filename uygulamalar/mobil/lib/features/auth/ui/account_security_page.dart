@@ -1107,6 +1107,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
       final client = widget.ref.read(supabaseProvider);
       final res = await client.auth.mfa.enroll(factorType: FactorType.totp);
       final data = res as dynamic;
+      if (!mounted) return;
       setState(() {
         _totpUri = (data.totp?.uri ?? data.data?.totp?.uri) as String?;
         _totpSecret = (data.totp?.secret ?? data.data?.totp?.secret) as String?;
@@ -1115,6 +1116,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
         _loading = false;
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _error = context.l10n.accountSecurity2faEnrollStartError;
         _loading = false;
@@ -1151,6 +1153,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
         });
       }
     } catch (_) {
+      if (!mounted) return;
       setState(() {
         _error = context.l10n.accountSecurity2faVerifyCodeInvalid;
         _loading = false;
@@ -1189,6 +1192,7 @@ class _TwoFactorSheetState extends State<_TwoFactorSheet> {
         });
       }
     } catch (_) {
+      if (!mounted) return;
       setState(() {
         _error = context.l10n.accountSecurity2faDisableCodeInvalid;
         _loading = false;
@@ -1610,7 +1614,9 @@ class _TrustedDevicesSheetState extends State<_TrustedDevicesSheet> {
       if ((deleted as List).isEmpty) {
         throw Exception('device_delete_denied');
       }
-      setState(() => _devices.removeWhere((d) => d['id'] == id));
+      if (mounted) {
+        setState(() => _devices.removeWhere((d) => d['id'] == id));
+      }
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

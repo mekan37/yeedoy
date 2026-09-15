@@ -2053,6 +2053,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authErrorGeneric => 'Sign in failed. Please try again.';
 
   @override
+  String get authSessionExpired =>
+      'Your session has expired. Please sign in again.';
+
+  @override
   String get drawerTopBusinesses => 'Top businesses';
 
   @override

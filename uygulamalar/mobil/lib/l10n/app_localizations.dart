@@ -3799,6 +3799,12 @@ abstract class AppLocalizations {
   /// **'Giriş başarısız. Lütfen tekrar deneyin.'**
   String get authErrorGeneric;
 
+  /// No description provided for @authSessionExpired.
+  ///
+  /// In tr, this message translates to:
+  /// **'Oturumunuz sona erdi. Lütfen tekrar giriş yapın.'**
+  String get authSessionExpired;
+
   /// Auto metadata for drawerTopBusinesses
   ///
   /// In tr, this message translates to:

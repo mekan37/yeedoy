@@ -32,7 +32,20 @@ class SessionCleanupService {
 
   final Ref _ref;
 
+  // B55: router'ın "oturum sona erdi" mesajını gönülsüz oturum kapanmasından
+  // (token yenileme başarısızlığı, sunucu tarafı iptal) ayırt edebilmesi için
+  // — bu, tek kanonik signOut() yolunun hemen başında set edilir; router
+  // logged-in→logged-out geçişini gördüğünde bunu bir kerelik tüketir.
+  bool _voluntarySignOut = false;
+
+  bool consumeVoluntarySignOut() {
+    final v = _voluntarySignOut;
+    _voluntarySignOut = false;
+    return v;
+  }
+
   Future<void> signOut() async {
+    _voluntarySignOut = true;
     try {
       await _ref.read(pushNotificationServiceProvider).stop();
     } catch (_) {

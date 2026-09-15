@@ -1432,6 +1432,7 @@
   "authErrorTooManyRequests": "Çok fazla deneme. Lütfen kısa süre bekleyin.",
   "authErrorUserNotFound": "Bu e-posta ile hesap bulunamadı.",
   "authErrorGeneric": "Giriş başarısız. Lütfen tekrar deneyin.",
+  "authSessionExpired": "Oturumunuz sona erdi. Lütfen tekrar giriş yapın.",
   "drawerTopBusinesses": "Top İşletmeler",
   "drawerSocial": "Sosyal",
   "drawerGourmets": "Lezzet uzmanları",

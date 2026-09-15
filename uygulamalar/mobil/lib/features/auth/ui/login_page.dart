@@ -41,6 +41,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   void initState() {
     super.initState();
+    // B55: router, gönülsüz oturum sonlanmasını (token yenileme
+    // başarısızlığı / sunucu tarafı iptal) reason=expired ile işaretler —
+    // sıradan çıkış yapıp giriş sayfasına gelen kullanıcıdan ayırt edilir.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final reason = GoRouterState.of(context).uri.queryParameters['reason'];
+      if (reason == 'expired') {
+        setState(() => _errorMessage = context.l10n.authSessionExpired);
+      }
+    });
     _emailFocus.addListener(() {
       if (!_emailFocus.hasFocus && mounted) {
         setState(() => _emailError = _validateEmail(_emailCtrl.text));
