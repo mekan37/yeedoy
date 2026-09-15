@@ -113,6 +113,25 @@ class AnalyticsRepository {
   bool _disposed = false;
   int _droppedEvents = 0;
 
+  // KVKK onayı reddedilmişken hiçbir event gönderilmemeli/kuyruğa
+  // alınmamalı (production-readiness denetimi B12).
+  // `telemetryConsentLifecycleProvider`, uygulama başında ilk frame'den
+  // önce SENKRON olarak gerçek onay durumunu buraya yazar — varsayılan
+  // `true` yalnızca bu repository'yi consent wiring'i olmadan doğrudan
+  // constructor'la kullanan (ör. unit test) çağıranlar için önceki
+  // davranışı korur, gerçek uygulama akışında bir boşluk açmaz.
+  bool _analyticsAllowed = true;
+
+  void updateConsent(bool allowed) {
+    _analyticsAllowed = allowed;
+    if (!allowed) {
+      _queue.clear();
+      _flushTimer?.cancel();
+      _flushTimer = null;
+      _nextFlushAt = null;
+    }
+  }
+
   @visibleForTesting
   int get pendingEvents => _queue.length;
 
@@ -127,6 +146,8 @@ class AnalyticsRepository {
     String? clientId,
     Map<String, dynamic>? meta,
   }) async {
+    if (!_analyticsAllowed) return false;
+
     final payload = _AnalyticsPayload(
       eventName: eventName,
       businessId: businessId,

@@ -10,6 +10,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../core/network/connectivity_restore_service.dart';
 import '../core/privacy/consent_guard.dart';
 import '../core/privacy/data/consent_provider.dart';
+import '../core/privacy/telemetry_consent_lifecycle.dart';
 import '../core/session/session_cleanup_service.dart';
 import '../features/auth/domain/auth_providers.dart';
 import '../features/notifications/domain/push_notification_lifecycle_provider.dart';
@@ -135,6 +136,7 @@ class _GlobalPushIntentListenerState
     ref.watch(offlineSyncLifecycleProvider);
     ref.watch(pushNotificationLifecycleProvider);
     ref.watch(sessionCleanupLifecycleProvider);
+    ref.watch(telemetryConsentLifecycleProvider);
 
     // Password-recovery deep link: redirect to account-security page
     ref.listen<AsyncValue<AuthState>>(authStateProvider, (prev, next) {
