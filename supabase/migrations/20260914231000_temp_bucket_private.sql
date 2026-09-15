@@ -1,0 +1,24 @@
+-- Canlı Supabase Güvenlik & Bütünlük Denetimi P2-6: temp bucket public=true
+-- iken sahiplik-kısıtlı RLS politikaları (temp_read_owner_or_admin vb.)
+-- tamamen anlamsız kalıyordu — Supabase Storage'ın public path'i
+-- (/storage/v1/object/public/temp/...) RLS'i hiç değerlendirmiyor,
+-- URL'i bilen HERKES moderasyon bekleyen/reddedilmiş kullanıcı
+-- fotoğraflarına erişebiliyordu.
+--
+-- Kapsam taraması (bu turda tamamlandı):
+-- 1. review_photos akışı temp bucket'ı ARTIK KULLANMIYOR — mobil
+--    reviews_repository.dart bu turda web'le aynı deseni (media-upload-user
+--    edge function → menu-media public bucket) kullanacak şekilde düzeltildi
+--    (2026-08-25'ten beri storage_bucket/storage_path/status kolonlarına
+--    referans verip her çağrıda patlıyordu — bkz. commit).
+-- 2. temp_uploads_repository.dart (mobil "katkı" akışı) yalnızca YÜKLÜYOR,
+--    hiçbir yerde public URL üretmiyor/okumıyor.
+-- 3. app/yonetici/gecici-yuklemeler (admin temizlik sayfası) yalnızca
+--    metadata listeliyor (dosya adı/boyut/tarih), hiç görsel render etmiyor.
+-- 4. Kod tabanında (web+mobil) temp bucket'a manuel public URL inşası
+--    (storage/v1/object/public/temp/...) hiçbir yerde yok.
+--
+-- Sonuç: public=false'a geçişin hiçbir mevcut akışı kırmayacağı doğrulandı
+-- — service_role tüketicileri (varsa) bucket public bayrağından zaten
+-- etkilenmiyor.
+update storage.buckets set public = false where id = 'temp';

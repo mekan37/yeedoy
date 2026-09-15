@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../../core/media/media_upload_client.dart';
 import '../../../core/network/supabase_provider.dart';
 import '../../../core/security/critical_action_guard.dart';
 import '../../../core/security/edge_rate_limit_guard.dart';
@@ -23,7 +23,6 @@ final reviewsRepositoryProvider = Provider<ReviewsRepository>((ref) {
 class ReviewsRepository {
   ReviewsRepository(this.client);
   final SupabaseClient client;
-  final Random _random = Random.secure();
 
   Future<List<Review>> listReviews(String businessId) async {
     return fetchBusinessReviews(
@@ -80,7 +79,10 @@ class ReviewsRepository {
       action: OfflineSubmissionType.reviewCreate.name,
       payload: {
         'business_id': businessId,
-        'p_overall_rating': rating,
+        // Offline queue reader (offline_submission_queue.dart) okur:
+        // payload['rating'] — anahtar 'p_overall_rating' idi, hiç eşleşmiyordu
+        // ve her çevrimdışı yorum FormatException ile sessizce düşürülüyordu.
+        'rating': rating,
         'title': title,
         'content': content,
         ...criteriaParams,
@@ -120,6 +122,14 @@ class ReviewsRepository {
   }
 
   /// Uploads review photos to the review_photos table.
+  ///
+  /// review_photos şeması 2026-08-25'te storage_bucket/storage_path/status
+  /// kolonlarından url/created_by'a değişti (web sunucu/medya/yorum-yukleme
+  /// route'u zaten bu şemayı kullanıyor) — bu fonksiyon o değişiklikten
+  /// sonra hiç güncellenmemişti, her çağrı "column does not exist" ile
+  /// patlıyordu. Artık web'le aynı desen: media-upload-user edge function'ı
+  /// (menu-media public bucket'ına yükler, gerçek public URL döndürür),
+  /// ardından url/created_by ile INSERT.
   Future<void> uploadReviewPhotos({
     required String reviewId,
     required String businessId,
@@ -127,45 +137,21 @@ class ReviewsRepository {
     required List<XFile> files,
   }) async {
     if (files.isEmpty) return;
-    final now = DateTime.now();
+    const uploader = MediaUploadClient();
     for (final file in files) {
-      final bytes = await file.readAsBytes();
-      final ext = _normalizedExt(file.name);
-      final mime = ext == 'png' ? 'image/png' : 'image/jpeg';
-      final path =
-          'review-photos/$businessId/${now.millisecondsSinceEpoch}_${_randomHex()}.$ext';
-      await client.storage.from('temp').uploadBinary(
-            path,
-            bytes,
-            fileOptions: FileOptions(contentType: mime, upsert: false),
-          );
+      final result = await uploader.uploadImageFromXFile(
+        client: client,
+        file: file,
+        businessId: businessId,
+      );
+      if (result == null || result.url.isEmpty) continue;
       await client.from('review_photos').insert({
         'business_id': businessId,
-        'user_id': userId,
         'review_id': reviewId,
-        'storage_bucket': 'temp',
-        'storage_path': path,
-        'mime_type': mime,
-        'bytes': bytes.length,
-        'status': 'pending',
+        'url': result.url,
+        'created_by': userId,
       });
     }
-  }
-
-  String _normalizedExt(String name) {
-    final dot = name.lastIndexOf('.');
-    if (dot < 0 || dot >= name.length - 1) return 'jpg';
-    final ext = name.substring(dot + 1).toLowerCase();
-    if (ext == 'jpeg') return 'jpg';
-    return (ext == 'png' || ext == 'webp') ? ext : 'jpg';
-  }
-
-  String _randomHex() {
-    // Önceden mikrosaniye tabanlı (~1000 aday, tahmin edilebilir) idi —
-    // storage path'i public 'temp' bucket'ta olduğu için bu, dosyanın
-    // URL'sinin brute-force ile bulunabilmesi anlamına geliyordu.
-    final bytes = List<int>.generate(8, (_) => _random.nextInt(256));
-    return bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
   }
 
   /// Fetches recent review photo URLs for a business (up to [limit] photos).
@@ -175,34 +161,24 @@ class ReviewsRepository {
   }) async {
     final res = await client
         .from('review_photos')
-        .select('storage_bucket, storage_path')
+        .select('url')
         .eq('business_id', businessId)
-        .neq('status', 'rejected')
         .order('created_at', ascending: false)
         .limit(limit);
     final rows = res as List;
-    return rows.map((r) {
-      final bucket = r['storage_bucket'] as String;
-      final path = r['storage_path'] as String;
-      return client.storage.from(bucket).getPublicUrl(path);
-    }).toList();
+    return rows.map((r) => r['url'] as String).toList();
   }
 
-  /// Fetches approved/pending photo URLs for a review.
+  /// Fetches photo URLs for a review.
   Future<List<String>> fetchReviewPhotos(String reviewId) async {
     final res = await client
         .from('review_photos')
-        .select('storage_bucket, storage_path')
+        .select('url')
         .eq('review_id', reviewId)
-        .neq('status', 'rejected')
         .order('created_at')
         .limit(6);
     final rows = res as List;
-    return rows.map((r) {
-      final bucket = r['storage_bucket'] as String;
-      final path = r['storage_path'] as String;
-      return client.storage.from(bucket).getPublicUrl(path);
-    }).toList();
+    return rows.map((r) => r['url'] as String).toList();
   }
 
   Future<void> voteHelpful({
