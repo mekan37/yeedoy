@@ -73,6 +73,27 @@ bool _bootSplashHandled = false;
 // bayrağıyla birlikte) "oturum sona erdi" mesajı göstermek için ayırt eder.
 bool _wasLoggedIn = false;
 
+/// B55: yalnızca logged-in'den logged-out'a GEÇİŞ anında (rastgele bir
+/// korumalı sayfaya oturumsuz gelme değil) ve bu çıkış
+/// SessionCleanupService.signOut() ile bilerek tetiklenmediyse (voluntary
+/// bayrağı yoksa) "oturum sona erdi" mesajı gösterilir — token yenileme
+/// başarısızlığı / sunucu tarafı iptal senaryosu. Saf/test edilebilir bir
+/// fonksiyona çıkarıldı; redirect() closure'ı GoRouterState/BuildContext
+/// gerektirdiği için doğrudan test edilemiyor, bu karar mantığı edilebiliyor.
+@visibleForTesting
+String computeLoginRedirectTarget({
+  required String currentUri,
+  required bool wasLoggedIn,
+  required bool consumedVoluntarySignOut,
+}) {
+  final redirect = Uri.encodeComponent(currentUri);
+  final wasInvoluntaryExpiry = wasLoggedIn && !consumedVoluntarySignOut;
+  if (wasInvoluntaryExpiry) {
+    return '/login?redirect=$redirect&reason=expired';
+  }
+  return '/login?redirect=$redirect';
+}
+
 final appRouterProvider = Provider<GoRouter>((ref) {
   ref.watch(ensureMyProfileProvider);
   // Yalnızca redirect() içinde canlı olarak ref.read edilen değerlerin
@@ -136,19 +157,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           path.startsWith('/owner/location/');
 
       if (!loggedIn && requiresAuth) {
-        final redirect = Uri.encodeComponent(state.uri.toString());
-        // B55: yalnızca logged-in'den logged-out'a GEÇİŞ anında (rastgele bir
-        // korumalı sayfaya oturumsuz gelme değil) ve bu çıkış
-        // SessionCleanupService.signOut() ile bilerek tetiklenmediyse
-        // (voluntary bayrağı yoksa) "oturum sona erdi" mesajı gösterilir —
-        // token yenileme başarısızlığı / sunucu tarafı iptal senaryosu.
-        final wasInvoluntaryExpiry =
-            wasLoggedIn &&
-            !ref.read(sessionCleanupServiceProvider).consumeVoluntarySignOut();
-        if (wasInvoluntaryExpiry) {
-          return '/login?redirect=$redirect&reason=expired';
-        }
-        return '/login?redirect=$redirect';
+        final consumedVoluntary =
+            ref.read(sessionCleanupServiceProvider).consumeVoluntarySignOut();
+        return computeLoginRedirectTarget(
+          currentUri: state.uri.toString(),
+          wasLoggedIn: wasLoggedIn,
+          consumedVoluntarySignOut: consumedVoluntary,
+        );
       }
       if (loggedIn && path == '/login') {
         final redirect = sanitizeInternalRedirect(
