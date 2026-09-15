@@ -2,10 +2,10 @@ import { z } from 'zod';
 import { NextResponse } from 'next/server';
 import { createHash } from 'crypto';
 import { getRequestIdentity, rateLimit, getClientIp } from '@/src/lib/oran-siniri';
-import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import { createSupabasePublicClient } from '@/src/lib/taban/acik';
 
 const schema = z.object({
-  listId: z.string().uuid(),
+  token: z.string().min(1),
   itemId: z.string().uuid(),
   vote: z.union([z.literal(1), z.literal(-1), z.literal(0)]),
   // Tarayıcı başına bir kere üretilip localStorage'da saklanan rastgele kimlik
@@ -30,41 +30,23 @@ export async function POST(request: Request) {
 
   const voterKey = createHash('sha256').update(parsed.data.voterId).digest('hex');
 
-  const supabase = await createSupabaseServerClient();
+  // Özellik tasarım gereği tamamen anonim ("Oylar anonim — hesap gerekmez") —
+  // RLS token'ı JWT'de taşımadığı için satır bazlı ifade edilemiyor, token
+  // doğrulaması + yazma SECURITY DEFINER RPC'de yapılıyor (bkz. migration
+  // 20260915040000_collab_list_real_anonymous_voting.sql).
+  const supabase = createSupabasePublicClient();
+  const { data, error } = await supabase.rpc('upsert_collab_vote_anon_v1', {
+    p_token: parsed.data.token,
+    p_item_id: parsed.data.itemId,
+    p_vote: parsed.data.vote,
+    p_voter_key: voterKey,
+  });
 
-  // DİKKAT — as any temizliği sırasında bulunan, düzeltilmemiş bir bug:
-  // collab_list_votes.user_id NOT NULL (20260422000006) ve INSERT RLS
-  // policy'si `user_id = auth.uid() AND liste üyesi` istiyor; bu route hiç
-  // auth kontrolü yapmadan yalnızca voter_ip ile anonim oy yazmaya çalışıyor
-  // (20260507000007 yalnızca voter_ip kolonunu + kısmi unique index'i
-  // eklemiş, ne NOT NULL kısıtını ne RLS policy'sini güncellemiş). Sonuç:
-  // bu route'tan gelen HER upsert/delete muhtemelen 500 ile başarısız oluyor
-  // ("anonim oy" özelliği hiç çalışmıyor olabilir). Düzeltme bir ürün kararı
-  // gerektiriyor (user_id'yi nullable yapıp RLS'i anonim path'e açmak mı,
-  // yoksa özelliği auth-required'a çevirmek mi) — bu turun kapsamı dışında,
-  // tip-güvenliğini bozmadan bırakıldı (Insert tipi user_id zorunlu kılıyor).
-  const supabaseAny = supabase as unknown as { from: (t: string) => any };
-
-  if (parsed.data.vote === 0) {
-    // Oyu kaldır
-    const { error } = await supabaseAny
-      .from('collab_list_votes')
-      .delete()
-      .eq('list_id', parsed.data.listId)
-      .eq('item_id', parsed.data.itemId)
-      .eq('voter_ip', voterKey);
-    if (error) return NextResponse.json({ error: 'db_error' }, { status: 500 });
-  } else {
-    // Oy upsert — aynı tarayıcı kimliği aynı item'a bir oy
-    const { error } = await supabaseAny
-      .from('collab_list_votes')
-      .upsert({
-        list_id: parsed.data.listId,
-        item_id: parsed.data.itemId,
-        vote: parsed.data.vote,
-        voter_ip: voterKey,
-      }, { onConflict: 'list_id,item_id,voter_ip' });
-    if (error) return NextResponse.json({ error: 'db_error' }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'db_error' }, { status: 500 });
+  const result = data as { ok?: boolean; error?: string } | null;
+  if (!result?.ok) {
+    const status = result?.error === 'not_found' || result?.error === 'item_not_found' ? 404 : 400;
+    return NextResponse.json({ error: result?.error ?? 'vote_failed' }, { status });
   }
 
   return NextResponse.json({ ok: true });

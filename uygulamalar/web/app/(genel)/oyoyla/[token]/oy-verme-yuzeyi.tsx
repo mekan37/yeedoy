@@ -34,12 +34,11 @@ interface OyItem {
 }
 
 interface OyVermeYuzeyiProps {
-  listId: string;
   token: string;
   items: OyItem[];
 }
 
-export function OyVermeYuzeyi({ listId, token, items: initial }: OyVermeYuzeyiProps) {
+export function OyVermeYuzeyi({ token, items: initial }: OyVermeYuzeyiProps) {
   const [items, setItems] = useState<OyItem[]>(initial);
   const [myVotes, setMyVotes] = useState<Record<string, 1 | -1>>({});
   const [loading, setLoading] = useState<string | null>(null);
@@ -75,7 +74,7 @@ export function OyVermeYuzeyi({ listId, token, items: initial }: OyVermeYuzeyiPr
       const res = await fetch('/sunucu/ortak-liste/oy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ listId, itemId, vote: newVote ?? 0, voterId: getVoterId() }),
+        body: JSON.stringify({ token, itemId, vote: newVote ?? 0, voterId: getVoterId() }),
       });
       if (!res.ok) throw new Error('vote_failed');
     } catch {

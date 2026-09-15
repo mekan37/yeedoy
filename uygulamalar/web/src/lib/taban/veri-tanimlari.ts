@@ -3193,7 +3193,7 @@ export type Database = {
           id: string
           item_id: string
           list_id: string
-          user_id: string
+          user_id: string | null
           vote: number
           voted_at: string
           voter_ip: string | null
@@ -3202,7 +3202,7 @@ export type Database = {
           id?: string
           item_id: string
           list_id: string
-          user_id: string
+          user_id?: string | null
           vote: number
           voted_at?: string
           voter_ip?: string | null
@@ -3211,7 +3211,7 @@ export type Database = {
           id?: string
           item_id?: string
           list_id?: string
-          user_id?: string
+          user_id?: string | null
           vote?: number
           voted_at?: string
           voter_ip?: string | null
@@ -12432,6 +12432,7 @@ export type Database = {
           item_count: number
         }[]
       }
+      get_collab_list_by_token_v1: { Args: { p_token: string }; Returns: Json }
       get_collab_list_detail_v1: { Args: { p_list_id: string }; Returns: Json }
       get_collection_share_by_slug_v1: {
         Args: { p_slug: string }
@@ -16034,6 +16035,15 @@ export type Database = {
           p_open_time?: string
         }
         Returns: undefined
+      }
+      upsert_collab_vote_anon_v1: {
+        Args: {
+          p_item_id: string
+          p_token: string
+          p_vote: number
+          p_voter_key: string
+        }
+        Returns: Json
       }
       upsert_collab_vote_v1: {
         Args: { p_item_id: string; p_vote: number }
