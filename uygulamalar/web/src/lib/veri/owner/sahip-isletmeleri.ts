@@ -1,4 +1,6 @@
+import { cache } from 'react';
 import { logger } from '@/src/lib/kayitci';
+import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 
 // "8 paralel implementasyon" RBAC konsolidasyonu (2026-09-14): bu dosya
 // önceden yalnızca owner_claims'e bakıyordu — business_team_memberships
@@ -52,12 +54,20 @@ export async function hasOwnerBusiness(
   return Boolean(data);
 }
 
-export async function getOwnerBusinessIds(
-  supabase: SupabaseRpcLike,
+// Sahip Paneli Güvenlik Denetimi P3: layout.tsx + her sayfa kendi
+// createSupabaseServerClient() örneğini oluşturup bu fonksiyonu ayrı ayrı
+// çağırıyordu — aynı render geçişinde aynı (userId, permission) için 2-4 kez
+// tekrar DB round-trip'i. `supabase` argümanı çağıranlar arasında referans
+// olarak farklı olduğundan doğrudan cache() sarmalayamıyoruz; bunun yerine
+// gerçek sorguyu yalnızca (userId, permission) anahtarıyla React cache()'e
+// alıyoruz — cache içinde kendi client'ını oluşturuyor (her istekte aynı
+// cookie'lere bakan işlevsel olarak eşdeğer bir client).
+const cachedGetPermittedBusinessIds = cache(async (
   userId: string,
   permission: BusinessPermission,
-): Promise<string[]> {
-  const { data, error } = await supabase.rpc('get_permitted_business_ids_v1', {
+): Promise<string[]> => {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await (supabase as unknown as SupabaseRpcLike).rpc('get_permitted_business_ids_v1', {
     p_permission: permission,
   });
 
@@ -67,6 +77,14 @@ export async function getOwnerBusinessIds(
   }
 
   return Array.from(new Set((data ?? []) as string[]));
+});
+
+export async function getOwnerBusinessIds(
+  _supabase: SupabaseRpcLike,
+  userId: string,
+  permission: BusinessPermission,
+): Promise<string[]> {
+  return cachedGetPermittedBusinessIds(userId, permission);
 }
 
 /**

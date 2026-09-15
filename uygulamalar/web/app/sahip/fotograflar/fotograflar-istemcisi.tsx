@@ -93,6 +93,7 @@ export function PhotosClient({ initialPhotos, businesses, defaultBusinessId }: P
 
   async function handleDelete(photoId: string) {
     setDeletingId(photoId);
+    setUploadError(null);
     const res = await fetch('/sunucu/sahip/fotograflar', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -100,6 +101,8 @@ export function PhotosClient({ initialPhotos, businesses, defaultBusinessId }: P
     });
     if (res.ok) {
       setPhotos((prev) => prev.filter((p) => p.id !== photoId));
+    } else {
+      setUploadError('Fotoğraf silinemedi. Lütfen tekrar deneyin.');
     }
     setDeletingId(null);
   }

@@ -214,6 +214,23 @@ export async function upsertItemAllergens(
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
 
+  // Savunma derinliği: diğer tüm fonksiyonlar (deleteItem, reorderItem vb.)
+  // itemId'nin gerçekten menuId'nin bölüm zincirine ait olduğunu doğruluyor —
+  // burada bu kontrol eksikti (RPC kendi içinde item_id'den business_id
+  // türetip ayrıca kontrol ediyor, ama tutarlılık için burada da ekleniyor).
+  const { data: allergenSections } = await (context.supabase)
+    .from('menu_sections')
+    .select('id')
+    .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
+  const allergenSectionIds = (allergenSections ?? []).map((section) => section.id);
+  const { data: allergenItem } = await (context.supabase)
+    .from('menu_items')
+    .select('id')
+    .eq('id', itemId)
+    .in('section_id', allergenSectionIds.length > 0 ? allergenSectionIds : ['00000000-0000-0000-0000-000000000000'])
+    .maybeSingle() as { data: { id: string } | null };
+  if (!allergenItem) return { error: 'Ürün bulunamadı' };
+
   const p_allergens = allergens.map(({ code, status, evidence }) => ({
     allergen: code,
     status,
@@ -241,6 +258,20 @@ export async function upsertItemIngredients(
 ): Promise<{ error: string } | null> {
   const context = await getOwnedMenuContext(menuId);
   if (!context.ok) return { error: context.error };
+
+  // Savunma derinliği — bkz. upsertItemAllergens'taki aynı gerekçe.
+  const { data: ingredientSections } = await (context.supabase)
+    .from('menu_sections')
+    .select('id')
+    .eq('menu_id', menuId) as { data: Array<{ id: string }> | null };
+  const ingredientSectionIds = (ingredientSections ?? []).map((section) => section.id);
+  const { data: ingredientItem } = await (context.supabase)
+    .from('menu_items')
+    .select('id')
+    .eq('id', itemId)
+    .in('section_id', ingredientSectionIds.length > 0 ? ingredientSectionIds : ['00000000-0000-0000-0000-000000000000'])
+    .maybeSingle() as { data: { id: string } | null };
+  if (!ingredientItem) return { error: 'Ürün bulunamadı' };
 
   const p_ingredients = ingredientNames.map((name, i) => ({
     name,
