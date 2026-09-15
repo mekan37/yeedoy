@@ -241,26 +241,26 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
       ),
     ]);
 
-    // Bugün açık mı + kapanış saati — sadece ilk seçili işletme için (kart tek işletme gösteriyor).
-    const saatResults = await Promise.all(
-      selectedIds.map((id) =>
-        Promise.resolve(
-          (supabase).rpc('get_business_hours_v1', { p_business_id: id }),
-        )
-          .then((r: any) => {
-            const data = r?.data as { weekly?: Array<{ day_of_week: number; close_time: string; is_closed: boolean }>; is_open_now?: boolean } | null;
-            const nowIstanbul = new Date(Date.now() + 3 * 60 * 60 * 1000);
-            const todayDow = nowIstanbul.getUTCDay();
-            const today = data?.weekly?.find((row) => row.day_of_week === todayDow);
-            return [id, {
-              isOpenNow: data?.is_open_now ?? null,
-              closeTime: today && !today.is_closed ? today.close_time : null,
-            }] as const;
-          })
-          .catch(() => [id, { isOpenNow: null, closeTime: null }] as const),
-      ),
-    );
-    for (const [id, durum] of saatResults) saatDurumuByBiz.set(id, durum);
+    // Bugün açık mı + kapanış saati — önceden şube başına ayrı bir RPC
+    // dalgasıydı (Promise.all(map(id => rpc(...)))); çoklu şubeli
+    // sahiplerde N ayrı round-trip'e yol açıyordu. Tek batch RPC ile
+    // tüm seçili işletmeler için tek istekte alınıyor.
+    type SaatBatchSatiri = {
+      business_id: string;
+      weekly: Array<{ day_of_week: number; close_time: string; is_closed: boolean }> | null;
+      is_open_now: boolean | null;
+    };
+    const { data: saatBatch } = await (supabase).rpc('get_business_hours_batch_v1', { p_business_ids: selectedIds }) as
+      { data: SaatBatchSatiri[] | null };
+    const nowIstanbul = new Date(Date.now() + 3 * 60 * 60 * 1000);
+    const todayDow = nowIstanbul.getUTCDay();
+    for (const row of saatBatch ?? []) {
+      const today = row.weekly?.find((w) => w.day_of_week === todayDow);
+      saatDurumuByBiz.set(row.business_id, {
+        isOpenNow: row.is_open_now ?? null,
+        closeTime: today && !today.is_closed ? today.close_time : null,
+      });
+    }
 
     for (const row of ((statsRes.data ?? []) as Array<{ id: string; avg_rating: number | null; reviews_count: number | null }>)) {
       statsMap.set(row.id, row);

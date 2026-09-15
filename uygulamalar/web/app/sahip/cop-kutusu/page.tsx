@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 type TrashRow = {
+  business_id: string;
   entity_type: 'menu' | 'item' | 'photo';
   entity_id: string;
   title: string;
@@ -28,17 +29,18 @@ export default async function OwnerTrashPage() {
     ? await getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name', 'menu_write')
     : [];
 
-  const trashResults = await Promise.all(
-    bizList.map((b) =>
-      (supabase)
-        .rpc('list_owner_menu_trash_v1', { p_business_id: b.id })
-        .then((res: any) => ({
-          businessId: b.id,
-          bizName: b.name,
-          rows: (res.data ?? []) as TrashRow[],
-        })),
-    ),
-  );
+  // Önceden şube başına ayrı bir RPC dalgasıydı (Promise.all(map(id => rpc(...))));
+  // çoklu şubeli sahiplerde N ayrı round-trip'e yol açıyordu. Tek batch RPC ile
+  // tüm işletmeler için tek istekte alınıp client-side gruplanıyor.
+  const { data: allTrashRows } = bizList.length > 0
+    ? await (supabase).rpc('list_owner_menu_trash_batch_v1', { p_business_ids: bizList.map((b) => b.id) }) as
+        { data: TrashRow[] | null }
+    : { data: [] as TrashRow[] };
+  const trashResults = bizList.map((b) => ({
+    businessId: b.id,
+    bizName: b.name,
+    rows: (allTrashRows ?? []).filter((row) => row.business_id === b.id),
+  }));
 
   // Arşivlenmiş menülerin gerçek ürün sayısı (o menüye ait tüm bölüm+ürünler,
   // durumdan bağımsız) — "Silinme Ürün Sayısı" sütunu için.
