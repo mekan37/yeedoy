@@ -308,25 +308,26 @@ class _ContributePageState extends ConsumerState<ContributePage> {
                   ),
                 ),
               ),
-              TextButton(
-                onPressed: () {},
-                style: TextButton.styleFrom(
-                  foregroundColor: AppColors.primary,
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  textStyle: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
+              if ((history?.recentItems.length ?? 0) > 3)
+                TextButton(
+                  onPressed: () => _showAllContributions(context, history!),
+                  style: TextButton.styleFrom(
+                    foregroundColor: AppColors.primary,
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    textStyle: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(context.l10n.contributeSeeAllButton),
+                      const SizedBox(width: 2),
+                      const Icon(Icons.chevron_right_rounded, size: 16),
+                    ],
                   ),
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(context.l10n.contributeSeeAllButton),
-                    const SizedBox(width: 2),
-                    const Icon(Icons.chevron_right_rounded, size: 16),
-                  ],
-                ),
-              ),
             ],
           ),
           const SizedBox(height: 10),
@@ -387,6 +388,53 @@ class _ContributePageState extends ConsumerState<ContributePage> {
           _RecentItem(item: items[i]),
         ],
       ],
+    );
+  }
+
+  void _showAllContributions(BuildContext context, ContributionHistory history) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetContext) {
+        final items = history.recentItems;
+        return SafeArea(
+          child: DraggableScrollableSheet(
+            initialChildSize: 0.6,
+            minChildSize: 0.3,
+            maxChildSize: 0.9,
+            expand: false,
+            builder: (_, scrollController) => Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                  child: Text(
+                    sheetContext.l10n.contributeRecentSectionTitle,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.textStrong,
+                    ),
+                  ),
+                ),
+                const Divider(height: 1),
+                Expanded(
+                  child: ListView.separated(
+                    controller: scrollController,
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    itemCount: items.length,
+                    separatorBuilder: (_, _) =>
+                        const Divider(height: 1, indent: 68),
+                    itemBuilder: (_, i) => _RecentItem(item: items[i]),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

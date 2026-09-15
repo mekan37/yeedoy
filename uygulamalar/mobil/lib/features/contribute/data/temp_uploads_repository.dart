@@ -47,18 +47,31 @@ class TempUploadsRepository {
             fileOptions: FileOptions(contentType: mimeType, upsert: false),
           );
 
-      await _client.from('temp_uploads').insert({
-        'business_id': businessId,
-        'user_id': userId,
-        'kind': kind,
-        'storage_bucket': 'temp',
-        'storage_path': path,
-        'mime_type': mimeType,
-        'bytes': bytes.length,
-        'sha1': sha1Hex,
-        'duplicate_candidate': duplicateCandidate,
-        'status': 'pending',
-      });
+      try {
+        await _client.from('temp_uploads').insert({
+          'business_id': businessId,
+          'user_id': userId,
+          'kind': kind,
+          'storage_bucket': 'temp',
+          'storage_path': path,
+          'mime_type': mimeType,
+          'bytes': bytes.length,
+          'sha1': sha1Hex,
+          'duplicate_candidate': duplicateCandidate,
+          'status': 'pending',
+        });
+      } catch (_) {
+        // DB insert RLS/hata ile reddedilirse storage'da yetim (süresiz,
+        // moderasyonsuz) dosya kalmasın — az önce yüklenen nesneyi geri al
+        // (B25). Bu telafi silmesi başarısız olsa bile mark_expired_temp_uploads_v1
+        // hâlâ bir ikinci güvenlik ağı.
+        try {
+          await _client.storage.from('temp').remove([path]);
+        } catch (_) {
+          // best-effort — cron temizliği yine de devreye girer
+        }
+        rethrow;
+      }
       uploadedCount += 1;
     }
     return uploadedCount;
