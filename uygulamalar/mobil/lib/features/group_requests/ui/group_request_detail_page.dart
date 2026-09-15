@@ -11,6 +11,7 @@ import '../../../core/i18n/formatters.dart';
 import '../../discovery/data/search_repository.dart';
 import '../data/group_requests_repository.dart';
 import '../domain/group_request_models.dart';
+import '../domain/group_requests_provider.dart';
 import '../../discovery/domain/business_card.dart';
 import '../../../features/shared/ui/design_system.dart';
 
@@ -292,6 +293,10 @@ class _GroupRequestDetailPageState
           .read(groupRequestsRepositoryProvider)
           .acceptGroupOffer(offer.id);
       if (!mounted) return;
+      // Talebin durumu değişti (accepted) — my_group_requests_page.dart'taki
+      // liste sayfasının hâlâ eski durumu göstermeye devam etmemesi için
+      // paylaşılan provider'ı da invalidate et (B41).
+      ref.invalidate(myRequestsProvider);
       await _showAcceptedSuccess(context, offer, _shareUrl);
       _reloadRequestAndOffers(force: false);
     } catch (e) {

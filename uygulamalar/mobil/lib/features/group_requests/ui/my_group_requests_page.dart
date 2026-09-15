@@ -7,7 +7,7 @@ import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/i18n/formatters.dart';
 import '../data/group_requests_repository.dart';
-import '../domain/group_request_models.dart';
+import '../domain/group_requests_provider.dart';
 import '../../../features/shared/ui/design_system.dart';
 
 class MyGroupRequestsPage extends ConsumerWidget {
@@ -35,7 +35,7 @@ class MyGroupRequestsPage extends ConsumerWidget {
       body: RefreshIndicator(
         onRefresh: () async => _refreshRequests(ref),
         child: ref
-            .watch(_myRequestsProvider)
+            .watch(myRequestsProvider)
             .when(
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (e, _) => ListView(
@@ -103,13 +103,9 @@ class MyGroupRequestsPage extends ConsumerWidget {
   }
 }
 
-final _myRequestsProvider = FutureProvider<List<GroupRequest>>((ref) async {
-  return ref.read(groupRequestsRepositoryProvider).listMyRequests();
-});
-
 void _refreshRequests(WidgetRef ref) {
   ref.read(groupRequestsRepositoryProvider).clearReadCache();
-  ref.invalidate(_myRequestsProvider);
+  ref.invalidate(myRequestsProvider);
 }
 
 class _StatusChip extends StatelessWidget {

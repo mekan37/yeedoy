@@ -6,6 +6,7 @@ import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/storage/location_prefs.dart';
 import '../data/price_alerts_repository.dart';
+import '../domain/price_alerts_provider.dart';
 import '../../../features/shared/ui/design_system.dart';
 
 Future<void> showPriceAlertSheet({
@@ -186,6 +187,12 @@ class _PriceAlertSheetState extends ConsumerState<_PriceAlertSheet> {
             category:
                 _categoryCtrl.text.trim().isEmpty ? null : _categoryCtrl.text.trim(),
           );
+      // price_alerts_page.dart bu sheet'in altında mounted kalıyor
+      // (showModalBottomSheet) — invalidate edilmezse autoDispose provider
+      // yeniden fetch tetiklenmediği için yeni oluşturulan alarm listede
+      // görünmüyordu (toggle/delete zaten invalidate ediyordu, create
+      // unutulmuştu).
+      ref.invalidate(myPriceAlertsProvider);
       if (!mounted) return;
       Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(
