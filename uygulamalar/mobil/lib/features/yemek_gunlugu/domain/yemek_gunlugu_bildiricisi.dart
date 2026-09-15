@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/network/supabase_provider.dart';
+import '../data/yemek_gunlugu_repository.dart';
 import 'yemek_gunlugu_modeli.dart';
 
 final yemekGunluguProvider =
@@ -13,19 +13,8 @@ class YemekGunluguBildiricisi
   @override
   Future<List<YemekGunluguKaydi>> build() => _fetch();
 
-  Future<List<YemekGunluguKaydi>> _fetch() async {
-    final client = ref.read(supabaseProvider);
-    if (client.auth.currentUser == null) return const [];
-    final res = await client.rpc(
-      'get_my_food_journal_v1',
-      params: {'p_limit': 50},
-    );
-    if (res == null) return const [];
-    final list = res as List;
-    return list
-        .cast<Map<String, dynamic>>()
-        .map(YemekGunluguKaydi.fromMap)
-        .toList();
+  Future<List<YemekGunluguKaydi>> _fetch() {
+    return ref.read(yemekGunluguRepositoryProvider).getMyFoodJournal();
   }
 
   Future<void> refresh() async {
@@ -39,16 +28,12 @@ class YemekGunluguBildiricisi
     String? note,
     int? rating,
   }) async {
-    final client = ref.read(supabaseProvider);
-    await client.rpc(
-      'update_visit_details_v1',
-      params: <String, dynamic>{
-        'p_visit_id': visitId,
-        'p_amount_cents': ?amountCents,
-        'p_personal_note': ?note,
-        'p_personal_rating': ?rating,
-      },
-    );
+    await ref.read(yemekGunluguRepositoryProvider).updateVisitDetails(
+          visitId: visitId,
+          amountCents: amountCents,
+          note: note,
+          rating: rating,
+        );
     // Update local state optimistically
     final current = state.asData?.value ?? const [];
     state = AsyncData(

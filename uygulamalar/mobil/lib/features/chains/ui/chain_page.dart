@@ -6,9 +6,9 @@ import 'package:go_router/go_router.dart';
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
-import '../../../core/network/supabase_provider.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../../../features/shared/ui/design_system.dart';
+import '../data/chains_repository.dart';
 
 class ChainPage extends ConsumerStatefulWidget {
   const ChainPage({super.key, required this.chainId});
@@ -150,89 +150,14 @@ String? _priceCompareLabel(BuildContext context, double? priceDeltaPct) {
 }
 
 final _chainOverviewProvider = FutureProvider.autoDispose
-    .family<List<_ChainBranchItem>, (String, double?, double?)>((
+    .family<List<ChainBranchItem>, (String, double?, double?)>((
       ref,
       tuple,
     ) async {
-      final client = ref.read(supabaseProvider);
-      final chainId = tuple.$1;
-      final lat = tuple.$2;
-      final lng = tuple.$3;
-      dynamic res;
-      try {
-        res = await client.rpc(
-          'get_chain_overview_v2',
-          params: {
-            'p_chain_id': chainId,
-            'p_lat': lat,
-            'p_lng': lng,
-            'p_limit': 40,
-          },
-        );
-      } catch (_) {
-        res = await client.rpc(
-          'get_chain_overview_v1',
-          params: {
-            'p_chain_id': chainId,
-            'p_lat': lat,
-            'p_lng': lng,
-            'p_limit': 40,
-          },
-        );
-      }
-      final rows = (res as List?) ?? const [];
-      return rows
-          .whereType<Map>()
-          .map((e) => _ChainBranchItem.fromMap(e.cast<String, dynamic>()))
-          .toList();
+      final repository = ref.watch(chainsRepositoryProvider);
+      return repository.getChainOverview(
+        chainId: tuple.$1,
+        lat: tuple.$2,
+        lng: tuple.$3,
+      );
     });
-
-class _ChainBranchItem {
-  const _ChainBranchItem({
-    required this.businessId,
-    required this.businessName,
-    required this.chainName,
-    required this.chainDescription,
-    required this.branchLabel,
-    required this.city,
-    required this.district,
-    required this.distanceKm,
-    required this.avgPriceCents,
-    required this.chainAvgPriceCents,
-    required this.priceDeltaPct,
-  });
-
-  final String businessId;
-  final String businessName;
-  final String chainName;
-  final String chainDescription;
-  final String branchLabel;
-  final String city;
-  final String district;
-  final double? distanceKm;
-  final int? avgPriceCents;
-  final int? chainAvgPriceCents;
-  final double? priceDeltaPct;
-
-  factory _ChainBranchItem.fromMap(Map<String, dynamic> map) {
-    final d = map['distance_km'];
-    final avgPriceCents = (map['avg_price_cents'] as num?)?.toInt();
-    final chainAvgPriceCents = (map['chain_avg_price_cents'] as num?)?.toInt();
-    final deltaPct = (map['price_delta_pct'] as num?)?.toDouble();
-    return _ChainBranchItem(
-      businessId: (map['business_id'] ?? '').toString(),
-      businessName: (map['business_name'] ?? '').toString(),
-      chainName: (map['chain_name'] ?? '').toString(),
-      chainDescription: (map['chain_description'] ?? '').toString(),
-      branchLabel: (map['branch_label'] ?? '').toString(),
-      city: (map['city'] ?? '').toString(),
-      district: (map['district'] ?? '').toString(),
-      distanceKm: d is num
-          ? d.toDouble()
-          : double.tryParse((d ?? '').toString()),
-      avgPriceCents: avgPriceCents,
-      chainAvgPriceCents: chainAvgPriceCents,
-      priceDeltaPct: deltaPct,
-    );
-  }
-}
