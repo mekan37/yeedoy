@@ -4,10 +4,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:yeedoy/core/cache/request_cache.dart';
 import 'package:yeedoy/core/analytics/analytics_repository.dart';
 import 'package:yeedoy/core/monitoring/app_telemetry.dart';
-import 'package:yeedoy/core/storage/local_db/memory_local_db_store.dart';
 import 'package:yeedoy/features/business/data/report_repository.dart';
 import 'package:yeedoy/features/favorites/data/favorites_repository.dart';
-import 'package:yeedoy/features/menus/data/menu_repository.dart';
+import 'package:yeedoy/features/menus/data/menu_price_repository.dart';
 import 'package:yeedoy/features/reviews/data/reviews_repository.dart';
 
 const _runLiveWriteSmoke = bool.fromEnvironment(
@@ -42,13 +41,10 @@ void main() {
       final reviewsRepository = ReviewsRepository(client);
       final reportRepository = ReportRepository(client);
       final favoritesRepository = FavoritesRepository(client);
-      final localDbStore = MemoryLocalDbStore();
-      await localDbStore.initialize();
-      final menuRepository = MenuRepository(
+      final menuPriceRepository = MenuPriceRepository(
         client,
         AppTelemetry(AnalyticsRepository(client)),
-        RequestCache.shared,
-        localDbStore,
+        RequestCache.shared.scope('menus'),
       );
       final nonce = DateTime.now().toUtc().millisecondsSinceEpoch;
 
@@ -89,7 +85,7 @@ void main() {
           'contact_verification_required',
         ],
         run: () async {
-          await menuRepository.submitMenuItemPriceSuggestion(
+          await menuPriceRepository.submitMenuItemPriceSuggestion(
             menuItemId: config.menuItemId,
             suggestedPriceCents: 12300,
             currency: 'TRY',

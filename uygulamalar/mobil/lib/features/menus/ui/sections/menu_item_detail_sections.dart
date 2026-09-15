@@ -174,6 +174,10 @@ class _PriceLineChart extends StatelessWidget {
         dotColor: AppColors.primary,
         gridColor: AppColors.border.withValues(alpha: 0.5),
         labelColor: AppColors.muted,
+        // CustomPainter.paint() has no BuildContext — the canonical
+        // formatCurrency (locale-aware) is called once here in build()
+        // and passed down instead of hand-formatting inside paint() (B36).
+        priceLabel: (cents) => formatCurrency(context, cents / 100),
       ),
     );
   }
@@ -186,6 +190,7 @@ class _PriceLinePainter extends CustomPainter {
     required this.dotColor,
     required this.gridColor,
     required this.labelColor,
+    required this.priceLabel,
   });
 
   final List<MenuItemPriceHistoryEntry> entries;
@@ -193,6 +198,7 @@ class _PriceLinePainter extends CustomPainter {
   final Color dotColor;
   final Color gridColor;
   final Color labelColor;
+  final String Function(double cents) priceLabel;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -239,7 +245,7 @@ class _PriceLinePainter extends CustomPainter {
     for (int i = 0; i <= 2; i++) {
       final price = minPrice + (effectiveRange * i / 2);
       final y = paddingTop + chartH * (1 - i / 2);
-      final text = '${(price / 100).toStringAsFixed(0)}₺';
+      final text = priceLabel(price);
       final tp = TextPainter(
         text: TextSpan(text: text, style: labelStyle),
         textDirection: TextDirection.ltr,
@@ -1290,8 +1296,7 @@ class _TimeWindowInsightChip extends StatelessWidget {
               window.discountPct!,
             );
     } else if (window.priceCents != null) {
-      final priceText =
-          '${(window.priceCents! / 100).toStringAsFixed(window.priceCents! % 100 == 0 ? 0 : 2)}₺';
+      final priceText = formatCurrency(context, window.priceCents! / 100);
       chipText = active != null
           ? t.menuTimeWindowNowPrice(label, timeRange, priceText)
           : t.menuTimeWindowUpcomingPrice(label, timeRange, priceText);
@@ -1527,9 +1532,7 @@ class _PriceBenchmarkChip extends StatelessWidget {
     final color = same
         ? AppColors.muted
         : (cheaper ? AppColors.success : AppColors.danger);
-    final avgText = avgPrice.truncateToDouble() == avgPrice
-        ? '${avgPrice.toInt()}₺'
-        : '${avgPrice.toStringAsFixed(2)}₺';
+    final avgText = formatCurrency(context, avgPrice);
     final String label;
     if (same) {
       label = t.menuPriceBenchmarkSame(avgText);

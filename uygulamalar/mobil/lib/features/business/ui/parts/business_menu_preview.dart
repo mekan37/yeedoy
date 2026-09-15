@@ -575,7 +575,7 @@ class _BusinessMenuItemRowState extends ConsumerState<_BusinessMenuItemRow> {
       setState(() => _voting = true);
       try {
         await ref
-            .read(menuRepositoryProvider)
+            .read(menuPriceRepositoryProvider)
             .voteMenuItemPrice(
               menuItemId: item.id,
               vote: 1,

@@ -2,7 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:yeedoy/core/media/media_upload_client_stub.dart';
 
 import '../../../core/media/media_upload_repository.dart';
-import '../data/menu_repository.dart';
+import '../data/menu_item_photo_repository.dart';
+import '../data/menu_price_repository.dart';
 import 'menu_models.dart';
 
 final menuItemPhotosProvider =
@@ -18,13 +19,13 @@ class MenuItemPhotosController extends AsyncNotifier<List<MenuItemPhoto>> {
 
   @override
   Future<List<MenuItemPhoto>> build() async {
-    return ref.read(menuRepositoryProvider).fetchMenuItemPhotos(menuItemId);
+    return ref.read(menuItemPhotoRepositoryProvider).fetchMenuItemPhotos(menuItemId);
   }
 
   Future<void> refresh({bool force = false}) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() {
-      return ref.read(menuRepositoryProvider).fetchMenuItemPhotos(menuItemId);
+      return ref.read(menuItemPhotoRepositoryProvider).fetchMenuItemPhotos(menuItemId);
     });
   }
 
@@ -39,7 +40,7 @@ class MenuItemPhotosController extends AsyncNotifier<List<MenuItemPhoto>> {
 
     try {
       await ref
-          .read(menuRepositoryProvider)
+          .read(menuItemPhotoRepositoryProvider)
           .voteMenuItemPhoto(photoId: photoId, vote: desiredVote);
     } catch (e) {
       state = AsyncValue.data(current);
@@ -55,7 +56,7 @@ class MenuItemPhotosController extends AsyncNotifier<List<MenuItemPhoto>> {
     if (upload == null) return null;
 
     await ref
-        .read(menuRepositoryProvider)
+        .read(menuItemPhotoRepositoryProvider)
         .addMenuItemPhoto(
           menuItemId: menuItemId,
           url: upload.url,
@@ -96,14 +97,14 @@ class MenuItemPriceStatusController extends AsyncNotifier<MenuItemPriceStatus> {
 
   @override
   Future<MenuItemPriceStatus> build() async {
-    return ref.read(menuRepositoryProvider).fetchMenuItemPriceStatus(menuItemId);
+    return ref.read(menuPriceRepositoryProvider).fetchMenuItemPriceStatus(menuItemId);
   }
 
   Future<void> refresh({bool force = false}) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() {
       return ref
-          .read(menuRepositoryProvider)
+          .read(menuPriceRepositoryProvider)
           .fetchMenuItemPriceStatus(menuItemId);
     });
   }
@@ -116,7 +117,7 @@ class MenuItemPriceStatusController extends AsyncNotifier<MenuItemPriceStatus> {
     }
     try {
       await ref
-          .read(menuRepositoryProvider)
+          .read(menuPriceRepositoryProvider)
           .voteMenuItemPrice(menuItemId: menuItemId, vote: desiredVote);
       await refresh(force: true);
     } catch (e) {
@@ -134,13 +135,13 @@ class MenuItemValueScoreController extends AsyncNotifier<MenuItemValueScore> {
 
   @override
   Future<MenuItemValueScore> build() async {
-    return ref.read(menuRepositoryProvider).fetchMenuItemValueScore(menuItemId);
+    return ref.read(menuPriceRepositoryProvider).fetchMenuItemValueScore(menuItemId);
   }
 
   Future<void> refresh({bool force = false}) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() {
-      return ref.read(menuRepositoryProvider).fetchMenuItemValueScore(menuItemId);
+      return ref.read(menuPriceRepositoryProvider).fetchMenuItemValueScore(menuItemId);
     });
   }
 }
@@ -152,14 +153,14 @@ class MenuItemPriceHistoryController
 
   @override
   Future<List<MenuItemPriceHistoryEntry>> build() async {
-    return ref.read(menuRepositoryProvider).fetchMenuItemPriceHistory(menuItemId);
+    return ref.read(menuPriceRepositoryProvider).fetchMenuItemPriceHistory(menuItemId);
   }
 
   Future<void> refresh({bool force = false}) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() {
       return ref
-          .read(menuRepositoryProvider)
+          .read(menuPriceRepositoryProvider)
           .fetchMenuItemPriceHistory(menuItemId);
     });
   }

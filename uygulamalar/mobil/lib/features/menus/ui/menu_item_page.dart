@@ -29,6 +29,7 @@ import '../data/food_catalog_repository.dart';
 import '../domain/food_catalog_models.dart';
 import '../domain/food_catalog_search_controller.dart';
 import '../data/menu_repository.dart';
+import '../data/menu_price_repository.dart';
 import '../ui/menu_ocr_flow.dart';
 import '../domain/menu_controllers.dart';
 import '../domain/menu_models.dart';

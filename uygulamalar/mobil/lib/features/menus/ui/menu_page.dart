@@ -27,7 +27,7 @@ import '../../auth/domain/auth_providers.dart';
 import '../../business/domain/business.dart';
 import '../../discovery/data/discovery_repository.dart';
 import '../../../core/storage/offline_cache_prefs.dart';
-import '../data/menu_repository.dart';
+import '../data/menu_price_repository.dart';
 import '../data/offline_verify_queue.dart';
 import '../data/varsayilan_yemek_sozlugu.dart';
 import '../domain/menu_models.dart';
@@ -602,7 +602,7 @@ class _MenuPageState extends ConsumerState<MenuPage>
     final reqId = ++_requestId;
     try {
       final res = await ref
-          .read(menuRepositoryProvider)
+          .read(menuPriceRepositoryProvider)
           .fetchMenuItemsPriceAge(ids);
       if (!mounted || reqId != _requestId) return;
       setState(() {
@@ -689,7 +689,7 @@ class _MenuPageState extends ConsumerState<MenuPage>
         try {
           if (isPriceCorrect) {
             await ref
-                .read(menuRepositoryProvider)
+                .read(menuPriceRepositoryProvider)
                 .voteMenuItemPrice(
                   menuItemId: item.id,
                   vote: 1,
@@ -699,7 +699,7 @@ class _MenuPageState extends ConsumerState<MenuPage>
             await _trackQuickVerify(item.id, true);
           } else {
             await ref
-                .read(menuRepositoryProvider)
+                .read(menuPriceRepositoryProvider)
                 .voteMenuItemPrice(
                   menuItemId: item.id,
                   vote: -1,
@@ -708,7 +708,7 @@ class _MenuPageState extends ConsumerState<MenuPage>
                 );
             if (correctedPriceCents != null) {
               await ref
-                  .read(menuRepositoryProvider)
+                  .read(menuPriceRepositoryProvider)
                   .submitMenuItemPriceSuggestion(
                     menuItemId: item.id,
                     suggestedPriceCents: correctedPriceCents,
@@ -742,7 +742,7 @@ class _MenuPageState extends ConsumerState<MenuPage>
     _queueSyncing = true;
     try {
       final sent = await ref
-          .read(menuRepositoryProvider)
+          .read(menuPriceRepositoryProvider)
           .flushOfflineVerifyQueue();
       if (!mounted || !showFeedback || sent <= 0) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -801,7 +801,7 @@ class _MenuPageState extends ConsumerState<MenuPage>
     }
     await startMenuPriceOcrFlow(
       context: context,
-      repo: ref.read(menuRepositoryProvider),
+      repo: ref.read(menuPriceRepositoryProvider),
       menuItems: items,
     );
   }

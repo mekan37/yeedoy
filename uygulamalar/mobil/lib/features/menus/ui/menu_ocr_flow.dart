@@ -7,7 +7,7 @@ import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
 import '../../../core/media/media_upload_client.dart';
-import '../data/menu_repository.dart';
+import '../data/menu_price_repository.dart';
 import '../data/ocr_price_extractor.dart';
 import '../domain/menu_models.dart';
 import '../../../features/shared/ui/design_system.dart';
@@ -16,7 +16,7 @@ typedef _OcrDetection = OcrPriceDetection;
 
 Future<void> startMenuPriceOcrFlow({
   required BuildContext context,
-  required MenuRepository repo,
+  required MenuPriceRepository repo,
   required List<MenuItem> menuItems,
 }) async {
   final t = AppLocalizations.of(context);
@@ -78,7 +78,7 @@ Future<void> startMenuPriceOcrFlow({
 Future<void> startReceiptOcrFlow({
   required BuildContext context,
   required SupabaseClient client,
-  required MenuRepository repo,
+  required MenuPriceRepository repo,
   required String businessId,
   required List<MenuItem> menuItems,
 }) async {
@@ -248,7 +248,7 @@ class _MenuPriceOcrMatchSheet extends StatefulWidget {
     required this.detections,
   });
 
-  final MenuRepository repo;
+  final MenuPriceRepository repo;
   final List<MenuItem> menuItems;
   final List<_OcrDetection> detections;
 
@@ -266,7 +266,7 @@ class _ReceiptOcrMatchSheet extends StatefulWidget {
     required this.imageUrl,
   });
 
-  final MenuRepository repo;
+  final MenuPriceRepository repo;
   final List<MenuItem> menuItems;
   final List<_OcrDetection> detections;
   final String businessId;

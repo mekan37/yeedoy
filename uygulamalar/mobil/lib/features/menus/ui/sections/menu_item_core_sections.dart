@@ -444,7 +444,7 @@ class _MenuItemBodyState extends ConsumerState<_MenuItemBody> {
                         return;
                       }
                       final client = ref.read(supabaseProvider);
-                      final repo = ref.read(menuRepositoryProvider);
+                      final repo = ref.read(menuPriceRepositoryProvider);
                       await startReceiptOcrFlow(
                         context: context,
                         client: client,
@@ -796,7 +796,7 @@ class _CartSheetState extends ConsumerState<_CartSheet> {
     });
     try {
       final res = await ref
-          .read(menuRepositoryProvider)
+          .read(menuPriceRepositoryProvider)
           .fetchBillEstimate(
             businessId: widget.businessId,
             items: items,

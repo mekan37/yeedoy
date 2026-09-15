@@ -32,6 +32,7 @@ import '../../discovery/domain/discovery_search_notifier.dart';
 import '../../favorites/domain/favorite_status_provider.dart';
 import '../../favorites/domain/favorites_controller.dart';
 import '../../menus/data/menu_repository.dart';
+import '../../menus/data/menu_price_repository.dart';
 import '../../menus/domain/menu_models.dart';
 import '../../menus/domain/menu_providers.dart';
 import '../../perks/domain/perk_providers.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/storage/offline_cache_prefs.dart';
+import '../data/menu_price_repository.dart';
 import '../data/menu_repository.dart';
 import 'menu_models.dart';
 
@@ -45,7 +46,7 @@ final menuItemPriceBenchmarkProvider =
       final itemName = parts[0];
       final city = parts[1];
       final excludeId = parts.length > 2 && parts[2].isNotEmpty ? parts[2] : null;
-      return ref.watch(menuRepositoryProvider).fetchCategoryPriceBenchmark(
+      return ref.watch(menuPriceRepositoryProvider).fetchCategoryPriceBenchmark(
         itemName: itemName,
         city: city,
         excludeBusinessId: excludeId,

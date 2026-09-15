@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../../app/theme/colors.dart';
 import '../../../core/errors/app_error_mapper.dart';
 import '../../../core/i18n/app_localizations.dart';
+import '../../../core/i18n/formatters.dart';
 import '../../../features/shared/ui/components/app_scaffold.dart';
 import '../domain/perk_models.dart';
 import '../domain/perk_providers.dart';
@@ -193,12 +193,12 @@ class _PerkCard extends StatelessWidget {
                   if (perk.startsAt != null)
                     _InfoChip(
                       icon: Icons.calendar_today_outlined,
-                      label: context.l10n.perksStartsLabel(_fmt(perk.startsAt!)),
+                      label: context.l10n.perksStartsLabel(_fmt(context, perk.startsAt!)),
                     ),
                   if (perk.endsAt != null)
                     _InfoChip(
                       icon: Icons.timer_outlined,
-                      label: context.l10n.perksEndsLabel(_fmt(perk.endsAt!)),
+                      label: context.l10n.perksEndsLabel(_fmt(context, perk.endsAt!)),
                       highlighted: isExpiringSoon,
                     ),
                 ],
@@ -210,7 +210,9 @@ class _PerkCard extends StatelessWidget {
     );
   }
 
-  String _fmt(DateTime dt) => DateFormat('d MMM y', 'tr').format(dt);
+  // Kanonik formatShortDate'e devredildi — sabit 'tr' locale'i EN
+  // kullanıcılarda bile Türkçe ay adı gösteriyordu (B37).
+  String _fmt(BuildContext context, DateTime dt) => formatShortDate(context, dt);
 }
 
 class _Badge extends StatelessWidget {

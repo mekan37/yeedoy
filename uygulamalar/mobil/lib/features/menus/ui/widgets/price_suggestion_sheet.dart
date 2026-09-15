@@ -11,7 +11,7 @@ import '../../../../core/errors/app_error_mapper.dart';
 import '../../../../core/i18n/app_localizations.dart';
 import '../../../../core/media/media_upload_repository.dart';
 import '../../../shared/ui/design_system.dart';
-import '../../data/menu_repository.dart';
+import '../../data/menu_price_repository.dart';
 import '../../data/offline_verify_queue.dart';
 
 /// Bottom sheet for submitting a new price suggestion for a menu item.
@@ -152,7 +152,7 @@ class _PriceSuggestionSheetState extends ConsumerState<PriceSuggestionSheet> {
     try {
       final clientId = await getAnalyticsClientId();
       final result = await ref
-          .read(menuRepositoryProvider)
+          .read(menuPriceRepositoryProvider)
           .submitMenuItemPriceSuggestion(
             menuItemId: widget.menuItemId,
             suggestedPriceCents: cents,

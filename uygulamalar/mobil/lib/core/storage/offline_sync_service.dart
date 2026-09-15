@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../monitoring/app_telemetry.dart';
 import '../../features/auth/domain/auth_providers.dart';
-import '../../features/menus/data/menu_repository.dart';
+import '../../features/menus/data/menu_price_repository.dart';
 import '../network/supabase_provider.dart';
 import 'local_db/local_db_provider.dart';
 import 'offline_mutation_queue.dart';
@@ -159,7 +159,7 @@ class OfflineSyncService with WidgetsBindingObserver {
 final offlineSyncServiceProvider = Provider<OfflineSyncService>((ref) {
   return OfflineSyncService(
     flushVerifyQueue: ({int maxItems = 20}) {
-      return ref.read(menuRepositoryProvider).flushOfflineVerifyQueue(
+      return ref.read(menuPriceRepositoryProvider).flushOfflineVerifyQueue(
         maxItems: maxItems,
       );
     },
