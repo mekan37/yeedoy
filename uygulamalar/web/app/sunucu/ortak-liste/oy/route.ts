@@ -31,7 +31,19 @@ export async function POST(request: Request) {
   const voterKey = createHash('sha256').update(parsed.data.voterId).digest('hex');
 
   const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
+
+  // DİKKAT — as any temizliği sırasında bulunan, düzeltilmemiş bir bug:
+  // collab_list_votes.user_id NOT NULL (20260422000006) ve INSERT RLS
+  // policy'si `user_id = auth.uid() AND liste üyesi` istiyor; bu route hiç
+  // auth kontrolü yapmadan yalnızca voter_ip ile anonim oy yazmaya çalışıyor
+  // (20260507000007 yalnızca voter_ip kolonunu + kısmi unique index'i
+  // eklemiş, ne NOT NULL kısıtını ne RLS policy'sini güncellemiş). Sonuç:
+  // bu route'tan gelen HER upsert/delete muhtemelen 500 ile başarısız oluyor
+  // ("anonim oy" özelliği hiç çalışmıyor olabilir). Düzeltme bir ürün kararı
+  // gerektiriyor (user_id'yi nullable yapıp RLS'i anonim path'e açmak mı,
+  // yoksa özelliği auth-required'a çevirmek mi) — bu turun kapsamı dışında,
+  // tip-güvenliğini bozmadan bırakıldı (Insert tipi user_id zorunlu kılıyor).
+  const supabaseAny = supabase as unknown as { from: (t: string) => any };
 
   if (parsed.data.vote === 0) {
     // Oyu kaldır

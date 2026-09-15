@@ -4,7 +4,6 @@ import { rateLimit } from '@/src/lib/oran-siniri';
 
 export async function POST() {
   const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
@@ -19,8 +18,9 @@ export async function POST() {
   }
 
   // 1. Uygulama verilerini temizle (RPC)
-  const { data: rpcData, error: rpcError } = await supabaseAny
+  const { data: rpcDataRaw, error: rpcError } = await supabase
     .rpc('delete_user_account_v1');
+  const rpcData = rpcDataRaw as { ok: boolean; error?: string } | null;
 
   if (rpcError) {
     return NextResponse.json({ error: 'internal_error' }, { status: 500 });

@@ -11056,6 +11056,10 @@ export type Database = {
         Args: { p_excluded: boolean; p_item_id: string }
         Returns: undefined
       }
+      admin_set_menu_extract_job_external_id_v1: {
+        Args: { p_external_job_id: string; p_job_id: string }
+        Returns: undefined
+      }
       admin_set_menu_item_photo_moderation_v1: {
         Args: {
           p_is_hidden?: boolean

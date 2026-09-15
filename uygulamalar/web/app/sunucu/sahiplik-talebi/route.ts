@@ -60,10 +60,6 @@ export async function POST(request: NextRequest) {
   const safeEvidencePath =
     evidencePath && evidencePath.startsWith(`${user.id}/`) ? evidencePath : null;
 
-  const supabaseAny = supabase as unknown as {
-    rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>;
-  };
-
   // İşletme var mı?
   const { data: biz } = await supabase
     .from('businesses')
@@ -76,13 +72,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'İşletme bulunamadı.' }, { status: 404 });
   }
 
-  const { data, error } = await supabaseAny.rpc('submit_owner_claim_v1', {
+  const { data, error } = await supabase.rpc('submit_owner_claim_v1', {
     p_business_id: businessId,
     p_full_name: fullName,
     p_phone: phone,
-    p_evidence_url: evidenceUrl,
-    p_note: note,
-    p_evidence_storage_path: safeEvidencePath,
+    p_evidence_url: evidenceUrl ?? undefined,
+    p_note: note ?? undefined,
+    p_evidence_storage_path: safeEvidencePath ?? undefined,
   });
 
   if (error) {

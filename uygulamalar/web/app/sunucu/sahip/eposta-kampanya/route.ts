@@ -50,15 +50,13 @@ export async function POST(request: Request) {
     );
   }
 
-  const supabaseAny = supabase as unknown as { rpc: (fn: string, args?: unknown) => any };
-
-  const { data: emailCampaignId, error: createError } = await supabaseAny.rpc('create_email_campaign_v1', {
+  const { data: emailCampaignId, error: createError } = await supabase.rpc('create_email_campaign_v1', {
     p_business_id: businessId,
     p_subject: subject.trim(),
     p_html_body: `<p>${escapeHtml(safeBody)}</p>`,
     p_target_segment: targetSegment,
     p_campaign_id: campaignId,
-  }) as { data: string | null; error: { message: string } | null };
+  });
 
   if (createError || !emailCampaignId) {
     logger.warn('eposta-kampanya: create_email_campaign_v1 başarısız', { message: createError?.message });
@@ -68,10 +66,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   }
 
-  const { data: recipients, error: recipientsError } = await supabaseAny.rpc(
+  const { data: recipientsRaw, error: recipientsError } = await supabase.rpc(
     'get_email_campaign_recipients_v1',
     { p_business_id: businessId, p_target_segment: targetSegment },
-  ) as { data: Array<{ user_id: string; email: string; display_name: string }> | null; error: { message: string } | null };
+  );
+  const recipients = recipientsRaw as Array<{ user_id: string; email: string; display_name: string }> | null;
 
   if (recipientsError) {
     logger.warn('eposta-kampanya: get_email_campaign_recipients_v1 başarısız', { message: recipientsError.message });

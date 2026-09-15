@@ -19,21 +19,20 @@ const replySchema = z.object({
 
 async function requireAdmin() {
   const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { supabase, supabaseAny, user: null, response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) };
+  if (!user) return { supabase, user: null, response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) };
 
-  const { data: isAdmin } = await supabaseAny.rpc('is_admin');
-  if (!isAdmin) return { supabase, supabaseAny, user, response: NextResponse.json({ error: 'Forbidden' }, { status: 403 }) };
+  const { data: isAdmin } = await supabase.rpc('is_admin');
+  if (!isAdmin) return { supabase, user, response: NextResponse.json({ error: 'Forbidden' }, { status: 403 }) };
 
-  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:musteri-destek' });
-  if (!yetkili) return { supabase, supabaseAny, user, response: NextResponse.json({ error: 'forbidden' }, { status: 403 }) };
+  const { data: yetkili } = await supabase.rpc('has_permission_v1', { p_permission: 'page:musteri-destek' });
+  if (!yetkili) return { supabase, user, response: NextResponse.json({ error: 'forbidden' }, { status: 403 }) };
 
-  return { supabase, supabaseAny, user, response: null };
+  return { supabase, user, response: null };
 }
 
 export async function GET(req: Request) {
-  const { supabaseAny, user, response } = await requireAdmin();
+  const { supabase, user, response } = await requireAdmin();
   if (response) return response;
 
   const rl = await rateLimit(`destek:${user!.id}`, 60, 60_000); // 60/min
@@ -42,7 +41,7 @@ export async function GET(req: Request) {
   const ticketId = new URL(req.url).searchParams.get('ticketId');
   if (!ticketId) return NextResponse.json({ error: 'Missing ticketId' }, { status: 400 });
 
-  const { data: messages, error } = await supabaseAny
+  const { data: messages, error } = await supabase
     .from('support_ticket_messages')
     .select('id, ticket_id, sender, message, created_at')
     .eq('ticket_id', ticketId)
@@ -53,7 +52,7 @@ export async function GET(req: Request) {
 }
 
 export async function PATCH(req: Request) {
-  const { supabaseAny, user, response } = await requireAdmin();
+  const { supabase, user, response } = await requireAdmin();
   if (response) return response;
 
   const rl = await rateLimit(`destek:${user!.id}`, 60, 60_000); // 60/min
@@ -64,7 +63,7 @@ export async function PATCH(req: Request) {
 
   const { ticketId, status } = parsed.data;
 
-  const { error } = await supabaseAny
+  const { error } = await supabase
     .from('support_tickets')
     .update({ status, updated_at: new Date().toISOString(), assigned_to: user?.id })
     .eq('id', ticketId);
@@ -74,7 +73,7 @@ export async function PATCH(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const { supabaseAny, user, response } = await requireAdmin();
+  const { supabase, user, response } = await requireAdmin();
   if (response) return response;
 
   const rl = await rateLimit(`destek:${user!.id}`, 60, 60_000); // 60/min
@@ -84,7 +83,7 @@ export async function POST(req: Request) {
   if (!parsed.success) return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
 
   const { ticketId, message, sender } = parsed.data;
-  const { error } = await supabaseAny
+  const { error } = await supabase
     .from('support_ticket_messages')
     .insert({
       ticket_id: ticketId,
@@ -94,7 +93,7 @@ export async function POST(req: Request) {
     });
 
   if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
-  await supabaseAny
+  await supabase
     .from('support_tickets')
     .update({ status: 'in_progress', updated_at: new Date().toISOString(), assigned_to: user?.id })
     .eq('id', ticketId);
@@ -103,7 +102,7 @@ export async function POST(req: Request) {
   // olduğu için reddedilince tüm POST 500 ile başarısız görünüyordu — mesaj
   // zaten eklenmiş/durum zaten güncellenmişken istemci yanıtı retry edip
   // support_ticket_messages'a mükerrer satır ekleyebiliyordu.
-  const { data: ticketRow } = await supabaseAny
+  const { data: ticketRow } = await supabase
     .from('support_tickets')
     .select('subject, requester_email')
     .eq('id', ticketId)

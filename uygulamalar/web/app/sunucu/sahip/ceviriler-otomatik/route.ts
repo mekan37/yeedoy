@@ -10,14 +10,8 @@ const schema = z.object({
   targetLocales: z.array(z.enum(['en', 'de', 'ar', 'fr', 'ru', 'zh'])).min(1).max(6),
 });
 
-type SupabaseAny = {
-  from: (table: string) => any;
-  rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown; error: { message?: string } | null }>;
-};
-
 export async function POST(req: Request) {
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as unknown as SupabaseAny;
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
@@ -29,7 +23,7 @@ export async function POST(req: Request) {
 
   const { menuIds, targetLocales } = parsed.data;
 
-  const { data: menuRows } = await sb.from('menus').select('id, business_id').in('id', menuIds) as
+  const { data: menuRows } = await supabase.from('menus').select('id, business_id').in('id', menuIds) as
     { data: Array<{ id: string; business_id: string }> | null };
 
   const businessIds = Array.from(new Set((menuRows ?? []).map((m) => m.business_id)));
@@ -45,7 +39,7 @@ export async function POST(req: Request) {
   const allowedLocales: string[] = [];
   const preSkippedLocales: string[] = [];
   for (const locale of targetLocales) {
-    const { data: allowed } = await sb.rpc('check_translation_language_limit_v1', { p_business_id: businessId, p_locale: locale });
+    const { data: allowed } = await supabase.rpc('check_translation_language_limit_v1', { p_business_id: businessId, p_locale: locale });
     if (allowed) allowedLocales.push(locale); else preSkippedLocales.push(locale);
   }
 
@@ -55,14 +49,14 @@ export async function POST(req: Request) {
 
   // menü → bölüm → ürün zinciri (menu_items'ta menu_id YOK, section_id üzerinden gidilir;
   // menu_sections'ta başlık kolonu 'title', 'name' değil)
-  const { data: sections } = await sb.from('menu_sections').select('id, title, menu_id').in('menu_id', menuIds) as
+  const { data: sections } = await supabase.from('menu_sections').select('id, title, menu_id').in('menu_id', menuIds) as
     { data: Array<{ id: string; title: string; menu_id: string }> | null };
 
   const sectionIds = (sections ?? []).map((s) => s.id);
 
   const { data: items } = sectionIds.length === 0
     ? { data: [] as Array<{ id: string; name: string; description: string | null; section_id: string }> }
-    : await sb.from('menu_items').select('id, name, description, section_id').in('section_id', sectionIds).limit(200) as
+    : await supabase.from('menu_items').select('id, name, description, section_id').in('section_id', sectionIds).limit(200) as
         { data: Array<{ id: string; name: string; description: string | null; section_id: string }> | null };
 
   const toTranslate = [
@@ -74,7 +68,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, translated: 0, byEngine: {}, skippedLocales: preSkippedLocales });
   }
 
-  const { data: existing } = await sb.from('menu_translations').select('entity_id, locale')
+  const { data: existing } = await supabase.from('menu_translations').select('entity_id, locale')
     .in('entity_id', toTranslate.map((t) => t.entity_id)).in('locale', allowedLocales) as
     { data: Array<{ entity_id: string; locale: string }> | null };
 
@@ -104,7 +98,7 @@ export async function POST(req: Request) {
 
   async function flush() {
     if (pending.length === 0) return;
-    const { data, error } = await sb.rpc('bulk_upsert_menu_translations_v1', {
+    const { data, error } = await supabase.rpc('bulk_upsert_menu_translations_v1', {
       p_business_id: businessId,
       p_translations: pending,
     });

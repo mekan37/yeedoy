@@ -10,7 +10,6 @@ const createCollectionSchema = z.object({
 
 export async function POST(request: Request) {
   const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
@@ -40,12 +39,13 @@ export async function POST(request: Request) {
   // başarısız olmasına yol açıyordu — özellik canlıda tamamen bozuktu. Kök
   // neden (yanlış param adları + eksik description sütunu) migration'da
   // düzeltildi; artık RPC hatasını gizleyen bir fallback'e gerek yok.
-  const { data, error } = await supabaseAny.rpc('create_collection_v1', {
+  const { data, error } = await supabase.rpc('create_collection_v1', {
     p_title: name,
-    p_description: description ?? null,
+    p_description: description ?? undefined,
   });
 
-  if (error || data?.ok === false) {
+  const result = data as { ok: boolean } | null;
+  if (error || result?.ok === false) {
     return NextResponse.json({ error: 'insert_failed' }, { status: 500 });
   }
 

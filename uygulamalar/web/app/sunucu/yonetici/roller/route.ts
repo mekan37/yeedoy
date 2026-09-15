@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from '@/src/lib/taban/veri-tanimlari';
 import { rateLimit } from '@/src/lib/oran-siniri';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { z } from 'zod';
@@ -21,22 +23,20 @@ const updateSchema = z.object({
 });
 const deleteSchema = z.object({ id: z.string().uuid() });
 
-type SupabaseAny = { rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown; error: { message?: string } | null }> };
-
-async function guard(sb: SupabaseAny, userId: string): Promise<NextResponse | null> {
-  const { data: isAdmin } = await sb.rpc('is_admin');
+async function guard(supabase: SupabaseClient<Database>, userId: string): Promise<NextResponse | null> {
+  const { data: isAdmin } = await supabase.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
   // RPC'ler zaten has_permission_v1('page:roller') ile korunuyor (istismar
   // edilemiyordu) ama route seviyesinde hiç kontrol yoktu — panelin geri
   // kalanıyla tutarlılık için burada da ekleniyor.
-  const { data: yetkili } = await sb.rpc('has_permission_v1', { p_permission: 'page:roller' });
+  const { data: yetkili } = await supabase.rpc('has_permission_v1', { p_permission: 'page:roller' });
   if (!yetkili) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
   const rl = await rateLimit(`roller:${userId}`, 30, 3_600_000);
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
-  const { data: dbRate } = await sb.rpc('consume_rate_limit_v1', { p_action: 'admin_roller_write', p_daily_limit: 30 });
+  const { data: dbRate } = await supabase.rpc('consume_rate_limit_v1', { p_action: 'admin_roller_write', p_daily_limit: 30 });
   if (dbRate && (dbRate as { ok?: boolean }).ok === false) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
@@ -53,19 +53,20 @@ function mapPgError(error: { message?: string } | null): { status: number; error
 
 export async function POST(request: Request) {
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as unknown as SupabaseAny;
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
 
-  const guardRes = await guard(sb, user.id);
+  const guardRes = await guard(supabase, user.id);
   if (guardRes) return guardRes;
 
   const parsed = createSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: 'invalid_payload', issues: parsed.error.flatten().fieldErrors }, { status: 400 });
 
-  const { data, error } = await sb.rpc('admin_create_role_v1', {
+  // Üretilen tip p_description: string diyor ama RPC gövdesi
+  // coalesce(p_description,'') ile NULL'ı güvenle kabul ediyor.
+  const { data, error } = await supabase.rpc('admin_create_role_v1', {
     p_name: parsed.data.name,
-    p_description: parsed.data.description ?? null,
+    p_description: (parsed.data.description ?? null) as string,
     p_permissions: parsed.data.permissions,
   });
   if (error) {
@@ -77,20 +78,19 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as unknown as SupabaseAny;
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
 
-  const guardRes = await guard(sb, user.id);
+  const guardRes = await guard(supabase, user.id);
   if (guardRes) return guardRes;
 
   const parsed = updateSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: 'invalid_payload', issues: parsed.error.flatten().fieldErrors }, { status: 400 });
 
-  const { error } = await sb.rpc('admin_update_role_v1', {
+  const { error } = await supabase.rpc('admin_update_role_v1', {
     p_role_id: parsed.data.id,
     p_name: parsed.data.name,
-    p_description: parsed.data.description ?? null,
+    p_description: (parsed.data.description ?? null) as string,
     p_permissions: parsed.data.permissions,
     p_is_active: parsed.data.isActive,
   });
@@ -103,17 +103,16 @@ export async function PATCH(request: Request) {
 
 export async function DELETE(request: Request) {
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as unknown as SupabaseAny;
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
 
-  const guardRes = await guard(sb, user.id);
+  const guardRes = await guard(supabase, user.id);
   if (guardRes) return guardRes;
 
   const parsed = deleteSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: 'invalid_payload' }, { status: 400 });
 
-  const { error } = await sb.rpc('admin_delete_role_v1', { p_role_id: parsed.data.id });
+  const { error } = await supabase.rpc('admin_delete_role_v1', { p_role_id: parsed.data.id });
   if (error) {
     const m = mapPgError(error);
     return NextResponse.json({ error: m.error }, { status: m.status });

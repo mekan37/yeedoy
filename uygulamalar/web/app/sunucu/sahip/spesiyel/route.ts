@@ -23,7 +23,6 @@ export async function POST(request: Request) {
   if (!parsed.success) return NextResponse.json({ error: 'invalid_payload' }, { status: 400 });
 
   const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
 
@@ -31,7 +30,7 @@ export async function POST(request: Request) {
   if (!userLimit.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
   // Uygulama katmanı guard'ı — tek savunma katmanı RPC gövdesi olmamalı.
-  const { data: menuItem } = await supabaseAny
+  const { data: menuItem } = await supabase
     .from('menu_items')
     .select('business_id')
     .eq('id', parsed.data.menuItemId)
@@ -40,11 +39,12 @@ export async function POST(request: Request) {
   const canManageBusiness = await hasOwnerBusiness(supabase, user.id, menuItem.business_id, 'menu_write');
   if (!canManageBusiness) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
-  const { data, error } = await supabaseAny.rpc('set_today_special_v1', {
+  const { data: rpcResult, error } = await supabase.rpc('set_today_special_v1', {
     p_menu_item_id: parsed.data.menuItemId,
     p_is_special: parsed.data.isSpecial,
-    p_note: parsed.data.note ?? null,
+    p_note: parsed.data.note,
   });
+  const data = rpcResult as { ok: boolean; error?: string } | null;
 
   if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
   if (!data?.ok) {

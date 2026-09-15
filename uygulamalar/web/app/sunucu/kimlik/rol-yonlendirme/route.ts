@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
+import type { Database } from '@/src/lib/taban/veri-tanimlari';
 
 export async function GET() {
   const supabase = await createSupabaseServerClient();
@@ -14,10 +16,10 @@ export async function GET() {
 }
 
 export async function resolveRoleBasedRedirect(
-  supabase: { rpc: (fn: any) => PromiseLike<{ data: unknown }>; from: (t: any) => any },
+  supabase: SupabaseClient<Database>,
   userId: string,
 ): Promise<string> {
-  const { data: isAdmin } = await supabase.rpc('is_admin') as { data: boolean | null };
+  const { data: isAdmin } = await supabase.rpc('is_admin');
   if (isAdmin) return '/yonetici';
 
   const { data: claims } = await supabase
@@ -25,7 +27,7 @@ export async function resolveRoleBasedRedirect(
     .select('business_id')
     .eq('user_id', userId)
     .eq('status', 'approved')
-    .limit(1) as { data: Array<{ business_id: string }> | null };
+    .limit(1);
 
   if (claims && claims.length > 0) {
     return '/sahip/gosterge-panosu';

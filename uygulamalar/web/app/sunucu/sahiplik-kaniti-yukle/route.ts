@@ -30,7 +30,6 @@ async function magicBytesEslesiyorMu(file: File, mimeType: string): Promise<bool
 
 export async function POST(request: NextRequest) {
   const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
@@ -80,7 +79,7 @@ export async function POST(request: NextRequest) {
 
   const bytes = await file.arrayBuffer();
 
-  const { error } = await supabaseAny.storage
+  const { error } = await supabase.storage
     .from('claim-evidence')
     .upload(path, bytes, {
       contentType: file.type,
@@ -92,7 +91,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Signed URL (admin okuyabilmesi için 30 gün geçerli)
-  const { data: signedData } = await supabaseAny.storage
+  const { data: signedData } = await supabase.storage
     .from('claim-evidence')
     .createSignedUrl(path, 60 * 60 * 24 * 30);
 

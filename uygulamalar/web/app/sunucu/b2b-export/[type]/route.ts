@@ -21,13 +21,12 @@ export async function GET(
   const rangeTo = rangeFrom + ANALYTICS_PAGE_SIZE - 1;
 
   const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
   // Admin kontrolü
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
 
-  const { data: isAdmin } = await supabase.rpc('is_admin' as any);
+  const { data: isAdmin } = await supabase.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'Yetkisiz' }, { status: 403 });
 
   let rows: Record<string, unknown>[] = [];
@@ -43,21 +42,28 @@ export async function GET(
     filename = `yeedoy-isletmeler-${new Date().toISOString().slice(0,10)}.csv`;
 
   } else if (type === 'menus') {
+    // as any temizliği sırasında bulunan gizli bug: (1) menu_items'ta 'price'
+    // kolonu hiç yok (gerçek kolon 'price_cents'); (2) 'menu_id' kolonu da
+    // hiç yok, dolayısıyla `menu:menu_id(business_id)` embed'i imkansız bir
+    // ilişkiye dayanıyordu (PostgREST "could not find the relation" ile
+    // reddediyordu) — business_id zaten menu_items'ta doğrudan (denormalize)
+    // bir kolon, join hiç gerekmiyor. İkisi de hata kontrol edilmediği için
+    // export baştan beri sessizce boş dönüyordu.
     const { data } = await supabase
       .from('menu_items')
-      .select('id,name,category:section_id,price,currency,is_available,created_at,menu:menu_id(business_id)')
+      .select('id,name,category:section_id,price_cents,currency,is_available,created_at,business_id')
       .eq('is_available', true)
       .order('name')
       .limit(50000);
-    rows = (data ?? []).map((r: any) => ({
-      id: r.id, name: r.name, price: r.price, currency: r.currency,
-      business_id: r.menu?.business_id, created_at: r.created_at,
+    rows = (data ?? []).map((r) => ({
+      id: r.id, name: r.name, price: (r.price_cents / 100).toFixed(2), currency: r.currency,
+      business_id: r.business_id, created_at: r.created_at,
     }));
     filename = `yeedoy-menu-ogeler-${new Date().toISOString().slice(0,10)}.csv`;
 
   } else if (type === 'analytics') {
     const since30d = new Date(Date.now() - 30 * 86400000).toISOString();
-    const { data } = await supabaseAny
+    const { data } = await supabase
       .from('analytics_events')
       .select('event_name,business_id,created_at')
       .gte('created_at', since30d)
@@ -68,10 +74,10 @@ export async function GET(
 
   } else if (type === 'price-index') {
     // Bölgesel fiyat endeksi — kamuya açık RPC, admin auth ile dışa aktarım
-    const { data: indexData } = await supabaseAny.rpc('get_regional_price_index_v2', {
-      p_city: null, p_district: null, p_limit: 100,
+    const { data: indexData } = await supabase.rpc('get_regional_price_index_v2', {
+      p_city: undefined, p_district: undefined, p_limit: 100,
     });
-    rows = (indexData ?? []).map((r: any) => ({
+    rows = (indexData ?? []).map((r) => ({
       category:            r.category,
       median_price_tl:     r.median_price_cents != null ? (r.median_price_cents / 100).toFixed(2) : '',
       avg_price_tl:        r.avg_price_cents    != null ? (r.avg_price_cents    / 100).toFixed(2) : '',

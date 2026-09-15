@@ -16,8 +16,6 @@ import { menuExtractorStartUploadJob, MENU_EXTRACTOR_MAX_UPLOAD_BYTES } from '@/
 
 export const runtime = 'nodejs';
 
-type SbRpc = { rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }> };
-
 const BusinessIdSchema = z.string().uuid();
 
 function mapCreateJobError(message: string | undefined): { status: number; error: string } {
@@ -43,8 +41,7 @@ export async function POST(request: Request) {
   }
 
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as unknown as SbRpc;
-  const { data: yetkili } = await sb.rpc('has_permission_v1', { p_permission: 'page:isletmeler' });
+  const { data: yetkili } = await supabase.rpc('has_permission_v1', { p_permission: 'page:isletmeler' });
   if (!yetkili) {
     return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   }
@@ -78,11 +75,11 @@ export async function POST(request: Request) {
   // DB kaydı dış çağrıdan ÖNCE oluşturuluyor — eskiden dış extractor job'ı
   // önce başlatılıyor, DB insert'i sonra yapılıyordu; DB adımı başarısız
   // olduğunda dış iş hiçbir yerde iz bırakmadan (orphan) kalıyordu.
-  const { data: jobId, error: createError } = await sb.rpc('admin_create_menu_extract_job_v1', {
+  const { data: jobId, error: createError } = await supabase.rpc('admin_create_menu_extract_job_v1', {
     p_business_id: businessId,
     p_source_type: 'upload',
-    p_external_job_id: null,
-    p_source_url: null,
+    p_external_job_id: '',
+    p_source_url: undefined,
     p_source_file_name: fileName,
   });
   if (createError || !jobId) {
@@ -93,11 +90,11 @@ export async function POST(request: Request) {
 
   const started = await menuExtractorStartUploadJob(file, fileName);
   if (!started.ok) {
-    await sb.rpc('admin_fail_menu_extract_job_v1', { p_job_id: jobId, p_error_message: started.error });
+    await supabase.rpc('admin_fail_menu_extract_job_v1', { p_job_id: jobId, p_error_message: started.error });
     return NextResponse.json({ error: started.error }, { status: 502 });
   }
 
-  await sb.rpc('admin_set_menu_extract_job_external_id_v1', { p_job_id: jobId, p_external_job_id: started.jobId });
+  await supabase.rpc('admin_set_menu_extract_job_external_id_v1', { p_job_id: jobId, p_external_job_id: started.jobId });
 
   return NextResponse.json({ data: { job_id: jobId } }, { status: 201 });
 }

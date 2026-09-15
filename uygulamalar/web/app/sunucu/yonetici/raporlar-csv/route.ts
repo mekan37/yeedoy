@@ -23,17 +23,16 @@ export async function GET(request: Request) {
   const rangeTo = rangeFrom + PAGE_SIZE - 1;
 
   const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return new Response('Unauthorized', { status: 401 });
 
-  const { data: isAdmin } = await supabaseAny.rpc('is_admin');
+  const { data: isAdmin } = await supabase.rpc('is_admin');
   if (!isAdmin) return new Response('Forbidden', { status: 403 });
 
-  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:raporlar' });
+  const { data: yetkili } = await supabase.rpc('has_permission_v1', { p_permission: 'page:raporlar' });
   if (!yetkili) return new Response('forbidden', { status: 403 });
 
-  let query = supabaseAny
+  let query = supabase
     .from('reports')
     .select('id, target_type, reason, details, status, created_at')
     .order('created_at', { ascending: false })

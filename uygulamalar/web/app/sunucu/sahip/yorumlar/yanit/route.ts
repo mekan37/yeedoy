@@ -30,7 +30,6 @@ export async function POST(request: Request) {
   }
 
   const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
@@ -41,12 +40,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
-  const review = await getOwnedReview(supabaseAny, user.id, parsed.data.reviewId);
+  const review = await getOwnedReview(supabase, user.id, parsed.data.reviewId);
   if (!review) {
     return NextResponse.json({ error: 'review_not_found' }, { status: 404 });
   }
 
-  const { data: repliedAt, error } = await supabaseAny.rpc('owner_reply_review_v1', {
+  const { data: repliedAt, error } = await supabase.rpc('owner_reply_review_v1', {
     p_review_id: parsed.data.reviewId,
     p_reply: parsed.data.reply,
   });
@@ -75,7 +74,6 @@ export async function DELETE(request: Request) {
   }
 
   const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
@@ -86,12 +84,12 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
   }
 
-  const review = await getOwnedReview(supabaseAny, user.id, parsed.data.reviewId);
+  const review = await getOwnedReview(supabase, user.id, parsed.data.reviewId);
   if (!review) {
     return NextResponse.json({ error: 'review_not_found' }, { status: 404 });
   }
 
-  const { error } = await supabaseAny.rpc('owner_clear_review_reply_v1', {
+  const { error } = await supabase.rpc('owner_clear_review_reply_v1', {
     p_review_id: parsed.data.reviewId,
   });
 
@@ -103,7 +101,7 @@ export async function DELETE(request: Request) {
 }
 
 async function getOwnedReview(
-  supabase: any,
+  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
   userId: string,
   reviewId: string,
 ): Promise<{ id: string; business_id: string } | null> {

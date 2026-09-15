@@ -35,9 +35,8 @@ export async function GET(request: NextRequest) {
   }
 
   const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
-  let query = supabaseAny
+  let query = supabase
     .from('businesses')
     .select('id, name, category, city, district, address, slug')
     .eq('is_active', true)

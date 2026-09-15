@@ -50,8 +50,7 @@ export async function GET(request: Request) {
 
   // Yalnızca is_admin()'e dayanıyordu — page:arama izni olmayan bir admin
   // bile service_role ile tam kullanıcı PII'sini arayabiliyordu.
-  const supabaseAny = supabase as unknown as { rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown }> };
-  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:arama' });
+  const { data: yetkili } = await supabase.rpc('has_permission_v1', { p_permission: 'page:arama' });
   if (!yetkili) {
     return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   }
@@ -64,11 +63,10 @@ export async function GET(request: Request) {
   });
 
   if (parsed.data.type === 'users' || parsed.data.type === 'all') {
-    const supabaseAny = supabase as unknown as { rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown }> };
-    await supabaseAny.rpc('log_admin_action_v1', {
+    await supabase.rpc('log_admin_action_v1', {
       p_action: 'user.pii_list_view',
       p_target_table: 'user_profiles',
-      p_target_id: null,
+      p_target_id: '',
       p_meta: { source: 'arama', q: parsed.data.q, resultCount: results.length },
     });
   }

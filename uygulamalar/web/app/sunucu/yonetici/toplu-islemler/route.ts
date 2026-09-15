@@ -28,22 +28,21 @@ export async function PATCH(req: Request) {
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   // reviews / user_profiles / bulk_op_logs / is_admin are not in Database types yet
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
 
-  const { data: isAdmin } = await supabaseAny.rpc('is_admin');
+  const { data: isAdmin } = await supabase.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   // Tek seferde 200'e kadar kayıtta (işletme/yorum/kullanıcı) toplu işlem —
   // ilgili sayfanın izninden (page:isletmeler vb.) ayrı, kendi başına bir
   // izin anahtarı (page:toplu-islemler) DB enum'unda vardı ama hiç
   // kontrol edilmiyordu.
-  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:toplu-islemler' });
+  const { data: yetkili } = await supabase.rpc('has_permission_v1', { p_permission: 'page:toplu-islemler' });
   if (!yetkili) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
   const rl = await rateLimit(`toplu:${user.id}`, 10, 3_600_000); // 10/hour
   if (!rl.ok) return NextResponse.json({ error: 'rate_limited' }, { status: 429 });
 
-  const { data: dbRate, error: dbRateError } = await supabaseAny.rpc('consume_rate_limit_v1', {
+  const { data: dbRate, error: dbRateError } = await supabase.rpc('consume_rate_limit_v1', {
     p_action: 'admin_bulk_op',
     p_daily_limit: 10,
   });
@@ -62,7 +61,7 @@ export async function PATCH(req: Request) {
     // .select('id') eklenmeden gercek etkilenen satir sayisi hic
     // dogrulanmiyordu — 200 ID'den 40'i eslesmese bile "200 guncellendi"
     // denetim kaydi dusuyordu.
-    const { data: updated, error } = await supabaseAny
+    const { data: updated, error } = await supabase
       .from('businesses')
       .update({ is_active: isActive })
       .in('id', data.ids)
@@ -71,7 +70,7 @@ export async function PATCH(req: Request) {
     affectedCount = (updated ?? []).length;
   } else if (data.type === 'reviews') {
     const newStatus = data.action === 'approve' ? 'approved' : 'rejected';
-    const { data: updatedCount, error } = await supabaseAny.rpc('admin_moderate_reviews_v1', {
+    const { data: updatedCount, error } = await supabase.rpc('admin_moderate_reviews_v1', {
       p_ids: data.ids,
       p_status: newStatus,
     });
@@ -82,7 +81,7 @@ export async function PATCH(req: Request) {
     // yazması RLS tarafından sessizce 0 satır güncelliyordu (P0: "başarılı"
     // dönüp hiçbir şey yapmıyordu). Artık is_admin() guard'lı, gerçek
     // etkilenen satır sayısını döndüren bir RPC üzerinden yapılıyor.
-    const { data: affected, error } = await supabaseAny.rpc('admin_set_shadow_banned_v1', {
+    const { data: affected, error } = await supabase.rpc('admin_set_shadow_banned_v1', {
       p_user_ids: data.ids,
       p_banned: data.action === 'ban',
     });
@@ -90,7 +89,7 @@ export async function PATCH(req: Request) {
     affectedCount = (affected as number | null) ?? 0;
   }
 
-  supabaseAny
+  supabase
     .from('bulk_op_logs')
     .insert({
       op_type: data.type,
@@ -99,12 +98,14 @@ export async function PATCH(req: Request) {
       operator: user.id,
       target_ids: data.ids,
     })
-    .then(({ error: logError }: { error: { message: string } | null }) => {
-      if (logError) logger.error('[toplu-islemler] audit log insert failed:', { message: logError.message });
-    })
-    .catch((err: unknown) => {
-      logger.error('[toplu-islemler] audit log unexpected error:', { err });
-    });
+    .then(
+      ({ error: logError }) => {
+        if (logError) logger.error('[toplu-islemler] audit log insert failed:', { message: logError.message });
+      },
+      (err: unknown) => {
+        logger.error('[toplu-islemler] audit log unexpected error:', { err });
+      },
+    );
 
   if (affectedCount !== data.ids.length) {
     return NextResponse.json(

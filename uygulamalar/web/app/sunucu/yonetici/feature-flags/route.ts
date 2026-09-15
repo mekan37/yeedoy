@@ -23,14 +23,13 @@ const postSchema = z.object({
 // Toggle flag / rollout güncelle
 export async function PATCH(request: Request) {
   const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
 
-  const { data: isAdmin } = await supabaseAny.rpc('is_admin');
+  const { data: isAdmin } = await supabase.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ ok: false, error: 'Forbidden' }, { status: 403 });
 
-  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:feature-flags' });
+  const { data: yetkili } = await supabase.rpc('has_permission_v1', { p_permission: 'page:feature-flags' });
   if (!yetkili) return NextResponse.json({ ok: false, error: 'forbidden' }, { status: 403 });
 
   const rawBody = await request.json().catch(() => null);
@@ -40,29 +39,32 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ ok: false, error: 'invalid_input' }, { status: 400 });
   }
 
-  const update: Record<string, unknown> = { updated_at: new Date().toISOString(), updated_by: user.id };
+  const update: { updated_at: string; updated_by: string; enabled?: boolean; rollout_percent?: number } = {
+    updated_at: new Date().toISOString(),
+    updated_by: user.id,
+  };
   if (parsed.data.enabled !== undefined) update.enabled = parsed.data.enabled;
   if (parsed.data.rollout_percent !== undefined) update.rollout_percent = parsed.data.rollout_percent;
 
   // Toggle/rollout değişimi hiçbir depoya loglanmıyordu — "kim bu flag'i
   // kapattı" sorusu cevaplanamıyordu. Before/after snapshot ile audit'e yazılıyor.
-  const { data: before } = await supabaseAny
+  const { data: before } = await supabase
     .from('runtime_feature_flags')
     .select('key, enabled, rollout_percent')
     .eq('key', parsed.data.id)
     .maybeSingle();
 
-  const { error } = await supabaseAny
+  const { error } = await supabase
     .from('runtime_feature_flags')
     .update(update)
     .eq('key', parsed.data.id);
 
   if (error) return NextResponse.json({ ok: false, error: 'internal_error' }, { status: 500 });
 
-  await supabaseAny.rpc('log_admin_action_v1', {
+  await supabase.rpc('log_admin_action_v1', {
     p_action: 'feature_flag.update',
     p_target_table: 'runtime_feature_flags',
-    p_target_id: null,
+    p_target_id: parsed.data.id,
     p_meta: { key: parsed.data.id, before: before ?? null, after: update },
   });
 
@@ -72,14 +74,13 @@ export async function PATCH(request: Request) {
 // Create flag
 export async function POST(request: Request) {
   const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
 
-  const { data: isAdmin } = await supabaseAny.rpc('is_admin');
+  const { data: isAdmin } = await supabase.rpc('is_admin');
   if (!isAdmin) return NextResponse.json({ ok: false, error: 'Forbidden' }, { status: 403 });
 
-  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:feature-flags' });
+  const { data: yetkili } = await supabase.rpc('has_permission_v1', { p_permission: 'page:feature-flags' });
   if (!yetkili) return NextResponse.json({ ok: false, error: 'forbidden' }, { status: 403 });
 
   const rl = await rateLimit(`feature-flag-create:${user.id}`, 20, 3_600_000);
@@ -92,7 +93,7 @@ export async function POST(request: Request) {
   if (!parsed.success) return NextResponse.json({ ok: false, error: 'invalid_input' }, { status: 400 });
   const body = parsed.data;
 
-  const { error } = await supabaseAny.from('runtime_feature_flags').insert({
+  const { error } = await supabase.from('runtime_feature_flags').insert({
     key: body.key,
     enabled: false,
     rollout_percent: Math.min(100, Math.max(0, body.rollout_percent)),
@@ -115,10 +116,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: 'internal_error' }, { status: 500 });
   }
 
-  await supabaseAny.rpc('log_admin_action_v1', {
+  await supabase.rpc('log_admin_action_v1', {
     p_action: 'feature_flag.create',
     p_target_table: 'runtime_feature_flags',
-    p_target_id: null,
+    p_target_id: body.key,
     p_meta: { key: body.key, rollout_percent: body.rollout_percent, environment: body.environment },
   });
 

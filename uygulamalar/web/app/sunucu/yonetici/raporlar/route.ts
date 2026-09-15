@@ -11,21 +11,20 @@ const schema = z.object({
 
 async function requireAdmin() {
   const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any };
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { supabaseAny, user: null, response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) };
+  if (!user) return { supabase, user: null, response: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) };
 
-  const { data: isAdmin } = await supabaseAny.rpc('is_admin');
-  if (!isAdmin) return { supabaseAny, user, response: NextResponse.json({ error: 'Forbidden' }, { status: 403 }) };
+  const { data: isAdmin } = await supabase.rpc('is_admin');
+  if (!isAdmin) return { supabase, user, response: NextResponse.json({ error: 'Forbidden' }, { status: 403 }) };
 
-  const { data: yetkili } = await supabaseAny.rpc('has_permission_v1', { p_permission: 'page:raporlar' });
-  if (!yetkili) return { supabaseAny, user, response: NextResponse.json({ error: 'forbidden' }, { status: 403 }) };
+  const { data: yetkili } = await supabase.rpc('has_permission_v1', { p_permission: 'page:raporlar' });
+  if (!yetkili) return { supabase, user, response: NextResponse.json({ error: 'forbidden' }, { status: 403 }) };
 
-  return { supabaseAny, user, response: null };
+  return { supabase, user, response: null };
 }
 
 export async function PATCH(req: Request) {
-  const { supabaseAny, user, response } = await requireAdmin();
+  const { supabase, user, response } = await requireAdmin();
   if (response) return response;
 
   const rl = await rateLimit(`raporlar:${user!.id}`, 60, 60_000);
@@ -36,14 +35,14 @@ export async function PATCH(req: Request) {
 
   const { reportId, status, adminNote } = parsed.data;
 
-  const update: Record<string, unknown> = {
+  const update: { status: typeof status; handled_by: string; handled_at: string; admin_note?: string | null } = {
     status,
     handled_by: user!.id,
     handled_at: new Date().toISOString(),
   };
   if (adminNote !== undefined) update.admin_note = adminNote.trim() || null;
 
-  const { error } = await supabaseAny.from('reports').update(update).eq('id', reportId);
+  const { error } = await supabase.from('reports').update(update).eq('id', reportId);
   if (error) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
 
   return NextResponse.json({ ok: true });

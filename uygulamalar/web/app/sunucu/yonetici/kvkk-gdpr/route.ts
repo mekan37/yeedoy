@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from '@/src/lib/taban/veri-tanimlari';
 import { rateLimit } from '@/src/lib/oran-siniri';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { z } from 'zod';
@@ -16,10 +18,8 @@ const upsertSchema = z.object({
 });
 const deleteSchema = z.object({ id: z.string().uuid() });
 
-type SupabaseAny = { rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown; error: { message?: string } | null }> };
-
-async function guard(sb: SupabaseAny, userId: string): Promise<NextResponse | null> {
-  const { data: yetkili } = await sb.rpc('has_permission_v1', { p_permission: 'page:kvkk-gdpr' });
+async function guard(supabase: SupabaseClient<Database>, userId: string): Promise<NextResponse | null> {
+  const { data: yetkili } = await supabase.rpc('has_permission_v1', { p_permission: 'page:kvkk-gdpr' });
   if (!yetkili) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
   const rl = await rateLimit(`kvkk-belge:${userId}`, 30, 3_600_000);
@@ -39,21 +39,24 @@ function mapPgError(error: { message?: string } | null): { status: number; error
 
 export async function POST(request: Request) {
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as unknown as SupabaseAny;
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
 
-  const guardRes = await guard(sb, user.id);
+  const guardRes = await guard(supabase, user.id);
   if (guardRes) return guardRes;
 
   const parsed = upsertSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: 'invalid_payload', issues: parsed.error.flatten().fieldErrors }, { status: 400 });
 
-  const { data, error } = await sb.rpc('admin_upsert_legal_document_v1', {
-    p_id: parsed.data.id ?? null,
+  // Üretilen tip p_id/p_description: string diyor ama RPC parametrelerinin
+  // DEFAULT'u yok; gövde p_id IS NULL'ı "yeni belge oluştur" sinyali olarak
+  // kullanıyor ve p_description'ı coalesce(...,'') ile güvenle NULL kabul
+  // ediyor — undefined göndermek "eksik zorunlu parametre" hatası verir.
+  const { data, error } = await supabase.rpc('admin_upsert_legal_document_v1', {
+    p_id: (parsed.data.id ?? null) as string,
     p_slug: parsed.data.slug,
     p_title: parsed.data.title,
-    p_description: parsed.data.description ?? null,
+    p_description: (parsed.data.description ?? null) as string,
     p_content: parsed.data.content,
     p_is_published: parsed.data.isPublished,
     p_sort_order: parsed.data.sortOrder,
@@ -67,17 +70,16 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as unknown as SupabaseAny;
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
 
-  const guardRes = await guard(sb, user.id);
+  const guardRes = await guard(supabase, user.id);
   if (guardRes) return guardRes;
 
   const parsed = deleteSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: 'invalid_payload' }, { status: 400 });
 
-  const { error } = await sb.rpc('admin_delete_legal_document_v1', { p_id: parsed.data.id });
+  const { error } = await supabase.rpc('admin_delete_legal_document_v1', { p_id: parsed.data.id });
   if (error) {
     const m = mapPgError(error);
     return NextResponse.json({ error: m.error }, { status: m.status });

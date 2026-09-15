@@ -15,7 +15,6 @@ export async function GET(req: Request) {
   const { menuId } = parsedQuery.data;
 
   const supabase = await createSupabaseServerClient();
-  const supabaseAny = supabase as unknown as { from: (t: string) => any; rpc: (fn: string, args?: any) => any; storage: any; auth: any };
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
@@ -31,7 +30,7 @@ export async function GET(req: Request) {
 
   if (!menu) return NextResponse.json({ error: 'Menu not found' }, { status: 404 });
 
-  const canManageBusiness = await hasOwnerBusiness(supabaseAny, user.id, menu.business_id, 'business_read');
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, menu.business_id, 'business_read');
   if (!canManageBusiness) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   // Fetch sections and items
@@ -41,8 +40,8 @@ export async function GET(req: Request) {
     .eq('menu_id', menuId)
     .order('sort_order');
 
-  const sectionIds = ((sections ?? []) as any[]).map((s: any) => s.id);
-  const sectionMap = Object.fromEntries(((sections ?? []) as any[]).map((s: any) => [s.id, s.title]));
+  const sectionIds = (sections ?? []).map((s) => s.id);
+  const sectionMap = Object.fromEntries((sections ?? []).map((s) => [s.id, s.title]));
 
   const { data: items } = sectionIds.length > 0
     ? await supabase
@@ -53,7 +52,7 @@ export async function GET(req: Request) {
     : { data: [] };
 
   const header = 'Bölüm,Ürün Adı,Açıklama,Fiyat (₺),Para Birimi,Müsait,Sıra';
-  const lines = ((items ?? []) as any[]).map((item: any) => {
+  const lines = (items ?? []).map((item) => {
     const section = sectionMap[item.section_id] ?? '';
     const price = ((item.price_cents ?? 0) / 100).toFixed(2);
     return [

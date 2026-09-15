@@ -53,7 +53,7 @@ async function assertAdmin(request: Request) {
     return { ok: false as const, status: 403, identity };
   }
 
-  const { data: yetkili } = await (supabase as any).rpc('has_permission_v1', { p_permission: 'page:isletmeler' });
+  const { data: yetkili } = await supabase.rpc('has_permission_v1', { p_permission: 'page:isletmeler' });
   if (!yetkili) {
     return { ok: false as const, status: 403, identity };
   }

@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from '@/src/lib/taban/veri-tanimlari';
 import { rateLimit } from '@/src/lib/oran-siniri';
 import { createSupabaseServerClient } from '@/src/lib/taban-sunucu';
 import { logger } from '@/src/lib/kayitci';
@@ -10,10 +12,8 @@ const reviewSchema = z.object({
 });
 const executeSchema = z.object({ id: z.string().uuid() });
 
-type SupabaseAny = { rpc: (fn: string, args?: Record<string, unknown>) => Promise<{ data: unknown; error: { message?: string } | null }> };
-
-async function guard(sb: SupabaseAny): Promise<NextResponse | null> {
-  const { data: yetkili } = await sb.rpc('has_permission_v1', { p_permission: 'page:kvkk-gdpr' });
+async function guard(supabase: SupabaseClient<Database>): Promise<NextResponse | null> {
+  const { data: yetkili } = await supabase.rpc('has_permission_v1', { p_permission: 'page:kvkk-gdpr' });
   if (!yetkili) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   return null;
 }
@@ -21,11 +21,10 @@ async function guard(sb: SupabaseAny): Promise<NextResponse | null> {
 // PATCH — talebi incelemeye al / reddet / iptal et (yorum kararları, geri alınabilir)
 export async function PATCH(req: Request) {
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as unknown as SupabaseAny;
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
 
-  const guardRes = await guard(sb);
+  const guardRes = await guard(supabase);
   if (guardRes) return guardRes;
 
   const rl = await rateLimit(`hesap-silme-review:${user.id}`, 30, 3_600_000);
@@ -34,7 +33,7 @@ export async function PATCH(req: Request) {
   const parsed = reviewSchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: 'invalid_payload' }, { status: 400 });
 
-  const { data: affected, error } = await sb.rpc('admin_review_account_deletion_request_v1', {
+  const { data: affected, error } = await supabase.rpc('admin_review_account_deletion_request_v1', {
     p_id: parsed.data.id,
     p_status: parsed.data.status,
   });
@@ -47,11 +46,10 @@ export async function PATCH(req: Request) {
 // kaldırır. Geri alınamaz — bu yüzden PATCH'ten ayrı, daha sıkı rate limitli.
 export async function POST(req: Request) {
   const supabase = await createSupabaseServerClient();
-  const sb = supabase as unknown as SupabaseAny;
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
 
-  const guardRes = await guard(sb);
+  const guardRes = await guard(supabase);
   if (guardRes) return guardRes;
 
   const rl = await rateLimit(`hesap-silme-execute:${user.id}`, 10, 3_600_000);
@@ -60,7 +58,7 @@ export async function POST(req: Request) {
   const parsed = executeSchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: 'invalid_payload' }, { status: 400 });
 
-  const { data: rpcData, error: rpcError } = await sb.rpc('admin_execute_account_deletion_v1', {
+  const { data: rpcData, error: rpcError } = await supabase.rpc('admin_execute_account_deletion_v1', {
     p_request_id: parsed.data.id,
   });
   if (rpcError) return NextResponse.json({ error: 'internal_error' }, { status: 500 });
