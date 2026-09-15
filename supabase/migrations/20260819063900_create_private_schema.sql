@@ -1,0 +1,11 @@
+-- "private" şeması canlıda 20260819063910_business_external_sources.sql'den
+-- önce var olmalıydı (o migration'dan itibaren 16 migration `private.*`
+-- fonksiyonlarına referans veriyor) ama hiçbir migration dosyası şemayı
+-- CREATE etmiyordu — muhtemelen doğrudan canlıda (migration akışı dışında)
+-- oluşturulmuş. Sonuç: `supabase db reset` ile local'den sıfırdan ayağa
+-- kaldırma "schema private does not exist" hatasıyla patlıyordu (canlıda
+-- şema zaten var olduğu için üretimde hiç fark edilmemişti). Canlı
+-- pg_namespace'den doğrulandı: owner=postgres, PUBLIC/anon/authenticated'a
+-- hiçbir grant yok (yalnızca postgres=UC/postgres) — PostgREST bu şemayı
+-- hiç göremiyor, güvenlik etkisi yok, saf bir repo↔canlı drift/eksiklik.
+create schema if not exists private;

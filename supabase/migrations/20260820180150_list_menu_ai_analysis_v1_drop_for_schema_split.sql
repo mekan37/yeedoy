@@ -1,0 +1,12 @@
+-- 20260820180200_ocr_analysis_schema_split.sql, list_menu_ai_analysis_v1'i
+-- CREATE OR REPLACE ile farklı OUT kolonlarıyla (ingredients_json/
+-- allergens_json/calorie_min/calorie_max → description_text/category_name/
+-- price_cents/currency) yeniden tanımlıyor. Postgres, CREATE OR REPLACE ile
+-- OUT parametre tiplerinin/isimlerinin değişmesine izin vermiyor — önce
+-- DROP gerekiyor. Bu dosya migration akışında hiç yoktu (muhtemelen canlıda
+-- migration dışında elle DROP edilmişti — canlı pg_proc'tan doğrulandı: live
+-- zaten yeni imzada) — `supabase db reset` ile sıfırdan kurulum bu yüzden
+-- patlıyordu. Yalnızca local replay'i tamamlamak için eklendi; canlıda DDL
+-- çalıştırılmadı (fonksiyon zaten doğru/nihai halde, gereksiz drop riski
+-- alınmadı) — yalnızca migration history bookkeeping'i eşitlendi.
+drop function if exists public.list_menu_ai_analysis_v1(uuid, uuid, text, int, int);

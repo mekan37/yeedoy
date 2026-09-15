@@ -1,0 +1,11 @@
+-- 20260620000008_review_photos_table.sql, review_photos'u storage_bucket/
+-- storage_path/mime_type/bytes/status kolonlarıyla açmıştı.
+-- 20260825000003_review_photos.sql tamamen farklı bir şemayla (url/
+-- created_by) aynı tabloyu CREATE TABLE (IF NOT EXISTS'siz) ile yeniden
+-- açıyor — aradaki DROP TABLE hiçbir migration dosyasında yok. Canlı
+-- information_schema'dan doğrulandı: live zaten yeni (url/created_by)
+-- şemada, yani DROP migration akışı dışında (elle) yapılmıştı — [[private
+-- şema]] ve [[list_menu_ai_analysis_v1]] ile aynı drift deseni. Yalnızca
+-- local replay'i tamamlamak için eklendi; canlıda DDL çalıştırılmadı (tablo
+-- zaten nihai halde).
+drop table if exists public.review_photos;
