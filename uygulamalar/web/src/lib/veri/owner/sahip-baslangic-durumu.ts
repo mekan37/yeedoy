@@ -34,7 +34,7 @@ export async function getOnboardingStatus(): Promise<OnboardingFlags & { complet
     return { hasBusiness: false, hasPublishedMenu: false, hasQrCode: false, hasTeamMember: false, complete: false };
   }
 
-  const businessIds = await getOwnerBusinessIds(supabase, user.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user.id, 'business_read');
   const hasBusiness = businessIds.length > 0;
 
   if (!hasBusiness) {

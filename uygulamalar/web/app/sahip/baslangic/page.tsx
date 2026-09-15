@@ -24,7 +24,7 @@ export default async function OwnerOnboardingPage() {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const businessIds = await getOwnerBusinessIds(supabase, user!.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user!.id, 'business_read');
 
   const [{ data: submissions }, { data: profile }] = await Promise.all([
     (supabase)

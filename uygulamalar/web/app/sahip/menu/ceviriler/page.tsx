@@ -40,7 +40,7 @@ export default async function OwnerMenuTranslationsPage({ searchParams }: PagePr
 
   type BusinessRow = { id: string; name: string };
   const businesses = user
-    ? await getOwnerBusinesses<BusinessRow>(supabase, user.id, 'id, name')
+    ? await getOwnerBusinesses<BusinessRow>(supabase, user.id, 'id, name', 'menu_write')
     : [];
 
   const businessIds = businesses.map((b) => b.id);

@@ -20,7 +20,7 @@ export async function saveHours(businessId: string, fd: FormData): Promise<void>
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error('Kimlik doğrulaması gerekli');
 
-  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId);
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId, 'business_write');
   if (!canManageBusiness) throw new Error('İşletme bulunamadı');
 
   const hours = DAY_MAP.map(({ fd: key, dow }) => {

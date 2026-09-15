@@ -37,7 +37,7 @@ export default async function OwnerTeamPage({ searchParams }: Props) {
   if (!user) redirect('/giris?redirect=/sahip/ekip');
 
   const [businesses, cookieStore] = await Promise.all([
-    getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name'),
+    getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name', 'team_manage'),
     cookies(),
   ]);
 

@@ -24,7 +24,7 @@ export async function createOwnerMenu(formData: FormData) {
     redirect(`/giris?redirect=${encodeURIComponent('/sahip/menuler')}`);
   }
 
-  const isOwner = await hasOwnerBusiness(supabase, user.id, businessId);
+  const isOwner = await hasOwnerBusiness(supabase, user.id, businessId, 'menu_write');
   if (!isOwner) {
     redirect('/sahip/menuler?hata=forbidden');
   }
@@ -72,7 +72,7 @@ export async function createExternalMenu(formData: FormData) {
     redirect(`/giris?redirect=${encodeURIComponent('/sahip/menuler')}`);
   }
 
-  const isOwner = await hasOwnerBusiness(supabase, user.id, businessId);
+  const isOwner = await hasOwnerBusiness(supabase, user.id, businessId, 'menu_write');
   if (!isOwner) {
     redirect('/sahip/menuler?hata=forbidden');
   }
@@ -123,7 +123,7 @@ export async function updateExternalMenuUrl(formData: FormData) {
 
   if (!menu) redirect('/sahip/menuler?hata=not_found');
 
-  const isOwner = await hasOwnerBusiness(supabase, user.id, menu.business_id);
+  const isOwner = await hasOwnerBusiness(supabase, user.id, menu.business_id, 'menu_write');
   if (!isOwner) redirect('/sahip/menuler?hata=forbidden');
 
   const { error } = await (supabase)

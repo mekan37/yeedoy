@@ -34,7 +34,7 @@ export async function addTeamMember(formData: FormData): Promise<void> {
     redirect('/sahip/ekip?durum=sifre_kisa');
   }
 
-  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId);
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId, 'team_manage');
   if (!canManageBusiness) {
     redirect('/sahip/ekip?durum=yetkisiz');
   }
@@ -156,7 +156,7 @@ export async function changeTeamMemberRole(businessId: string, email: string, ro
   const normalizedRole = role.trim().toLowerCase();
   if (!ROLE_VALUES.has(normalizedRole)) return { error: 'Geçerli bir rol seçin' };
 
-  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId);
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId, 'team_manage');
   if (!canManageBusiness) return { error: 'Bu işletme için ekip yönetimi yetkiniz yok' };
 
   const { data, error } = await (supabase).rpc('upsert_team_member_v1', {
@@ -178,7 +178,7 @@ export async function removeTeamMember(businessId: string, membershipId: string)
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum bulunamadı' };
 
-  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId);
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId, 'team_manage');
   if (!canManageBusiness) return { error: 'Bu işletme için ekip yönetimi yetkiniz yok' };
 
   const { data, error } = await (supabase).rpc('revoke_team_member_v1', {

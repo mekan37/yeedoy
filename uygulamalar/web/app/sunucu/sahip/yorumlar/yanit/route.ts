@@ -115,6 +115,6 @@ async function getOwnedReview(
 
   if (error || !review?.business_id) return null;
 
-  const canManageBusiness = await hasOwnerBusiness(supabase, userId, review.business_id);
+  const canManageBusiness = await hasOwnerBusiness(supabase, userId, review.business_id, 'business_write');
   return canManageBusiness ? review : null;
 }

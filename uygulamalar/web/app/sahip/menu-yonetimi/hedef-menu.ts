@@ -17,7 +17,7 @@ export async function resolveHedefMenuId(): Promise<string | null> {
   ]);
   if (!user) return null;
 
-  const businessIds = await getOwnerBusinessIds(supabase, user.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user.id, 'menu_write');
   if (businessIds.length === 0) return null;
 
   const cookieId = cookieStore.get(AKTIF_ISLETME_COOKIE_NAME)?.value;

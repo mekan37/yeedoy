@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     .eq('id', parsed.data.menuItemId)
     .maybeSingle();
   if (!menuItem) return NextResponse.json({ error: 'not_found' }, { status: 404 });
-  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, menuItem.business_id);
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, menuItem.business_id, 'menu_write');
   if (!canManageBusiness) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
   const { data, error } = await supabaseAny.rpc('set_today_special_v1', {

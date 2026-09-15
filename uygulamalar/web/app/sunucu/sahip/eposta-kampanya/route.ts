@@ -37,7 +37,7 @@ export async function POST(request: Request) {
   // Uygulama katmanı guard'ı — bu route müşteri e-posta listesine erişim +
   // gerçek e-posta gönderimini tetikliyor, tek savunma katmanı RPC gövdesi
   // olmamalı.
-  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId);
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId, 'business_write');
   if (!canManageBusiness) {
     return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   }

@@ -84,7 +84,7 @@ export default async function OwnerAnalyticsPage({ searchParams }: Props) {
   const { data: { user } } = await supabase.auth.getUser();
 
   const businesses = user
-    ? await getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name')
+    ? await getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name', 'analytics_view')
     : [];
 
   const businessIds = businesses.map((b: { id: string }) => b.id);

@@ -36,7 +36,7 @@ export async function aiIleAlerjenKaloriDoldur(
   } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum bulunamadı' };
 
-  const ownerBusinessIds = await getOwnerBusinessIds(supabase, user.id);
+  const ownerBusinessIds = await getOwnerBusinessIds(supabase, user.id, 'menu_write');
   if (!ownerBusinessIds.includes(businessId)) return { error: 'Bu işletme için yetkiniz yok' };
 
   const { error: limitError } = (await (supabase).rpc('_check_plan_limit_v1', {
@@ -94,7 +94,7 @@ export async function aiIleGorselUret(
   } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum bulunamadı' };
 
-  const ownerBusinessIds = await getOwnerBusinessIds(supabase, user.id);
+  const ownerBusinessIds = await getOwnerBusinessIds(supabase, user.id, 'menu_write');
   if (!ownerBusinessIds.includes(businessId)) return { error: 'Bu işletme için yetkiniz yok' };
 
   const { error: limitError } = (await (supabase).rpc('_check_plan_limit_v1', {

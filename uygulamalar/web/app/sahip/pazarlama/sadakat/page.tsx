@@ -21,7 +21,7 @@ export default async function SadakatSayfasi() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/giris?redirect=/sahip/pazarlama/sadakat');
 
-  const businessIds = await getOwnerBusinessIds(supabase, user.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user.id, 'business_write');
   const businessId = businessIds[0];
   if (!businessId) redirect('/sahip');
 

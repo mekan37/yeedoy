@@ -20,6 +20,7 @@ export default async function OwnerHoursPage() {
       supabase,
       user.id,
       'id, name, created_at',
+      'business_write',
     )
     : [];
 

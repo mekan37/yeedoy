@@ -26,7 +26,7 @@ export default async function OwnerBusinessesPage() {
   const supabase = await createSupabaseServerClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const businessIds = await getOwnerBusinessIds(supabase, user!.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user!.id, 'business_read');
 
   const [{ data: businesses }, { data: pendingClaims }] = await Promise.all([
     businessIds.length > 0

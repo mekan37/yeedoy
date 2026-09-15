@@ -139,7 +139,7 @@ export default async function OwnerDashboardPage({ searchParams }: DashboardProp
   const { data: { user } } = await supabase.auth.getUser();
 
   const [bizIds, profileRes] = await Promise.all([
-    getOwnerBusinessIds(supabase, user!.id),
+    getOwnerBusinessIds(supabase, user!.id, 'business_read'),
     (supabase)
       .from('user_profiles')
       .select('display_name, owner_onboarding_redirected_at')

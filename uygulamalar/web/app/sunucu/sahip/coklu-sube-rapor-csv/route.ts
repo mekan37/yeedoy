@@ -17,7 +17,7 @@ export async function GET(request: Request) {
   // Uygulama katmanı guard'ı — önceden tek savunma katmanı RPC gövdesiydi
   // (owner_get_chain_overview_v1 kendi içinde kontrol ediyor, ama bir RPC
   // regresyonu doğrudan cross-tenant açığa dönüşebilirdi).
-  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId);
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId, 'analytics_view');
   if (!canManageBusiness) return new Response('forbidden', { status: 403 });
 
   const { data: overview, error } = (await (supabase).rpc('owner_get_chain_overview_v1', {

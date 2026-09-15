@@ -26,7 +26,7 @@ export default async function OwnerReviewsPage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   const businesses = user
-    ? await getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name')
+    ? await getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name', 'business_read')
     : [];
 
   const businessIds = businesses.map((b) => b.id);

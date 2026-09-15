@@ -31,7 +31,7 @@ export async function GET(req: Request) {
 
   if (!menu) return NextResponse.json({ error: 'Menu not found' }, { status: 404 });
 
-  const canManageBusiness = await hasOwnerBusiness(supabaseAny, user.id, menu.business_id);
+  const canManageBusiness = await hasOwnerBusiness(supabaseAny, user.id, menu.business_id, 'business_read');
   if (!canManageBusiness) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
   // Fetch sections and items

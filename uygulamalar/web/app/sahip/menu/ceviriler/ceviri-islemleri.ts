@@ -25,7 +25,7 @@ export async function menuCevirileriniGetir(
 
   if (!user) return { success: false, hata: 'Oturum açmanız gerekiyor.' };
 
-  const ownerBusinessIds = await getOwnerBusinessIds(supabase, user.id);
+  const ownerBusinessIds = await getOwnerBusinessIds(supabase, user.id, 'menu_write');
   if (!ownerBusinessIds.includes(businessId)) {
     return { success: false, hata: 'Bu işletmeye erişim yetkiniz yok.' };
   }
@@ -155,7 +155,7 @@ export async function menuCevirisiniKaydet(
 
   if (!user) return { success: false, hata: 'Oturum açmanız gerekiyor.' };
 
-  const ownerBusinessIds = await getOwnerBusinessIds(supabase, user.id);
+  const ownerBusinessIds = await getOwnerBusinessIds(supabase, user.id, 'menu_write');
   if (!ownerBusinessIds.includes(businessId)) {
     return { success: false, hata: 'Bu işletmeye erişim yetkiniz yok.' };
   }

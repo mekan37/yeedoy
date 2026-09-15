@@ -20,6 +20,7 @@ export default async function OwnerQrPage() {
     supabase,
     user!.id,
     'id, name, slug',
+    'qr_manage',
   );
 
   const watermarkDurumu: Array<readonly [string, boolean]> = await Promise.all(

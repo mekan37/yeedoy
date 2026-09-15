@@ -56,7 +56,7 @@ export async function updateBusiness(
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Oturum bulunamadı' };
 
-  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId);
+  const canManageBusiness = await hasOwnerBusiness(supabase, user.id, businessId, 'business_write');
   if (!canManageBusiness) return { error: 'Yetkiniz yok' };
 
   const { error } = await (supabase)

@@ -40,6 +40,7 @@ export default async function OwnerMenusPage({ searchParams }: Props) {
     supabase,
     user!.id,
     'id, name',
+    'menu_write',
   );
 
   const businessIds = businesses.map((b) => b.id);

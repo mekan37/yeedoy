@@ -56,7 +56,7 @@ export default async function OwnerPriceReportPage() {
 
   const [businesses, cookieStore] = await Promise.all([
     getOwnerBusinesses<{ id: string; name: string; city: string | null; district: string | null; is_active: boolean | null }>(
-      supabase, user.id, 'id, name, city, district, is_active',
+      supabase, user.id, 'id, name, city, district, is_active', 'analytics_view',
     ),
     cookies(),
   ]);

@@ -19,7 +19,7 @@ export default async function PlanSayfasi() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/giris?redirect=/sahip/ayarlar/plan');
 
-  const businessIds = await getOwnerBusinessIds(supabase, user.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user.id, 'business_read');
   const businessId = businessIds[0];
   if (!businessId) redirect('/sahip');
 

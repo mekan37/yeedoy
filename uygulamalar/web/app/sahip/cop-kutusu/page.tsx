@@ -25,7 +25,7 @@ export default async function OwnerTrashPage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   const bizList = user
-    ? await getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name')
+    ? await getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name', 'menu_write')
     : [];
 
   const trashResults = await Promise.all(

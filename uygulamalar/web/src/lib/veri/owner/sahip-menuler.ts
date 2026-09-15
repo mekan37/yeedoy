@@ -28,7 +28,7 @@ export type MenuWithSections = {
 export async function getOwnerMenus(userId: string): Promise<OwnerMenuSummary[]> {
   const supabase = await createSupabaseServerClient();
 
-  const businessIds = await getOwnerBusinessIds(supabase, userId);
+  const businessIds = await getOwnerBusinessIds(supabase, userId, 'business_read');
   if (businessIds.length === 0) return [];
 
   const { data: menus, error: menuError } = await supabase
@@ -68,7 +68,7 @@ export async function getMenuWithSections(
 
   if (!menu) return null;
 
-  const isOwner = await hasOwnerBusiness(supabase, userId, (menu as MenuRow).business_id);
+  const isOwner = await hasOwnerBusiness(supabase, userId, (menu as MenuRow).business_id, 'menu_write');
   if (!isOwner) {
     return null;
   }

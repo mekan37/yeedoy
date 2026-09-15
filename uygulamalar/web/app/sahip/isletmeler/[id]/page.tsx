@@ -26,7 +26,7 @@ export default async function BusinessDetailPage({ params }: Props) {
   const { data: { user } } = await supabase.auth.getUser();
 
   type FullBiz = { id: string; name: string; slug: string | null; category: string; description: string | null; phone: string | null; address: string | null; city: string | null; district: string | null; neighborhood: string | null; lat: number | null; lng: number | null; is_active: boolean; logo_url: string | null; cover_url: string | null; reservation_url: string | null; order_yemeksepeti_url: string | null; order_trendyolgo_url: string | null; order_getir_url: string | null };
-  const canManageBusiness = await hasOwnerBusiness(supabase, user!.id, id);
+  const canManageBusiness = await hasOwnerBusiness(supabase, user!.id, id, 'business_write');
   if (!canManageBusiness) notFound();
 
   const { data: business } = await (supabase)

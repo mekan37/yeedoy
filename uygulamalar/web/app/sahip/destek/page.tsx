@@ -18,7 +18,7 @@ export default async function DestekSayfasi() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/giris?redirect=%2Fsahip%2Fdestek');
 
-  const businessIds = await getOwnerBusinessIds(supabase, user.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user.id, 'business_read');
   const { data: businessRows } =
     businessIds.length > 0
       ? await (supabase).from('businesses').select('id, name').in('id', businessIds)

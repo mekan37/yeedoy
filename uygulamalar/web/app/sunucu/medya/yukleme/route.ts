@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'invalid_payload' }, { status: 400 });
   }
 
-  const canManage = await hasOwnerBusiness(supabase, user.id, parsed.data.businessId);
+  const canManage = await hasOwnerBusiness(supabase, user.id, parsed.data.businessId, 'media_upload');
   if (!canManage) {
     return NextResponse.json({ error: 'forbidden' }, { status: 403 });
   }

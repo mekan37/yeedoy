@@ -24,7 +24,7 @@ async function getOwnedMenuContext(menuId: string): Promise<
   if (error) return { ok: false, error: error.message };
   if (!menu) return { ok: false, error: 'Menü bulunamadı' };
 
-  const isOwner = await hasOwnerBusiness(supabase, user.id, menu.business_id);
+  const isOwner = await hasOwnerBusiness(supabase, user.id, menu.business_id, 'menu_write');
   if (!isOwner) return { ok: false, error: 'Bu menü için yetkiniz yok' };
 
   return { ok: true, supabase, businessId: menu.business_id };

@@ -27,7 +27,7 @@ export default async function OwnerLayout({ children }: { children: ReactNode })
     ]);
 
     if (user) {
-      const bizIds = await getOwnerBusinessIds(supabase, user.id);
+      const bizIds = await getOwnerBusinessIds(supabase, user.id, 'business_read');
       isletmeSayisi = bizIds.length;
 
       if (bizIds.length > 0) {

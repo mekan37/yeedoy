@@ -38,7 +38,7 @@ export async function POST(req: Request) {
   }
   const businessId = businessIds[0];
 
-  const owned = await hasOwnerBusiness(supabase, user.id, businessId);
+  const owned = await hasOwnerBusiness(supabase, user.id, businessId, 'menu_write');
   if (!owned) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
 
   // Ön-kontrol: hangi diller plan limitine takılacak? (API çağrısı yapmadan önce öğren, kota harcama)

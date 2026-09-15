@@ -21,7 +21,7 @@ export default async function MusterilerSayfasi() {
   if (!user) redirect('/giris?redirect=/sahip/musteriler');
 
   const [businesses, cookieStore] = await Promise.all([
-    getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name'),
+    getOwnerBusinesses<{ id: string; name: string }>(supabase, user.id, 'id, name', 'business_read'),
     cookies(),
   ]);
   if (businesses.length === 0) redirect('/sahip');

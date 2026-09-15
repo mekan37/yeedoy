@@ -15,7 +15,7 @@ export default async function SahipProfilimSayfasi() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/giris?redirect=/sahip/profilim');
 
-  const businessIds = await getOwnerBusinessIds(supabase, user.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user.id, 'business_read');
 
   const [{ data: profileEnvelope }, { data: plan }, { data: prefRows }] = await Promise.all([
     (supabase).rpc('get_my_profile_private_v1') as unknown as Promise<{

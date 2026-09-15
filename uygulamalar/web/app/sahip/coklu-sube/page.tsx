@@ -18,7 +18,7 @@ export default async function CokluSubeSayfasi() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/giris?redirect=%2Fsahip%2Fcoklu-sube');
 
-  const businessIds = await getOwnerBusinessIds(supabase, user.id);
+  const businessIds = await getOwnerBusinessIds(supabase, user.id, 'business_read');
   if (businessIds.length === 0) redirect('/sahip');
 
   const { data: chainedBusinessId } = (await (supabase).rpc('owner_find_chained_business_v1')) as {

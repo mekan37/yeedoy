@@ -21,6 +21,7 @@ export default async function OwnerSettingsDomainPage() {
       supabase,
       user.id,
       'id, name',
+      'business_write',
     )
     : [];
 

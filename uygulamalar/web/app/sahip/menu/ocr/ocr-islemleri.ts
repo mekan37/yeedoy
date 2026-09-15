@@ -11,7 +11,7 @@ async function requireOwnedBusiness(businessId: string) {
   } = await supabase.auth.getUser();
   if (!user) return { ok: false as const, error: 'Oturum bulunamadı' };
 
-  const ownerBusinessIds = await getOwnerBusinessIds(supabase, user.id);
+  const ownerBusinessIds = await getOwnerBusinessIds(supabase, user.id, 'menu_write');
   if (!ownerBusinessIds.includes(businessId)) {
     return { ok: false as const, error: 'Bu işletme için yetkiniz yok' };
   }
